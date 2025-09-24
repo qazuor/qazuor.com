@@ -1,0 +1,2 @@
+# qazuor.com
+Personal Portfolio

@@ -1,0 +1,67 @@
+---
+import { t } from 'i18next';
+import { AnimatedHero } from '../components/AnimatedHero';
+import { ScrollAnimatedSection } from '../components/ScrollAnimatedSection';
+import { TailwindAnimations } from '../components/TailwindAnimations';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'qazuor.com';
+---
+
+<BaseLayout title={title}>
+  <!-- Hero Section with GSAP animations -->
+  <section class="relative overflow-hidden">
+    <AnimatedHero client:load />
+  </section>
+
+  <!-- Scroll Animated Section -->
+  <ScrollAnimatedSection
+    client:load
+    title={t('home.title')}
+    description={t('home.description')}
+  >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+      {/* Feature cards with Tailwind animations */}
+      <div class="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
+        <div class="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl border border-blue-200 dark:border-blue-800">
+          <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Fast Performance</h3>
+          <p class="text-gray-600 dark:text-gray-400">Built with Astro for lightning-fast page loads and optimal performance.</p>
+        </div>
+      </div>
+
+      <div class="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
+        <div class="p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl border border-purple-200 dark:border-purple-800">
+          <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Beautiful Animations</h3>
+          <p class="text-gray-600 dark:text-gray-400">Smooth animations powered by GSAP and Tailwind CSS for delightful UX.</p>
+        </div>
+      </div>
+
+      <div class="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
+        <div class="p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl border border-green-200 dark:border-green-800">
+          <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Multilingual</h3>
+          <p class="text-gray-600 dark:text-gray-400">Full i18n support with seamless language switching between EN/ES.</p>
+        </div>
+      </div>
+    </div>
+  </ScrollAnimatedSection>
+
+  <!-- Tailwind Animations Demo -->
+  <section class="bg-gray-50 dark:bg-gray-800/50">
+    <TailwindAnimations client:load />
+  </section>
+</BaseLayout>

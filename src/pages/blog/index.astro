@@ -1,0 +1,71 @@
+---
+import { t } from 'i18next';
+import { BlogCard } from '../../components/BlogCard';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = `${t('blog.title')} - qazuor.com`;
+
+// Example blog posts data
+const posts = [
+  {
+    title: 'Getting Started with Astro and GSAP',
+    excerpt:
+      'Learn how to create stunning animations in your Astro projects using GSAP. This comprehensive guide covers everything from installation to advanced techniques.',
+    date: '2024-11-01',
+    readTime: '5 min read',
+    tags: ['astro', 'gsap', 'animations', 'tutorial'],
+    slug: 'getting-started-with-astro-and-gsap',
+  },
+  {
+    title: 'Building a Multilingual Website with Astro i18next',
+    excerpt:
+      'Discover how to implement internationalization in your Astro projects. This guide walks you through setting up multiple languages and managing translations.',
+    date: '2024-10-28',
+    readTime: '8 min read',
+    tags: ['astro', 'i18n', 'multilingual', 'guide'],
+    slug: 'multilingual-website-astro-i18next',
+  },
+  {
+    title: 'Dark Mode Implementation with Tailwind CSS',
+    excerpt:
+      'Step-by-step tutorial on implementing dark mode in your web applications using Tailwind CSS. Learn about best practices and smooth transitions.',
+    date: '2024-10-15',
+    readTime: '6 min read',
+    tags: ['tailwind', 'dark-mode', 'css', 'tutorial'],
+    slug: 'dark-mode-tailwind-css',
+  },
+];
+---
+
+<BaseLayout title={title}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Header -->
+    <div class="text-center mb-16 animate-in fade-in slide-in-from-top-4 duration-700">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        {t('blog.title')}
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        {t('blog.subtitle')}
+      </p>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post, index) => (
+          <BlogCard
+            client:load
+            {...post}
+            delay={index * 0.1}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20">
+        <p class="text-gray-600 dark:text-gray-400 text-lg">
+          {t('blog.noArticles')}
+        </p>
+      </div>
+    )}
+  </div>
+</BaseLayout>

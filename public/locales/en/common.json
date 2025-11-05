@@ -1,0 +1,34 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "projects": "Projects",
+    "about": "About"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "toggle": "Toggle theme"
+  },
+  "home": {
+    "title": "Welcome to qazuor.com",
+    "subtitle": "Built with Astro, React, GSAP, and Tailwind CSS",
+    "description": "A modern web development showcase"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts, tutorials, and insights",
+    "readMore": "Read more",
+    "noArticles": "No articles yet"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Things I've built",
+    "viewProject": "View project",
+    "viewCode": "View code",
+    "noProjects": "No projects yet"
+  },
+  "footer": {
+    "rights": "All rights reserved"
+  }
+}

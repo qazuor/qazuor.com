@@ -1,25 +1,21 @@
 ---
-import { localizePath } from 'astro-i18next';
-import { t } from 'i18next';
+import { getLangFromUrl, getTranslations, translatePath } from '../i18n/utils';
 import { LanguageSelector } from './LanguageSelector';
 import { ThemeToggle } from './ThemeToggle';
 
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
-const currentLocale = Astro.currentLocale || 'en';
 
 const navItems = [
-  { href: localizePath('/'), label: t('nav.home') },
-  { href: localizePath('/blog'), label: t('nav.blog') },
-  { href: localizePath('/projects'), label: t('nav.projects') },
+  { href: translatePath('/', lang), label: t('nav.home') },
+  { href: translatePath('/blog', lang), label: t('nav.blog') },
+  { href: translatePath('/projects', lang), label: t('nav.projects') },
 ];
 
 const isActive = (href: string) => {
-  if (href === localizePath('/')) {
-    return (
-      currentPath === href ||
-      currentPath === `/${currentLocale}` ||
-      currentPath === `/${currentLocale}/`
-    );
+  if (href === translatePath('/', lang)) {
+    return currentPath === href || currentPath === `/${lang}` || currentPath === `/${lang}/`;
   }
   return currentPath.startsWith(href);
 };
@@ -30,7 +26,7 @@ const isActive = (href: string) => {
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
       <a
-        href={localizePath('/')}
+        href={translatePath('/', lang)}
         class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all"
       >
         qazuor
@@ -54,7 +50,7 @@ const isActive = (href: string) => {
 
       <!-- Actions -->
       <div class="flex items-center gap-2">
-        <LanguageSelector currentLocale={currentLocale} client:load />
+        <LanguageSelector currentLocale={lang} client:load />
         <ThemeToggle client:load />
       </div>
 

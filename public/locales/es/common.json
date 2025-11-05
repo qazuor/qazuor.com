@@ -11,24 +11,105 @@
     "toggle": "Cambiar tema"
   },
   "home": {
-    "title": "Bienvenido a qazuor.com",
-    "subtitle": "Construido con Astro, React, GSAP y Tailwind CSS",
-    "description": "Una muestra de desarrollo web moderno"
+    "title": "Construyendo Experiencias Web Modernas",
+    "subtitle": "Desarrollador full-stack especializado en React, TypeScript y tecnologías web modernas",
+    "description": "Creando aplicaciones web rápidas, hermosas y accesibles con herramientas de vanguardia y mejores prácticas",
+    "hero": {
+      "title": "Hola, soy qazuor",
+      "subtitle": "Desarrollador Web Full-Stack",
+      "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas"
+    },
+    "features": {
+      "performance": {
+        "title": "Alto Rendimiento",
+        "description": "Construido con Astro para cargas de página ultrarrápidas y rendimiento óptimo."
+      },
+      "animations": {
+        "title": "Animaciones Hermosas",
+        "description": "Animaciones suaves con GSAP y Tailwind CSS para una experiencia de usuario encantadora."
+      },
+      "multilingual": {
+        "title": "Multiidioma",
+        "description": "Soporte completo de i18n con cambio fluido de idioma entre EN/ES."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para trabajar juntos?",
+      "description": "Construyamos algo increíble",
+      "button": "Contactar"
+    }
   },
   "blog": {
     "title": "Blog",
-    "subtitle": "Pensamientos, tutoriales y conocimientos",
+    "subtitle": "Reflexiones, tutoriales y conocimientos sobre desarrollo web",
+    "description": "Artículos sobre desarrollo web moderno, mejores prácticas y lecciones aprendidas",
     "readMore": "Leer más",
-    "noArticles": "Aún no hay artículos"
+    "readTime": "min de lectura",
+    "noArticles": "Aún no hay artículos. ¡Vuelve pronto!",
+    "cta": {
+      "title": "¿Quieres aprender más?",
+      "description": "Suscríbete para recibir notificaciones sobre nuevos artículos",
+      "button": "Suscribirse"
+    },
+    "examples": {
+      "post1": {
+        "title": "Comenzando con Astro y React",
+        "excerpt": "Aprende cómo combinar la generación de sitios estáticos de Astro con el modelo de componentes de React para lo mejor de ambos mundos.",
+        "tags": ["Astro", "React", "Tutorial"]
+      },
+      "post2": {
+        "title": "Creando Animaciones con GSAP",
+        "excerpt": "Una guía completa para crear animaciones suaves y profesionales usando GreenSock Animation Platform.",
+        "tags": ["GSAP", "Animación", "JavaScript"]
+      },
+      "post3": {
+        "title": "Guía de Implementación de Modo Oscuro",
+        "excerpt": "Tutorial paso a paso sobre cómo implementar modo oscuro con Tailwind CSS y persistencia de estado adecuada.",
+        "tags": ["CSS", "Modo Oscuro", "Tailwind"]
+      }
+    }
   },
   "projects": {
     "title": "Proyectos",
-    "subtitle": "Cosas que he construido",
-    "viewProject": "Ver proyecto",
-    "viewCode": "Ver código",
-    "noProjects": "Aún no hay proyectos"
+    "subtitle": "Algunos de mis trabajos recientes",
+    "description": "Una colección de aplicaciones web y herramientas que he construido",
+    "viewDemo": "Ver Demo",
+    "viewCode": "Ver Código",
+    "noProjects": "Aún no hay proyectos. ¡Vuelve pronto!",
+    "cta": {
+      "title": "¿Tienes un proyecto en mente?",
+      "description": "Hablemos sobre cómo podemos trabajar juntos",
+      "button": "Iniciar conversación"
+    },
+    "examples": {
+      "project1": {
+        "title": "Plataforma E-Commerce",
+        "description": "Tienda online completa con carrito, checkout y panel de administración.",
+        "tags": ["React", "Node.js", "PostgreSQL"]
+      },
+      "project2": {
+        "title": "App de Gestión de Tareas",
+        "description": "Gestor de tareas colaborativo con actualizaciones en tiempo real y funciones de equipo.",
+        "tags": ["TypeScript", "WebSocket", "Tailwind"]
+      },
+      "project3": {
+        "title": "Dashboard del Clima",
+        "description": "Pronóstico del tiempo interactivo con gráficos hermosos y búsqueda de ubicación.",
+        "tags": ["React", "API", "Gráficos"]
+      }
+    }
   },
   "footer": {
-    "rights": "Todos los derechos reservados"
+    "rights": "Todos los derechos reservados",
+    "builtWith": "Construido con",
+    "and": "y"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "retry": "Intentar de nuevo",
+    "close": "Cerrar",
+    "viewAll": "Ver todo",
+    "learnMore": "Saber más"
   }
 }

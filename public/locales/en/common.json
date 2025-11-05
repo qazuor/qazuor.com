@@ -11,24 +11,105 @@
     "toggle": "Toggle theme"
   },
   "home": {
-    "title": "Welcome to qazuor.com",
-    "subtitle": "Built with Astro, React, GSAP, and Tailwind CSS",
-    "description": "A modern web development showcase"
+    "title": "Building Modern Web Experiences",
+    "subtitle": "Full-stack developer specializing in React, TypeScript, and modern web technologies",
+    "description": "Creating fast, beautiful, and accessible web applications with cutting-edge tools and best practices",
+    "hero": {
+      "title": "Hi, I'm qazuor",
+      "subtitle": "Full-Stack Web Developer",
+      "description": "Passionate about crafting exceptional digital experiences with modern web technologies"
+    },
+    "features": {
+      "performance": {
+        "title": "Fast Performance",
+        "description": "Built with Astro for lightning-fast page loads and optimal performance."
+      },
+      "animations": {
+        "title": "Beautiful Animations",
+        "description": "Smooth animations powered by GSAP and Tailwind CSS for delightful UX."
+      },
+      "multilingual": {
+        "title": "Multilingual",
+        "description": "Full i18n support with seamless language switching between EN/ES."
+      }
+    },
+    "cta": {
+      "title": "Ready to work together?",
+      "description": "Let's build something amazing",
+      "button": "Get in touch"
+    }
   },
   "blog": {
     "title": "Blog",
-    "subtitle": "Thoughts, tutorials, and insights",
+    "subtitle": "Thoughts, tutorials, and insights about web development",
+    "description": "Articles about modern web development, best practices, and lessons learned",
     "readMore": "Read more",
-    "noArticles": "No articles yet"
+    "readTime": "min read",
+    "noArticles": "No articles yet. Check back soon!",
+    "cta": {
+      "title": "Want to learn more?",
+      "description": "Subscribe to get notified about new articles",
+      "button": "Subscribe"
+    },
+    "examples": {
+      "post1": {
+        "title": "Getting Started with Astro and React",
+        "excerpt": "Learn how to combine Astro's static site generation with React's component model for the best of both worlds.",
+        "tags": ["Astro", "React", "Tutorial"]
+      },
+      "post2": {
+        "title": "Building Animations with GSAP",
+        "excerpt": "A comprehensive guide to creating smooth, professional animations using GreenSock Animation Platform.",
+        "tags": ["GSAP", "Animation", "JavaScript"]
+      },
+      "post3": {
+        "title": "Dark Mode Implementation Guide",
+        "excerpt": "Step-by-step tutorial on implementing dark mode with Tailwind CSS and proper state persistence.",
+        "tags": ["CSS", "Dark Mode", "Tailwind"]
+      }
+    }
   },
   "projects": {
     "title": "Projects",
-    "subtitle": "Things I've built",
-    "viewProject": "View project",
-    "viewCode": "View code",
-    "noProjects": "No projects yet"
+    "subtitle": "Some of my recent work",
+    "description": "A collection of web applications and tools I've built",
+    "viewDemo": "View Demo",
+    "viewCode": "View Code",
+    "noProjects": "No projects yet. Check back soon!",
+    "cta": {
+      "title": "Have a project in mind?",
+      "description": "Let's discuss how we can work together",
+      "button": "Start a conversation"
+    },
+    "examples": {
+      "project1": {
+        "title": "E-Commerce Platform",
+        "description": "Full-featured online store with cart, checkout, and admin dashboard.",
+        "tags": ["React", "Node.js", "PostgreSQL"]
+      },
+      "project2": {
+        "title": "Task Management App",
+        "description": "Collaborative task manager with real-time updates and team features.",
+        "tags": ["TypeScript", "WebSocket", "Tailwind"]
+      },
+      "project3": {
+        "title": "Weather Dashboard",
+        "description": "Interactive weather forecast with beautiful charts and location search.",
+        "tags": ["React", "API", "Charts"]
+      }
+    }
   },
   "footer": {
-    "rights": "All rights reserved"
+    "rights": "All rights reserved",
+    "builtWith": "Built with",
+    "and": "and"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "close": "Close",
+    "viewAll": "View all",
+    "learnMore": "Learn more"
   }
 }

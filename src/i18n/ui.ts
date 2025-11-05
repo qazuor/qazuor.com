@@ -1,0 +1,16 @@
+import en from '../../public/locales/en/common.json';
+import es from '../../public/locales/es/common.json';
+
+export const languages = {
+  en: 'English',
+  es: 'Español',
+};
+
+export const defaultLang = 'en';
+
+export const ui = {
+  en,
+  es,
+} as const;
+
+export type Locale = keyof typeof ui;

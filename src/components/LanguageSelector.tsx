@@ -22,8 +22,12 @@ export function LanguageSelector({ currentLocale }: LanguageSelectorProps) {
 
   const changeLanguage = (locale: string) => {
     const currentPath = window.location.pathname;
+    // Remove existing locale prefix (en or es)
     const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, '');
-    const newPath = `/${locale}${pathWithoutLocale}`;
+
+    // Add new locale prefix
+    const newPath = `/${locale}${pathWithoutLocale || '/'}`;
+
     window.location.href = newPath;
   };
 

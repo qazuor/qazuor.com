@@ -1,11 +1,19 @@
 import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
 
+interface AnimatedHeroProps {
+  title?: string;
+  subtitle?: string;
+}
+
 /**
  * Example component demonstrating GSAP animations
  * This component animates in on mount using GSAP
  */
-export function AnimatedHero() {
+export function AnimatedHero({
+  title = 'Welcome to qazuor.com',
+  subtitle = 'Built with Astro, React, and GSAP',
+}: AnimatedHeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -54,10 +62,10 @@ export function AnimatedHero() {
           ref={titleRef}
           className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
         >
-          Welcome to qazuor.com
+          {title}
         </h1>
         <p ref={subtitleRef} className="text-xl text-gray-600 dark:text-gray-400">
-          Built with Astro, React, and GSAP
+          {subtitle}
         </p>
       </div>
     </div>

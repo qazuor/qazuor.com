@@ -1,29 +1,32 @@
 ---
-import { t } from 'i18next';
 import Navigation from '../components/Navigation.astro';
+import { languages } from '../i18n/ui';
+import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
 
 interface Props {
   title: string;
   description?: string;
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
 const { title, description = t('home.description') } = Astro.props;
 const currentYear = new Date().getFullYear();
 
-// Get current locale and path
-const currentLocale = Astro.currentLocale || 'en';
-const currentPath = Astro.url.pathname;
+// Get current route without locale
+const route = getRouteFromUrl(Astro.url);
 
 // Generate alternate language links
-const locales = ['en', 'es'];
+const locales = Object.keys(languages);
 const alternateLinks = locales.map((locale) => {
-  const path = currentPath.replace(/^\/(en|es)/, `/${locale}`);
+  const path = `/${locale}${route}`;
   return { locale, path };
 });
 ---
 
 <!doctype html>
-<html lang={currentLocale}>
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />

@@ -22,9 +22,8 @@
   },
   "dependencies": {
     "astro": "^5.15.3",
-    "astro-i18next": "^1.0.0-beta.21",
     "gsap": "^3.13.0",
-    "i18next": "^25.6.0",
+    "i18next-fs-backend": "^2.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

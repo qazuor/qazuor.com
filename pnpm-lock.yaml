@@ -90,18 +90,12 @@ importers:
       astro-compressor:
         specifier: ^1.2.0
         version: 1.2.0
-      astro-d2:
-        specifier: ^0.8.1
-        version: 0.8.1(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))
       astro-expressive-code:
         specifier: ^0.41.3
         version: 0.41.3(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))
       astro-favicons:
         specifier: ^3.1.5
         version: 3.1.5(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))
-      astro-font:
-        specifier: ^1.1.0
-        version: 1.1.0
       astro-min:
         specifier: ^1.3.1
         version: 1.3.1(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))
@@ -1533,12 +1527,6 @@ packages:
     resolution: {integrity: sha512-Y0UWW/AjyLcHlRhCK9yUqy0kg4qZHd54kDIMY4C/1huS6pSVZNsMY7a3Jk7o5RjytIkVaLDDkcUzR8SgipBH8g==}
     engines: {node: '>=22'}
 
-  astro-d2@0.8.1:
-    resolution: {integrity: sha512-r2Y4KbRQ+hOFV+YR7i9dDBWbPFVh8hvz2aM4u+wc+uLwxQ03CvoC5VD6c2x+jKhMRYJH9KblKzydalaxXsgoBg==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      astro: '>=5.0.0'
-
   astro-expressive-code@0.41.3:
     resolution: {integrity: sha512-u+zHMqo/QNLE2eqYRCrK3+XMlKakv33Bzuz+56V1gs8H0y6TZ0hIi3VNbIxeTn51NLn+mJfUV/A0kMNfE4rANw==}
     peerDependencies:
@@ -1548,9 +1536,6 @@ packages:
     resolution: {integrity: sha512-XFEW0Yk0sSfFu7WAT5wJ61atbT16YpO3y5n/ooxtys1/Uuv0v2XmMFw8OUrxnykmstUKoa+XjqUw22ph9cFn7A==}
     peerDependencies:
       astro: '>= 4.0.0'
-
-  astro-font@1.1.0:
-    resolution: {integrity: sha512-hj1A0MkaJTeaArBpf1m9s4Nxu1Bn9h0QiEPeR9Dfjle25pT4CH4higzuadWzCRSvhGO2SzbM11YwZEF+cmLDxg==}
 
   astro-min@1.3.1:
     resolution: {integrity: sha512-TvHT24cGygf+h47WVrSxaF/6vUwJ8s+TlmwkKlNHNDqRmW5FNiUHspZnEwLsaHTtVGZWZN4NMSVPoD5oLyyrmQ==}
@@ -5147,13 +5132,6 @@ snapshots:
 
   astro-compressor@1.2.0: {}
 
-  astro-d2@0.8.1(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1)):
-    dependencies:
-      astro: 5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1)
-      hast-util-from-html: 2.0.3
-      hast-util-to-html: 9.0.5
-      unist-util-visit: 5.0.0
-
   astro-expressive-code@0.41.3(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
       astro: 5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1)
@@ -5164,8 +5142,6 @@ snapshots:
       astro: 5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1)
       favilib: 1.0.5
       ultrahtml: 1.6.0
-
-  astro-font@1.1.0: {}
 
   astro-min@1.3.1(astro@5.15.3(@types/node@24.10.0)(jiti@1.21.7)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:

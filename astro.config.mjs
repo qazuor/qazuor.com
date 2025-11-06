@@ -3,8 +3,6 @@ import tailwind from '@astrojs/tailwind';
 import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
-// import d2 from 'astro-d2'; // TODO: Install D2 CLI first: https://github.com/terrastruct/d2
-// import AstroFont from 'astro-font'; // TODO: Fix compatibility issue with Astro 5
 import favicons from 'astro-favicons';
 import min from 'astro-min';
 
@@ -26,8 +24,6 @@ export default defineConfig({
         wrap: true,
       },
     }),
-    // d2(), // TODO: Install D2 CLI first
-    // TODO: Configure AstroFont once compatibility issue is resolved
     favicons({
       appName: 'qazuor',
       appShortName: 'qazuor',

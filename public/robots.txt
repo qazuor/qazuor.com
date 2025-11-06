@@ -1,0 +1,15 @@
+# robots.txt for qazuor.com
+# Allow all crawlers to index the entire site
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://qazuor.com/sitemap-index.xml
+
+# Crawl delay (optional, helps reduce server load)
+Crawl-delay: 1
+
+# Disallow admin or private areas if they exist in the future
+# Disallow: /admin/
+# Disallow: /private/

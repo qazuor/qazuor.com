@@ -169,6 +169,21 @@
     "viewAll": "View all",
     "learnMore": "Learn more"
   },
+  "seo": {
+    "keywords": [
+      "Full-Stack Developer",
+      "React",
+      "TypeScript",
+      "Web Development",
+      "UI/UX",
+      "JavaScript",
+      "Node.js",
+      "Astro",
+      "TailwindCSS",
+      "Portfolio"
+    ],
+    "imageAlt": "qazuor - Full-Stack Developer Portfolio"
+  },
   "aria": {
     "github": "GitHub",
     "twitter": "Twitter",

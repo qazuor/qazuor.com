@@ -20,7 +20,21 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
 const title = 'qazuor - Full-Stack Developer';
-const description = 'Building beautiful, performant, and accessible web experiences';
+const description = t('home.description');
+
+// SEO keywords from translations
+const seoKeywords = [
+  'Full-Stack Developer',
+  'React',
+  'TypeScript',
+  'Web Development',
+  'UI/UX',
+  'JavaScript',
+  'Node.js',
+  'Astro',
+  'TailwindCSS',
+  'Portfolio',
+];
 
 // Load Content Collections
 const allProjects = await getCollection('projects');
@@ -138,7 +152,7 @@ const contactTranslations = {
 };
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} type="profile" keywords={seoKeywords}>
   <!-- Hero Section -->
   <HeroSection
     name="qazuor"

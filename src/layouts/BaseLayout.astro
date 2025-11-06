@@ -2,6 +2,7 @@
 import { CommandPalette } from '../components/CommandPalette';
 import Navigation from '../components/Navigation.astro';
 import { ScrollToTop } from '../components/ScrollToTop';
+import SEO from '../components/SEO.astro';
 import { SmoothScroll } from '../components/SmoothScroll';
 import { languages } from '../i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
@@ -9,12 +10,31 @@ import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils'
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article' | 'profile';
+  keywords?: string[];
+  publishDate?: string;
+  modifiedDate?: string;
+  articleTags?: string[];
+  noindex?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const { title, description = t('home.description') } = Astro.props;
+const {
+  title,
+  description = t('home.description'),
+  image,
+  imageAlt,
+  type = 'website',
+  keywords = [],
+  publishDate,
+  modifiedDate,
+  articleTags = [],
+  noindex = false,
+} = Astro.props;
 const currentYear = new Date().getFullYear();
 
 // Get current route without locale
@@ -32,16 +52,34 @@ const alternateLinks = locales.map((locale) => {
 <html lang={lang} class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Component -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      keywords={keywords}
+      locale={lang}
+      publishDate={publishDate}
+      modifiedDate={modifiedDate}
+      articleTags={articleTags}
+      noindex={noindex}
+    />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Preload fonts for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <title>{title}</title>
 
     <!-- Alternate language links -->
     {alternateLinks.map(({ locale, path }) => (

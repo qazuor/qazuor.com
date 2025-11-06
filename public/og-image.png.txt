@@ -1,0 +1,18 @@
+PLACEHOLDER: Create an Open Graph image (1200x630px)
+
+This image will be displayed when your site is shared on social media.
+
+Recommended specs:
+- Dimensions: 1200 x 630 pixels
+- Format: PNG or JPG
+- File size: Under 1MB
+- Content: Your logo, name "qazuor", tagline "Full-Stack Developer"
+- Background: Use your brand colors (purple/teal gradient)
+
+Tools to create:
+- Canva (easiest)
+- Figma
+- Photoshop
+- Or use https://www.opengraph.xyz/
+
+Filename should be: og-image.png

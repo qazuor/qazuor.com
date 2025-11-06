@@ -1,9 +1,5 @@
-import { useContactForm } from '../hooks/useContactForm';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { useStaggerAnimation } from '../hooks/useStaggerAnimation';
-import { FormField } from './FormField';
-import { StatusMessage } from './StatusMessage';
-import { SubmitButton } from './SubmitButton';
+import { useContactForm, useScrollAnimation, useStaggerAnimation } from '../hooks';
+import { FormField, StatusMessage, SubmitButton } from '.';
 
 interface ContactProps {
   translations?: {

@@ -68,7 +68,7 @@ export function About({
     });
 
     // Highlight effect on scroll - progressive reveal
-    lines.forEach((line, index) => {
+    lines.forEach((line, _index) => {
       gsap.fromTo(
         line,
         {
@@ -96,7 +96,7 @@ export function About({
               });
             },
           },
-        }
+        },
       );
     });
   }, []);
@@ -110,9 +110,7 @@ export function About({
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="gradient-text">{translations.title}</span>
             </h2>
-            <p className="text-foreground-secondary text-lg">
-              {translations.subtitle}
-            </p>
+            <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
           </div>
 
           {/* Code Block */}

@@ -58,7 +58,10 @@ export function Hero({
   }, [roles]);
 
   return (
-    <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-[128px] animate-pulse" />
@@ -75,9 +78,14 @@ export function Hero({
             {/* HTML Tag Name */}
             <div className="hero-element">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">
-                <span className="text-foreground-secondary font-mono text-3xl md:text-4xl">&lt;</span>
+                <span className="text-foreground-secondary font-mono text-3xl md:text-4xl">
+                  &lt;
+                </span>
                 <span className="gradient-text">{name}</span>
-                <span className="text-foreground-secondary font-mono text-3xl md:text-4xl"> /&gt;</span>
+                <span className="text-foreground-secondary font-mono text-3xl md:text-4xl">
+                  {' '}
+                  /&gt;
+                </span>
               </h1>
             </div>
 
@@ -174,7 +182,12 @@ function ScrollIndicator({ scroll }: { scroll: string }) {
         viewBox="0 0 24 24"
         stroke="currentColor"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+        />
       </svg>
     </div>
   );

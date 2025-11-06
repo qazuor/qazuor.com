@@ -38,7 +38,7 @@ export function Blog({
   },
   cardTranslations = {
     readMore: 'Read more',
-  }
+  },
 }: BlogProps) {
   const blogRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
@@ -89,9 +89,7 @@ export function Blog({
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="gradient-text">{translations.title}</span>
           </h2>
-          <p className="text-foreground-secondary text-lg">
-            {translations.subtitle}
-          </p>
+          <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
         </div>
 
         {/* Blog Grid */}
@@ -110,7 +108,12 @@ export function Blog({
             >
               {translations.viewAll}
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </a>
           </div>

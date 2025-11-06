@@ -19,7 +19,7 @@ export function BlogCard({
   slug = '#',
   translations = {
     readMore: 'Read more',
-  }
+  },
 }: BlogCardProps) {
   return (
     <article className="blog-card card-hover group p-6">

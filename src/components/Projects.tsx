@@ -31,7 +31,7 @@ export function Projects({
   projects = [],
   translations = {
     title: 'Featured Projects',
-    subtitle: 'A collection of projects I\'ve built and contributed to',
+    subtitle: "A collection of projects I've built and contributed to",
     noProjects: 'No projects found with the selected filter.',
     filterAll: 'All',
   },
@@ -39,18 +39,23 @@ export function Projects({
     demo: 'Demo',
     code: 'Code',
     featured: 'Featured',
-  }
+  },
 }: ProjectsProps) {
   const projectsRef = useRef<HTMLDivElement>(null);
   const [selectedTag, setSelectedTag] = useState<string>(translations.filterAll);
   const hasAnimated = useRef(false);
 
   // Extract all unique tags
-  const allTags = projects.length > 0 ? [translations.filterAll, ...Array.from(new Set(projects.flatMap((p) => p.tags)))] : [translations.filterAll];
+  const allTags =
+    projects.length > 0
+      ? [translations.filterAll, ...Array.from(new Set(projects.flatMap((p) => p.tags)))]
+      : [translations.filterAll];
 
   // Filter projects by selected tag
   const filteredProjects =
-    selectedTag === translations.filterAll ? projects : projects.filter((p) => p.tags.includes(selectedTag));
+    selectedTag === translations.filterAll
+      ? projects
+      : projects.filter((p) => p.tags.includes(selectedTag));
 
   useEffect(() => {
     if (!projectsRef.current || hasAnimated.current) return;
@@ -107,9 +112,9 @@ export function Projects({
         duration: 0.5,
         stagger: 0.1,
         ease: 'back.out(1.5)',
-      }
+      },
     );
-  }, [filteredProjects]);
+  }, []);
 
   return (
     <section className="section">
@@ -119,9 +124,7 @@ export function Projects({
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="gradient-text">{translations.title}</span>
           </h2>
-          <p className="text-foreground-secondary text-lg">
-            {translations.subtitle}
-          </p>
+          <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
         </div>
 
         {/* Filter Buttons */}
@@ -144,7 +147,11 @@ export function Projects({
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project, index) => (
-            <ProjectCard key={`${project.title}-${index}`} {...project} translations={cardTranslations} />
+            <ProjectCard
+              key={`${project.title}-${index}`}
+              {...project}
+              translations={cardTranslations}
+            />
           ))}
         </div>
 

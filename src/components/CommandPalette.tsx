@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Command } from 'cmdk';
+import { useEffect, useState } from 'react';
 
 interface CommandPaletteProps {
   lang: string;
@@ -72,7 +72,10 @@ export function CommandPalette({ lang }: CommandPaletteProps) {
               No results found.
             </Command.Empty>
 
-            <Command.Group heading="Navigation" className="px-2 pt-2 pb-1 text-xs font-semibold text-foreground-muted">
+            <Command.Group
+              heading="Navigation"
+              className="px-2 pt-2 pb-1 text-xs font-semibold text-foreground-muted"
+            >
               <Command.Item
                 onSelect={() => navigate('/')}
                 className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
@@ -121,7 +124,10 @@ export function CommandPalette({ lang }: CommandPaletteProps) {
 
             <Command.Separator className="my-2 h-px bg-foreground/10" />
 
-            <Command.Group heading="Social" className="px-2 pt-2 pb-1 text-xs font-semibold text-foreground-muted">
+            <Command.Group
+              heading="Social"
+              className="px-2 pt-2 pb-1 text-xs font-semibold text-foreground-muted"
+            >
               <Command.Item
                 onSelect={() => openExternal('https://github.com/qazuor')}
                 className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"

@@ -166,9 +166,7 @@ export function Skills({
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               <span className="gradient-text">{translations.title}</span>
             </h2>
-            <p className="text-foreground-secondary text-lg">
-              {translations.subtitle}
-            </p>
+            <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
           </div>
 
           {/* Skills Grid */}

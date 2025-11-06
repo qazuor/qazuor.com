@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { initLenis } from '../lib/lenis';
 import { ScrollTrigger } from '../lib/gsap';
+import { initLenis } from '../lib/lenis';
 
 /**
  * Smooth Scroll component using Lenis

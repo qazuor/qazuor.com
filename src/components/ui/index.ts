@@ -2,13 +2,13 @@
 export { Button, type ButtonProps } from './Button';
 export {
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
-  CardFooter,
-  type CardProps,
-  type CardHeaderProps,
-  type CardTitleProps,
   type CardContentProps,
+  CardFooter,
   type CardFooterProps,
+  CardHeader,
+  type CardHeaderProps,
+  type CardProps,
+  CardTitle,
+  type CardTitleProps,
 } from './Card';

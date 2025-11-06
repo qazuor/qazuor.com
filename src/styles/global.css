@@ -13,25 +13,25 @@
     --secondary: 0.70 0.18 180;
     --accent: 0.65 0.20 330;
 
-    /* Backgrounds - Light Mode (for future light mode support) */
-    --bg-primary-light: 0.98 0.01 270;
-    --bg-secondary-light: 0.95 0.01 270;
-    --bg-tertiary-light: 0.92 0.01 270;
+    /* Backgrounds - Light Mode (default) */
+    --bg-primary: 0.98 0.01 270;
+    --bg-secondary: 0.95 0.01 270;
+    --bg-tertiary: 0.92 0.01 270;
 
-    /* Text - Light Mode */
-    --text-primary-light: 0.20 0.02 270;
-    --text-secondary-light: 0.40 0.02 270;
-    --text-muted-light: 0.60 0.02 270;
+    /* Text - Light Mode (default) */
+    --text-primary: 0.20 0.02 270;
+    --text-secondary: 0.40 0.02 270;
+    --text-muted: 0.60 0.02 270;
 
-    /* Backgrounds - Dark Mode (default) */
-    --bg-primary: 0.12 0.02 270;
-    --bg-secondary: 0.18 0.02 270;
-    --bg-tertiary: 0.22 0.02 270;
+    /* Backgrounds - Dark Mode */
+    --bg-primary-dark: 0.12 0.02 270;
+    --bg-secondary-dark: 0.18 0.02 270;
+    --bg-tertiary-dark: 0.22 0.02 270;
 
     /* Text - Dark Mode */
-    --text-primary: 0.95 0 0;
-    --text-secondary: 0.70 0 0;
-    --text-muted: 0.50 0 0;
+    --text-primary-dark: 0.95 0 0;
+    --text-secondary-dark: 0.70 0 0;
+    --text-muted-dark: 0.50 0 0;
 
     /* Syntax Highlighting */
     --syntax-keyword: 0.65 0.20 330;
@@ -86,14 +86,14 @@
     --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
   }
 
-  /* Light Mode Override (for future) */
-  .light {
-    --bg-primary: var(--bg-primary-light);
-    --bg-secondary: var(--bg-secondary-light);
-    --bg-tertiary: var(--bg-tertiary-light);
-    --text-primary: var(--text-primary-light);
-    --text-secondary: var(--text-secondary-light);
-    --text-muted: var(--text-muted-light);
+  /* Dark Mode Override */
+  .dark {
+    --bg-primary: var(--bg-primary-dark);
+    --bg-secondary: var(--bg-secondary-dark);
+    --bg-tertiary: var(--bg-tertiary-dark);
+    --text-primary: var(--text-primary-dark);
+    --text-secondary: var(--text-secondary-dark);
+    --text-muted: var(--text-muted-dark);
   }
 
   /* Base Styles */

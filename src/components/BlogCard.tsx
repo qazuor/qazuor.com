@@ -28,7 +28,13 @@ export function BlogCard({
       {/* Header */}
       <div className="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
         <time dateTime={date} className="flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -44,7 +50,13 @@ export function BlogCard({
         </time>
         <span>•</span>
         <span className="flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -68,9 +80,9 @@ export function BlogCard({
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {tags.map((tag, index) => (
+        {tags.map((tag) => (
           <span
-            key={index}
+            key={tag}
             className="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300"
           >
             #{tag}
@@ -89,6 +101,7 @@ export function BlogCard({
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>

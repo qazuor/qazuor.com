@@ -12,12 +12,21 @@
   },
   "home": {
     "title": "Construyendo Experiencias Web Modernas",
-    "subtitle": "Desarrollador full-stack especializado en React, TypeScript y tecnologías web modernas",
+    "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
     "description": "Creando aplicaciones web rápidas, hermosas y accesibles con herramientas de vanguardia y mejores prácticas",
     "hero": {
       "title": "Hola, soy qazuor",
-      "subtitle": "Desarrollador Web Full-Stack",
-      "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas"
+      "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
+      "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas",
+      "viewProjects": "Ver Proyectos",
+      "getInTouch": "Contactar",
+      "scroll": "Desplazar"
+    },
+    "roles": {
+      "fullstack": "Desarrollador Full-Stack",
+      "react": "Especialista en React",
+      "uiux": "Entusiasta de UI/UX",
+      "solver": "Solucionador de Problemas"
     },
     "features": {
       "performance": {
@@ -40,11 +49,12 @@
     }
   },
   "blog": {
-    "title": "Blog",
+    "title": "Últimos Artículos",
     "subtitle": "Reflexiones, tutoriales y conocimientos sobre desarrollo web",
     "description": "Artículos sobre desarrollo web moderno, mejores prácticas y lecciones aprendidas",
     "readMore": "Leer más",
     "readTime": "min de lectura",
+    "viewAll": "Ver todos los artículos",
     "noArticles": "Aún no hay artículos. ¡Vuelve pronto!",
     "cta": {
       "title": "¿Quieres aprender más?",
@@ -69,13 +79,31 @@
       }
     }
   },
+  "about": {
+    "title": "Sobre Mí",
+    "subtitle": "Conóceme a través del código",
+    "availability": "Abierto a oportunidades",
+    "bio": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas. Especializado en React, TypeScript y optimización de rendimiento.",
+    "connect": "¡Construyamos algo increíble juntos!"
+  },
+  "skills": {
+    "title": "Stack Tecnológico",
+    "subtitle": "Tecnologías con las que trabajo",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Herramientas y Otros"
+    }
+  },
   "projects": {
-    "title": "Proyectos",
-    "subtitle": "Algunos de mis trabajos recientes",
+    "title": "Proyectos Destacados",
+    "subtitle": "Una colección de proyectos que he construido y en los que he contribuido",
     "description": "Una colección de aplicaciones web y herramientas que he construido",
-    "viewDemo": "Ver Demo",
-    "viewCode": "Ver Código",
-    "noProjects": "Aún no hay proyectos. ¡Vuelve pronto!",
+    "viewDemo": "Demo",
+    "viewCode": "Código",
+    "featured": "Destacado",
+    "noProjects": "No se encontraron proyectos con el filtro seleccionado.",
+    "filterAll": "Todos",
     "cta": {
       "title": "¿Tienes un proyecto en mente?",
       "description": "Hablemos sobre cómo podemos trabajar juntos",
@@ -98,6 +126,35 @@
         "tags": ["React", "API", "Gráficos"]
       }
     }
+  },
+  "contact": {
+    "title": "Ponte en Contacto",
+    "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",
+    "form": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "send": "Enviar Mensaje",
+      "sending": "Enviando...",
+      "required": "*"
+    },
+    "placeholders": {
+      "name": "Juan Pérez",
+      "email": "juan@ejemplo.com",
+      "subject": "Consulta de Proyecto",
+      "message": "Cuéntame sobre tu proyecto..."
+    },
+    "errors": {
+      "nameRequired": "El nombre es requerido",
+      "emailRequired": "El correo electrónico es requerido",
+      "emailInvalid": "Formato de correo electrónico inválido",
+      "subjectRequired": "El asunto es requerido",
+      "messageRequired": "El mensaje es requerido",
+      "messageMinLength": "El mensaje debe tener al menos 10 caracteres"
+    },
+    "success": "¡Mensaje enviado exitosamente! Me pondré en contacto contigo pronto.",
+    "error": "Algo salió mal. Por favor, intenta de nuevo."
   },
   "footer": {
     "rights": "Todos los derechos reservados",

@@ -12,12 +12,21 @@
   },
   "home": {
     "title": "Building Modern Web Experiences",
-    "subtitle": "Full-stack developer specializing in React, TypeScript, and modern web technologies",
+    "subtitle": "Building beautiful, performant, and accessible web experiences",
     "description": "Creating fast, beautiful, and accessible web applications with cutting-edge tools and best practices",
     "hero": {
       "title": "Hi, I'm qazuor",
-      "subtitle": "Full-Stack Web Developer",
-      "description": "Passionate about crafting exceptional digital experiences with modern web technologies"
+      "subtitle": "Building beautiful, performant, and accessible web experiences",
+      "description": "Passionate about crafting exceptional digital experiences with modern web technologies",
+      "viewProjects": "View Projects",
+      "getInTouch": "Get in Touch",
+      "scroll": "Scroll"
+    },
+    "roles": {
+      "fullstack": "Full-Stack Developer",
+      "react": "React Specialist",
+      "uiux": "UI/UX Enthusiast",
+      "solver": "Problem Solver"
     },
     "features": {
       "performance": {
@@ -40,11 +49,12 @@
     }
   },
   "blog": {
-    "title": "Blog",
+    "title": "Latest Articles",
     "subtitle": "Thoughts, tutorials, and insights about web development",
     "description": "Articles about modern web development, best practices, and lessons learned",
     "readMore": "Read more",
     "readTime": "min read",
+    "viewAll": "View all articles",
     "noArticles": "No articles yet. Check back soon!",
     "cta": {
       "title": "Want to learn more?",
@@ -69,13 +79,31 @@
       }
     }
   },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Get to know me through code",
+    "availability": "Open to opportunities",
+    "bio": "Passionate about creating exceptional digital experiences with modern web technologies. Specialized in React, TypeScript, and performance optimization.",
+    "connect": "Let's build something amazing together!"
+  },
+  "skills": {
+    "title": "Tech Stack",
+    "subtitle": "Technologies I work with",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools & Others"
+    }
+  },
   "projects": {
-    "title": "Projects",
-    "subtitle": "Some of my recent work",
+    "title": "Featured Projects",
+    "subtitle": "A collection of projects I've built and contributed to",
     "description": "A collection of web applications and tools I've built",
-    "viewDemo": "View Demo",
-    "viewCode": "View Code",
-    "noProjects": "No projects yet. Check back soon!",
+    "viewDemo": "Demo",
+    "viewCode": "Code",
+    "featured": "Featured",
+    "noProjects": "No projects found with the selected filter.",
+    "filterAll": "All",
     "cta": {
       "title": "Have a project in mind?",
       "description": "Let's discuss how we can work together",
@@ -98,6 +126,35 @@
         "tags": ["React", "API", "Charts"]
       }
     }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind? Let's work together!",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "required": "*"
+    },
+    "placeholders": {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "subject": "Project Inquiry",
+      "message": "Tell me about your project..."
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "subjectRequired": "Subject is required",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters"
+    },
+    "success": "Message sent successfully! I will get back to you soon.",
+    "error": "Something went wrong. Please try again."
   },
   "footer": {
     "rights": "All rights reserved",

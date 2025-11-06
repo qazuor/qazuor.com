@@ -1,7 +1,11 @@
 ---
-import { AnimatedHero } from '../../components/AnimatedHero';
-import { ScrollAnimatedSection } from '../../components/ScrollAnimatedSection';
-import { TailwindAnimations } from '../../components/TailwindAnimations';
+import { getCollection } from 'astro:content';
+import { Hero } from '../../components/Hero';
+import { About } from '../../components/About';
+import { Skills } from '../../components/Skills';
+import { Projects } from '../../components/Projects';
+import { Blog } from '../../components/Blog';
+import { Contact } from '../../components/Contact';
 import { languages } from '../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -15,67 +19,159 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const title = 'qazuor.com';
+const title = 'qazuor - Full-Stack Developer';
+const description = 'Building beautiful, performant, and accessible web experiences';
+
+// Load Content Collections
+const allProjects = await getCollection('projects');
+const allBlogPosts = await getCollection('blog');
+
+// Sort projects by order field, then by date
+const sortedProjects = allProjects
+  .sort((a, b) => {
+    if (a.data.order !== b.data.order) {
+      return a.data.order - b.data.order;
+    }
+    return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+  })
+  .map((project) => ({
+    title: project.data.title,
+    description: project.data.description,
+    tags: project.data.tags,
+    image: project.data.image,
+    demoUrl: project.data.demoUrl,
+    codeUrl: project.data.codeUrl,
+    featured: project.data.featured,
+  }));
+
+// Sort blog posts by date (newest first) and filter out drafts
+const sortedBlogPosts = allBlogPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .map((post) => ({
+    title: post.data.title,
+    excerpt: post.data.excerpt,
+    date: post.data.publishDate.toISOString().split('T')[0],
+    readTime: post.data.readTime,
+    tags: post.data.tags,
+    slug: `/blog/${post.slug}`,
+  }));
+
+// Translations for components
+const heroTranslations = {
+  viewProjects: t('home.hero.viewProjects'),
+  getInTouch: t('home.hero.getInTouch'),
+  scroll: t('home.hero.scroll'),
+};
+
+const aboutTranslations = {
+  title: t('about.title'),
+  subtitle: t('about.subtitle'),
+  connect: t('about.connect'),
+};
+
+const skillsTranslations = {
+  title: t('skills.title'),
+  subtitle: t('skills.subtitle'),
+  categoryTitles: {
+    frontend: t('skills.categories.frontend'),
+    backend: t('skills.categories.backend'),
+    tools: t('skills.categories.tools'),
+  },
+};
+
+const projectsTranslations = {
+  title: t('projects.title'),
+  subtitle: t('projects.subtitle'),
+  noProjects: t('projects.noProjects'),
+  filterAll: t('projects.filterAll'),
+};
+
+const projectCardTranslations = {
+  demo: t('projects.viewDemo'),
+  code: t('projects.viewCode'),
+  featured: t('projects.featured'),
+};
+
+const blogTranslations = {
+  title: t('blog.title'),
+  subtitle: t('blog.subtitle'),
+  viewAll: t('blog.viewAll'),
+  noArticles: t('blog.noArticles'),
+  readMore: t('blog.readMore'),
+};
+
+const blogCardTranslations = {
+  readMore: t('blog.readMore'),
+};
+
+const contactTranslations = {
+  title: t('contact.title'),
+  subtitle: t('contact.subtitle'),
+  form: {
+    name: t('contact.form.name'),
+    email: t('contact.form.email'),
+    subject: t('contact.form.subject'),
+    message: t('contact.form.message'),
+    send: t('contact.form.send'),
+    sending: t('contact.form.sending'),
+  },
+  placeholders: {
+    name: t('contact.placeholders.name'),
+    email: t('contact.placeholders.email'),
+    subject: t('contact.placeholders.subject'),
+    message: t('contact.placeholders.message'),
+  },
+  errors: {
+    nameRequired: t('contact.errors.nameRequired'),
+    emailRequired: t('contact.errors.emailRequired'),
+    emailInvalid: t('contact.errors.emailInvalid'),
+    subjectRequired: t('contact.errors.subjectRequired'),
+    messageRequired: t('contact.errors.messageRequired'),
+    messageMinLength: t('contact.errors.messageMinLength'),
+  },
+  success: t('contact.success'),
+  error: t('contact.error'),
+};
 ---
 
-<BaseLayout title={title}>
-  <!-- Hero Section with GSAP animations -->
-  <section class="relative overflow-hidden">
-    <AnimatedHero
-      client:load
-      title={t('home.hero.title')}
-      subtitle={t('home.hero.subtitle')}
-    />
-  </section>
-
-  <!-- Scroll Animated Section -->
-  <ScrollAnimatedSection
+<BaseLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <Hero
     client:load
-    title={t('home.title')}
-    description={t('home.description')}
-  >
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-      {/* Feature cards with Tailwind animations */}
-      <div class="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-        <div class="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl border border-blue-200 dark:border-blue-800">
-          <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{t('home.features.performance.title')}</h3>
-          <p class="text-gray-600 dark:text-gray-400">{t('home.features.performance.description')}</p>
-        </div>
-      </div>
+    name="qazuor"
+    roles={[
+      t('home.roles.fullstack'),
+      t('home.roles.react'),
+      t('home.roles.uiux'),
+      t('home.roles.solver'),
+    ]}
+    subtitle={t('home.hero.subtitle')}
+    translations={heroTranslations}
+  />
 
-      <div class="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-        <div class="p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl border border-purple-200 dark:border-purple-800">
-          <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{t('home.features.animations.title')}</h3>
-          <p class="text-gray-600 dark:text-gray-400">{t('home.features.animations.description')}</p>
-        </div>
-      </div>
+  <!-- About Section -->
+  <About
+    client:load
+    name="qazuor"
+    role={t('home.roles.fullstack')}
+    location="Remote"
+    experience="5+ years"
+    email="hello@qazuor.com"
+    availability={t('about.availability')}
+    bio={t('about.bio')}
+    translations={aboutTranslations}
+  />
 
-      <div class="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
-        <div class="p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl border border-green-200 dark:border-green-800">
-          <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{t('home.features.multilingual.title')}</h3>
-          <p class="text-gray-600 dark:text-gray-400">{t('home.features.multilingual.description')}</p>
-        </div>
-      </div>
-    </div>
-  </ScrollAnimatedSection>
+  <!-- Skills Section -->
+  <Skills client:load translations={skillsTranslations} />
 
-  <!-- Tailwind Animations Demo -->
-  <section class="bg-gray-50 dark:bg-gray-800/50">
-    <TailwindAnimations client:load />
-  </section>
+  <!-- Projects Section -->
+  <Projects client:only="react" projects={sortedProjects} translations={projectsTranslations} cardTranslations={projectCardTranslations} />
+
+  <!-- Blog Section -->
+  <Blog client:only="react" posts={sortedBlogPosts} translations={blogTranslations} cardTranslations={blogCardTranslations} />
+
+  <!-- Contact Section -->
+  <Contact client:load translations={contactTranslations} />
 </BaseLayout>

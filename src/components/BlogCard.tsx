@@ -1,62 +1,75 @@
-import gsap from 'gsap';
-import { useEffect, useRef } from 'react';
-
 interface BlogCardProps {
   title: string;
   excerpt: string;
   date: string;
   readTime: string;
   tags: string[];
-  slug: string;
-  delay?: number;
+  slug?: string;
+  translations?: {
+    readMore: string;
+  };
 }
 
-/**
- * Animated blog card component
- */
-export function BlogCard({ title, excerpt, date, readTime, tags, slug, delay = 0 }: BlogCardProps) {
-  const cardRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (!cardRef.current) return;
-
-    gsap.from(cardRef.current, {
-      x: -30,
-      opacity: 0,
-      duration: 0.6,
-      delay,
-      ease: 'power2.out',
-    });
-  }, [delay]);
-
+export function BlogCard({
+  title,
+  excerpt,
+  date,
+  readTime,
+  tags,
+  slug = '#',
+  translations = {
+    readMore: 'Read more',
+  }
+}: BlogCardProps) {
   return (
-    <article
-      ref={cardRef}
-      className="group bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-    >
+    <article className="blog-card card-hover group p-6">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-4 text-sm text-gray-600 dark:text-gray-400">
-        <time dateTime={date}>{new Date(date).toLocaleDateString()}</time>
+      <div className="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
+        <time dateTime={date} className="flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+          {new Date(date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </time>
         <span>•</span>
-        <span>{readTime}</span>
+        <span className="flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          {readTime}
+        </span>
       </div>
 
       {/* Title */}
-      <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-        <a href={`/blog/${slug}`} className="hover:underline">
+      <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+        <a href={slug} className="hover:underline">
           {title}
         </a>
       </h3>
 
       {/* Excerpt */}
-      <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{excerpt}</p>
+      <p className="text-foreground-secondary text-sm mb-4 line-clamp-3">{excerpt}</p>
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {tags.map((tag) => (
+        {tags.map((tag, index) => (
           <span
-            key={tag}
-            className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full"
+            key={index}
+            className="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300"
           >
             #{tag}
           </span>
@@ -65,17 +78,15 @@ export function BlogCard({ title, excerpt, date, readTime, tags, slug, delay = 0
 
       {/* Read more link */}
       <a
-        href={`/blog/${slug}`}
-        className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+        href={slug}
+        className="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
       >
-        Read more
+        {translations.readMore}
         <svg
-          className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
+          className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          role="img"
-          aria-hidden="true"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>

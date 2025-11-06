@@ -1,5 +1,8 @@
 ---
 import Navigation from '../components/Navigation.astro';
+import { SmoothScroll } from '../components/SmoothScroll';
+import { CommandPalette } from '../components/CommandPalette';
+import { ScrollToTop } from '../components/ScrollToTop';
 import { languages } from '../i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
 
@@ -26,13 +29,18 @@ const alternateLinks = locales.map((locale) => {
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Preload fonts for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <title>{title}</title>
 
     <!-- Alternate language links -->
@@ -46,28 +54,39 @@ const alternateLinks = locales.map((locale) => {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (theme === 'dark' || (!theme && prefersDark)) {
         document.documentElement.classList.add('dark');
+      } else if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
       }
     </script>
   </head>
-  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+  <body>
+    <!-- Smooth Scroll Integration -->
+    <SmoothScroll client:only="react" />
+
+    <!-- Command Palette (Ctrl+K) -->
+    <CommandPalette client:only="react" lang={lang} />
+
+    <!-- Scroll to Top Button -->
+    <ScrollToTop client:load />
+
     <Navigation />
 
     <main class="min-h-screen">
       <slot />
     </main>
 
-    <footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <footer class="bg-background-secondary border-t border-foreground/10">
+      <div class="container-custom py-8">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-sm text-gray-600 dark:text-gray-400">
+          <p class="text-sm text-foreground-secondary">
             © {currentYear} qazuor.com. {t('footer.rights')}.
           </p>
           <div class="flex gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/qazuor"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              class="text-foreground-secondary hover:text-foreground transition-colors duration-base"
               aria-label="GitHub"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -75,10 +94,10 @@ const alternateLinks = locales.map((locale) => {
               </svg>
             </a>
             <a
-              href="https://twitter.com"
+              href="https://twitter.com/qazuor"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              class="text-foreground-secondary hover:text-foreground transition-colors duration-base"
               aria-label="Twitter"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

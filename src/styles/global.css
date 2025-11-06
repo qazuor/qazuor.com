@@ -2,20 +2,274 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Primary Colors - Purple/Teal Scheme (OKLch) */
+    --primary: 0.55 0.22 270;
+    --secondary: 0.70 0.18 180;
+    --accent: 0.65 0.20 330;
+
+    /* Backgrounds - Light Mode (for future light mode support) */
+    --bg-primary-light: 0.98 0.01 270;
+    --bg-secondary-light: 0.95 0.01 270;
+    --bg-tertiary-light: 0.92 0.01 270;
+
+    /* Text - Light Mode */
+    --text-primary-light: 0.20 0.02 270;
+    --text-secondary-light: 0.40 0.02 270;
+    --text-muted-light: 0.60 0.02 270;
+
+    /* Backgrounds - Dark Mode (default) */
+    --bg-primary: 0.12 0.02 270;
+    --bg-secondary: 0.18 0.02 270;
+    --bg-tertiary: 0.22 0.02 270;
+
+    /* Text - Dark Mode */
+    --text-primary: 0.95 0 0;
+    --text-secondary: 0.70 0 0;
+    --text-muted: 0.50 0 0;
+
+    /* Syntax Highlighting */
+    --syntax-keyword: 0.65 0.20 330;
+    --syntax-string: 0.75 0.15 90;
+    --syntax-number: 0.70 0.18 40;
+    --syntax-comment: 0.55 0.05 270;
+
+    /* Functional Colors */
+    --success: 0.70 0.18 150;
+    --warning: 0.75 0.20 80;
+    --error: 0.60 0.25 20;
+
+    /* Spacing (for reference in custom properties) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-32: 8rem;
+
+    /* Section Spacing */
+    --section-padding-mobile: var(--space-16);
+    --section-padding-desktop: var(--space-24);
+    --section-gap: var(--space-12);
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --duration-fast: 150ms;
+    --duration-base: 300ms;
+    --duration-slow: 500ms;
+    --duration-slower: 700ms;
+
+    /* Easing Functions */
+    --ease-linear: linear;
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  /* Light Mode Override (for future) */
+  .light {
+    --bg-primary: var(--bg-primary-light);
+    --bg-secondary: var(--bg-secondary-light);
+    --bg-tertiary: var(--bg-tertiary-light);
+    --text-primary: var(--text-primary-light);
+    --text-secondary: var(--text-secondary-light);
+    --text-muted: var(--text-muted-light);
+  }
+
+  /* Base Styles */
+  * {
+    @apply border-foreground/10;
+  }
+
+  html {
+    @apply scroll-smooth;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    @apply min-h-screen;
+    font-variant-ligatures: common-ligatures;
+  }
+
+  /* Headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-lg;
+  }
+
+  h6 {
+    @apply text-base;
+  }
+
+  /* Links */
+  a {
+    @apply transition-colors duration-base;
+  }
+
+  /* Code */
+  code,
+  pre {
+    @apply font-mono;
+  }
+
+  /* Focus Styles for Accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+
+  /* Scrollbar Styles (for webkit browsers) */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-foreground-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-foreground-secondary;
   }
 }
 
-@layer base {
-  body {
-    @apply bg-background text-foreground;
+@layer components {
+  /* Gradient Text Utility */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .gradient-text-accent {
+    @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section Padding */
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  /* Glassmorphism Effect */
+  .glass {
+    @apply bg-background/80 backdrop-blur-md border border-foreground/10;
+  }
+
+  /* Button Base */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-6 py-3 rounded-lg;
+    @apply font-medium transition-all duration-base;
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white;
+    @apply hover:bg-primary-600 hover:shadow-glow-primary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-white;
+    @apply hover:bg-secondary-600 hover:shadow-glow-secondary;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent border border-foreground/20;
+    @apply hover:bg-foreground/5 hover:border-foreground/30;
+  }
+
+  /* Card Component */
+  .card {
+    @apply bg-background-secondary rounded-lg p-6;
+    @apply border border-foreground/10;
+    @apply transition-all duration-base;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-xl hover:-translate-y-1;
+  }
+
+  /* Fade In Animation Utilities */
+  .fade-in {
+    @apply opacity-0 translate-y-8;
+  }
+
+  .fade-in.visible {
+    @apply opacity-100 translate-y-0 transition-all duration-slow;
+  }
+}
+
+@layer utilities {
+  /* Text Balance for Headlines */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

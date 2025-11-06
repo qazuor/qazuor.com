@@ -14,6 +14,7 @@ interface BlogPost {
 interface BlogProps {
   posts?: BlogPost[];
   showAll?: boolean;
+  locale?: string;
   translations?: {
     title: string;
     subtitle: string;
@@ -29,6 +30,7 @@ interface BlogProps {
 export function Blog({
   posts = [],
   showAll = false,
+  locale = 'en',
   translations = {
     title: 'Latest Articles',
     subtitle: 'Thoughts, tutorials, and insights about web development',
@@ -43,7 +45,7 @@ export function Blog({
   const blogRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
-  const displayedPosts = showAll ? posts : posts.slice(0, 3);
+  const displayedPosts = showAll ? (posts || []) : (posts || []).slice(0, 3);
 
   useEffect(() => {
     if (!blogRef.current || hasAnimated.current) return;
@@ -95,7 +97,7 @@ export function Blog({
         {/* Blog Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {displayedPosts.map((post, index) => (
-            <BlogCard key={`${post.title}-${index}`} {...post} translations={cardTranslations} />
+            <BlogCard key={`${post.title}-${index}`} {...post} locale={locale} translations={cardTranslations} />
           ))}
         </div>
 

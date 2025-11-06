@@ -47,15 +47,15 @@ export function Projects({
 
   // Extract all unique tags
   const allTags =
-    projects.length > 0
+    projects && projects.length > 0
       ? [translations.filterAll, ...Array.from(new Set(projects.flatMap((p) => p.tags)))]
       : [translations.filterAll];
 
   // Filter projects by selected tag
   const filteredProjects =
     selectedTag === translations.filterAll
-      ? projects
-      : projects.filter((p) => p.tags.includes(selectedTag));
+      ? (projects || [])
+      : (projects || []).filter((p) => p.tags.includes(selectedTag));
 
   useEffect(() => {
     if (!projectsRef.current || hasAnimated.current) return;

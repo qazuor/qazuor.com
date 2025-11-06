@@ -15,8 +15,25 @@ export interface CardProps {
 export function Card({ children, hover = false, className, onClick }: CardProps) {
   const classes = clsx(hover ? 'card-hover' : 'card', onClick && 'cursor-pointer', className);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
+
+  // Build props conditionally
+  const interactiveProps = onClick
+    ? {
+        onClick,
+        onKeyDown: handleKeyDown,
+        role: 'button' as const,
+        tabIndex: 0,
+      }
+    : {};
+
   return (
-    <div className={classes} onClick={onClick}>
+    <div className={classes} {...interactiveProps}>
       {children}
     </div>
   );

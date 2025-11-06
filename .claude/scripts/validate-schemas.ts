@@ -10,8 +10,8 @@
  *   1 - Validation failed
  */
 
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { basename, dirname, join, resolve } from 'node:path';
+import { readdirSync, readFileSync } from 'node:fs';
+import { basename, join, resolve } from 'node:path';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 
@@ -47,8 +47,9 @@ const schemaCache = new Map<string, ReturnType<typeof ajv.compile>>();
  */
 function loadSchema(schemaFile: string) {
   // Return cached schema if exists
-  if (schemaCache.has(schemaFile)) {
-    return schemaCache.get(schemaFile)!;
+  const cached = schemaCache.get(schemaFile);
+  if (cached) {
+    return cached;
   }
   try {
     const schemaPath = join(SCHEMAS_DIR, schemaFile);

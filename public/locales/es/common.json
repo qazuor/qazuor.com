@@ -56,6 +56,13 @@
     "readTime": "min de lectura",
     "viewAll": "Ver todos los artículos",
     "noArticles": "Aún no hay artículos. ¡Vuelve pronto!",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página",
+      "of": "de",
+      "articles": "artículos"
+    },
     "cta": {
       "title": "¿Quieres aprender más?",
       "description": "Suscríbete para recibir notificaciones sobre nuevos artículos",

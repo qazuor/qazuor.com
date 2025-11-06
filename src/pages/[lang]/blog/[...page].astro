@@ -54,7 +54,7 @@ const title = `${t('blog.title')} - qazuor.com`;
       <!-- Page indicator -->
       {page.lastPage > 1 && (
         <p class="mt-4 text-sm text-foreground-secondary">
-          Página {page.currentPage} de {page.lastPage} • {page.total} artículos
+          {t('blog.pagination.page')} {page.currentPage} {t('blog.pagination.of')} {page.lastPage} • {page.total} {t('blog.pagination.articles')}
         </p>
       )}
     </div>
@@ -146,14 +146,14 @@ const title = `${t('blog.title')} - qazuor.com`;
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Anterior
+                {t('blog.pagination.previous')}
               </a>
             ) : (
               <span class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary/50 border border-foreground/10 rounded-lg text-foreground-muted cursor-not-allowed">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Anterior
+                {t('blog.pagination.previous')}
               </span>
             )}
 
@@ -184,14 +184,14 @@ const title = `${t('blog.title')} - qazuor.com`;
                 href={page.url.next}
                 class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary hover:bg-primary hover:text-white border border-foreground/10 hover:border-primary rounded-lg transition-all duration-300 font-medium"
               >
-                Siguiente
+                {t('blog.pagination.next')}
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
                 </svg>
               </a>
             ) : (
               <span class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary/50 border border-foreground/10 rounded-lg text-foreground-muted cursor-not-allowed">
-                Siguiente
+                {t('blog.pagination.next')}
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
                 </svg>

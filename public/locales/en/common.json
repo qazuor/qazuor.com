@@ -56,6 +56,13 @@
     "readTime": "min read",
     "viewAll": "View all articles",
     "noArticles": "No articles yet. Check back soon!",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "articles": "articles"
+    },
     "cta": {
       "title": "Want to learn more?",
       "description": "Subscribe to get notified about new articles",

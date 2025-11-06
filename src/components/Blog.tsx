@@ -45,7 +45,7 @@ export function Blog({
   const blogRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
-  const displayedPosts = showAll ? (posts || []) : (posts || []).slice(0, 3);
+  const displayedPosts = showAll ? posts || [] : (posts || []).slice(0, 3);
 
   useEffect(() => {
     if (!blogRef.current || hasAnimated.current) return;
@@ -97,7 +97,12 @@ export function Blog({
         {/* Blog Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {displayedPosts.map((post, index) => (
-            <BlogCard key={`${post.title}-${index}`} {...post} locale={locale} translations={cardTranslations} />
+            <BlogCard
+              key={`${post.title}-${index}`}
+              {...post}
+              locale={locale}
+              translations={cardTranslations}
+            />
           ))}
         </div>
 
@@ -109,7 +114,13 @@ export function Blog({
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 font-medium shadow-glow-primary"
             >
               {translations.viewAll}
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -129,6 +140,8 @@ export function Blog({
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              role="img"
+              aria-label="No articles"
             >
               <path
                 strokeLinecap="round"

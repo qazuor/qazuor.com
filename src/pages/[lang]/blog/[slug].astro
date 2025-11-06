@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { languages } from '../../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
       .map((post) => ({
         params: { lang, slug: post.slug },
         props: { post },
-      }))
+      })),
   );
 }
 
@@ -39,7 +39,7 @@ const formattedDate = new Date(post.data.publishDate).toLocaleDateString(
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  }
+  },
 );
 
 // Extract read time number

@@ -54,7 +54,7 @@ export function Projects({
   // Filter projects by selected tag
   const filteredProjects =
     selectedTag === translations.filterAll
-      ? (projects || [])
+      ? projects || []
       : (projects || []).filter((p) => p.tags.includes(selectedTag));
 
   useEffect(() => {
@@ -132,6 +132,7 @@ export function Projects({
           {allTags.map((tag) => (
             <button
               key={tag}
+              type="button"
               onClick={() => setSelectedTag(tag)}
               className={`filter-button px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 selectedTag === tag

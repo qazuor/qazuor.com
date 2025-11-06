@@ -1,5 +1,5 @@
 ---
-import { BlogCard } from '../../../components/BlogCard';
+import { getCollection } from 'astro:content';
 import { languages } from '../../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -15,36 +15,21 @@ const t = getTranslations(lang);
 
 const title = `${t('blog.title')} - qazuor.com`;
 
-// Example blog posts data
-const posts = [
-  {
-    title: 'Getting Started with Astro and GSAP',
-    excerpt:
-      'Learn how to create stunning animations in your Astro projects using GSAP. This comprehensive guide covers everything from installation to advanced techniques.',
-    date: '2024-11-01',
-    readTime: '5 min read',
-    tags: ['astro', 'gsap', 'animations', 'tutorial'],
-    slug: 'getting-started-with-astro-and-gsap',
-  },
-  {
-    title: 'Building a Multilingual Website with Astro i18next',
-    excerpt:
-      'Discover how to implement internationalization in your Astro projects. This guide walks you through setting up multiple languages and managing translations.',
-    date: '2024-10-28',
-    readTime: '8 min read',
-    tags: ['astro', 'i18n', 'multilingual', 'guide'],
-    slug: 'multilingual-website-astro-i18next',
-  },
-  {
-    title: 'Dark Mode Implementation with Tailwind CSS',
-    excerpt:
-      'Step-by-step tutorial on implementing dark mode in your web applications using Tailwind CSS. Learn about best practices and smooth transitions.',
-    date: '2024-10-15',
-    readTime: '6 min read',
-    tags: ['tailwind', 'dark-mode', 'css', 'tutorial'],
-    slug: 'dark-mode-tailwind-css',
-  },
-];
+// Load blog posts from Content Collections
+const allBlogPosts = await getCollection('blog');
+
+// Sort blog posts by date (newest first) and filter out drafts
+const posts = allBlogPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .map((post) => ({
+    title: post.data.title,
+    excerpt: post.data.excerpt,
+    date: post.data.publishDate.toISOString().split('T')[0],
+    readTime: post.data.readTime,
+    tags: post.data.tags,
+    slug: `/${lang}/blog/${post.slug}`,
+  }));
 ---
 
 <BaseLayout title={title}>
@@ -62,12 +47,76 @@ const posts = [
     <!-- Blog Posts Grid -->
     {posts.length > 0 ? (
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post, index) => (
-          <BlogCard
-            client:load
-            {...post}
-            delay={index * 0.1}
-          />
+        {posts.map((post) => (
+          <article class="blog-card card-hover group p-6">
+            {/* Header */}
+            <div class="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
+              <time datetime={post.date} class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </time>
+              <span>•</span>
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                {post.readTime.match(/\d+/)?.[0]} {t('blog.readTime')}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 class="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+              <a href={post.slug} class="hover:underline">
+                {post.title}
+              </a>
+            </h3>
+
+            {/* Excerpt */}
+            <p class="text-foreground-secondary text-sm mb-4 line-clamp-3">{post.excerpt}</p>
+
+            {/* Tags */}
+            <div class="flex flex-wrap gap-2 mb-4">
+              {post.tags.map((tag) => (
+                <span
+                  class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Read more link */}
+            <a
+              href={post.slug}
+              class="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
+            >
+              {t('blog.readMore')}
+              <svg
+                class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </article>
         ))}
       </div>
     ) : (

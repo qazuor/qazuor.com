@@ -54,7 +54,7 @@ const sortedBlogPosts = allBlogPosts
     date: post.data.publishDate.toISOString().split('T')[0],
     readTime: post.data.readTime,
     tags: post.data.tags,
-    slug: `/blog/${post.slug}`,
+    slug: `/${lang}/blog/${post.slug}`,
   }));
 
 // Translations for components
@@ -167,10 +167,135 @@ const contactTranslations = {
   <Skills client:load translations={skillsTranslations} />
 
   <!-- Projects Section -->
-  <Projects client:only="react" projects={sortedProjects} translations={projectsTranslations} cardTranslations={projectCardTranslations} />
+  <Projects client:idle projects={sortedProjects} translations={projectsTranslations} cardTranslations={projectCardTranslations} />
 
-  <!-- Blog Section -->
-  <Blog client:only="react" posts={sortedBlogPosts} translations={blogTranslations} cardTranslations={blogCardTranslations} />
+  <!-- Blog Section - Static Rendering -->
+  <section class="section bg-background-secondary">
+    <div class="container-custom">
+      {/* Section Title */}
+      <div class="section-title mb-12 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          <span class="gradient-text">{blogTranslations.title}</span>
+        </h2>
+        <p class="text-foreground-secondary text-lg">{blogTranslations.subtitle}</p>
+      </div>
+
+      {/* Blog Grid */}
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {sortedBlogPosts.slice(0, 3).map((post) => (
+          <article class="blog-card card-hover group p-6">
+            {/* Header */}
+            <div class="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
+              <time datetime={post.date} class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </time>
+              <span>•</span>
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                {post.readTime.match(/\d+/)?.[0]} {t('blog.readTime')}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 class="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+              <a href={post.slug} class="hover:underline">
+                {post.title}
+              </a>
+            </h3>
+
+            {/* Excerpt */}
+            <p class="text-foreground-secondary text-sm mb-4 line-clamp-3">{post.excerpt}</p>
+
+            {/* Tags */}
+            <div class="flex flex-wrap gap-2 mb-4">
+              {post.tags.map((tag) => (
+                <span
+                  class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Read more link */}
+            <a
+              href={post.slug}
+              class="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
+            >
+              {blogCardTranslations.readMore}
+              <svg
+                class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </article>
+        ))}
+      </div>
+
+      {/* View All Button */}
+      {sortedBlogPosts.length > 3 && (
+        <div class="text-center">
+          <a
+            href={`/${lang}/blog`}
+            class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 font-medium shadow-glow-primary"
+          >
+            {blogTranslations.viewAll}
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {sortedBlogPosts.length === 0 && (
+        <div class="text-center py-12">
+          <svg
+            class="w-16 h-16 mx-auto mb-4 text-foreground-muted"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width={2}
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+          <p class="text-foreground-secondary text-lg">{blogTranslations.noArticles}</p>
+        </div>
+      )}
+    </div>
+  </section>
 
   <!-- Contact Section -->
   <Contact client:load translations={contactTranslations} />

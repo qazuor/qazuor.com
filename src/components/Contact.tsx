@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
 import { useContactForm } from '../hooks/useContactForm';
-import { gsap } from '../lib/gsap';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useStaggerAnimation } from '../hooks/useStaggerAnimation';
 import { FormField } from './FormField';
 import { StatusMessage } from './StatusMessage';
 import { SubmitButton } from './SubmitButton';
@@ -66,64 +66,35 @@ export function Contact({
     error: 'Something went wrong. Please try again.',
   },
 }: ContactProps) {
-  const contactRef = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
-
   const { formData, errors, isSubmitting, submitStatus, handleChange, handleSubmit } =
     useContactForm({
       errorMessages: translations.errors,
     });
 
-  useEffect(() => {
-    if (!contactRef.current || hasAnimated.current) return;
-    hasAnimated.current = true;
-
-    // Animate section title
-    const title = contactRef.current.querySelector('.section-title');
-    if (title) {
-      gsap.from(title, {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: title,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-      });
-    }
-
-    // Animate form fields
-    const formFields = contactRef.current.querySelectorAll('.form-field');
-    gsap.from(formFields, {
-      opacity: 0,
-      y: 20,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: formFields[0],
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-      },
-    });
-  }, []);
+  // Animations
+  const titleRef = useScrollAnimation('.section-title', { y: 30, duration: 0.8 });
+  const formRef = useStaggerAnimation<HTMLFormElement>('.form-field', {
+    y: 20,
+    duration: 0.6,
+    stagger: 0.1,
+  });
 
   return (
     <section className="section">
-      <div className="container-custom" ref={contactRef}>
+      <div className="container-custom">
         <div className="max-w-4xl mx-auto">
           {/* Section Title */}
-          <div className="section-title mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="gradient-text">{translations.title}</span>
-            </h2>
-            <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
+          <div ref={titleRef} className="mb-12">
+            <div className="section-title text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <span className="gradient-text">{translations.title}</span>
+              </h2>
+              <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
+            </div>
           </div>
 
           {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
             <FormField
               label={translations.form.name}
               name="name"

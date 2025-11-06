@@ -1,4 +1,5 @@
 ---
+import { skillsData } from '../data';
 import AstroIcon from '../icons/tech/astro.svg?raw';
 import DockerIcon from '../icons/tech/docker.svg?raw';
 import FigmaIcon from '../icons/tech/figma.svg?raw';
@@ -8,15 +9,13 @@ import ReactIcon from '../icons/tech/react.svg?raw';
 import TailwindIcon from '../icons/tech/tailwind.svg?raw';
 import TypeScriptIcon from '../icons/tech/typescript.svg?raw';
 
-interface Skill {
-  name: string;
-  icon: string;
-  color: string;
-}
-
 interface SkillCategory {
   title: string;
-  skills: Skill[];
+  skills: Array<{
+    name: string;
+    icon: string;
+    color: string;
+  }>;
 }
 
 interface Props {
@@ -43,32 +42,13 @@ const {
   },
 } = Astro.props;
 
-const categories: SkillCategory[] = [
-  {
-    title: translations.categoryTitles?.frontend || 'Frontend',
-    skills: [
-      { name: 'React', icon: 'react', color: '#61DAFB' },
-      { name: 'TypeScript', icon: 'typescript', color: '#3178C6' },
-      { name: 'Astro', icon: 'astro', color: '#FF5D01' },
-      { name: 'Tailwind CSS', icon: 'tailwind', color: '#06B6D4' },
-    ],
-  },
-  {
-    title: translations.categoryTitles?.backend || 'Backend',
-    skills: [
-      { name: 'Node.js', icon: 'nodejs', color: '#339933' },
-      { name: 'TypeScript', icon: 'typescript', color: '#3178C6' },
-    ],
-  },
-  {
-    title: translations.categoryTitles?.tools || 'Tools & Others',
-    skills: [
-      { name: 'Git', icon: 'git', color: '#F05032' },
-      { name: 'Figma', icon: 'figma', color: '#F24E1E' },
-      { name: 'Docker', icon: 'docker', color: '#2496ED' },
-    ],
-  },
-];
+// Map data with translated titles
+const categories: SkillCategory[] = skillsData.map((category) => ({
+  title:
+    translations.categoryTitles?.[category.id as keyof typeof translations.categoryTitles] ||
+    category.id,
+  skills: category.skills,
+}));
 
 const icons: Record<string, string> = {
   react: ReactIcon,

@@ -6,6 +6,7 @@ import { Contact } from '../../components/Contact';
 import HeroSection from '../../components/HeroSection.astro';
 import ProjectsSection from '../../components/ProjectsSection.astro';
 import SkillsSection from '../../components/SkillsSection.astro';
+import { profile } from '../../data';
 import { languages } from '../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -155,7 +156,7 @@ const contactTranslations = {
 <BaseLayout title={title} description={description} type="profile" keywords={seoKeywords}>
   <!-- Hero Section -->
   <HeroSection
-    name="qazuor"
+    name={profile.name}
     roles={[
       t('home.roles.fullstack'),
       t('home.roles.react'),
@@ -169,11 +170,11 @@ const contactTranslations = {
 
   <!-- About Section -->
   <AboutSection
-    name="qazuor"
+    name={profile.name}
     role={t('home.roles.fullstack')}
-    location="Remote"
-    experience="5+ years"
-    email="hello@qazuor.com"
+    location={profile.location}
+    experience={profile.experience}
+    email={profile.email}
     availability={t('about.availability')}
     bio={t('about.bio')}
     translations={aboutTranslations}

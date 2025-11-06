@@ -142,7 +142,8 @@ const {
   </div>
 </section>
 
-<script define:vars={{ roles }}>
+<script define:vars={{ roles }} is:inline>
+  // @ts-nocheck - Script uses define:vars which injects roles
   import TypeIt from 'typeit';
 
   const typeItElement = document.getElementById('typeit');

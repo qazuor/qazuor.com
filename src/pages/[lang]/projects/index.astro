@@ -80,11 +80,10 @@ const projects = [
 
     <!-- Projects Grid with staggered animations -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-      {projects.map((project, index) => (
+      {projects.map((project) => (
         <ProjectCard
           client:load
           {...project}
-          delay={index * 0.15}
         />
       ))}
     </div>

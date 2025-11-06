@@ -154,7 +154,8 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
   </div>
 </section>
 
-<script define:vars={{ filterAll: translations.filterAll }}>
+<script define:vars={{ filterAll: translations.filterAll }} is:inline>
+  // @ts-nocheck - Script uses define:vars which injects filterAll
   // Filter functionality
   const filterButtons = document.querySelectorAll('.filter-button');
   const projectCards = document.querySelectorAll('.project-card');
@@ -176,7 +177,6 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
       let visibleCount = 0;
       projectCards.forEach((card) => {
         const tags = JSON.parse(card.getAttribute('data-tags') || '[]');
-
         if (filter === filterAll || tags.includes(filter)) {
           card.classList.remove('hidden');
           visibleCount++;

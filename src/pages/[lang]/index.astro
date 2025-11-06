@@ -99,10 +99,7 @@ const blogTranslations = {
   viewAll: t('blog.viewAll'),
   noArticles: t('blog.noArticles'),
   readMore: t('blog.readMore'),
-};
-
-const blogCardTranslations = {
-  readMore: t('blog.readMore'),
+  readTime: t('blog.readTime'),
 };
 
 const contactTranslations = {
@@ -170,10 +167,7 @@ const contactTranslations = {
   <!-- Blog Section -->
   <BlogSection
     posts={sortedBlogPosts}
-    translations={{
-      ...blogTranslations,
-      readMore: blogCardTranslations.readMore,
-    }}
+    translations={blogTranslations}
     lang={lang}
   />
 

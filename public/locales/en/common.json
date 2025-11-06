@@ -168,5 +168,21 @@
     "close": "Close",
     "viewAll": "View all",
     "learnMore": "Learn more"
+  },
+  "aria": {
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn",
+    "toggleTheme": "Toggle theme",
+    "scrollToTop": "Scroll to top",
+    "toggleMenu": "Toggle menu",
+    "closeCommandPalette": "Close command palette",
+    "noArticles": "No articles",
+    "commandPalettePlaceholder": "Type a command or search..."
+  },
+  "social": {
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn"
   }
 }

@@ -3,9 +3,15 @@ import { useEffect, useState } from 'react';
 
 interface CommandPaletteProps {
   lang: string;
+  ariaLabel?: string;
+  placeholder?: string;
 }
 
-export function CommandPalette({ lang }: CommandPaletteProps) {
+export function CommandPalette({
+  lang,
+  ariaLabel = 'Close command palette',
+  placeholder = 'Type a command or search...',
+}: CommandPaletteProps) {
   const [open, setOpen] = useState(false);
 
   // Toggle with Ctrl+K or Cmd+K
@@ -40,7 +46,7 @@ export function CommandPalette({ lang }: CommandPaletteProps) {
         type="button"
         className="fixed inset-0 bg-background/80 backdrop-blur-sm"
         onClick={() => setOpen(false)}
-        aria-label="Close command palette"
+        aria-label={ariaLabel}
       />
 
       {/* Command Palette */}
@@ -62,7 +68,7 @@ export function CommandPalette({ lang }: CommandPaletteProps) {
               />
             </svg>
             <Command.Input
-              placeholder="Type a command or search..."
+              placeholder={placeholder}
               className="flex-1 px-4 py-4 bg-transparent border-0 outline-none text-foreground placeholder:text-foreground-muted"
             />
             <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-foreground-muted bg-foreground/5 rounded">

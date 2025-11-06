@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 
+interface ThemeToggleProps {
+  ariaLabel?: string;
+}
+
 /**
  * Theme toggle component
  * Persists theme preference to localStorage and applies to document
  */
-export function ThemeToggle() {
+export function ThemeToggle({ ariaLabel = 'Toggle theme' }: ThemeToggleProps) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
 
@@ -32,7 +36,7 @@ export function ThemeToggle() {
       <button
         type="button"
         className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700"
-        aria-label="Toggle theme"
+        aria-label={ariaLabel}
       >
         <div className="w-5 h-5" />
       </button>
@@ -44,7 +48,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      aria-label={ariaLabel}
     >
       {theme === 'light' ? (
         <svg

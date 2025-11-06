@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
-export function ScrollToTop() {
+interface ScrollToTopProps {
+  ariaLabel?: string;
+}
+
+export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -34,7 +38,7 @@ export function ScrollToTop() {
           type="button"
           onClick={scrollToTop}
           className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-white rounded-full shadow-glow-primary hover:bg-primary-600 transition-all duration-300 hover:scale-110 active:scale-95"
-          aria-label="Scroll to top"
+          aria-label={ariaLabel}
         >
           <svg
             className="w-6 h-6"

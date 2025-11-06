@@ -1,4 +1,10 @@
 ---
+import ArrowLongRightIcon from '../icons/ui/arrow-long-right.svg?raw';
+import ArrowRightIcon from '../icons/ui/arrow-right.svg?raw';
+import CalendarIcon from '../icons/ui/calendar.svg?raw';
+import ClockIcon from '../icons/ui/clock.svg?raw';
+import DocumentEmptyIcon from '../icons/ui/document-empty.svg?raw';
+
 interface BlogPost {
   title: string;
   excerpt: string;
@@ -43,14 +49,7 @@ const displayedPosts = posts.slice(0, 3);
             <!-- Header -->
             <div class="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
               <time datetime={post.date} class="flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
+                <div class="w-4 h-4" set:html={CalendarIcon} />
                 {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
                   year: 'numeric',
                   month: 'short',
@@ -59,14 +58,7 @@ const displayedPosts = posts.slice(0, 3);
               </time>
               <span>•</span>
               <span class="flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <div class="w-4 h-4" set:html={ClockIcon} />
                 {post.readTime.match(/\d+/)?.[0]} {translations.readTime}
               </span>
             </div>
@@ -96,14 +88,10 @@ const displayedPosts = posts.slice(0, 3);
               class="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
             >
               {translations.readMore}
-              <svg
+              <div
                 class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
-              </svg>
+                set:html={ArrowRightIcon}
+              />
             </a>
           </article>
         ))
@@ -119,14 +107,7 @@ const displayedPosts = posts.slice(0, 3);
             class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 font-medium shadow-glow-primary"
           >
             {translations.viewAll}
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+            <div class="w-5 h-5" set:html={ArrowLongRightIcon} />
           </a>
         </div>
       )
@@ -136,19 +117,10 @@ const displayedPosts = posts.slice(0, 3);
     {
       posts.length === 0 && (
         <div class="text-center py-12">
-          <svg
+          <div
             class="w-16 h-16 mx-auto mb-4 text-foreground-muted"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width={2}
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
+            set:html={DocumentEmptyIcon}
+          />
           <p class="text-foreground-secondary text-lg">{translations.noArticles}</p>
         </div>
       )

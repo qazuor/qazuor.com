@@ -13,6 +13,11 @@ interface Props {
     getInTouch: string;
     scroll: string;
   };
+  ariaLabels?: {
+    github: string;
+    twitter: string;
+    linkedin: string;
+  };
 }
 
 const {
@@ -23,6 +28,11 @@ const {
     viewProjects: 'View Projects',
     getInTouch: 'Get in Touch',
     scroll: 'Scroll',
+  },
+  ariaLabels = {
+    github: 'GitHub',
+    twitter: 'Twitter',
+    linkedin: 'LinkedIn',
   },
 } = Astro.props;
 ---
@@ -88,7 +98,7 @@ const {
             target="_blank"
             rel="noopener noreferrer"
             class="text-foreground-secondary hover:text-primary transition-colors duration-base"
-            aria-label="GitHub"
+            aria-label={ariaLabels.github}
           >
             <div class="w-6 h-6" set:html={GithubIcon} />
           </a>
@@ -97,7 +107,7 @@ const {
             target="_blank"
             rel="noopener noreferrer"
             class="text-foreground-secondary hover:text-primary transition-colors duration-base"
-            aria-label="Twitter"
+            aria-label={ariaLabels.twitter}
           >
             <div class="w-6 h-6" set:html={TwitterIcon} />
           </a>
@@ -106,7 +116,7 @@ const {
             target="_blank"
             rel="noopener noreferrer"
             class="text-foreground-secondary hover:text-primary transition-colors duration-base"
-            aria-label="LinkedIn"
+            aria-label={ariaLabels.linkedin}
           >
             <div class="w-6 h-6" set:html={LinkedinIcon} />
           </a>

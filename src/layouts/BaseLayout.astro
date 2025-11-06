@@ -64,10 +64,15 @@ const alternateLinks = locales.map((locale) => {
     <SmoothScroll client:only="react" />
 
     <!-- Command Palette (Ctrl+K) -->
-    <CommandPalette client:only="react" lang={lang} />
+    <CommandPalette
+      client:only="react"
+      lang={lang}
+      ariaLabel={t('aria.closeCommandPalette')}
+      placeholder={t('aria.commandPalettePlaceholder')}
+    />
 
     <!-- Scroll to Top Button -->
-    <ScrollToTop client:load />
+    <ScrollToTop client:load ariaLabel={t('aria.scrollToTop')} />
 
     <Navigation />
 

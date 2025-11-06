@@ -55,14 +55,14 @@ const isActive = (href: string) => {
       <!-- Actions -->
       <div class="hidden md:flex items-center gap-2">
         <LanguageSelector currentLocale={lang} client:load />
-        <ThemeToggle client:load />
+        <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:load />
       </div>
 
       <!-- Mobile menu button -->
       <button
         id="mobile-menu-button"
         class="md:hidden p-2 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
-        aria-label="Toggle menu"
+        aria-label={t('aria.toggleMenu')}
       >
         <svg id="menu-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

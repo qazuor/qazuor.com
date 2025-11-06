@@ -5,10 +5,11 @@
  * Comprehensive SEO optimization including:
  * - Open Graph tags
  * - Twitter Cards
- * - JSON-LD structured data
+ * - JSON-LD structured data (Article, Person, WebSite)
+ * - Breadcrumbs JSON-LD for navigation context
  * - Canonical URLs
  * - Meta keywords
- * - LLM optimization
+ * - LLM optimization (ai:* meta tags)
  */
 
 export interface SEOProps {
@@ -26,6 +27,7 @@ export interface SEOProps {
   articleTags?: string[];
   noindex?: boolean;
   nofollow?: boolean;
+  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
@@ -43,6 +45,7 @@ const {
   articleTags = [],
   noindex = false,
   nofollow = false,
+  breadcrumbs,
 } = Astro.props;
 
 // Get the full URL for the current page
@@ -94,6 +97,21 @@ const jsonLd = {
     ],
   }),
 };
+
+// Breadcrumbs JSON-LD (optional, great for SEO and AI understanding)
+const breadcrumbsJsonLd =
+  breadcrumbs && breadcrumbs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((crumb, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: crumb.name,
+          item: new URL(crumb.url, Astro.site).href,
+        })),
+      }
+    : null;
 ---
 
 <!-- Primary Meta Tags -->
@@ -147,3 +165,8 @@ const jsonLd = {
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+
+<!-- Breadcrumbs JSON-LD (if provided) -->
+{breadcrumbsJsonLd && (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbsJsonLd)} />
+)}

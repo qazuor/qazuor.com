@@ -1,12 +1,34 @@
 import sendIcon from '../icons/ui/send.svg?raw';
 import spinnerIcon from '../icons/ui/spinner.svg?raw';
 
+/**
+ * Props for the SubmitButton component
+ */
 interface SubmitButtonProps {
+  /** Whether the form is currently submitting */
   isLoading: boolean;
+  /** Text to display while loading */
   loadingText: string;
+  /** Normal button text */
   text: string;
 }
 
+/**
+ * Form submit button with loading state
+ *
+ * Displays a spinner icon and loading text when submitting, otherwise
+ * shows a send icon with the normal button text. The button is automatically
+ * disabled during loading.
+ *
+ * @example
+ * ```tsx
+ * <SubmitButton
+ *   isLoading={isSubmitting}
+ *   text="Send Message"
+ *   loadingText="Sending..."
+ * />
+ * ```
+ */
 export function SubmitButton({ isLoading, loadingText, text }: SubmitButtonProps) {
   return (
     <div className="form-field">

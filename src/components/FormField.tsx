@@ -1,15 +1,45 @@
+/**
+ * Props for the FormField component
+ */
 interface FormFieldProps {
+  /** Label text displayed above the input */
   label: string;
+  /** Input name attribute for form handling */
   name: string;
+  /** Type of input field (default: 'text') */
   type?: 'text' | 'email' | 'textarea';
+  /** Current value of the input */
   value: string;
+  /** Change handler for input events */
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  /** Error message to display below the input */
   error?: string;
+  /** Placeholder text for the input */
   placeholder?: string;
+  /** Number of rows for textarea (default: 6) */
   rows?: number;
+  /** Whether the field is required (default: false) */
   required?: boolean;
 }
 
+/**
+ * Reusable form field component with validation support
+ *
+ * Supports text input, email input, and textarea with consistent styling
+ * and error handling.
+ *
+ * @example
+ * ```tsx
+ * <FormField
+ *   label="Name"
+ *   name="name"
+ *   value={formData.name}
+ *   onChange={handleChange}
+ *   error={errors.name}
+ *   required
+ * />
+ * ```
+ */
 export function FormField({
   label,
   name,

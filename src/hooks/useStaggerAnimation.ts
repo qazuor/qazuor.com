@@ -1,15 +1,27 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from '../lib/gsap';
 
+/**
+ * Configuration options for staggered scroll-triggered animations
+ */
 interface StaggerAnimationOptions {
+  /** Vertical translation distance in pixels (default: 0) */
   y?: number;
+  /** Horizontal translation distance in pixels (default: 0) */
   x?: number;
+  /** Initial opacity value (default: 0) */
   opacity?: number;
+  /** Animation duration in seconds (default: 0.6) */
   duration?: number;
+  /** Delay between each element's animation in seconds (default: 0.1) */
   stagger?: number;
+  /** GSAP easing function (default: 'power2.out') */
   ease?: string;
+  /** Delay before animation starts in seconds (default: 0) */
   delay?: number;
+  /** ScrollTrigger start position (default: 'top 80%') */
   start?: string;
+  /** ScrollTrigger toggle actions (default: 'play none none none') */
   toggleActions?: string;
 }
 

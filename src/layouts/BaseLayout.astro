@@ -78,9 +78,11 @@ const alternateLinks = locales.map((locale) => {
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Alternate language links -->
-    {alternateLinks.map(({ locale, path }) => (
-      <link rel="alternate" hreflang={locale} href={`${Astro.site || ''}${path}`} />
-    ))}
+    {
+      alternateLinks.map(({ locale, path }) => (
+        <link rel="alternate" hreflang={locale} href={`${Astro.site || ''}${path}`} />
+      ))
+    }
 
     <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
     <script is:inline>
@@ -141,6 +143,150 @@ const alternateLinks = locales.map((locale) => {
         </div>
       </div>
     </footer>
+
+    <!-- Mermaid Diagram Renderer -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      // Initialize Mermaid with a single theme that works in both modes
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'dark',
+        themeVariables: {
+          primaryColor: '#8b5cf6',
+          primaryTextColor: '#f3f4f6',
+          primaryBorderColor: '#8b5cf6',
+          lineColor: '#22d3ee',
+          secondaryColor: '#1e293b',
+          tertiaryColor: '#334155',
+          background: '#1e293b',
+          mainBkg: '#1e293b',
+          secondaryBkg: '#334155',
+          textColor: '#f3f4f6',
+          fontSize: '16px',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          // Edge label styling
+          edgeLabelBackground: '#1e293b',
+          labelBackground: '#1e293b',
+          labelColor: '#f3f4f6',
+        },
+        flowchart: {
+          curve: 'basis',
+          lineWidth: 3,
+          padding: 20,
+          diagramPadding: 8,
+          htmlLabels: true,
+          rankSpacing: 50,
+          nodeSpacing: 50,
+        },
+        securityLevel: 'loose',
+      });
+
+      // Process and render mermaid diagrams
+      document.addEventListener('DOMContentLoaded', () => {
+        // First, preserve expressive-code CSS/JS if present
+        const firstExpressiveCode = document.querySelector('.expressive-code');
+        let expressiveCodeAssets = null;
+
+        if (firstExpressiveCode) {
+          // Extract link and script tags from the first expressive-code block
+          const linkTag = firstExpressiveCode.querySelector('link[rel="stylesheet"]');
+          const scriptTag = firstExpressiveCode.querySelector('script[type="module"]');
+
+          if (linkTag || scriptTag) {
+            expressiveCodeAssets = {
+              link: linkTag?.cloneNode(true),
+              script: scriptTag?.cloneNode(true),
+            };
+          }
+        }
+
+        const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+
+        mermaidBlocks.forEach((pre, index) => {
+          // Get the parent expressive-code container
+          const expressiveContainer = pre.closest('.expressive-code');
+
+          const copyButton = expressiveContainer?.querySelector('.copy button[data-code]');
+          let code = copyButton?.getAttribute('data-code') || '';
+
+          if (!code) {
+            console.error('Mermaid: Could not find code for diagram');
+            return;
+          }
+
+          // Fix: expressive-code replaces newlines with 4 spaces
+          code = code.replace(/    /g, '\n').replace(/\u007f/g, '\n');
+
+          // Force vertical orientation (Top-Down) for all diagrams
+          // Replace horizontal orientations (LR, RL) with TD (Top-Down)
+          code = code.replace(/graph\s+(LR|RL)/gi, 'graph TD');
+          code = code.replace(/flowchart\s+(LR|RL)/gi, 'flowchart TD');
+
+          // Create mermaid container with same structure as expressive-code
+          const container = document.createElement('div');
+          container.className = 'expressive-code mermaid-diagram';
+
+          // If this is the first mermaid block and we have assets, preserve them
+          if (index === 0 && expressiveCodeAssets) {
+            if (expressiveCodeAssets.link) {
+              container.appendChild(expressiveCodeAssets.link);
+            }
+            if (expressiveCodeAssets.script) {
+              container.appendChild(expressiveCodeAssets.script);
+            }
+          }
+
+          const figure = document.createElement('figure');
+          figure.className = 'frame';
+
+          const mermaidDiv = document.createElement('div');
+          mermaidDiv.className = 'mermaid';
+          mermaidDiv.textContent = code;
+
+          figure.appendChild(mermaidDiv);
+          container.appendChild(figure);
+
+          // Replace the expressive-code container
+          if (expressiveContainer) {
+            expressiveContainer.replaceWith(container);
+          } else {
+            pre.replaceWith(container);
+          }
+        });
+
+        // Render all diagrams
+        mermaid.run().then(() => {
+          // After rendering, add padding to edge labels
+          document.querySelectorAll('.mermaid svg g.edgeLabel').forEach((label) => {
+            const rect = label.querySelector('rect');
+            const text = label.querySelector('text');
+
+            if (rect && text) {
+              // Get current dimensions
+              const currentWidth = parseFloat(rect.getAttribute('width') || 0);
+              const currentHeight = parseFloat(rect.getAttribute('height') || 0);
+              const currentX = parseFloat(rect.getAttribute('x') || 0);
+              const currentY = parseFloat(rect.getAttribute('y') || 0);
+
+              // Add padding (8px on each side = 16px total)
+              const padding = 8;
+              rect.setAttribute('width', currentWidth + padding * 2);
+              rect.setAttribute('height', currentHeight + padding * 2);
+              rect.setAttribute('x', currentX - padding);
+              rect.setAttribute('y', currentY - padding);
+
+              // Add rounded corners and styling
+              rect.setAttribute('rx', '4');
+              rect.setAttribute('ry', '4');
+              rect.setAttribute('fill', '#1e293b');
+              rect.setAttribute('stroke', '#8b5cf6');
+              rect.setAttribute('stroke-width', '1');
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
 

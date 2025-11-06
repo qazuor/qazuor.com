@@ -1,12 +1,11 @@
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import min from 'astro-min';
-import rehypeMermaid from 'rehype-mermaid';
+import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -48,7 +47,7 @@ export default defineConfig({
     min({
       minify_css: true,
       minify_js: true,
-      minify_html: true,
+      minify_html: false, // Disabled to preserve code blocks (Mermaid diagrams)
       keep_comments: false,
     }),
 
@@ -70,31 +69,5 @@ export default defineConfig({
   },
   markdown: {
     syntaxHighlight: false, // Disabled in favor of expressive-code
-    rehypePlugins: [
-      [
-        rehypeMermaid,
-        {
-          strategy: 'inline-svg', // Embed SVG directly in HTML for styling
-          dark: true, // Use dark theme to match site
-          mermaidConfig: {
-            theme: 'dark',
-            themeVariables: {
-              primaryColor: 'oklch(0.55 0.22 270)', // Match site primary
-              primaryTextColor: 'oklch(0.95 0 0)',
-              primaryBorderColor: 'oklch(0.55 0.22 270)',
-              lineColor: 'oklch(0.7 0.18 180)', // Match site secondary
-              secondaryColor: 'oklch(0.18 0.02 270)', // Match bg-secondary-dark
-              tertiaryColor: 'oklch(0.22 0.02 270)',
-              background: 'oklch(0.12 0.02 270)', // Match bg-primary-dark
-              mainBkg: 'oklch(0.18 0.02 270)',
-              secondaryBkg: 'oklch(0.22 0.02 270)',
-              textColor: 'oklch(0.95 0 0)',
-              fontSize: '16px',
-              fontFamily: 'Inter, system-ui, sans-serif',
-            },
-          },
-        },
-      ],
-    ],
   },
 });

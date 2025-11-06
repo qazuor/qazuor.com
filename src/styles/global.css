@@ -1,14 +1,14 @@
 /* Import Fonts from Fontsource (self-hosted) */
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/inter/700.css';
-@import '@fontsource/inter/800.css';
-@import '@fontsource/inter/900.css';
-@import '@fontsource/jetbrains-mono/400.css';
-@import '@fontsource/jetbrains-mono/500.css';
-@import '@fontsource/jetbrains-mono/600.css';
-@import '@fontsource/jetbrains-mono/700.css';
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/inter/900.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+@import "@fontsource/jetbrains-mono/700.css";
 
 @tailwind base;
 @tailwind components;
@@ -280,4 +280,76 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+/* Mermaid Diagram Styles - Match expressive-code appearance */
+.mermaid-diagram {
+  /* Match expressive-code container */
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #282a36;
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+  padding: 2rem;
+}
+
+.mermaid-diagram .frame {
+  /* Center the diagram inside the frame */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: transparent;
+  width: 100%;
+}
+
+.mermaid-diagram .mermaid {
+  /* Remove default mermaid margins and center */
+  margin: 0 auto;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.mermaid-diagram .mermaid svg {
+  /* Center the SVG itself */
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Increase line thickness for better visibility */
+.mermaid svg .edge-thickness-normal {
+  stroke-width: 3px;
+}
+
+.mermaid svg .edge-pattern-solid {
+  stroke-width: 3px;
+}
+
+.mermaid svg path.path {
+  stroke-width: 3px;
+}
+
+.mermaid svg line {
+  stroke-width: 3px;
+}
+
+/* Improve text readability */
+.mermaid svg .nodeLabel,
+.mermaid svg .edgeLabel {
+  font-weight: 500;
+}
+
+.expressive-code.mermaid-diagram figure.frame {
+  box-shadow: none;
+}
+
+.expressive-code.mermaid-diagram {
+  box-shadow: var(--ec-frm-frameBoxShdCssVal);
 }

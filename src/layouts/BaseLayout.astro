@@ -77,10 +77,6 @@ const alternateLinks = locales.map((locale) => {
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Preload fonts for better performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!-- Alternate language links -->
     {alternateLinks.map(({ locale, path }) => (
       <link rel="alternate" hreflang={locale} href={`${Astro.site || ''}${path}`} />

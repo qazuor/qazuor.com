@@ -21,6 +21,9 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
     "@studio-freight/lenis": "^1.0.42",
     "astro": "^5.15.3",
     "clsx": "^2.1.1",
@@ -31,6 +34,7 @@
     "lucide-react": "^0.552.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "rehype-mermaid": "^3.0.0",
     "tailwind-merge": "^3.3.1",
     "typeit": "^8.8.7"
   },
@@ -57,6 +61,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "markdownlint-cli2": "^0.18.1",
+    "playwright": "^1.56.1",
     "prettier": "^3.6.2",
     "tailwindcss": "^3.4.18",
     "tailwindcss-animate": "^1.0.7",

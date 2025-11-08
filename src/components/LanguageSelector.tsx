@@ -33,14 +33,14 @@ export function LanguageSelector({ currentLocale }: LanguageSelectorProps) {
 
   if (!mounted) {
     return (
-      <div className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">
+      <div className="p-2 rounded-lg bg-muted">
         <div className="w-12 h-5" />
       </div>
     );
   }
 
   return (
-    <div className="flex gap-1 p-1 rounded-lg bg-gray-200 dark:bg-gray-700">
+    <div className="flex gap-1 p-1 rounded-lg bg-muted">
       {languages.map((lang) => (
         <button
           key={lang.code}
@@ -48,8 +48,8 @@ export function LanguageSelector({ currentLocale }: LanguageSelectorProps) {
           onClick={() => changeLanguage(lang.code)}
           className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
             currentLocale === lang.code
-              ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              ? 'bg-card text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
           }`}
           aria-label={`Switch to ${lang.label}`}
         >

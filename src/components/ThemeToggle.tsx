@@ -35,11 +35,7 @@ export function ThemeToggle({ ariaLabel = 'Toggle theme' }: ThemeToggleProps) {
   // Prevent flash of unstyled content
   if (!mounted) {
     return (
-      <button
-        type="button"
-        className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700"
-        aria-label={ariaLabel}
-      >
+      <button type="button" className="p-2 rounded-lg bg-muted" aria-label={ariaLabel}>
         <div className="w-5 h-5" />
       </button>
     );
@@ -49,7 +45,7 @@ export function ThemeToggle({ ariaLabel = 'Toggle theme' }: ThemeToggleProps) {
     <button
       type="button"
       onClick={toggleTheme}
-      className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+      className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
       aria-label={ariaLabel}
     >
       {theme === 'light' ? (

@@ -6,6 +6,7 @@ import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import min from 'astro-min';
+import subsites from 'astro-subsites';
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
@@ -44,6 +45,7 @@ export default defineConfig({
         },
       },
     }),
+    subsites(),
 
     // 3. Optimization - Minify first
     min({

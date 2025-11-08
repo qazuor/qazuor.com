@@ -1,0 +1,304 @@
+/* Font imports from Fontsource */
+
+/* Roboto - Sans Serif */
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/600.css";
+@import "@fontsource/roboto/700.css";
+
+/* Fira Code - Monospace */
+@import "@fontsource/fira-code/400.css";
+@import "@fontsource/fira-code/500.css";
+@import "@fontsource/fira-code/600.css";
+@import "@fontsource/fira-code/700.css";
+
+/* JetBrains Mono - Monospace (ya instalada, agregando más pesos) */
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+@import "@fontsource/jetbrains-mono/700.css";
+@import "@fontsource/jetbrains-mono/800.css";
+
+/* Alkatra - Display */
+@import "@fontsource/alkatra/400.css";
+@import "@fontsource/alkatra/500.css";
+@import "@fontsource/alkatra/600.css";
+@import "@fontsource/alkatra/700.css";
+
+/* Sansita Swashed - Display */
+@import "@fontsource/sansita-swashed/400.css";
+@import "@fontsource/sansita-swashed/500.css";
+@import "@fontsource/sansita-swashed/600.css";
+@import "@fontsource/sansita-swashed/700.css";
+
+/* Shantell Sans - Handwritten */
+@import "@fontsource/shantell-sans/400.css";
+@import "@fontsource/shantell-sans/500.css";
+@import "@fontsource/shantell-sans/600.css";
+@import "@fontsource/shantell-sans/700.css";
+
+/* Playwrite AU VIC - Handwritten */
+@import "@fontsource/playwrite-au-vic/400.css";
+
+/* Merienda - Display */
+@import "@fontsource/merienda/400.css";
+@import "@fontsource/merienda/500.css";
+@import "@fontsource/merienda/600.css";
+@import "@fontsource/merienda/700.css";
+
+/* Signika - Sans Serif */
+@import "@fontsource/signika/400.css";
+@import "@fontsource/signika/500.css";
+@import "@fontsource/signika/600.css";
+@import "@fontsource/signika/700.css";
+
+/* Sometype Mono - Monospace */
+@import "@fontsource/sometype-mono/400.css";
+@import "@fontsource/sometype-mono/500.css";
+@import "@fontsource/sometype-mono/600.css";
+@import "@fontsource/sometype-mono/700.css";
+
+/* Gabarito - Sans Serif */
+@import "@fontsource/gabarito/400.css";
+@import "@fontsource/gabarito/500.css";
+@import "@fontsource/gabarito/600.css";
+@import "@fontsource/gabarito/700.css";
+@import "@fontsource/gabarito/800.css";
+@import "@fontsource/gabarito/900.css";
+
+/* Fredoka - Display */
+@import "@fontsource/fredoka/400.css";
+@import "@fontsource/fredoka/500.css";
+@import "@fontsource/fredoka/600.css";
+@import "@fontsource/fredoka/700.css";
+
+/* Unbounded - Display */
+@import "@fontsource/unbounded/400.css";
+@import "@fontsource/unbounded/500.css";
+@import "@fontsource/unbounded/600.css";
+@import "@fontsource/unbounded/700.css";
+@import "@fontsource/unbounded/800.css";
+@import "@fontsource/unbounded/900.css";
+
+/* Playpen Sans - Handwritten */
+@import "@fontsource/playpen-sans/400.css";
+@import "@fontsource/playpen-sans/500.css";
+@import "@fontsource/playpen-sans/600.css";
+@import "@fontsource/playpen-sans/700.css";
+@import "@fontsource/playpen-sans/800.css";
+
+/* Grandstander - Display */
+@import "@fontsource/grandstander/400.css";
+@import "@fontsource/grandstander/500.css";
+@import "@fontsource/grandstander/600.css";
+@import "@fontsource/grandstander/700.css";
+@import "@fontsource/grandstander/800.css";
+@import "@fontsource/grandstander/900.css";
+
+/* Caveat - Handwritten */
+@import "@fontsource/caveat/400.css";
+@import "@fontsource/caveat/500.css";
+@import "@fontsource/caveat/600.css";
+@import "@fontsource/caveat/700.css";
+
+/* Font family classes */
+
+/* Sans Serif fonts */
+.font-roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-signika {
+  font-family: "Signika", sans-serif;
+}
+
+.font-gabarito {
+  font-family: "Gabarito", sans-serif;
+}
+
+/* Monospace fonts */
+.font-fira-code {
+  font-family: "Fira Code", monospace;
+}
+
+.font-jetbrains {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.font-sometype {
+  font-family: "Sometype Mono", monospace;
+}
+
+/* Display/Creative fonts */
+.font-alkatra {
+  font-family: "Alkatra", sans-serif;
+}
+
+.font-sansita {
+  font-family: "Sansita Swashed", cursive;
+}
+
+.font-merienda {
+  font-family: "Merienda", cursive;
+}
+
+.font-fredoka {
+  font-family: "Fredoka", sans-serif;
+}
+
+.font-unbounded {
+  font-family: "Unbounded", sans-serif;
+}
+
+.font-grandstander {
+  font-family: "Grandstander", cursive;
+}
+
+/* Handwritten fonts */
+.font-shantell {
+  font-family: "Shantell Sans", cursive;
+}
+
+.font-playwrite {
+  font-family: "Playwrite AU VIC", cursive;
+}
+
+.font-playpen {
+  font-family: "Playpen Sans", cursive;
+}
+
+.font-caveat {
+  font-family: "Caveat", cursive;
+}
+
+/* Utility classes for quick testing */
+
+/* Bold weight variants */
+.font-roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+.font-signika-bold {
+  font-family: "Signika", sans-serif;
+  font-weight: 700;
+}
+.font-gabarito-bold {
+  font-family: "Gabarito", sans-serif;
+  font-weight: 800;
+}
+
+.font-fira-bold {
+  font-family: "Fira Code", monospace;
+  font-weight: 700;
+}
+.font-jetbrains-bold {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+}
+.font-sometype-bold {
+  font-family: "Sometype Mono", monospace;
+  font-weight: 700;
+}
+
+.font-alkatra-bold {
+  font-family: "Alkatra", sans-serif;
+  font-weight: 700;
+}
+.font-sansita-bold {
+  font-family: "Sansita Swashed", cursive;
+  font-weight: 700;
+}
+.font-merienda-bold {
+  font-family: "Merienda", cursive;
+  font-weight: 700;
+}
+.font-fredoka-bold {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+}
+.font-unbounded-bold {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 800;
+}
+.font-grandstander-bold {
+  font-family: "Grandstander", cursive;
+  font-weight: 800;
+}
+
+.font-shantell-bold {
+  font-family: "Shantell Sans", cursive;
+  font-weight: 700;
+}
+.font-playpen-bold {
+  font-family: "Playpen Sans", cursive;
+  font-weight: 700;
+}
+.font-caveat-bold {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+}
+
+/* Medium weight variants */
+.font-roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+.font-signika-medium {
+  font-family: "Signika", sans-serif;
+  font-weight: 500;
+}
+.font-gabarito-medium {
+  font-family: "Gabarito", sans-serif;
+  font-weight: 600;
+}
+
+.font-fira-medium {
+  font-family: "Fira Code", monospace;
+  font-weight: 500;
+}
+.font-jetbrains-medium {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
+}
+.font-sometype-medium {
+  font-family: "Sometype Mono", monospace;
+  font-weight: 500;
+}
+
+.font-alkatra-medium {
+  font-family: "Alkatra", sans-serif;
+  font-weight: 500;
+}
+.font-sansita-medium {
+  font-family: "Sansita Swashed", cursive;
+  font-weight: 500;
+}
+.font-merienda-medium {
+  font-family: "Merienda", cursive;
+  font-weight: 500;
+}
+.font-fredoka-medium {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 500;
+}
+.font-unbounded-medium {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 600;
+}
+.font-grandstander-medium {
+  font-family: "Grandstander", cursive;
+  font-weight: 600;
+}
+
+.font-shantell-medium {
+  font-family: "Shantell Sans", cursive;
+  font-weight: 500;
+}
+.font-playpen-medium {
+  font-family: "Playpen Sans", cursive;
+  font-weight: 500;
+}
+.font-caveat-medium {
+  font-family: "Caveat", cursive;
+  font-weight: 500;
+}

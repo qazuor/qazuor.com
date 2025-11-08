@@ -1,11 +1,11 @@
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import min from 'astro-min';
-import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -57,6 +57,9 @@ export default defineConfig({
       brotli: true,
     }),
   ],
+  vite: {
+    assetsInclude: ['**/*.woff', '**/*.woff2'],
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es'],

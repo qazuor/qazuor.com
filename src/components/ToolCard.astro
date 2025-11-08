@@ -1,0 +1,142 @@
+---
+import { getTranslations, translatePath } from '../i18n/utils';
+
+const { tool, lang, featured = false, class: className = '' } = Astro.props;
+const t = getTranslations(lang);
+
+const difficultyColors = {
+  beginner: 'text-green-500 bg-green-500/10 border-green-500/20',
+  intermediate: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20',
+  advanced: 'text-red-500 bg-red-500/10 border-red-500/20',
+} as const;
+
+const toolUrl = translatePath(`/tools/${tool.slug}`, lang);
+---
+
+<article
+  class={`tool-card group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 ${className}`}
+>
+  <!-- Featured Badge -->
+  {
+    featured && (
+      <div class="absolute top-4 right-4 z-10">
+        <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
+          ★ Featured
+        </span>
+      </div>
+    )
+  }
+
+  <!-- Category & Difficulty -->
+  <div class="flex items-center justify-between mb-4">
+    <span
+      class="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
+    >
+      {tool.data.category}
+    </span>
+    <span
+      class={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full border ${difficultyColors[tool.data.difficulty]}`}
+    >
+      {t(`tools.difficulty.${tool.data.difficulty}`)}
+    </span>
+  </div>
+
+  <!-- Title & Description -->
+  <div class="mb-4">
+    <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+      {tool.data.title}
+    </h3>
+    <p class="text-foreground-secondary text-sm leading-relaxed line-clamp-3">
+      {tool.data.description}
+    </p>
+  </div>
+
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-2 mb-6">
+    {
+      tool.data.tags
+        .slice(0, 3)
+        .map((tag: string) => (
+          <span class="inline-flex items-center px-2 py-1 text-xs rounded-md bg-foreground/5 text-foreground-secondary">
+            #{tag}
+          </span>
+        ))
+    }
+    {
+      tool.data.tags.length > 3 && (
+        <span class="inline-flex items-center px-2 py-1 text-xs rounded-md bg-foreground/5 text-foreground-secondary">
+          +{tool.data.tags.length - 3}
+        </span>
+      )
+    }
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center gap-3">
+    {
+      tool.data.demo ? (
+        <a
+          href={toolUrl}
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M19 10a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          {t('tools.tryDemo')}
+        </a>
+      ) : (
+        <span class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-foreground/10 text-foreground-secondary cursor-not-allowed">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          {t('tools.comingSoon')}
+        </span>
+      )
+    }
+
+    <a
+      href={toolUrl}
+      class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+        ></path>
+      </svg>
+      View Details
+    </a>
+  </div>
+
+  <!-- Hover Effect Overlay -->
+  <div
+    class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+  >
+  </div>
+</article>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

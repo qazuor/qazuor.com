@@ -7,13 +7,32 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
 
-const navItems = [
-  { href: translatePath('/', lang), label: t('nav.home') },
-  { href: translatePath('/blog', lang), label: t('nav.blog') },
-  { href: translatePath('/projects', lang), label: t('nav.projects') },
-];
+// Check if we're on the home page to determine navigation behavior
+const isHomePage =
+  currentPath === translatePath('/', lang) ||
+  currentPath === `/${lang}` ||
+  currentPath === `/${lang}/`;
+
+const navItems = isHomePage
+  ? [
+      { href: '#about', label: t('nav.about') },
+      { href: '#skills', label: t('nav.skills') },
+      { href: '#projects', label: t('nav.projects') },
+      { href: '#blog', label: t('nav.blog') },
+      { href: '#testimonials', label: t('nav.testimonials') },
+      { href: '#contact', label: t('nav.contact') },
+    ]
+  : [
+      { href: translatePath('/', lang), label: t('nav.home') },
+      { href: translatePath('/blog', lang), label: t('nav.blog') },
+      { href: translatePath('/projects', lang), label: t('nav.projects') },
+    ];
 
 const isActive = (href: string) => {
+  if (isHomePage) {
+    // For anchor links on home page, we'll handle active state with JavaScript
+    return false;
+  }
   if (href === translatePath('/', lang)) {
     return currentPath === href || currentPath === `/${lang}` || currentPath === `/${lang}/`;
   }
@@ -26,8 +45,9 @@ const isActive = (href: string) => {
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
       <a
-        href={translatePath('/', lang)}
-        class="text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-base"
+        href={isHomePage ? '#hero' : translatePath('/', lang)}
+        class="logo text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-base"
+        data-is-home={isHomePage ? 'true' : 'false'}
       >
         qazuor
       </a>
@@ -37,11 +57,12 @@ const isActive = (href: string) => {
         {navItems.map((item) => (
           <a
             href={item.href}
-            class={`text-sm font-medium transition-all duration-base relative group ${
+            class={`nav-link text-sm font-medium transition-all duration-base relative group ${
               isActive(item.href)
                 ? 'text-primary'
                 : 'text-foreground-secondary hover:text-foreground'
             }`}
+            data-is-home={isHomePage ? 'true' : 'false'}
           >
             {item.label}
             {/* Underline animation */}
@@ -78,11 +99,12 @@ const isActive = (href: string) => {
       {navItems.map((item) => (
         <a
           href={item.href}
-          class={`block py-2 px-4 text-sm rounded-lg transition-all duration-base ${
+          class={`nav-link block py-2 px-4 text-sm rounded-lg transition-all duration-base ${
             isActive(item.href)
               ? 'bg-primary/10 text-primary'
               : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
           }`}
+          data-is-home={isHomePage ? 'true' : 'false'}
         >
           {item.label}
         </a>
@@ -113,6 +135,152 @@ const isActive = (href: string) => {
       menu?.classList.add('hidden');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
+    }
+  });
+
+  // Custom easing function for ease-in-out
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  }
+
+  // Custom smooth scroll with easing
+  function smoothScrollTo(targetY, duration = 1200) {
+    const startY = window.pageYOffset;
+    const distance = targetY - startY;
+    let startTime = null;
+
+    function animation(currentTime) {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+      
+      window.scrollTo(0, startY + distance * ease);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animation);
+      }
+    }
+    
+    requestAnimationFrame(animation);
+  }
+
+  // Smooth scrolling for anchor links on home page
+  document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const logo = document.querySelector('.logo');
+    
+    // Handle logo click for home page
+    if (logo) {
+      const isHome = logo.getAttribute('data-is-home') === 'true';
+      
+      if (isHome) {
+        logo.addEventListener('click', (e) => {
+          const href = logo.getAttribute('href');
+          
+          if (href?.startsWith('#')) {
+            e.preventDefault();
+            const targetElement = document.getElementById('hero');
+            
+            if (targetElement) {
+              // Close mobile menu if open
+              if (!menu?.classList.contains('hidden')) {
+                menu?.classList.add('hidden');
+                menuIcon?.classList.remove('hidden');
+                closeIcon?.classList.add('hidden');
+              }
+              
+              // Smooth scroll to top with custom easing
+              const header = document.querySelector('nav');
+              const headerHeight = header ? header.offsetHeight : 80;
+              const elementPosition = targetElement.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+              
+              smoothScrollTo(offsetPosition, 1200);
+            }
+          }
+        });
+      }
+    }
+    
+    navLinks.forEach(link => {
+      const isHome = link.getAttribute('data-is-home') === 'true';
+      
+      if (isHome) {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          
+          if (href?.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+              // Close mobile menu if open
+              if (!menu?.classList.contains('hidden')) {
+                menu?.classList.add('hidden');
+                menuIcon?.classList.remove('hidden');
+                closeIcon?.classList.add('hidden');
+              }
+              
+              // Smooth scroll to target with custom easing
+              const header = document.querySelector('nav');
+              const headerHeight = header ? header.offsetHeight : 80;
+              const elementPosition = targetElement.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+              
+              smoothScrollTo(offsetPosition, 1200);
+            }
+          }
+        });
+      }
+    });
+
+    // Update active section based on scroll position
+    const sections = document.querySelectorAll('section[id]');
+    const navLinksHome = document.querySelectorAll('.nav-link[data-is-home="true"]');
+    
+    if (sections.length > 0 && navLinksHome.length > 0) {
+      const observerOptions = {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            
+            // Remove active class from all nav links
+            navLinksHome.forEach(navLink => {
+              navLink.classList.remove('text-primary');
+              navLink.classList.add('text-foreground-secondary');
+              const underline = navLink.querySelector('span');
+              if (underline) {
+                underline.classList.remove('w-full');
+                underline.classList.add('w-0');
+              }
+            });
+            
+            // Add active class to current section's nav link
+            const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+            if (activeLink) {
+              activeLink.classList.remove('text-foreground-secondary');
+              activeLink.classList.add('text-primary');
+              const underline = activeLink.querySelector('span');
+              if (underline) {
+                underline.classList.remove('w-0');
+                underline.classList.add('w-full');
+              }
+            }
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
     }
   });
 </script>

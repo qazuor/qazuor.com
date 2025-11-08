@@ -35,7 +35,7 @@ const toolUrl = translatePath(`/tools/${tool.slug}`, lang);
       {tool.data.category}
     </span>
     <span
-      class={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full border ${difficultyColors[tool.data.difficulty]}`}
+      class={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full border ${difficultyColors[tool.data.difficulty as keyof typeof difficultyColors]}`}
     >
       {t(`tools.difficulty.${tool.data.difficulty}`)}
     </span>

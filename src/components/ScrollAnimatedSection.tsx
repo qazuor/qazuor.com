@@ -79,7 +79,7 @@ export function ScrollAnimatedSection({
       <div className="max-w-4xl mx-auto px-4">
         <h2
           ref={titleRef}
-          className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent"
         >
           {title}
         </h2>

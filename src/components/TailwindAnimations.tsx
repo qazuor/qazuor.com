@@ -9,7 +9,7 @@ export function TailwindAnimations() {
 
       {/* Fade in animation */}
       <div className="animate-in fade-in duration-1000">
-        <div className="p-6 bg-blue-100 dark:bg-blue-900 rounded-lg">
+        <div className="p-6 bg-primary/20 rounded-lg">
           <h3 className="font-semibold mb-2">Fade In</h3>
           <p className="text-sm">This element fades in on load</p>
         </div>
@@ -17,7 +17,7 @@ export function TailwindAnimations() {
 
       {/* Slide in from bottom */}
       <div className="animate-in slide-in-from-bottom-4 duration-700 delay-300">
-        <div className="p-6 bg-green-100 dark:bg-green-900 rounded-lg">
+        <div className="p-6 bg-secondary/20 rounded-lg">
           <h3 className="font-semibold mb-2">Slide In</h3>
           <p className="text-sm">This element slides in from the bottom</p>
         </div>
@@ -27,7 +27,7 @@ export function TailwindAnimations() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <button
           type="button"
-          className="p-6 bg-purple-100 dark:bg-purple-900 rounded-lg transition-transform hover:scale-105 active:scale-95"
+          className="p-6 bg-accent/20 rounded-lg transition-transform hover:scale-105 active:scale-95"
         >
           <h3 className="font-semibold">Hover Scale</h3>
           <p className="text-sm mt-2">Hover me!</p>
@@ -35,7 +35,7 @@ export function TailwindAnimations() {
 
         <button
           type="button"
-          className="p-6 bg-pink-100 dark:bg-pink-900 rounded-lg transition-all hover:shadow-lg hover:-translate-y-1"
+          className="p-6 bg-accent/20 rounded-lg transition-all hover:shadow-lg hover:-translate-y-1"
         >
           <h3 className="font-semibold">Hover Lift</h3>
           <p className="text-sm mt-2">Hover me!</p>

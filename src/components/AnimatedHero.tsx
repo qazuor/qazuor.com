@@ -60,7 +60,7 @@ export function AnimatedHero({
       <div className="text-center">
         <h1
           ref={titleRef}
-          className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent"
         >
           {title}
         </h1>

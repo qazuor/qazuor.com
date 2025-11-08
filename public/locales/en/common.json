@@ -18,15 +18,21 @@
       "title": "Hi, I'm qazuor",
       "subtitle": "Building beautiful, performant, and accessible web experiences",
       "description": "Passionate about crafting exceptional digital experiences with modern web technologies",
+      "iMadeText": "I made",
       "viewProjects": "View Projects",
       "getInTouch": "Get in Touch",
       "scroll": "Scroll"
     },
+    "iMade": {
+      "webapps": "awesome web apps",
+      "interfaces": "beautiful interfaces",
+      "solutions": "scalable solutions",
+      "experiences": "user experiences"
+    },
     "roles": {
       "fullstack": "Full-Stack Developer",
-      "react": "React Specialist",
-      "uiux": "UI/UX Enthusiast",
-      "solver": "Problem Solver"
+      "frontend": "Frontend Developer",
+      "designer": "UI/UX Designer"
     },
     "features": {
       "performance": {
@@ -206,5 +212,10 @@
     "github": "GitHub",
     "twitter": "Twitter",
     "linkedin": "LinkedIn"
+  },
+  "profile": {
+    "name": "Leandro Asrilevich",
+    "role": "Full-Stack Developer",
+    "experience": "5+ years"
   }
 }

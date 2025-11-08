@@ -18,15 +18,21 @@
       "title": "Hola, soy qazuor",
       "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
       "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas",
+      "iMadeText": "Yo creo",
       "viewProjects": "Ver Proyectos",
       "getInTouch": "Contactar",
       "scroll": "Desplazar"
     },
+    "iMade": {
+      "webapps": "aplicaciones web increíbles",
+      "interfaces": "interfaces hermosas",
+      "solutions": "soluciones escalables",
+      "experiences": "experiencias de usuario"
+    },
     "roles": {
       "fullstack": "Desarrollador Full-Stack",
-      "react": "Especialista en React",
-      "uiux": "Entusiasta de UI/UX",
-      "solver": "Solucionador de Problemas"
+      "frontend": "Desarrollador Frontend",
+      "designer": "Diseñador UI/UX"
     },
     "features": {
       "performance": {
@@ -206,5 +212,10 @@
     "github": "GitHub",
     "twitter": "Twitter",
     "linkedin": "LinkedIn"
+  },
+  "profile": {
+    "name": "qazuor",
+    "role": "Desarrollador Full-Stack",
+    "experience": "5+ años"
   }
 }

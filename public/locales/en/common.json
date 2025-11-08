@@ -194,18 +194,7 @@
     "learnMore": "Learn more"
   },
   "seo": {
-    "keywords": [
-      "Full-Stack Developer",
-      "React",
-      "TypeScript",
-      "Web Development",
-      "UI/UX",
-      "JavaScript",
-      "Node.js",
-      "Astro",
-      "TailwindCSS",
-      "Portfolio"
-    ],
+    "title": "Leandro Asrilevich - Full-Stack Developer | Modern Web Solutions",
     "imageAlt": "qazuor - Full-Stack Developer Portfolio"
   },
   "aria": {

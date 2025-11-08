@@ -44,14 +44,14 @@ const isActive = (href: string) => {
 
 <nav class="glass sticky top-0 z-50 border-b">
   <div class="container-custom">
-    <div class="flex justify-between items-center h-16">
+    <div class="flex justify-between items-center h-14">
       <!-- Logo with Avatar -->
       <a
         href={translatePath('/', lang)}
         class="logo flex items-center gap-3 hover:scale-105 transition-transform duration-base"
       >
         <div
-          class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors"
+          class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors"
         >
           <img
             src="/avatar.png"
@@ -60,7 +60,7 @@ const isActive = (href: string) => {
             loading="eager"
           />
         </div>
-        <span class="text-2xl font-bold gradient-text">qazuor</span>
+        <span class="text-xl font-bold gradient-text">qazuor</span>
       </a>
 
       <!-- Desktop Navigation -->
@@ -69,7 +69,7 @@ const isActive = (href: string) => {
           navItems.map((item) => (
             <a
               href={item.href}
-              class={`nav-link text-sm font-medium transition-all duration-base relative group ${
+              class={`nav-link text-xs font-medium transition-all duration-base relative group ${
                 isActive(item.href)
                   ? 'text-primary'
                   : 'text-foreground-secondary hover:text-foreground'
@@ -98,10 +98,10 @@ const isActive = (href: string) => {
       <!-- Mobile menu button -->
       <button
         id="mobile-menu-button"
-        class="md:hidden p-2 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
+        class="md:hidden p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
         aria-label={t('aria.toggleMenu')}
       >
-        <svg id="menu-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="menu-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -110,7 +110,7 @@ const isActive = (href: string) => {
         </svg>
         <svg
           id="close-icon"
-          class="w-6 h-6 hidden"
+          class="w-5 h-5 hidden"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -130,7 +130,7 @@ const isActive = (href: string) => {
         navItems.map((item) => (
           <a
             href={item.href}
-            class={`nav-link-mobile block px-4 py-3 text-sm font-medium transition-all duration-base ${
+            class={`nav-link-mobile block px-4 py-3 text-xs font-medium transition-all duration-base ${
               isActive(item.href)
                 ? 'bg-primary/10 text-primary'
                 : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'

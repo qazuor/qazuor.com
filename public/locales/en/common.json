@@ -140,6 +140,14 @@
       }
     }
   },
+  "testimonials": {
+    "title": "What People Say",
+    "subtitle": "Kind words from colleagues, clients, and collaborators",
+    "noTestimonials": "No testimonials yet. Check back soon!",
+    "readMore": "Read more",
+    "readLess": "Read less",
+    "viewProfile": "View profile"
+  },
   "contact": {
     "title": "Get In Touch",
     "subtitle": "Have a project in mind? Let's work together!",

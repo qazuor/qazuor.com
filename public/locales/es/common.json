@@ -140,6 +140,14 @@
       }
     }
   },
+  "testimonials": {
+    "title": "Lo Que Dicen",
+    "subtitle": "Palabras amables de colegas, clientes y colaboradores",
+    "noTestimonials": "Aún no hay testimonios. ¡Vuelve pronto!",
+    "readMore": "Leer más",
+    "readLess": "Leer menos",
+    "viewProfile": "Ver perfil"
+  },
   "contact": {
     "title": "Ponte en Contacto",
     "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",

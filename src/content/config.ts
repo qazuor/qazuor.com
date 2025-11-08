@@ -31,7 +31,26 @@ const blogCollection = defineCollection({
   }),
 });
 
+// Testimonials collection schema
+const testimonialsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    company: z.string(),
+    content: z.string(),
+    avatar: z.string().optional(),
+    linkedinUrl: z.string().url().optional(),
+    twitterUrl: z.string().url().optional(),
+    featured: z.boolean().default(false),
+    source: z.enum(['linkedin', 'twitter', 'email', 'other']).default('other'),
+    date: z.date(),
+    order: z.number().default(999),
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
   blog: blogCollection,
+  testimonials: testimonialsCollection,
 };

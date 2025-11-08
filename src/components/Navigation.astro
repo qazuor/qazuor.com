@@ -43,34 +43,48 @@ const isActive = (href: string) => {
 <nav class="glass sticky top-0 z-50 border-b">
   <div class="container-custom">
     <div class="flex justify-between items-center h-16">
-      <!-- Logo -->
+      <!-- Logo with Avatar -->
       <a
         href={isHomePage ? '#hero' : translatePath('/', lang)}
-        class="logo text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-base"
+        class="logo flex items-center gap-3 hover:scale-105 transition-transform duration-base"
         data-is-home={isHomePage ? 'true' : 'false'}
       >
-        qazuor
+        <div
+          class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors"
+        >
+          <img
+            src="/avatar.png"
+            alt="qazuor avatar"
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+        <span class="text-2xl font-bold gradient-text">qazuor</span>
       </a>
 
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center gap-8">
-        {navItems.map((item) => (
-          <a
-            href={item.href}
-            class={`nav-link text-sm font-medium transition-all duration-base relative group ${
-              isActive(item.href)
-                ? 'text-primary'
-                : 'text-foreground-secondary hover:text-foreground'
-            }`}
-            data-is-home={isHomePage ? 'true' : 'false'}
-          >
-            {item.label}
-            {/* Underline animation */}
-            <span class={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-base ${
-              isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
-            }`}></span>
-          </a>
-        ))}
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              class={`nav-link text-sm font-medium transition-all duration-base relative group ${
+                isActive(item.href)
+                  ? 'text-primary'
+                  : 'text-foreground-secondary hover:text-foreground'
+              }`}
+              data-is-home={isHomePage ? 'true' : 'false'}
+            >
+              {item.label}
+              {/* Underline animation */}
+              <span
+                class={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-base ${
+                  isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}
+              />
+            </a>
+          ))
+        }
       </div>
 
       <!-- Actions -->
@@ -86,29 +100,45 @@ const isActive = (href: string) => {
         aria-label={t('aria.toggleMenu')}
       >
         <svg id="menu-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
-        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <svg
+          id="close-icon"
+          class="w-6 h-6 hidden"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     </div>
 
     <!-- Mobile Navigation -->
     <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-2">
-      {navItems.map((item) => (
-        <a
-          href={item.href}
-          class={`nav-link block py-2 px-4 text-sm rounded-lg transition-all duration-base ${
-            isActive(item.href)
-              ? 'bg-primary/10 text-primary'
-              : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
-          }`}
-          data-is-home={isHomePage ? 'true' : 'false'}
-        >
-          {item.label}
-        </a>
-      ))}
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`nav-link block py-2 px-4 text-sm rounded-lg transition-all duration-base ${
+              isActive(item.href)
+                ? 'bg-primary/10 text-primary'
+                : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
+            }`}
+            data-is-home={isHomePage ? 'true' : 'false'}
+          >
+            {item.label}
+          </a>
+        ))
+      }
       <div class="flex items-center gap-2 px-4 pt-2 border-t border-foreground/10">
         <LanguageSelector currentLocale={lang} client:load />
         <ThemeToggle client:load />
@@ -154,14 +184,14 @@ const isActive = (href: string) => {
       const timeElapsed = currentTime - startTime;
       const progress = Math.min(timeElapsed / duration, 1);
       const ease = easeInOutCubic(progress);
-      
+
       window.scrollTo(0, startY + distance * ease);
-      
+
       if (progress < 1) {
         requestAnimationFrame(animation);
       }
     }
-    
+
     requestAnimationFrame(animation);
   }
 
@@ -169,19 +199,19 @@ const isActive = (href: string) => {
   document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link');
     const logo = document.querySelector('.logo');
-    
+
     // Handle logo click for home page
     if (logo) {
       const isHome = logo.getAttribute('data-is-home') === 'true';
-      
+
       if (isHome) {
         logo.addEventListener('click', (e) => {
           const href = logo.getAttribute('href');
-          
+
           if (href?.startsWith('#')) {
             e.preventDefault();
             const targetElement = document.getElementById('hero');
-            
+
             if (targetElement) {
               // Close mobile menu if open
               if (!menu?.classList.contains('hidden')) {
@@ -189,32 +219,32 @@ const isActive = (href: string) => {
                 menuIcon?.classList.remove('hidden');
                 closeIcon?.classList.add('hidden');
               }
-              
+
               // Smooth scroll to top with custom easing
               const header = document.querySelector('nav');
               const headerHeight = header ? header.offsetHeight : 80;
               const elementPosition = targetElement.getBoundingClientRect().top;
               const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-              
+
               smoothScrollTo(offsetPosition, 1200);
             }
           }
         });
       }
     }
-    
-    navLinks.forEach(link => {
+
+    navLinks.forEach((link) => {
       const isHome = link.getAttribute('data-is-home') === 'true';
-      
+
       if (isHome) {
         link.addEventListener('click', (e) => {
           const href = link.getAttribute('href');
-          
+
           if (href?.startsWith('#')) {
             e.preventDefault();
             const targetId = href.substring(1);
             const targetElement = document.getElementById(targetId);
-            
+
             if (targetElement) {
               // Close mobile menu if open
               if (!menu?.classList.contains('hidden')) {
@@ -222,13 +252,13 @@ const isActive = (href: string) => {
                 menuIcon?.classList.remove('hidden');
                 closeIcon?.classList.add('hidden');
               }
-              
+
               // Smooth scroll to target with custom easing
               const header = document.querySelector('nav');
               const headerHeight = header ? header.offsetHeight : 80;
               const elementPosition = targetElement.getBoundingClientRect().top;
               const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-              
+
               smoothScrollTo(offsetPosition, 1200);
             }
           }
@@ -239,21 +269,21 @@ const isActive = (href: string) => {
     // Update active section based on scroll position
     const sections = document.querySelectorAll('section[id]');
     const navLinksHome = document.querySelectorAll('.nav-link[data-is-home="true"]');
-    
+
     if (sections.length > 0 && navLinksHome.length > 0) {
       const observerOptions = {
         root: null,
         rootMargin: '-50% 0px -50% 0px',
-        threshold: 0
+        threshold: 0,
       };
 
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const sectionId = entry.target.id;
-            
+
             // Remove active class from all nav links
-            navLinksHome.forEach(navLink => {
+            navLinksHome.forEach((navLink) => {
               navLink.classList.remove('text-primary');
               navLink.classList.add('text-foreground-secondary');
               const underline = navLink.querySelector('span');
@@ -262,7 +292,7 @@ const isActive = (href: string) => {
                 underline.classList.add('w-0');
               }
             });
-            
+
             // Add active class to current section's nav link
             const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
             if (activeLink) {
@@ -278,7 +308,7 @@ const isActive = (href: string) => {
         });
       }, observerOptions);
 
-      sections.forEach(section => {
+      sections.forEach((section) => {
         observer.observe(section);
       });
     }

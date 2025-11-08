@@ -7,35 +7,30 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
 
-// Check if we're on the home page to determine navigation behavior
-const isHomePage =
-  currentPath === translatePath('/', lang) ||
-  currentPath === `/${lang}` ||
-  currentPath === `/${lang}/`;
-
-const navItems = isHomePage
-  ? [
-      { href: '#about', label: t('nav.about') },
-      { href: '#skills', label: t('nav.skills') },
-      { href: '#projects', label: t('nav.projects') },
-      { href: '#blog', label: t('nav.blog') },
-      { href: '#testimonials', label: t('nav.testimonials') },
-      { href: '#contact', label: t('nav.contact') },
-    ]
-  : [
-      { href: translatePath('/', lang), label: t('nav.home') },
-      { href: translatePath('/blog', lang), label: t('nav.blog') },
-      { href: translatePath('/projects', lang), label: t('nav.projects') },
-    ];
+const navItems = [
+  { href: `${translatePath('/', lang)}#about`, label: t('nav.about') },
+  { href: `${translatePath('/', lang)}#skills`, label: t('nav.skills') },
+  { href: `${translatePath('/', lang)}#projects`, label: t('nav.projects') },
+  { href: translatePath('/blog', lang), label: t('nav.blog') },
+  { href: `${translatePath('/', lang)}#testimonials`, label: t('nav.testimonials') },
+  { href: translatePath('/tools', lang), label: t('nav.tools') },
+  { href: `${translatePath('/', lang)}#contact`, label: t('nav.contact') },
+];
 
 const isActive = (href: string) => {
-  if (isHomePage) {
-    // For anchor links on home page, we'll handle active state with JavaScript
-    return false;
+  // Handle home page anchor links
+  if (href.includes('#')) {
+    const basePath = href.split('#')[0];
+    const isOnHomePage =
+      currentPath === basePath || currentPath === `/${lang}` || currentPath === `/${lang}/`;
+    return isOnHomePage && href.includes('#'); // Show active state for anchor links when on home
   }
+
+  // Handle regular page links
   if (href === translatePath('/', lang)) {
     return currentPath === href || currentPath === `/${lang}` || currentPath === `/${lang}/`;
   }
+
   return currentPath.startsWith(href);
 };
 ---
@@ -45,9 +40,8 @@ const isActive = (href: string) => {
     <div class="flex justify-between items-center h-16">
       <!-- Logo with Avatar -->
       <a
-        href={isHomePage ? '#hero' : translatePath('/', lang)}
+        href={translatePath('/', lang)}
         class="logo flex items-center gap-3 hover:scale-105 transition-transform duration-base"
-        data-is-home={isHomePage ? 'true' : 'false'}
       >
         <div
           class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors"
@@ -73,7 +67,6 @@ const isActive = (href: string) => {
                   ? 'text-primary'
                   : 'text-foreground-secondary hover:text-foreground'
               }`}
-              data-is-home={isHomePage ? 'true' : 'false'}
             >
               {item.label}
               {/* Underline animation */}
@@ -128,12 +121,11 @@ const isActive = (href: string) => {
         navItems.map((item) => (
           <a
             href={item.href}
-            class={`nav-link block py-2 px-4 text-sm rounded-lg transition-all duration-base ${
+            class={`block px-4 py-3 text-sm font-medium transition-all duration-base ${
               isActive(item.href)
                 ? 'bg-primary/10 text-primary'
                 : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
             }`}
-            data-is-home={isHomePage ? 'true' : 'false'}
           >
             {item.label}
           </a>

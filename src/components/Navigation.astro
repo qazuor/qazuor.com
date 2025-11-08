@@ -18,12 +18,10 @@ const navItems = [
 ];
 
 const isActive = (href: string) => {
-  // Handle home page anchor links
+  // Handle home page anchor links - don't mark as active server-side
+  // Active state will be handled by JavaScript based on scroll position
   if (href.includes('#')) {
-    const basePath = href.split('#')[0];
-    const isOnHomePage =
-      currentPath === basePath || currentPath === `/${lang}` || currentPath === `/${lang}/`;
-    return isOnHomePage && href.includes('#'); // Show active state for anchor links when on home
+    return false; // Let JavaScript handle active state for anchor links
   }
 
   // Handle regular page links
@@ -33,6 +31,12 @@ const isActive = (href: string) => {
 
   return currentPath.startsWith(href);
 };
+
+// Check if we're on the home page for JavaScript functionality
+const isHomePage =
+  currentPath === translatePath('/', lang) ||
+  currentPath === `/${lang}` ||
+  currentPath === `/${lang}/`;
 ---
 
 <nav class="glass sticky top-0 z-50 border-b">
@@ -67,6 +71,8 @@ const isActive = (href: string) => {
                   ? 'text-primary'
                   : 'text-foreground-secondary hover:text-foreground'
               }`}
+              data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
+              data-is-home-page={isHomePage ? 'true' : 'false'}
             >
               {item.label}
               {/* Underline animation */}
@@ -121,11 +127,13 @@ const isActive = (href: string) => {
         navItems.map((item) => (
           <a
             href={item.href}
-            class={`block px-4 py-3 text-sm font-medium transition-all duration-base ${
+            class={`nav-link-mobile block px-4 py-3 text-sm font-medium transition-all duration-base ${
               isActive(item.href)
                 ? 'bg-primary/10 text-primary'
                 : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
             }`}
+            data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
+            data-is-home-page={isHomePage ? 'true' : 'false'}
           >
             {item.label}
           </a>
@@ -140,7 +148,7 @@ const isActive = (href: string) => {
 </nav>
 
 <script>
-  // Mobile menu toggle with animation
+  // Mobile menu toggle
   const button = document.getElementById('mobile-menu-button');
   const menu = document.getElementById('mobile-menu');
   const menuIcon = document.getElementById('menu-icon');
@@ -148,7 +156,6 @@ const isActive = (href: string) => {
 
   button?.addEventListener('click', () => {
     const isHidden = menu?.classList.contains('hidden');
-
     if (isHidden) {
       menu?.classList.remove('hidden');
       menuIcon?.classList.add('hidden');
@@ -160,12 +167,13 @@ const isActive = (href: string) => {
     }
   });
 
-  // Custom easing function for ease-in-out
-  function easeInOutCubic(t) {
-    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  // Check if we're on home page
+  function isHomePage() {
+    const path = window.location.pathname;
+    return path === '/' || path === '/en' || path === '/es' || path === '/en/' || path === '/es/';
   }
 
-  // Custom smooth scroll with easing
+  // Smooth scroll functionality
   function smoothScrollTo(targetY, duration = 1200) {
     const startY = window.pageYOffset;
     const distance = targetY - startY;
@@ -175,7 +183,9 @@ const isActive = (href: string) => {
       if (startTime === null) startTime = currentTime;
       const timeElapsed = currentTime - startTime;
       const progress = Math.min(timeElapsed / duration, 1);
-      const ease = easeInOutCubic(progress);
+      
+      const ease = progress < 0.5 ? 4 * progress * progress * progress : 
+                   (progress - 1) * (2 * progress - 2) * (2 * progress - 2) + 1;
 
       window.scrollTo(0, startY + distance * ease);
 
@@ -183,126 +193,144 @@ const isActive = (href: string) => {
         requestAnimationFrame(animation);
       }
     }
-
     requestAnimationFrame(animation);
   }
 
-  // Smooth scrolling for anchor links on home page
-  document.addEventListener('DOMContentLoaded', () => {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const logo = document.querySelector('.logo');
+  // Handle scroll-based navigation highlighting
+  function setupScrollNavigation() {
+    console.log('Setting up scroll navigation, isHomePage:', isHomePage());
+    
+    if (!isHomePage()) return;
 
-    // Handle logo click for home page
-    if (logo) {
-      const isHome = logo.getAttribute('data-is-home') === 'true';
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link[data-is-anchor="true"]');
+    const mobileNavLinks = document.querySelectorAll('.nav-link-mobile[data-is-anchor="true"]');
+    
+    console.log('Found sections:', sections.length);
+    console.log('Found nav links:', navLinks.length);
+    console.log('Found mobile nav links:', mobileNavLinks.length);
+    
+    if (sections.length === 0) return;
 
-      if (isHome) {
-        logo.addEventListener('click', (e) => {
-          const href = logo.getAttribute('href');
+    // Function to update active link
+    function updateActiveLink(activeId) {
+      console.log('Updating active link for section:', activeId);
+      
+      // Update desktop links
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href') || '';
+        const isActive = href.endsWith(`#${activeId}`);
+        const underline = link.querySelector('span');
+        
+        if (isActive) {
+          link.classList.remove('text-foreground-secondary');
+          link.classList.add('text-primary');
+          underline?.classList.remove('w-0');
+          underline?.classList.add('w-full');
+        } else {
+          link.classList.remove('text-primary');
+          link.classList.add('text-foreground-secondary');
+          underline?.classList.remove('w-full');
+          underline?.classList.add('w-0');
+        }
+      });
 
-          if (href?.startsWith('#')) {
-            e.preventDefault();
-            const targetElement = document.getElementById('hero');
-
-            if (targetElement) {
-              // Close mobile menu if open
-              if (!menu?.classList.contains('hidden')) {
-                menu?.classList.add('hidden');
-                menuIcon?.classList.remove('hidden');
-                closeIcon?.classList.add('hidden');
-              }
-
-              // Smooth scroll to top with custom easing
-              const header = document.querySelector('nav');
-              const headerHeight = header ? header.offsetHeight : 80;
-              const elementPosition = targetElement.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-              smoothScrollTo(offsetPosition, 1200);
-            }
-          }
-        });
-      }
+      // Update mobile links
+      mobileNavLinks.forEach(link => {
+        const href = link.getAttribute('href') || '';
+        const isActive = href.endsWith(`#${activeId}`);
+        
+        if (isActive) {
+          link.classList.remove('text-foreground-secondary');
+          link.classList.add('text-primary', 'bg-primary/10');
+        } else {
+          link.classList.remove('text-primary', 'bg-primary/10');
+          link.classList.add('text-foreground-secondary');
+        }
+      });
     }
 
-    navLinks.forEach((link) => {
-      const isHome = link.getAttribute('data-is-home') === 'true';
+    // Intersection Observer for scroll detection
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -80% 0px',
+      threshold: 0
+    };
 
-      if (isHome) {
-        link.addEventListener('click', (e) => {
-          const href = link.getAttribute('href');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          console.log('Section intersecting:', entry.target.id);
+          updateActiveLink(entry.target.id);
+        }
+      });
+    }, observerOptions);
 
-          if (href?.startsWith('#')) {
-            e.preventDefault();
-            const targetId = href.substring(1);
-            const targetElement = document.getElementById(targetId);
+    sections.forEach(section => {
+      console.log('Observing section:', section.id);
+      observer.observe(section);
+    });
 
-            if (targetElement) {
-              // Close mobile menu if open
-              if (!menu?.classList.contains('hidden')) {
-                menu?.classList.add('hidden');
-                menuIcon?.classList.remove('hidden');
-                closeIcon?.classList.add('hidden');
-              }
-
-              // Smooth scroll to target with custom easing
-              const header = document.querySelector('nav');
-              const headerHeight = header ? header.offsetHeight : 80;
-              const elementPosition = targetElement.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-              smoothScrollTo(offsetPosition, 1200);
-            }
-          }
+    // Handle scroll to top (clear active states)
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset < 100) {
+        console.log('At top, clearing all active states');
+        navLinks.forEach(link => {
+          link.classList.remove('text-primary');
+          link.classList.add('text-foreground-secondary');
+          const underline = link.querySelector('span');
+          underline?.classList.remove('w-full');
+          underline?.classList.add('w-0');
+        });
+        mobileNavLinks.forEach(link => {
+          link.classList.remove('text-primary', 'bg-primary/10');
+          link.classList.add('text-foreground-secondary');
         });
       }
     });
+  }
 
-    // Update active section based on scroll position
-    const sections = document.querySelectorAll('section[id]');
-    const navLinksHome = document.querySelectorAll('.nav-link[data-is-home="true"]');
-
-    if (sections.length > 0 && navLinksHome.length > 0) {
-      const observerOptions = {
-        root: null,
-        rootMargin: '-50% 0px -50% 0px',
-        threshold: 0,
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id;
-
-            // Remove active class from all nav links
-            navLinksHome.forEach((navLink) => {
-              navLink.classList.remove('text-primary');
-              navLink.classList.add('text-foreground-secondary');
-              const underline = navLink.querySelector('span');
-              if (underline) {
-                underline.classList.remove('w-full');
-                underline.classList.add('w-0');
+  // Handle smooth scroll clicks
+  function setupSmoothScroll() {
+    const anchorLinks = document.querySelectorAll('a[href*="#"]');
+    
+    anchorLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href') || '';
+        
+        if (href.includes('#') && isHomePage()) {
+          const url = new URL(href, window.location.origin);
+          const currentPath = window.location.pathname;
+          
+          if (href.startsWith('#') || url.pathname === currentPath) {
+            e.preventDefault();
+            const targetId = url.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+              if (!menu?.classList.contains('hidden')) {
+                menu?.classList.add('hidden');
+                menuIcon?.classList.remove('hidden');
+                closeIcon?.classList.add('hidden');
               }
-            });
 
-            // Add active class to current section's nav link
-            const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-            if (activeLink) {
-              activeLink.classList.remove('text-foreground-secondary');
-              activeLink.classList.add('text-primary');
-              const underline = activeLink.querySelector('span');
-              if (underline) {
-                underline.classList.remove('w-0');
-                underline.classList.add('w-full');
-              }
+              const header = document.querySelector('nav');
+              const headerHeight = header ? header.offsetHeight : 80;
+              const elementPosition = targetElement.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+              smoothScrollTo(offsetPosition);
             }
           }
-        });
-      }, observerOptions);
-
-      sections.forEach((section) => {
-        observer.observe(section);
+        }
       });
-    }
+    });
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing navigation...');
+    setupScrollNavigation();
+    setupSmoothScroll();
   });
 </script>

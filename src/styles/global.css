@@ -1,45 +1,31 @@
-/* Import Fonts from Fontsource (self-hosted) */
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/inter/800.css";
-@import "@fontsource/inter/900.css";
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
-@import "@fontsource/jetbrains-mono/600.css";
-@import "@fontsource/jetbrains-mono/700.css";
-
+/* Tailwind directives */
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Primary Colors - Purple/Teal Scheme (OKLch) */
-    --primary: 0.55 0.22 270;
-    --secondary: 0.7 0.18 180;
-    --accent: 0.65 0.2 330;
+    /* Backgrounds - Light Mode (clean whites and light grays) */
+    --bg-primary: 0 0% 100%; /* Pure white */
+    --bg-secondary: 0 0% 98%; /* Very light gray */
+    --bg-tertiary: 0 0% 95%; /* Light gray */
 
-    /* Backgrounds - Light Mode (default) */
-    --bg-primary: 0.98 0.01 270;
-    --bg-secondary: 0.95 0.01 270;
-    --bg-tertiary: 0.92 0.01 270;
+    /* Text - Light Mode (dark colors for good contrast) */
+    --text-primary: 0 0% 9%; /* Very dark gray, almost black */
+    --text-secondary: 0 0% 25%; /* Dark gray */
+    --text-muted: 0 0% 45%; /* Medium gray */
 
-    /* Text - Light Mode (default) */
-    --text-primary: 0.2 0.02 270;
-    --text-secondary: 0.4 0.02 270;
-    --text-muted: 0.6 0.02 270;
+    /* Backgrounds - Dark Mode - Updated to match design */
+    --bg-primary-dark: 0 0% 0%; /* Pure black */
+    --bg-secondary-dark: 0 0% 6%; /* Very dark gray */
+    --bg-tertiary-dark: 0 0% 10%; /* Dark gray */
 
-    /* Backgrounds - Dark Mode */
-    --bg-primary-dark: 0.12 0.02 270;
-    --bg-secondary-dark: 0.18 0.02 270;
-    --bg-tertiary-dark: 0.22 0.02 270;
-
-    /* Text - Dark Mode */
-    --text-primary-dark: 0.95 0 0;
-    --text-secondary-dark: 0.7 0 0;
-    --text-muted-dark: 0.5 0 0;
+    /* Text - Dark Mode - Updated to match design */
+    --text-primary-dark: 0 0% 100%; /* Pure white */
+    --text-secondary-dark: 0 0% 67%; /* Light gray */
+    --text-muted-dark: 0 0% 50%; /* Medium gray */
 
     /* Syntax Highlighting */
     --syntax-keyword: 0.65 0.2 330;
@@ -92,16 +78,70 @@
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
+
+    /* Shadcn/ui Light Variables - Updated for better contrast */
+    --background: 0 0% 100%; /* Pure white background */
+    --foreground: 0 0% 9%; /* Dark gray text */
+    --card: 0 0% 98%; /* Very light gray cards */
+    --card-foreground: 0 0% 9%; /* Dark text on cards */
+    --popover: 0 0% 100%; /* White popovers */
+    --popover-foreground: 0 0% 9%; /* Dark text on popovers */
+    --primary: 217 91% 50%; /* Blue primary */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+    --secondary: 0 0% 96%; /* Light gray secondary */
+    --secondary-foreground: 0 0% 9%; /* Dark text on secondary */
+    --muted: 0 0% 96%; /* Light gray muted */
+    --muted-foreground: 0 0% 45%; /* Medium gray muted text */
+    --accent: 217 91% 55%; /* Slightly lighter blue accent */
+    --accent-foreground: 0 0% 100%; /* White text on accent */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89%; /* Light gray border */
+    --input: 0 0% 96%; /* Light gray input backgrounds */
+    --ring: 217 91% 50%; /* Blue focus ring */
+    --chart-1: 217 91% 50%; /* Blue charts */
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
   }
 
   /* Dark Mode Override */
   .dark {
-    --bg-primary: var(--bg-primary-dark);
-    --bg-secondary: var(--bg-secondary-dark);
-    --bg-tertiary: var(--bg-tertiary-dark);
-    --text-primary: var(--text-primary-dark);
-    --text-secondary: var(--text-secondary-dark);
-    --text-muted: var(--text-muted-dark);
+    /* Custom Dark Mode - Matching the design */
+    --bg-primary: 0 0% 0%; /* Pure black background */
+    --bg-secondary: 0 0% 6%; /* Very dark gray for cards */
+    --bg-tertiary: 0 0% 10%; /* Slightly lighter for contrast */
+    --text-primary: 0 0% 100%; /* Pure white text */
+    --text-secondary: 0 0% 67%; /* Light gray for secondary text */
+    --text-muted: 0 0% 50%; /* Medium gray for muted text */
+
+    /* Shadcn/ui Dark Variables - Updated */
+    --background: 0 0% 0%; /* Pure black background */
+    --foreground: 0 0% 100%; /* Pure white foreground */
+    --card: 0 0% 6%; /* Dark gray cards */
+    --card-foreground: 0 0% 100%; /* White text on cards */
+    --popover: 0 0% 6%; /* Dark gray popovers */
+    --popover-foreground: 0 0% 100%; /* White text on popovers */
+    --primary: 217 91% 60%; /* Bright blue primary */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+    --secondary: 0 0% 10%; /* Dark gray secondary */
+    --secondary-foreground: 0 0% 100%; /* White text on secondary */
+    --muted: 0 0% 10%; /* Dark gray muted */
+    --muted-foreground: 0 0% 67%; /* Light gray muted text */
+    --accent: 217 91% 60%; /* Bright blue accent */
+    --accent-foreground: 0 0% 100%; /* White text on accent */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%; /* Dark border */
+    --input: 0 0% 10%; /* Dark input backgrounds */
+    --ring: 217 91% 60%; /* Blue focus ring */
+    --chart-1: 217 91% 60%; /* Blue charts */
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 
   /* Base Styles */
@@ -199,11 +239,21 @@
 @layer components {
   /* Gradient Text Utility */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent;
   }
 
   .gradient-text-accent {
-    @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent;
+  }
+
+  /* Alternative gradient with better light mode contrast */
+  .gradient-text-blue {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-800 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent;
+  }
+
+  /* Extra vibrant gradient for hero sections */
+  .gradient-text-hero {
+    @apply bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 dark:from-blue-400 dark:via-purple-400 dark:to-cyan-400 bg-clip-text text-transparent;
   }
 
   /* Container */
@@ -352,4 +402,13 @@
 
 .expressive-code.mermaid-diagram {
   box-shadow: var(--ec-frm-frameBoxShdCssVal);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

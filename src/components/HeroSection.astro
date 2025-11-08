@@ -133,11 +133,16 @@ const {
             style="animation: pulse 4s ease-in-out infinite"
           >
           </div>
-          <!-- Avatar placeholder - replace with actual image -->
+          <!-- Hero Photo -->
           <div
-            class="relative aspect-square rounded-full bg-background-secondary border-2 border-foreground/10 flex items-center justify-center"
+            class="relative aspect-square rounded-full bg-background-secondary border-2 border-foreground/10 overflow-hidden"
           >
-            <span class="text-9xl">👨‍💻</span>
+            <img
+              src="/photo.png"
+              alt={`${name} - Full-Stack Developer`}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
           </div>
         </div>
       </div>

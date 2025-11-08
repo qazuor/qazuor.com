@@ -21,22 +21,36 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const title = 'qazuor - Full-Stack Developer';
+const title = t('seo.title');
 const description = t('home.description');
 
-// SEO keywords from translations
-const seoKeywords = [
-  'Full-Stack Developer',
-  'React',
-  'TypeScript',
-  'Web Development',
-  'UI/UX',
-  'JavaScript',
-  'Node.js',
-  'Astro',
-  'TailwindCSS',
-  'Portfolio',
-];
+// SEO keywords - definidos directamente ya que las traducciones no manejan bien arrays
+const seoKeywords =
+  lang === 'es'
+    ? [
+        'Desarrollador Full-Stack',
+        'React',
+        'TypeScript',
+        'Desarrollo Web',
+        'UI/UX',
+        'JavaScript',
+        'Node.js',
+        'Astro',
+        'TailwindCSS',
+        'Portafolio',
+      ]
+    : [
+        'Full-Stack Developer',
+        'React',
+        'TypeScript',
+        'Web Development',
+        'UI/UX',
+        'JavaScript',
+        'Node.js',
+        'Astro',
+        'TailwindCSS',
+        'Portfolio',
+      ];
 
 // Load Content Collections
 const allProjects = await getCollection('projects');
@@ -187,6 +201,7 @@ const testimonialsTranslations = {
 <BaseLayout
   title={title}
   description={description}
+  imageAlt={t('seo.imageAlt')}
   type="profile"
   keywords={seoKeywords}
   author={t('profile.name')}

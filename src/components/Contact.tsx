@@ -76,7 +76,7 @@ export function Contact({
   });
 
   return (
-    <section className="section">
+    <section className="section" id="contact">
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
           {/* Section Title */}

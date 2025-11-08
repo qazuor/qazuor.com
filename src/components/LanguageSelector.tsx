@@ -33,14 +33,14 @@ export function LanguageSelector({ currentLocale }: LanguageSelectorProps) {
 
   if (!mounted) {
     return (
-      <div className="p-2 rounded-lg bg-muted">
+      <div className="language-selector p-2 rounded-lg bg-muted">
         <div className="w-12 h-5" />
       </div>
     );
   }
 
   return (
-    <div className="flex gap-1 p-1 rounded-lg bg-muted">
+    <div className="language-selector flex gap-1 p-1 rounded-lg bg-muted">
       {languages.map((lang) => (
         <button
           key={lang.code}

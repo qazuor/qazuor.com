@@ -3,6 +3,7 @@
     "home": "Inicio",
     "blog": "Blog",
     "projects": "Proyectos",
+    "tools": "Herramientas",
     "about": "Acerca de",
     "skills": "Habilidades",
     "testimonials": "Testimonios",
@@ -196,6 +197,26 @@
   "seo": {
     "title": "Leandro Asrilevich - Desarrollador Full-Stack | Soluciones Web Modernas",
     "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"
+  },
+  "tools": {
+    "title": "Herramientas para Desarrolladores",
+    "subtitle": "Herramientas gratuitas y experimentos para la comunidad",
+    "categories": {
+      "all": "Todas las Herramientas",
+      "css": "CSS",
+      "design": "Diseño",
+      "utilities": "Utilidades"
+    },
+    "difficulty": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "featured": "Herramientas Destacadas",
+    "tryDemo": "Probar Demo",
+    "viewSource": "Ver Código",
+    "comingSoon": "Próximamente",
+    "noTools": "No se encontraron herramientas para esta categoría"
   },
   "aria": {
     "github": "GitHub",

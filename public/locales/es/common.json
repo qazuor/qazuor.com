@@ -3,7 +3,10 @@
     "home": "Inicio",
     "blog": "Blog",
     "projects": "Proyectos",
-    "about": "Acerca de"
+    "about": "Acerca de",
+    "skills": "Habilidades",
+    "testimonials": "Testimonios",
+    "contact": "Contacto"
   },
   "theme": {
     "light": "Claro",

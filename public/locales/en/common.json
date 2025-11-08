@@ -3,7 +3,10 @@
     "home": "Home",
     "blog": "Blog",
     "projects": "Projects",
-    "about": "About"
+    "about": "About",
+    "skills": "Skills",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
   },
   "theme": {
     "light": "Light",

@@ -49,8 +49,27 @@ const testimonialsCollection = defineCollection({
   }),
 });
 
+// Tools collection schema
+const toolsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    category: z.string(),
+    tags: z.array(z.string()),
+    featured: z.boolean().default(false),
+    difficulty: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+    demo: z.boolean().default(false),
+    iframeUrl: z.string().url().optional(),
+    order: z.number().default(999),
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
   blog: blogCollection,
   testimonials: testimonialsCollection,
+  tools: toolsCollection,
 };

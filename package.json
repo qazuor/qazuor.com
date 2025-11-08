@@ -21,6 +21,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.10",
     "@astrojs/sitemap": "^3.6.0",
     "@fontsource/alkatra": "^5.2.8",
     "@fontsource/caveat": "^5.2.8",

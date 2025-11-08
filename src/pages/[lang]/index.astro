@@ -6,7 +6,7 @@ import { Contact } from '../../components/Contact';
 import HeroSection from '../../components/HeroSection.astro';
 import ProjectsSection from '../../components/ProjectsSection.astro';
 import SkillsSection from '../../components/SkillsSection.astro';
-import { profile } from '../../data';
+import { contact } from '../../data';
 import { languages } from '../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -74,6 +74,7 @@ const sortedBlogPosts = allBlogPosts
 
 // Translations for components
 const heroTranslations = {
+  iMadeText: t('home.hero.iMadeText'),
   viewProjects: t('home.hero.viewProjects'),
   getInTouch: t('home.hero.getInTouch'),
   scroll: t('home.hero.scroll'),
@@ -153,15 +154,27 @@ const contactTranslations = {
 };
 ---
 
-<BaseLayout title={title} description={description} type="profile" keywords={seoKeywords}>
+<BaseLayout
+  title={title}
+  description={description}
+  type="profile"
+  keywords={seoKeywords}
+  author={t('profile.name')}
+  jobTitle={t('profile.role')}
+  socialLinks={{
+    github: contact.social.github,
+    twitter: contact.social.twitter,
+    linkedin: contact.social.linkedin,
+  }}
+>
   <!-- Hero Section -->
   <HeroSection
-    name={profile.name}
+    name={t('profile.name')}
     roles={[
-      t('home.roles.fullstack'),
-      t('home.roles.react'),
-      t('home.roles.uiux'),
-      t('home.roles.solver'),
+      t('home.iMade.webapps'),
+      t('home.iMade.interfaces'),
+      t('home.iMade.solutions'),
+      t('home.iMade.experiences'),
     ]}
     subtitle={t('home.hero.subtitle')}
     translations={heroTranslations}
@@ -170,11 +183,11 @@ const contactTranslations = {
 
   <!-- About Section -->
   <AboutSection
-    name={profile.name}
-    role={t('home.roles.fullstack')}
-    location={profile.location}
-    experience={profile.experience}
-    email={profile.email}
+    name={t('profile.name')}
+    role={t('roles.fullstack')}
+    location={contact.location}
+    experience={t('profile.experience')}
+    email={contact.email}
     availability={t('about.availability')}
     bio={t('about.bio')}
     translations={aboutTranslations}
@@ -184,14 +197,14 @@ const contactTranslations = {
   <SkillsSection translations={skillsTranslations} />
 
   <!-- Projects Section -->
-  <ProjectsSection projects={sortedProjects} translations={projectsTranslations} cardTranslations={projectCardTranslations} />
+  <ProjectsSection
+    projects={sortedProjects}
+    translations={projectsTranslations}
+    cardTranslations={projectCardTranslations}
+  />
 
   <!-- Blog Section -->
-  <BlogSection
-    posts={sortedBlogPosts}
-    translations={blogTranslations}
-    lang={lang}
-  />
+  <BlogSection posts={sortedBlogPosts} translations={blogTranslations} lang={lang} />
 
   <!-- Contact Section -->
   <Contact client:load translations={contactTranslations} />

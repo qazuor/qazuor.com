@@ -1,4 +1,6 @@
 ---
+import { contact } from '../data';
+
 /**
  * SEO Component
  *
@@ -28,6 +30,12 @@ export interface SEOProps {
   noindex?: boolean;
   nofollow?: boolean;
   breadcrumbs?: Array<{ name: string; url: string }>;
+  jobTitle?: string;
+  socialLinks?: {
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
 }
 
 const {
@@ -46,6 +54,12 @@ const {
   noindex = false,
   nofollow = false,
   breadcrumbs,
+  jobTitle = 'Full-Stack Developer',
+  socialLinks = {
+    github: contact.social.github,
+    twitter: contact.social.twitter,
+    linkedin: contact.social.linkedin,
+  },
 } = Astro.props;
 
 // Get the full URL for the current page
@@ -88,13 +102,9 @@ const jsonLd = {
   ...(type === 'profile' && {
     '@type': 'Person',
     name: author,
-    jobTitle: 'Full-Stack Developer',
+    jobTitle: jobTitle,
     url: Astro.site?.href,
-    sameAs: [
-      'https://github.com/qazuor',
-      'https://twitter.com/qazuor',
-      'https://linkedin.com/in/qazuor',
-    ],
+    sameAs: [socialLinks.github, socialLinks.twitter, socialLinks.linkedin].filter(Boolean),
   }),
 };
 
@@ -104,7 +114,7 @@ const breadcrumbsJsonLd =
     ? {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
-        itemListElement: breadcrumbs.map((crumb, index) => ({
+        itemListElement: breadcrumbs.map((crumb: { name: string; url: string }, index: number) => ({
           '@type': 'ListItem',
           position: index + 1,
           name: crumb.name,
@@ -133,16 +143,18 @@ const breadcrumbsJsonLd =
 <meta property="og:locale" content={locale} />
 
 <!-- Article specific tags -->
-{type === 'article' && publishDate && (
-  <>
-    <meta property="article:published_time" content={publishDate} />
-    {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
-    <meta property="article:author" content={author} />
-    {articleTags.map((tag: string) => (
-      <meta property="article:tag" content={tag} />
-    ))}
-  </>
-)}
+{
+  type === 'article' && publishDate && (
+    <>
+      <meta property="article:published_time" content={publishDate} />
+      {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+      <meta property="article:author" content={author} />
+      {articleTags.map((tag: string) => (
+        <meta property="article:tag" content={tag} />
+      ))}
+    </>
+  )
+}
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
@@ -167,6 +179,8 @@ const breadcrumbsJsonLd =
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
 <!-- Breadcrumbs JSON-LD (if provided) -->
-{breadcrumbsJsonLd && (
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbsJsonLd)} />
-)}
+{
+  breadcrumbsJsonLd && (
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbsJsonLd)} />
+  )
+}

@@ -12,12 +12,22 @@ interface CommandPaletteProps {
   lang: string;
   ariaLabel?: string;
   placeholder?: string;
+  socialLinks?: {
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
 }
 
 export function CommandPalette({
   lang,
   ariaLabel = 'Close command palette',
   placeholder = 'Type a command or search...',
+  socialLinks = {
+    github: 'https://github.com/qazuor',
+    twitter: 'https://twitter.com/qazuor',
+    linkedin: 'https://linkedin.com/in/qazuor',
+  },
 }: CommandPaletteProps) {
   const [open, setOpen] = useState(false);
 
@@ -115,7 +125,7 @@ export function CommandPalette({
               className="px-2 pt-2 pb-1 text-xs font-semibold text-foreground-muted"
             >
               <Command.Item
-                onSelect={() => openExternal('https://github.com/qazuor')}
+                onSelect={() => openExternal(socialLinks.github || 'https://github.com/qazuor')}
                 className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
               >
                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
@@ -124,7 +134,7 @@ export function CommandPalette({
               </Command.Item>
 
               <Command.Item
-                onSelect={() => openExternal('https://twitter.com/qazuor')}
+                onSelect={() => openExternal(socialLinks.twitter || 'https://twitter.com/qazuor')}
                 className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
               >
                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
@@ -133,7 +143,9 @@ export function CommandPalette({
               </Command.Item>
 
               <Command.Item
-                onSelect={() => openExternal('https://linkedin.com/in/qazuor')}
+                onSelect={() =>
+                  openExternal(socialLinks.linkedin || 'https://linkedin.com/in/qazuor')
+                }
                 className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
               >
                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}

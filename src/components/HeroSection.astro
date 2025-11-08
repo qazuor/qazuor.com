@@ -1,4 +1,5 @@
 ---
+import { contact } from '../data';
 import GithubIcon from '../icons/social/github.svg?raw';
 import LinkedinIcon from '../icons/social/linkedin.svg?raw';
 import TwitterIcon from '../icons/social/twitter.svg?raw';
@@ -9,6 +10,7 @@ interface Props {
   roles?: string[];
   subtitle?: string;
   translations?: {
+    iMadeText: string;
     viewProjects: string;
     getInTouch: string;
     scroll: string;
@@ -22,9 +24,10 @@ interface Props {
 
 const {
   name = 'qazuor',
-  roles = ['Full-Stack Developer', 'React Specialist', 'UI/UX Enthusiast', 'Problem Solver'],
+  roles = ['awesome web apps', 'beautiful interfaces', 'scalable solutions', 'user experiences'],
   subtitle = 'Building beautiful, performant, and accessible web experiences',
   translations = {
+    iMadeText: 'I made',
     viewProjects: 'View Projects',
     getInTouch: 'Get in Touch',
     scroll: 'Scroll',
@@ -37,10 +40,7 @@ const {
 } = Astro.props;
 ---
 
-<section
-  class="relative min-h-screen flex items-center justify-center overflow-hidden"
-  id="hero"
->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero">
   <!-- Animated Gradient Background -->
   <div class="absolute inset-0 -z-10">
     <div
@@ -69,15 +69,16 @@ const {
 
         <!-- Changing Role with TypeIt -->
         <div class="hero-element">
-          <div class="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground min-h-[3rem]">
-            <span id="typeit" class="text-primary"></span>
+          <div class="text-xl md:text-1xl lg:text-xl font-semibold text-foreground min-h-[3rem]">
+            <span class="text-foreground-secondary">{translations.iMadeText}</span>
+            <span id="typeit" class="text-primary font-sometype" data-roles={JSON.stringify(roles)}
+              >{roles[0]}</span
+            >
           </div>
         </div>
 
         <!-- Subtitle -->
-        <p
-          class="hero-element text-lg md:text-xl text-foreground-secondary max-w-2xl text-balance"
-        >
+        <p class="hero-element text-lg md:text-xl text-foreground-secondary max-w-2xl text-balance">
           {subtitle}
         </p>
 
@@ -94,7 +95,7 @@ const {
         <!-- Social Links -->
         <div class="hero-element flex gap-4">
           <a
-            href="https://github.com/qazuor"
+            href={contact.social.github}
             target="_blank"
             rel="noopener noreferrer"
             class="text-foreground-secondary hover:text-primary transition-colors duration-base"
@@ -103,7 +104,7 @@ const {
             <div class="w-6 h-6" set:html={GithubIcon} />
           </a>
           <a
-            href="https://twitter.com/qazuor"
+            href={contact.social.twitter}
             target="_blank"
             rel="noopener noreferrer"
             class="text-foreground-secondary hover:text-primary transition-colors duration-base"
@@ -112,7 +113,7 @@ const {
             <div class="w-6 h-6" set:html={TwitterIcon} />
           </a>
           <a
-            href="https://linkedin.com/in/qazuor"
+            href={contact.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             class="text-foreground-secondary hover:text-primary transition-colors duration-base"
@@ -152,21 +153,33 @@ const {
   </div>
 </section>
 
-<script define:vars={{ roles }} is:inline>
-  // @ts-nocheck - Script uses define:vars which injects roles
+<script>
   import TypeIt from 'typeit';
 
-  const typeItElement = document.getElementById('typeit');
+  // Initialize TypeIt when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const typeItElement = document.getElementById('typeit');
 
-  if (typeItElement) {
-    new TypeIt(typeItElement, {
-      strings: roles,
-      speed: 50,
-      breakLines: false,
-      loop: true,
-      waitUntilVisible: true,
-      deleteSpeed: 30,
-      nextStringDelay: 2000,
-    }).go();
-  }
+    if (typeItElement) {
+      const rolesData = typeItElement.getAttribute('data-roles');
+
+      if (rolesData) {
+        try {
+          const roles = JSON.parse(rolesData);
+
+          new TypeIt(typeItElement, {
+            strings: roles,
+            speed: 50,
+            breakLines: false,
+            loop: true,
+            waitUntilVisible: true,
+            deleteSpeed: 30,
+            nextStringDelay: 2000,
+          }).go();
+        } catch (error) {
+          console.error('Error parsing roles data:', error);
+        }
+      }
+    }
+  });
 </script>

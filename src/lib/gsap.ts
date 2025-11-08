@@ -70,7 +70,7 @@ export const animations = {
   },
 
   /**
-   * Parallax effect
+   * Simple scroll parallax effect for elements
    */
   parallax: (element: string | Element, yDistance = 100, options: AnimationOptions = {}) => {
     return gsap.to(element, {

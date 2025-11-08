@@ -6,6 +6,7 @@ import { Contact } from '../../components/Contact';
 import HeroSection from '../../components/HeroSection.astro';
 import ProjectsSection from '../../components/ProjectsSection.astro';
 import SkillsSection from '../../components/SkillsSection.astro';
+import TestimonialsSection from '../../components/TestimonialsSection.astro';
 import { contact } from '../../data';
 import { languages } from '../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
@@ -40,6 +41,7 @@ const seoKeywords = [
 // Load Content Collections
 const allProjects = await getCollection('projects');
 const allBlogPosts = await getCollection('blog');
+const allTestimonials = await getCollection('testimonials');
 
 // Sort projects by order field, then by date
 const sortedProjects = allProjects
@@ -70,6 +72,25 @@ const sortedBlogPosts = allBlogPosts
     readTime: post.data.readTime,
     tags: post.data.tags,
     slug: `/${lang}/blog/${post.slug}`,
+  }));
+
+// Sort testimonials by order and date
+const sortedTestimonials = allTestimonials
+  .sort((a, b) => {
+    if (a.data.order !== b.data.order) {
+      return a.data.order - b.data.order;
+    }
+    return b.data.date.getTime() - a.data.date.getTime();
+  })
+  .map((testimonial) => ({
+    name: testimonial.data.name,
+    role: testimonial.data.role,
+    company: testimonial.data.company,
+    content: testimonial.data.content,
+    avatar: testimonial.data.avatar,
+    linkedinUrl: testimonial.data.linkedinUrl,
+    twitterUrl: testimonial.data.twitterUrl,
+    source: testimonial.data.source,
   }));
 
 // Translations for components
@@ -152,6 +173,15 @@ const contactTranslations = {
   success: t('contact.success'),
   error: t('contact.error'),
 };
+
+const testimonialsTranslations = {
+  title: t('testimonials.title'),
+  subtitle: t('testimonials.subtitle'),
+  noTestimonials: t('testimonials.noTestimonials'),
+  readMore: t('testimonials.readMore'),
+  readLess: t('testimonials.readLess'),
+  viewProfile: t('testimonials.viewProfile'),
+};
 ---
 
 <BaseLayout
@@ -205,6 +235,9 @@ const contactTranslations = {
 
   <!-- Blog Section -->
   <BlogSection posts={sortedBlogPosts} translations={blogTranslations} lang={lang} />
+
+  <!-- Testimonials Section -->
+  <TestimonialsSection testimonials={sortedTestimonials} translations={testimonialsTranslations} />
 
   <!-- Contact Section -->
   <Contact client:load translations={contactTranslations} />

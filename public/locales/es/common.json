@@ -104,12 +104,14 @@
     "connect": "¡Construyamos algo increíble juntos!"
   },
   "skills": {
-    "title": "Stack Tecnológico",
+    "title": "Habilidades",
     "subtitle": "Tecnologías con las que trabajo",
+    "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la tecnología cambia constantemente y eso es lo que lo hace emocionante! Mantengo constantemente mis conocimientos actualizados y me encanta explorar nuevas tecnologías para seguir creciendo.",
     "categories": {
-      "frontend": "Frontend",
-      "backend": "Backend",
-      "tools": "Herramientas y Otros"
+      "dev": "Habilidades de Desarrollo",
+      "design": "Habilidades de Diseño",
+      "languages": "Habilidades de Idiomas",
+      "tools": "Herramientas"
     }
   },
   "projects": {

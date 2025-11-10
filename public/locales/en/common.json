@@ -104,12 +104,14 @@
     "connect": "Let's build something amazing together!"
   },
   "skills": {
-    "title": "Tech Stack",
+    "title": "Skills",
     "subtitle": "Technologies I work with",
+    "description": "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
     "categories": {
-      "frontend": "Frontend",
-      "backend": "Backend",
-      "tools": "Tools & Others"
+      "dev": "Dev Skills",
+      "design": "Design Skills",
+      "languages": "Language Skills",
+      "tools": "Tools"
     }
   },
   "projects": {

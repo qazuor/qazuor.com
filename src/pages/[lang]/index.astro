@@ -203,7 +203,7 @@ const testimonialsTranslations = {
   viewProfile: t('testimonials.viewProfile'),
 };
 
-const colors = {
+const sectionsColors = {
   hero: '#473472',
   about: '#53629E',
   skills: '#473472',
@@ -232,7 +232,7 @@ const colors = {
   <!-- Hero Section (background with gradients) -->
   <div class="relative">
     <HeroSection
-      primaryColor={colors.hero}
+      primaryColor={sectionsColors.hero}
       name={t('profile.name')}
       roles={[
         t('home.iMade.webapps'),
@@ -244,13 +244,13 @@ const colors = {
       translations={heroTranslations}
       ariaLabels={heroAriaLabels}
     />
-    <WaveDivider nextSectionColor={colors.about} upperSectionColor={colors.hero} />
+    <WaveDivider nextSectionColor={sectionsColors.about} upperSectionColor={sectionsColors.hero} />
   </div>
 
   <!-- About Section with purple gradient background -->
   <div class="relative">
     <AboutSection
-      primaryColor={colors.about}
+      primaryColor={sectionsColors.about}
       name={t('profile.name')}
       role={t('roles.fullstack')}
       location={contact.location}
@@ -262,29 +262,29 @@ const colors = {
       translations={aboutTranslations}
     />
     <DiagonalDivider
-      nextSectionColor={colors.skills}
-      upperSectionColor={colors.about}
+      nextSectionColor={sectionsColors.skills}
+      upperSectionColor={sectionsColors.about}
       direction="mixed"
     />
   </div>
 
   <!-- Skills Section with indigo gradient background -->
   <div class="relative">
-    <SkillsSection primaryColor={colors.skills} translations={skillsTranslations} />
-    <ParticlesDivider nextSectionColor={colors.projects} upperSectionColor={colors.skills} />
+    <SkillsSection primaryColor={sectionsColors.skills} translations={skillsTranslations} />
+    <ParticlesDivider nextSectionColor={sectionsColors.projects} upperSectionColor={sectionsColors.skills} />
   </div>
 
   <!-- Projects Section with blue gradient background -->
   <div class="relative">
     <ProjectsSection
-      primaryColor={colors.projects}
+      primaryColor={sectionsColors.projects}
       projects={sortedProjects}
       translations={projectsTranslations}
       cardTranslations={projectCardTranslations}
     />
     <DiagonalDivider
-      nextSectionColor={colors.blog}
-      upperSectionColor={colors.projects}
+      nextSectionColor={sectionsColors.blog}
+      upperSectionColor={sectionsColors.projects}
       direction="right"
     />
   </div>
@@ -292,14 +292,14 @@ const colors = {
   <!-- Blog Section with cyan gradient background -->
   <div class="relative">
     <BlogSection
-      primaryColor={colors.blog}
+      primaryColor={sectionsColors.blog}
       posts={sortedBlogPosts}
       translations={blogTranslations}
       lang={lang}
     />
     <DiagonalDivider
-      nextSectionColor={colors.testimonials}
-      upperSectionColor={colors.blog}
+      nextSectionColor={sectionsColors.testimonials}
+      upperSectionColor={sectionsColors.blog}
       direction="left"
     />
   </div>
@@ -307,19 +307,19 @@ const colors = {
   <!-- Testimonials Section with purple gradient background -->
   <div class="relative">
     <TestimonialsSection
-      primaryColor={colors.testimonials}
+      primaryColor={sectionsColors.testimonials}
       testimonials={sortedTestimonials}
       translations={testimonialsTranslations}
     />
-    <ZigzagDivider nextSectionColor={colors.contact} upperSectionColor={colors.testimonials} />
+    <ZigzagDivider nextSectionColor={sectionsColors.contact} upperSectionColor={sectionsColors.testimonials} />
   </div>
 
   <!-- Contact Section (normal background) -->
   <div class="relative">
-    <Contact client:load primaryColor={colors.contact} translations={contactTranslations} />
+    <Contact client:load primaryColor={sectionsColors.contact} translations={contactTranslations} />
     <DiagonalDivider
-      nextSectionColor={colors.footer}
-      upperSectionColor={colors.contact}
+      nextSectionColor={sectionsColors.footer}
+      upperSectionColor={sectionsColors.contact}
       direction="left"
     />
   </div>

@@ -469,19 +469,6 @@
     @apply relative z-20;
   }
 
-  /* Enhanced gradients for better visual hierarchy */
-  .gradient-text {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--color-primary)) 0%,
-      hsl(var(--color-primary) / 0.8) 50%,
-      hsl(var(--color-secondary)) 100%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
   /* Section title improvements */
   .section-title {
     @apply mb-16 text-center;

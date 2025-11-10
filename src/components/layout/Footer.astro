@@ -1,0 +1,277 @@
+---
+import { getCollection } from 'astro:content';
+import { contact } from '../../data/contact';
+
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+
+// Get latest projects
+const allProjects = await getCollection('projects');
+const latestProjects = allProjects
+  .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
+  .slice(0, 4);
+
+// Footer data
+const footerData = {
+  en: {
+    contact: {
+      title: 'Contact information',
+      description:
+        'Feel free to reach out to me any time. I prefer to talk over email, especially since we may be a few time zones away.',
+      email: contact.email,
+      phone: '+1-234-567-8900',
+    },
+    projects: {
+      title: 'Latest projects',
+      items: [
+        ...latestProjects.map((project) => ({
+          name: project.data.title,
+          url: `/en/projects#${project.slug}`,
+        })),
+        { name: 'All projects', url: '/en/projects' },
+      ],
+    },
+    availability: {
+      title: 'Current availability',
+      description:
+        "I usually work on several projects but I'll be happy to discuss new opportunities.",
+      cta: "Let's get in touch!",
+    },
+    social: {
+      title: 'Follow me on',
+      links: [
+        { name: 'GitHub', url: contact.social.github },
+        { name: 'Twitter', url: contact.social.twitter },
+        { name: 'LinkedIn', url: contact.social.linkedin },
+        { name: 'Instagram', url: contact.social.instagram || '#' },
+      ],
+    },
+  },
+  es: {
+    contact: {
+      title: 'Información de contacto',
+      description:
+        'No dudes en contactarme en cualquier momento. Prefiero hablar por email, especialmente porque podemos estar en diferentes zonas horarias.',
+      email: contact.email,
+      phone: '+1-234-567-8900',
+    },
+    projects: {
+      title: 'Proyectos recientes',
+      items: [
+        ...latestProjects.map((project) => ({
+          name: project.data.title,
+          url: `/es/projects#${project.slug}`,
+        })),
+        { name: 'Todos los proyectos', url: '/es/projects' },
+      ],
+    },
+    availability: {
+      title: 'Disponibilidad actual',
+      description:
+        'Usualmente trabajo en varios proyectos pero estaré encantado de discutir nuevas oportunidades.',
+      cta: '¡Pongámonos en contacto!',
+    },
+    social: {
+      title: 'Sígueme en',
+      links: [
+        { name: 'GitHub', url: contact.social.github },
+        { name: 'Twitter', url: contact.social.twitter },
+        { name: 'LinkedIn', url: contact.social.linkedin },
+        { name: 'Instagram', url: contact.social.instagram || '#' },
+      ],
+    },
+  },
+};
+
+const currentYear = new Date().getFullYear();
+const data = footerData[lang];
+---
+
+<footer class="bg-background py-16 md:py-20 border-t border-foreground/10">
+  <div class="container-custom">
+    <!-- Main Footer Content -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+      <!-- Contact Information -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-foreground">
+          {data.contact.title}
+          <span class="text-foreground-muted">—</span>
+        </h3>
+        <p class="text-sm text-foreground-muted leading-relaxed max-w-xs">
+          {data.contact.description}
+        </p>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-foreground-muted">E:</span>
+            <a
+              href={`mailto:${data.contact.email}`}
+              class="text-sm text-foreground hover:text-primary transition-colors duration-base"
+            >
+              {data.contact.email}
+            </a>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-foreground-muted">P:</span>
+            <span class="text-sm text-foreground-muted">{data.contact.phone}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Latest Projects -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-foreground">
+          {data.projects.title}
+          <span class="text-foreground-muted">—</span>
+        </h3>
+        <ul class="space-y-2">
+          {
+            data.projects.items.map((project) => (
+              <li>
+                <a
+                  href={project.url}
+                  class="text-sm text-foreground-muted hover:text-primary transition-colors duration-base"
+                >
+                  {project.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Current Availability -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-foreground">
+          {data.availability.title}
+          <span class="text-foreground-muted">—</span>
+        </h3>
+        <p class="text-sm text-foreground-muted leading-relaxed max-w-xs">
+          {data.availability.description}
+        </p>
+        <a
+          href={`mailto:${contact.email}`}
+          class="inline-block text-sm text-primary hover:text-primary/80 transition-colors duration-base font-medium"
+        >
+          {data.availability.cta}
+        </a>
+      </div>
+
+      <!-- Social Links -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-foreground">
+          {data.social.title}
+          <span class="text-foreground-muted">—</span>
+        </h3>
+        <ul class="space-y-2">
+          {
+            data.social.links.map((link) => (
+              <li>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-foreground-muted hover:text-primary transition-colors duration-base"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Footer -->
+    <div class="pt-8 border-t border-foreground/10">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <!-- Copyright -->
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
+            <span class="text-sm font-medium text-foreground">Q</span>
+          </div>
+          <span class="text-xs text-foreground-muted">
+            © {currentYear} Qazuor. Made with 💙 in Remote.
+          </span>
+        </div>
+
+        <!-- Email Contact -->
+        <a
+          href={`mailto:${contact.email}`}
+          class="flex items-center gap-2 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 transition-all duration-base group"
+          aria-label="Send email"
+        >
+          <div
+            class="w-6 h-6 rounded-full bg-foreground/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-base"
+          >
+            <svg
+              class="w-3 h-3 text-foreground group-hover:text-primary transition-colors duration-base"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              ></path>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Scroll to Top -->
+        <button
+          class="flex items-center gap-2 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 transition-all duration-base group scroll-to-top"
+          aria-label="Scroll to top"
+        >
+          <div
+            class="w-6 h-6 rounded-full bg-foreground/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-base"
+          >
+            <svg
+              class="w-3 h-3 text-foreground group-hover:text-primary transition-colors duration-base"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 15l7-7 7 7"></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll to top functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollButton = document.querySelector('.scroll-to-top');
+    if (scrollButton) {
+      scrollButton.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Custom hover effects */
+  footer a:hover {
+    transform: translateY(-1px);
+  }
+
+  .scroll-to-top:hover,
+  .scroll-to-top:focus {
+    transform: translateY(-2px);
+  }
+</style>

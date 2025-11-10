@@ -1,0 +1,131 @@
+---
+import { skillsData } from '../../data';
+import AstroIcon from '../../icons/tech/astro.svg?raw';
+import CanvaIcon from '../../icons/tech/canva.svg?raw';
+import ClaudeIcon from '../../icons/tech/claude.svg?raw';
+import CoreldrawIcon from '../../icons/tech/coreldraw.svg?raw';
+import Css3Icon from '../../icons/tech/css3.svg?raw';
+import DrizzleIcon from '../../icons/tech/drizzle.svg?raw';
+import EnglishIcon from '../../icons/tech/english.svg?raw';
+import GitIcon from '../../icons/tech/git.svg?raw';
+import GithubIcon from '../../icons/tech/github.svg?raw';
+import HonoIcon from '../../icons/tech/hono.svg?raw';
+import Html5Icon from '../../icons/tech/html5.svg?raw';
+// Import all the new icons as raw SVG strings
+import JavascriptIcon from '../../icons/tech/javascript.svg?raw';
+import NodeJSIcon from '../../icons/tech/nodejs.svg?raw';
+// Design icons
+import PhotoshopIcon from '../../icons/tech/photoshop.svg?raw';
+import PostgresqlIcon from '../../icons/tech/postgresql.svg?raw';
+import ReactIcon from '../../icons/tech/react.svg?raw';
+import RestApiIcon from '../../icons/tech/restapi.svg?raw';
+// Language icons
+import SpanishIcon from '../../icons/tech/spanish.svg?raw';
+import TailwindIcon from '../../icons/tech/tailwind.svg?raw';
+import TanstackIcon from '../../icons/tech/tanstack.svg?raw';
+import TypeScriptIcon from '../../icons/tech/typescript.svg?raw';
+import VscodeIcon from '../../icons/tech/vscode.svg?raw';
+import ZodIcon from '../../icons/tech/zod.svg?raw';
+import SkillsGrid from '../interactive/SkillsGrid.tsx';
+
+interface Props {
+  primaryColor?: string;
+  translations?: {
+    title: string;
+    subtitle: string;
+    description: string;
+    categoryTitles?: {
+      dev?: string;
+      design?: string;
+      languages?: string;
+      tools?: string;
+    };
+  };
+}
+
+const {
+  primaryColor = '#4f46e5',
+  translations = {
+    title: 'Skills',
+    subtitle: 'Technologies I work with',
+    description:
+      "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
+    categoryTitles: {
+      dev: 'Dev Skills',
+      design: 'Design Skills',
+      languages: 'Language Skills',
+      tools: 'Tools & Others',
+    },
+  },
+} = Astro.props;
+
+const icons: Record<string, string> = {
+  // Dev skills
+  javascript: JavascriptIcon,
+  typescript: TypeScriptIcon,
+  nodejs: NodeJSIcon,
+  drizzle: DrizzleIcon,
+  git: GitIcon,
+  postgresql: PostgresqlIcon,
+  react: ReactIcon,
+  astro: AstroIcon,
+  tanstack: TanstackIcon,
+  tailwind: TailwindIcon,
+  css3: Css3Icon,
+  html5: Html5Icon,
+  hono: HonoIcon,
+  restapi: RestApiIcon,
+  zod: ZodIcon,
+  // Tools
+  github: GithubIcon,
+  vscode: VscodeIcon,
+  claude: ClaudeIcon,
+  // Design
+  coreldraw: CoreldrawIcon,
+  photoshop: PhotoshopIcon,
+  canva: CanvaIcon,
+  // Languages
+  english: EnglishIcon,
+  spanish: SpanishIcon,
+};
+
+// Map data with translated titles and icons
+const categories = skillsData.map((category) => ({
+  title:
+    translations.categoryTitles?.[category.id as keyof typeof translations.categoryTitles] ||
+    category.id,
+  skills: category.skills.map((skill) => ({
+    ...skill,
+    icon: icons[skill.icon] || '',
+  })),
+}));
+---
+
+<section class="section skills-section" id="skills" style={`background-color: ${primaryColor}`}>
+  <div class="container-custom">
+    <div class="max-w-6xl mx-auto">
+      <!-- Section Title -->
+      <div class="mb-16 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          <span class="gradient-text">{translations.title}</span>
+        </h2>
+        <p class="text-foreground-secondary text-lg mb-8">{translations.subtitle}</p>
+        <div class="max-w-3xl mx-auto">
+          <p class="text-foreground-secondary">{translations.description}</p>
+        </div>
+      </div>
+
+      <!-- Skills Grid -->
+      <SkillsGrid categories={categories} client:load />
+    </div>
+  </div>
+</section>
+
+<style>
+  .skill-category h3 {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>

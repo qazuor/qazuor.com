@@ -1,0 +1,196 @@
+---
+import { contact } from '../../data';
+import GithubIcon from '../../icons/social/github.svg?raw';
+import LinkedinIcon from '../../icons/social/linkedin.svg?raw';
+import TwitterIcon from '../../icons/social/twitter.svg?raw';
+import ArrowDownIcon from '../../icons/ui/arrow-down.svg?raw';
+
+interface Props {
+  primaryColor?: string;
+  name?: string;
+  roles?: string[];
+  subtitle?: string;
+  translations?: {
+    iMadeText: string;
+    viewProjects: string;
+    getInTouch: string;
+    scroll: string;
+  };
+  ariaLabels?: {
+    github: string;
+    twitter: string;
+    linkedin: string;
+  };
+}
+
+const {
+  primaryColor = '#1a1a1a',
+  name = 'qazuor',
+  roles = ['awesome web apps', 'beautiful interfaces', 'scalable solutions', 'user experiences'],
+  subtitle = 'Building beautiful, performant, and accessible web experiences',
+  translations = {
+    iMadeText: 'I made',
+    viewProjects: 'View Projects',
+    getInTouch: 'Get in Touch',
+    scroll: 'Scroll',
+  },
+  ariaLabels = {
+    github: 'GitHub',
+    twitter: 'Twitter',
+    linkedin: 'LinkedIn',
+  },
+} = Astro.props;
+---
+
+<section
+  class="relative min-h-screen flex items-center justify-center overflow-hidden hero-section"
+  id="hero"
+  style={`background-color: ${primaryColor}`}
+>
+  <!-- Animated Gradient Background -->
+  <div class="absolute inset-0 -z-10">
+    <div
+      class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-[128px] animate-pulse"
+    >
+    </div>
+    <div
+      class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-[128px]"
+      style="animation: pulse 4s ease-in-out infinite"
+    >
+    </div>
+  </div>
+
+  <div class="container-custom">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Text Content -->
+      <div class="space-y-8">
+        <!-- HTML Tag Name -->
+        <div class="hero-element">
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">
+            <span class="text-foreground-secondary font-mono text-3xl md:text-4xl">&lt;</span>
+            <span class="gradient-text">{name}</span>
+            <span class="text-foreground-secondary font-mono text-3xl md:text-4xl"> /&gt;</span>
+          </h1>
+        </div>
+
+        <!-- Changing Role with TypeIt -->
+        <div class="hero-element">
+          <div class="text-xl md:text-1xl lg:text-xl font-semibold text-foreground min-h-[3rem]">
+            <span class="text-foreground-secondary">{translations.iMadeText}</span>
+            <span id="typeit" class="text-primary font-sometype" data-roles={JSON.stringify(roles)}
+              >{roles[0]}</span
+            >
+          </div>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="hero-element text-lg md:text-xl text-foreground-secondary max-w-2xl text-balance">
+          {subtitle}
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-element flex flex-wrap gap-4">
+          <a href="#projects" class="btn-primary">
+            {translations.viewProjects}
+          </a>
+          <a href="#contact" class="btn-ghost">
+            {translations.getInTouch}
+          </a>
+        </div>
+
+        <!-- Social Links -->
+        <div class="hero-element flex gap-4">
+          <a
+            href={contact.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground-secondary hover:text-primary transition-colors duration-base"
+            aria-label={ariaLabels.github}
+          >
+            <div class="w-6 h-6" set:html={GithubIcon} />
+          </a>
+          <a
+            href={contact.social.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground-secondary hover:text-primary transition-colors duration-base"
+            aria-label={ariaLabels.twitter}
+          >
+            <div class="w-6 h-6" set:html={TwitterIcon} />
+          </a>
+          <a
+            href={contact.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground-secondary hover:text-primary transition-colors duration-base"
+            aria-label={ariaLabels.linkedin}
+          >
+            <div class="w-6 h-6" set:html={LinkedinIcon} />
+          </a>
+        </div>
+      </div>
+
+      <!-- Avatar with Gradient (Placeholder) -->
+      <div class="hero-element hidden lg:block relative">
+        <div class="relative w-full max-w-md mx-auto">
+          <!-- Animated gradient background -->
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-full blur-3xl opacity-30"
+            style="animation: pulse 4s ease-in-out infinite"
+          >
+          </div>
+          <!-- Hero Photo -->
+          <div
+            class="relative aspect-square rounded-full bg-background-secondary border-2 border-foreground/10 overflow-hidden"
+          >
+            <img
+              src="/photo.png"
+              alt={`${name} - Full-Stack Developer`}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div
+      class="hero-element absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+    >
+      <span class="text-sm text-foreground-secondary">{translations.scroll}</span>
+      <div class="w-6 h-6 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import TypeIt from 'typeit';
+
+  // Initialize TypeIt when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const typeItElement = document.getElementById('typeit');
+
+    if (typeItElement) {
+      const rolesData = typeItElement.getAttribute('data-roles');
+
+      if (rolesData) {
+        try {
+          const roles = JSON.parse(rolesData);
+
+          new TypeIt(typeItElement, {
+            strings: roles,
+            speed: 50,
+            breakLines: false,
+            loop: true,
+            waitUntilVisible: true,
+            deleteSpeed: 30,
+            nextStringDelay: 2000,
+          }).go();
+        } catch (error) {
+          console.error('Error parsing roles data:', error);
+        }
+      }
+    }
+  });
+</script>

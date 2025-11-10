@@ -1,0 +1,119 @@
+---
+/**
+ * ZigzagDivider Component
+ * @param {string} nextSectionColor - Color de la siguiente sección (formato hex: "#RRGGBB")
+ * @param {string} upperSectionColor - Color de la sección superior (formato hex: "#RRGGBB")
+ */
+
+interface Props {
+  nextSectionColor: string;
+  upperSectionColor: string;
+}
+
+const { nextSectionColor, upperSectionColor } = Astro.props;
+
+function interpolateColor(color1: string, color2: string, factor: number): string {
+  const hex1 = color1.replace('#', '');
+  const hex2 = color2.replace('#', '');
+
+  const r1 = Number.parseInt(hex1.substring(0, 2), 16);
+  const g1 = Number.parseInt(hex1.substring(2, 4), 16);
+  const b1 = Number.parseInt(hex1.substring(4, 6), 16);
+
+  const r2 = Number.parseInt(hex2.substring(0, 2), 16);
+  const g2 = Number.parseInt(hex2.substring(2, 4), 16);
+  const b2 = Number.parseInt(hex2.substring(4, 6), 16);
+
+  const r = Math.round(r1 + (r2 - r1) * factor);
+  const g = Math.round(g1 + (g2 - g1) * factor);
+  const b = Math.round(b1 + (b2 - b1) * factor);
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
+const color1 = interpolateColor(upperSectionColor, nextSectionColor, 0.25);
+const color2 = interpolateColor(upperSectionColor, nextSectionColor, 0.5);
+const color3 = interpolateColor(upperSectionColor, nextSectionColor, 0.75);
+const color4 = nextSectionColor;
+---
+
+<div class="zigzag-divider">
+  <svg class="relative block w-full h-32 md:h-40" viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <!-- Zigzag capa 1 - más atrás -->
+    <path
+      d="M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z"
+      fill={color1}
+      fill-opacity="0.4"
+    >
+      <animate
+        attributeName="d"
+        dur="10s"
+        repeatCount="indefinite"
+        values="
+          M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z;
+          M0,120 L0,70 L100,50 L200,70 L300,50 L400,70 L500,50 L600,70 L700,50 L800,70 L900,50 L1000,70 L1100,50 L1200,70 L1200,120 Z;
+          M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z
+        "
+      ></animate>
+    </path>
+
+    <!-- Zigzag capa 2 -->
+    <path
+      d="M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z"
+      fill={color2}
+      fill-opacity="0.5"
+    >
+      <animate
+        attributeName="d"
+        dur="8s"
+        repeatCount="indefinite"
+        values="
+          M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z;
+          M0,120 L0,85 L120,65 L240,85 L360,65 L480,85 L600,65 L720,85 L840,65 L960,85 L1080,65 L1200,85 L1200,120 Z;
+          M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z
+        "
+      ></animate>
+    </path>
+
+    <!-- Zigzag capa 3 -->
+    <path
+      d="M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z"
+      fill={color3}
+      fill-opacity="0.6"
+    >
+      <animate
+        attributeName="d"
+        dur="6s"
+        repeatCount="indefinite"
+        values="
+          M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z;
+          M0,120 L0,90 L150,75 L300,90 L450,75 L600,90 L750,75 L900,90 L1050,75 L1200,90 L1200,120 Z;
+          M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z
+        "
+      ></animate>
+    </path>
+
+    <!-- Base sólida con zigzag frontal -->
+    <path
+      d="M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z"
+      fill={color4}
+    >
+      <animate
+        attributeName="d"
+        dur="5s"
+        repeatCount="indefinite"
+        values="
+          M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z;
+          M0,120 L0,95 L100,80 L200,95 L300,80 L400,95 L500,80 L600,95 L700,80 L800,95 L900,80 L1000,95 L1100,80 L1200,95 L1200,120 Z;
+          M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z
+        "
+      ></animate>
+    </path>
+  </svg>
+</div>
+
+<style>
+  .zigzag-divider {
+    @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
+  }
+</style>

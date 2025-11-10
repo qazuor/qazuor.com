@@ -16,13 +16,12 @@ import '../styles/fonts.css';
 
 // Other imports
 import { CommandPalette, ScrollToTop, SmoothScroll } from '../components';
-import Navigation from '../components/Navigation.astro';
-import SEO from '../components/SEO.astro';
+import Footer from '../components/layout/Footer.astro';
+import Navigation from '../components/layout/Navigation.astro';
+import SEO from '../components/layout/SEO.astro';
 import { contact } from '../data';
 import { languages } from '../i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
-import githubIcon from '../icons/social/github.svg?raw';
-import twitterIcon from '../icons/social/twitter.svg?raw';
 
 interface Props {
   title: string;
@@ -62,7 +61,6 @@ const {
   jobTitle,
   socialLinks,
 } = Astro.props;
-const currentYear = new Date().getFullYear();
 
 // Get current route without locale
 const route = getRouteFromUrl(Astro.url);
@@ -151,33 +149,8 @@ const alternateLinks = locales.map((locale) => {
       <slot />
     </main>
 
-    <footer class="bg-background-secondary border-t border-foreground/10">
-      <div class="container-custom py-8">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-sm text-foreground-secondary">
-            © {currentYear} qazuor.com. {t('footer.rights')}.
-          </p>
-          <div class="flex gap-4">
-            <a
-              href={contact.social.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-foreground-secondary hover:text-foreground transition-colors duration-base"
-              aria-label={t('aria.github')}
-              set:html={githubIcon}
-            />
-            <a
-              href="https://twitter.com/qazuor"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-foreground-secondary hover:text-foreground transition-colors duration-base"
-              aria-label={t('aria.twitter')}
-              set:html={twitterIcon}
-            />
-          </div>
-        </div>
-      </div>
-    </footer>
+    <!-- New Footer Component -->
+    <Footer lang={lang} />
 
     <!-- Mermaid Diagram Renderer -->
     <script type="module" is:inline>

@@ -1,12 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
-import AboutSection from '../../components/AboutSection.astro';
-import BlogSection from '../../components/BlogSection.astro';
-import { Contact } from '../../components/Contact';
-import HeroSection from '../../components/HeroSection.astro';
-import ProjectsSection from '../../components/ProjectsSection.astro';
-import SkillsSection from '../../components/SkillsSection.astro';
-import TestimonialsSection from '../../components/TestimonialsSection.astro';
+import { Contact } from '../../components/forms/Contact';
+import AboutSection from '../../components/sections/AboutSection.astro';
+import BlogSection from '../../components/sections/BlogSection.astro';
+import HeroSection from '../../components/sections/HeroSection.astro';
+import ProjectsSection from '../../components/sections/ProjectsSection.astro';
+import SkillsSection from '../../components/sections/SkillsSection.astro';
+import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
+import DiagonalDivider from '../../components/ui/dividers/DiagonalDivider.astro';
+import ParticlesDivider from '../../components/ui/dividers/ParticlesDivider.astro';
+import WaveDivider from '../../components/ui/dividers/WaveDivider.astro';
+import ZigzagDivider from '../../components/ui/dividers/ZigZagDivider.astro';
 import { contact } from '../../data';
 import { languages } from '../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
@@ -130,9 +134,11 @@ const aboutTranslations = {
 const skillsTranslations = {
   title: t('skills.title'),
   subtitle: t('skills.subtitle'),
+  description: t('skills.description'),
   categoryTitles: {
-    frontend: t('skills.categories.frontend'),
-    backend: t('skills.categories.backend'),
+    dev: t('skills.categories.dev'),
+    design: t('skills.categories.design'),
+    languages: t('skills.categories.languages'),
     tools: t('skills.categories.tools'),
   },
 };
@@ -196,6 +202,17 @@ const testimonialsTranslations = {
   readLess: t('testimonials.readLess'),
   viewProfile: t('testimonials.viewProfile'),
 };
+
+const colors = {
+  hero: '#473472',
+  about: '#53629E',
+  skills: '#473472',
+  projects: '#87BAC3',
+  blog: '#473472',
+  testimonials: '#53629E',
+  contact: '#87BAC3',
+  footer: '#000000',
+};
 ---
 
 <BaseLayout
@@ -212,48 +229,98 @@ const testimonialsTranslations = {
     linkedin: contact.social.linkedin,
   }}
 >
-  <!-- Hero Section -->
-  <HeroSection
-    name={t('profile.name')}
-    roles={[
-      t('home.iMade.webapps'),
-      t('home.iMade.interfaces'),
-      t('home.iMade.solutions'),
-      t('home.iMade.experiences'),
-    ]}
-    subtitle={t('home.hero.subtitle')}
-    translations={heroTranslations}
-    ariaLabels={heroAriaLabels}
-  />
+  <!-- Hero Section (background with gradients) -->
+  <div class="relative">
+    <HeroSection
+      primaryColor={colors.hero}
+      name={t('profile.name')}
+      roles={[
+        t('home.iMade.webapps'),
+        t('home.iMade.interfaces'),
+        t('home.iMade.solutions'),
+        t('home.iMade.experiences'),
+      ]}
+      subtitle={t('home.hero.subtitle')}
+      translations={heroTranslations}
+      ariaLabels={heroAriaLabels}
+    />
+    <WaveDivider nextSectionColor={colors.about} upperSectionColor={colors.hero} />
+  </div>
 
-  <!-- About Section -->
-  <AboutSection
-    name={t('profile.name')}
-    role={t('roles.fullstack')}
-    location={contact.location}
-    experience={t('profile.experience')}
-    email={contact.email}
-    availability={t('about.availability')}
-    bio={t('about.bio')}
-    translations={aboutTranslations}
-  />
+  <!-- About Section with purple gradient background -->
+  <div class="relative">
+    <AboutSection
+      primaryColor={colors.about}
+      name={t('profile.name')}
+      role={t('roles.fullstack')}
+      location={contact.location}
+      experience={t('profile.experience')}
+      email={contact.email}
+      availability={t('about.availability')}
+      bio={t('about.bio')}
+      lang={lang}
+      translations={aboutTranslations}
+    />
+    <DiagonalDivider
+      nextSectionColor={colors.skills}
+      upperSectionColor={colors.about}
+      direction="mixed"
+    />
+  </div>
 
-  <!-- Skills Section -->
-  <SkillsSection translations={skillsTranslations} />
+  <!-- Skills Section with indigo gradient background -->
+  <div class="relative">
+    <SkillsSection primaryColor={colors.skills} translations={skillsTranslations} />
+    <ParticlesDivider nextSectionColor={colors.projects} upperSectionColor={colors.skills} />
+  </div>
 
-  <!-- Projects Section -->
-  <ProjectsSection
-    projects={sortedProjects}
-    translations={projectsTranslations}
-    cardTranslations={projectCardTranslations}
-  />
+  <!-- Projects Section with blue gradient background -->
+  <div class="relative">
+    <ProjectsSection
+      primaryColor={colors.projects}
+      projects={sortedProjects}
+      translations={projectsTranslations}
+      cardTranslations={projectCardTranslations}
+    />
+    <DiagonalDivider
+      nextSectionColor={colors.blog}
+      upperSectionColor={colors.projects}
+      direction="right"
+    />
+  </div>
 
-  <!-- Blog Section -->
-  <BlogSection posts={sortedBlogPosts} translations={blogTranslations} lang={lang} />
+  <!-- Blog Section with cyan gradient background -->
+  <div class="relative">
+    <BlogSection
+      primaryColor={colors.blog}
+      posts={sortedBlogPosts}
+      translations={blogTranslations}
+      lang={lang}
+    />
+    <DiagonalDivider
+      nextSectionColor={colors.testimonials}
+      upperSectionColor={colors.blog}
+      direction="left"
+    />
+  </div>
 
-  <!-- Testimonials Section -->
-  <TestimonialsSection testimonials={sortedTestimonials} translations={testimonialsTranslations} />
+  <!-- Testimonials Section with purple gradient background -->
+  <div class="relative">
+    <TestimonialsSection
+      primaryColor={colors.testimonials}
+      testimonials={sortedTestimonials}
+      translations={testimonialsTranslations}
+    />
+    <ZigzagDivider nextSectionColor={colors.contact} upperSectionColor={colors.testimonials} />
+  </div>
 
-  <!-- Contact Section -->
-  <Contact client:load translations={contactTranslations} />
+  <!-- Contact Section (normal background) -->
+  <div class="relative">
+    <Contact client:load primaryColor={colors.contact} translations={contactTranslations} />
+    <DiagonalDivider
+      nextSectionColor={colors.footer}
+      upperSectionColor={colors.contact}
+      direction="left"
+    />
+  </div>
 </BaseLayout>

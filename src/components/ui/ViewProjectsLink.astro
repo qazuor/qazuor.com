@@ -1,0 +1,25 @@
+---
+import ActionLink from './ActionLink.astro';
+
+interface Props {
+  href?: string;
+  text?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href = '#projects',
+  text = 'View Projects',
+  variant = 'primary',
+  size = 'md',
+  className = '',
+  ariaLabel = 'View my projects',
+} = Astro.props;
+---
+
+<ActionLink href={href} variant={variant} size={size} className={className} ariaLabel={ariaLabel}>
+  {text}
+</ActionLink>

@@ -1,0 +1,25 @@
+---
+import ActionLink from './ActionLink.astro';
+
+interface Props {
+  href?: string;
+  text?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href = '#contact',
+  text = 'Get in Touch',
+  variant = 'ghost',
+  size = 'md',
+  className = '',
+  ariaLabel = 'Get in touch with me',
+} = Astro.props;
+---
+
+<ActionLink href={href} variant={variant} size={size} className={className} ariaLabel={ariaLabel}>
+  {text}
+</ActionLink>

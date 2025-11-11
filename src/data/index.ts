@@ -3,6 +3,7 @@
  * Centralized export for all data modules
  */
 
+export * from './colors';
 export * from './contact';
 export * from './skills';
 export * from './timeline';

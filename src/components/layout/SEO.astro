@@ -33,8 +33,9 @@ export interface SEOProps {
   jobTitle?: string;
   socialLinks?: {
     github?: string;
-    twitter?: string;
     linkedin?: string;
+    fiverr?: string;
+    upwork?: string;
   };
 }
 
@@ -57,8 +58,9 @@ const {
   jobTitle = 'Full-Stack Developer',
   socialLinks = {
     github: contact.social.github,
-    twitter: contact.social.twitter,
     linkedin: contact.social.linkedin,
+    fiverr: contact.social.fiverr,
+    upwork: contact.social.upwork,
   },
 } = Astro.props;
 
@@ -104,7 +106,12 @@ const jsonLd = {
     name: author,
     jobTitle: jobTitle,
     url: Astro.site?.href,
-    sameAs: [socialLinks.github, socialLinks.twitter, socialLinks.linkedin].filter(Boolean),
+    sameAs: [
+      socialLinks.github,
+      socialLinks.linkedin,
+      socialLinks.fiverr,
+      socialLinks.upwork,
+    ].filter(Boolean),
   }),
 };
 

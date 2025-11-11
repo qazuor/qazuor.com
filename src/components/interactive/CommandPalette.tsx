@@ -1,8 +1,9 @@
 import { Command } from 'cmdk';
 import { useEffect, useState } from 'react';
+import fiverrIcon from '../../icons/social/fiverr.svg?raw';
 import githubIcon from '../../icons/social/github.svg?raw';
 import linkedinIcon from '../../icons/social/linkedin.svg?raw';
-import twitterIcon from '../../icons/social/twitter.svg?raw';
+import upworkIcon from '../../icons/social/upwork.svg?raw';
 import folderIcon from '../../icons/ui/folder.svg?raw';
 import homeIcon from '../../icons/ui/home.svg?raw';
 import newspaperIcon from '../../icons/ui/newspaper.svg?raw';
@@ -14,8 +15,9 @@ interface CommandPaletteProps {
   placeholder?: string;
   socialLinks?: {
     github?: string;
-    twitter?: string;
     linkedin?: string;
+    fiverr?: string;
+    upwork?: string;
   };
 }
 
@@ -25,8 +27,9 @@ export function CommandPalette({
   placeholder = 'Type a command or search...',
   socialLinks = {
     github: 'https://github.com/qazuor',
-    twitter: 'https://twitter.com/qazuor',
     linkedin: 'https://linkedin.com/in/qazuor',
+    fiverr: 'https://www.fiverr.com/sellers/leandroasrilevi/',
+    upwork: 'https://www.upwork.com/freelancers/~01881c38344e9431d7',
   },
 }: CommandPaletteProps) {
   const [open, setOpen] = useState(false);
@@ -134,15 +137,6 @@ export function CommandPalette({
               </Command.Item>
 
               <Command.Item
-                onSelect={() => openExternal(socialLinks.twitter || 'https://twitter.com/qazuor')}
-                className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
-              >
-                {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
-                <span dangerouslySetInnerHTML={{ __html: twitterIcon }} />
-                <span>Twitter</span>
-              </Command.Item>
-
-              <Command.Item
                 onSelect={() =>
                   openExternal(socialLinks.linkedin || 'https://linkedin.com/in/qazuor')
                 }
@@ -151,6 +145,32 @@ export function CommandPalette({
                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
                 <span dangerouslySetInnerHTML={{ __html: linkedinIcon }} />
                 <span>LinkedIn</span>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() =>
+                  openExternal(
+                    socialLinks.fiverr || 'https://www.fiverr.com/sellers/leandroasrilevi/',
+                  )
+                }
+                className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
+              >
+                {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
+                <span dangerouslySetInnerHTML={{ __html: fiverrIcon }} />
+                <span>Fiverr</span>
+              </Command.Item>
+
+              <Command.Item
+                onSelect={() =>
+                  openExternal(
+                    socialLinks.upwork || 'https://www.upwork.com/freelancers/~01881c38344e9431d7',
+                  )
+                }
+                className="flex items-center gap-2 px-4 py-2 text-sm rounded-md hover:bg-foreground/5 cursor-pointer aria-selected:bg-foreground/5"
+              >
+                {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
+                <span dangerouslySetInnerHTML={{ __html: upworkIcon }} />
+                <span>Upwork</span>
               </Command.Item>
             </Command.Group>
           </Command.List>

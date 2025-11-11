@@ -7,31 +7,31 @@
 
 @layer base {
   :root {
-    /* Backgrounds - Light Mode (clean whites and light grays) */
-    --bg-primary: 0 0% 100%; /* Pure white */
-    --bg-secondary: 0 0% 98%; /* Very light gray */
-    --bg-tertiary: 0 0% 96%; /* Light gray */
+    /* Backgrounds - Light Mode (blue-gray tinted) */
+    --bg-primary: 219 21% 96%; /* Very light blue-gray */
+    --bg-secondary: 219 21% 94%; /* Light blue-gray */
+    --bg-tertiary: 219 21% 92%; /* Slightly darker blue-gray */
 
-    /* Text - Light Mode (dark colors for good contrast) */
-    --text-primary: 0 0% 6%; /* Very dark gray, almost black */
-    --text-secondary: 0 0% 28%; /* Dark gray */
-    --text-muted: 0 0% 40%; /* Medium gray */
+    /* Text - Light Mode (blue-gray tinted for harmony) */
+    --text-primary: 215 25% 15%; /* Very dark blue-gray */
+    --text-secondary: 215 20% 25%; /* Dark blue-gray */
+    --text-muted: 215 15% 35%; /* Medium blue-gray */
 
-    /* Backgrounds - Dark Mode - Modern Developer Theme */
-    --bg-primary-dark: 0 0% 4%; /* Very dark gray, almost black */
-    --bg-secondary-dark: 0 0% 8%; /* Dark gray */
-    --bg-tertiary-dark: 0 0% 12%; /* Slightly lighter dark gray */
+    /* Backgrounds - Dark Mode - Purple-blue theme */
+    --bg-primary-dark: 256 45% 6%; /* Very dark purple, almost black */
+    --bg-secondary-dark: 250 30% 10%; /* Dark purple-blue */
+    --bg-tertiary-dark: 245 25% 16%; /* Medium dark purple-blue */
 
-    /* Text - Dark Mode - High contrast and modern */
-    --text-primary-dark: 0 0% 98%; /* Almost pure white */
-    --text-secondary-dark: 0 0% 70%; /* Light gray */
-    --text-muted-dark: 0 0% 52%; /* Medium gray */
+    /* Text - Dark Mode - High contrast with purple tint */
+    --text-primary-dark: 240 15% 96%; /* Almost pure white with purple tint */
+    --text-secondary-dark: 240 10% 72%; /* Light purple-gray */
+    --text-muted-dark: 240 8% 52%; /* Medium purple-gray */
 
-    /* Syntax Highlighting */
-    --syntax-keyword: 0.65 0.2 330;
-    --syntax-string: 0.75 0.15 90;
-    --syntax-number: 0.7 0.18 40;
-    --syntax-comment: 0.55 0.05 270;
+    /* Syntax Highlighting - Purple-blue theme */
+    --syntax-keyword: 260 70% 70%; /* Purple keywords */
+    --syntax-string: 120 40% 70%; /* Green strings */
+    --syntax-number: 40 70% 70%; /* Orange numbers */
+    --syntax-comment: 240 15% 60%; /* Purple-gray comments */
 
     /* Functional Colors */
     --success: 0.7 0.18 150;
@@ -79,76 +79,76 @@
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
 
-    /* Shadcn/ui Light Variables - Cyan/Celeste theme */
-    --background: 0 0% 100%; /* Pure white background */
-    --foreground: 0 0% 6%; /* Very dark text */
-    --card: 0 0% 98%; /* Very light gray cards */
-    --card-foreground: 0 0% 6%; /* Dark text on cards */
-    --popover: 0 0% 100%; /* White popovers */
-    --popover-foreground: 0 0% 6%; /* Dark text on popovers */
-    --primary: 188 94% 60%; /* Bright cyan/celeste */
+    /* Shadcn/ui Light Variables - Blue-gray theme compatible */
+    --background: 219 21% 94%; /* Light blue-gray background to match sections */
+    --foreground: 215 25% 15%; /* Dark blue-gray text for contrast */
+    --card: 220 20% 96%; /* Very light blue-gray cards */
+    --card-foreground: 215 25% 15%; /* Dark blue-gray text on cards */
+    --popover: 220 20% 98%; /* Almost white popovers */
+    --popover-foreground: 215 25% 15%; /* Dark text on popovers */
+    --primary: 215 60% 40%; /* Deep blue primary matching the palette */
     --primary-foreground: 0 0% 100%; /* White text on primary */
-    --secondary: 0 0% 96%; /* Light gray secondary */
-    --secondary-foreground: 0 0% 6%; /* Dark text on secondary */
-    --muted: 0 0% 96%; /* Light gray muted */
-    --muted-foreground: 0 0% 40%; /* Medium gray muted text */
-    --accent: 188 94% 60%; /* Matching cyan accent */
+    --secondary: 215 15% 85%; /* Light blue-gray secondary */
+    --secondary-foreground: 215 25% 15%; /* Dark text on secondary */
+    --muted: 215 15% 88%; /* Very light blue-gray muted */
+    --muted-foreground: 215 10% 35%; /* Medium blue-gray muted text */
+    --accent: 210 55% 50%; /* Vibrant blue accent */
     --accent-foreground: 0 0% 100%; /* White text on accent */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%; /* Light gray border */
-    --input: 0 0% 96%; /* Light gray input backgrounds */
-    --ring: 188 94% 60%; /* Cyan focus ring */
-    --chart-1: 188 94% 60%; /* Cyan charts */
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
+    --border: 215 15% 82%; /* Light blue-gray border */
+    --input: 215 15% 90%; /* Light blue-gray input backgrounds */
+    --ring: 210 55% 50%; /* Blue focus ring */
+    --chart-1: 210 55% 50%; /* Blue charts */
+    --chart-2: 200 60% 45%;
+    --chart-3: 190 50% 55%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
 
-  /* Dark Mode Override - Cyan/Celeste theme like Felix Tellmann */
+  /* Dark Mode Override - Purple-blue theme matching section backgrounds */
   .dark {
-    /* Custom Dark Mode - Cyan theme */
-    --bg-primary: 0 0% 4%; /* Very dark background */
-    --bg-secondary: 0 0% 8%; /* Dark gray for cards */
-    --bg-tertiary: 0 0% 12%; /* Slightly lighter for contrast */
-    --text-primary: 0 0% 98%; /* Almost pure white text */
-    --text-secondary: 0 0% 70%; /* Light gray for secondary text */
-    --text-muted: 0 0% 52%; /* Medium gray for muted text */
+    /* Custom Dark Mode - Purple-blue theme */
+    --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */
+    --bg-secondary: 250 30% 12%; /* Dark purple-blue for cards */
+    --bg-tertiary: 245 25% 18%; /* Slightly lighter purple for contrast */
+    --text-primary: 240 15% 95%; /* Almost pure white with purple tint */
+    --text-secondary: 240 10% 75%; /* Light purple-gray for secondary text */
+    --text-muted: 240 8% 55%; /* Medium purple-gray for muted text */
 
-    /* Shadcn/ui Dark Variables - Cyan theme */
-    --background: 0 0% 4%; /* Very dark background */
-    --foreground: 0 0% 98%; /* Almost white foreground */
-    --card: 0 0% 8%; /* Dark gray cards */
-    --card-foreground: 0 0% 98%; /* White text on cards */
-    --popover: 0 0% 8%; /* Dark gray popovers */
-    --popover-foreground: 0 0% 98%; /* White text on popovers */
-    --primary: 188 94% 60%; /* Bright cyan like Felix site */
-    --primary-foreground: 0 0% 4%; /* Dark text on bright primary */
-    --secondary: 0 0% 18%; /* More contrast - darker gray secondary */
-    --secondary-foreground: 0 0% 98%; /* White text on secondary */
-    --muted: 0 0% 12%; /* Dark gray muted */
-    --muted-foreground: 0 0% 70%; /* Light gray muted text */
-    --accent: 188 94% 60%; /* Bright cyan accent */
-    --accent-foreground: 0 0% 4%; /* Dark text on accent */
+    /* Shadcn/ui Dark Variables - Purple-blue theme */
+    --background: 256 45% 8%; /* Very dark purple background */
+    --foreground: 240 15% 95%; /* Almost white foreground with purple tint */
+    --card: 250 30% 12%; /* Dark purple-blue cards */
+    --card-foreground: 240 15% 95%; /* Light text on cards */
+    --popover: 250 30% 12%; /* Dark purple-blue popovers */
+    --popover-foreground: 240 15% 95%; /* Light text on popovers */
+    --primary: 250 60% 65%; /* Vibrant purple-blue primary */
+    --primary-foreground: 256 45% 8%; /* Dark text on bright primary */
+    --secondary: 245 25% 20%; /* Dark purple-blue secondary */
+    --secondary-foreground: 240 15% 95%; /* Light text on secondary */
+    --muted: 245 25% 15%; /* Very dark purple-blue muted */
+    --muted-foreground: 240 10% 70%; /* Light purple-gray muted text */
+    --accent: 260 70% 70%; /* Bright purple accent */
+    --accent-foreground: 256 45% 8%; /* Dark text on accent */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 18%; /* Dark border */
-    --input: 0 0% 12%; /* Dark input backgrounds */
-    --ring: 188 94% 60%; /* Cyan focus ring */
-    --chart-1: 188 94% 60%; /* Cyan charts */
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --border: 245 25% 22%; /* Dark purple border */
+    --input: 245 25% 15%; /* Dark purple input backgrounds */
+    --ring: 250 60% 65%; /* Purple-blue focus ring */
+    --chart-1: 250 60% 65%; /* Purple-blue charts */
+    --chart-2: 260 50% 60%; /* Purple charts */
+    --chart-3: 240 40% 70%; /* Light purple charts */
+    --chart-4: 280 65% 60%; /* Violet charts */
+    --chart-5: 220 55% 65%; /* Blue-purple charts */
 
     /* Section Background Colors - Dark Mode */
     /* Divider Gradient Colors - Dark Mode */
-    --divider-primary: #9c27b0; /* Purple gradient */
-    --divider-secondary: #673ab7; /* Deep purple gradient */
-    --divider-accent: #2196f3; /* Blue gradient */
-    --divider-overlay: rgba(147, 51, 234, 0.6); /* Purple overlay */
+    --divider-primary: #8b5cf6; /* Purple gradient matching theme */
+    --divider-secondary: #6366f1; /* Indigo gradient */
+    --divider-accent: #3b82f6; /* Blue gradient */
+    --divider-overlay: rgba(139, 92, 246, 0.6); /* Purple overlay matching theme */
   }
 
   /* Base Styles */
@@ -257,23 +257,23 @@
 }
 
 @layer components {
-  /* Gradient Text Utility - Cyan/Celeste theme */
+  /* Gradient Text Utility - Blue-gray theme */
   .gradient-text {
-    @apply bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-700 to-indigo-700 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent;
   }
 
   .gradient-text-accent {
-    @apply bg-gradient-to-r from-cyan-600 to-teal-600 dark:from-cyan-400 dark:to-teal-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-slate-700 dark:from-purple-300 dark:to-indigo-400 bg-clip-text text-transparent;
   }
 
   /* Alternative gradient with better light mode contrast */
   .gradient-text-blue {
-    @apply bg-gradient-to-r from-cyan-600 to-blue-800 dark:from-cyan-400 dark:to-blue-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-800 to-slate-800 dark:from-purple-400 dark:to-blue-300 bg-clip-text text-transparent;
   }
 
   /* Extra vibrant gradient for hero sections */
   .gradient-text-hero {
-    @apply bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-700 dark:from-purple-400 dark:via-violet-400 dark:to-blue-400 bg-clip-text text-transparent;
   }
 
   /* Container */
@@ -300,29 +300,30 @@
   }
 
   .btn-primary {
-    @apply btn bg-primary text-white;
-    @apply hover:bg-primary-600 hover:shadow-glow-primary;
+    @apply btn bg-primary text-primary-foreground;
+    @apply hover:opacity-90 hover:shadow-lg;
   }
 
   .btn-secondary {
-    @apply btn bg-secondary text-white;
-    @apply hover:bg-secondary-600 hover:shadow-glow-secondary;
+    @apply btn bg-secondary text-secondary-foreground;
+    @apply hover:opacity-90 hover:shadow-md;
   }
 
   .btn-ghost {
-    @apply btn bg-transparent border border-foreground/20;
-    @apply hover:bg-foreground/5 hover:border-foreground/30;
+    @apply btn bg-transparent border border-border;
+    @apply hover:bg-accent/10 hover:border-accent/50 hover:text-accent;
   }
 
   /* Card Component */
   .card {
-    @apply bg-background-secondary rounded-lg p-6;
-    @apply border border-foreground/10;
-    @apply transition-all duration-base;
+    @apply bg-card rounded-lg p-6;
+    @apply border border-border;
+    @apply shadow-sm;
   }
 
   .card-hover {
-    @apply card hover:shadow-xl hover:-translate-y-1;
+    @apply card transition-all duration-300;
+    @apply hover:shadow-md hover:border-accent/30 hover:-translate-y-1;
   }
 
   /* Fade In Animation Utilities */

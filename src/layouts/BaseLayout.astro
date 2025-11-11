@@ -43,8 +43,9 @@ interface Props {
   jobTitle?: string;
   socialLinks?: {
     github?: string;
-    twitter?: string;
     linkedin?: string;
+    fiverr?: string;
+    upwork?: string;
   };
 }
 
@@ -140,8 +141,9 @@ const alternateLinks = locales.map((locale) => {
       placeholder={t('aria.commandPalettePlaceholder')}
       socialLinks={{
         github: contact.social.github,
-        twitter: contact.social.twitter,
         linkedin: contact.social.linkedin,
+        fiverr: contact.social.fiverr,
+        upwork: contact.social.upwork,
       }}
     />
 

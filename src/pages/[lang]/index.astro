@@ -8,7 +8,6 @@ import ProjectsSection from '../../components/sections/ProjectsSection.astro';
 import SkillsSection from '../../components/sections/SkillsSection.astro';
 import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
 import DiagonalDivider from '../../components/ui/dividers/DiagonalDivider.astro';
-import ParticlesDivider from '../../components/ui/dividers/ParticlesDivider.astro';
 import WaveDivider from '../../components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '../../components/ui/dividers/ZigZagDivider.astro';
 import { contact, sectionsColors } from '../../data';
@@ -113,16 +112,18 @@ const sortedTestimonials = allTestimonials
 
 // Translations for components
 const heroTranslations = {
-  iMadeText: t('home.hero.iMadeText'),
+  iBuildText: t('home.hero.iBuildText'),
   viewProjects: t('home.hero.viewProjects'),
   getInTouch: t('home.hero.getInTouch'),
+  downloadResume: t('home.hero.downloadResume'),
   scroll: t('home.hero.scroll'),
 };
 
 const heroAriaLabels = {
   github: t('aria.github'),
-  twitter: t('aria.twitter'),
   linkedin: t('aria.linkedin'),
+  fiverr: t('aria.fiverr'),
+  upwork: t('aria.upwork'),
 };
 
 const aboutTranslations = {
@@ -216,8 +217,9 @@ const testimonialsTranslations = {
   jobTitle={t('profile.role')}
   socialLinks={{
     github: contact.social.github,
-    twitter: contact.social.twitter,
     linkedin: contact.social.linkedin,
+    fiverr: contact.social.fiverr,
+    upwork: contact.social.upwork,
   }}
 >
   <!-- Hero Section (background with gradients) -->
@@ -225,12 +227,15 @@ const testimonialsTranslations = {
     <HeroSection
       primaryColor={sectionsColors.hero}
       name={t('profile.name')}
-      roles={[
-        t('home.iMade.webapps'),
-        t('home.iMade.interfaces'),
-        t('home.iMade.solutions'),
-        t('home.iMade.experiences'),
+      iBuild={[
+        t('home.iBuild.webapps'),
+        t('home.iBuild.interfaces'),
+        t('home.iBuild.solutions'),
+        t('home.iBuild.experiences'),
+        t('home.iBuild.uis'),
+        t('home.iBuild.tools'),
       ]}
+      roles={[t('home.roles.fullstack'), t('home.roles.frontend'), t('home.roles.designer')]}
       subtitle={t('home.hero.subtitle')}
       translations={heroTranslations}
       ariaLabels={heroAriaLabels}
@@ -243,7 +248,7 @@ const testimonialsTranslations = {
     <AboutSection
       primaryColor={sectionsColors.about}
       name={t('profile.name')}
-      role={t('roles.fullstack')}
+      role={t('home.roles.fullstack')}
       location={contact.location}
       experience={t('profile.experience')}
       email={contact.email}
@@ -258,7 +263,7 @@ const testimonialsTranslations = {
   <!-- Skills Section with indigo gradient background -->
   <div class="relative">
     <SkillsSection primaryColor={sectionsColors.skills} translations={skillsTranslations} />
-    <ParticlesDivider transition="skills-to-projects" />
+    <WaveDivider transition="skills-to-projects" />
   </div>
 
   <!-- Projects Section with blue gradient background -->

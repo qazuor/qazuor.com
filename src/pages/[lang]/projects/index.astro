@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { ProjectCard } from '../../../components/cards/ProjectCard';
 import { ScrollAnimatedSection } from '../../../components/interactive/ScrollAnimatedSection';
+import EmailLink from '../../../components/ui/EmailLink.astro';
 import { contact } from '../../../data';
 import { languages } from '../../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
@@ -67,12 +68,14 @@ const title = `${t('projects.title')} - qazuor.com`;
           I'm always open to discussing new projects, creative ideas, or opportunities to be part of
           your visions.
         </p>
-        <a
-          href={`mailto:${contact.email}`}
-          class="btn-ghost bg-background text-foreground hover:bg-background/90"
-        >
-          Get in Touch
-        </a>
+        <EmailLink
+          email={contact.email}
+          text="Get in Touch"
+          subject="Let's work together!"
+          body="Hi! I'd love to discuss a potential project with you."
+          variant="ghost"
+          className="bg-background text-foreground hover:bg-background/90"
+        />
       </div>
     </div>
   </div>

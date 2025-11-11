@@ -128,6 +128,7 @@ const { transition = 'hero-to-about' } = Astro.props;
     --divider-transition-3: var(--hero-to-about-3);
     --divider-transition-4: var(--hero-to-about-4);
     --divider-transition-5: var(--hero-to-about-5);
+    @apply z-30; /* Higher z-index to cover the hero photo */
   }
 
   .wave-divider[data-transition='about-to-skills'] {

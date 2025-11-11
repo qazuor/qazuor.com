@@ -257,23 +257,52 @@
 }
 
 @layer components {
-  /* Gradient Text Utility - Blue-gray theme */
+  /* Gradient Text Utility - More vibrant and noticeable */
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-700 to-indigo-700 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
+    background-size: 200% 100%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  /* Enhanced gradient for section titles - even more vibrant */
+  .gradient-text-section {
+    @apply bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 dark:from-purple-300 dark:via-pink-300 dark:to-indigo-300 bg-clip-text text-transparent;
+    background-size: 150% 100%;
+    animation: gradient-shift 10s ease infinite;
+    filter: saturate(1.2);
   }
 
   .gradient-text-accent {
-    @apply bg-gradient-to-r from-blue-600 to-slate-700 dark:from-purple-300 dark:to-indigo-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 dark:from-purple-200 dark:via-pink-200 dark:to-indigo-300 bg-clip-text text-transparent;
+    background-size: 200% 100%;
+    animation: gradient-shift 6s ease infinite;
   }
 
   /* Alternative gradient with better light mode contrast */
   .gradient-text-blue {
-    @apply bg-gradient-to-r from-blue-800 to-slate-800 dark:from-purple-400 dark:to-blue-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 dark:from-purple-300 dark:via-blue-300 dark:to-indigo-300 bg-clip-text text-transparent;
+    background-size: 200% 100%;
+    animation: gradient-shift 10s ease infinite;
   }
 
   /* Extra vibrant gradient for hero sections */
   .gradient-text-hero {
-    @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-700 dark:from-purple-400 dark:via-violet-400 dark:to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 via-purple-500 to-violet-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
+    background-size: 300% 100%;
+    animation: gradient-shift 12s ease infinite;
+  }
+
+  /* Gradient animation keyframes */
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   /* Container */

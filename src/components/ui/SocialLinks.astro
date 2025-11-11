@@ -1,0 +1,69 @@
+---
+import { contact } from '../../data';
+import FiverrLink from './social/FiverrLink.astro';
+import GitHubLink from './social/GitHubLink.astro';
+import LinkedInLink from './social/LinkedInLink.astro';
+import UpworkLink from './social/UpworkLink.astro';
+
+interface Props {
+  ariaLabels?: {
+    github: string;
+    linkedin: string;
+    fiverr: string;
+    upwork: string;
+  };
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+  networks?: ('github' | 'linkedin' | 'fiverr' | 'upwork')[];
+}
+
+const {
+  ariaLabels = {
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
+    fiverr: 'Fiverr',
+    upwork: 'Upwork',
+  },
+  size = 'md',
+  className = '',
+  networks = ['github', 'linkedin', 'fiverr', 'upwork'],
+} = Astro.props;
+
+// Map of component types
+const componentMap = {
+  github: GitHubLink,
+  linkedin: LinkedInLink,
+  fiverr: FiverrLink,
+  upwork: UpworkLink,
+};
+
+// Map of social networks configuration
+const socialConfig = {
+  github: {
+    href: contact.social.github,
+    ariaLabel: ariaLabels.github,
+  },
+  linkedin: {
+    href: contact.social.linkedin,
+    ariaLabel: ariaLabels.linkedin,
+  },
+  fiverr: {
+    href: contact.social.fiverr,
+    ariaLabel: ariaLabels.fiverr,
+  },
+  upwork: {
+    href: contact.social.upwork,
+    ariaLabel: ariaLabels.upwork,
+  },
+};
+---
+
+<div class={`flex gap-4 ${className}`}>
+  {
+    networks.map((network) => {
+      const Component = componentMap[network];
+      const config = socialConfig[network];
+      return <Component href={config.href} ariaLabel={config.ariaLabel} size={size} />;
+    })
+  }
+</div>

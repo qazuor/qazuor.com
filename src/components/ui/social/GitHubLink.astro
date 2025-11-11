@@ -1,0 +1,14 @@
+---
+import SocialLink from './SocialLink.astro';
+
+interface Props {
+  href: string;
+  ariaLabel?: string;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+const { href, ariaLabel = 'GitHub', size = 'md', className = '' } = Astro.props;
+---
+
+<SocialLink href={href} ariaLabel={ariaLabel} iconName="github" size={size} className={className} />

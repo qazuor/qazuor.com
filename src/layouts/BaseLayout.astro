@@ -14,8 +14,13 @@ import '@fontsource/jetbrains-mono/700.css';
 // Import all additional fonts
 import '../styles/fonts.css';
 
+// Import auto-generated colors
+import '../styles/generated-colors.css';
+
+import { SmoothScroll } from '../components/animations/SmoothScroll';
 // Other imports
-import { CommandPalette, ScrollToTop, SmoothScroll } from '../components';
+import { CommandPalette } from '../components/interactive/CommandPalette';
+import { ScrollToTop } from '../components/interactive/ScrollToTop';
 import Footer from '../components/layout/Footer.astro';
 import Navigation from '../components/layout/Navigation.astro';
 import SEO from '../components/layout/SEO.astro';

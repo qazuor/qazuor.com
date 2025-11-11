@@ -11,7 +11,7 @@ import DiagonalDivider from '../../components/ui/dividers/DiagonalDivider.astro'
 import ParticlesDivider from '../../components/ui/dividers/ParticlesDivider.astro';
 import WaveDivider from '../../components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '../../components/ui/dividers/ZigZagDivider.astro';
-import { contact } from '../../data';
+import { contact, sectionsColors } from '../../data';
 import { languages } from '../../i18n/ui';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -203,16 +203,7 @@ const testimonialsTranslations = {
   viewProfile: t('testimonials.viewProfile'),
 };
 
-const sectionsColors = {
-  hero: '#473472',
-  about: '#53629E',
-  skills: '#473472',
-  projects: '#87BAC3',
-  blog: '#473472',
-  testimonials: '#53629E',
-  contact: '#87BAC3',
-  footer: '#000000',
-};
+// Colors are now imported from data module
 ---
 
 <BaseLayout
@@ -244,7 +235,7 @@ const sectionsColors = {
       translations={heroTranslations}
       ariaLabels={heroAriaLabels}
     />
-    <WaveDivider nextSectionColor={sectionsColors.about} upperSectionColor={sectionsColors.hero} />
+    <WaveDivider transition="hero-to-about" />
   </div>
 
   <!-- About Section with purple gradient background -->
@@ -261,17 +252,13 @@ const sectionsColors = {
       lang={lang}
       translations={aboutTranslations}
     />
-    <DiagonalDivider
-      nextSectionColor={sectionsColors.skills}
-      upperSectionColor={sectionsColors.about}
-      direction="mixed"
-    />
+    <DiagonalDivider direction="mixed" transition="about-to-skills" />
   </div>
 
   <!-- Skills Section with indigo gradient background -->
   <div class="relative">
     <SkillsSection primaryColor={sectionsColors.skills} translations={skillsTranslations} />
-    <ParticlesDivider nextSectionColor={sectionsColors.projects} upperSectionColor={sectionsColors.skills} />
+    <ParticlesDivider transition="skills-to-projects" />
   </div>
 
   <!-- Projects Section with blue gradient background -->
@@ -282,11 +269,7 @@ const sectionsColors = {
       translations={projectsTranslations}
       cardTranslations={projectCardTranslations}
     />
-    <DiagonalDivider
-      nextSectionColor={sectionsColors.blog}
-      upperSectionColor={sectionsColors.projects}
-      direction="right"
-    />
+    <DiagonalDivider direction="right" transition="projects-to-blog" />
   </div>
 
   <!-- Blog Section with cyan gradient background -->
@@ -297,11 +280,7 @@ const sectionsColors = {
       translations={blogTranslations}
       lang={lang}
     />
-    <DiagonalDivider
-      nextSectionColor={sectionsColors.testimonials}
-      upperSectionColor={sectionsColors.blog}
-      direction="left"
-    />
+    <DiagonalDivider direction="left" transition="blog-to-testimonials" />
   </div>
 
   <!-- Testimonials Section with purple gradient background -->
@@ -311,16 +290,12 @@ const sectionsColors = {
       testimonials={sortedTestimonials}
       translations={testimonialsTranslations}
     />
-    <ZigzagDivider nextSectionColor={sectionsColors.contact} upperSectionColor={sectionsColors.testimonials} />
+    <ZigzagDivider transition="testimonials-to-contact" />
   </div>
 
   <!-- Contact Section (normal background) -->
   <div class="relative">
     <Contact client:load primaryColor={sectionsColors.contact} translations={contactTranslations} />
-    <DiagonalDivider
-      nextSectionColor={sectionsColors.footer}
-      upperSectionColor={sectionsColors.contact}
-      direction="left"
-    />
+    <DiagonalDivider direction="left" transition="contact-to-footer" />
   </div>
 </BaseLayout>

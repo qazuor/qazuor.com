@@ -142,11 +142,31 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* Section Background Colors - Dark Mode */
+    /* Divider Gradient Colors - Dark Mode */
+    --divider-primary: #9c27b0; /* Purple gradient */
+    --divider-secondary: #673ab7; /* Deep purple gradient */
+    --divider-accent: #2196f3; /* Blue gradient */
+    --divider-overlay: rgba(147, 51, 234, 0.6); /* Purple overlay */
   }
 
   /* Base Styles */
   * {
     @apply border-foreground/10;
+  }
+
+  /* Add smooth transitions for theme switching */
+  :root {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  /* Ensure all section background changes are smooth */
+  section {
+    transition: background-color 0.3s ease;
   }
 
   html {

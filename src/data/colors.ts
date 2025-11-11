@@ -14,31 +14,31 @@ export interface SectionColors {
 }
 
 /**
- * Dark mode colors (original colors from design)
+ * Dark mode colors (purple-blue gradient palette)
  */
 export const darkModeColors: SectionColors = {
-  hero: '#473472',
-  about: '#53629E',
-  skills: '#9D4EDD', // ← CAMBIO: de verde neón a púrpura vibrante
-  projects: '#87BAC3',
-  blog: '#473472',
-  testimonials: '#53629E',
-  contact: '#87BAC3',
-  footer: '#000000',
+  hero: '#18122B', // Deep purple
+  about: '#2A1F3D', // Darker purple-blue (was #393053)
+  skills: '#332952', // Darker medium purple-blue (was #443C68)
+  projects: '#393053', // Purple-blue (unchanged)
+  blog: '#18122B', // Deep purple (latest articles)
+  testimonials: '#393053', // Purple-blue
+  contact: '#332952', // Darker medium purple-blue (was #443C68)
+  footer: '#140A1F', // Very dark purple matching bg-background dark mode
 };
 
 /**
- * Light mode colors (lighter variants for light theme)
+ * Light mode colors (blue-gray palette)
  */
 export const lightModeColors: SectionColors = {
-  hero: '#E6E0F0', // Light purple
-  about: '#E1E7F5', // Light blue-purple
-  skills: '#E6E0F0', // Light purple (same as hero)
-  projects: '#F0F8FA', // Very light cyan
-  blog: '#E6E0F0', // Light purple (same as hero)
-  testimonials: '#E1E7F5', // Light blue-purple (same as about)
-  contact: '#F0F8FA', // Very light cyan (same as projects)
-  footer: '#F5F5F5', // Light gray
+  hero: '#9AA6B2', // Blue-gray
+  about: '#BCCCDC', // Light blue-gray
+  skills: '#96B6C5', // Muted blue (more contrast from about)
+  projects: '#ADC4CE', // Soft blue-gray
+  blog: '#9AA6B2', // Blue-gray (repeating pattern)
+  testimonials: '#BCCCDC', // Light blue-gray
+  contact: '#ADC4CE', // Soft blue-gray
+  footer: '#E8EBF0', // Light blue-gray matching bg-background light mode
 };
 
 /**

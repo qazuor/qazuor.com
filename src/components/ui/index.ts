@@ -1,4 +1,7 @@
 // Export all UI components
+
+// Note: Astro components cannot be exported from TypeScript files
+// Import AnimatedGradientBackground directly: import AnimatedGradientBackground from './AnimatedGradientBackground.astro';
 export { Button, type ButtonProps } from './Button';
 export {
   Card,
@@ -12,3 +15,4 @@ export {
   CardTitle,
   type CardTitleProps,
 } from './Card';
+export { TypeItText } from './TypeItText';

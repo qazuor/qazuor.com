@@ -3,4 +3,3 @@
  */
 
 export * from './SmoothScroll';
-export * from './TailwindAnimations';

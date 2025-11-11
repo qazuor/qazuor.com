@@ -5,9 +5,7 @@
 
 export * from './animations';
 export * from './animations/SmoothScroll';
-export * from './animations/TailwindAnimations';
 export * from './cards';
-export * from './cards/BlogCard';
 export * from './cards/ProjectCard';
 // Components by category
 export * from './forms';
@@ -17,7 +15,6 @@ export * from './forms/StatusMessage';
 export * from './forms/SubmitButton';
 export * from './interactive';
 // Legacy exports for backward compatibility
-export * from './interactive/AnimatedHero';
 export * from './interactive/CommandPalette';
 export * from './interactive/LanguageSelector';
 export * from './interactive/ScrollAnimatedSection';

@@ -1,5 +1,6 @@
 ---
 import Timeline from '../interactive/Timeline';
+import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 
 interface Props {
   primaryColor?: string;
@@ -36,13 +37,20 @@ const {
 } = Astro.props;
 ---
 
-<section class="section about-section" id="about" style={`background-color: ${primaryColor}`}>
+<section
+  class="relative section about-section overflow-hidden"
+  id="about"
+  style={`background-color: ${primaryColor}`}
+>
+  <!-- Animated Gradient Background -->
+  <AnimatedGradientBackground />
+
   <div class="container-custom">
     <div class="max-w-3xl mx-auto">
       <!-- Section Title -->
       <div class="section-title">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          <span class="gradient-text">{translations.title}</span>
+          <span class="gradient-text-section">{translations.title}</span>
         </h2>
         <p class="text-foreground-secondary text-lg">{translations.subtitle}</p>
       </div>

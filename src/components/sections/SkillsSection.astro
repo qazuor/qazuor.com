@@ -27,6 +27,7 @@ import TypeScriptIcon from '../../icons/tech/typescript.svg?raw';
 import VscodeIcon from '../../icons/tech/vscode.svg?raw';
 import ZodIcon from '../../icons/tech/zod.svg?raw';
 import SkillsGrid from '../interactive/SkillsGrid.tsx';
+import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 
 interface Props {
   primaryColor?: string;
@@ -101,13 +102,20 @@ const categories = skillsData.map((category) => ({
 }));
 ---
 
-<section class="section skills-section" id="skills" style={`background-color: ${primaryColor}`}>
+<section
+  class="relative section skills-section overflow-hidden"
+  id="skills"
+  style={`background-color: ${primaryColor}`}
+>
+  <!-- Animated Gradient Background -->
+  <AnimatedGradientBackground />
+
   <div class="container-custom">
     <div class="max-w-6xl mx-auto">
       <!-- Section Title -->
       <div class="section-title">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          <span class="gradient-text">{translations.title}</span>
+          <span class="gradient-text-section">{translations.title}</span>
         </h2>
         <p class="text-foreground-secondary text-lg mb-8">{translations.subtitle}</p>
         <div class="max-w-3xl mx-auto">

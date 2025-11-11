@@ -3,6 +3,7 @@ import LinkedinIcon from '../../icons/social/linkedin.svg?raw';
 import TwitterIcon from '../../icons/social/twitter.svg?raw';
 import ArrowTopRightIcon from '../../icons/ui/arrow-top-right.svg?raw';
 import ChatBubbleIcon from '../../icons/ui/chat-bubble.svg?raw';
+import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 
 interface Props {
   testimonials: Array<{
@@ -29,12 +30,15 @@ interface Props {
 const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
 ---
 
-<section class="section section-purple" id="testimonials" style={`background-color: ${primaryColor}`}>
+<section class="relative section section-purple overflow-hidden" id="testimonials" style={`background-color: ${primaryColor}`}>
+  <!-- Animated Gradient Background -->
+  <AnimatedGradientBackground />
+  
   <div class="container-custom">
     <!-- Section Header -->
     <div class="section-title">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-        <span class="gradient-text">{translations.title}</span>
+        <span class="gradient-text-section">{translations.title}</span>
       </h2>
       <p class="text-lg md:text-xl text-foreground-secondary max-w-3xl mx-auto">
         {translations.subtitle}

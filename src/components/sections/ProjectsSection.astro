@@ -1,6 +1,7 @@
 ---
 import GithubIcon from '../../icons/social/github.svg?raw';
 import ExternalLinkIcon from '../../icons/ui/external-link.svg?raw';
+import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 
 interface Project {
   title: string;
@@ -48,12 +49,19 @@ const {
 const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap((p) => p.tags)))];
 ---
 
-<section class="section section-blue" id="projects" style={`background-color: ${primaryColor}`}>
+<section
+  class="relative section section-blue overflow-hidden"
+  id="projects"
+  style={`background-color: ${primaryColor}`}
+>
+  <!-- Animated Gradient Background -->
+  <AnimatedGradientBackground />
+
   <div class="container-custom">
     <!-- Section Title -->
     <div class="section-title">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        <span class="gradient-text">{translations.title}</span>
+        <span class="gradient-text-section">{translations.title}</span>
       </h2>
       <p class="text-foreground-secondary text-lg">{translations.subtitle}</p>
     </div>

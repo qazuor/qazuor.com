@@ -4,6 +4,7 @@ import ArrowRightIcon from '../../icons/ui/arrow-right.svg?raw';
 import CalendarIcon from '../../icons/ui/calendar.svg?raw';
 import ClockIcon from '../../icons/ui/clock.svg?raw';
 import DocumentEmptyIcon from '../../icons/ui/document-empty.svg?raw';
+import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 
 interface BlogPost {
   title: string;
@@ -32,12 +33,15 @@ const { posts, primaryColor = '#8b5cf6', translations, lang } = Astro.props;
 const displayedPosts = posts.slice(0, 3);
 ---
 
-<section class="section section-purple-blue" id="blog" style={`background-color: ${primaryColor}`}>
+<section class="relative section section-purple-blue overflow-hidden" id="blog" style={`background-color: ${primaryColor}`}>
+  <!-- Animated Gradient Background -->
+  <AnimatedGradientBackground />
+  
   <div class="container-custom">
     <!-- Section Title -->
     <div class="section-title">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        <span class="gradient-text">{translations.title}</span>
+        <span class="gradient-text-section">{translations.title}</span>
       </h2>
       <p class="text-foreground-secondary text-lg">{translations.subtitle}</p>
     </div>

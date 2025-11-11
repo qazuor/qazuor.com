@@ -1,50 +1,37 @@
 ---
 /**
- * ParticlesDivider Component
- * @param {string} nextSectionColor - Color de la siguiente sección (formato hex: "#RRGGBB")
- * @param {string} upperSectionColor - Color de la sección superior (formato hex: "#RRGGBB")
+ * ParticlesDivider Component - Automatic color interpolation
+ * @param {string} transition - Specify which transition this divider represents
  */
 
 interface Props {
-  nextSectionColor: string;
-  upperSectionColor: string;
+  transition?:
+    | 'hero-to-about'
+    | 'about-to-skills'
+    | 'skills-to-projects'
+    | 'projects-to-blog'
+    | 'blog-to-testimonials'
+    | 'testimonials-to-contact'
+    | 'contact-to-footer';
 }
 
-const { nextSectionColor, upperSectionColor } = Astro.props;
-
-// Función para interpolar entre dos colores hexadecimales
-function interpolateColor(color1: string, color2: string, factor: number): string {
-  const hex1 = color1.replace('#', '');
-  const hex2 = color2.replace('#', '');
-
-  const r1 = Number.parseInt(hex1.substring(0, 2), 16);
-  const g1 = Number.parseInt(hex1.substring(2, 4), 16);
-  const b1 = Number.parseInt(hex1.substring(4, 6), 16);
-
-  const r2 = Number.parseInt(hex2.substring(0, 2), 16);
-  const g2 = Number.parseInt(hex2.substring(2, 4), 16);
-  const b2 = Number.parseInt(hex2.substring(4, 6), 16);
-
-  const r = Math.round(r1 + (r2 - r1) * factor);
-  const g = Math.round(g1 + (g2 - g1) * factor);
-  const b = Math.round(b1 + (b2 - b1) * factor);
-
-  return `rgb(${r}, ${g}, ${b})`;
-}
+const { transition = 'skills-to-projects' } = Astro.props;
 
 interface Particle {
-  color: string;
   size: number;
   x: number;
   y: number;
   delay: number;
   duration: number;
+  colorClass: string;
 }
 
-// Generar partículas estáticas con colores interpolados
+// Generar partículas estáticas con clases de color predefinidas
 const particles: Particle[] = [];
+const colorClasses = ['particle-primary', 'particle-secondary', 'particle-accent'];
+
 for (let i = 0; i < 30; i++) {
-  const colorFactor = Math.random();
+  const colorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
   const size = Math.random() > 0.7 ? Math.random() * 6 + 4 : Math.random() * 3 + 1;
   const x = Math.random() * 100;
   const y = Math.random() * 100;
@@ -52,7 +39,7 @@ for (let i = 0; i < 30; i++) {
   const duration = 3 + Math.random() * 4;
 
   particles.push({
-    color: interpolateColor(upperSectionColor, nextSectionColor, colorFactor),
+    colorClass,
     size,
     x,
     y,
@@ -62,14 +49,13 @@ for (let i = 0; i < 30; i++) {
 }
 ---
 
-<div class="particles-divider">
+<div class="particles-divider" data-transition={transition}>
   <div class="particles-container">
     {
       particles.map((particle) => (
         <div
-          class="particle"
+          class={`particle ${particle.colorClass}`}
           style={`
-          background-color: ${particle.color};
           width: ${particle.size}px;
           height: ${particle.size}px;
           left: ${particle.x}%;
@@ -83,19 +69,10 @@ for (let i = 0; i < 30; i++) {
   </div>
 
   <!-- Gradient overlay -->
-  <div
-    class="gradient-overlay"
-    style={`background: linear-gradient(to bottom, ${upperSectionColor} 0%, ${nextSectionColor} 100%);`}
-  >
-  </div>
+  <div class="gradient-overlay"></div>
 </div>
 
-<style
-  define:vars={{
-    nextSectionColor,
-    upperSectionColor,
-  }}
->
+<style>
   .particles-divider {
     @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
     height: 4rem;
@@ -111,15 +88,92 @@ for (let i = 0; i < 30; i++) {
     @apply relative w-full h-full;
   }
 
+  /* Set specific transition variables based on data attribute */
+  .particles-divider[data-transition='hero-to-about'] {
+    --divider-transition-primary: var(--hero-to-about-2);
+    --divider-transition-secondary: var(--hero-to-about-3);
+    --divider-transition-accent: var(--hero-to-about-4);
+    --divider-transition-bg-start: var(--hero-to-about-1);
+    --divider-transition-bg-end: var(--hero-to-about-5);
+  }
+
+  .particles-divider[data-transition='skills-to-projects'] {
+    --divider-transition-primary: var(--skills-to-projects-2);
+    --divider-transition-secondary: var(--skills-to-projects-3);
+    --divider-transition-accent: var(--skills-to-projects-4);
+    --divider-transition-bg-start: var(--skills-to-projects-1);
+    --divider-transition-bg-end: var(--skills-to-projects-5);
+  }
+
+  .particles-divider[data-transition='about-to-skills'] {
+    --divider-transition-primary: var(--about-to-skills-2);
+    --divider-transition-secondary: var(--about-to-skills-3);
+    --divider-transition-accent: var(--about-to-skills-4);
+    --divider-transition-bg-start: var(--about-to-skills-1);
+    --divider-transition-bg-end: var(--about-to-skills-5);
+  }
+
+  .particles-divider[data-transition='projects-to-blog'] {
+    --divider-transition-primary: var(--projects-to-blog-2);
+    --divider-transition-secondary: var(--projects-to-blog-3);
+    --divider-transition-accent: var(--projects-to-blog-4);
+    --divider-transition-bg-start: var(--projects-to-blog-1);
+    --divider-transition-bg-end: var(--projects-to-blog-5);
+  }
+
+  .particles-divider[data-transition='blog-to-testimonials'] {
+    --divider-transition-primary: var(--blog-to-testimonials-2);
+    --divider-transition-secondary: var(--blog-to-testimonials-3);
+    --divider-transition-accent: var(--blog-to-testimonials-4);
+    --divider-transition-bg-start: var(--blog-to-testimonials-1);
+    --divider-transition-bg-end: var(--blog-to-testimonials-5);
+  }
+
+  .particles-divider[data-transition='testimonials-to-contact'] {
+    --divider-transition-primary: var(--testimonials-to-contact-2);
+    --divider-transition-secondary: var(--testimonials-to-contact-3);
+    --divider-transition-accent: var(--testimonials-to-contact-4);
+    --divider-transition-bg-start: var(--testimonials-to-contact-1);
+    --divider-transition-bg-end: var(--testimonials-to-contact-5);
+  }
+
+  .particles-divider[data-transition='contact-to-footer'] {
+    --divider-transition-primary: var(--contact-to-footer-2);
+    --divider-transition-secondary: var(--contact-to-footer-3);
+    --divider-transition-accent: var(--contact-to-footer-4);
+    --divider-transition-bg-start: var(--contact-to-footer-1);
+    --divider-transition-bg-end: var(--contact-to-footer-5);
+  }
+
   .gradient-overlay {
     @apply absolute inset-0;
+    background: linear-gradient(
+      to bottom,
+      var(--divider-transition-bg-start, var(--divider-primary)) 0%,
+      var(--divider-transition-bg-end, var(--divider-secondary)) 100%
+    );
     opacity: 0.3;
+    transition: background 0.3s ease;
   }
 
   .particle {
     @apply absolute rounded-full;
     animation: particleFloat var(--duration, 4s) ease-in-out infinite;
     animation-delay: var(--delay, 0s);
+    transition: background-color 0.3s ease;
+  }
+
+  /* Dynamic particle colors that respond to theme changes */
+  .particle-primary {
+    background-color: var(--divider-transition-primary, var(--divider-primary));
+  }
+
+  .particle-secondary {
+    background-color: var(--divider-transition-secondary, var(--divider-secondary));
+  }
+
+  .particle-accent {
+    background-color: var(--divider-transition-accent, var(--divider-accent));
   }
 
   @keyframes particleFloat {

@@ -1,50 +1,29 @@
 ---
 /**
- * WaveDivider Component
- * @param {string} nextSectionColor - Color de la siguiente sección (formato hex: "#RRGGBB")
- * @param {string} upperSectionColor - Color de la sección superior (formato hex: "#RRGGBB")
+ * WaveDivider Component - Automatic color interpolation
+ * @param {string} transition - Specify which transition this divider represents
  */
 
 interface Props {
-  nextSectionColor: string;
-  upperSectionColor: string;
+  transition?:
+    | 'hero-to-about'
+    | 'about-to-skills'
+    | 'skills-to-projects'
+    | 'projects-to-blog'
+    | 'blog-to-testimonials'
+    | 'testimonials-to-contact'
+    | 'contact-to-footer';
 }
 
-const { nextSectionColor, upperSectionColor } = Astro.props;
-
-// Función para interpolar entre dos colores hexadecimales
-function interpolateColor(color1: string, color2: string, factor: number): string {
-  const hex1 = color1.replace('#', '');
-  const hex2 = color2.replace('#', '');
-
-  const r1 = Number.parseInt(hex1.substring(0, 2), 16);
-  const g1 = Number.parseInt(hex1.substring(2, 4), 16);
-  const b1 = Number.parseInt(hex1.substring(4, 6), 16);
-
-  const r2 = Number.parseInt(hex2.substring(0, 2), 16);
-  const g2 = Number.parseInt(hex2.substring(2, 4), 16);
-  const b2 = Number.parseInt(hex2.substring(4, 6), 16);
-
-  const r = Math.round(r1 + (r2 - r1) * factor);
-  const g = Math.round(g1 + (g2 - g1) * factor);
-  const b = Math.round(b1 + (b2 - b1) * factor);
-
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
-
-const wave1Color = interpolateColor(upperSectionColor, nextSectionColor, 0.2);
-const wave2Color = interpolateColor(upperSectionColor, nextSectionColor, 0.4);
-const wave3Color = interpolateColor(upperSectionColor, nextSectionColor, 0.6);
-const wave4Color = interpolateColor(upperSectionColor, nextSectionColor, 0.8);
-const wave5Color = nextSectionColor;
+const { transition = 'hero-to-about' } = Astro.props;
 ---
 
-<div class="wave-divider">
+<div class="wave-divider" data-transition={transition}>
   <svg class="relative block w-full h-40 md:h-48" viewBox="0 0 1200 120" preserveAspectRatio="none">
     <!-- Primera ola - más atrás -->
     <path
       d="M0,120 L0,0 C150,80 300,30 450,60 C600,90 750,40 900,70 C1050,100 1150,50 1200,0 L1200,120 Z"
-      fill={wave1Color}
+      class="wave-layer-1"
       fill-opacity="0.4"
     >
       <animate
@@ -63,7 +42,7 @@ const wave5Color = nextSectionColor;
     <!-- Segunda ola -->
     <path
       d="M0,120 L0,20 C200,70 400,30 600,60 C800,90 1000,40 1200,20 L1200,120 Z"
-      fill={wave2Color}
+      class="wave-layer-2"
       fill-opacity="0.5"
     >
       <animate
@@ -82,7 +61,7 @@ const wave5Color = nextSectionColor;
     <!-- Tercera ola - en medio -->
     <path
       d="M0,120 L0,35 C120,75 240,45 360,65 C480,85 600,50 720,70 C840,90 960,55 1080,75 C1150,85 1180,65 1200,35 L1200,120 Z"
-      fill={wave3Color}
+      class="wave-layer-3"
       fill-opacity="0.6"
     >
       <animate
@@ -101,7 +80,7 @@ const wave5Color = nextSectionColor;
     <!-- Cuarta ola -->
     <path
       d="M0,120 L0,50 C150,85 300,55 450,75 C600,95 750,60 900,80 C1050,100 1150,70 1200,50 L1200,120 Z"
-      fill={wave4Color}
+      class="wave-layer-4"
       fill-opacity="0.7"
     >
       <animate
@@ -120,7 +99,7 @@ const wave5Color = nextSectionColor;
     <!-- Quinta ola - al frente, color exacto de la sección siguiente -->
     <path
       d="M0,120 L0,60 C120,90 240,65 360,80 C480,95 600,70 720,85 C840,100 960,75 1080,90 C1150,100 1180,80 1200,60 L1200,120 Z"
-      fill={wave5Color}
+      class="wave-layer-5"
     >
       <animate
         attributeName="d"
@@ -140,5 +119,88 @@ const wave5Color = nextSectionColor;
 <style>
   .wave-divider {
     @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
+  }
+
+  /* Set specific transition variables based on data attribute */
+  .wave-divider[data-transition='hero-to-about'] {
+    --divider-transition-1: var(--hero-to-about-1);
+    --divider-transition-2: var(--hero-to-about-2);
+    --divider-transition-3: var(--hero-to-about-3);
+    --divider-transition-4: var(--hero-to-about-4);
+    --divider-transition-5: var(--hero-to-about-5);
+  }
+
+  .wave-divider[data-transition='about-to-skills'] {
+    --divider-transition-1: var(--about-to-skills-1);
+    --divider-transition-2: var(--about-to-skills-2);
+    --divider-transition-3: var(--about-to-skills-3);
+    --divider-transition-4: var(--about-to-skills-4);
+    --divider-transition-5: var(--about-to-skills-5);
+  }
+
+  .wave-divider[data-transition='skills-to-projects'] {
+    --divider-transition-1: var(--skills-to-projects-1);
+    --divider-transition-2: var(--skills-to-projects-2);
+    --divider-transition-3: var(--skills-to-projects-3);
+    --divider-transition-4: var(--skills-to-projects-4);
+    --divider-transition-5: var(--skills-to-projects-5);
+  }
+
+  .wave-divider[data-transition='projects-to-blog'] {
+    --divider-transition-1: var(--projects-to-blog-1);
+    --divider-transition-2: var(--projects-to-blog-2);
+    --divider-transition-3: var(--projects-to-blog-3);
+    --divider-transition-4: var(--projects-to-blog-4);
+    --divider-transition-5: var(--projects-to-blog-5);
+  }
+
+  .wave-divider[data-transition='blog-to-testimonials'] {
+    --divider-transition-1: var(--blog-to-testimonials-1);
+    --divider-transition-2: var(--blog-to-testimonials-2);
+    --divider-transition-3: var(--blog-to-testimonials-3);
+    --divider-transition-4: var(--blog-to-testimonials-4);
+    --divider-transition-5: var(--blog-to-testimonials-5);
+  }
+
+  .wave-divider[data-transition='testimonials-to-contact'] {
+    --divider-transition-1: var(--testimonials-to-contact-1);
+    --divider-transition-2: var(--testimonials-to-contact-2);
+    --divider-transition-3: var(--testimonials-to-contact-3);
+    --divider-transition-4: var(--testimonials-to-contact-4);
+    --divider-transition-5: var(--testimonials-to-contact-5);
+  }
+
+  .wave-divider[data-transition='contact-to-footer'] {
+    --divider-transition-1: var(--contact-to-footer-1);
+    --divider-transition-2: var(--contact-to-footer-2);
+    --divider-transition-3: var(--contact-to-footer-3);
+    --divider-transition-4: var(--contact-to-footer-4);
+    --divider-transition-5: var(--contact-to-footer-5);
+  }
+
+  /* Dynamic wave colors that respond to theme changes and specific transitions */
+  .wave-layer-1 {
+    fill: var(--divider-transition-1);
+    transition: fill 0.3s ease;
+  }
+
+  .wave-layer-2 {
+    fill: var(--divider-transition-2);
+    transition: fill 0.3s ease;
+  }
+
+  .wave-layer-3 {
+    fill: var(--divider-transition-3);
+    transition: fill 0.3s ease;
+  }
+
+  .wave-layer-4 {
+    fill: var(--divider-transition-4);
+    transition: fill 0.3s ease;
+  }
+
+  .wave-layer-5 {
+    fill: var(--divider-transition-5);
+    transition: fill 0.3s ease;
   }
 </style>

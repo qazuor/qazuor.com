@@ -1,48 +1,29 @@
 ---
 /**
- * ZigzagDivider Component
- * @param {string} nextSectionColor - Color de la siguiente sección (formato hex: "#RRGGBB")
- * @param {string} upperSectionColor - Color de la sección superior (formato hex: "#RRGGBB")
+ * ZigzagDivider Component - Automatic color interpolation
+ * @param {string} transition - Specify which transition this divider represents
  */
 
 interface Props {
-  nextSectionColor: string;
-  upperSectionColor: string;
+  transition?:
+    | 'hero-to-about'
+    | 'about-to-skills'
+    | 'skills-to-projects'
+    | 'projects-to-blog'
+    | 'blog-to-testimonials'
+    | 'testimonials-to-contact'
+    | 'contact-to-footer';
 }
 
-const { nextSectionColor, upperSectionColor } = Astro.props;
-
-function interpolateColor(color1: string, color2: string, factor: number): string {
-  const hex1 = color1.replace('#', '');
-  const hex2 = color2.replace('#', '');
-
-  const r1 = Number.parseInt(hex1.substring(0, 2), 16);
-  const g1 = Number.parseInt(hex1.substring(2, 4), 16);
-  const b1 = Number.parseInt(hex1.substring(4, 6), 16);
-
-  const r2 = Number.parseInt(hex2.substring(0, 2), 16);
-  const g2 = Number.parseInt(hex2.substring(2, 4), 16);
-  const b2 = Number.parseInt(hex2.substring(4, 6), 16);
-
-  const r = Math.round(r1 + (r2 - r1) * factor);
-  const g = Math.round(g1 + (g2 - g1) * factor);
-  const b = Math.round(b1 + (b2 - b1) * factor);
-
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
-
-const color1 = interpolateColor(upperSectionColor, nextSectionColor, 0.25);
-const color2 = interpolateColor(upperSectionColor, nextSectionColor, 0.5);
-const color3 = interpolateColor(upperSectionColor, nextSectionColor, 0.75);
-const color4 = nextSectionColor;
+const { transition = 'testimonials-to-contact' } = Astro.props;
 ---
 
-<div class="zigzag-divider">
+<div class="zigzag-divider" data-transition={transition}>
   <svg class="relative block w-full h-32 md:h-40" viewBox="0 0 1200 120" preserveAspectRatio="none">
     <!-- Zigzag capa 1 - más atrás -->
     <path
       d="M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z"
-      fill={color1}
+      class="zigzag-layer-1"
       fill-opacity="0.4"
     >
       <animate
@@ -60,8 +41,8 @@ const color4 = nextSectionColor;
     <!-- Zigzag capa 2 -->
     <path
       d="M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z"
-      fill={color2}
-      fill-opacity="0.5"
+      class="zigzag-layer-2"
+      fill-opacity="0.6"
     >
       <animate
         attributeName="d"
@@ -78,7 +59,7 @@ const color4 = nextSectionColor;
     <!-- Zigzag capa 3 -->
     <path
       d="M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z"
-      fill={color3}
+      class="zigzag-layer-3"
       fill-opacity="0.6"
     >
       <animate
@@ -96,7 +77,7 @@ const color4 = nextSectionColor;
     <!-- Base sólida con zigzag frontal -->
     <path
       d="M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z"
-      fill={color4}
+      class="zigzag-layer-4"
     >
       <animate
         attributeName="d"
@@ -115,5 +96,76 @@ const color4 = nextSectionColor;
 <style>
   .zigzag-divider {
     @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
+  }
+
+  /* Set specific transition variables based on data attribute */
+  .zigzag-divider[data-transition='hero-to-about'] {
+    --divider-transition-1: var(--hero-to-about-2);
+    --divider-transition-2: var(--hero-to-about-3);
+    --divider-transition-3: var(--hero-to-about-4);
+    --divider-transition-4: var(--hero-to-about-5);
+  }
+
+  .zigzag-divider[data-transition='about-to-skills'] {
+    --divider-transition-1: var(--about-to-skills-2);
+    --divider-transition-2: var(--about-to-skills-3);
+    --divider-transition-3: var(--about-to-skills-4);
+    --divider-transition-4: var(--about-to-skills-5);
+  }
+
+  .zigzag-divider[data-transition='skills-to-projects'] {
+    --divider-transition-1: var(--skills-to-projects-2);
+    --divider-transition-2: var(--skills-to-projects-3);
+    --divider-transition-3: var(--skills-to-projects-4);
+    --divider-transition-4: var(--skills-to-projects-5);
+  }
+
+  .zigzag-divider[data-transition='projects-to-blog'] {
+    --divider-transition-1: var(--projects-to-blog-2);
+    --divider-transition-2: var(--projects-to-blog-3);
+    --divider-transition-3: var(--projects-to-blog-4);
+    --divider-transition-4: var(--projects-to-blog-5);
+  }
+
+  .zigzag-divider[data-transition='blog-to-testimonials'] {
+    --divider-transition-1: var(--blog-to-testimonials-2);
+    --divider-transition-2: var(--blog-to-testimonials-3);
+    --divider-transition-3: var(--blog-to-testimonials-4);
+    --divider-transition-4: var(--blog-to-testimonials-5);
+  }
+
+  .zigzag-divider[data-transition='testimonials-to-contact'] {
+    --divider-transition-1: var(--testimonials-to-contact-2);
+    --divider-transition-2: var(--testimonials-to-contact-3);
+    --divider-transition-3: var(--testimonials-to-contact-4);
+    --divider-transition-4: var(--testimonials-to-contact-5);
+  }
+
+  .zigzag-divider[data-transition='contact-to-footer'] {
+    --divider-transition-1: var(--contact-to-footer-2);
+    --divider-transition-2: var(--contact-to-footer-3);
+    --divider-transition-3: var(--contact-to-footer-4);
+    --divider-transition-4: var(--contact-to-footer-5);
+  }
+
+  /* Dynamic zigzag colors that respond to theme changes */
+  .zigzag-layer-1 {
+    fill: var(--divider-transition-1);
+    transition: fill 0.3s ease;
+  }
+
+  .zigzag-layer-2 {
+    fill: var(--divider-transition-2);
+    transition: fill 0.3s ease;
+  }
+
+  .zigzag-layer-3 {
+    fill: var(--divider-transition-3);
+    transition: fill 0.3s ease;
+  }
+
+  .zigzag-layer-4 {
+    fill: var(--divider-transition-4);
+    transition: fill 0.3s ease;
   }
 </style>

@@ -20,18 +20,21 @@
     "description": "Creando aplicaciones web rápidas, hermosas y accesibles con herramientas de vanguardia y mejores prácticas",
     "hero": {
       "title": "Hola, soy qazuor",
-      "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
+      "subtitle": "Experiencias web bellas, rápidas y accesibles, de la idea al deploy.",
       "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas",
-      "iMadeText": "Yo creo",
+      "iBuildText": "Yo construyo",
       "viewProjects": "Ver Proyectos",
       "getInTouch": "Contactar",
+      "downloadResume": "Descargar CV",
       "scroll": "Desplazar"
     },
-    "iMade": {
-      "webapps": "aplicaciones web increíbles",
-      "interfaces": "interfaces hermosas",
-      "solutions": "soluciones escalables",
-      "experiences": "experiencias de usuario"
+    "iBuild": {
+      "webapps": "apps web escalables",
+      "interfaces": "productos digitales con identidad",
+      "solutions": "sitios modernos y veloces",
+      "experiences": "marcas que comunican",
+      "uis": "interfaces limpias y efectivas",
+      "tools": "herramientas que simplifican el trabajo"
     },
     "roles": {
       "fullstack": "Desarrollador Full-Stack",
@@ -222,8 +225,9 @@
   },
   "aria": {
     "github": "GitHub",
-    "twitter": "Twitter",
     "linkedin": "LinkedIn",
+    "fiverr": "Fiverr",
+    "upwork": "Upwork",
     "toggleTheme": "Cambiar tema",
     "scrollToTop": "Volver arriba",
     "toggleMenu": "Alternar menú",
@@ -233,8 +237,9 @@
   },
   "social": {
     "github": "GitHub",
-    "twitter": "Twitter",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "fiverr": "Fiverr",
+    "upwork": "Upwork"
   },
   "profile": {
     "name": "qazuor",

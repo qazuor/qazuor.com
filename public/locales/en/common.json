@@ -20,18 +20,21 @@
     "description": "Creating fast, beautiful, and accessible web applications with cutting-edge tools and best practices",
     "hero": {
       "title": "Hi, I'm qazuor",
-      "subtitle": "Building beautiful, performant, and accessible web experiences",
+      "subtitle": "Building beautiful, performant and accessible web experiences, from idea to deployment.",
       "description": "Passionate about crafting exceptional digital experiences with modern web technologies",
-      "iMadeText": "I made",
+      "iBuildText": "I build",
       "viewProjects": "View Projects",
       "getInTouch": "Get in Touch",
+      "downloadResume": "Download Resume",
       "scroll": "Scroll"
     },
-    "iMade": {
-      "webapps": "awesome web apps",
-      "interfaces": "beautiful interfaces",
-      "solutions": "scalable solutions",
-      "experiences": "user experiences"
+    "iBuild": {
+      "webapps": "scalable web apps",
+      "interfaces": "beautiful digital products",
+      "solutions": "fast, modern websites",
+      "experiences": "brands with identity",
+      "uis": "clean and smart UIs",
+      "tools": "tools that make life easier"
     },
     "roles": {
       "fullstack": "Full-Stack Developer",
@@ -222,8 +225,9 @@
   },
   "aria": {
     "github": "GitHub",
-    "twitter": "Twitter",
     "linkedin": "LinkedIn",
+    "fiverr": "Fiverr",
+    "upwork": "Upwork",
     "toggleTheme": "Toggle theme",
     "scrollToTop": "Scroll to top",
     "toggleMenu": "Toggle menu",
@@ -233,8 +237,9 @@
   },
   "social": {
     "github": "GitHub",
-    "twitter": "Twitter",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "fiverr": "Fiverr",
+    "upwork": "Upwork"
   },
   "profile": {
     "name": "Leandro Asrilevich",

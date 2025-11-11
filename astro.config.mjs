@@ -3,19 +3,30 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
-import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
+import lighthouse from 'astro-lighthouse';
 import min from 'astro-min';
 import subsites from 'astro-subsites';
+import { defineConfig } from 'astro/config';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
+import colorInterpolation from './integrations/color-interpolation.ts';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  trailingSlash: 'always',
+
   integrations: [
+    // Color Interpolation Generator (first to run early)
+    colorInterpolation({
+      sourceFile: 'src/data/colors.ts',
+      outputFile: 'src/styles/generated-colors.css',
+      steps: 5,
+      watch: true,
+    }),
+
+    lighthouse(),
     // 1. Frameworks first
     react(),
     tailwind({

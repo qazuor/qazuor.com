@@ -36,6 +36,5 @@ const downloadProps = downloadFilename ? { download: downloadFilename } : {};
   } ${className}`}
   aria-label={ariaLabel}
   {...downloadProps}
->
-  {text}
-</a>
+  set:html={text}
+/>

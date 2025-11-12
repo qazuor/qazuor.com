@@ -12,9 +12,8 @@ const { roles, className = '' } = Astro.props;
     id="rotating-roles"
     class="text-lg font-medium text-primary bg-background/90 backdrop-blur-md px-4 py-2 rounded-full border border-foreground/20 shadow-lg rotating-roles"
     data-roles={JSON.stringify(roles)}
-  >
-    {roles[0]}
-  </span>
+    set:html={roles[0]}
+  />
 </div>
 
 <script>
@@ -51,7 +50,7 @@ const { roles, className = '' } = Astro.props;
                 });
 
                 timeline.call(() => {
-                  rotatingRolesElement.textContent = role;
+                  rotatingRolesElement.innerHTML = role;
                 });
 
                 timeline.to(rotatingRolesElement, {

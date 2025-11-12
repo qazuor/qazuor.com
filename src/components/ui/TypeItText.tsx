@@ -8,6 +8,7 @@ interface TypeItTextProps {
   nextStringDelay?: number;
   className?: string;
   loop?: boolean;
+  html?: boolean; // Nueva prop para indicar si el contenido tiene HTML
 }
 
 export function TypeItText({
@@ -17,6 +18,7 @@ export function TypeItText({
   nextStringDelay = 2000,
   className = '',
   loop = true,
+  html = false,
 }: TypeItTextProps) {
   const elementRef = useRef<HTMLSpanElement>(null);
 
@@ -30,13 +32,15 @@ export function TypeItText({
         waitUntilVisible: true,
         deleteSpeed,
         nextStringDelay,
+        html, // Habilitar HTML si la prop está activada
       }).go();
     }
-  }, [texts, speed, deleteSpeed, nextStringDelay, loop]);
+  }, [texts, speed, deleteSpeed, nextStringDelay, loop, html]);
 
   return (
     <span ref={elementRef} className={className}>
-      {texts[0] || ''}
+      {/** biome-ignore lint/security/noDangerouslySetInnerHtml: HTML content is controlled by the component props */}
+      {html ? <span dangerouslySetInnerHTML={{ __html: texts[0] || '' }} /> : texts[0] || ''}
     </span>
   );
 }

@@ -78,16 +78,20 @@ const {
         <div class="hero-element">
           <div class="text-xl md:text-1xl lg:text-lg font-semibold text-foreground min-h-[3rem]">
             <span class="text-foreground-secondary">{translations.iBuildText}</span>
-            <TypeItText texts={iBuild} className="text-primary font-sometype" client:load />
+            <TypeItText
+              texts={iBuild}
+              className="text-primary font-sometype"
+              html={true}
+              client:load
+            />
           </div>
         </div>
 
         <!-- Subtitle -->
         <p
           class="hero-element text-md md:text-leg text-foreground-secondary max-w-2xl text-balance"
-        >
-          {subtitle}
-        </p>
+          set:html={subtitle}
+        />
 
         <!-- CTA Buttons -->
         <div class="hero-element flex flex-wrap gap-4">

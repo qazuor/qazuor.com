@@ -61,9 +61,9 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
     <!-- Section Title -->
     <div class="section-title">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        <span class="gradient-text-section">{translations.title}</span>
+        <span class="gradient-text-section" set:html={translations.title} />
       </h2>
-      <p class="text-foreground-secondary text-lg">{translations.subtitle}</p>
+      <p class="text-foreground-secondary text-lg" set:html={translations.subtitle} />
     </div>
 
     <!-- Filter Buttons -->
@@ -159,7 +159,7 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
 
     <!-- Empty State -->
     <div id="empty-state" class="hidden text-center py-12">
-      <p class="text-foreground-secondary text-lg">{translations.noProjects}</p>
+      <p class="text-foreground-secondary text-lg" set:html={translations.noProjects} />
     </div>
   </div>
 </section>

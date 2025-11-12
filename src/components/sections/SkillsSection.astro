@@ -115,11 +115,11 @@ const categories = skillsData.map((category) => ({
       <!-- Section Title -->
       <div class="section-title">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          <span class="gradient-text-section">{translations.title}</span>
+          <span class="gradient-text-section" set:html={translations.title} />
         </h2>
-        <p class="text-foreground-secondary text-lg mb-8">{translations.subtitle}</p>
+        <p class="text-foreground-secondary text-lg mb-8" set:html={translations.subtitle} />
         <div class="max-w-3xl mx-auto">
-          <p class="text-foreground-secondary">{translations.description}</p>
+          <p class="text-foreground-secondary" set:html={translations.description} />
         </div>
       </div>
 

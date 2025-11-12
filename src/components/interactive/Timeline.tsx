@@ -156,123 +156,228 @@ export default function Timeline({ lang }: TimelineProps) {
         </div>
 
         {/* Timeline Container */}
-        <div className="relative max-w-6xl mx-auto">
-          {/* Timeline Line */}
-          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-border transform -translate-y-1/2">
-            {/* Progress Line */}
-            <motion.div
-              className="h-full bg-gradient-to-r from-primary via-accent to-primary"
-              style={{
-                background: `linear-gradient(90deg, 
-                  transparent 0%, 
-                  ${items[activeIndex]?.color || '#06b6d4'} ${(activeIndex / (items.length - 1)) * 100}%, 
-                  transparent ${(activeIndex / (items.length - 1)) * 100 + 10}%
-                )`,
-              }}
-              initial={{ width: 0 }}
-              animate={{ width: `${((activeIndex + 1) / items.length) * 100}%` }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-            />
-          </div>
-
-          {/* Timeline Items */}
-          <div className="flex justify-between items-center relative z-10">
-            {items.map((item, index) => (
+        <div className="relative max-w-6xl mx-auto md:px-0 px-4">
+          {/* Desktop Horizontal Timeline */}
+          <div className="hidden md:block">
+            {/* Main Timeline Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-border transform -translate-y-1/2">
+              {/* Progress Line */}
               <motion.div
-                key={item.id}
-                className="relative flex flex-col items-center cursor-pointer group"
-                onMouseEnter={() => {
-                  setActiveIndex(index);
-                  setIsPaused(true);
-                }}
-                onMouseLeave={() => setIsPaused(false)}
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              >
-                {/* Timeline Dot */}
-                <motion.div
-                  className={`
-                    relative w-4 h-4 rounded-full border-2 transition-all duration-300
-                    ${
-                      index === activeIndex
-                        ? 'border-transparent shadow-lg'
-                        : 'border-border bg-background hover:border-primary/50'
-                    }
-                  `}
-                  style={{
-                    backgroundColor: index === activeIndex ? item.color : undefined,
-                    boxShadow: index === activeIndex ? `0 0 20px ${item.color}40` : undefined,
+                className="h-full bg-gradient-to-r from-primary to-accent"
+                initial={{ width: 0 }}
+                animate={{ width: `${((activeIndex + 1) / items.length) * 100}%` }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
+              />
+            </div>
+
+            {/* Timeline Items */}
+            <div className="flex justify-between items-center relative">
+              {items.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="flex flex-col items-center cursor-pointer group bg-transparent border-0 p-0"
+                  onMouseEnter={() => {
+                    setActiveIndex(index);
+                    setIsPaused(true);
                   }}
-                  animate={{
-                    scale: index === activeIndex ? 1.5 : 1,
+                  onMouseLeave={() => setIsPaused(false)}
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setIsPaused(true);
+                    setTimeout(() => setIsPaused(false), 3000);
                   }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  aria-label={`View timeline item: ${item.title} (${item.year})`}
                 >
-                  {/* Icon */}
-                  <motion.div
+                  {/* Year Label Above */}
+                  <div
                     className={`
-                      absolute inset-0 flex items-center justify-center text-xs
-                      ${index === activeIndex ? 'text-white' : 'text-foreground-muted'}
+                      mb-4 text-sm font-medium transition-all duration-300
+                      ${
+                        index === activeIndex
+                          ? 'text-foreground font-bold scale-110'
+                          : 'text-foreground-muted'
+                      }
                     `}
-                    animate={{
-                      scale: index === activeIndex ? 0.7 : 0.6,
+                    style={{
+                      textShadow: index === activeIndex ? `0 0 8px ${item.color}60` : undefined,
                     }}
                   >
-                    {getIcon(item.icon)}
-                  </motion.div>
-                </motion.div>
+                    {item.year}
+                  </div>
 
-                {/* Year Label */}
-                <motion.div
-                  className={`
-                    absolute top-8 text-sm font-medium transition-colors duration-300
-                    ${index === activeIndex ? 'text-foreground' : 'text-foreground-muted'}
-                  `}
-                  animate={{
-                    y: index === activeIndex ? 8 : 0,
-                    scale: index === activeIndex ? 1.1 : 1,
-                  }}
-                >
-                  {item.year}
-                </motion.div>
-
-                {/* Hover Card */}
-                <AnimatePresence>
-                  {index === activeIndex && (
-                    <motion.div
-                      className="absolute top-16 left-1/2 transform -translate-x-1/2 z-20"
-                      initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.8 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  {/* Timeline Dot */}
+                  <div
+                    className={`
+                      w-4 h-4 rounded-full border-2 transition-all duration-300 relative z-10
+                      ${
+                        index === activeIndex
+                          ? 'border-transparent shadow-lg scale-125'
+                          : 'border-border bg-background hover:border-primary/50'
+                      }
+                    `}
+                    style={{
+                      backgroundColor: index === activeIndex ? item.color : undefined,
+                      boxShadow: index === activeIndex ? `0 0 15px ${item.color}40` : undefined,
+                    }}
+                  >
+                    {/* Icon */}
+                    <div
+                      className={`
+                        absolute inset-0 flex items-center justify-center text-xs transition-colors duration-300
+                        ${index === activeIndex ? 'text-white' : 'text-foreground-muted'}
+                      `}
                     >
-                      <div
-                        className="bg-card border border-border rounded-lg p-4 shadow-xl max-w-xs"
-                        style={{ borderColor: `${item.color}40` }}
-                      >
-                        {/* Arrow */}
-                        <div
-                          className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rotate-45"
-                          style={{ backgroundColor: 'hsl(var(--card))' }}
-                        />
+                      {getIcon(item.icon)}
+                    </div>
+                  </div>
 
-                        {/* Content */}
-                        <h3 className="font-semibold text-sm mb-2" style={{ color: item.color }}>
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-foreground-muted leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
+                  {/* Tooltip Below */}
+                  <AnimatePresence>
+                    {index === activeIndex && (
+                      <motion.div
+                        className="absolute top-16 z-20"
+                        initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                      >
+                        <div
+                          className="bg-card border border-border rounded-lg p-4 shadow-xl max-w-xs"
+                          style={{ borderColor: `${item.color}40` }}
+                        >
+                          {/* Arrow pointing up */}
+                          <div
+                            className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l border-border"
+                            style={{ backgroundColor: 'hsl(var(--card))' }}
+                          />
+
+                          <h3 className="font-semibold text-sm mb-2" style={{ color: item.color }}>
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-foreground-muted leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Progress Indicators */}
-          <div className="flex justify-center mt-8 space-x-2">
+          {/* Mobile Vertical Timeline */}
+          <div className="md:hidden">
+            {/* Main Timeline Line */}
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-border">
+              {/* Progress Line */}
+              <motion.div
+                className="w-full bg-gradient-to-b from-primary to-accent"
+                initial={{ height: 0 }}
+                animate={{ height: `${((activeIndex + 1) / items.length) * 100}%` }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
+              />
+            </div>
+
+            {/* Timeline Items */}
+            <div className="space-y-12 relative">
+              {items.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="flex items-center cursor-pointer group bg-transparent border-0 p-0 w-full"
+                  onTouchStart={() => {
+                    setActiveIndex(index);
+                    setIsPaused(true);
+                  }}
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setIsPaused(true);
+                    setTimeout(() => setIsPaused(false), 3000);
+                  }}
+                  aria-label={`View timeline item: ${item.title} (${item.year})`}
+                >
+                  {/* Timeline Dot */}
+                  <div
+                    className={`
+                      w-4 h-4 rounded-full border-2 transition-all duration-300 relative z-10
+                      ${
+                        index === activeIndex
+                          ? 'border-transparent shadow-lg scale-125'
+                          : 'border-border bg-background'
+                      }
+                    `}
+                    style={{
+                      backgroundColor: index === activeIndex ? item.color : undefined,
+                      boxShadow: index === activeIndex ? `0 0 15px ${item.color}40` : undefined,
+                    }}
+                  >
+                    {/* Icon */}
+                    <div
+                      className={`
+                        absolute inset-0 flex items-center justify-center text-xs transition-colors duration-300
+                        ${index === activeIndex ? 'text-white' : 'text-foreground-muted'}
+                      `}
+                    >
+                      {getIcon(item.icon)}
+                    </div>
+                  </div>
+
+                  {/* Year Label to the right */}
+                  <div
+                    className={`
+                      ml-6 text-sm font-medium transition-all duration-300
+                      ${
+                        index === activeIndex
+                          ? 'text-foreground font-bold scale-110'
+                          : 'text-foreground-muted'
+                      }
+                    `}
+                    style={{
+                      textShadow: index === activeIndex ? `0 0 8px ${item.color}60` : undefined,
+                    }}
+                  >
+                    {item.year}
+                  </div>
+
+                  {/* Tooltip to the right */}
+                  <AnimatePresence>
+                    {index === activeIndex && (
+                      <motion.div
+                        className="absolute left-20 z-20"
+                        initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: -20, scale: 0.8 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                      >
+                        <div
+                          className="bg-card border border-border rounded-lg p-3 shadow-md max-w-xs"
+                          style={{ borderColor: `${item.color}40` }}
+                        >
+                          {/* Arrow pointing left */}
+                          <div
+                            className="absolute left-0 top-4 transform -translate-x-1/2 w-2 h-2 rotate-45 border-l border-b border-border"
+                            style={{ backgroundColor: 'hsl(var(--card))' }}
+                          />
+
+                          <h3 className="font-semibold text-sm mb-1" style={{ color: item.color }}>
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-foreground-muted leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Progress Indicators - Desktop Only */}
+          <div className="hidden md:flex justify-center mt-8 space-x-2">
             {items.map((item) => (
               <button
                 key={item.id}

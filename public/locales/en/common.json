@@ -19,9 +19,10 @@
     "subtitle": "Building beautiful, performant, and accessible web experiences",
     "description": "Creating fast, beautiful, and accessible web applications with cutting-edge tools and best practices",
     "hero": {
-      "title": "Hi, I'm qazuor",
-      "subtitle": "Building beautiful, performant and accessible web experiences, from idea to deployment.",
+      "title": "Hi, I'm **qazuor**",
+      "subtitle": "Building *beautiful*, **performant** and accessible web experiences, from idea to deployment.",
       "description": "Passionate about crafting exceptional digital experiences with modern web technologies",
+      "dynamicIntro": "I'm a **{role}** with {years} years of experience in *{specialty}*",
       "iBuildText": "I build",
       "viewProjects": "View Projects",
       "getInTouch": "Get in Touch",
@@ -29,17 +30,17 @@
       "scroll": "Scroll"
     },
     "iBuild": {
-      "webapps": "scalable web apps",
-      "interfaces": "beautiful digital products",
-      "solutions": "fast, modern websites",
-      "experiences": "brands with identity",
-      "uis": "clean and smart UIs",
-      "tools": "tools that make life easier"
+      "webapps": "**scalable** web apps",
+      "interfaces": "*beautiful* digital products",
+      "solutions": "**fast**, modern websites",
+      "experiences": "brands with *identity*",
+      "uis": "**clean** and smart UIs",
+      "tools": "tools that make life *easier*"
     },
     "roles": {
-      "fullstack": "Full-Stack Developer",
-      "frontend": "Frontend Developer",
-      "designer": "UI/UX Designer"
+      "fullstack": "**Full-Stack** Developer",
+      "frontend": "**Frontend** Developer",
+      "designer": "**UI/UX** Designer"
     },
     "features": {
       "performance": {
@@ -62,13 +63,13 @@
     }
   },
   "blog": {
-    "title": "Latest Articles",
-    "subtitle": "Thoughts, tutorials, and insights about web development",
-    "description": "Articles about modern web development, best practices, and lessons learned",
-    "readMore": "Read more",
+    "title": "**Latest** Articles",
+    "subtitle": "*Thoughts*, tutorials, and insights about **web development**",
+    "description": "Articles about **modern web development**, *best practices*, and lessons learned",
+    "readMore": "**Read more**",
     "readTime": "min read",
-    "viewAll": "View all articles",
-    "noArticles": "No articles yet. Check back soon!",
+    "viewAll": "View **all** articles",
+    "noArticles": "No articles yet. *Check back soon!*",
     "pagination": {
       "previous": "Previous",
       "next": "Next",
@@ -100,32 +101,36 @@
     }
   },
   "about": {
-    "title": "About Me",
-    "subtitle": "Get to know me through code",
-    "availability": "Open to opportunities",
-    "bio": "Passionate about creating exceptional digital experiences with modern web technologies. Specialized in React, TypeScript, and performance optimization.",
-    "connect": "Let's build something amazing together!"
+    "title": "About **Me**",
+    "subtitle": "Get to know me through *code*",
+    "storyTitle": "My **Story**",
+    "storyParagraph1": "I'm a **developer** with over *20 years* of professional experience, but the story started much earlier — I was around 8 or 9 when I wrote my first lines of code. I focus on **web development**, with a strong love for **frontend** — where code meets design and user experience. I can handle backend too, but I feel at home making interfaces that connect with people.",
+    "storyParagraph2": "I also have a background in **graphic design**, which sharpened my visual sense and communication skills. I'm **self‑taught** and *endlessly curious*, the kind of person who learns by exploring, breaking things, and fixing them better. I genuinely love *technology* — I can spend hours coding, experimenting, and building new ideas.",
+    "storyParagraph3": "Born in **1980**, I've witnessed the evolution of computing from the pre‑PC days to today's *AI‑driven* world. Off‑screen, I'm happily in a relationship and a father of two amazing young adults.",
+    "storySummary": "In short: a lifelong learner who codes with **purpose**, designs with *intent*, and never stops being **curious**.",
+    "ctaButton": "**Let's Work Together**",
+    "connect": "Let's build something **amazing** together!"
   },
   "skills": {
-    "title": "Skills",
-    "subtitle": "Technologies I work with",
-    "description": "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
+    "title": "**Skills**",
+    "subtitle": "Technologies I *work with*",
+    "description": "Here's a look at my skill set. The **tech world** changes every moment and that's what makes it *exciting*! I constantly keep my knowledge up to date and love exploring **new technologies** to keep growing.",
     "categories": {
-      "dev": "Dev Skills",
-      "design": "Design Skills",
+      "dev": "**Dev** Skills",
+      "design": "**Design** Skills",
       "languages": "Language Skills",
       "tools": "Tools"
     }
   },
   "projects": {
-    "title": "Featured Projects",
-    "subtitle": "A collection of projects I've built and contributed to",
-    "description": "A collection of web applications and tools I've built",
-    "viewDemo": "Demo",
-    "viewCode": "Code",
-    "featured": "Featured",
+    "title": "**Featured** Projects",
+    "subtitle": "A collection of projects I've *built* and **contributed** to",
+    "description": "A collection of **web applications** and tools I've built",
+    "viewDemo": "**Demo**",
+    "viewCode": "**Code**",
+    "featured": "*Featured*",
     "noProjects": "No projects found with the selected filter.",
-    "filterAll": "All",
+    "filterAll": "**All**",
     "cta": {
       "title": "Have a project in mind?",
       "description": "Let's discuss how we can work together",

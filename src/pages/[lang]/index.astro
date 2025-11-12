@@ -24,8 +24,8 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const title = t('seo.title');
-const description = t('home.description');
+const title = t('seo.title', { markdown: true });
+const description = t('home.description', { markdown: true });
 
 // SEO keywords - definidos directamente ya que las traducciones no manejan bien arrays
 const seoKeywords =
@@ -112,11 +112,11 @@ const sortedTestimonials = allTestimonials
 
 // Translations for components
 const heroTranslations = {
-  iBuildText: t('home.hero.iBuildText'),
-  viewProjects: t('home.hero.viewProjects'),
-  getInTouch: t('home.hero.getInTouch'),
-  downloadResume: t('home.hero.downloadResume'),
-  scroll: t('home.hero.scroll'),
+  iBuildText: t('home.hero.iBuildText', { markdown: true }),
+  viewProjects: t('home.hero.viewProjects', { markdown: true }),
+  getInTouch: t('home.hero.getInTouch', { markdown: true }),
+  downloadResume: t('home.hero.downloadResume', { markdown: true }),
+  scroll: t('home.hero.scroll', { markdown: true }),
 };
 
 const heroAriaLabels = {
@@ -127,55 +127,61 @@ const heroAriaLabels = {
 };
 
 const aboutTranslations = {
-  title: t('about.title'),
-  subtitle: t('about.subtitle'),
-  connect: t('about.connect'),
+  title: t('about.title', { markdown: true }),
+  subtitle: t('about.subtitle', { markdown: true }),
+  storyTitle: t('about.storyTitle', { markdown: true }),
+  storyParagraph1: t('about.storyParagraph1', { markdown: true }),
+  storyParagraph2: t('about.storyParagraph2', { markdown: true }),
+  storyParagraph3: t('about.storyParagraph3', { markdown: true }),
+  storySummary: t('about.storySummary', { markdown: true }),
+  ctaButton: t('about.ctaButton', { markdown: true }),
+  connect: t('about.connect', { markdown: true }),
 };
 
 const skillsTranslations = {
-  title: t('skills.title'),
-  subtitle: t('skills.subtitle'),
-  description: t('skills.description'),
+  title: t('skills.title', { markdown: true }),
+  subtitle: t('skills.subtitle', { markdown: true }),
+  description: t('skills.description', { markdown: true }),
   categoryTitles: {
-    dev: t('skills.categories.dev'),
-    design: t('skills.categories.design'),
-    languages: t('skills.categories.languages'),
-    tools: t('skills.categories.tools'),
+    dev: t('skills.categories.dev', { markdown: true }),
+    design: t('skills.categories.design', { markdown: true }),
+    languages: t('skills.categories.languages', { markdown: true }),
+    tools: t('skills.categories.tools', { markdown: true }),
   },
 };
 
 const projectsTranslations = {
-  title: t('projects.title'),
-  subtitle: t('projects.subtitle'),
-  noProjects: t('projects.noProjects'),
-  filterAll: t('projects.filterAll'),
+  title: t('projects.title', { markdown: true }),
+  subtitle: t('projects.subtitle', { markdown: true }),
+  noProjects: t('projects.noProjects', { markdown: true }),
+  filterAll: t('projects.filterAll', { markdown: true }),
 };
 
 const projectCardTranslations = {
-  demo: t('projects.viewDemo'),
-  code: t('projects.viewCode'),
-  featured: t('projects.featured'),
+  demo: t('projects.viewDemo', { markdown: true }),
+  code: t('projects.viewCode', { markdown: true }),
+  featured: t('projects.featured', { markdown: true }),
 };
 
 const blogTranslations = {
-  title: t('blog.title'),
-  subtitle: t('blog.subtitle'),
-  viewAll: t('blog.viewAll'),
-  noArticles: t('blog.noArticles'),
-  readMore: t('blog.readMore'),
-  readTime: t('blog.readTime'),
+  title: t('blog.title', { markdown: true }),
+  subtitle: t('blog.subtitle', { markdown: true }),
+  viewAll: t('blog.viewAll', { markdown: true }),
+  noArticles: t('blog.noArticles', { markdown: true }),
+  readMore: t('blog.readMore', { markdown: true }),
+  readTime: t('blog.readTime', { markdown: true }),
 };
 
 const contactTranslations = {
-  title: t('contact.title'),
-  subtitle: t('contact.subtitle'),
+  title: t('contact.title', { markdown: true }),
+  subtitle: t('contact.subtitle', { markdown: true }),
   form: {
-    name: t('contact.form.name'),
-    email: t('contact.form.email'),
-    subject: t('contact.form.subject'),
-    message: t('contact.form.message'),
-    send: t('contact.form.send'),
-    sending: t('contact.form.sending'),
+    name: t('contact.form.name', { markdown: true }),
+    email: t('contact.form.email', { markdown: true }),
+    subject: t('contact.form.subject', { markdown: true }),
+    message: t('contact.form.message', { markdown: true }),
+    send: t('contact.form.send', { markdown: true }),
+    sending: t('contact.form.sending', { markdown: true }),
   },
   placeholders: {
     name: t('contact.placeholders.name'),
@@ -184,24 +190,24 @@ const contactTranslations = {
     message: t('contact.placeholders.message'),
   },
   errors: {
-    nameRequired: t('contact.errors.nameRequired'),
-    emailRequired: t('contact.errors.emailRequired'),
-    emailInvalid: t('contact.errors.emailInvalid'),
-    subjectRequired: t('contact.errors.subjectRequired'),
-    messageRequired: t('contact.errors.messageRequired'),
-    messageMinLength: t('contact.errors.messageMinLength'),
+    nameRequired: t('contact.errors.nameRequired', { markdown: true }),
+    emailRequired: t('contact.errors.emailRequired', { markdown: true }),
+    emailInvalid: t('contact.errors.emailInvalid', { markdown: true }),
+    subjectRequired: t('contact.errors.subjectRequired', { markdown: true }),
+    messageRequired: t('contact.errors.messageRequired', { markdown: true }),
+    messageMinLength: t('contact.errors.messageMinLength', { markdown: true }),
   },
-  success: t('contact.success'),
-  error: t('contact.error'),
+  success: t('contact.success', { markdown: true }),
+  error: t('contact.error', { markdown: true }),
 };
 
 const testimonialsTranslations = {
-  title: t('testimonials.title'),
-  subtitle: t('testimonials.subtitle'),
-  noTestimonials: t('testimonials.noTestimonials'),
-  readMore: t('testimonials.readMore'),
-  readLess: t('testimonials.readLess'),
-  viewProfile: t('testimonials.viewProfile'),
+  title: t('testimonials.title', { markdown: true }),
+  subtitle: t('testimonials.subtitle', { markdown: true }),
+  noTestimonials: t('testimonials.noTestimonials', { markdown: true }),
+  readMore: t('testimonials.readMore', { markdown: true }),
+  readLess: t('testimonials.readLess', { markdown: true }),
+  viewProfile: t('testimonials.viewProfile', { markdown: true }),
 };
 
 // Colors are now imported from data module
@@ -210,11 +216,11 @@ const testimonialsTranslations = {
 <BaseLayout
   title={title}
   description={description}
-  imageAlt={t('seo.imageAlt')}
+  imageAlt={t('seo.imageAlt', { markdown: true })}
   type="profile"
   keywords={seoKeywords}
-  author={t('profile.name')}
-  jobTitle={t('profile.role')}
+  author={t('profile.name', { markdown: true })}
+  jobTitle={t('profile.role', { markdown: true })}
   socialLinks={{
     github: contact.social.github,
     linkedin: contact.social.linkedin,
@@ -226,17 +232,21 @@ const testimonialsTranslations = {
   <div class="relative">
     <HeroSection
       primaryColor={sectionsColors.hero}
-      name={t('profile.name')}
+      name={t('profile.name', { markdown: true })}
       iBuild={[
-        t('home.iBuild.webapps'),
-        t('home.iBuild.interfaces'),
-        t('home.iBuild.solutions'),
-        t('home.iBuild.experiences'),
-        t('home.iBuild.uis'),
-        t('home.iBuild.tools'),
+        t('home.iBuild.webapps', { markdown: true }),
+        t('home.iBuild.interfaces', { markdown: true }),
+        t('home.iBuild.solutions', { markdown: true }),
+        t('home.iBuild.experiences', { markdown: true }),
+        t('home.iBuild.uis', { markdown: true }),
+        t('home.iBuild.tools', { markdown: true }),
       ]}
-      roles={[t('home.roles.fullstack'), t('home.roles.frontend'), t('home.roles.designer')]}
-      subtitle={t('home.hero.subtitle')}
+      roles={[
+        t('home.roles.fullstack', { markdown: true }),
+        t('home.roles.frontend', { markdown: true }),
+        t('home.roles.designer', { markdown: true }),
+      ]}
+      subtitle={t('home.hero.subtitle', { markdown: true })}
       translations={heroTranslations}
       ariaLabels={heroAriaLabels}
     />
@@ -247,13 +257,6 @@ const testimonialsTranslations = {
   <div class="relative">
     <AboutSection
       primaryColor={sectionsColors.about}
-      name={t('profile.name')}
-      role={t('home.roles.fullstack')}
-      location={contact.location}
-      experience={t('profile.experience')}
-      email={contact.email}
-      availability={t('about.availability')}
-      bio={t('about.bio')}
       lang={lang}
       translations={aboutTranslations}
     />

@@ -556,4 +556,10 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Timeline styles */
+  .timeline-dot.active {
+    background-color: rgb(59 130 246);
+    transform: scale(1.25);
+  }
 }

@@ -17,8 +17,9 @@ import '../styles/fonts.css';
 // Import auto-generated colors
 import '../styles/generated-colors.css';
 
-import { SmoothScroll } from '../components/animations/SmoothScroll';
 // Other imports
+import AutoAnimateGlobal from '../components/AutoAnimateGlobal.astro';
+import { SmoothScroll } from '../components/animations/SmoothScroll';
 import { CommandPalette } from '../components/interactive/CommandPalette';
 import { ScrollToTop } from '../components/interactive/ScrollToTop';
 import Footer from '../components/layout/Footer.astro';
@@ -130,6 +131,9 @@ const alternateLinks = locales.map((locale) => {
         </script>
     </head>
     <body>
+        <!-- AutoAnimate Global -->
+        <AutoAnimateGlobal />
+
         <!-- Smooth Scroll Integration -->
         <SmoothScroll client:only="react" />
 

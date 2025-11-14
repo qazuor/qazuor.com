@@ -1,5 +1,6 @@
 /// <reference types="astro/client" />
 /// <reference types="astro-i18next/client" />
+/// <reference path="./types/auto-animate.d.ts" />
 
 declare module 'astro-i18next' {
     export interface AstroI18nextConfig {

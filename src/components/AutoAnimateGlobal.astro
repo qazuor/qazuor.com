@@ -1,0 +1,47 @@
+---
+// src/components/AutoAnimateGlobal.astro
+---
+
+<script>
+  import autoAnimate from "@formkit/auto-animate";
+
+  function initAutoAnimate() {
+    const elements = document.querySelectorAll("[data-auto-animate]");
+
+    elements.forEach((element) => {
+      const htmlElement = element as HTMLElement;
+      const disabled = htmlElement.getAttribute("data-auto-animate-disabled");
+
+      if (disabled === "true") {
+        return;
+      }
+
+      const options: Record<string, unknown> = {};
+      const duration = htmlElement.getAttribute("data-auto-animate-duration");
+      const delay = htmlElement.getAttribute("data-auto-animate-delay");
+      const easing = htmlElement.getAttribute("data-auto-animate-easing");
+
+      if (duration) options.duration = parseInt(duration, 10);
+      if (delay) options.delay = parseInt(delay, 10);
+      if (easing) options.easing = easing;
+
+      try {
+        if (Object.keys(options).length > 0) {
+          autoAnimate(htmlElement, options);
+        } else {
+          autoAnimate(htmlElement);
+        }
+      } catch (error) {
+        console.error("AutoAnimate initialization error:", error);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAutoAnimate);
+  } else {
+    initAutoAnimate();
+  }
+
+  setTimeout(initAutoAnimate, 1000);
+</script>

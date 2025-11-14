@@ -16,5 +16,6 @@ export {
   CardTitle,
   type CardTitleProps,
 } from './Card';
+export { TimelineIcon } from './TimelineIcon';
 export { TranslatedText, useTranslations } from './TranslatedText';
 export { TypeItText } from './TypeItText';

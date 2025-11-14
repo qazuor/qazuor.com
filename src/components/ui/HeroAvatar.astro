@@ -10,7 +10,7 @@ interface Props {
 const { name, roles, className = '' } = Astro.props;
 ---
 
-<div class={`hero-element hidden lg:block relative ${className}`}>
+<div class={`hero-element relative ${className}`}>
   <div class="relative w-full max-w-lg mx-auto">
     <!-- Animated gradient background circle (behind everything) -->
     <div
@@ -47,6 +47,26 @@ const { name, roles, className = '' } = Astro.props;
 </div>
 
 <style>
+  /* Desktop avatar - hidden on mobile */
+  .desktop-avatar {
+    @apply hidden lg:block;
+  }
+
+  /* Mobile avatar - hidden on desktop, larger and positioned to overflow right */
+  .mobile-avatar {
+    @apply block lg:hidden;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: -2rem; /* Negative margin to overflow the container */
+    transform: translateX(1rem); /* Additional push to the right */
+    margin-top: -3rem; /* Move much closer to content above */
+  }
+
+  .mobile-avatar .shadow-circle {
+    width: 400px !important;
+    height: 400px !important;
+  }
+
   .shadow-circle {
     /* Shadow for light mode - colored shadow */
     box-shadow:

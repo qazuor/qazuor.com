@@ -59,24 +59,26 @@ const {
 ---
 
 <section
-  class="relative flex items-center justify-center overflow-hidden hero-section"
+  class="relative flex items-center justify-center overflow-hidden hero-section pt-8 lg:pt-0"
   id="hero"
   style={`background-color: ${primaryColor}; min-height: calc(100vh - 60px);`}
 >
-  <div class="container-custom">
-    <div class="grid lg:grid-cols-2 gap-12 items-center">
+  <div class="container-custom overflow-x-visible">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
       <!-- Text Content -->
-      <div class="space-y-6">
+      <div class="space-y-4 lg:space-y-6 overflow-visible">
         <!-- Hero Title -->
-        <div class="hero-element pb-5">
-          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">
+        <div class="hero-element pb-3 lg:pb-5">
+          <h1 class="text-3xl md:text-5xl lg:text-7xl font-black tracking-tight">
             <span class="gradient-text-hero">{name}</span>
           </h1>
         </div>
 
         <!-- Animated Text with TypeIt -->
         <div class="hero-element">
-          <div class="text-xl md:text-1xl lg:text-lg font-semibold text-foreground min-h-[3rem]">
+          <div
+            class="text-lg md:text-xl lg:text-lg font-semibold text-foreground min-h-[2.5rem] lg:min-h-[3rem]"
+          >
             <span class="text-foreground-secondary">{translations.iBuildText}</span>
             <TypeItText
               texts={iBuild}
@@ -89,20 +91,28 @@ const {
 
         <!-- Subtitle -->
         <p
-          class="hero-element text-md md:text-leg text-foreground-secondary max-w-2xl text-balance"
+          class="hero-element text-sm md:text-base lg:text-lg text-foreground-secondary max-w-2xl text-balance"
           set:html={subtitle}
         />
 
         <!-- CTA Buttons -->
-        <div class="hero-element flex flex-wrap gap-4">
-          <ViewProjectsLink text={translations.viewProjects} size="sm" />
-          <GetInTouchLink text={translations.getInTouch} size="sm" />
+        <div class="hero-element flex flex-wrap gap-2 lg:gap-4">
+          <ViewProjectsLink
+            text={translations.viewProjects}
+            size="sm"
+            className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+          />
+          <GetInTouchLink
+            text={translations.getInTouch}
+            size="sm"
+            className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+          />
           <DownloadLink
             href="/files/qazuor_resume.pdf"
             text={translations.downloadResume}
             variant="ghost"
             size="sm"
-            className="bg-background text-foreground hover:bg-background/90"
+            className="bg-background text-foreground hover:bg-background/90 !px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
             ariaLabel={translations.downloadResume}
           />
         </div>
@@ -112,14 +122,24 @@ const {
           <SocialLinks ariaLabels={ariaLabels} />
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="hero-element mr-10">
+        <!-- Scroll Indicator (only visible on desktop in flow) -->
+        <div class="hero-element mr-10 hidden lg:block">
           <ScrollIndicator text={translations.scroll} />
+        </div>
+
+        <!-- Hero Avatar for Mobile (below text content) -->
+        <div class="lg:hidden relative bottom-12 right-2">
+          <HeroAvatar name={name} roles={roles} className="mobile-avatar" />
         </div>
       </div>
 
-      <!-- Hero Avatar -->
-      <HeroAvatar name={name} roles={roles} />
+      <!-- Hero Avatar for Desktop -->
+      <HeroAvatar name={name} roles={roles} className="desktop-avatar" />
+    </div>
+
+    <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->
+    <div class="lg:hidden absolute bottom-16 left-2 z-30">
+      <ScrollIndicator text={translations.scroll} />
     </div>
   </div>
 </section>

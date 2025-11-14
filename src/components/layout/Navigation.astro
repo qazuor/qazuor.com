@@ -43,7 +43,7 @@ const isActive = (href: string) => {
 };
 ---
 
-<nav class="glass sticky top-0 z-50 border-b">
+<nav class="glass sticky top-0 z-50 border-b mobile-nav-hidden" id="main-nav">
   <div class="container-custom">
     <div class="flex justify-between items-center h-14">
       <!-- Logo with Avatar -->
@@ -202,6 +202,56 @@ const isActive = (href: string) => {
     requestAnimationFrame(animation);
   }
 
+  // Mobile navigation hide/show on scroll
+  function setupMobileNavigation() {
+    const nav = document.getElementById('main-nav');
+    let lastScrollY = 0;
+    let scrollTimeout: NodeJS.Timeout | undefined;
+
+    function updateNavVisibility() {
+      const currentScrollY = window.scrollY;
+      const isDesktop = window.innerWidth >= 768; // md breakpoint
+
+      if (isDesktop) {
+        // Always show on desktop
+        nav?.classList.remove('mobile-nav-hidden');
+        return;
+      }
+
+      // Mobile behavior
+      if (currentScrollY === 0) {
+        // Hide when at top
+        nav?.classList.add('mobile-nav-hidden');
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Hide when scrolling down (after 100px)
+        nav?.classList.add('mobile-nav-hidden');
+      } else if (currentScrollY < lastScrollY) {
+        // Show when scrolling up
+        nav?.classList.remove('mobile-nav-hidden');
+      }
+
+      lastScrollY = currentScrollY;
+    }
+
+    // Handle scroll with throttling
+    function handleScroll() {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateNavVisibility, 10);
+    }
+
+    // Handle resize
+    function handleResize() {
+      updateNavVisibility();
+    }
+
+    // Initial setup
+    updateNavVisibility();
+
+    // Event listeners
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+  }
+
   // Handle scroll-based navigation highlighting
   function setupScrollNavigation() {
     console.log('Setting up scroll navigation, isHomePage:', isHomePage());
@@ -336,7 +386,17 @@ const isActive = (href: string) => {
   // Initialize when DOM is ready
   document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing navigation...');
+    setupMobileNavigation();
     setupScrollNavigation();
     setupSmoothScroll();
   });
 </script>
+
+<style>
+  /* Mobile navigation hide/show styles */
+  @media (max-width: 767px) {
+    .mobile-nav-hidden {
+      display: none !important;
+    }
+  }
+</style>

@@ -20,11 +20,8 @@ interface TimelineDesktopProps {
 }
 
 export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps) {
-  // filter items in desktop timeline - memoized to prevent re-renders
-  const mainTimelineItems = useMemo(
-    () => timelineItems.filter((item) => item.year !== '✨' && item.year !== '🚀'),
-    [timelineItems],
-  );
+  // Use all timeline items directly since we removed the intro and end items
+  const mainTimelineItems = useMemo(() => timelineItems, [timelineItems]);
 
   const [selectedItem, setSelectedItem] = useState<TimelineItem | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);

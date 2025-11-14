@@ -16,21 +16,6 @@ interface TimelineItem {
 
 export const timelineData: TimelineItem[] = [
   {
-    id: 'introduction',
-    year: '✨',
-    title: {
-      en: 'My Journey',
-      es: 'Mi Trayectoria',
-    },
-    description: {
-      en: 'A journey through my professional evolution and most important milestones',
-      es: 'Un viaje a través de mi evolución profesional y los hitos más importantes',
-    },
-    icon: 'sparkles',
-    category: 'achievement',
-    color: '#6366f1', // indigo
-  },
-  {
     id: 'birth',
     year: '1980',
     title: {
@@ -359,21 +344,6 @@ export const timelineData: TimelineItem[] = [
     icon: 'star',
     category: 'achievement',
     color: '#3b82f6', // blue
-  },
-  {
-    id: 'whats-next',
-    year: '🚀',
-    title: {
-      en: "What's next?",
-      es: '¿Qué sigue?',
-    },
-    description: {
-      en: 'The journey continues ✨. Always looking for new challenges and opportunities to grow.',
-      es: 'El viaje continúa ✨. Siempre buscando nuevos desafíos y oportunidades para crecer.',
-    },
-    icon: 'arrow-trending-up',
-    category: 'achievement',
-    color: '#10b981', // emerald
   },
 ];
 

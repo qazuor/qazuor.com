@@ -2,10 +2,10 @@
 import SocialLink from './SocialLink.astro';
 
 interface Props {
-  href: string;
-  ariaLabel?: string;
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
+    href: string;
+    ariaLabel?: string;
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
 }
 
 const { href, ariaLabel = 'Upwork', size = 'md', className = '' } = Astro.props;

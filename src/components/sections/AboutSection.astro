@@ -8,37 +8,37 @@ import SecondaryTitle from '../ui/SecondaryTitle.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
 interface Props {
-  primaryColor?: string;
-  lang?: 'en' | 'es';
-  translations?: {
-    title: string;
-    subtitle: string;
-    storyTitle: string;
-    storyParagraph1: string;
-    storyParagraph2: string;
-    storyParagraph3: string;
-    storySummary: string;
-    ctaButton: string;
-    connect: string;
-    workTogether: string;
-  };
+    primaryColor?: string;
+    lang?: 'en' | 'es';
+    translations?: {
+        title: string;
+        subtitle: string;
+        storyTitle: string;
+        storyParagraph1: string;
+        storyParagraph2: string;
+        storyParagraph3: string;
+        storySummary: string;
+        ctaButton: string;
+        connect: string;
+        workTogether: string;
+    };
 }
 
 const {
-  primaryColor = '#6366f1',
-  lang = 'en',
-  translations = {
-    title: 'About Me',
-    subtitle: 'Get to know me through code',
-    storyTitle: 'My Story',
-    storyParagraph1: '',
-    storyParagraph2: '',
-    storyParagraph3: '',
-    storySummary: '',
-    ctaButton: "Let's Work Together",
-    connect: "Let's build something amazing together!",
-    workTogether: "Let's Work Together",
-  },
+    primaryColor = '#6366f1',
+    lang = 'en',
+    translations = {
+        title: 'About Me',
+        subtitle: 'Get to know me through code',
+        storyTitle: 'My Story',
+        storyParagraph1: '',
+        storyParagraph2: '',
+        storyParagraph3: '',
+        storySummary: '',
+        ctaButton: "Let's Work Together",
+        connect: "Let's build something amazing together!",
+        workTogether: "Let's Work Together"
+    }
 } = Astro.props;
 
 // Get first and last timeline items
@@ -46,75 +46,61 @@ const firstTimelineItem = timelineData[0];
 const lastTimelineItem = timelineData[timelineData.length - 1];
 ---
 
-<section
-  class="relative section about-section overflow-hidden"
-  id="about"
-  style={`background-color: ${primaryColor}`}
->
-  <!-- Animated Gradient Background -->
-  <AnimatedGradientBackground />
+<section class="relative section about-section overflow-hidden" id="about" style={`background-color: ${primaryColor}`}>
+    <!-- Animated Gradient Background -->
+    <AnimatedGradientBackground />
 
-  <div class="container-custom">
-    <!-- Section Title -->
-    <div class="max-w-6xl mx-auto mb-16">
-      <SectionTitle title={translations.title} subtitle={translations.subtitle} />
+    <div class="container-custom">
+        <!-- Section Title -->
+        <div class="max-w-6xl mx-auto mb-16">
+            <SectionTitle title={translations.title} subtitle={translations.subtitle} />
 
-      <!-- Two Column Layout -->
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-start mt-12">
-        <!-- Left Column - Code Block -->
-        <div class="order-2 md:order-1">
-          <ProfileCodeBlock lang={lang} className="max-w-none" />
-        </div>
+            <!-- Two Column Layout -->
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-start mt-12">
+                <!-- Left Column - Code Block -->
+                <div class="order-2 md:order-1">
+                    <ProfileCodeBlock lang={lang} className="max-w-none" />
+                </div>
 
-        <!-- Right Column - Text Content -->
-        <div class="order-1 md:order-2 space-y-6">
-          <div class="prose prose-lg max-w-none">
-            <SecondaryTitle
-              text={translations.storyTitle}
-              variant="story"
-              size="lg"
-              className="mb-6"
-            />
+                <!-- Right Column - Text Content -->
+                <div class="order-1 md:order-2 space-y-6">
+                    <div class="prose prose-lg max-w-none">
+                        <SecondaryTitle text={translations.storyTitle} variant="story" size="lg" className="mb-6" />
 
-            <div class="text-foreground-secondary leading-relaxed space-y-4">
-              <p set:html={translations.storyParagraph1} />
-              <p set:html={translations.storyParagraph2} />
-              <p set:html={translations.storyParagraph3} />
-              <p class="text-foreground font-medium" set:html={translations.storySummary} />
+                        <div class="text-foreground-secondary leading-relaxed space-y-4">
+                            <p set:html={translations.storyParagraph1} />
+                            <p set:html={translations.storyParagraph2} />
+                            <p set:html={translations.storyParagraph3} />
+                            <p class="text-foreground font-medium" set:html={translations.storySummary} />
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Timeline Section -->
-    <div class="hidden lg:block text-center mb-12">
-      <SecondaryTitle
-        text={firstTimelineItem.title[lang]}
-        variant="story"
-        size="lg"
-        className="mb-4"
-      />
-      <p
-        class="text-foreground-secondary text-lg max-w-2xl mx-auto"
-        set:html={firstTimelineItem.description[lang]}
-      />
-    </div>
+        <!-- Timeline Section -->
+        <div class="hidden lg:block text-center mb-12">
+            <SecondaryTitle text={firstTimelineItem.title[lang]} variant="story" size="lg" className="mb-4" />
+            <p
+                class="text-foreground-secondary text-lg max-w-2xl mx-auto"
+                set:html={firstTimelineItem.description[lang]}
+            />
+        </div>
 
-    <Timeline lang={lang} client:load />
+        <Timeline lang={lang} client:load />
 
-    <!-- CTA Section - Desktop only -->
-    <div class="hidden lg:block text-center mt-16 space-y-6">
-      <p
-        class="text-foreground-secondary text-lg max-w-2xl mx-auto"
-        set:html={lastTimelineItem.description[lang]}
-      />
-      <GetInTouchLink
-        text={translations.workTogether}
-        variant="primary"
-        size="md"
-        className="shadow-glow-primary"
-      />
+        <!-- CTA Section - Desktop only -->
+        <div class="hidden lg:block text-center mt-16 space-y-6">
+            <p
+                class="text-foreground-secondary text-lg max-w-2xl mx-auto"
+                set:html={lastTimelineItem.description[lang]}
+            />
+            <GetInTouchLink
+                text={translations.workTogether}
+                variant="primary"
+                size="md"
+                className="shadow-glow-primary"
+            />
+        </div>
     </div>
-  </div>
 </section>

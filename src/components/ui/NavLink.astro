@@ -2,23 +2,23 @@
 import ActionLink from './ActionLink.astro';
 
 interface Props {
-  href: string;
-  text?: string;
-  variant?: 'primary' | 'secondary' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  ariaLabel?: string;
-  active?: boolean;
+    href: string;
+    text?: string;
+    variant?: 'primary' | 'secondary' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    ariaLabel?: string;
+    active?: boolean;
 }
 
 const {
-  href,
-  text = 'Navigate',
-  variant = 'ghost',
-  size = 'md',
-  className = '',
-  ariaLabel,
-  active = false,
+    href,
+    text = 'Navigate',
+    variant = 'ghost',
+    size = 'md',
+    className = '',
+    ariaLabel,
+    active = false
 } = Astro.props;
 
 const activeClasses = active ? 'bg-primary/10 text-primary' : '';
@@ -26,11 +26,11 @@ const finalClassName = `${className} ${activeClasses}`.trim();
 ---
 
 <ActionLink
-  href={href}
-  variant={variant}
-  size={size}
-  className={finalClassName}
-  ariaLabel={ariaLabel || `Navigate to ${text}`}
+    href={href}
+    variant={variant}
+    size={size}
+    className={finalClassName}
+    ariaLabel={ariaLabel || `Navigate to ${text}`}
 >
-  {text}
+    {text}
 </ActionLink>

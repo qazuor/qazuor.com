@@ -5,22 +5,22 @@ import { gsap } from '../lib/gsap';
  * Configuration options for scroll-triggered animations
  */
 interface ScrollAnimationOptions {
-  /** Vertical translation distance in pixels (default: 0) */
-  y?: number;
-  /** Horizontal translation distance in pixels (default: 0) */
-  x?: number;
-  /** Initial opacity value (default: 0) */
-  opacity?: number;
-  /** Animation duration in seconds (default: 0.8) */
-  duration?: number;
-  /** GSAP easing function (default: 'power3.out') */
-  ease?: string;
-  /** Delay before animation starts in seconds (default: 0) */
-  delay?: number;
-  /** ScrollTrigger start position (default: 'top 80%') */
-  start?: string;
-  /** ScrollTrigger toggle actions (default: 'play none none none') */
-  toggleActions?: string;
+    /** Vertical translation distance in pixels (default: 0) */
+    y?: number;
+    /** Horizontal translation distance in pixels (default: 0) */
+    x?: number;
+    /** Initial opacity value (default: 0) */
+    opacity?: number;
+    /** Animation duration in seconds (default: 0.8) */
+    duration?: number;
+    /** GSAP easing function (default: 'power3.out') */
+    ease?: string;
+    /** Delay before animation starts in seconds (default: 0) */
+    delay?: number;
+    /** ScrollTrigger start position (default: 'top 80%') */
+    start?: string;
+    /** ScrollTrigger toggle actions (default: 'play none none none') */
+    toggleActions?: string;
 }
 
 /**
@@ -35,44 +35,44 @@ interface ScrollAnimationOptions {
  * return <div ref={ref}><h1 className="title">Hello</h1></div>
  */
 export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
-  selector: string,
-  options: ScrollAnimationOptions = {},
+    selector: string,
+    options: ScrollAnimationOptions = {}
 ) {
-  const containerRef = useRef<T>(null);
-  const hasAnimated = useRef(false);
+    const containerRef = useRef<T>(null);
+    const hasAnimated = useRef(false);
 
-  const {
-    y = 0,
-    x = 0,
-    opacity = 0,
-    duration = 0.8,
-    ease = 'power3.out',
-    delay = 0,
-    start = 'top 80%',
-    toggleActions = 'play none none none',
-  } = options;
+    const {
+        y = 0,
+        x = 0,
+        opacity = 0,
+        duration = 0.8,
+        ease = 'power3.out',
+        delay = 0,
+        start = 'top 80%',
+        toggleActions = 'play none none none'
+    } = options;
 
-  useEffect(() => {
-    if (!containerRef.current || hasAnimated.current) return;
-    hasAnimated.current = true;
+    useEffect(() => {
+        if (!containerRef.current || hasAnimated.current) return;
+        hasAnimated.current = true;
 
-    const element = containerRef.current.querySelector(selector);
-    if (!element) return;
+        const element = containerRef.current.querySelector(selector);
+        if (!element) return;
 
-    gsap.from(element, {
-      opacity,
-      y,
-      x,
-      duration,
-      ease,
-      delay,
-      scrollTrigger: {
-        trigger: element,
-        start,
-        toggleActions,
-      },
-    });
-  }, [selector, y, x, opacity, duration, ease, delay, start, toggleActions]);
+        gsap.from(element, {
+            opacity,
+            y,
+            x,
+            duration,
+            ease,
+            delay,
+            scrollTrigger: {
+                trigger: element,
+                start,
+                toggleActions
+            }
+        });
+    }, [selector, y, x, opacity, duration, ease, delay, start, toggleActions]);
 
-  return containerRef;
+    return containerRef;
 }

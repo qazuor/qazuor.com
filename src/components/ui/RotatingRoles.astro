@@ -1,136 +1,136 @@
 ---
 interface Props {
-  roles: string[];
-  className?: string;
+    roles: string[];
+    className?: string;
 }
 
 const { roles, className = '' } = Astro.props;
 ---
 
 <div class={`absolute bottom-10 left-1/2 -translate-x-1/2 z-40 ${className}`}>
-  <span
-    id="rotating-roles"
-    class="text-lg font-medium text-primary bg-background/90 backdrop-blur-md px-4 py-2 rounded-full border border-foreground/20 shadow-lg rotating-roles"
-    data-roles={JSON.stringify(roles)}
-    set:html={roles[0]}
-  />
+    <span
+        id="rotating-roles"
+        class="text-lg font-medium text-primary bg-background/90 backdrop-blur-md px-4 py-2 rounded-full border border-foreground/20 shadow-lg rotating-roles"
+        data-roles={JSON.stringify(roles)}
+        set:html={roles[0]}
+    />
 </div>
 
 <script>
-  import { gsap } from '../../lib/gsap';
+    import { gsap } from '../../lib/gsap';
 
-  // Initialize rotating roles with GSAP
-  document.addEventListener('DOMContentLoaded', () => {
-    const rotatingRolesElement = document.getElementById('rotating-roles');
+    // Initialize rotating roles with GSAP
+    document.addEventListener('DOMContentLoaded', () => {
+        const rotatingRolesElement = document.getElementById('rotating-roles');
 
-    if (rotatingRolesElement) {
-      const rolesData = rotatingRolesElement.getAttribute('data-roles');
+        if (rotatingRolesElement) {
+            const rolesData = rotatingRolesElement.getAttribute('data-roles');
 
-      if (rolesData) {
-        try {
-          const roles: string[] = JSON.parse(rolesData);
+            if (rolesData) {
+                try {
+                    const roles: string[] = JSON.parse(rolesData);
 
-          // GSAP Timeline for smooth role transitions
-          const createRoleTransition = () => {
-            const timeline = gsap.timeline({
-              repeat: -1,
-              repeatDelay: 1.0,
-            });
+                    // GSAP Timeline for smooth role transitions
+                    const createRoleTransition = () => {
+                        const timeline = gsap.timeline({
+                            repeat: -1,
+                            repeatDelay: 1.0
+                        });
 
-            roles.forEach((role: string, index: number) => {
-              if (index === 0) {
-                timeline.set(rotatingRolesElement, { opacity: 1 });
-                timeline.to({}, { duration: 1.5 });
-              } else {
-                timeline.to(rotatingRolesElement, {
-                  opacity: 0,
-                  scale: 0.95,
-                  duration: 0.2,
-                  ease: 'power2.out',
-                });
+                        roles.forEach((role: string, index: number) => {
+                            if (index === 0) {
+                                timeline.set(rotatingRolesElement, { opacity: 1 });
+                                timeline.to({}, { duration: 1.5 });
+                            } else {
+                                timeline.to(rotatingRolesElement, {
+                                    opacity: 0,
+                                    scale: 0.95,
+                                    duration: 0.2,
+                                    ease: 'power2.out'
+                                });
 
-                timeline.call(() => {
-                  rotatingRolesElement.innerHTML = role;
-                });
+                                timeline.call(() => {
+                                    rotatingRolesElement.innerHTML = role;
+                                });
 
-                timeline.to(rotatingRolesElement, {
-                  opacity: 1,
-                  scale: 1,
-                  duration: 0.4,
-                  ease: 'back.out(1.7)',
-                });
+                                timeline.to(rotatingRolesElement, {
+                                    opacity: 1,
+                                    scale: 1,
+                                    duration: 0.4,
+                                    ease: 'back.out(1.7)'
+                                });
 
-                timeline.to({}, { duration: 1.0 });
-              }
-            });
+                                timeline.to({}, { duration: 1.0 });
+                            }
+                        });
 
-            return timeline;
-          };
+                        return timeline;
+                    };
 
-          // Start the animation if there are multiple roles
-          if (roles.length > 1) {
-            createRoleTransition();
-          } else {
-            gsap.from(rotatingRolesElement, {
-              opacity: 0,
-              scale: 0.9,
-              duration: 0.8,
-              ease: 'back.out(1.7)',
-              delay: 0.5,
-            });
-          }
-        } catch (error) {
-          console.error('Error parsing roles data:', error);
+                    // Start the animation if there are multiple roles
+                    if (roles.length > 1) {
+                        createRoleTransition();
+                    } else {
+                        gsap.from(rotatingRolesElement, {
+                            opacity: 0,
+                            scale: 0.9,
+                            duration: 0.8,
+                            ease: 'back.out(1.7)',
+                            delay: 0.5
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error parsing roles data:', error);
+                }
+            }
         }
-      }
-    }
-  });
+    });
 </script>
 
 <style>
-  /* Rotating roles styling with shine effect */
-  .rotating-roles {
-    white-space: nowrap;
-    min-height: 2.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow:
-      0 4px 15px rgba(var(--color-primary), 0.3),
-      0 0 20px rgba(var(--color-primary), 0.1);
-    animation: subtle-glow 3s ease-in-out infinite alternate;
-  }
-
-  /* Shine effect overlay */
-  .rotating-roles::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.8s ease-in-out;
-    z-index: 1;
-  }
-
-  /* Trigger shine on hover */
-  .rotating-roles:hover::before {
-    left: 100%;
-  }
-
-  @keyframes subtle-glow {
-    from {
-      box-shadow:
-        0 4px 15px rgba(var(--color-primary), 0.3),
-        0 0 20px rgba(var(--color-primary), 0.1);
+    /* Rotating roles styling with shine effect */
+    .rotating-roles {
+        white-space: nowrap;
+        min-height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+            0 4px 15px rgba(var(--color-primary), 0.3),
+            0 0 20px rgba(var(--color-primary), 0.1);
+        animation: subtle-glow 3s ease-in-out infinite alternate;
     }
-    to {
-      box-shadow:
-        0 4px 25px rgba(var(--color-primary), 0.4),
-        0 0 30px rgba(var(--color-primary), 0.15);
+
+    /* Shine effect overlay */
+    .rotating-roles::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.8s ease-in-out;
+        z-index: 1;
     }
-  }
+
+    /* Trigger shine on hover */
+    .rotating-roles:hover::before {
+        left: 100%;
+    }
+
+    @keyframes subtle-glow {
+        from {
+            box-shadow:
+                0 4px 15px rgba(var(--color-primary), 0.3),
+                0 0 20px rgba(var(--color-primary), 0.1);
+        }
+        to {
+            box-shadow:
+                0 4px 25px rgba(var(--color-primary), 0.4),
+                0 0 30px rgba(var(--color-primary), 0.15);
+        }
+    }
 </style>

@@ -3,16 +3,16 @@ import type { TranslationOptions } from '../../i18n/utils';
 import { getLangFromUrl, getTranslations } from '../../i18n/utils';
 
 interface TranslatedTextProps extends TranslationOptions {
-  /** Clave de traducción */
-  textKey: string;
-  /** Elemento HTML a renderizar */
-  as?: React.ElementType;
-  /** Clases CSS adicionales */
-  className?: string;
-  /** Props adicionales del elemento */
-  elementProps?: Record<string, unknown>;
-  /** Si se debe renderizar como HTML (cuando hay markdown) */
-  dangerouslySetInnerHTML?: boolean;
+    /** Clave de traducción */
+    textKey: string;
+    /** Elemento HTML a renderizar */
+    as?: React.ElementType;
+    /** Clases CSS adicionales */
+    className?: string;
+    /** Props adicionales del elemento */
+    elementProps?: Record<string, unknown>;
+    /** Si se debe renderizar como HTML (cuando hay markdown) */
+    dangerouslySetInnerHTML?: boolean;
 }
 
 /**
@@ -40,53 +40,53 @@ interface TranslatedTextProps extends TranslationOptions {
  * ```
  */
 export function TranslatedText({
-  textKey,
-  params,
-  markdown = false,
-  fallback,
-  as: Element = 'span',
-  className,
-  elementProps = {},
-  dangerouslySetInnerHTML = false,
-  ...rest
+    textKey,
+    params,
+    markdown = false,
+    fallback,
+    as: Element = 'span',
+    className,
+    elementProps = {},
+    dangerouslySetInnerHTML = false,
+    ...rest
 }: TranslatedTextProps) {
-  // Función para obtener idioma actual
-  const getCurrentLang = React.useCallback(() => {
-    if (typeof window !== 'undefined') {
-      // Extraer idioma de la URL actual
-      const url = new URL(window.location.href);
-      return getLangFromUrl(url);
+    // Función para obtener idioma actual
+    const getCurrentLang = React.useCallback(() => {
+        if (typeof window !== 'undefined') {
+            // Extraer idioma de la URL actual
+            const url = new URL(window.location.href);
+            return getLangFromUrl(url);
+        }
+        return 'en' as const; // Fallback para SSR
+    }, []);
+
+    const translatedText = useMemo(() => {
+        const lang = getCurrentLang();
+        const t = getTranslations(lang);
+        return t(textKey, { params, markdown, fallback });
+    }, [textKey, params, markdown, fallback, getCurrentLang]);
+
+    // Si hay markdown o HTML, usar dangerouslySetInnerHTML
+    const shouldUseHTML = markdown || dangerouslySetInnerHTML;
+
+    if (shouldUseHTML) {
+        return React.createElement(Element, {
+            className,
+            dangerouslySetInnerHTML: { __html: translatedText },
+            ...elementProps,
+            ...rest
+        });
     }
-    return 'en' as const; // Fallback para SSR
-  }, []);
 
-  const translatedText = useMemo(() => {
-    const lang = getCurrentLang();
-    const t = getTranslations(lang);
-    return t(textKey, { params, markdown, fallback });
-  }, [textKey, params, markdown, fallback, getCurrentLang]);
-
-  // Si hay markdown o HTML, usar dangerouslySetInnerHTML
-  const shouldUseHTML = markdown || dangerouslySetInnerHTML;
-
-  if (shouldUseHTML) {
-    return React.createElement(Element, {
-      className,
-      dangerouslySetInnerHTML: { __html: translatedText },
-      ...elementProps,
-      ...rest,
-    });
-  }
-
-  return React.createElement(
-    Element,
-    {
-      className,
-      ...elementProps,
-      ...rest,
-    },
-    translatedText,
-  );
+    return React.createElement(
+        Element,
+        {
+            className,
+            ...elementProps,
+            ...rest
+        },
+        translatedText
+    );
 }
 
 /**
@@ -107,16 +107,16 @@ export function TranslatedText({
  * ```
  */
 export function useTranslations() {
-  const getCurrentLang = React.useCallback(() => {
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location.href);
-      return getLangFromUrl(url);
-    }
-    return 'en' as const;
-  }, []);
+    const getCurrentLang = React.useCallback(() => {
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            return getLangFromUrl(url);
+        }
+        return 'en' as const;
+    }, []);
 
-  return useMemo(() => {
-    const lang = getCurrentLang();
-    return getTranslations(lang);
-  }, [getCurrentLang]);
+    return useMemo(() => {
+        const lang = getCurrentLang();
+        return getTranslations(lang);
+    }, [getCurrentLang]);
 }

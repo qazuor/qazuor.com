@@ -1,255 +1,255 @@
 {
-  "nav": {
-    "home": "Inicio",
-    "blog": "Blog",
-    "projects": "Proyectos",
-    "tools": "Herramientas",
-    "about": "Acerca de",
-    "skills": "Habilidades",
-    "testimonials": "Testimonios",
-    "contact": "Contacto"
-  },
-  "theme": {
-    "light": "Claro",
-    "dark": "Oscuro",
-    "toggle": "Cambiar tema"
-  },
-  "home": {
-    "title": "Construyendo Experiencias Web Modernas",
-    "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
-    "description": "Creando aplicaciones web rápidas, hermosas y accesibles con herramientas de vanguardia y mejores prácticas",
-    "hero": {
-      "title": "Hola, soy **qazuor**",
-      "subtitle": "Experiencias web *bellas*, **rápidas** y accesibles, de la idea al deploy.",
-      "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas",
-      "dynamicIntro": "Soy **{role}** con {years} años de experiencia en *{specialty}*",
-      "iBuildText": "Construyo",
-      "viewProjects": "Ver Proyectos",
-      "getInTouch": "Contactar",
-      "downloadResume": "Descargar CV",
-      "scroll": "Desplazar"
+    "nav": {
+        "home": "Inicio",
+        "blog": "Blog",
+        "projects": "Proyectos",
+        "tools": "Herramientas",
+        "about": "Acerca de",
+        "skills": "Habilidades",
+        "testimonials": "Testimonios",
+        "contact": "Contacto"
     },
-    "iBuild": {
-      "webapps": "**apps web** escalables",
-      "interfaces": "productos digitales con *identidad*",
-      "solutions": "sitios **modernos** y veloces",
-      "experiences": "marcas que *comunican*",
-      "uis": "interfaces **limpias** y efectivas",
-      "tools": "herramientas que *simplifican* el trabajo"
+    "theme": {
+        "light": "Claro",
+        "dark": "Oscuro",
+        "toggle": "Cambiar tema"
     },
-    "roles": {
-      "fullstack": "Desarrollador **Full-Stack**",
-      "frontend": "Desarrollador **Frontend**",
-      "designer": "Diseñador **UI/UX**"
+    "home": {
+        "title": "Construyendo Experiencias Web Modernas",
+        "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
+        "description": "Creando aplicaciones web rápidas, hermosas y accesibles con herramientas de vanguardia y mejores prácticas",
+        "hero": {
+            "title": "Hola, soy **qazuor**",
+            "subtitle": "Experiencias web *bellas*, **rápidas** y accesibles, de la idea al deploy.",
+            "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas",
+            "dynamicIntro": "Soy **{role}** con {years} años de experiencia en *{specialty}*",
+            "iBuildText": "Construyo",
+            "viewProjects": "Ver Proyectos",
+            "getInTouch": "Contactar",
+            "downloadResume": "Descargar CV",
+            "scroll": "Desplazar"
+        },
+        "iBuild": {
+            "webapps": "**apps web** escalables",
+            "interfaces": "productos digitales con *identidad*",
+            "solutions": "sitios **modernos** y veloces",
+            "experiences": "marcas que *comunican*",
+            "uis": "interfaces **limpias** y efectivas",
+            "tools": "herramientas que *simplifican* el trabajo"
+        },
+        "roles": {
+            "fullstack": "Desarrollador **Full-Stack**",
+            "frontend": "Desarrollador **Frontend**",
+            "designer": "Diseñador **UI/UX**"
+        },
+        "features": {
+            "performance": {
+                "title": "Alto Rendimiento",
+                "description": "Construido con Astro para cargas de página ultrarrápidas y rendimiento óptimo."
+            },
+            "animations": {
+                "title": "Animaciones Hermosas",
+                "description": "Animaciones suaves con GSAP y Tailwind CSS para una experiencia de usuario encantadora."
+            },
+            "multilingual": {
+                "title": "Multiidioma",
+                "description": "Soporte completo de i18n con cambio fluido de idioma entre EN/ES."
+            }
+        },
+        "cta": {
+            "title": "¿Listo para trabajar juntos?",
+            "description": "Construyamos algo increíble",
+            "button": "Contactar"
+        }
     },
-    "features": {
-      "performance": {
-        "title": "Alto Rendimiento",
-        "description": "Construido con Astro para cargas de página ultrarrápidas y rendimiento óptimo."
-      },
-      "animations": {
-        "title": "Animaciones Hermosas",
-        "description": "Animaciones suaves con GSAP y Tailwind CSS para una experiencia de usuario encantadora."
-      },
-      "multilingual": {
-        "title": "Multiidioma",
-        "description": "Soporte completo de i18n con cambio fluido de idioma entre EN/ES."
-      }
+    "blog": {
+        "title": "**Últimos** Artículos",
+        "subtitle": "*Reflexiones*, tutoriales y conocimientos sobre **desarrollo web**",
+        "description": "Artículos sobre **desarrollo web moderno**, *mejores prácticas* y lecciones aprendidas",
+        "readMore": "**Leer más**",
+        "readTime": "min de lectura",
+        "viewAll": "Ver **todos** los artículos",
+        "noArticles": "Aún no hay artículos. *¡Vuelve pronto!*",
+        "pagination": {
+            "previous": "Anterior",
+            "next": "Siguiente",
+            "page": "Página",
+            "of": "de",
+            "articles": "artículos"
+        },
+        "cta": {
+            "title": "¿Quieres aprender más?",
+            "description": "Suscríbete para recibir notificaciones sobre nuevos artículos",
+            "button": "Suscribirse"
+        },
+        "examples": {
+            "post1": {
+                "title": "Comenzando con Astro y React",
+                "excerpt": "Aprende cómo combinar la generación de sitios estáticos de Astro con el modelo de componentes de React para lo mejor de ambos mundos.",
+                "tags": ["Astro", "React", "Tutorial"]
+            },
+            "post2": {
+                "title": "Creando Animaciones con GSAP",
+                "excerpt": "Una guía completa para crear animaciones suaves y profesionales usando GreenSock Animation Platform.",
+                "tags": ["GSAP", "Animación", "JavaScript"]
+            },
+            "post3": {
+                "title": "Guía de Implementación de Modo Oscuro",
+                "excerpt": "Tutorial paso a paso sobre cómo implementar modo oscuro con Tailwind CSS y persistencia de estado adecuada.",
+                "tags": ["CSS", "Modo Oscuro", "Tailwind"]
+            }
+        }
     },
-    "cta": {
-      "title": "¿Listo para trabajar juntos?",
-      "description": "Construyamos algo increíble",
-      "button": "Contactar"
+    "about": {
+        "title": "Sobre **Mí**",
+        "subtitle": "Conóceme a través del *código*",
+        "storyTitle": "Mi **Historia**",
+        "storyParagraph1": "Soy **programador** con más de *20 años* de experiencia profesional, aunque empecé mucho antes: a los 8 o 9 años ya jugaba con mis primeras líneas de código. Me dedico al **desarrollo web**, y aunque puedo hacer backend sin problema, mi verdadera pasión está en el **frontend**: donde el código se encuentra con el diseño y la experiencia de usuario.",
+        "storyParagraph2": "A lo largo de los años también trabajé en **diseño gráfico**, lo que me dio una mirada más estética y comunicativa sobre lo digital. Soy **autodidacta** y *curioso* por naturaleza — todo lo que sé lo aprendí investigando, rompiendo cosas y volviéndolas a armar. Amo la *tecnología* y disfruto pasar horas frente a la PC, explorando nuevas herramientas o creando algo desde cero.",
+        "storyParagraph3": "Nací en **1980**, así que vi crecer la informática desde sus inicios hasta esta era de *IA integrada* en todo. Fuera de la pantalla, estoy felizmente en pareja y soy padre de dos hijos que ya están empezando su adultez.",
+        "storySummary": "En resumen: un tipo que lleva la **tecnología** en la sangre, el **diseño** en la mirada y la *curiosidad* encendida.",
+        "ctaButton": "**Trabajemos Juntos**",
+        "connect": "¡Construyamos algo **increíble** juntos!",
+        "workTogether": "**Trabajemos Juntos**"
+    },
+    "skills": {
+        "title": "**Habilidades**",
+        "subtitle": "Tecnologías con las que *trabajo*",
+        "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.",
+        "categories": {
+            "dev": "Habilidades de **Desarrollo**",
+            "design": "Habilidades de **Diseño**",
+            "languages": "Habilidades de Idiomas",
+            "tools": "Herramientas"
+        }
+    },
+    "projects": {
+        "title": "Proyectos **Destacados**",
+        "subtitle": "Una colección de proyectos que he *construido* y en los que he **contribuido**",
+        "description": "Una colección de **aplicaciones web** y herramientas que he construido",
+        "viewDemo": "**Demo**",
+        "viewCode": "**Código**",
+        "featured": "*Destacado*",
+        "noProjects": "No se encontraron proyectos con el filtro seleccionado.",
+        "filterAll": "**Todos**",
+        "cta": {
+            "title": "¿Tienes un proyecto en mente?",
+            "description": "Hablemos sobre cómo podemos trabajar juntos",
+            "button": "Iniciar conversación"
+        },
+        "examples": {
+            "project1": {
+                "title": "Plataforma E-Commerce",
+                "description": "Tienda online completa con carrito, checkout y panel de administración.",
+                "tags": ["React", "Node.js", "PostgreSQL"]
+            },
+            "project2": {
+                "title": "App de Gestión de Tareas",
+                "description": "Gestor de tareas colaborativo con actualizaciones en tiempo real y funciones de equipo.",
+                "tags": ["TypeScript", "WebSocket", "Tailwind"]
+            },
+            "project3": {
+                "title": "Dashboard del Clima",
+                "description": "Pronóstico del tiempo interactivo con gráficos hermosos y búsqueda de ubicación.",
+                "tags": ["React", "API", "Gráficos"]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Lo Que Dicen",
+        "subtitle": "Palabras amables de colegas, clientes y colaboradores",
+        "noTestimonials": "Aún no hay testimonios. ¡Vuelve pronto!",
+        "readMore": "Leer más",
+        "readLess": "Leer menos",
+        "viewProfile": "Ver perfil"
+    },
+    "contact": {
+        "title": "Ponte en Contacto",
+        "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",
+        "form": {
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "subject": "Asunto",
+            "message": "Mensaje",
+            "send": "Enviar Mensaje",
+            "sending": "Enviando...",
+            "required": "*"
+        },
+        "placeholders": {
+            "name": "Juan Pérez",
+            "email": "juan@ejemplo.com",
+            "subject": "Consulta de Proyecto",
+            "message": "Cuéntame sobre tu proyecto..."
+        },
+        "errors": {
+            "nameRequired": "El nombre es requerido",
+            "emailRequired": "El correo electrónico es requerido",
+            "emailInvalid": "Formato de correo electrónico inválido",
+            "subjectRequired": "El asunto es requerido",
+            "messageRequired": "El mensaje es requerido",
+            "messageMinLength": "El mensaje debe tener al menos 10 caracteres"
+        },
+        "success": "¡Mensaje enviado exitosamente! Me pondré en contacto contigo pronto.",
+        "error": "Algo salió mal. Por favor, intenta de nuevo."
+    },
+    "footer": {
+        "rights": "Todos los derechos reservados",
+        "builtWith": "Construido con",
+        "and": "y"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Algo salió mal",
+        "retry": "Intentar de nuevo",
+        "close": "Cerrar",
+        "viewAll": "Ver todo",
+        "learnMore": "Saber más"
+    },
+    "seo": {
+        "title": "Leandro Asrilevich - Desarrollador Full-Stack | Soluciones Web Modernas",
+        "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"
+    },
+    "tools": {
+        "title": "Herramientas para Desarrolladores",
+        "subtitle": "Herramientas gratuitas y experimentos para la comunidad",
+        "categories": {
+            "all": "Todas las Herramientas",
+            "css": "CSS",
+            "design": "Diseño",
+            "utilities": "Utilidades"
+        },
+        "difficulty": {
+            "beginner": "Principiante",
+            "intermediate": "Intermedio",
+            "advanced": "Avanzado"
+        },
+        "featured": "Herramientas Destacadas",
+        "tryDemo": "Probar Demo",
+        "viewSource": "Ver Código",
+        "comingSoon": "Próximamente",
+        "noTools": "No se encontraron herramientas para esta categoría"
+    },
+    "aria": {
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "fiverr": "Fiverr",
+        "upwork": "Upwork",
+        "toggleTheme": "Cambiar tema",
+        "scrollToTop": "Volver arriba",
+        "toggleMenu": "Alternar menú",
+        "closeCommandPalette": "Cerrar paleta de comandos",
+        "noArticles": "Sin artículos",
+        "commandPalettePlaceholder": "Escribe un comando o busca..."
+    },
+    "social": {
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "fiverr": "Fiverr",
+        "upwork": "Upwork"
+    },
+    "profile": {
+        "name": "Leandro Asrilevich",
+        "role": "Desarrollador Full-Stack",
+        "experience": "5+ años"
     }
-  },
-  "blog": {
-    "title": "**Últimos** Artículos",
-    "subtitle": "*Reflexiones*, tutoriales y conocimientos sobre **desarrollo web**",
-    "description": "Artículos sobre **desarrollo web moderno**, *mejores prácticas* y lecciones aprendidas",
-    "readMore": "**Leer más**",
-    "readTime": "min de lectura",
-    "viewAll": "Ver **todos** los artículos",
-    "noArticles": "Aún no hay artículos. *¡Vuelve pronto!*",
-    "pagination": {
-      "previous": "Anterior",
-      "next": "Siguiente",
-      "page": "Página",
-      "of": "de",
-      "articles": "artículos"
-    },
-    "cta": {
-      "title": "¿Quieres aprender más?",
-      "description": "Suscríbete para recibir notificaciones sobre nuevos artículos",
-      "button": "Suscribirse"
-    },
-    "examples": {
-      "post1": {
-        "title": "Comenzando con Astro y React",
-        "excerpt": "Aprende cómo combinar la generación de sitios estáticos de Astro con el modelo de componentes de React para lo mejor de ambos mundos.",
-        "tags": ["Astro", "React", "Tutorial"]
-      },
-      "post2": {
-        "title": "Creando Animaciones con GSAP",
-        "excerpt": "Una guía completa para crear animaciones suaves y profesionales usando GreenSock Animation Platform.",
-        "tags": ["GSAP", "Animación", "JavaScript"]
-      },
-      "post3": {
-        "title": "Guía de Implementación de Modo Oscuro",
-        "excerpt": "Tutorial paso a paso sobre cómo implementar modo oscuro con Tailwind CSS y persistencia de estado adecuada.",
-        "tags": ["CSS", "Modo Oscuro", "Tailwind"]
-      }
-    }
-  },
-  "about": {
-    "title": "Sobre **Mí**",
-    "subtitle": "Conóceme a través del *código*",
-    "storyTitle": "Mi **Historia**",
-    "storyParagraph1": "Soy **programador** con más de *20 años* de experiencia profesional, aunque empecé mucho antes: a los 8 o 9 años ya jugaba con mis primeras líneas de código. Me dedico al **desarrollo web**, y aunque puedo hacer backend sin problema, mi verdadera pasión está en el **frontend**: donde el código se encuentra con el diseño y la experiencia de usuario.",
-    "storyParagraph2": "A lo largo de los años también trabajé en **diseño gráfico**, lo que me dio una mirada más estética y comunicativa sobre lo digital. Soy **autodidacta** y *curioso* por naturaleza — todo lo que sé lo aprendí investigando, rompiendo cosas y volviéndolas a armar. Amo la *tecnología* y disfruto pasar horas frente a la PC, explorando nuevas herramientas o creando algo desde cero.",
-    "storyParagraph3": "Nací en **1980**, así que vi crecer la informática desde sus inicios hasta esta era de *IA integrada* en todo. Fuera de la pantalla, estoy felizmente en pareja y soy padre de dos hijos que ya están empezando su adultez.",
-    "storySummary": "En resumen: un tipo que lleva la **tecnología** en la sangre, el **diseño** en la mirada y la *curiosidad* encendida.",
-    "ctaButton": "**Trabajemos Juntos**",
-    "connect": "¡Construyamos algo **increíble** juntos!",
-    "workTogether": "**Trabajemos Juntos**"
-  },
-  "skills": {
-    "title": "**Habilidades**",
-    "subtitle": "Tecnologías con las que *trabajo*",
-    "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.",
-    "categories": {
-      "dev": "Habilidades de **Desarrollo**",
-      "design": "Habilidades de **Diseño**",
-      "languages": "Habilidades de Idiomas",
-      "tools": "Herramientas"
-    }
-  },
-  "projects": {
-    "title": "Proyectos **Destacados**",
-    "subtitle": "Una colección de proyectos que he *construido* y en los que he **contribuido**",
-    "description": "Una colección de **aplicaciones web** y herramientas que he construido",
-    "viewDemo": "**Demo**",
-    "viewCode": "**Código**",
-    "featured": "*Destacado*",
-    "noProjects": "No se encontraron proyectos con el filtro seleccionado.",
-    "filterAll": "**Todos**",
-    "cta": {
-      "title": "¿Tienes un proyecto en mente?",
-      "description": "Hablemos sobre cómo podemos trabajar juntos",
-      "button": "Iniciar conversación"
-    },
-    "examples": {
-      "project1": {
-        "title": "Plataforma E-Commerce",
-        "description": "Tienda online completa con carrito, checkout y panel de administración.",
-        "tags": ["React", "Node.js", "PostgreSQL"]
-      },
-      "project2": {
-        "title": "App de Gestión de Tareas",
-        "description": "Gestor de tareas colaborativo con actualizaciones en tiempo real y funciones de equipo.",
-        "tags": ["TypeScript", "WebSocket", "Tailwind"]
-      },
-      "project3": {
-        "title": "Dashboard del Clima",
-        "description": "Pronóstico del tiempo interactivo con gráficos hermosos y búsqueda de ubicación.",
-        "tags": ["React", "API", "Gráficos"]
-      }
-    }
-  },
-  "testimonials": {
-    "title": "Lo Que Dicen",
-    "subtitle": "Palabras amables de colegas, clientes y colaboradores",
-    "noTestimonials": "Aún no hay testimonios. ¡Vuelve pronto!",
-    "readMore": "Leer más",
-    "readLess": "Leer menos",
-    "viewProfile": "Ver perfil"
-  },
-  "contact": {
-    "title": "Ponte en Contacto",
-    "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",
-    "form": {
-      "name": "Nombre",
-      "email": "Correo electrónico",
-      "subject": "Asunto",
-      "message": "Mensaje",
-      "send": "Enviar Mensaje",
-      "sending": "Enviando...",
-      "required": "*"
-    },
-    "placeholders": {
-      "name": "Juan Pérez",
-      "email": "juan@ejemplo.com",
-      "subject": "Consulta de Proyecto",
-      "message": "Cuéntame sobre tu proyecto..."
-    },
-    "errors": {
-      "nameRequired": "El nombre es requerido",
-      "emailRequired": "El correo electrónico es requerido",
-      "emailInvalid": "Formato de correo electrónico inválido",
-      "subjectRequired": "El asunto es requerido",
-      "messageRequired": "El mensaje es requerido",
-      "messageMinLength": "El mensaje debe tener al menos 10 caracteres"
-    },
-    "success": "¡Mensaje enviado exitosamente! Me pondré en contacto contigo pronto.",
-    "error": "Algo salió mal. Por favor, intenta de nuevo."
-  },
-  "footer": {
-    "rights": "Todos los derechos reservados",
-    "builtWith": "Construido con",
-    "and": "y"
-  },
-  "common": {
-    "loading": "Cargando...",
-    "error": "Algo salió mal",
-    "retry": "Intentar de nuevo",
-    "close": "Cerrar",
-    "viewAll": "Ver todo",
-    "learnMore": "Saber más"
-  },
-  "seo": {
-    "title": "Leandro Asrilevich - Desarrollador Full-Stack | Soluciones Web Modernas",
-    "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"
-  },
-  "tools": {
-    "title": "Herramientas para Desarrolladores",
-    "subtitle": "Herramientas gratuitas y experimentos para la comunidad",
-    "categories": {
-      "all": "Todas las Herramientas",
-      "css": "CSS",
-      "design": "Diseño",
-      "utilities": "Utilidades"
-    },
-    "difficulty": {
-      "beginner": "Principiante",
-      "intermediate": "Intermedio",
-      "advanced": "Avanzado"
-    },
-    "featured": "Herramientas Destacadas",
-    "tryDemo": "Probar Demo",
-    "viewSource": "Ver Código",
-    "comingSoon": "Próximamente",
-    "noTools": "No se encontraron herramientas para esta categoría"
-  },
-  "aria": {
-    "github": "GitHub",
-    "linkedin": "LinkedIn",
-    "fiverr": "Fiverr",
-    "upwork": "Upwork",
-    "toggleTheme": "Cambiar tema",
-    "scrollToTop": "Volver arriba",
-    "toggleMenu": "Alternar menú",
-    "closeCommandPalette": "Cerrar paleta de comandos",
-    "noArticles": "Sin artículos",
-    "commandPalettePlaceholder": "Escribe un comando o busca..."
-  },
-  "social": {
-    "github": "GitHub",
-    "linkedin": "LinkedIn",
-    "fiverr": "Fiverr",
-    "upwork": "Upwork"
-  },
-  "profile": {
-    "name": "Leandro Asrilevich",
-    "role": "Desarrollador Full-Stack",
-    "experience": "5+ años"
-  }
 }

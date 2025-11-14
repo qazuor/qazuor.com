@@ -5,10 +5,10 @@ import xCircleIcon from '../../icons/ui/x-circle.svg?raw';
  * Props for the StatusMessage component
  */
 interface StatusMessageProps {
-  /** Type of status message */
-  type: 'success' | 'error';
-  /** Message text to display */
-  message: string;
+    /** Type of status message */
+    type: 'success' | 'error';
+    /** Message text to display */
+    message: string;
 }
 
 /**
@@ -28,19 +28,17 @@ interface StatusMessageProps {
  * ```
  */
 export function StatusMessage({ type, message }: StatusMessageProps) {
-  const isSuccess = type === 'success';
+    const isSuccess = type === 'success';
 
-  return (
-    <div
-      className={`p-4 border rounded-lg flex items-start gap-3 ${
-        isSuccess
-          ? 'bg-success/10 border-success/20 text-success'
-          : 'bg-error/10 border-error/20 text-error'
-      }`}
-    >
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
-      <span dangerouslySetInnerHTML={{ __html: isSuccess ? checkCircleIcon : xCircleIcon }} />
-      <p>{message}</p>
-    </div>
-  );
+    return (
+        <div
+            className={`p-4 border rounded-lg flex items-start gap-3 ${
+                isSuccess ? 'bg-success/10 border-success/20 text-success' : 'bg-error/10 border-error/20 text-error'
+            }`}
+        >
+            {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
+            <span dangerouslySetInnerHTML={{ __html: isSuccess ? checkCircleIcon : xCircleIcon }} />
+            <p>{message}</p>
+        </div>
+    );
 }

@@ -2,8 +2,8 @@
 import { Code } from 'astro:components';
 
 interface Props {
-  lang: 'en' | 'es';
-  className?: string;
+    lang: 'en' | 'es';
+    className?: string;
 }
 
 const { lang = 'en', className = '' } = Astro.props;
@@ -13,93 +13,93 @@ let profileData: string;
 let profileTitle: string;
 
 if (lang === 'es') {
-  const { profileCode, profileTitle: title } = await import('../../data/profile.es.ts');
-  profileData = profileCode;
-  profileTitle = title;
+    const { profileCode, profileTitle: title } = await import('../../data/profile.es.ts');
+    profileData = profileCode;
+    profileTitle = title;
 } else {
-  const { profileCode, profileTitle: title } = await import('../../data/profile.en.ts');
-  profileData = profileCode;
-  profileTitle = title;
+    const { profileCode, profileTitle: title } = await import('../../data/profile.en.ts');
+    profileData = profileCode;
+    profileTitle = title;
 }
 ---
 
 <div class={`code-block-simple relative rounded-xl border overflow-hidden shadow-2xl ${className}`}>
-  <!-- Code Header -->
-  <div class="code-header flex items-center gap-2 px-4 py-3 border-b bg-[#282a36] border-[#44475a]">
-    <div class="flex gap-2">
-      <div class="w-3 h-3 rounded-full bg-red-500"></div>
-      <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-      <div class="w-3 h-3 rounded-full bg-green-500"></div>
+    <!-- Code Header -->
+    <div class="code-header flex items-center gap-2 px-4 py-3 border-b bg-[#282a36] border-[#44475a]">
+        <div class="flex gap-2">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+        </div>
+        <span class="ml-2 text-sm font-mono text-[#f8f8f2]">{profileTitle}</span>
     </div>
-    <span class="ml-2 text-sm font-mono text-[#f8f8f2]">{profileTitle}</span>
-  </div>
 
-  <!-- Code Content usando expressive-code -->
-  <div class="code-content-wrapper">
-    <Code code={profileData} lang="js" theme="dracula" wrap={true} />
-  </div>
+    <!-- Code Content usando expressive-code -->
+    <div class="code-content-wrapper">
+        <Code code={profileData} lang="js" theme="dracula" wrap={true} />
+    </div>
 </div>
 
 <style>
-  .code-block-simple {
-    background-color: #282a36;
-    border-color: #44475a;
-  }
+    .code-block-simple {
+        background-color: #282a36;
+        border-color: #44475a;
+    }
 
-  .code-content-wrapper {
-    padding: 1rem;
-    background-color: #282a36;
-  }
+    .code-content-wrapper {
+        padding: 1rem;
+        background-color: #282a36;
+    }
 
-  .code-content-wrapper :global(.expressive-code) {
-    margin: 0 !important;
-    border-radius: 0 !important;
-    border: none !important;
-    font-size: 0.8rem !important;
-    line-height: 1.6 !important;
-  }
+    .code-content-wrapper :global(.expressive-code) {
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        font-size: 0.8rem !important;
+        line-height: 1.6 !important;
+    }
 
-  .code-content-wrapper :global(.frame) {
-    border-radius: 0 !important;
-    border: none !important;
-    background: transparent !important;
-  }
+    .code-content-wrapper :global(.frame) {
+        border-radius: 0 !important;
+        border: none !important;
+        background: transparent !important;
+    }
 
-  .code-content-wrapper :global(.header) {
-    display: none !important;
-  }
+    .code-content-wrapper :global(.header) {
+        display: none !important;
+    }
 
-  .code-content-wrapper :global(pre) {
-    margin: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    font-size: 0.8rem !important;
-    line-height: 1.6 !important;
-  }
+    .code-content-wrapper :global(pre) {
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        font-size: 0.8rem !important;
+        line-height: 1.6 !important;
+    }
 
-  .code-content-wrapper :global(code) {
-    font-size: 0.8rem !important;
-    line-height: 1.4 !important;
-  }
+    .code-content-wrapper :global(code) {
+        font-size: 0.8rem !important;
+        line-height: 1.4 !important;
+    }
 
-  /* Ensure proper hover effects on lines */
-  .code-content-wrapper :global(.ec-line) {
-    transition: background-color 0.2s ease;
-    cursor: pointer;
-    padding: 0.125rem 0.75rem;
-    margin: 0 -0.75rem;
-    border-radius: 0.25rem;
-    font-size: 0.8rem !important;
-    line-height: 1.4 !important;
-  }
+    /* Ensure proper hover effects on lines */
+    .code-content-wrapper :global(.ec-line) {
+        transition: background-color 0.2s ease;
+        cursor: pointer;
+        padding: 0.125rem 0.75rem;
+        margin: 0 -0.75rem;
+        border-radius: 0.25rem;
+        font-size: 0.8rem !important;
+        line-height: 1.4 !important;
+    }
 
-  .code-content-wrapper :global(.ec-line:hover) {
-    background-color: rgba(68, 71, 90, 0.6) !important;
-  }
+    .code-content-wrapper :global(.ec-line:hover) {
+        background-color: rgba(68, 71, 90, 0.6) !important;
+    }
 
-  /* Improve spacing between lines */
-  .code-content-wrapper :global(.ec-line + .ec-line) {
-    margin-top: 0.05rem;
-  }
+    /* Improve spacing between lines */
+    .code-content-wrapper :global(.ec-line + .ec-line) {
+        margin-top: 0.05rem;
+    }
 </style>

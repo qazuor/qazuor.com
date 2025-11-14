@@ -5,167 +5,167 @@
  */
 
 interface Props {
-  transition?:
-    | 'hero-to-about'
-    | 'about-to-skills'
-    | 'skills-to-projects'
-    | 'projects-to-blog'
-    | 'blog-to-testimonials'
-    | 'testimonials-to-contact'
-    | 'contact-to-footer';
+    transition?:
+        | 'hero-to-about'
+        | 'about-to-skills'
+        | 'skills-to-projects'
+        | 'projects-to-blog'
+        | 'blog-to-testimonials'
+        | 'testimonials-to-contact'
+        | 'contact-to-footer';
 }
 
 const { transition = 'testimonials-to-contact' } = Astro.props;
 ---
 
 <div class="zigzag-divider" data-transition={transition}>
-  <svg class="relative block w-full h-32 md:h-40" viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <!-- Zigzag capa 1 - más atrás -->
-    <path
-      d="M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z"
-      class="zigzag-layer-1"
-      fill-opacity="0.4"
-    >
-      <animate
-        attributeName="d"
-        dur="10s"
-        repeatCount="indefinite"
-        values="
+    <svg class="relative block w-full h-32 md:h-40" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <!-- Zigzag capa 1 - más atrás -->
+        <path
+            d="M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z"
+            class="zigzag-layer-1"
+            fill-opacity="0.4"
+        >
+            <animate
+                attributeName="d"
+                dur="10s"
+                repeatCount="indefinite"
+                values="
           M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z;
           M0,120 L0,70 L100,50 L200,70 L300,50 L400,70 L500,50 L600,70 L700,50 L800,70 L900,50 L1000,70 L1100,50 L1200,70 L1200,120 Z;
           M0,120 L0,80 L100,40 L200,80 L300,40 L400,80 L500,40 L600,80 L700,40 L800,80 L900,40 L1000,80 L1100,40 L1200,80 L1200,120 Z
         "
-      ></animate>
-    </path>
+            ></animate>
+        </path>
 
-    <!-- Zigzag capa 2 -->
-    <path
-      d="M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z"
-      class="zigzag-layer-2"
-      fill-opacity="0.6"
-    >
-      <animate
-        attributeName="d"
-        dur="8s"
-        repeatCount="indefinite"
-        values="
+        <!-- Zigzag capa 2 -->
+        <path
+            d="M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z"
+            class="zigzag-layer-2"
+            fill-opacity="0.6"
+        >
+            <animate
+                attributeName="d"
+                dur="8s"
+                repeatCount="indefinite"
+                values="
           M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z;
           M0,120 L0,85 L120,65 L240,85 L360,65 L480,85 L600,65 L720,85 L840,65 L960,85 L1080,65 L1200,85 L1200,120 Z;
           M0,120 L0,90 L120,55 L240,90 L360,55 L480,90 L600,55 L720,90 L840,55 L960,90 L1080,55 L1200,90 L1200,120 Z
         "
-      ></animate>
-    </path>
+            ></animate>
+        </path>
 
-    <!-- Zigzag capa 3 -->
-    <path
-      d="M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z"
-      class="zigzag-layer-3"
-      fill-opacity="0.6"
-    >
-      <animate
-        attributeName="d"
-        dur="6s"
-        repeatCount="indefinite"
-        values="
+        <!-- Zigzag capa 3 -->
+        <path
+            d="M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z"
+            class="zigzag-layer-3"
+            fill-opacity="0.6"
+        >
+            <animate
+                attributeName="d"
+                dur="6s"
+                repeatCount="indefinite"
+                values="
           M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z;
           M0,120 L0,90 L150,75 L300,90 L450,75 L600,90 L750,75 L900,90 L1050,75 L1200,90 L1200,120 Z;
           M0,120 L0,95 L150,65 L300,95 L450,65 L600,95 L750,65 L900,95 L1050,65 L1200,95 L1200,120 Z
         "
-      ></animate>
-    </path>
+            ></animate>
+        </path>
 
-    <!-- Base sólida con zigzag frontal -->
-    <path
-      d="M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z"
-      class="zigzag-layer-4"
-    >
-      <animate
-        attributeName="d"
-        dur="5s"
-        repeatCount="indefinite"
-        values="
+        <!-- Base sólida con zigzag frontal -->
+        <path
+            d="M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z"
+            class="zigzag-layer-4"
+        >
+            <animate
+                attributeName="d"
+                dur="5s"
+                repeatCount="indefinite"
+                values="
           M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z;
           M0,120 L0,95 L100,80 L200,95 L300,80 L400,95 L500,80 L600,95 L700,80 L800,95 L900,80 L1000,95 L1100,80 L1200,95 L1200,120 Z;
           M0,120 L0,100 L100,75 L200,100 L300,75 L400,100 L500,75 L600,100 L700,75 L800,100 L900,75 L1000,100 L1100,75 L1200,100 L1200,120 Z
         "
-      ></animate>
-    </path>
-  </svg>
+            ></animate>
+        </path>
+    </svg>
 </div>
 
 <style>
-  .zigzag-divider {
-    @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
-  }
+    .zigzag-divider {
+        @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
+    }
 
-  /* Set specific transition variables based on data attribute */
-  .zigzag-divider[data-transition='hero-to-about'] {
-    --divider-transition-1: var(--hero-to-about-2);
-    --divider-transition-2: var(--hero-to-about-3);
-    --divider-transition-3: var(--hero-to-about-4);
-    --divider-transition-4: var(--hero-to-about-5);
-  }
+    /* Set specific transition variables based on data attribute */
+    .zigzag-divider[data-transition='hero-to-about'] {
+        --divider-transition-1: var(--hero-to-about-2);
+        --divider-transition-2: var(--hero-to-about-3);
+        --divider-transition-3: var(--hero-to-about-4);
+        --divider-transition-4: var(--hero-to-about-5);
+    }
 
-  .zigzag-divider[data-transition='about-to-skills'] {
-    --divider-transition-1: var(--about-to-skills-2);
-    --divider-transition-2: var(--about-to-skills-3);
-    --divider-transition-3: var(--about-to-skills-4);
-    --divider-transition-4: var(--about-to-skills-5);
-  }
+    .zigzag-divider[data-transition='about-to-skills'] {
+        --divider-transition-1: var(--about-to-skills-2);
+        --divider-transition-2: var(--about-to-skills-3);
+        --divider-transition-3: var(--about-to-skills-4);
+        --divider-transition-4: var(--about-to-skills-5);
+    }
 
-  .zigzag-divider[data-transition='skills-to-projects'] {
-    --divider-transition-1: var(--skills-to-projects-2);
-    --divider-transition-2: var(--skills-to-projects-3);
-    --divider-transition-3: var(--skills-to-projects-4);
-    --divider-transition-4: var(--skills-to-projects-5);
-  }
+    .zigzag-divider[data-transition='skills-to-projects'] {
+        --divider-transition-1: var(--skills-to-projects-2);
+        --divider-transition-2: var(--skills-to-projects-3);
+        --divider-transition-3: var(--skills-to-projects-4);
+        --divider-transition-4: var(--skills-to-projects-5);
+    }
 
-  .zigzag-divider[data-transition='projects-to-blog'] {
-    --divider-transition-1: var(--projects-to-blog-2);
-    --divider-transition-2: var(--projects-to-blog-3);
-    --divider-transition-3: var(--projects-to-blog-4);
-    --divider-transition-4: var(--projects-to-blog-5);
-  }
+    .zigzag-divider[data-transition='projects-to-blog'] {
+        --divider-transition-1: var(--projects-to-blog-2);
+        --divider-transition-2: var(--projects-to-blog-3);
+        --divider-transition-3: var(--projects-to-blog-4);
+        --divider-transition-4: var(--projects-to-blog-5);
+    }
 
-  .zigzag-divider[data-transition='blog-to-testimonials'] {
-    --divider-transition-1: var(--blog-to-testimonials-2);
-    --divider-transition-2: var(--blog-to-testimonials-3);
-    --divider-transition-3: var(--blog-to-testimonials-4);
-    --divider-transition-4: var(--blog-to-testimonials-5);
-  }
+    .zigzag-divider[data-transition='blog-to-testimonials'] {
+        --divider-transition-1: var(--blog-to-testimonials-2);
+        --divider-transition-2: var(--blog-to-testimonials-3);
+        --divider-transition-3: var(--blog-to-testimonials-4);
+        --divider-transition-4: var(--blog-to-testimonials-5);
+    }
 
-  .zigzag-divider[data-transition='testimonials-to-contact'] {
-    --divider-transition-1: var(--testimonials-to-contact-2);
-    --divider-transition-2: var(--testimonials-to-contact-3);
-    --divider-transition-3: var(--testimonials-to-contact-4);
-    --divider-transition-4: var(--testimonials-to-contact-5);
-  }
+    .zigzag-divider[data-transition='testimonials-to-contact'] {
+        --divider-transition-1: var(--testimonials-to-contact-2);
+        --divider-transition-2: var(--testimonials-to-contact-3);
+        --divider-transition-3: var(--testimonials-to-contact-4);
+        --divider-transition-4: var(--testimonials-to-contact-5);
+    }
 
-  .zigzag-divider[data-transition='contact-to-footer'] {
-    --divider-transition-1: var(--contact-to-footer-2);
-    --divider-transition-2: var(--contact-to-footer-3);
-    --divider-transition-3: var(--contact-to-footer-4);
-    --divider-transition-4: var(--contact-to-footer-5);
-  }
+    .zigzag-divider[data-transition='contact-to-footer'] {
+        --divider-transition-1: var(--contact-to-footer-2);
+        --divider-transition-2: var(--contact-to-footer-3);
+        --divider-transition-3: var(--contact-to-footer-4);
+        --divider-transition-4: var(--contact-to-footer-5);
+    }
 
-  /* Dynamic zigzag colors that respond to theme changes */
-  .zigzag-layer-1 {
-    fill: var(--divider-transition-1);
-    transition: fill 0.3s ease;
-  }
+    /* Dynamic zigzag colors that respond to theme changes */
+    .zigzag-layer-1 {
+        fill: var(--divider-transition-1);
+        transition: fill 0.3s ease;
+    }
 
-  .zigzag-layer-2 {
-    fill: var(--divider-transition-2);
-    transition: fill 0.3s ease;
-  }
+    .zigzag-layer-2 {
+        fill: var(--divider-transition-2);
+        transition: fill 0.3s ease;
+    }
 
-  .zigzag-layer-3 {
-    fill: var(--divider-transition-3);
-    transition: fill 0.3s ease;
-  }
+    .zigzag-layer-3 {
+        fill: var(--divider-transition-3);
+        transition: fill 0.3s ease;
+    }
 
-  .zigzag-layer-4 {
-    fill: var(--divider-transition-4);
-    transition: fill 0.3s ease;
-  }
+    .zigzag-layer-4 {
+        fill: var(--divider-transition-4);
+        transition: fill 0.3s ease;
+    }
 </style>

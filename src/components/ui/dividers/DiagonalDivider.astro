@@ -6,24 +6,24 @@
  */
 
 interface Props {
-  direction?: 'right' | 'left' | 'mixed';
-  transition?:
-    | 'hero-to-about'
-    | 'about-to-skills'
-    | 'skills-to-projects'
-    | 'projects-to-blog'
-    | 'blog-to-testimonials'
-    | 'testimonials-to-contact'
-    | 'contact-to-footer';
+    direction?: 'right' | 'left' | 'mixed';
+    transition?:
+        | 'hero-to-about'
+        | 'about-to-skills'
+        | 'skills-to-projects'
+        | 'projects-to-blog'
+        | 'blog-to-testimonials'
+        | 'testimonials-to-contact'
+        | 'contact-to-footer';
 }
 
 const { direction = 'mixed', transition = 'hero-to-about' } = Astro.props;
 
 const getPoints = (startY: number, endY: number, goingRight: boolean) => {
-  if (goingRight) {
-    return `-15000,${startY} 15000,${endY} 15000,80 -15000,80`;
-  }
-  return `-15000,${endY} 15000,${startY} 15000,80 -15000,80`;
+    if (goingRight) {
+        return `-15000,${startY} 15000,${endY} 15000,80 -15000,80`;
+    }
+    return `-15000,${endY} 15000,${startY} 15000,80 -15000,80`;
 };
 
 const line1Right = direction === 'right' || direction === 'mixed';
@@ -33,132 +33,128 @@ const line4Right = direction === 'right';
 ---
 
 <div class="diagonal-divider" data-transition={transition}>
-  <div class="relative w-full h-20 md:h-24">
-    <svg
-      class="absolute inset-0 w-full h-full"
-      viewBox="-15000 0 30000 80"
-      preserveAspectRatio="none"
-    >
-      <g opacity="0.4">
-        <polygon points={getPoints(0, 38, line1Right)} class="diagonal-layer-1">
-          <animateTransform
-            attributeName="transform"
-            type="translate"
-            values="0,0; 30,2; 0,0"
-            dur="12s"
-            repeatCount="indefinite"></animateTransform>
-        </polygon>
-      </g>
+    <div class="relative w-full h-20 md:h-24">
+        <svg class="absolute inset-0 w-full h-full" viewBox="-15000 0 30000 80" preserveAspectRatio="none">
+            <g opacity="0.4">
+                <polygon points={getPoints(0, 38, line1Right)} class="diagonal-layer-1">
+                    <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; 30,2; 0,0"
+                        dur="12s"
+                        repeatCount="indefinite"></animateTransform>
+                </polygon>
+            </g>
 
-      <g opacity="0.5">
-        <polygon points={getPoints(12, 55, line2Right)} class="diagonal-layer-2">
-          <animateTransform
-            attributeName="transform"
-            type="translate"
-            values="0,0; -25,3; 0,0"
-            dur="10s"
-            repeatCount="indefinite"></animateTransform>
-        </polygon>
-      </g>
+            <g opacity="0.5">
+                <polygon points={getPoints(12, 55, line2Right)} class="diagonal-layer-2">
+                    <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; -25,3; 0,0"
+                        dur="10s"
+                        repeatCount="indefinite"></animateTransform>
+                </polygon>
+            </g>
 
-      <g opacity="0.6">
-        <polygon points={getPoints(20, 48, line3Right)} class="diagonal-layer-3">
-          <animateTransform
-            attributeName="transform"
-            type="translate"
-            values="0,0; 28,2; 0,0"
-            dur="14s"
-            repeatCount="indefinite"></animateTransform>
-        </polygon>
-      </g>
+            <g opacity="0.6">
+                <polygon points={getPoints(20, 48, line3Right)} class="diagonal-layer-3">
+                    <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; 28,2; 0,0"
+                        dur="14s"
+                        repeatCount="indefinite"></animateTransform>
+                </polygon>
+            </g>
 
-      <g opacity="0.75">
-        <polygon points={getPoints(28, 62, line4Right)} class="diagonal-layer-4">
-          <animateTransform
-            attributeName="transform"
-            type="translate"
-            values="0,0; -20,3; 0,0"
-            dur="9s"
-            repeatCount="indefinite"></animateTransform>
-        </polygon>
-      </g>
+            <g opacity="0.75">
+                <polygon points={getPoints(28, 62, line4Right)} class="diagonal-layer-4">
+                    <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; -20,3; 0,0"
+                        dur="9s"
+                        repeatCount="indefinite"></animateTransform>
+                </polygon>
+            </g>
 
-      <polygon points={getPoints(35, 70, line1Right)} class="diagonal-layer-5"></polygon>
-    </svg>
-  </div>
+            <polygon points={getPoints(35, 70, line1Right)} class="diagonal-layer-5"></polygon>
+        </svg>
+    </div>
 </div>
 
 <style>
-  .diagonal-divider {
-    @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
-  }
+    .diagonal-divider {
+        @apply absolute left-0 right-0 -bottom-1 z-10 overflow-hidden leading-none pointer-events-none;
+    }
 
-  /* Set specific transition variables based on data attribute */
-  .diagonal-divider[data-transition='hero-to-about'] {
-    --divider-transition-primary: var(--hero-to-about-2);
-    --divider-transition-secondary: var(--hero-to-about-4);
-    --divider-transition-accent: var(--hero-to-about-3);
-  }
+    /* Set specific transition variables based on data attribute */
+    .diagonal-divider[data-transition='hero-to-about'] {
+        --divider-transition-primary: var(--hero-to-about-2);
+        --divider-transition-secondary: var(--hero-to-about-4);
+        --divider-transition-accent: var(--hero-to-about-3);
+    }
 
-  .diagonal-divider[data-transition='about-to-skills'] {
-    --divider-transition-primary: var(--about-to-skills-2);
-    --divider-transition-secondary: var(--about-to-skills-4);
-    --divider-transition-accent: var(--about-to-skills-3);
-  }
+    .diagonal-divider[data-transition='about-to-skills'] {
+        --divider-transition-primary: var(--about-to-skills-2);
+        --divider-transition-secondary: var(--about-to-skills-4);
+        --divider-transition-accent: var(--about-to-skills-3);
+    }
 
-  .diagonal-divider[data-transition='skills-to-projects'] {
-    --divider-transition-primary: var(--skills-to-projects-2);
-    --divider-transition-secondary: var(--skills-to-projects-4);
-    --divider-transition-accent: var(--skills-to-projects-3);
-  }
+    .diagonal-divider[data-transition='skills-to-projects'] {
+        --divider-transition-primary: var(--skills-to-projects-2);
+        --divider-transition-secondary: var(--skills-to-projects-4);
+        --divider-transition-accent: var(--skills-to-projects-3);
+    }
 
-  .diagonal-divider[data-transition='projects-to-blog'] {
-    --divider-transition-primary: var(--projects-to-blog-2);
-    --divider-transition-secondary: var(--projects-to-blog-4);
-    --divider-transition-accent: var(--projects-to-blog-3);
-  }
+    .diagonal-divider[data-transition='projects-to-blog'] {
+        --divider-transition-primary: var(--projects-to-blog-2);
+        --divider-transition-secondary: var(--projects-to-blog-4);
+        --divider-transition-accent: var(--projects-to-blog-3);
+    }
 
-  .diagonal-divider[data-transition='blog-to-testimonials'] {
-    --divider-transition-primary: var(--blog-to-testimonials-2);
-    --divider-transition-secondary: var(--blog-to-testimonials-4);
-    --divider-transition-accent: var(--blog-to-testimonials-3);
-  }
+    .diagonal-divider[data-transition='blog-to-testimonials'] {
+        --divider-transition-primary: var(--blog-to-testimonials-2);
+        --divider-transition-secondary: var(--blog-to-testimonials-4);
+        --divider-transition-accent: var(--blog-to-testimonials-3);
+    }
 
-  .diagonal-divider[data-transition='testimonials-to-contact'] {
-    --divider-transition-primary: var(--testimonials-to-contact-2);
-    --divider-transition-secondary: var(--testimonials-to-contact-4);
-    --divider-transition-accent: var(--testimonials-to-contact-3);
-  }
+    .diagonal-divider[data-transition='testimonials-to-contact'] {
+        --divider-transition-primary: var(--testimonials-to-contact-2);
+        --divider-transition-secondary: var(--testimonials-to-contact-4);
+        --divider-transition-accent: var(--testimonials-to-contact-3);
+    }
 
-  .diagonal-divider[data-transition='contact-to-footer'] {
-    --divider-transition-primary: var(--contact-to-footer-2);
-    --divider-transition-secondary: var(--contact-to-footer-4);
-    --divider-transition-accent: var(--contact-to-footer-3);
-  }
+    .diagonal-divider[data-transition='contact-to-footer'] {
+        --divider-transition-primary: var(--contact-to-footer-2);
+        --divider-transition-secondary: var(--contact-to-footer-4);
+        --divider-transition-accent: var(--contact-to-footer-3);
+    }
 
-  /* Dynamic diagonal colors that respond to theme changes */
-  .diagonal-layer-1 {
-    fill: var(--divider-transition-primary);
-    transition: fill 0.3s ease;
-  }
+    /* Dynamic diagonal colors that respond to theme changes */
+    .diagonal-layer-1 {
+        fill: var(--divider-transition-primary);
+        transition: fill 0.3s ease;
+    }
 
-  .diagonal-layer-2 {
-    fill: var(--divider-transition-secondary);
-    transition: fill 0.3s ease;
-  }
+    .diagonal-layer-2 {
+        fill: var(--divider-transition-secondary);
+        transition: fill 0.3s ease;
+    }
 
-  .diagonal-layer-3 {
-    fill: var(--divider-transition-accent);
-    transition: fill 0.3s ease;
-  }
+    .diagonal-layer-3 {
+        fill: var(--divider-transition-accent);
+        transition: fill 0.3s ease;
+    }
 
-  .diagonal-layer-4 {
-    fill: var(--divider-transition-primary);
-    transition: fill 0.3s ease;
-  }
+    .diagonal-layer-4 {
+        fill: var(--divider-transition-primary);
+        transition: fill 0.3s ease;
+    }
 
-  .diagonal-layer-5 {
-    fill: var(--divider-transition-secondary);
-    transition: fill 0.3s ease;
-  }
+    .diagonal-layer-5 {
+        fill: var(--divider-transition-secondary);
+        transition: fill 0.3s ease;
+    }
 </style>

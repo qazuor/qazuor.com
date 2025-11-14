@@ -2,119 +2,119 @@
 import RotatingRoles from './RotatingRoles.astro';
 
 interface Props {
-  name: string;
-  roles: string[];
-  className?: string;
+    name: string;
+    roles: string[];
+    className?: string;
 }
 
 const { name, roles, className = '' } = Astro.props;
 ---
 
 <div class={`hero-element relative ${className}`}>
-  <div class="relative w-full max-w-lg mx-auto">
-    <!-- Animated gradient background circle (behind everything) -->
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-full blur-3xl opacity-30 z-0"
-      style="animation: pulse 4s ease-in-out infinite"
-    >
-    </div>
+    <div class="relative w-full max-w-lg mx-auto">
+        <!-- Animated gradient background circle (behind everything) -->
+        <div
+            class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-full blur-3xl opacity-30 z-0"
+            style="animation: pulse 4s ease-in-out infinite"
+        >
+        </div>
 
-    <!-- Large gradient background circle positioned behind the photo -->
-    <div
-      class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-1/4 w-[600px] h-[600px] bg-gradient-radial from-primary via-secondary to-accent border-2 border-foreground/10 rounded-full z-10 shadow-circle"
-    >
-    </div>
+        <!-- Large gradient background circle positioned behind the photo -->
+        <div
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-1/4 w-[600px] h-[600px] bg-gradient-radial from-primary via-secondary to-accent border-2 border-foreground/10 rounded-full z-10 shadow-circle"
+        >
+        </div>
 
-    <!-- Hero Photo - full image, positioned to overflow the circle -->
-    <div class="relative z-20 bottom-0 mt-10 photo-hover-container">
-      <img
-        src="/photo1.png"
-        alt={`${name} - Full-Stack Developer`}
-        class="w-full h-auto top-0 transition-all duration-100 left-0 photo-default"
-        loading="eager"
-      />
-      <img
-        src="/photo2.png"
-        alt={`${name} - Full-Stack Developer`}
-        class="w-full h-auto absolute transition-all duration-100 top-0 left-0 opacity-0 photo-hover"
-        loading="lazy"
-      />
-    </div>
+        <!-- Hero Photo - full image, positioned to overflow the circle -->
+        <div class="relative z-20 bottom-0 mt-10 photo-hover-container">
+            <img
+                src="/photo1.png"
+                alt={`${name} - Full-Stack Developer`}
+                class="w-full h-auto top-0 transition-all duration-100 left-0 photo-default"
+                loading="eager"
+            />
+            <img
+                src="/photo2.png"
+                alt={`${name} - Full-Stack Developer`}
+                class="w-full h-auto absolute transition-all duration-100 top-0 left-0 opacity-0 photo-hover"
+                loading="lazy"
+            />
+        </div>
 
-    <!-- Rotating Roles Display -->
-    <RotatingRoles roles={roles} />
-  </div>
+        <!-- Rotating Roles Display -->
+        <RotatingRoles roles={roles} />
+    </div>
 </div>
 
 <style>
-  /* Desktop avatar - hidden on mobile */
-  .desktop-avatar {
-    @apply hidden lg:block;
-  }
+    /* Desktop avatar - hidden on mobile */
+    .desktop-avatar {
+        @apply hidden lg:block;
+    }
 
-  /* Mobile avatar - hidden on desktop, larger and positioned to overflow right */
-  .mobile-avatar {
-    @apply block lg:hidden;
-    max-width: 350px;
-    margin-left: auto;
-    margin-right: -2rem; /* Negative margin to overflow the container */
-    transform: translateX(1rem); /* Additional push to the right */
-    margin-top: -3rem; /* Move much closer to content above */
-  }
+    /* Mobile avatar - hidden on desktop, larger and positioned to overflow right */
+    .mobile-avatar {
+        @apply block lg:hidden;
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: -2rem; /* Negative margin to overflow the container */
+        transform: translateX(1rem); /* Additional push to the right */
+        margin-top: -3rem; /* Move much closer to content above */
+    }
 
-  .mobile-avatar .shadow-circle {
-    width: 400px !important;
-    height: 400px !important;
-  }
+    .mobile-avatar .shadow-circle {
+        width: 400px !important;
+        height: 400px !important;
+    }
 
-  .shadow-circle {
-    /* Shadow for light mode - colored shadow */
-    box-shadow:
-      0 40px 80px rgba(147, 51, 234, 0.3),
-      0 20px 40px rgba(99, 102, 241, 0.2),
-      0 10px 20px rgba(59, 130, 246, 0.1),
-      inset 0 2px 0 rgba(255, 255, 255, 0.1);
-  }
+    .shadow-circle {
+        /* Shadow for light mode - colored shadow */
+        box-shadow:
+            0 40px 80px rgba(147, 51, 234, 0.3),
+            0 20px 40px rgba(99, 102, 241, 0.2),
+            0 10px 20px rgba(59, 130, 246, 0.1),
+            inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    }
 
-  /* Dark mode shadow - white/light colored */
-  .dark .shadow-circle {
-    box-shadow:
-      0 40px 80px rgba(255, 255, 255, 0.15),
-      0 20px 40px rgba(255, 255, 255, 0.1),
-      0 10px 20px rgba(255, 255, 255, 0.05),
-      inset 0 2px 0 rgba(255, 255, 255, 0.1);
-  }
+    /* Dark mode shadow - white/light colored */
+    .dark .shadow-circle {
+        box-shadow:
+            0 40px 80px rgba(255, 255, 255, 0.15),
+            0 20px 40px rgba(255, 255, 255, 0.1),
+            0 10px 20px rgba(255, 255, 255, 0.05),
+            inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    }
 
-  /* Photo hover effect */
-  .photo-hover-container {
-    position: relative;
-  }
+    /* Photo hover effect */
+    .photo-hover-container {
+        position: relative;
+    }
 
-  .photo-default,
-  .photo-hover {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+    .photo-default,
+    .photo-hover {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: block;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
 
-  .photo-hover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+    .photo-hover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
 
-  .photo-hover-container:hover .photo-default {
-    opacity: 0;
-  }
+    .photo-hover-container:hover .photo-default {
+        opacity: 0;
+    }
 
-  .photo-hover-container:hover .photo-hover {
-    opacity: 1;
-  }
+    .photo-hover-container:hover .photo-hover {
+        opacity: 1;
+    }
 </style>

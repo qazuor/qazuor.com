@@ -31,108 +31,106 @@ import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
 interface Props {
-  primaryColor?: string;
-  translations?: {
-    title: string;
-    subtitle: string;
-    description: string;
-    categoryTitles?: {
-      dev?: string;
-      design?: string;
-      languages?: string;
-      tools?: string;
+    primaryColor?: string;
+    translations?: {
+        title: string;
+        subtitle: string;
+        description: string;
+        categoryTitles?: {
+            dev?: string;
+            design?: string;
+            languages?: string;
+            tools?: string;
+        };
     };
-  };
 }
 
 const {
-  primaryColor = '#4f46e5',
-  translations = {
-    title: 'Skills',
-    subtitle: 'Technologies I work with',
-    description:
-      "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
-    categoryTitles: {
-      dev: 'Dev Skills',
-      design: 'Design Skills',
-      languages: 'Language Skills',
-      tools: 'Tools & Others',
-    },
-  },
+    primaryColor = '#4f46e5',
+    translations = {
+        title: 'Skills',
+        subtitle: 'Technologies I work with',
+        description:
+            "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
+        categoryTitles: {
+            dev: 'Dev Skills',
+            design: 'Design Skills',
+            languages: 'Language Skills',
+            tools: 'Tools & Others'
+        }
+    }
 } = Astro.props;
 
 const icons: Record<string, string> = {
-  // Dev skills
-  javascript: JavascriptIcon,
-  typescript: TypeScriptIcon,
-  nodejs: NodeJSIcon,
-  drizzle: DrizzleIcon,
-  git: GitIcon,
-  postgresql: PostgresqlIcon,
-  react: ReactIcon,
-  astro: AstroIcon,
-  tanstack: TanstackIcon,
-  tailwind: TailwindIcon,
-  css3: Css3Icon,
-  html5: Html5Icon,
-  hono: HonoIcon,
-  restapi: RestApiIcon,
-  zod: ZodIcon,
-  // Tools
-  github: GithubIcon,
-  vscode: VscodeIcon,
-  claude: ClaudeIcon,
-  // Design
-  coreldraw: CoreldrawIcon,
-  photoshop: PhotoshopIcon,
-  canva: CanvaIcon,
-  // Languages
-  english: EnglishIcon,
-  spanish: SpanishIcon,
+    // Dev skills
+    javascript: JavascriptIcon,
+    typescript: TypeScriptIcon,
+    nodejs: NodeJSIcon,
+    drizzle: DrizzleIcon,
+    git: GitIcon,
+    postgresql: PostgresqlIcon,
+    react: ReactIcon,
+    astro: AstroIcon,
+    tanstack: TanstackIcon,
+    tailwind: TailwindIcon,
+    css3: Css3Icon,
+    html5: Html5Icon,
+    hono: HonoIcon,
+    restapi: RestApiIcon,
+    zod: ZodIcon,
+    // Tools
+    github: GithubIcon,
+    vscode: VscodeIcon,
+    claude: ClaudeIcon,
+    // Design
+    coreldraw: CoreldrawIcon,
+    photoshop: PhotoshopIcon,
+    canva: CanvaIcon,
+    // Languages
+    english: EnglishIcon,
+    spanish: SpanishIcon
 };
 
 // Map data with translated titles and icons
 const categories = skillsData.map((category) => ({
-  title:
-    translations.categoryTitles?.[category.id as keyof typeof translations.categoryTitles] ||
-    category.id,
-  skills: category.skills.map((skill) => ({
-    ...skill,
-    icon: icons[skill.icon] || '',
-  })),
+    title: translations.categoryTitles?.[category.id as keyof typeof translations.categoryTitles] || category.id,
+    skills: category.skills.map((skill) => ({
+        ...skill,
+        icon: icons[skill.icon] || ''
+    }))
 }));
 ---
 
 <section
-  class="relative section skills-section overflow-hidden"
-  id="skills"
-  style={`background-color: ${primaryColor}`}
+    class="relative section skills-section overflow-hidden"
+    id="skills"
+    style={`background-color: ${primaryColor}`}
 >
-  <!-- Animated Gradient Background -->
-  <AnimatedGradientBackground />
+    <!-- Animated Gradient Background -->
+    <AnimatedGradientBackground />
 
-  <div class="container-custom">
-    <div class="max-w-6xl mx-auto">
-      <!-- Section Title -->
-      <SectionTitle
-        title={translations.title}
-        subtitle={translations.subtitle}
-        description={translations.description}
-        subtitleClassName="mb-8"
-        className="max-w-3xl mx-auto"
-      />
+    <div class="container-custom">
+        <div class="max-w-6xl mx-auto">
+            <!-- Section Title -->
+            <SectionTitle
+                title={translations.title}
+                subtitle={translations.subtitle}
+                description={translations.description}
+                subtitleClassName="mb-8"
+                className="max-w-3xl mx-auto"
+            />
 
-      <!-- Skills Grid -->
-      <SkillsGrid categories={categories} client:load />
+            <!-- Skills Grid -->
+            <SkillsGrid categories={categories} client:load />
+        </div>
     </div>
-  </div>
 </section>
 
 <style>
-  .skill-category h3 {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+    .skill-category h3 {
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 </style>

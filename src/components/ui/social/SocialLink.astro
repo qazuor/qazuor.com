@@ -5,40 +5,40 @@ import LinkedinIcon from '../../../icons/social/linkedin.svg?raw';
 import UpworkIcon from '../../../icons/social/upwork.svg?raw';
 
 interface Props {
-  href: string;
-  ariaLabel: string;
-  iconName: 'github' | 'linkedin' | 'fiverr' | 'upwork';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
+    href: string;
+    ariaLabel: string;
+    iconName: 'github' | 'linkedin' | 'fiverr' | 'upwork';
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
 }
 
 const { href, ariaLabel, iconName, size = 'md', className = '' } = Astro.props;
 
 // Map of icons
 const iconMap = {
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  fiverr: FiverrIcon,
-  upwork: UpworkIcon,
+    github: GithubIcon,
+    linkedin: LinkedinIcon,
+    fiverr: FiverrIcon,
+    upwork: UpworkIcon
 };
 
 const icon = iconMap[iconName];
 
 const sizeClasses = {
-  sm: 'w-4 h-4',
-  md: 'w-6 h-6',
-  lg: 'w-8 h-8',
+    sm: 'w-4 h-4',
+    md: 'w-6 h-6',
+    lg: 'w-8 h-8'
 };
 
 const iconSize = sizeClasses[size];
 ---
 
 <a
-  href={href}
-  target="_blank"
-  rel="noopener noreferrer"
-  class={`text-foreground-secondary hover:text-primary transition-colors duration-base ${className}`}
-  aria-label={ariaLabel}
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={`text-foreground-secondary hover:text-primary transition-colors duration-base ${className}`}
+    aria-label={ariaLabel}
 >
-  <div class={iconSize} set:html={icon} />
+    <div class={iconSize} set:html={icon} />
 </a>

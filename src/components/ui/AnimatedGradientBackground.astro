@@ -1,55 +1,55 @@
 ---
 interface Props {
-  /**
-   * Custom positioning styles for the gradient container
-   * @default { top: '200px' }
-   */
-  position?: {
-    top?: string;
-    bottom?: string;
-    left?: string;
-    right?: string;
-  };
-  /**
-   * Custom opacity for the gradient effect in light mode
-   * @default 60
-   */
-  lightOpacity?: number;
-  /**
-   * Custom opacity for the gradient effect in dark mode
-   * @default 60
-   */
-  darkOpacity?: number;
-  /**
-   * Animation duration in seconds
-   * @default 4
-   */
-  animationDuration?: number;
-  /**
-   * Custom blur intensity
-   * @default '3xl'
-   */
-  blur?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
-  /**
-   * Border radius for the gradient
-   * @default 'lg'
-   */
-  borderRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+    /**
+     * Custom positioning styles for the gradient container
+     * @default { top: '200px' }
+     */
+    position?: {
+        top?: string;
+        bottom?: string;
+        left?: string;
+        right?: string;
+    };
+    /**
+     * Custom opacity for the gradient effect in light mode
+     * @default 60
+     */
+    lightOpacity?: number;
+    /**
+     * Custom opacity for the gradient effect in dark mode
+     * @default 60
+     */
+    darkOpacity?: number;
+    /**
+     * Animation duration in seconds
+     * @default 4
+     */
+    animationDuration?: number;
+    /**
+     * Custom blur intensity
+     * @default '3xl'
+     */
+    blur?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+    /**
+     * Border radius for the gradient
+     * @default 'lg'
+     */
+    borderRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 }
 
 const {
-  position = { top: '200px' },
-  lightOpacity = 60,
-  darkOpacity = 60,
-  animationDuration = 4,
-  blur = '3xl',
-  borderRadius = 'lg',
+    position = { top: '200px' },
+    lightOpacity = 60,
+    darkOpacity = 60,
+    animationDuration = 4,
+    blur = '3xl',
+    borderRadius = 'lg'
 } = Astro.props;
 
 // Convert position object to CSS style string
 const positionStyles = Object.entries(position)
-  .map(([key, value]) => `${key}: ${value}`)
-  .join('; ');
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ');
 
 // Build CSS classes
 const blurClass = blur === 'none' ? '' : `blur-${blur}`;
@@ -58,26 +58,26 @@ const radiusClass = borderRadius === 'none' ? '' : `rounded-${borderRadius}`;
 
 <!-- Animated Gradient Background -->
 <div class="absolute inset-0" style={positionStyles}>
-  <div
-    class={`absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent ${radiusClass} ${blurClass}`}
-    style={`animation: pulse ${animationDuration}s ease-in-out infinite; opacity: ${lightOpacity / 100};`}
-  >
-  </div>
+    <div
+        class={`absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent ${radiusClass} ${blurClass}`}
+        style={`animation: pulse ${animationDuration}s ease-in-out infinite; opacity: ${lightOpacity / 100};`}
+    >
+    </div>
 </div>
 
 <style>
-  .dark [data-gradient] {
-    opacity: var(--dark-opacity) !important;
-  }
+    .dark [data-gradient] {
+        opacity: var(--dark-opacity) !important;
+    }
 </style>
 
 <script is:inline define:vars={{ darkOpacity }}>
-  // Set CSS variable for dark mode opacity
-  document.documentElement.style.setProperty('--dark-opacity', darkOpacity / 100);
+    // Set CSS variable for dark mode opacity
+    document.documentElement.style.setProperty('--dark-opacity', darkOpacity / 100);
 
-  // Add data attribute to gradient element
-  const gradientElement = document.querySelector('.bg-gradient-to-br');
-  if (gradientElement) {
-    gradientElement.setAttribute('data-gradient', '');
-  }
+    // Add data attribute to gradient element
+    const gradientElement = document.querySelector('.bg-gradient-to-br');
+    if (gradientElement) {
+        gradientElement.setAttribute('data-gradient', '');
+    }
 </script>

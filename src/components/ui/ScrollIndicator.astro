@@ -2,8 +2,8 @@
 import ArrowDownIcon from '../../icons/ui/arrow-down.svg?raw';
 
 interface Props {
-  text: string;
-  className?: string;
+    text: string;
+    className?: string;
 }
 
 const { text, className = '' } = Astro.props;
@@ -11,12 +11,12 @@ const { text, className = '' } = Astro.props;
 
 <!-- Desktop version -->
 <div class={`hidden lg:flex flex-col items-center mt-5 ${className}`}>
-  <span class="text-sm text-foreground-secondary">{text}</span>
-  <div class="w-6 h-6 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
+    <span class="text-sm text-foreground-secondary">{text}</span>
+    <div class="w-6 h-6 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
 </div>
 
 <!-- Mobile version - positioned absolutely within hero -->
 <div class="absolute lg:hidden bottom-6 left-6 z-30 flex flex-col items-center">
-  <span class="text-xs text-foreground-secondary mb-1">{text}</span>
-  <div class="w-5 h-5 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
+    <span class="text-xs text-foreground-secondary mb-1">{text}</span>
+    <div class="w-5 h-5 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
 </div>

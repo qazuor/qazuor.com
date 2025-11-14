@@ -6,21 +6,21 @@ import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-  const allBlogPosts = await getCollection('blog');
+    const allBlogPosts = await getCollection('blog');
 
-  // Generate paths for each language and each blog post
-  return Object.keys(languages).flatMap((lang) =>
-    allBlogPosts
-      .filter((post) => !post.data.draft)
-      .map((post) => ({
-        params: { lang, slug: post.slug },
-        props: { post },
-      })),
-  );
+    // Generate paths for each language and each blog post
+    return Object.keys(languages).flatMap((lang) =>
+        allBlogPosts
+            .filter((post) => !post.data.draft)
+            .map((post) => ({
+                params: { lang, slug: post.slug },
+                props: { post }
+            }))
+    );
 }
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+    post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
@@ -33,77 +33,77 @@ const title = `${post.data.title} - qazuor.com`;
 const description = post.data.excerpt;
 
 // Format date
-const formattedDate = new Date(post.data.publishDate).toLocaleDateString(
-  lang === 'es' ? 'es-ES' : 'en-US',
-  {
+const formattedDate = new Date(post.data.publishDate).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
-  },
-);
+    day: 'numeric'
+});
 
 // Extract read time number
 const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <!-- Back button -->
-    <a
-      href={`/${lang}/blog`}
-      class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors duration-300 mb-8"
-    >
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7" />
-      </svg>
-      {t('blog.title')}
-    </a>
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Back button -->
+        <a
+            href={`/${lang}/blog`}
+            class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors duration-300 mb-8"
+        >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7"></path>
+            </svg>
+            {t('blog.title')}
+        </a>
 
-    <!-- Article Header -->
-    <header class="mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-        {post.data.title}
-      </h1>
+        <!-- Article Header -->
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+                {post.data.title}
+            </h1>
 
-      <!-- Meta information -->
-      <div class="flex flex-wrap items-center gap-4 text-foreground-secondary mb-6">
-        <time datetime={post.data.publishDate.toISOString()} class="flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width={2}
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          {formattedDate}
-        </time>
-        <span>•</span>
-        <span class="flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width={2}
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          {readTimeNumber} {t('blog.readTime')}
-        </span>
-      </div>
+            <!-- Meta information -->
+            <div class="flex flex-wrap items-center gap-4 text-foreground-secondary mb-6">
+                <time datetime={post.data.publishDate.toISOString()} class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width={2}
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                    </svg>
+                    {formattedDate}
+                </time>
+                <span>•</span>
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width={2}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    {readTimeNumber}
+                    {t('blog.readTime')}
+                </span>
+            </div>
 
-      <!-- Tags -->
-      <div class="flex flex-wrap gap-2">
-        {post.data.tags.map((tag) => (
-          <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
-            #{tag}
-          </span>
-        ))}
-      </div>
-    </header>
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2">
+                {
+                    post.data.tags.map((tag) => (
+                        <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
+                            #{tag}
+                        </span>
+                    ))
+                }
+            </div>
+        </header>
 
-    <!-- Article Content -->
-    <div class="prose prose-lg dark:prose-invert max-w-none
+        <!-- Article Content -->
+        <div
+            class="prose prose-lg dark:prose-invert max-w-none
       prose-headings:text-foreground
       prose-p:text-foreground-secondary
       prose-a:text-primary prose-a:no-underline hover:prose-a:underline
@@ -115,75 +115,79 @@ const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
       prose-hr:border-foreground/10
       prose-ul:text-foreground-secondary
       prose-ol:text-foreground-secondary
-      prose-li:text-foreground-secondary
-    ">
-      <Content />
-    </div>
-
-    <!-- Article Footer -->
-    <footer class="mt-16 pt-8 border-t border-foreground/10">
-      <!-- Share section (optional - can add later) -->
-      <div class="flex items-center justify-between">
-        <a
-          href={`/${lang}/blog`}
-          class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 font-medium shadow-glow-primary"
+      prose-li:text-foreground-secondary"
         >
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          {t('blog.title')}
-        </a>
-
-        <!-- Author info (optional) -->
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-            <span class="text-2xl">👨‍💻</span>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-foreground">qazuor</p>
-            <p class="text-xs text-foreground-secondary">{post.data.author || 'qazuor'}</p>
-          </div>
+            <Content />
         </div>
-      </div>
-    </footer>
-  </article>
+
+        <!-- Article Footer -->
+        <footer class="mt-16 pt-8 border-t border-foreground/10">
+            <!-- Share section (optional - can add later) -->
+            <div class="flex items-center justify-between">
+                <a
+                    href={`/${lang}/blog`}
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 font-medium shadow-glow-primary"
+                >
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7"
+                        ></path>
+                    </svg>
+                    {t('blog.title')}
+                </a>
+
+                <!-- Author info (optional) -->
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"
+                    >
+                        <span class="text-2xl">👨‍💻</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-foreground">qazuor</p>
+                        <p class="text-xs text-foreground-secondary">{post.data.author || 'qazuor'}</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </article>
 </BaseLayout>
 
 <style is:global>
-  /* Custom styles for markdown content */
-  .prose pre {
-    @apply overflow-x-auto;
-  }
+    /* Custom styles for markdown content */
+    .prose pre {
+        @apply overflow-x-auto;
+    }
 
-  .prose code {
-    @apply text-sm;
-  }
+    .prose code {
+        @apply text-sm;
+    }
 
-  .prose pre code {
-    @apply bg-transparent p-0;
-  }
+    .prose pre code {
+        @apply bg-transparent p-0;
+    }
 
-  .prose h2 {
-    @apply mt-12 mb-6;
-  }
+    .prose h2 {
+        @apply mt-12 mb-6;
+    }
 
-  .prose h3 {
-    @apply mt-8 mb-4;
-  }
+    .prose h3 {
+        @apply mt-8 mb-4;
+    }
 
-  .prose p {
-    @apply mb-6 leading-relaxed;
-  }
+    .prose p {
+        @apply mb-6 leading-relaxed;
+    }
 
-  .prose ul, .prose ol {
-    @apply mb-6;
-  }
+    .prose ul,
+    .prose ol {
+        @apply mb-6;
+    }
 
-  .prose li {
-    @apply mb-2;
-  }
+    .prose li {
+        @apply mb-2;
+    }
 
-  .prose blockquote {
-    @apply my-6 pl-6 italic;
-  }
+    .prose blockquote {
+        @apply my-6 pl-6 italic;
+    }
 </style>

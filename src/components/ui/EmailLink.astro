@@ -2,25 +2,25 @@
 import ActionLink from './ActionLink.astro';
 
 interface Props {
-  email: string;
-  text?: string;
-  subject?: string;
-  body?: string;
-  variant?: 'primary' | 'secondary' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  ariaLabel?: string;
+    email: string;
+    text?: string;
+    subject?: string;
+    body?: string;
+    variant?: 'primary' | 'secondary' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    ariaLabel?: string;
 }
 
 const {
-  email,
-  text = 'Email Me',
-  subject,
-  body,
-  variant = 'primary',
-  size = 'md',
-  className = '',
-  ariaLabel = 'Send me an email',
+    email,
+    text = 'Email Me',
+    subject,
+    body,
+    variant = 'primary',
+    size = 'md',
+    className = '',
+    ariaLabel = 'Send me an email'
 } = Astro.props;
 
 // Construct mailto URL
@@ -28,18 +28,18 @@ let href = `mailto:${email}`;
 const params: string[] = [];
 
 if (subject) {
-  params.push(`subject=${encodeURIComponent(subject)}`);
+    params.push(`subject=${encodeURIComponent(subject)}`);
 }
 
 if (body) {
-  params.push(`body=${encodeURIComponent(body)}`);
+    params.push(`body=${encodeURIComponent(body)}`);
 }
 
 if (params.length > 0) {
-  href += `?${params.join('&')}`;
+    href += `?${params.join('&')}`;
 }
 ---
 
 <ActionLink href={href} variant={variant} size={size} className={className} ariaLabel={ariaLabel}>
-  {text}
+    {text}
 </ActionLink>

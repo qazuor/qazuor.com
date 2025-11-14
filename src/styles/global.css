@@ -6,570 +6,570 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Backgrounds - Light Mode (blue-gray tinted) */
-    --bg-primary: 219 21% 96%; /* Very light blue-gray */
-    --bg-secondary: 219 21% 94%; /* Light blue-gray */
-    --bg-tertiary: 219 21% 92%; /* Slightly darker blue-gray */
+    :root {
+        /* Backgrounds - Light Mode (blue-gray tinted) */
+        --bg-primary: 219 21% 96%; /* Very light blue-gray */
+        --bg-secondary: 219 21% 94%; /* Light blue-gray */
+        --bg-tertiary: 219 21% 92%; /* Slightly darker blue-gray */
 
-    /* Text - Light Mode (blue-gray tinted for harmony) */
-    --text-primary: 215 25% 15%; /* Very dark blue-gray */
-    --text-secondary: 215 20% 25%; /* Dark blue-gray */
-    --text-muted: 215 15% 35%; /* Medium blue-gray */
+        /* Text - Light Mode (blue-gray tinted for harmony) */
+        --text-primary: 215 25% 15%; /* Very dark blue-gray */
+        --text-secondary: 215 20% 25%; /* Dark blue-gray */
+        --text-muted: 215 15% 35%; /* Medium blue-gray */
 
-    /* Backgrounds - Dark Mode - Purple-blue theme */
-    --bg-primary-dark: 256 45% 6%; /* Very dark purple, almost black */
-    --bg-secondary-dark: 250 30% 10%; /* Dark purple-blue */
-    --bg-tertiary-dark: 245 25% 16%; /* Medium dark purple-blue */
+        /* Backgrounds - Dark Mode - Purple-blue theme */
+        --bg-primary-dark: 256 45% 6%; /* Very dark purple, almost black */
+        --bg-secondary-dark: 250 30% 10%; /* Dark purple-blue */
+        --bg-tertiary-dark: 245 25% 16%; /* Medium dark purple-blue */
 
-    /* Text - Dark Mode - High contrast with purple tint */
-    --text-primary-dark: 240 15% 96%; /* Almost pure white with purple tint */
-    --text-secondary-dark: 240 10% 72%; /* Light purple-gray */
-    --text-muted-dark: 240 8% 52%; /* Medium purple-gray */
+        /* Text - Dark Mode - High contrast with purple tint */
+        --text-primary-dark: 240 15% 96%; /* Almost pure white with purple tint */
+        --text-secondary-dark: 240 10% 72%; /* Light purple-gray */
+        --text-muted-dark: 240 8% 52%; /* Medium purple-gray */
 
-    /* Syntax Highlighting - Purple-blue theme */
-    --syntax-keyword: 260 70% 70%; /* Purple keywords */
-    --syntax-string: 120 40% 70%; /* Green strings */
-    --syntax-number: 40 70% 70%; /* Orange numbers */
-    --syntax-comment: 240 15% 60%; /* Purple-gray comments */
+        /* Syntax Highlighting - Purple-blue theme */
+        --syntax-keyword: 260 70% 70%; /* Purple keywords */
+        --syntax-string: 120 40% 70%; /* Green strings */
+        --syntax-number: 40 70% 70%; /* Orange numbers */
+        --syntax-comment: 240 15% 60%; /* Purple-gray comments */
 
-    /* Functional Colors */
-    --success: 0.7 0.18 150;
-    --warning: 0.75 0.2 80;
-    --error: 0.6 0.25 20;
+        /* Functional Colors */
+        --success: 0.7 0.18 150;
+        --warning: 0.75 0.2 80;
+        --error: 0.6 0.25 20;
 
-    /* Spacing (for reference in custom properties) */
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 0.75rem;
-    --space-4: 1rem;
-    --space-5: 1.25rem;
-    --space-6: 1.5rem;
-    --space-8: 2rem;
-    --space-10: 2.5rem;
-    --space-12: 3rem;
-    --space-16: 4rem;
-    --space-20: 5rem;
-    --space-24: 6rem;
-    --space-32: 8rem;
+        /* Spacing (for reference in custom properties) */
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.25rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-10: 2.5rem;
+        --space-12: 3rem;
+        --space-16: 4rem;
+        --space-20: 5rem;
+        --space-24: 6rem;
+        --space-32: 8rem;
 
-    /* Section Spacing */
-    --section-padding-mobile: var(--space-16);
-    --section-padding-desktop: var(--space-24);
-    --section-gap: var(--space-12);
+        /* Section Spacing */
+        --section-padding-mobile: var(--space-16);
+        --section-padding-desktop: var(--space-24);
+        --section-gap: var(--space-12);
 
-    /* Border Radius */
-    --radius-sm: 0.25rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-    --radius-2xl: 1.5rem;
-    --radius-full: 9999px;
+        /* Border Radius */
+        --radius-sm: 0.25rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+        --radius-2xl: 1.5rem;
+        --radius-full: 9999px;
 
-    /* Transitions */
-    --duration-fast: 150ms;
-    --duration-base: 300ms;
-    --duration-slow: 500ms;
-    --duration-slower: 700ms;
+        /* Transitions */
+        --duration-fast: 150ms;
+        --duration-base: 300ms;
+        --duration-slow: 500ms;
+        --duration-slower: 700ms;
 
-    /* Easing Functions */
-    --ease-linear: linear;
-    --ease-in: cubic-bezier(0.4, 0, 1, 1);
-    --ease-out: cubic-bezier(0, 0, 0.2, 1);
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
+        /* Easing Functions */
+        --ease-linear: linear;
+        --ease-in: cubic-bezier(0.4, 0, 1, 1);
+        --ease-out: cubic-bezier(0, 0, 0.2, 1);
+        --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+        --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
 
-    /* Shadcn/ui Light Variables - Blue-gray theme compatible */
-    --background: 219 21% 94%; /* Light blue-gray background to match sections */
-    --foreground: 215 25% 15%; /* Dark blue-gray text for contrast */
-    --card: 220 20% 96%; /* Very light blue-gray cards */
-    --card-foreground: 215 25% 15%; /* Dark blue-gray text on cards */
-    --popover: 220 20% 98%; /* Almost white popovers */
-    --popover-foreground: 215 25% 15%; /* Dark text on popovers */
-    --primary: 215 60% 40%; /* Deep blue primary matching the palette */
-    --primary-foreground: 0 0% 100%; /* White text on primary */
-    --secondary: 215 15% 85%; /* Light blue-gray secondary */
-    --secondary-foreground: 215 25% 15%; /* Dark text on secondary */
-    --muted: 215 15% 88%; /* Very light blue-gray muted */
-    --muted-foreground: 215 10% 35%; /* Medium blue-gray muted text */
-    --accent: 210 55% 50%; /* Vibrant blue accent */
-    --accent-foreground: 0 0% 100%; /* White text on accent */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 215 15% 82%; /* Light blue-gray border */
-    --input: 215 15% 90%; /* Light blue-gray input backgrounds */
-    --ring: 210 55% 50%; /* Blue focus ring */
-    --chart-1: 210 55% 50%; /* Blue charts */
-    --chart-2: 200 60% 45%;
-    --chart-3: 190 50% 55%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
+        /* Shadcn/ui Light Variables - Blue-gray theme compatible */
+        --background: 219 21% 94%; /* Light blue-gray background to match sections */
+        --foreground: 215 25% 15%; /* Dark blue-gray text for contrast */
+        --card: 220 20% 96%; /* Very light blue-gray cards */
+        --card-foreground: 215 25% 15%; /* Dark blue-gray text on cards */
+        --popover: 220 20% 98%; /* Almost white popovers */
+        --popover-foreground: 215 25% 15%; /* Dark text on popovers */
+        --primary: 215 60% 40%; /* Deep blue primary matching the palette */
+        --primary-foreground: 0 0% 100%; /* White text on primary */
+        --secondary: 215 15% 85%; /* Light blue-gray secondary */
+        --secondary-foreground: 215 25% 15%; /* Dark text on secondary */
+        --muted: 215 15% 88%; /* Very light blue-gray muted */
+        --muted-foreground: 215 10% 35%; /* Medium blue-gray muted text */
+        --accent: 210 55% 50%; /* Vibrant blue accent */
+        --accent-foreground: 0 0% 100%; /* White text on accent */
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 215 15% 82%; /* Light blue-gray border */
+        --input: 215 15% 90%; /* Light blue-gray input backgrounds */
+        --ring: 210 55% 50%; /* Blue focus ring */
+        --chart-1: 210 55% 50%; /* Blue charts */
+        --chart-2: 200 60% 45%;
+        --chart-3: 190 50% 55%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+    }
 
-  /* Dark Mode Override - Purple-blue theme matching section backgrounds */
-  .dark {
-    /* Custom Dark Mode - Purple-blue theme */
-    --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */
-    --bg-secondary: 250 30% 12%; /* Dark purple-blue for cards */
-    --bg-tertiary: 245 25% 18%; /* Slightly lighter purple for contrast */
-    --text-primary: 240 15% 95%; /* Almost pure white with purple tint */
-    --text-secondary: 240 10% 75%; /* Light purple-gray for secondary text */
-    --text-muted: 240 8% 55%; /* Medium purple-gray for muted text */
+    /* Dark Mode Override - Purple-blue theme matching section backgrounds */
+    .dark {
+        /* Custom Dark Mode - Purple-blue theme */
+        --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */
+        --bg-secondary: 250 30% 12%; /* Dark purple-blue for cards */
+        --bg-tertiary: 245 25% 18%; /* Slightly lighter purple for contrast */
+        --text-primary: 240 15% 95%; /* Almost pure white with purple tint */
+        --text-secondary: 240 10% 75%; /* Light purple-gray for secondary text */
+        --text-muted: 240 8% 55%; /* Medium purple-gray for muted text */
 
-    /* Shadcn/ui Dark Variables - Purple-blue theme */
-    --background: 256 45% 8%; /* Very dark purple background */
-    --foreground: 240 15% 95%; /* Almost white foreground with purple tint */
-    --card: 250 30% 12%; /* Dark purple-blue cards */
-    --card-foreground: 240 15% 95%; /* Light text on cards */
-    --popover: 250 30% 12%; /* Dark purple-blue popovers */
-    --popover-foreground: 240 15% 95%; /* Light text on popovers */
-    --primary: 250 60% 65%; /* Vibrant purple-blue primary */
-    --primary-foreground: 256 45% 8%; /* Dark text on bright primary */
-    --secondary: 245 25% 20%; /* Dark purple-blue secondary */
-    --secondary-foreground: 240 15% 95%; /* Light text on secondary */
-    --muted: 245 25% 15%; /* Very dark purple-blue muted */
-    --muted-foreground: 240 10% 70%; /* Light purple-gray muted text */
-    --accent: 260 70% 70%; /* Bright purple accent */
-    --accent-foreground: 256 45% 8%; /* Dark text on accent */
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 245 25% 22%; /* Dark purple border */
-    --input: 245 25% 15%; /* Dark purple input backgrounds */
-    --ring: 250 60% 65%; /* Purple-blue focus ring */
-    --chart-1: 250 60% 65%; /* Purple-blue charts */
-    --chart-2: 260 50% 60%; /* Purple charts */
-    --chart-3: 240 40% 70%; /* Light purple charts */
-    --chart-4: 280 65% 60%; /* Violet charts */
-    --chart-5: 220 55% 65%; /* Blue-purple charts */
+        /* Shadcn/ui Dark Variables - Purple-blue theme */
+        --background: 256 45% 8%; /* Very dark purple background */
+        --foreground: 240 15% 95%; /* Almost white foreground with purple tint */
+        --card: 250 30% 12%; /* Dark purple-blue cards */
+        --card-foreground: 240 15% 95%; /* Light text on cards */
+        --popover: 250 30% 12%; /* Dark purple-blue popovers */
+        --popover-foreground: 240 15% 95%; /* Light text on popovers */
+        --primary: 250 60% 65%; /* Vibrant purple-blue primary */
+        --primary-foreground: 256 45% 8%; /* Dark text on bright primary */
+        --secondary: 245 25% 20%; /* Dark purple-blue secondary */
+        --secondary-foreground: 240 15% 95%; /* Light text on secondary */
+        --muted: 245 25% 15%; /* Very dark purple-blue muted */
+        --muted-foreground: 240 10% 70%; /* Light purple-gray muted text */
+        --accent: 260 70% 70%; /* Bright purple accent */
+        --accent-foreground: 256 45% 8%; /* Dark text on accent */
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 245 25% 22%; /* Dark purple border */
+        --input: 245 25% 15%; /* Dark purple input backgrounds */
+        --ring: 250 60% 65%; /* Purple-blue focus ring */
+        --chart-1: 250 60% 65%; /* Purple-blue charts */
+        --chart-2: 260 50% 60%; /* Purple charts */
+        --chart-3: 240 40% 70%; /* Light purple charts */
+        --chart-4: 280 65% 60%; /* Violet charts */
+        --chart-5: 220 55% 65%; /* Blue-purple charts */
 
-    /* Section Background Colors - Dark Mode */
-    /* Divider Gradient Colors - Dark Mode */
-    --divider-primary: #8b5cf6; /* Purple gradient matching theme */
-    --divider-secondary: #6366f1; /* Indigo gradient */
-    --divider-accent: #3b82f6; /* Blue gradient */
-    --divider-overlay: rgba(139, 92, 246, 0.6); /* Purple overlay matching theme */
-  }
+        /* Section Background Colors - Dark Mode */
+        /* Divider Gradient Colors - Dark Mode */
+        --divider-primary: #8b5cf6; /* Purple gradient matching theme */
+        --divider-secondary: #6366f1; /* Indigo gradient */
+        --divider-accent: #3b82f6; /* Blue gradient */
+        --divider-overlay: rgba(139, 92, 246, 0.6); /* Purple overlay matching theme */
+    }
 
-  /* Base Styles */
-  * {
-    @apply border-foreground/10;
-  }
+    /* Base Styles */
+    * {
+        @apply border-foreground/10;
+    }
 
-  /* Add smooth transitions for theme switching */
-  :root {
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease,
-      border-color 0.3s ease;
-  }
+    /* Add smooth transitions for theme switching */
+    :root {
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
+    }
 
-  /* Ensure all section background changes are smooth */
-  section {
-    transition: background-color 0.3s ease;
-  }
+    /* Ensure all section background changes are smooth */
+    section {
+        transition: background-color 0.3s ease;
+    }
 
-  html {
-    @apply scroll-smooth;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+    html {
+        @apply scroll-smooth;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-  body {
-    @apply bg-background text-foreground font-sans;
-    @apply min-h-screen;
-    font-variant-ligatures: common-ligatures;
-  }
+    body {
+        @apply bg-background text-foreground font-sans;
+        @apply min-h-screen;
+        font-variant-ligatures: common-ligatures;
+    }
 
-  /* Headings */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-semibold tracking-tight;
-  }
+    /* Headings */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-semibold tracking-tight;
+    }
 
-  h1 {
-    @apply text-4xl;
-  }
+    h1 {
+        @apply text-4xl;
+    }
 
-  h2 {
-    @apply text-3xl;
-  }
+    h2 {
+        @apply text-3xl;
+    }
 
-  h3 {
-    @apply text-2xl;
-  }
+    h3 {
+        @apply text-2xl;
+    }
 
-  h4 {
-    @apply text-xl;
-  }
+    h4 {
+        @apply text-xl;
+    }
 
-  h5 {
-    @apply text-lg;
-  }
+    h5 {
+        @apply text-lg;
+    }
 
-  h6 {
-    @apply text-base;
-  }
+    h6 {
+        @apply text-base;
+    }
 
-  /* Links */
-  a {
-    @apply transition-colors duration-base;
-  }
+    /* Links */
+    a {
+        @apply transition-colors duration-base;
+    }
 
-  /* Code */
-  code,
-  pre {
-    @apply font-mono;
-  }
+    /* Code */
+    code,
+    pre {
+        @apply font-mono;
+    }
 
-  /* Focus Styles for Accessibility */
-  :focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary;
-  }
+    /* Focus Styles for Accessibility */
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-primary;
+    }
 
-  /* Selection */
-  ::selection {
-    @apply bg-primary/30 text-foreground;
-  }
+    /* Selection */
+    ::selection {
+        @apply bg-primary/30 text-foreground;
+    }
 
-  /* Scrollbar Styles (for webkit browsers) */
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
+    /* Scrollbar Styles (for webkit browsers) */
+    ::-webkit-scrollbar {
+        @apply w-2;
+    }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-background-secondary;
-  }
+    ::-webkit-scrollbar-track {
+        @apply bg-background-secondary;
+    }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-foreground-muted rounded-full;
-  }
+    ::-webkit-scrollbar-thumb {
+        @apply bg-foreground-muted rounded-full;
+    }
 
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-foreground-secondary;
-  }
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-foreground-secondary;
+    }
 }
 
 @layer components {
-  /* Gradient Text Utility - More vibrant and noticeable */
-  .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
-    background-size: 200% 100%;
-    animation: gradient-shift 8s ease infinite;
-  }
-
-  /* Enhanced gradient for section titles - even more vibrant */
-  .gradient-text-section {
-    @apply bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 dark:from-purple-300 dark:via-pink-300 dark:to-indigo-300 bg-clip-text text-transparent;
-    background-size: 150% 100%;
-    animation: gradient-shift 10s ease infinite;
-    filter: saturate(1.2);
-  }
-
-  .gradient-text-accent {
-    @apply bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 dark:from-purple-200 dark:via-pink-200 dark:to-indigo-300 bg-clip-text text-transparent;
-    background-size: 200% 100%;
-    animation: gradient-shift 6s ease infinite;
-  }
-
-  /* Alternative gradient with better light mode contrast */
-  .gradient-text-blue {
-    @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 dark:from-purple-300 dark:via-blue-300 dark:to-indigo-300 bg-clip-text text-transparent;
-    background-size: 200% 100%;
-    animation: gradient-shift 10s ease infinite;
-  }
-
-  /* Extra vibrant gradient for hero sections */
-  .gradient-text-hero {
-    @apply bg-gradient-to-r from-blue-600 via-purple-500 to-violet-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
-    background-size: 300% 100%;
-    animation: gradient-shift 12s ease infinite;
-  }
-
-  /* Gradient animation keyframes */
-  @keyframes gradient-shift {
-    0% {
-      background-position: 0% 50%;
+    /* Gradient Text Utility - More vibrant and noticeable */
+    .gradient-text {
+        @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
+        background-size: 200% 100%;
+        animation: gradient-shift 8s ease infinite;
     }
-    50% {
-      background-position: 100% 50%;
+
+    /* Enhanced gradient for section titles - even more vibrant */
+    .gradient-text-section {
+        @apply bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 dark:from-purple-300 dark:via-pink-300 dark:to-indigo-300 bg-clip-text text-transparent;
+        background-size: 150% 100%;
+        animation: gradient-shift 10s ease infinite;
+        filter: saturate(1.2);
     }
-    100% {
-      background-position: 0% 50%;
+
+    .gradient-text-accent {
+        @apply bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 dark:from-purple-200 dark:via-pink-200 dark:to-indigo-300 bg-clip-text text-transparent;
+        background-size: 200% 100%;
+        animation: gradient-shift 6s ease infinite;
     }
-  }
 
-  /* Container */
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
+    /* Alternative gradient with better light mode contrast */
+    .gradient-text-blue {
+        @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 dark:from-purple-300 dark:via-blue-300 dark:to-indigo-300 bg-clip-text text-transparent;
+        background-size: 200% 100%;
+        animation: gradient-shift 10s ease infinite;
+    }
 
-  /* Section Padding */
-  .section {
-    @apply py-16 md:py-24;
-  }
+    /* Extra vibrant gradient for hero sections */
+    .gradient-text-hero {
+        @apply bg-gradient-to-r from-blue-600 via-purple-500 to-violet-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
+        background-size: 300% 100%;
+        animation: gradient-shift 12s ease infinite;
+    }
 
-  /* Glassmorphism Effect */
-  .glass {
-    @apply bg-background/80 backdrop-blur-md border border-foreground/10;
-  }
+    /* Gradient animation keyframes */
+    @keyframes gradient-shift {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 
-  /* Button Base */
-  .btn {
-    @apply inline-flex items-center justify-center gap-2;
-    @apply px-6 py-3 rounded-lg;
-    @apply font-medium transition-all duration-base;
-    @apply focus-visible:outline-2 focus-visible:outline-offset-2;
-  }
+    /* Container */
+    .container-custom {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
 
-  .btn-primary {
-    @apply btn bg-primary text-primary-foreground;
-    @apply hover:opacity-90 hover:shadow-lg;
-  }
+    /* Section Padding */
+    .section {
+        @apply py-16 md:py-24;
+    }
 
-  .btn-secondary {
-    @apply btn bg-secondary text-secondary-foreground;
-    @apply hover:opacity-90 hover:shadow-md;
-  }
+    /* Glassmorphism Effect */
+    .glass {
+        @apply bg-background/80 backdrop-blur-md border border-foreground/10;
+    }
 
-  .btn-ghost {
-    @apply btn bg-transparent border border-border;
-    @apply hover:bg-accent/10 hover:border-accent/50 hover:text-accent;
-  }
+    /* Button Base */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2;
+        @apply px-6 py-3 rounded-lg;
+        @apply font-medium transition-all duration-base;
+        @apply focus-visible:outline-2 focus-visible:outline-offset-2;
+    }
 
-  /* Card Component */
-  .card {
-    @apply bg-card rounded-lg p-6;
-    @apply border border-border;
-    @apply shadow-sm;
-  }
+    .btn-primary {
+        @apply btn bg-primary text-primary-foreground;
+        @apply hover:opacity-90 hover:shadow-lg;
+    }
 
-  .card-hover {
-    @apply card transition-all duration-300;
-    @apply hover:shadow-md hover:border-accent/30 hover:-translate-y-1;
-  }
+    .btn-secondary {
+        @apply btn bg-secondary text-secondary-foreground;
+        @apply hover:opacity-90 hover:shadow-md;
+    }
 
-  /* Fade In Animation Utilities */
-  .fade-in {
-    @apply opacity-0 translate-y-8;
-  }
+    .btn-ghost {
+        @apply btn bg-transparent border border-border;
+        @apply hover:bg-accent/10 hover:border-accent/50 hover:text-accent;
+    }
 
-  .fade-in.visible {
-    @apply opacity-100 translate-y-0 transition-all duration-slow;
-  }
+    /* Card Component */
+    .card {
+        @apply bg-card rounded-lg p-6;
+        @apply border border-border;
+        @apply shadow-sm;
+    }
+
+    .card-hover {
+        @apply card transition-all duration-300;
+        @apply hover:shadow-md hover:border-accent/30 hover:-translate-y-1;
+    }
+
+    /* Fade In Animation Utilities */
+    .fade-in {
+        @apply opacity-0 translate-y-8;
+    }
+
+    .fade-in.visible {
+        @apply opacity-100 translate-y-0 transition-all duration-slow;
+    }
 }
 
 @layer utilities {
-  /* Text Balance for Headlines */
-  .text-balance {
-    text-wrap: balance;
-  }
+    /* Text Balance for Headlines */
+    .text-balance {
+        text-wrap: balance;
+    }
 
-  /* Hide scrollbar but keep functionality */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+    /* Hide scrollbar but keep functionality */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
 /* Mermaid Diagram Styles - Match expressive-code appearance */
 .mermaid-diagram {
-  /* Match expressive-code container */
-  margin: 1rem 0;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  background: #282a36;
-  box-shadow:
-    0 1px 3px 0 rgb(0 0 0 / 0.1),
-    0 1px 2px -1px rgb(0 0 0 / 0.1);
-  padding: 2rem;
+    /* Match expressive-code container */
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #282a36;
+    box-shadow:
+        0 1px 3px 0 rgb(0 0 0 / 0.1),
+        0 1px 2px -1px rgb(0 0 0 / 0.1);
+    padding: 2rem;
 }
 
 .mermaid-diagram .frame {
-  /* Center the diagram inside the frame */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  background: transparent;
-  width: 100%;
+    /* Center the diagram inside the frame */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    background: transparent;
+    width: 100%;
 }
 
 .mermaid-diagram .mermaid {
-  /* Remove default mermaid margins and center */
-  margin: 0 auto;
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+    /* Remove default mermaid margins and center */
+    margin: 0 auto;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .mermaid-diagram .mermaid svg {
-  /* Center the SVG itself */
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
+    /* Center the SVG itself */
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
 }
 
 /* Increase line thickness for better visibility */
 .mermaid svg .edge-thickness-normal {
-  stroke-width: 3px;
+    stroke-width: 3px;
 }
 
 .mermaid svg .edge-pattern-solid {
-  stroke-width: 3px;
+    stroke-width: 3px;
 }
 
 .mermaid svg path.path {
-  stroke-width: 3px;
+    stroke-width: 3px;
 }
 
 .mermaid svg line {
-  stroke-width: 3px;
+    stroke-width: 3px;
 }
 
 /* Improve text readability */
 .mermaid svg .nodeLabel,
 .mermaid svg .edgeLabel {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .expressive-code.mermaid-diagram figure.frame {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .expressive-code.mermaid-diagram {
-  box-shadow: var(--ec-frm-frameBoxShdCssVal);
+    box-shadow: var(--ec-frm-frameBoxShdCssVal);
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
 /* Section Separation and Visual Hierarchy */
 @layer components {
-  /* Enhanced section spacing with better visual separation */
-  .section {
-    @apply relative py-20 md:py-24 lg:py-28;
-    /* Remove any margin to avoid gaps with dividers */
-    margin: 0;
-    /* Subtle background transitions */
-    transition: background-color 0.3s ease;
-  }
+    /* Enhanced section spacing with better visual separation */
+    .section {
+        @apply relative py-20 md:py-24 lg:py-28;
+        /* Remove any margin to avoid gaps with dividers */
+        margin: 0;
+        /* Subtle background transitions */
+        transition: background-color 0.3s ease;
+    }
 
-  /* Ensure secondary sections have proper background with higher specificity */
-  section.section.bg-secondary {
-    background-color: hsl(var(--secondary));
-  }
+    /* Ensure secondary sections have proper background with higher specificity */
+    section.section.bg-secondary {
+        background-color: hsl(var(--secondary));
+    }
 
-  /* Force contrast for better visibility */
-  section.section:not(.bg-secondary) {
-    background-color: hsl(var(--background));
-  }
+    /* Force contrast for better visibility */
+    section.section:not(.bg-secondary) {
+        background-color: hsl(var(--background));
+    }
 
-  /* Section divider enhancements - IMPORTANT: Must break out of container */
-  .section-divider {
-    @apply relative z-10;
-    /* Remove all margin/padding to avoid gaps */
-    margin: 0;
-    padding: 0;
-  }
+    /* Section divider enhancements - IMPORTANT: Must break out of container */
+    .section-divider {
+        @apply relative z-10;
+        /* Remove all margin/padding to avoid gaps */
+        margin: 0;
+        padding: 0;
+    }
 
-  /* Ensure sections connect seamlessly */
-  .section + .section-divider,
-  .section-divider + .section {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+    /* Ensure sections connect seamlessly */
+    .section + .section-divider,
+    .section-divider + .section {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 
-  /* Override any global margins that might interfere */
-  .section-divider * {
-    margin: 0;
-    padding: 0;
-  }
+    /* Override any global margins that might interfere */
+    .section-divider * {
+        margin: 0;
+        padding: 0;
+    }
 
-  /* Add some debug borders (remove in production) */
-  .debug .section {
-    border: 2px solid red;
-  }
+    /* Add some debug borders (remove in production) */
+    .debug .section {
+        border: 2px solid red;
+    }
 
-  .debug .section-divider {
-    border: 2px solid blue;
-  }
+    .debug .section-divider {
+        border: 2px solid blue;
+    }
 
-  /* Improved section content spacing */
-  .section .container-custom {
-    @apply relative z-20;
-  }
+    /* Improved section content spacing */
+    .section .container-custom {
+        @apply relative z-20;
+    }
 
-  /* Section title improvements */
-  .section-title {
-    @apply mb-16 text-center;
-  }
+    /* Section title improvements */
+    .section-title {
+        @apply mb-16 text-center;
+    }
 
-  .section-title h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-4;
-  }
+    .section-title h2 {
+        @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-4;
+    }
 
-  .section-title p {
-    @apply text-foreground-secondary text-lg md:text-xl max-w-2xl mx-auto;
-  }
+    .section-title p {
+        @apply text-foreground-secondary text-lg md:text-xl max-w-2xl mx-auto;
+    }
 
-  /* Dark mode adjustments for better contrast */
-  .dark .section {
-    /* Enhance separation in dark mode */
-    border-top: 1px solid hsl(var(--border) / 0.1);
-  }
+    /* Dark mode adjustments for better contrast */
+    .dark .section {
+        /* Enhance separation in dark mode */
+        border-top: 1px solid hsl(var(--border) / 0.1);
+    }
 
-  /* Light mode subtle shadows for depth */
-  .light .section {
-    box-shadow: inset 0 1px 0 0 hsl(var(--border) / 0.05);
-  }
+    /* Light mode subtle shadows for depth */
+    .light .section {
+        box-shadow: inset 0 1px 0 0 hsl(var(--border) / 0.05);
+    }
 
-  /* Scroll animations enhancement */
-  .scroll-fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease;
-  }
+    /* Scroll animations enhancement */
+    .scroll-fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+            opacity 0.6s ease,
+            transform 0.6s ease;
+    }
 
-  .scroll-fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    .scroll-fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-  /* Timeline styles */
-  .timeline-dot.active {
-    background-color: rgb(59 130 246);
-    transform: scale(1.25);
-  }
+    /* Timeline styles */
+    .timeline-dot.active {
+        background-color: rgb(59 130 246);
+        transform: scale(1.25);
+    }
 
-  /* Hide scrollbar utility class */
-  .scrollbar-hide {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
+    /* Hide scrollbar utility class */
+    .scrollbar-hide {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
-  }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
 }

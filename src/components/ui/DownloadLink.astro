@@ -1,22 +1,22 @@
 ---
 interface Props {
-  href?: string;
-  text?: string;
-  variant?: 'primary' | 'secondary' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  ariaLabel?: string;
-  downloadFilename?: string;
+    href?: string;
+    text?: string;
+    variant?: 'primary' | 'secondary' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    ariaLabel?: string;
+    downloadFilename?: string;
 }
 
 const {
-  href = '#',
-  text = 'Download',
-  variant = 'secondary',
-  size = 'md',
-  className = '',
-  ariaLabel = 'Download file',
-  downloadFilename,
+    href = '#',
+    text = 'Download',
+    variant = 'secondary',
+    size = 'md',
+    className = '',
+    ariaLabel = 'Download file',
+    downloadFilename
 } = Astro.props;
 
 // Add download attribute if filename is provided
@@ -24,17 +24,11 @@ const downloadProps = downloadFilename ? { download: downloadFilename } : {};
 ---
 
 <a
-  href={href}
-  class={`btn ${
-    variant === 'primary' ? 'btn-primary' : variant === 'secondary' ? 'btn-secondary' : 'btn-ghost'
-  } ${
-    size === 'sm'
-      ? 'px-4 py-2 text-sm'
-      : size === 'lg'
-        ? 'px-8 py-4 text-lg'
-        : 'px-6 py-3 text-base'
-  } ${className}`}
-  aria-label={ariaLabel}
-  {...downloadProps}
-  set:html={text}
+    href={href}
+    class={`btn ${variant === 'primary' ? 'btn-primary' : variant === 'secondary' ? 'btn-secondary' : 'btn-ghost'} ${
+        size === 'sm' ? 'px-4 py-2 text-sm' : size === 'lg' ? 'px-8 py-4 text-lg' : 'px-6 py-3 text-base'
+    } ${className}`}
+    aria-label={ariaLabel}
+    {...downloadProps}
+    set:html={text}
 />

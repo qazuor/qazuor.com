@@ -1,42 +1,42 @@
 ---
 interface Props {
-  text: string;
-  element?: 'h3' | 'h4' | 'h5' | 'h6';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  className?: string;
-  variant?: 'default' | 'card' | 'story' | 'accent';
-  as?: 'span' | 'div';
-  href?: string;
-  target?: string;
-  showHtml?: boolean;
+    text: string;
+    element?: 'h3' | 'h4' | 'h5' | 'h6';
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    className?: string;
+    variant?: 'default' | 'card' | 'story' | 'accent';
+    as?: 'span' | 'div';
+    href?: string;
+    target?: string;
+    showHtml?: boolean;
 }
 
 const {
-  text,
-  element = 'h3',
-  size = 'md',
-  className = '',
-  variant = 'default',
-  as,
-  href,
-  target = '_self',
-  showHtml = true,
+    text,
+    element = 'h3',
+    size = 'md',
+    className = '',
+    variant = 'default',
+    as,
+    href,
+    target = '_self',
+    showHtml = true
 } = Astro.props as Props;
 
 // Size configurations
 const sizeClasses = {
-  sm: 'text-lg',
-  md: 'text-xl',
-  lg: 'text-2xl',
-  xl: 'text-3xl',
+    sm: 'text-lg',
+    md: 'text-xl',
+    lg: 'text-2xl',
+    xl: 'text-3xl'
 };
 
 // Variant configurations
 const variantClasses = {
-  default: 'font-bold text-foreground',
-  card: 'font-bold text-foreground group-hover:text-primary transition-colors duration-300',
-  story: 'font-semibold text-foreground',
-  accent: 'font-semibold text-foreground truncate',
+    default: 'font-bold text-foreground',
+    card: 'font-bold text-foreground group-hover:text-primary transition-colors duration-300',
+    story: 'font-semibold text-foreground',
+    accent: 'font-semibold text-foreground truncate'
 };
 
 // Build classes
@@ -47,13 +47,13 @@ const Element = as || element;
 ---
 
 {
-  href ? (
-    <Element class={baseClasses}>
-      <a href={href} target={target} class="hover:underline">
-        {showHtml ? <span set:html={text} /> : text}
-      </a>
-    </Element>
-  ) : (
-    <Element class={baseClasses}>{showHtml ? <span set:html={text} /> : text}</Element>
-  )
+    href ? (
+        <Element class={baseClasses}>
+            <a href={href} target={target} class="hover:underline">
+                {showHtml ? <span set:html={text} /> : text}
+            </a>
+        </Element>
+    ) : (
+        <Element class={baseClasses}>{showHtml ? <span set:html={text} /> : text}</Element>
+    )
 }

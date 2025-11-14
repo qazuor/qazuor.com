@@ -2,33 +2,33 @@
 import ActionLink from './ActionLink.astro';
 
 interface Props {
-  href: string;
-  text?: string;
-  variant?: 'primary' | 'secondary' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  ariaLabel?: string;
-  external?: boolean;
+    href: string;
+    text?: string;
+    variant?: 'primary' | 'secondary' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    ariaLabel?: string;
+    external?: boolean;
 }
 
 const {
-  href,
-  text = 'View Project',
-  variant = 'primary',
-  size = 'sm',
-  className = '',
-  ariaLabel = 'View project details',
-  external = false,
+    href,
+    text = 'View Project',
+    variant = 'primary',
+    size = 'sm',
+    className = '',
+    ariaLabel = 'View project details',
+    external = false
 } = Astro.props;
 ---
 
 <ActionLink
-  href={href}
-  variant={variant}
-  size={size}
-  className={className}
-  ariaLabel={ariaLabel}
-  target={external ? '_blank' : '_self'}
+    href={href}
+    variant={variant}
+    size={size}
+    className={className}
+    ariaLabel={ariaLabel}
+    target={external ? '_blank' : '_self'}
 >
-  {text}
+    {text}
 </ActionLink>

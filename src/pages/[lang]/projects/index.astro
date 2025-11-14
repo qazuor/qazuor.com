@@ -9,9 +9,9 @@ import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
-    params: { lang },
-  }));
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -21,13 +21,13 @@ const allProjects = await getCollection('projects');
 
 // Sort projects by order field, then by date
 const sortedProjects = allProjects
-  .sort((a, b) => {
-    if (a.data.order !== b.data.order) {
-      return a.data.order - b.data.order;
-    }
-    return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-  })
-  .slice(0, 6); // Show top 6 projects
+    .sort((a, b) => {
+        if (a.data.order !== b.data.order) {
+            return a.data.order - b.data.order;
+        }
+        return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+    })
+    .slice(0, 6); // Show top 6 projects
 
 const t = getTranslations(lang);
 
@@ -35,48 +35,44 @@ const title = `${t('projects.title')} - qazuor.com`;
 ---
 
 <BaseLayout title={title}>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <!-- Header with scroll animation -->
-    <ScrollAnimatedSection
-      client:load
-      title={t('projects.title')}
-      description={t('projects.subtitle')}
-    />
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Header with scroll animation -->
+        <ScrollAnimatedSection client:load title={t('projects.title')} description={t('projects.subtitle')} />
 
-    <!-- Projects Grid with staggered animations -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-      {
-        sortedProjects.map((project) => (
-          <ProjectCard
-            client:load
-            title={project.data.title}
-            description={project.data.description}
-            tags={project.data.tags}
-            featured={project.data.featured}
-            demoUrl={project.data.demoUrl}
-            codeUrl={project.data.codeUrl}
-          />
-        ))
-      }
-    </div>
+        <!-- Projects Grid with staggered animations -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {
+                sortedProjects.map((project) => (
+                    <ProjectCard
+                        client:load
+                        title={project.data.title}
+                        description={project.data.description}
+                        tags={project.data.tags}
+                        featured={project.data.featured}
+                        demoUrl={project.data.demoUrl}
+                        codeUrl={project.data.codeUrl}
+                    />
+                ))
+            }
+        </div>
 
-    <!-- Call to Action with Tailwind animation -->
-    <div class="mt-20 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700">
-      <div class="bg-primary rounded-2xl p-8 md:p-12 text-center text-primary-foreground">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Want to work together?</h2>
-        <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
-          I'm always open to discussing new projects, creative ideas, or opportunities to be part of
-          your visions.
-        </p>
-        <EmailLink
-          email={contact.email}
-          text="Get in Touch"
-          subject="Let's work together!"
-          body="Hi! I'd love to discuss a potential project with you."
-          variant="ghost"
-          className="bg-background text-foreground hover:bg-background/90"
-        />
-      </div>
+        <!-- Call to Action with Tailwind animation -->
+        <div class="mt-20 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700">
+            <div class="bg-primary rounded-2xl p-8 md:p-12 text-center text-primary-foreground">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Want to work together?</h2>
+                <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of your
+                    visions.
+                </p>
+                <EmailLink
+                    email={contact.email}
+                    text="Get in Touch"
+                    subject="Let's work together!"
+                    body="Hi! I'd love to discuss a potential project with you."
+                    variant="ghost"
+                    className="bg-background text-foreground hover:bg-background/90"
+                />
+            </div>
+        </div>
     </div>
-  </div>
 </BaseLayout>

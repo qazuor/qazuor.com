@@ -8,138 +8,133 @@ import { TypeItText } from '../ui/TypeItText';
 import ViewProjectsLink from '../ui/ViewProjectsLink.astro';
 
 interface Props {
-  primaryColor?: string;
-  name?: string;
-  iBuild?: string[];
-  roles?: string[];
-  subtitle?: string;
-  translations?: {
-    iBuildText: string;
-    viewProjects: string;
-    getInTouch: string;
-    downloadResume: string;
-    scroll: string;
-  };
-  ariaLabels?: {
-    github: string;
-    linkedin: string;
-    fiverr: string;
-    upwork: string;
-  };
+    primaryColor?: string;
+    name?: string;
+    iBuild?: string[];
+    roles?: string[];
+    subtitle?: string;
+    translations?: {
+        iBuildText: string;
+        viewProjects: string;
+        getInTouch: string;
+        downloadResume: string;
+        scroll: string;
+    };
+    ariaLabels?: {
+        github: string;
+        linkedin: string;
+        fiverr: string;
+        upwork: string;
+    };
 }
 
 const {
-  primaryColor = '#1a1a1a',
-  name = 'qazuor',
-  iBuild = [
-    'scalable web apps',
-    'beautiful digital products',
-    'fast, modern websites',
-    'brands with identity',
-    'clean and smart UIs',
-    'tools that make life easier',
-    'designs that code themselves (almost)',
-  ],
-  roles = ['Full-Stack Developer', 'Frontend Developer', 'UI/UX Designer'],
-  subtitle = 'Building beautiful, performant, and accessible web experiences',
-  translations = {
-    iBuildText: 'I build',
-    viewProjects: 'View Projects',
-    getInTouch: 'Get in Touch',
-    downloadResume: 'Download Resume',
-    scroll: 'Scroll',
-  },
-  ariaLabels = {
-    github: 'GitHub',
-    linkedin: 'LinkedIn',
-    fiverr: 'Fiverr',
-    upwork: 'Upwork',
-  },
+    primaryColor = '#1a1a1a',
+    name = 'qazuor',
+    iBuild = [
+        'scalable web apps',
+        'beautiful digital products',
+        'fast, modern websites',
+        'brands with identity',
+        'clean and smart UIs',
+        'tools that make life easier',
+        'designs that code themselves (almost)'
+    ],
+    roles = ['Full-Stack Developer', 'Frontend Developer', 'UI/UX Designer'],
+    subtitle = 'Building beautiful, performant, and accessible web experiences',
+    translations = {
+        iBuildText: 'I build',
+        viewProjects: 'View Projects',
+        getInTouch: 'Get in Touch',
+        downloadResume: 'Download Resume',
+        scroll: 'Scroll'
+    },
+    ariaLabels = {
+        github: 'GitHub',
+        linkedin: 'LinkedIn',
+        fiverr: 'Fiverr',
+        upwork: 'Upwork'
+    }
 } = Astro.props;
 ---
 
 <section
-  class="relative flex items-center justify-center overflow-hidden hero-section pt-8 lg:pt-0"
-  id="hero"
-  style={`background-color: ${primaryColor}; min-height: calc(100vh - 60px);`}
+    class="relative flex items-center justify-center overflow-hidden hero-section pt-8 lg:pt-0"
+    id="hero"
+    style={`background-color: ${primaryColor}; min-height: calc(100vh - 60px);`}
 >
-  <div class="container-custom overflow-x-visible">
-    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-      <!-- Text Content -->
-      <div class="space-y-4 lg:space-y-6 overflow-visible">
-        <!-- Hero Title -->
-        <div class="hero-element pb-3 lg:pb-5">
-          <h1 class="text-3xl md:text-5xl lg:text-7xl font-black tracking-tight">
-            <span class="gradient-text-hero">{name}</span>
-          </h1>
+    <div class="container-custom overflow-x-visible">
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <!-- Text Content -->
+            <div class="space-y-4 lg:space-y-6 overflow-visible">
+                <!-- Hero Title -->
+                <div class="hero-element pb-3 lg:pb-5">
+                    <h1 class="text-3xl md:text-5xl lg:text-7xl font-black tracking-tight">
+                        <span class="gradient-text-hero">{name}</span>
+                    </h1>
+                </div>
+
+                <!-- Animated Text with TypeIt -->
+                <div class="hero-element">
+                    <div
+                        class="text-lg md:text-xl lg:text-lg font-semibold text-foreground min-h-[2.5rem] lg:min-h-[3rem]"
+                    >
+                        <span class="text-foreground-secondary">{translations.iBuildText}</span>
+                        <TypeItText texts={iBuild} className="text-primary font-sometype" html={true} client:load />
+                    </div>
+                </div>
+
+                <!-- Subtitle -->
+                <p
+                    class="hero-element text-sm md:text-base lg:text-lg text-foreground-secondary max-w-2xl text-balance"
+                    set:html={subtitle}
+                />
+
+                <!-- CTA Buttons -->
+                <div class="hero-element flex flex-wrap gap-2 lg:gap-4">
+                    <ViewProjectsLink
+                        text={translations.viewProjects}
+                        size="sm"
+                        className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+                    />
+                    <GetInTouchLink
+                        text={translations.getInTouch}
+                        size="sm"
+                        className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+                    />
+                    <DownloadLink
+                        href="/files/qazuor_resume.pdf"
+                        text={translations.downloadResume}
+                        variant="ghost"
+                        size="sm"
+                        className="bg-background text-foreground hover:bg-background/90 !px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+                        ariaLabel={translations.downloadResume}
+                    />
+                </div>
+
+                <!-- Social Links -->
+                <div class="hero-element">
+                    <SocialLinks ariaLabels={ariaLabels} />
+                </div>
+
+                <!-- Scroll Indicator (only visible on desktop in flow) -->
+                <div class="hero-element mr-10 hidden lg:block">
+                    <ScrollIndicator text={translations.scroll} />
+                </div>
+
+                <!-- Hero Avatar for Mobile (below text content) -->
+                <div class="lg:hidden relative bottom-12 right-2">
+                    <HeroAvatar name={name} roles={roles} className="mobile-avatar" />
+                </div>
+            </div>
+
+            <!-- Hero Avatar for Desktop -->
+            <HeroAvatar name={name} roles={roles} className="desktop-avatar" />
         </div>
 
-        <!-- Animated Text with TypeIt -->
-        <div class="hero-element">
-          <div
-            class="text-lg md:text-xl lg:text-lg font-semibold text-foreground min-h-[2.5rem] lg:min-h-[3rem]"
-          >
-            <span class="text-foreground-secondary">{translations.iBuildText}</span>
-            <TypeItText
-              texts={iBuild}
-              className="text-primary font-sometype"
-              html={true}
-              client:load
-            />
-          </div>
+        <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->
+        <div class="lg:hidden absolute bottom-16 left-2 z-30">
+            <ScrollIndicator text={translations.scroll} />
         </div>
-
-        <!-- Subtitle -->
-        <p
-          class="hero-element text-sm md:text-base lg:text-lg text-foreground-secondary max-w-2xl text-balance"
-          set:html={subtitle}
-        />
-
-        <!-- CTA Buttons -->
-        <div class="hero-element flex flex-wrap gap-2 lg:gap-4">
-          <ViewProjectsLink
-            text={translations.viewProjects}
-            size="sm"
-            className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
-          />
-          <GetInTouchLink
-            text={translations.getInTouch}
-            size="sm"
-            className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
-          />
-          <DownloadLink
-            href="/files/qazuor_resume.pdf"
-            text={translations.downloadResume}
-            variant="ghost"
-            size="sm"
-            className="bg-background text-foreground hover:bg-background/90 !px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
-            ariaLabel={translations.downloadResume}
-          />
-        </div>
-
-        <!-- Social Links -->
-        <div class="hero-element">
-          <SocialLinks ariaLabels={ariaLabels} />
-        </div>
-
-        <!-- Scroll Indicator (only visible on desktop in flow) -->
-        <div class="hero-element mr-10 hidden lg:block">
-          <ScrollIndicator text={translations.scroll} />
-        </div>
-
-        <!-- Hero Avatar for Mobile (below text content) -->
-        <div class="lg:hidden relative bottom-12 right-2">
-          <HeroAvatar name={name} roles={roles} className="mobile-avatar" />
-        </div>
-      </div>
-
-      <!-- Hero Avatar for Desktop -->
-      <HeroAvatar name={name} roles={roles} className="desktop-avatar" />
     </div>
-
-    <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->
-    <div class="lg:hidden absolute bottom-16 left-2 z-30">
-      <ScrollIndicator text={translations.scroll} />
-    </div>
-  </div>
 </section>

@@ -105,200 +105,200 @@
 
 /* Sans Serif fonts */
 .font-roboto {
-  font-family: "Roboto", sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .font-signika {
-  font-family: "Signika", sans-serif;
+    font-family: "Signika", sans-serif;
 }
 
 .font-gabarito {
-  font-family: "Gabarito", sans-serif;
+    font-family: "Gabarito", sans-serif;
 }
 
 /* Monospace fonts */
 .font-fira-code {
-  font-family: "Fira Code", monospace;
+    font-family: "Fira Code", monospace;
 }
 
 .font-jetbrains {
-  font-family: "JetBrains Mono", monospace;
+    font-family: "JetBrains Mono", monospace;
 }
 
 .font-sometype {
-  font-family: "Sometype Mono", monospace;
+    font-family: "Sometype Mono", monospace;
 }
 
 /* Display/Creative fonts */
 .font-alkatra {
-  font-family: "Alkatra", sans-serif;
+    font-family: "Alkatra", sans-serif;
 }
 
 .font-sansita {
-  font-family: "Sansita Swashed", cursive;
+    font-family: "Sansita Swashed", cursive;
 }
 
 .font-merienda {
-  font-family: "Merienda", cursive;
+    font-family: "Merienda", cursive;
 }
 
 .font-fredoka {
-  font-family: "Fredoka", sans-serif;
+    font-family: "Fredoka", sans-serif;
 }
 
 .font-unbounded {
-  font-family: "Unbounded", sans-serif;
+    font-family: "Unbounded", sans-serif;
 }
 
 .font-grandstander {
-  font-family: "Grandstander", cursive;
+    font-family: "Grandstander", cursive;
 }
 
 /* Handwritten fonts */
 .font-shantell {
-  font-family: "Shantell Sans", cursive;
+    font-family: "Shantell Sans", cursive;
 }
 
 .font-playwrite {
-  font-family: "Playwrite AU VIC", cursive;
+    font-family: "Playwrite AU VIC", cursive;
 }
 
 .font-playpen {
-  font-family: "Playpen Sans", cursive;
+    font-family: "Playpen Sans", cursive;
 }
 
 .font-caveat {
-  font-family: "Caveat", cursive;
+    font-family: "Caveat", cursive;
 }
 
 /* Utility classes for quick testing */
 
 /* Bold weight variants */
 .font-roboto-bold {
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
 }
 .font-signika-bold {
-  font-family: "Signika", sans-serif;
-  font-weight: 700;
+    font-family: "Signika", sans-serif;
+    font-weight: 700;
 }
 .font-gabarito-bold {
-  font-family: "Gabarito", sans-serif;
-  font-weight: 800;
+    font-family: "Gabarito", sans-serif;
+    font-weight: 800;
 }
 
 .font-fira-bold {
-  font-family: "Fira Code", monospace;
-  font-weight: 700;
+    font-family: "Fira Code", monospace;
+    font-weight: 700;
 }
 .font-jetbrains-bold {
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 700;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
 }
 .font-sometype-bold {
-  font-family: "Sometype Mono", monospace;
-  font-weight: 700;
+    font-family: "Sometype Mono", monospace;
+    font-weight: 700;
 }
 
 .font-alkatra-bold {
-  font-family: "Alkatra", sans-serif;
-  font-weight: 700;
+    font-family: "Alkatra", sans-serif;
+    font-weight: 700;
 }
 .font-sansita-bold {
-  font-family: "Sansita Swashed", cursive;
-  font-weight: 700;
+    font-family: "Sansita Swashed", cursive;
+    font-weight: 700;
 }
 .font-merienda-bold {
-  font-family: "Merienda", cursive;
-  font-weight: 700;
+    font-family: "Merienda", cursive;
+    font-weight: 700;
 }
 .font-fredoka-bold {
-  font-family: "Fredoka", sans-serif;
-  font-weight: 700;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
 }
 .font-unbounded-bold {
-  font-family: "Unbounded", sans-serif;
-  font-weight: 800;
+    font-family: "Unbounded", sans-serif;
+    font-weight: 800;
 }
 .font-grandstander-bold {
-  font-family: "Grandstander", cursive;
-  font-weight: 800;
+    font-family: "Grandstander", cursive;
+    font-weight: 800;
 }
 
 .font-shantell-bold {
-  font-family: "Shantell Sans", cursive;
-  font-weight: 700;
+    font-family: "Shantell Sans", cursive;
+    font-weight: 700;
 }
 .font-playpen-bold {
-  font-family: "Playpen Sans", cursive;
-  font-weight: 700;
+    font-family: "Playpen Sans", cursive;
+    font-weight: 700;
 }
 .font-caveat-bold {
-  font-family: "Caveat", cursive;
-  font-weight: 700;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
 }
 
 /* Medium weight variants */
 .font-roboto-medium {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
 }
 .font-signika-medium {
-  font-family: "Signika", sans-serif;
-  font-weight: 500;
+    font-family: "Signika", sans-serif;
+    font-weight: 500;
 }
 .font-gabarito-medium {
-  font-family: "Gabarito", sans-serif;
-  font-weight: 600;
+    font-family: "Gabarito", sans-serif;
+    font-weight: 600;
 }
 
 .font-fira-medium {
-  font-family: "Fira Code", monospace;
-  font-weight: 500;
+    font-family: "Fira Code", monospace;
+    font-weight: 500;
 }
 .font-jetbrains-medium {
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 500;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
 }
 .font-sometype-medium {
-  font-family: "Sometype Mono", monospace;
-  font-weight: 500;
+    font-family: "Sometype Mono", monospace;
+    font-weight: 500;
 }
 
 .font-alkatra-medium {
-  font-family: "Alkatra", sans-serif;
-  font-weight: 500;
+    font-family: "Alkatra", sans-serif;
+    font-weight: 500;
 }
 .font-sansita-medium {
-  font-family: "Sansita Swashed", cursive;
-  font-weight: 500;
+    font-family: "Sansita Swashed", cursive;
+    font-weight: 500;
 }
 .font-merienda-medium {
-  font-family: "Merienda", cursive;
-  font-weight: 500;
+    font-family: "Merienda", cursive;
+    font-weight: 500;
 }
 .font-fredoka-medium {
-  font-family: "Fredoka", sans-serif;
-  font-weight: 500;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 500;
 }
 .font-unbounded-medium {
-  font-family: "Unbounded", sans-serif;
-  font-weight: 600;
+    font-family: "Unbounded", sans-serif;
+    font-weight: 600;
 }
 .font-grandstander-medium {
-  font-family: "Grandstander", cursive;
-  font-weight: 600;
+    font-family: "Grandstander", cursive;
+    font-weight: 600;
 }
 
 .font-shantell-medium {
-  font-family: "Shantell Sans", cursive;
-  font-weight: 500;
+    font-family: "Shantell Sans", cursive;
+    font-weight: 500;
 }
 .font-playpen-medium {
-  font-family: "Playpen Sans", cursive;
-  font-weight: 500;
+    font-family: "Playpen Sans", cursive;
+    font-weight: 500;
 }
 .font-caveat-medium {
-  font-family: "Caveat", cursive;
-  font-weight: 500;
+    font-family: "Caveat", cursive;
+    font-weight: 500;
 }

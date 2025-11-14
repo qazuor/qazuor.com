@@ -29,43 +29,43 @@ import { languages } from '../i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
 
 interface Props {
-  title: string;
-  description?: string;
-  image?: string;
-  imageAlt?: string;
-  type?: 'website' | 'article' | 'profile';
-  keywords?: string[];
-  publishDate?: string;
-  modifiedDate?: string;
-  articleTags?: string[];
-  noindex?: boolean;
-  author?: string;
-  jobTitle?: string;
-  socialLinks?: {
-    github?: string;
-    linkedin?: string;
-    fiverr?: string;
-    upwork?: string;
-  };
+    title: string;
+    description?: string;
+    image?: string;
+    imageAlt?: string;
+    type?: 'website' | 'article' | 'profile';
+    keywords?: string[];
+    publishDate?: string;
+    modifiedDate?: string;
+    articleTags?: string[];
+    noindex?: boolean;
+    author?: string;
+    jobTitle?: string;
+    socialLinks?: {
+        github?: string;
+        linkedin?: string;
+        fiverr?: string;
+        upwork?: string;
+    };
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
 const {
-  title,
-  description = t('home.description'),
-  image,
-  imageAlt,
-  type = 'website',
-  keywords = [],
-  publishDate,
-  modifiedDate,
-  articleTags = [],
-  noindex = false,
-  author,
-  jobTitle,
-  socialLinks,
+    title,
+    description = t('home.description'),
+    image,
+    imageAlt,
+    type = 'website',
+    keywords = [],
+    publishDate,
+    modifiedDate,
+    articleTags = [],
+    noindex = false,
+    author,
+    jobTitle,
+    socialLinks
 } = Astro.props;
 
 // Get current route without locale
@@ -74,233 +74,233 @@ const route = getRouteFromUrl(Astro.url);
 // Generate alternate language links
 const locales = Object.keys(languages);
 const alternateLinks = locales.map((locale) => {
-  const path = `/${locale}${route}`;
-  return { locale, path };
+    const path = `/${locale}${route}`;
+    return { locale, path };
 });
 ---
 
 <!doctype html>
 <html lang={lang} class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content={Astro.generator} />
 
-    <!-- SEO Component -->
-    <SEO
-      title={title}
-      description={description}
-      image={image}
-      imageAlt={imageAlt}
-      type={type}
-      keywords={keywords}
-      locale={lang}
-      publishDate={publishDate}
-      modifiedDate={modifiedDate}
-      articleTags={articleTags}
-      noindex={noindex}
-      author={author}
-      jobTitle={jobTitle}
-      socialLinks={socialLinks}
-    />
+        <!-- SEO Component -->
+        <SEO
+            title={title}
+            description={description}
+            image={image}
+            imageAlt={imageAlt}
+            type={type}
+            keywords={keywords}
+            locale={lang}
+            publishDate={publishDate}
+            modifiedDate={modifiedDate}
+            articleTags={articleTags}
+            noindex={noindex}
+            author={author}
+            jobTitle={jobTitle}
+            socialLinks={socialLinks}
+        />
 
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+        <!-- Favicons -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+        <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Alternate language links -->
-    {
-      alternateLinks.map(({ locale, path }) => (
-        <link rel="alternate" hreflang={locale} href={`${Astro.site || ''}${path}`} />
-      ))
-    }
-
-    <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
-    <script is:inline>
-      const theme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (theme === 'dark' || (!theme && prefersDark)) {
-        document.documentElement.classList.add('dark');
-      } else if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
-  </head>
-  <body>
-    <!-- Smooth Scroll Integration -->
-    <SmoothScroll client:only="react" />
-
-    <!-- Command Palette (Ctrl+K) -->
-    <CommandPalette
-      client:only="react"
-      lang={lang}
-      ariaLabel={t('aria.closeCommandPalette')}
-      placeholder={t('aria.commandPalettePlaceholder')}
-      socialLinks={{
-        github: contact.social.github,
-        linkedin: contact.social.linkedin,
-        fiverr: contact.social.fiverr,
-        upwork: contact.social.upwork,
-      }}
-    />
-
-    <!-- Scroll to Top Button -->
-    <ScrollToTop client:load ariaLabel={t('aria.scrollToTop')} />
-
-    <Navigation />
-
-    <main class="min-h-screen">
-      <slot />
-    </main>
-
-    <!-- New Footer Component -->
-    <Footer lang={lang} />
-
-    <!-- Mermaid Diagram Renderer -->
-    <script type="module" is:inline>
-      // Simple approach: load mermaid synchronously and handle errors gracefully
-      document.addEventListener('DOMContentLoaded', async () => {
-        try {
-          // Try to load mermaid
-          const mermaidModule = await import(
-            'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
-          );
-          const mermaid = mermaidModule.default || mermaidModule;
-
-          // Initialize Mermaid
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: 'dark',
-            themeVariables: {
-              primaryColor: '#8b5cf6',
-              primaryTextColor: '#f3f4f6',
-              primaryBorderColor: '#8b5cf6',
-              lineColor: '#22d3ee',
-              secondaryColor: '#1e293b',
-              tertiaryColor: '#334155',
-              background: '#1e293b',
-              mainBkg: '#1e293b',
-              secondaryBkg: '#334155',
-              textColor: '#f3f4f6',
-              fontSize: '16px',
-              fontFamily: 'Inter, system-ui, sans-serif',
-              edgeLabelBackground: '#1e293b',
-              labelBackground: '#1e293b',
-              labelColor: '#f3f4f6',
-            },
-            flowchart: {
-              curve: 'basis',
-              lineWidth: 3,
-              padding: 20,
-              diagramPadding: 8,
-              htmlLabels: true,
-              rankSpacing: 50,
-              nodeSpacing: 50,
-            },
-            securityLevel: 'loose',
-          });
-
-          // Process mermaid blocks
-          const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
-
-          if (mermaidBlocks.length === 0) return;
-
-          // First, preserve expressive-code assets from the first block
-          const firstExpressiveContainer = document.querySelector('.expressive-code');
-          let expressiveCodeAssets = null;
-
-          if (firstExpressiveContainer) {
-            const linkTag = firstExpressiveContainer.querySelector('link[rel="stylesheet"]');
-            const scriptTag = firstExpressiveContainer.querySelector('script[type="module"]');
-
-            if (linkTag || scriptTag) {
-              expressiveCodeAssets = {
-                link: linkTag?.cloneNode(true),
-                script: scriptTag?.cloneNode(true),
-              };
-            }
-          }
-
-          mermaidBlocks.forEach((pre, index) => {
-            const expressiveContainer = pre.closest('.expressive-code');
-            const copyButton = expressiveContainer?.querySelector('.copy button[data-code]');
-            let code = copyButton?.getAttribute('data-code') || '';
-
-            if (!code) return;
-
-            // Fix expressive-code formatting
-            code = code.replace(/    /g, '\n').replace(/\u007f/g, '\n');
-            code = code.replace(/graph\s+(LR|RL)/gi, 'graph TD');
-            code = code.replace(/flowchart\s+(LR|RL)/gi, 'flowchart TD');
-
-            // Create mermaid container
-            const container = document.createElement('div');
-            container.className = 'expressive-code mermaid-diagram';
-
-            // If this is the first mermaid block, preserve the assets
-            if (index === 0 && expressiveCodeAssets) {
-              if (expressiveCodeAssets.link) {
-                container.appendChild(expressiveCodeAssets.link);
-              }
-              if (expressiveCodeAssets.script) {
-                container.appendChild(expressiveCodeAssets.script);
-              }
-            }
-
-            const figure = document.createElement('figure');
-            figure.className = 'frame';
-
-            const mermaidDiv = document.createElement('div');
-            mermaidDiv.className = 'mermaid';
-            mermaidDiv.textContent = code;
-
-            figure.appendChild(mermaidDiv);
-            container.appendChild(figure);
-
-            if (expressiveContainer) {
-              expressiveContainer.replaceWith(container);
-            } else {
-              pre.replaceWith(container);
-            }
-          });
-
-          // Render diagrams
-          await mermaid.run();
-
-          // Style edge labels
-          document.querySelectorAll('.mermaid svg g.edgeLabel').forEach((label) => {
-            const rect = label.querySelector('rect');
-            if (rect) {
-              const currentWidth = parseFloat(rect.getAttribute('width') || '0');
-              const currentHeight = parseFloat(rect.getAttribute('height') || '0');
-              const currentX = parseFloat(rect.getAttribute('x') || '0');
-              const currentY = parseFloat(rect.getAttribute('y') || '0');
-
-              const padding = 8;
-              rect.setAttribute('width', String(currentWidth + padding * 2));
-              rect.setAttribute('height', String(currentHeight + padding * 2));
-              rect.setAttribute('x', String(currentX - padding));
-              rect.setAttribute('y', String(currentY - padding));
-              rect.setAttribute('rx', '4');
-              rect.setAttribute('ry', '4');
-              rect.setAttribute('fill', '#1e293b');
-              rect.setAttribute('stroke', '#8b5cf6');
-              rect.setAttribute('stroke-width', '1');
-            }
-          });
-        } catch (error) {
-          console.error('Mermaid failed to load:', error);
+        <!-- Alternate language links -->
+        {
+            alternateLinks.map(({ locale, path }) => (
+                <link rel="alternate" hreflang={locale} href={`${Astro.site || ''}${path}`} />
+            ))
         }
-      });
-    </script>
 
-    {/* Analytics and scripts can be added here */}
-  </body>
+        <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
+        <script is:inline>
+            const theme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (theme === 'dark' || (!theme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else if (theme === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Smooth Scroll Integration -->
+        <SmoothScroll client:only="react" />
+
+        <!-- Command Palette (Ctrl+K) -->
+        <CommandPalette
+            client:only="react"
+            lang={lang}
+            ariaLabel={t('aria.closeCommandPalette')}
+            placeholder={t('aria.commandPalettePlaceholder')}
+            socialLinks={{
+                github: contact.social.github,
+                linkedin: contact.social.linkedin,
+                fiverr: contact.social.fiverr,
+                upwork: contact.social.upwork
+            }}
+        />
+
+        <!-- Scroll to Top Button -->
+        <ScrollToTop client:load ariaLabel={t('aria.scrollToTop')} />
+
+        <Navigation />
+
+        <main class="min-h-screen">
+            <slot />
+        </main>
+
+        <!-- New Footer Component -->
+        <Footer lang={lang} />
+
+        <!-- Mermaid Diagram Renderer -->
+        <script type="module" is:inline>
+            // Simple approach: load mermaid synchronously and handle errors gracefully
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    // Try to load mermaid
+                    const mermaidModule = await import(
+                        'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
+                    );
+                    const mermaid = mermaidModule.default || mermaidModule;
+
+                    // Initialize Mermaid
+                    mermaid.initialize({
+                        startOnLoad: false,
+                        theme: 'dark',
+                        themeVariables: {
+                            primaryColor: '#8b5cf6',
+                            primaryTextColor: '#f3f4f6',
+                            primaryBorderColor: '#8b5cf6',
+                            lineColor: '#22d3ee',
+                            secondaryColor: '#1e293b',
+                            tertiaryColor: '#334155',
+                            background: '#1e293b',
+                            mainBkg: '#1e293b',
+                            secondaryBkg: '#334155',
+                            textColor: '#f3f4f6',
+                            fontSize: '16px',
+                            fontFamily: 'Inter, system-ui, sans-serif',
+                            edgeLabelBackground: '#1e293b',
+                            labelBackground: '#1e293b',
+                            labelColor: '#f3f4f6'
+                        },
+                        flowchart: {
+                            curve: 'basis',
+                            lineWidth: 3,
+                            padding: 20,
+                            diagramPadding: 8,
+                            htmlLabels: true,
+                            rankSpacing: 50,
+                            nodeSpacing: 50
+                        },
+                        securityLevel: 'loose'
+                    });
+
+                    // Process mermaid blocks
+                    const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+
+                    if (mermaidBlocks.length === 0) return;
+
+                    // First, preserve expressive-code assets from the first block
+                    const firstExpressiveContainer = document.querySelector('.expressive-code');
+                    let expressiveCodeAssets = null;
+
+                    if (firstExpressiveContainer) {
+                        const linkTag = firstExpressiveContainer.querySelector('link[rel="stylesheet"]');
+                        const scriptTag = firstExpressiveContainer.querySelector('script[type="module"]');
+
+                        if (linkTag || scriptTag) {
+                            expressiveCodeAssets = {
+                                link: linkTag?.cloneNode(true),
+                                script: scriptTag?.cloneNode(true)
+                            };
+                        }
+                    }
+
+                    mermaidBlocks.forEach((pre, index) => {
+                        const expressiveContainer = pre.closest('.expressive-code');
+                        const copyButton = expressiveContainer?.querySelector('.copy button[data-code]');
+                        let code = copyButton?.getAttribute('data-code') || '';
+
+                        if (!code) return;
+
+                        // Fix expressive-code formatting
+                        code = code.replace(/    /g, '\n').replace(/\u007f/g, '\n');
+                        code = code.replace(/graph\s+(LR|RL)/gi, 'graph TD');
+                        code = code.replace(/flowchart\s+(LR|RL)/gi, 'flowchart TD');
+
+                        // Create mermaid container
+                        const container = document.createElement('div');
+                        container.className = 'expressive-code mermaid-diagram';
+
+                        // If this is the first mermaid block, preserve the assets
+                        if (index === 0 && expressiveCodeAssets) {
+                            if (expressiveCodeAssets.link) {
+                                container.appendChild(expressiveCodeAssets.link);
+                            }
+                            if (expressiveCodeAssets.script) {
+                                container.appendChild(expressiveCodeAssets.script);
+                            }
+                        }
+
+                        const figure = document.createElement('figure');
+                        figure.className = 'frame';
+
+                        const mermaidDiv = document.createElement('div');
+                        mermaidDiv.className = 'mermaid';
+                        mermaidDiv.textContent = code;
+
+                        figure.appendChild(mermaidDiv);
+                        container.appendChild(figure);
+
+                        if (expressiveContainer) {
+                            expressiveContainer.replaceWith(container);
+                        } else {
+                            pre.replaceWith(container);
+                        }
+                    });
+
+                    // Render diagrams
+                    await mermaid.run();
+
+                    // Style edge labels
+                    document.querySelectorAll('.mermaid svg g.edgeLabel').forEach((label) => {
+                        const rect = label.querySelector('rect');
+                        if (rect) {
+                            const currentWidth = parseFloat(rect.getAttribute('width') || '0');
+                            const currentHeight = parseFloat(rect.getAttribute('height') || '0');
+                            const currentX = parseFloat(rect.getAttribute('x') || '0');
+                            const currentY = parseFloat(rect.getAttribute('y') || '0');
+
+                            const padding = 8;
+                            rect.setAttribute('width', String(currentWidth + padding * 2));
+                            rect.setAttribute('height', String(currentHeight + padding * 2));
+                            rect.setAttribute('x', String(currentX - padding));
+                            rect.setAttribute('y', String(currentY - padding));
+                            rect.setAttribute('rx', '4');
+                            rect.setAttribute('ry', '4');
+                            rect.setAttribute('fill', '#1e293b');
+                            rect.setAttribute('stroke', '#8b5cf6');
+                            rect.setAttribute('stroke-width', '1');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Mermaid failed to load:', error);
+                }
+            });
+        </script>
+
+        {/* Analytics and scripts can be added here */}
+    </body>
 </html>
 
 <style is:global>
-  @import '../styles/global.css';
+    @import '../styles/global.css';
 </style>

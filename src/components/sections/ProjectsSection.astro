@@ -6,45 +6,45 @@ import SecondaryTitle from '../ui/SecondaryTitle.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
 interface Project {
-  title: string;
-  description: string;
-  tags: string[];
-  image?: string;
-  demoUrl?: string;
-  codeUrl?: string;
-  featured?: boolean;
+    title: string;
+    description: string;
+    tags: string[];
+    image?: string;
+    demoUrl?: string;
+    codeUrl?: string;
+    featured?: boolean;
 }
 
 interface Props {
-  projects?: Project[];
-  primaryColor?: string;
-  translations?: {
-    title: string;
-    subtitle: string;
-    noProjects: string;
-    filterAll: string;
-  };
-  cardTranslations?: {
-    demo: string;
-    code: string;
-    featured: string;
-  };
+    projects?: Project[];
+    primaryColor?: string;
+    translations?: {
+        title: string;
+        subtitle: string;
+        noProjects: string;
+        filterAll: string;
+    };
+    cardTranslations?: {
+        demo: string;
+        code: string;
+        featured: string;
+    };
 }
 
 const {
-  projects = [],
-  primaryColor = '#3b82f6',
-  translations = {
-    title: 'Featured Projects',
-    subtitle: "A collection of projects I've built and contributed to",
-    noProjects: 'No projects found with the selected filter.',
-    filterAll: 'All',
-  },
-  cardTranslations = {
-    demo: 'Demo',
-    code: 'Code',
-    featured: 'Featured',
-  },
+    projects = [],
+    primaryColor = '#3b82f6',
+    translations = {
+        title: 'Featured Projects',
+        subtitle: "A collection of projects I've built and contributed to",
+        noProjects: 'No projects found with the selected filter.',
+        filterAll: 'All'
+    },
+    cardTranslations = {
+        demo: 'Demo',
+        code: 'Code',
+        featured: 'Featured'
+    }
 } = Astro.props;
 
 // Extract all unique tags
@@ -52,150 +52,150 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
 ---
 
 <section
-  class="relative section section-blue overflow-hidden"
-  id="projects"
-  style={`background-color: ${primaryColor}`}
+    class="relative section section-blue overflow-hidden"
+    id="projects"
+    style={`background-color: ${primaryColor}`}
 >
-  <!-- Animated Gradient Background -->
-  <AnimatedGradientBackground />
+    <!-- Animated Gradient Background -->
+    <AnimatedGradientBackground />
 
-  <div class="container-custom">
-    <!-- Section Title -->
-    <SectionTitle title={translations.title} subtitle={translations.subtitle} />
+    <div class="container-custom">
+        <!-- Section Title -->
+        <SectionTitle title={translations.title} subtitle={translations.subtitle} />
 
-    <!-- Filter Buttons -->
-    <div class="flex flex-wrap justify-center gap-3 mb-12" id="filter-buttons">
-      {
-        allTags.map((tag) => (
-          <button
-            data-filter={tag}
-            class={`filter-button px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-              tag === translations.filterAll
-                ? 'bg-primary text-white shadow-glow-primary'
-                : 'bg-foreground/5 text-foreground-secondary hover:bg-foreground/10 hover:text-foreground'
-            }`}
-          >
-            {tag}
-          </button>
-        ))
-      }
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12" id="filter-buttons">
+            {
+                allTags.map((tag) => (
+                    <button
+                        data-filter={tag}
+                        class={`filter-button px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                            tag === translations.filterAll
+                                ? 'bg-primary text-white shadow-glow-primary'
+                                : 'bg-foreground/5 text-foreground-secondary hover:bg-foreground/10 hover:text-foreground'
+                        }`}
+                    >
+                        {tag}
+                    </button>
+                ))
+            }
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+            {
+                projects.map((project) => (
+                    <article
+                        class="project-card card-hover group p-6 relative"
+                        data-tags={JSON.stringify(project.tags)}
+                    >
+                        {/* Featured Badge */}
+                        {project.featured && (
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-primary text-white text-xs font-medium rounded-full shadow-glow-primary">
+                                {cardTranslations.featured}
+                            </div>
+                        )}
+
+                        {/* Project Image */}
+                        {project.image && (
+                            <div class="mb-4 aspect-video rounded-lg overflow-hidden bg-background-tertiary">
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                            </div>
+                        )}
+
+                        {/* Project Content */}
+                        <SecondaryTitle text={project.title} variant="card" className="mb-2" showHtml={false} />
+
+                        <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">{project.description}</p>
+
+                        {/* Tags */}
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {project.tags.map((tag) => (
+                                <span class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+
+                        {/* Links */}
+                        <div class="flex gap-3">
+                            {project.demoUrl && (
+                                <a
+                                    href={project.demoUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 text-sm font-medium"
+                                >
+                                    <div class="w-4 h-4" set:html={ExternalLinkIcon} />
+                                    {cardTranslations.demo}
+                                </a>
+                            )}
+
+                            {project.codeUrl && (
+                                <a
+                                    href={project.codeUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-foreground/5 text-foreground rounded-lg hover:bg-foreground/10 transition-colors duration-300 text-sm font-medium border border-foreground/10"
+                                >
+                                    <div class="w-4 h-4" set:html={GithubIcon} />
+                                    {cardTranslations.code}
+                                </a>
+                            )}
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-12">
+            <p class="text-foreground-secondary text-lg" set:html={translations.noProjects} />
+        </div>
     </div>
-
-    <!-- Projects Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
-      {
-        projects.map((project) => (
-          <article
-            class="project-card card-hover group p-6 relative"
-            data-tags={JSON.stringify(project.tags)}
-          >
-            {/* Featured Badge */}
-            {project.featured && (
-              <div class="absolute top-4 right-4 px-3 py-1 bg-primary text-white text-xs font-medium rounded-full shadow-glow-primary">
-                {cardTranslations.featured}
-              </div>
-            )}
-
-            {/* Project Image */}
-            {project.image && (
-              <div class="mb-4 aspect-video rounded-lg overflow-hidden bg-background-tertiary">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
-            )}
-
-            {/* Project Content */}
-            <SecondaryTitle text={project.title} variant="card" className="mb-2" showHtml={false} />
-
-            <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">{project.description}</p>
-
-            {/* Tags */}
-            <div class="flex flex-wrap gap-2 mb-4">
-              {project.tags.map((tag) => (
-                <span class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Links */}
-            <div class="flex gap-3">
-              {project.demoUrl && (
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 text-sm font-medium"
-                >
-                  <div class="w-4 h-4" set:html={ExternalLinkIcon} />
-                  {cardTranslations.demo}
-                </a>
-              )}
-
-              {project.codeUrl && (
-                <a
-                  href={project.codeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-4 py-2 bg-foreground/5 text-foreground rounded-lg hover:bg-foreground/10 transition-colors duration-300 text-sm font-medium border border-foreground/10"
-                >
-                  <div class="w-4 h-4" set:html={GithubIcon} />
-                  {cardTranslations.code}
-                </a>
-              )}
-            </div>
-          </article>
-        ))
-      }
-    </div>
-
-    <!-- Empty State -->
-    <div id="empty-state" class="hidden text-center py-12">
-      <p class="text-foreground-secondary text-lg" set:html={translations.noProjects} />
-    </div>
-  </div>
 </section>
 
 <script define:vars={{ filterAll: translations.filterAll }} is:inline>
-  // @ts-nocheck - Script uses define:vars which injects filterAll
-  // Filter functionality
-  const filterButtons = document.querySelectorAll('.filter-button');
-  const projectCards = document.querySelectorAll('.project-card');
-  const emptyState = document.getElementById('empty-state');
+    // @ts-nocheck - Script uses define:vars which injects filterAll
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const projectCards = document.querySelectorAll('.project-card');
+    const emptyState = document.getElementById('empty-state');
 
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const filter = button.getAttribute('data-filter');
+    filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const filter = button.getAttribute('data-filter');
 
-      // Update active button
-      filterButtons.forEach((btn) => {
-        btn.classList.remove('bg-primary', 'text-white', 'shadow-glow-primary');
-        btn.classList.add('bg-foreground/5', 'text-foreground-secondary');
-      });
-      button.classList.add('bg-primary', 'text-white', 'shadow-glow-primary');
-      button.classList.remove('bg-foreground/5', 'text-foreground-secondary');
+            // Update active button
+            filterButtons.forEach((btn) => {
+                btn.classList.remove('bg-primary', 'text-white', 'shadow-glow-primary');
+                btn.classList.add('bg-foreground/5', 'text-foreground-secondary');
+            });
+            button.classList.add('bg-primary', 'text-white', 'shadow-glow-primary');
+            button.classList.remove('bg-foreground/5', 'text-foreground-secondary');
 
-      // Filter projects
-      let visibleCount = 0;
-      projectCards.forEach((card) => {
-        const tags = JSON.parse(card.getAttribute('data-tags') || '[]');
-        if (filter === filterAll || tags.includes(filter)) {
-          card.classList.remove('hidden');
-          visibleCount++;
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+            // Filter projects
+            let visibleCount = 0;
+            projectCards.forEach((card) => {
+                const tags = JSON.parse(card.getAttribute('data-tags') || '[]');
+                if (filter === filterAll || tags.includes(filter)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
 
-      // Show/hide empty state
-      if (visibleCount === 0) {
-        emptyState?.classList.remove('hidden');
-      } else {
-        emptyState?.classList.add('hidden');
-      }
+            // Show/hide empty state
+            if (visibleCount === 0) {
+                emptyState?.classList.remove('hidden');
+            } else {
+                emptyState?.classList.add('hidden');
+            }
+        });
     });
-  });
 </script>

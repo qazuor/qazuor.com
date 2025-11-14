@@ -26,7 +26,7 @@ import TanstackIcon from '../../icons/tech/tanstack.svg?raw';
 import TypeScriptIcon from '../../icons/tech/typescript.svg?raw';
 import VscodeIcon from '../../icons/tech/vscode.svg?raw';
 import ZodIcon from '../../icons/tech/zod.svg?raw';
-import SkillsGrid from '../interactive/SkillsGrid.tsx';
+import SkillsGrid from '../interactive/SkillsGrid.astro';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
@@ -36,11 +36,11 @@ interface Props {
         title: string;
         subtitle: string;
         description: string;
-        categoryTitles?: {
-            dev?: string;
-            design?: string;
-            languages?: string;
-            tools?: string;
+        categoryTitles: {
+            dev: string;
+            design: string;
+            languages: string;
+            tools: string;
         };
     };
 }
@@ -121,7 +121,7 @@ const categories = skillsData.map((category) => ({
             />
 
             <!-- Skills Grid -->
-            <SkillsGrid categories={categories} client:load />
+            <SkillsGrid categories={categories} />
         </div>
     </div>
 </section>

@@ -1,0 +1,74 @@
+---
+import SecondaryTitle from '../ui/SecondaryTitle.astro';
+
+interface Skill {
+    name: string;
+    icon: string; // SVG content as string
+    color: string;
+}
+
+interface SkillCategory {
+    title: string;
+    skills: Skill[];
+}
+
+interface Props {
+    categories: SkillCategory[];
+}
+
+const { categories } = Astro.props;
+---
+
+<div class="space-y-12">
+    {categories.map((category) => (
+        <div class="skill-category">
+            <SecondaryTitle
+                text={category.title}
+                element="h3"
+                size="lg"
+                className="mb-6"
+                showHtml={true}
+            />
+            <div class="flex flex-wrap gap-3">
+                {category.skills.map((skill) => (
+                    <div
+                        class="group relative inline-flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20
+                         rounded-full border border-primary/20 hover:border-primary/40 transition-all duration-300
+                         cursor-pointer"
+                        title={skill.name}
+                    >
+                        {/* SVG Icon */}
+                        <div
+                            class="w-5 h-5 transition-transform duration-300 group-hover:scale-110 flex items-center justify-center"
+                            style={`color: ${skill.color}`}
+                            set:html={skill.icon}
+                        />
+
+                        {/* Tooltip */}
+                        <div
+                            class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1
+                              bg-background-secondary border border-border rounded text-xs text-foreground-secondary
+                              opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
+                              whitespace-nowrap z-10"
+                        >
+                            {skill.name}
+                            <div
+                                class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0
+                                border-l-2 border-r-2 border-t-2 border-transparent border-t-background-secondary"
+                            ></div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    ))}
+</div>
+
+<style>
+    .skill-category h3 {
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>

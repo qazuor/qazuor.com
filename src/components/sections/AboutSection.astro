@@ -1,5 +1,4 @@
 ---
-import { timelineData } from '../../data/timeline';
 import Timeline from '../interactive/Timeline';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 import GetInTouchLink from '../ui/GetInTouchLink.astro';
@@ -21,6 +20,15 @@ interface Props {
         ctaButton: string;
         connect: string;
         workTogether: string;
+        timeline: {
+            beginning: {
+                title: string;
+                description: string;
+            };
+            present: {
+                description: string;
+            };
+        };
     };
 }
 
@@ -37,13 +45,18 @@ const {
         storySummary: '',
         ctaButton: "Let's Work Together",
         connect: "Let's build something amazing together!",
-        workTogether: "Let's Work Together"
+        workTogether: "Let's Work Together",
+        timeline: {
+            beginning: {
+                title: 'Beginning',
+                description: 'My journey started with curiosity and passion for technology.'
+            },
+            present: {
+                description: 'Today, I continue to build and innovate with modern technologies.'
+            }
+        }
     }
 } = Astro.props;
-
-// Get first and last timeline items
-const firstTimelineItem = timelineData[0];
-const lastTimelineItem = timelineData[timelineData.length - 1];
 ---
 
 <section class="relative section about-section overflow-hidden" id="about" style={`background-color: ${primaryColor}`}>
@@ -80,10 +93,10 @@ const lastTimelineItem = timelineData[timelineData.length - 1];
 
         <!-- Timeline Section -->
         <div class="hidden lg:block text-center mb-12">
-            <SecondaryTitle text={firstTimelineItem.title[lang]} variant="story" size="lg" className="mb-4" />
+            <SecondaryTitle text={translations.timeline.beginning.title} variant="story" size="lg" className="mb-4" />
             <p
                 class="text-foreground-secondary text-lg max-w-2xl mx-auto"
-                set:html={firstTimelineItem.description[lang]}
+                set:html={translations.timeline.beginning.description}
             />
         </div>
 
@@ -93,7 +106,7 @@ const lastTimelineItem = timelineData[timelineData.length - 1];
         <div class="hidden lg:block text-center mt-16 space-y-6">
             <p
                 class="text-foreground-secondary text-lg max-w-2xl mx-auto"
-                set:html={lastTimelineItem.description[lang]}
+                set:html={translations.timeline.present.description}
             />
             <GetInTouchLink
                 text={translations.workTogether}

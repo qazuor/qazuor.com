@@ -28,6 +28,7 @@ import VscodeIcon from '../../icons/tech/vscode.svg?raw';
 import ZodIcon from '../../icons/tech/zod.svg?raw';
 import SkillsGrid from '../interactive/SkillsGrid.tsx';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
 
 interface Props {
   primaryColor?: string;
@@ -113,15 +114,13 @@ const categories = skillsData.map((category) => ({
   <div class="container-custom">
     <div class="max-w-6xl mx-auto">
       <!-- Section Title -->
-      <div class="section-title">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          <span class="gradient-text-section" set:html={translations.title} />
-        </h2>
-        <p class="text-foreground-secondary text-lg mb-8" set:html={translations.subtitle} />
-        <div class="max-w-3xl mx-auto">
-          <p class="text-foreground-secondary" set:html={translations.description} />
-        </div>
-      </div>
+      <SectionTitle
+        title={translations.title}
+        subtitle={translations.subtitle}
+        description={translations.description}
+        subtitleClassName="mb-8"
+        className="max-w-3xl mx-auto"
+      />
 
       <!-- Skills Grid -->
       <SkillsGrid categories={categories} client:load />

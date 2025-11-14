@@ -5,6 +5,8 @@ import CalendarIcon from '../../icons/ui/calendar.svg?raw';
 import ClockIcon from '../../icons/ui/clock.svg?raw';
 import DocumentEmptyIcon from '../../icons/ui/document-empty.svg?raw';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
+import SecondaryTitle from '../ui/SecondaryTitle.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
 
 interface BlogPost {
   title: string;
@@ -39,12 +41,10 @@ const displayedPosts = posts.slice(0, 3);
   
   <div class="container-custom">
     <!-- Section Title -->
-    <div class="section-title">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        <span class="gradient-text-section" set:html={translations.title}></span>
-      </h2>
-      <p class="text-foreground-secondary text-lg" set:html={translations.subtitle}></p>
-    </div>
+    <SectionTitle 
+      title={translations.title}
+      subtitle={translations.subtitle}
+    />
 
     <!-- Blog Grid -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -69,11 +69,13 @@ const displayedPosts = posts.slice(0, 3);
             </div>
 
             <!-- Title -->
-            <h3 class="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
-              <a href={post.slug} class="hover:underline">
-                {post.title}
-              </a>
-            </h3>
+            <SecondaryTitle 
+              text={post.title}
+              variant="card"
+              className="mb-3"
+              href={post.slug}
+              showHtml={false}
+            />
 
             <!-- Excerpt -->
             <p class="text-foreground-secondary text-sm mb-4 line-clamp-3">{post.excerpt}</p>

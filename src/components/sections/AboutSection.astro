@@ -91,7 +91,7 @@ const {
             </div>
         </div>
 
-        <!-- Timeline Section -->
+        <!-- Timeline Section - Beginning text (Desktop only, mobile includes it in timeline) -->
         <div class="hidden lg:block text-center mb-12">
             <SecondaryTitle text={translations.timeline.beginning.title} variant="story" size="lg" className="mb-4" />
             <p
@@ -100,9 +100,16 @@ const {
             />
         </div>
 
-        <Timeline lang={lang} client:load />
+        <Timeline
+            lang={lang}
+            translations={{
+                timeline: translations.timeline,
+                workTogether: translations.workTogether
+            }}
+            client:load
+        />
 
-        <!-- CTA Section - Desktop only -->
+        <!-- CTA Section - Desktop only (mobile includes it in timeline) -->
         <div class="hidden lg:block text-center mt-16 space-y-6">
             <p
                 class="text-foreground-secondary text-lg max-w-2xl mx-auto"

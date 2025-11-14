@@ -183,7 +183,10 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
     </div>
 </section>
 
-<script define:vars={{ filterAll: translations.filterAll }} is:inline>
+<script define:vars={{ filterAll: translations?.filterAll || 'All' }} is:inline>
+    // Ensure filterAll is available (injected by Astro define:vars)
+    const filterAllValue = filterAll;
+
     const filterButtons = document.querySelectorAll('.filter-button');
     const projectsGrid = document.getElementById('projects-grid');
     const emptyState = document.getElementById('empty-state');
@@ -218,7 +221,7 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
 
             // Filter and add matching cards
             const matchingCards = allProjectCards.filter(({ tags }) =>
-                filter === filterAll || tags.includes(filter)
+                filter === filterAllValue || tags.includes(filter)
             );
 
             // Add matching cards back (this will trigger auto-animate)

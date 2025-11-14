@@ -237,7 +237,7 @@ export default function TimelineMobile({ timelineItems }: TimelineMobileProps) {
     // Only set up resize listener if we have timeline items
     if (!allTimelineItems || allTimelineItems.length === 0) return;
 
-    let resizeTimeout: NodeJS.Timeout;
+    let resizeTimeout: number;
 
     const handleResize = () => {
       clearTimeout(resizeTimeout);
@@ -245,7 +245,7 @@ export default function TimelineMobile({ timelineItems }: TimelineMobileProps) {
         if (containerRef.current?.dataset.timeline === 'active') {
           ScrollTrigger.refresh();
         }
-      }, 250);
+      }, 250) as unknown as number;
     };
 
     window.addEventListener('resize', handleResize);

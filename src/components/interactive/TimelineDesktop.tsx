@@ -31,7 +31,7 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
   const containerRef = useRef<HTMLDivElement>(null);
   const [isTimelineHovered, setIsTimelineHovered] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
   const calculatePopoverPosition = (index: number): 'center' | 'left' | 'right' => {
     const totalItems = mainTimelineItems.length;
@@ -114,7 +114,7 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
             // set timeout to re-enable functionalities after scrolling stops
             scrollTimeoutRef.current = setTimeout(() => {
               setIsScrolling(false);
-            }, 500);
+            }, 500) as unknown as number;
 
             setCurrentIndex(newIndex);
             setSelectedItem(mainTimelineItems[newIndex]);
@@ -166,7 +166,7 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
   useEffect(() => {
     if (!isAutoPlaying || mainTimelineItems.length === 0 || isScrolling) return;
 
-    const interval = setInterval(() => {
+    const interval: number = setInterval(() => {
       setCurrentIndex((prevIndex) => {
         const nextIndex = (prevIndex + 1) % mainTimelineItems.length;
         setSelectedItem(mainTimelineItems[nextIndex]);
@@ -174,7 +174,7 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
         setTimeout(() => scrollToItem(nextIndex), 100);
         return nextIndex;
       });
-    }, 3000);
+    }, 3000) as unknown as number;
 
     return () => {
       clearInterval(interval);

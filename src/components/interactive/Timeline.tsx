@@ -13,6 +13,8 @@ interface TimelineItemForComponent {
     color: string;
     colorHex: string;
     icon: string;
+    isSpecial?: boolean;
+    specialType?: 'beginning' | 'end';
 }
 
 // Hook to detect current theme
@@ -39,11 +41,63 @@ function useTheme() {
     return isDark;
 }
 
-// Function to adapt timeline data for components
+// Function to adapt timeline data for components including special items for mobile
+function getTimelineItemsWithSpecial(lang: 'en' | 'es', isDark: boolean): TimelineItemForComponent[] {
+    // Get regular timeline items
+    const regularItems = timelineData
+        .filter((item) => {
+            return item.viewInDesktop && item.viewInMobile;
+        })
+        .map((item, index) => {
+            const currentColor = isDark ? item.colorDarkTheme : item.colorLightTheme;
+            return {
+                id: index + 2, // Start from 2 to accommodate beginning item
+                year: item.year,
+                title: item.title[lang],
+                subtitle: item.category.charAt(0).toUpperCase() + item.category.slice(1),
+                content: item.description[lang],
+                color: hexToTailwindGradient(currentColor),
+                colorHex: currentColor,
+                icon: item.icon,
+                isSpecial: false
+            };
+        });
+
+    // Create beginning item
+    const beginningItem: TimelineItemForComponent = {
+        id: 1,
+        year: 'START',
+        title: 'My Journey',
+        subtitle: 'Beginning',
+        content: 'Where it all started',
+        color: 'from-indigo-500 to-purple-500',
+        colorHex: '#6366f1',
+        icon: 'rocket',
+        isSpecial: true,
+        specialType: 'beginning'
+    };
+
+    // Create end item
+    const endItem: TimelineItemForComponent = {
+        id: regularItems.length + 2,
+        year: 'NOW',
+        title: 'Present Day',
+        subtitle: 'Today',
+        content: 'Building the future',
+        color: 'from-emerald-500 to-teal-500',
+        colorHex: '#10b981',
+        icon: 'sparkles',
+        isSpecial: true,
+        specialType: 'end'
+    };
+
+    return [beginningItem, ...regularItems, endItem];
+}
+
+// Function to adapt timeline data for components (desktop version - original)
 function getTimelineItems(lang: 'en' | 'es', isDark: boolean): TimelineItemForComponent[] {
     return timelineData
         .filter((item) => {
-            // Filter based on device visibility - for now show all since we detect dynamically
             return item.viewInDesktop && item.viewInMobile;
         })
         .map((item, index) => {
@@ -54,11 +108,10 @@ function getTimelineItems(lang: 'en' | 'es', isDark: boolean): TimelineItemForCo
                 title: item.title[lang],
                 subtitle: item.category.charAt(0).toUpperCase() + item.category.slice(1),
                 content: item.description[lang],
-                // Keep Tailwind classes for mobile timeline
                 color: hexToTailwindGradient(currentColor),
-                // Keep the original hex color for desktop timeline
                 colorHex: currentColor,
-                icon: item.icon
+                icon: item.icon,
+                isSpecial: false
             };
         });
 }
@@ -110,9 +163,21 @@ function hexToTailwindGradient(hexColor: string): string {
 
 interface TimelineProps {
     lang: 'en' | 'es';
+    translations?: {
+        timeline: {
+            beginning: {
+                title: string;
+                description: string;
+            };
+            present: {
+                description: string;
+            };
+        };
+        workTogether: string;
+    };
 }
 
-export default function Timeline({ lang }: TimelineProps) {
+export default function Timeline({ lang, translations }: TimelineProps) {
     const [isMobile, setIsMobile] = useState(false);
     const [isClient, setIsClient] = useState(false);
     const isDark = useTheme();
@@ -133,6 +198,7 @@ export default function Timeline({ lang }: TimelineProps) {
 
     // Get timeline items based on language and theme
     const timelineItems = getTimelineItems(lang, isDark);
+    const timelineItemsWithSpecial = getTimelineItemsWithSpecial(lang, isDark);
 
     // Avoid hydration mismatch by not rendering until client-side
     if (!isClient) {
@@ -142,7 +208,7 @@ export default function Timeline({ lang }: TimelineProps) {
     return (
         <div>
             {isMobile ? (
-                <TimelineMobile lang={lang} timelineItems={timelineItems} />
+                <TimelineMobile lang={lang} timelineItems={timelineItemsWithSpecial} translations={translations} />
             ) : (
                 <TimelineDesktop lang={lang} timelineItems={timelineItems} />
             )}

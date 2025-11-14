@@ -44,6 +44,7 @@
         "@fontsource/signika": "^5.2.8",
         "@fontsource/sometype-mono": "^5.2.7",
         "@fontsource/unbounded": "^5.2.8",
+        "@formkit/auto-animate": "^0.9.0",
         "@playwright/test": "^1.56.1",
         "@reunmedia/astro-normalize-trailing-slash": "^0.1.1",
         "@studio-freight/lenis": "^1.0.42",

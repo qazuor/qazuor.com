@@ -110,7 +110,17 @@
         "storySummary": "En resumen: un tipo que lleva la **tecnología** en la sangre, el **diseño** en la mirada y la *curiosidad* encendida.",
         "ctaButton": "**Trabajemos Juntos**",
         "connect": "¡Construyamos algo **increíble** juntos!",
-        "workTogether": "**Trabajemos Juntos**"
+        "workTogether": "**Trabajemos Juntos**",
+        "timeline": {
+            "beginning": {
+                "title": "Mi Trayectoria",
+                "description": "Un viaje a través de mi evolución profesional y los hitos más importantes."
+            },
+            "present": {
+                "title": "¿Qué sigue?",
+                "description": "El viaje continúa. Siempre buscando nuevos desafíos y oportunidades para crecer."
+            }
+        }
     },
     "skills": {
         "title": "**Habilidades**",

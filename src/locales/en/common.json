@@ -110,7 +110,17 @@
         "storySummary": "In short: a lifelong learner who codes with **purpose**, designs with *intent*, and never stops being **curious**.",
         "ctaButton": "**Let's Work Together**",
         "connect": "Let's build something **amazing** together!",
-        "workTogether": "**Let's Work Together**"
+        "workTogether": "**Let's Work Together**",
+        "timeline": {
+            "beginning": {
+                "title": "My Journey",
+                "description": "A journey through my professional evolution and most important milestones."
+            },
+            "present": {
+                "title": "What's next?",
+                "description": "The journey continues. Always looking for new challenges and opportunities to grow."
+            }
+        }
     },
     "skills": {
         "title": "**Skills**",

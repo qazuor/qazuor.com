@@ -184,7 +184,6 @@ const isActive = (href: string) => {
     // Mobile navigation hide/show on scroll
     function setupMobileNavigation() {
         const nav = document.getElementById('main-nav');
-        let lastScrollY = 0;
         let scrollTimeout: NodeJS.Timeout | undefined;
 
         function updateNavVisibility() {
@@ -192,24 +191,29 @@ const isActive = (href: string) => {
             const isDesktop = window.innerWidth >= 768; // md breakpoint
 
             if (isDesktop) {
-                // Always show on desktop
-                nav?.classList.remove('mobile-nav-hidden');
+                // Always show on desktop, remove mobile classes
+                nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up', 'mobile-nav-slide-down');
                 return;
             }
 
-            // Mobile behavior
+            // Mobile behavior: hide only when at absolute top (scroll 0)
             if (currentScrollY === 0) {
-                // Hide when at top
-                nav?.classList.add('mobile-nav-hidden');
-            } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                // Hide when scrolling down (after 100px)
-                nav?.classList.add('mobile-nav-hidden');
-            } else if (currentScrollY < lastScrollY) {
-                // Show when scrolling up
-                nav?.classList.remove('mobile-nav-hidden');
+                // Hide when at top with slide up animation
+                nav?.classList.remove('mobile-nav-slide-down');
+                nav?.classList.add('mobile-nav-slide-up');
+                // After animation completes, hide completely
+                setTimeout(() => {
+                    if (window.scrollY === 0) {
+                        nav?.classList.add('mobile-nav-hidden');
+                    }
+                }, 300);
+            } else {
+                // Show when scrolling down from top with slide down animation
+                if (nav?.classList.contains('mobile-nav-hidden')) {
+                    nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up');
+                    nav?.classList.add('mobile-nav-slide-down');
+                }
             }
-
-            lastScrollY = currentScrollY;
         }
 
         // Handle scroll with throttling
@@ -376,6 +380,38 @@ const isActive = (href: string) => {
     @media (max-width: 767px) {
         .mobile-nav-hidden {
             display: none !important;
+        }
+
+        /* Slide down animation - navbar appears */
+        .mobile-nav-slide-down {
+            animation: slideDown 0.3s ease-out forwards;
+        }
+
+        /* Slide up animation - navbar disappears */
+        .mobile-nav-slide-up {
+            animation: slideUp 0.3s ease-in forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
         }
     }
 </style>

@@ -1,4 +1,6 @@
 ---
+import SecondaryTitle from '../ui/SecondaryTitle.astro';
+
 interface Props {
   src: string;
   toolName: string;
@@ -12,7 +14,7 @@ const { src, toolName, height = '600px', className = '' } = Astro.props;
 <div class={`tool-iframe-wrapper ${className}`}>
   <!-- Header with tool name and external link -->
   <div class="tool-header flex justify-between items-center p-4 border-b border-foreground/10">
-    <h3 class="text-lg font-semibold text-foreground">{toolName}</h3>
+    <SecondaryTitle text={toolName} size="sm" showHtml={false} />
     <a
       href={src}
       target="_blank"

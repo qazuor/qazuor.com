@@ -2,6 +2,10 @@
 import GithubIcon from '../../icons/social/github.svg?raw';
 import ExternalLinkIcon from '../../icons/ui/external-link.svg?raw';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
+import Badge from '../ui/Badge.astro';
+import FilterButton from '../ui/FilterButton.astro';
+import IconLink from '../ui/IconLink.astro';
+import MarkdownText from '../ui/MarkdownText.astro';
 import SecondaryTitle from '../ui/SecondaryTitle.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
@@ -67,22 +71,22 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
         <div class="flex flex-wrap justify-center gap-3 mb-12" id="filter-buttons">
             {
                 allTags.map((tag) => (
-                    <button
-                        data-filter={tag}
+                    <FilterButton
+                        text={tag}
+                        dataFilter={tag}
+                        showHtml={true}
                         class={`filter-button px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                             tag === translations.filterAll
                                 ? 'bg-primary text-white shadow-glow-primary'
                                 : 'bg-foreground/5 text-foreground-secondary hover:bg-foreground/10 hover:text-foreground'
                         }`}
-                    >
-                        {tag}
-                    </button>
+                    />
                 ))
             }
         </div>
 
         <!-- Projects Grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid" data-auto-animate="true" data-auto-animate-duration="300">
             {
                 projects.map((project) => (
                     <article
@@ -91,9 +95,14 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
                     >
                         {/* Featured Badge */}
                         {project.featured && (
-                            <div class="absolute top-4 right-4 px-3 py-1 bg-primary text-white text-xs font-medium rounded-full shadow-glow-primary">
-                                {cardTranslations.featured}
-                            </div>
+                            <Badge
+                                text={cardTranslations.featured}
+                                variant="featured"
+                                size="sm"
+                                position="absolute"
+                                positionClasses="top-4 right-4"
+                                showHtml={true}
+                            />
                         )}
 
                         {/* Project Image */}
@@ -110,41 +119,52 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
                         {/* Project Content */}
                         <SecondaryTitle text={project.title} variant="card" className="mb-2" showHtml={false} />
 
-                        <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">{project.description}</p>
+                        <MarkdownText
+                            text={project.description}
+                            className="text-foreground-secondary text-sm mb-4 line-clamp-2"
+                            showHtml={true}
+                        />
 
                         {/* Tags */}
                         <div class="flex flex-wrap gap-2 mb-4">
                             {project.tags.map((tag) => (
-                                <span class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10">
-                                    {tag}
-                                </span>
+                                <Badge
+                                    text={tag}
+                                    variant="tag"
+                                    size="sm"
+                                    showHtml={true}
+                                />
                             ))}
                         </div>
 
                         {/* Links */}
                         <div class="flex gap-3">
                             {project.demoUrl && (
-                                <a
+                                <IconLink
                                     href={project.demoUrl}
+                                    text={cardTranslations.demo}
+                                    icon={ExternalLinkIcon}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 text-sm font-medium"
-                                >
-                                    <div class="w-4 h-4" set:html={ExternalLinkIcon} />
-                                    {cardTranslations.demo}
-                                </a>
+                                    variant="primary"
+                                    size="sm"
+                                    className="inline-flex items-center gap-2 text-sm font-medium"
+                                    showHtml={true}
+                                />
                             )}
 
                             {project.codeUrl && (
-                                <a
+                                <IconLink
                                     href={project.codeUrl}
+                                    text={cardTranslations.code}
+                                    icon={GithubIcon}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-foreground/5 text-foreground rounded-lg hover:bg-foreground/10 transition-colors duration-300 text-sm font-medium border border-foreground/10"
-                                >
-                                    <div class="w-4 h-4" set:html={GithubIcon} />
-                                    {cardTranslations.code}
-                                </a>
+                                    variant="secondary"
+                                    size="sm"
+                                    className="inline-flex items-center gap-2 text-sm font-medium border border-foreground/10"
+                                    showHtml={true}
+                                />
                             )}
                         </div>
                     </article>
@@ -154,17 +174,31 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
 
         <!-- Empty State -->
         <div id="empty-state" class="hidden text-center py-12">
-            <p class="text-foreground-secondary text-lg" set:html={translations.noProjects} />
+            <MarkdownText
+                text={translations.noProjects}
+                className="text-foreground-secondary text-lg"
+                showHtml={true}
+            />
         </div>
     </div>
 </section>
 
 <script define:vars={{ filterAll: translations.filterAll }} is:inline>
-    // @ts-nocheck - Script uses define:vars which injects filterAll
-    // Filter functionality
     const filterButtons = document.querySelectorAll('.filter-button');
-    const projectCards = document.querySelectorAll('.project-card');
+    const projectsGrid = document.getElementById('projects-grid');
     const emptyState = document.getElementById('empty-state');
+
+    // Store all project cards data for filtering
+    let allProjectCards = [];
+
+    // Initialize: capture all project cards
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialCards = document.querySelectorAll('.project-card');
+        allProjectCards = Array.from(initialCards).map(card => ({
+            element: card.cloneNode(true),
+            tags: JSON.parse(card.getAttribute('data-tags') || '[]')
+        }));
+    });
 
     filterButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -178,20 +212,23 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
             button.classList.add('bg-primary', 'text-white', 'shadow-glow-primary');
             button.classList.remove('bg-foreground/5', 'text-foreground-secondary');
 
-            // Filter projects
-            let visibleCount = 0;
-            projectCards.forEach((card) => {
-                const tags = JSON.parse(card.getAttribute('data-tags') || '[]');
-                if (filter === filterAll || tags.includes(filter)) {
-                    card.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden');
-                }
+            // Clear current cards (this will trigger auto-animate)
+            const currentCards = projectsGrid.querySelectorAll('.project-card');
+            currentCards.forEach(card => card.remove());
+
+            // Filter and add matching cards
+            const matchingCards = allProjectCards.filter(({ tags }) =>
+                filter === filterAll || tags.includes(filter)
+            );
+
+            // Add matching cards back (this will trigger auto-animate)
+            matchingCards.forEach(({ element }) => {
+                const newCard = element.cloneNode(true);
+                projectsGrid.appendChild(newCard);
             });
 
             // Show/hide empty state
-            if (visibleCount === 0) {
+            if (matchingCards.length === 0) {
                 emptyState?.classList.remove('hidden');
             } else {
                 emptyState?.classList.add('hidden');

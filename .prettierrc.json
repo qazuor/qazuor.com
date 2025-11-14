@@ -1,0 +1,32 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 120,
+    "singleQuote": true,
+    "semi": true,
+    "trailingComma": "none",
+    "htmlWhitespaceSensitivity": "ignore",
+    "plugins": ["prettier-plugin-astro"],
+    "overrides": [
+        {
+            "files": "*.astro",
+            "options": {
+                "parser": "astro",
+                "tabWidth": 4,
+                "useTabs": false,
+                "printWidth": 120,
+                "singleQuote": true,
+                "semi": true,
+                "trailingComma": "none",
+                "htmlWhitespaceSensitivity": "ignore"
+            }
+        },
+        {
+            "files": "*.md",
+            "options": {
+                "tabWidth": 2,
+                "printWidth": 100
+            }
+        }
+    ]
+}

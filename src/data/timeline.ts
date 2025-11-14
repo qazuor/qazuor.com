@@ -70,25 +70,7 @@ export const timelineData: TimelineItem[] = [
         colorLightTheme: '#059669',
         colorDarkTheme: '#34d399', // lighter variant for dark theme
         viewInDesktop: true,
-        viewInMobile: true
-    },
-    {
-        id: 'automation',
-        year: '1996',
-        title: {
-            en: 'Automation Project',
-            es: 'Automatización'
-        },
-        description: {
-            en: "Built a full irrigation automation system 💧 in QBasic as a computing class project for the school's annual technical exhibition.",
-            es: 'Proyecto de riego automatizado 💧 hecho íntegramente en QBasic como trabajo para la muestra anual de la escuela técnica.'
-        },
-        icon: 'cog',
-        category: 'project',
-        colorLightTheme: '#7c3aed',
-        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        viewInMobile: false
     },
     {
         id: 'graduation',
@@ -124,7 +106,7 @@ export const timelineData: TimelineItem[] = [
         colorLightTheme: '#dc2626',
         colorDarkTheme: '#f87171', // lighter variant for dark theme
         viewInDesktop: true,
-        viewInMobile: true
+        viewInMobile: false
     },
     {
         id: 'html-family',
@@ -141,24 +123,6 @@ export const timelineData: TimelineItem[] = [
         category: 'skill',
         colorLightTheme: '#d97706',
         colorDarkTheme: '#fbbf24', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
-    },
-    {
-        id: 'visual-basic',
-        year: '2000',
-        title: {
-            en: 'Visual Basic Era',
-            es: 'Era Visual Basic'
-        },
-        description: {
-            en: 'Discovered Visual Basic and developed several personal projects and client applications.',
-            es: 'Conocí Visual Basic y realicé algunos desarrollos de proyectos míos y de clientes.'
-        },
-        icon: 'visual-basic',
-        category: 'skill',
-        colorLightTheme: '#7c3aed',
-        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
         viewInDesktop: true,
         viewInMobile: true
     },
@@ -196,7 +160,7 @@ export const timelineData: TimelineItem[] = [
         colorLightTheme: '#059669',
         colorDarkTheme: '#34d399', // lighter variant for dark theme
         viewInDesktop: true,
-        viewInMobile: true
+        viewInMobile: false
     },
     {
         id: 'freelance-start',

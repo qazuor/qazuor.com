@@ -1,0 +1,56 @@
+---
+interface Props {
+    href: string;
+    text: string;
+    icon?: string;
+    variant?: 'primary' | 'secondary' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    ariaLabel?: string;
+    target?: '_blank' | '_self' | '_parent' | '_top';
+    rel?: string;
+    showHtml?: boolean;
+}
+
+const {
+    href,
+    text,
+    icon,
+    variant = 'primary',
+    size = 'md',
+    className = '',
+    ariaLabel,
+    target = '_self',
+    rel,
+    showHtml = true
+} = Astro.props;
+
+const variantClasses = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    ghost: 'btn-ghost'
+};
+
+const sizeClasses = {
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-3 text-base',
+    lg: 'px-8 py-4 text-lg'
+};
+
+const classes = ['btn', variantClasses[variant], sizeClasses[size], className].filter(Boolean).join(' ');
+
+const linkProps = {
+    href,
+    class: classes,
+    'aria-label': ariaLabel,
+    target: target !== '_self' ? target : undefined,
+    rel: target === '_blank' ? rel || 'noopener noreferrer' : rel
+};
+---
+
+<a {...linkProps}>
+    <div class="flex items-center gap-2">
+        {icon && <div class="w-4 h-4" set:html={icon} />}
+        {showHtml ? <span set:html={text} /> : text}
+    </div>
+</a>

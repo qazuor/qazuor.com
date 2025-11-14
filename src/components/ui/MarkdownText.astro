@@ -1,0 +1,17 @@
+---
+interface Props {
+    text: string;
+    element?: 'p' | 'span' | 'div';
+    className?: string;
+    showHtml?: boolean;
+}
+
+const { text, element = 'p', className = '', showHtml = true } = Astro.props as Props;
+
+// Dynamic element creation
+const Element = element;
+---
+
+<Element class={className}>
+    {showHtml ? <span set:html={text} /> : text}
+</Element>

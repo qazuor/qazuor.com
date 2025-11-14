@@ -1,0 +1,21 @@
+---
+interface Props {
+    text: string;
+    className?: string;
+    dataFilter?: string;
+    showHtml?: boolean;
+    [key: string]: unknown;
+}
+
+const { text, className = '', dataFilter, showHtml = true, ...rest } = Astro.props as Props;
+
+const buttonProps = {
+    class: className,
+    'data-filter': dataFilter,
+    ...rest
+};
+---
+
+<button {...buttonProps}>
+    {showHtml ? <span set:html={text} /> : text}
+</button>

@@ -11,7 +11,10 @@ interface TimelineItem {
     };
     icon: string; // Emoji icon for the timeline
     category: 'education' | 'work' | 'project' | 'achievement' | 'skill';
-    color: string; // Color for the active state
+    colorLightTheme: string; // Color for light theme
+    colorDarkTheme: string; // Color for dark theme
+    viewInDesktop: boolean; // Show in desktop timeline
+    viewInMobile: boolean; // Show in mobile timeline
 }
 
 export const timelineData: TimelineItem[] = [
@@ -28,7 +31,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'user-circle',
         category: 'achievement',
-        color: '#f59e0b' // amber
+        colorLightTheme: '#d97706',
+        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'msx2',
@@ -43,7 +49,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'computer-desktop',
         category: 'education',
-        color: '#3b82f6' // blue
+        colorLightTheme: '#2563eb',
+        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'first-pc',
@@ -58,7 +67,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'device-desktop',
         category: 'education',
-        color: '#10b981' // emerald
+        colorLightTheme: '#059669',
+        colorDarkTheme: '#34d399', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'automation',
@@ -73,7 +85,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'cog',
         category: 'project',
-        color: '#8b5cf6' // violet
+        colorLightTheme: '#7c3aed',
+        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'graduation',
@@ -88,7 +103,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'academic-cap',
         category: 'education',
-        color: '#06b6d4' // cyan
+        colorLightTheme: '#0891b2',
+        colorDarkTheme: '#22d3ee', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'internet',
@@ -103,7 +121,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'globe',
         category: 'skill',
-        color: '#ef4444' // red
+        colorLightTheme: '#dc2626',
+        colorDarkTheme: '#f87171', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'html-family',
@@ -118,7 +139,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'html5',
         category: 'skill',
-        color: '#f59e0b' // amber
+        colorLightTheme: '#d97706',
+        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'visual-basic',
@@ -133,7 +157,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'visual-basic',
         category: 'skill',
-        color: '#8b5cf6' // violet
+        colorLightTheme: '#7c3aed',
+        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'backend-classic',
@@ -148,7 +175,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'access',
         category: 'skill',
-        color: '#3b82f6' // blue
+        colorLightTheme: '#2563eb',
+        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'broadband',
@@ -163,7 +193,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'bolt',
         category: 'skill',
-        color: '#10b981' // emerald
+        colorLightTheme: '#059669',
+        colorDarkTheme: '#34d399', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'freelance-start',
@@ -178,7 +211,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'briefcase',
         category: 'work',
-        color: '#8b5cf6' // violet
+        colorLightTheme: '#7c3aed',
+        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'first-crm',
@@ -193,7 +229,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'php',
         category: 'project',
-        color: '#06b6d4' // cyan
+        colorLightTheme: '#0891b2',
+        colorDarkTheme: '#22d3ee', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'international',
@@ -208,7 +247,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'paper-airplane',
         category: 'achievement',
-        color: '#ef4444' // red
+        colorLightTheme: '#dc2626',
+        colorDarkTheme: '#f87171', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'avature-start',
@@ -223,7 +265,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'avature',
         category: 'work',
-        color: '#f59e0b' // amber
+        colorLightTheme: '#d97706',
+        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'js-framework',
@@ -238,7 +283,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'javascript',
         category: 'project',
-        color: '#3b82f6' // blue
+        colorLightTheme: '#2563eb',
+        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'frontend-focus',
@@ -253,7 +301,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'paint-brush',
         category: 'skill',
-        color: '#10b981' // emerald
+        colorLightTheme: '#059669',
+        colorDarkTheme: '#34d399', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'tech-leadership',
@@ -268,7 +319,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'user-group',
         category: 'achievement',
-        color: '#8b5cf6' // violet
+        colorLightTheme: '#7c3aed',
+        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'new-challenges',
@@ -283,7 +337,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'rocket',
         category: 'work',
-        color: '#06b6d4' // cyan
+        colorLightTheme: '#0891b2',
+        colorDarkTheme: '#22d3ee', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'visual-builder',
@@ -298,7 +355,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'eye',
         category: 'project',
-        color: '#ef4444' // red
+        colorLightTheme: '#dc2626',
+        colorDarkTheme: '#f87171', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'love-life',
@@ -313,7 +373,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'heart',
         category: 'achievement',
-        color: '#f59e0b' // amber
+        colorLightTheme: '#d97706',
+        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'nocode-automation',
@@ -328,7 +391,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'make',
         category: 'skill',
-        color: '#14b8a6' // teal
+        colorLightTheme: '#0d9488',
+        colorDarkTheme: '#2dd4bf', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     },
     {
         id: 'new-beginnings',
@@ -343,7 +409,10 @@ export const timelineData: TimelineItem[] = [
         },
         icon: 'star',
         category: 'achievement',
-        color: '#3b82f6' // blue
+        colorLightTheme: '#2563eb',
+        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
+        viewInDesktop: true,
+        viewInMobile: true
     }
 ];
 

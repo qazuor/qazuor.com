@@ -2,7 +2,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Register GSAP plugins and configure only on client
-if (typeof window !== 'undefined') {
+let gsapConfigured = false;
+if (typeof window !== 'undefined' && !gsapConfigured) {
   gsap.registerPlugin(ScrollTrigger);
 
   // Default GSAP configuration
@@ -11,10 +12,12 @@ if (typeof window !== 'undefined') {
     duration: 0.8,
   });
 
-  // Refresh ScrollTrigger on page load
-  window.addEventListener('load', () => {
-    ScrollTrigger.refresh();
+  // Configure ScrollTrigger to prevent excessive API calls
+  ScrollTrigger.config({
+    autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
   });
+
+  gsapConfigured = true;
 }
 
 interface AnimationOptions {

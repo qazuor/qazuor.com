@@ -1,25 +1,25 @@
 {
-  "name": "qazuor - Full-Stack Developer",
-  "short_name": "qazuor",
-  "description": "Building beautiful, performant, and accessible web experiences",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0f0f23",
-  "theme_color": "#8b5cf6",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "categories": ["portfolio", "technology", "development"],
-  "lang": "en",
-  "dir": "ltr"
+    "name": "qazuor - Full-Stack Developer",
+    "short_name": "qazuor",
+    "description": "Building beautiful, performant, and accessible web experiences",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f0f23",
+    "theme_color": "#8b5cf6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "categories": ["portfolio", "technology", "development"],
+    "lang": "en",
+    "dir": "ltr"
 }

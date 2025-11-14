@@ -8,190 +8,203 @@ import SecondaryTitle from '../ui/SecondaryTitle.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
 interface Props {
-  testimonials: Array<{
-    name: string;
-    role: string;
-    company: string;
-    content: string;
-    avatar?: string;
-    linkedinUrl?: string;
-    twitterUrl?: string;
-    source: 'linkedin' | 'twitter' | 'email' | 'other';
-  }>;
-  primaryColor?: string;
-  translations: {
-    title: string;
-    subtitle: string;
-    noTestimonials: string;
-    readMore: string;
-    readLess: string;
-    viewProfile: string;
-  };
+    testimonials: Array<{
+        name: string;
+        role: string;
+        company: string;
+        content: string;
+        avatar?: string;
+        linkedinUrl?: string;
+        twitterUrl?: string;
+        source: 'linkedin' | 'twitter' | 'email' | 'other';
+    }>;
+    primaryColor?: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        noTestimonials: string;
+        readMore: string;
+        readLess: string;
+        viewProfile: string;
+    };
 }
 
 const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
 ---
 
-<section class="relative section section-purple overflow-hidden" id="testimonials" style={`background-color: ${primaryColor}`}>
-  <!-- Animated Gradient Background -->
-  <AnimatedGradientBackground />
-  
-  <div class="container-custom">
-    <!-- Section Header -->
-    <SectionTitle 
-      title={translations.title}
-      subtitle={translations.subtitle}
-      size="lg"
-      titleClassName="mb-6"
-      className="max-w-3xl mx-auto"
-    />
+<section
+    class="relative section section-purple overflow-hidden"
+    id="testimonials"
+    style={`background-color: ${primaryColor}`}
+>
+    <!-- Animated Gradient Background -->
+    <AnimatedGradientBackground />
 
-    {testimonials.length === 0 ? (
-      <!-- Empty State -->
-      <div class="text-center py-16">
-        <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
-          <div class="w-10 h-10 text-muted-foreground" set:html={ChatBubbleIcon} />
-        </div>
-        <p class="text-foreground-secondary text-lg" set:html={translations.noTestimonials}>
-        </p>
-      </div>
-    ) : (
-      <!-- Testimonials Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {testimonials.map((testimonial) => (
-          <article class="group">
-            <!-- Card -->
-            <div class="h-full testimonial-card card-hover p-8">
-              <!-- Quote Icon -->
-              <div class="flex items-start gap-4 mb-6">
-                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <div class="w-5 h-5 text-primary" set:html={ChatBubbleIcon} />
-                </div>
-                <!-- Source Icon -->
-                {testimonial.source === 'linkedin' && (
-                  <div class="flex-shrink-0 w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
-                    <div class="w-4 h-4 text-white" set:html={LinkedinIcon} />
-                  </div>
-                )}
-                {testimonial.source === 'twitter' && (
-                  <div class="flex-shrink-0 w-6 h-6 rounded bg-black dark:bg-white flex items-center justify-center">
-                    <div class="w-4 h-4 text-white dark:text-black" set:html={TwitterIcon} />
-                  </div>
-                )}
-              </div>
+    <div class="container-custom">
+        <!-- Section Header -->
+        <SectionTitle
+            title={translations.title}
+            subtitle={translations.subtitle}
+            size="lg"
+            titleClassName="mb-6"
+            className="max-w-3xl mx-auto"
+        />
 
-              <!-- Content -->
-              <blockquote class="text-foreground mb-6 leading-relaxed">
-                "{testimonial.content}"
-              </blockquote>
-
-              <!-- Author Info -->
-              <footer class="flex items-center gap-4">
-                <!-- Avatar -->
-                <div class="flex-shrink-0">
-                  {testimonial.avatar ? (
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      class="w-12 h-12 rounded-full object-cover border-2 border-border"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg">
-                      {testimonial.name.charAt(0)}
+        {
+            testimonials.length === 0 ? (
+                /* Empty State */
+                <div class="text-center py-16">
+                    <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
+                        <div class="w-10 h-10 text-muted-foreground" set:html={ChatBubbleIcon} />
                     </div>
-                  )}
+                    <p class="text-foreground-secondary text-lg" set:html={translations.noTestimonials} />
                 </div>
+            ) : (
+                /* Testimonials Grid */
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {testimonials.map((testimonial) => (
+                        <article class="group">
+                            {/* Card */}
+                            <div class="h-full testimonial-card card-hover p-8">
+                                {/* Quote Icon */}
+                                <div class="flex items-start gap-4 mb-6">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <div class="w-5 h-5 text-primary" set:html={ChatBubbleIcon} />
+                                    </div>
+                                    {/* Source Icon */}
+                                    {testimonial.source === 'linkedin' && (
+                                        <div class="flex-shrink-0 w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
+                                            <div class="w-4 h-4 text-white" set:html={LinkedinIcon} />
+                                        </div>
+                                    )}
+                                    {testimonial.source === 'twitter' && (
+                                        <div class="flex-shrink-0 w-6 h-6 rounded bg-black dark:bg-white flex items-center justify-center">
+                                            <div class="w-4 h-4 text-white dark:text-black" set:html={TwitterIcon} />
+                                        </div>
+                                    )}
+                                </div>
 
-                <!-- Name and Role -->
-                <div class="flex-grow min-w-0">
-                  <div class="flex items-center gap-2 mb-1">
-                    <SecondaryTitle 
-                      text={testimonial.name}
-                      variant="accent"
-                      size="sm"
-                      showHtml={false}
-                    />
-                    <!-- Profile Link -->
-                    {(testimonial.linkedinUrl || testimonial.twitterUrl) && (
-                      <a
-                        href={testimonial.linkedinUrl || testimonial.twitterUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="flex-shrink-0 text-muted-foreground hover:text-primary transition-colors"
-                        aria-label={`${translations.viewProfile} - ${testimonial.name}`}
-                      >
-                        <div class="w-4 h-4" set:html={ArrowTopRightIcon} />
-                      </a>
-                    )}
-                  </div>
-                  <p class="text-sm text-foreground-secondary">
-                    {testimonial.role}
-                  </p>
-                  <p class="text-sm text-muted-foreground font-medium">
-                    {testimonial.company}
-                  </p>
+                                {/* Content */}
+                                <blockquote class="text-foreground mb-6 leading-relaxed">
+                                    "{testimonial.content}"
+                                </blockquote>
+
+                                {/* Author Info */}
+                                <footer class="flex items-center gap-4">
+                                    {/* Avatar */}
+                                    <div class="flex-shrink-0">
+                                        {testimonial.avatar ? (
+                                            <img
+                                                src={testimonial.avatar}
+                                                alt={testimonial.name}
+                                                class="w-12 h-12 rounded-full object-cover border-2 border-border"
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg">
+                                                {testimonial.name.charAt(0)}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Name and Role */}
+                                    <div class="flex-grow min-w-0">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <SecondaryTitle
+                                                text={testimonial.name}
+                                                variant="accent"
+                                                size="sm"
+                                                showHtml={false}
+                                            />
+                                            {/* Profile Link */}
+                                            {(testimonial.linkedinUrl || testimonial.twitterUrl) && (
+                                                <a
+                                                    href={testimonial.linkedinUrl || testimonial.twitterUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="flex-shrink-0 text-muted-foreground hover:text-primary transition-colors"
+                                                    aria-label={`${translations.viewProfile} - ${testimonial.name}`}
+                                                >
+                                                    <div class="w-4 h-4" set:html={ArrowTopRightIcon} />
+                                                </a>
+                                            )}
+                                        </div>
+                                        <p class="text-sm text-foreground-secondary">{testimonial.role}</p>
+                                        <p class="text-sm text-muted-foreground font-medium">{testimonial.company}</p>
+                                    </div>
+                                </footer>
+                            </div>
+                        </article>
+                    ))}
                 </div>
-              </footer>
-            </div>
-          </article>
-        ))}
-      </div>
-    )}
-  </div>
+            )
+        }
+    </div>
 </section>
 
 <style>
-  /* Testimonial card styling */
-  .testimonial-card {
-    @apply rounded-2xl shadow-lg;
-  }
-
-  /* Add subtle animations */
-  @media (prefers-reduced-motion: no-preference) {
-    article {
-      opacity: 0;
-      animation: fadeInUp 0.6s ease-out forwards;
+    /* Testimonial card styling */
+    .testimonial-card {
+        @apply rounded-2xl shadow-lg;
     }
-    
-    article:nth-child(1) { animation-delay: 0.1s; }
-    article:nth-child(2) { animation-delay: 0.2s; }
-    article:nth-child(3) { animation-delay: 0.3s; }
-    article:nth-child(4) { animation-delay: 0.4s; }
-    article:nth-child(5) { animation-delay: 0.5s; }
-    article:nth-child(6) { animation-delay: 0.6s; }
-  }
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
+    /* Add subtle animations */
+    @media (prefers-reduced-motion: no-preference) {
+        article {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        article:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        article:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        article:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        article:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        article:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        article:nth-child(6) {
+            animation-delay: 0.6s;
+        }
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-  }
 
-  /* Ensure cards maintain equal height */
-  article > div {
-    display: flex;
-    flex-direction: column;
-  }
+    /* Ensure cards maintain equal height */
+    article > div {
+        display: flex;
+        flex-direction: column;
+    }
 
-  blockquote {
-    flex-grow: 1;
-  }
+    blockquote {
+        flex-grow: 1;
+    }
 
-  /* Enhanced hover states */
-  article:hover .group {
-    transform: scale(1.02);
-  }
+    /* Enhanced hover states */
+    article:hover .group {
+        transform: scale(1.02);
+    }
 
-  /* Focus styles for accessibility */
-  a:focus-visible {
-    outline: 2px solid rgb(59 130 246);
-    outline-offset: 2px;
-    border-radius: 0.25rem;
-  }
+    /* Focus styles for accessibility */
+    a:focus-visible {
+        outline: 2px solid rgb(59 130 246);
+        outline-offset: 2px;
+        border-radius: 0.25rem;
+    }
 </style>

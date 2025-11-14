@@ -9,123 +9,119 @@ import SecondaryTitle from '../ui/SecondaryTitle.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
 interface BlogPost {
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  slug: string;
+    title: string;
+    excerpt: string;
+    date: string;
+    readTime: string;
+    tags: string[];
+    slug: string;
 }
 
 interface Props {
-  posts: BlogPost[];
-  primaryColor?: string;
-  translations: {
-    title: string;
-    subtitle: string;
-    viewAll: string;
-    noArticles: string;
-    readMore: string;
-    readTime: string;
-  };
-  lang: string;
+    posts: BlogPost[];
+    primaryColor?: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        viewAll: string;
+        noArticles: string;
+        readMore: string;
+        readTime: string;
+    };
+    lang: string;
 }
 
 const { posts, primaryColor = '#8b5cf6', translations, lang } = Astro.props;
 const displayedPosts = posts.slice(0, 3);
 ---
 
-<section class="relative section section-purple-blue overflow-hidden" id="blog" style={`background-color: ${primaryColor}`}>
-  <!-- Animated Gradient Background -->
-  <AnimatedGradientBackground />
-  
-  <div class="container-custom">
-    <!-- Section Title -->
-    <SectionTitle 
-      title={translations.title}
-      subtitle={translations.subtitle}
-    />
+<section
+    class="relative section section-purple-blue overflow-hidden"
+    id="blog"
+    style={`background-color: ${primaryColor}`}
+>
+    <!-- Animated Gradient Background -->
+    <AnimatedGradientBackground />
 
-    <!-- Blog Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-      {
-        displayedPosts.map((post) => (
-          <article class="blog-card card-hover group p-6">
-            <!-- Header -->
-            <div class="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
-              <time datetime={post.date} class="flex items-center gap-2">
-                <div class="w-4 h-4" set:html={CalendarIcon} />
-                {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })}
-              </time>
-              <span>•</span>
-              <span class="flex items-center gap-2">
-                <div class="w-4 h-4" set:html={ClockIcon} />
-                {post.readTime.match(/\d+/)?.[0]} {translations.readTime}
-              </span>
-            </div>
+    <div class="container-custom">
+        <!-- Section Title -->
+        <SectionTitle title={translations.title} subtitle={translations.subtitle} />
 
-            <!-- Title -->
-            <SecondaryTitle 
-              text={post.title}
-              variant="card"
-              className="mb-3"
-              href={post.slug}
-              showHtml={false}
-            />
+        <!-- Blog Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {
+                displayedPosts.map((post) => (
+                    <article class="blog-card card-hover group p-6">
+                        {/* Header */}
+                        <div class="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
+                            <time datetime={post.date} class="flex items-center gap-2">
+                                <div class="w-4 h-4" set:html={CalendarIcon} />
+                                {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })}
+                            </time>
+                            <span>•</span>
+                            <span class="flex items-center gap-2">
+                                <div class="w-4 h-4" set:html={ClockIcon} />
+                                {post.readTime.match(/\d+/)?.[0]} {translations.readTime}
+                            </span>
+                        </div>
 
-            <!-- Excerpt -->
-            <p class="text-foreground-secondary text-sm mb-4 line-clamp-3">{post.excerpt}</p>
+                        {/* Title */}
+                        <SecondaryTitle
+                            text={post.title}
+                            variant="card"
+                            className="mb-3"
+                            href={post.slug}
+                            showHtml={false}
+                        />
 
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-2 mb-4">
-              {post.tags.map((tag) => (
-                <span class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300">
-                  #{tag}
-                </span>
-              ))}
-            </div>
+                        {/* Excerpt */}
+                        <p class="text-foreground-secondary text-sm mb-4 line-clamp-3">{post.excerpt}</p>
 
-            <!-- Read more link -->
-            <a
-              href={post.slug}
-              class="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
-              set:html={`${translations.readMore}<div class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300">${ArrowRightIcon}</div>`}
-            >
-            </a>
-          </article>
-        ))
-      }
-    </div>
+                        {/* Tags */}
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {post.tags.map((tag) => (
+                                <span class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300">
+                                    #{tag}
+                                </span>
+                            ))}
+                        </div>
 
-    <!-- View All Button -->
-    {
-      posts.length > 3 && (
-        <div class="text-center">
+                        {/* Read more link */}
+                        <a
+                            href={post.slug}
+                            class="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
+                            set:html={`${translations.readMore}<div class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300">${ArrowRightIcon}</div>`}
+                        />
+                    </article>
+                ))
+            }
+        </div>
+
+        {/* View All Button */}
+        {
+            posts.length > 3 && (
+                <div class="text-center">
                     <a
-            href={`/${lang}/blog`}
-            class="inline-flex items-center gap-2 text-primary hover:text-primary-600 font-semibold transition-colors duration-300"
-            set:html={`${translations.viewAll}<div class="w-5 h-5">${ArrowLongRightIcon}</div>`}
-          >
-          </a>
-        </div>
-      )
-    }
+                        href={`/${lang}/blog`}
+                        class="inline-flex items-center gap-2 text-primary hover:text-primary-600 font-semibold transition-colors duration-300"
+                        set:html={`${translations.viewAll}<div class="w-5 h-5">${ArrowLongRightIcon}</div>`}
+                    />
+                </div>
+            )
+        }
 
-    <!-- Empty State -->
-    {
-      posts.length === 0 && (
-        <div class="text-center py-12">
-          <div
-            class="w-16 h-16 mx-auto mb-4 text-foreground-muted"
-            set:html={DocumentEmptyIcon}
-          />
-          <p class="text-foreground-secondary text-lg" set:html={translations.noArticles}></p>
-        </div>
-      )
-    }
-  </div>
+        {/* Empty State */}
+        {
+            posts.length === 0 && (
+                <div class="text-center py-12">
+                    <div class="w-16 h-16 mx-auto mb-4 text-foreground-muted" set:html={DocumentEmptyIcon} />
+                    <p class="text-foreground-secondary text-lg" set:html={translations.noArticles} />
+                </div>
+            )
+        }
+    </div>
 </section>

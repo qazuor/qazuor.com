@@ -6,6 +6,7 @@ export interface RadarChartSkill {
     value: number; // 0-100
     color: string;
     icon?: string; // SVG icon as string
+    description?: string; // Optional description for tooltip
 }
 
 export interface RadarChartProps {
@@ -310,22 +311,6 @@ export function RadarChart({
                                             }}
                                         />
                                     )}
-
-                                    {/* Tooltip on hover */}
-                                    {isHovered && (
-                                        <g className="tooltip">
-                                            <foreignObject x={point.x - 60} y={point.y - 60} width={120} height={50}>
-                                                <div
-                                                    className="flex flex-col items-center justify-center px-3 py-2
-                                                    bg-background-secondary border border-border rounded-lg shadow-lg
-                                                    text-xs text-foreground text-center"
-                                                >
-                                                    <div className="font-semibold">{skill.name}</div>
-                                                    <div className="text-foreground-secondary">{skill.value}%</div>
-                                                </div>
-                                            </foreignObject>
-                                        </g>
-                                    )}
                                 </g>
                             );
                         })}
@@ -370,9 +355,13 @@ export function RadarChart({
                             const startY = labelY - ((words.length - 1) * lineHeight) / 2 - 6;
 
                             return (
+                                // biome-ignore lint/a11y/noStaticElementInteractions: SVG g element used for mouse events on labels
                                 <g
                                     // biome-ignore lint/suspicious/noArrayIndexKey: Label group keys match skill order
                                     key={i}
+                                    onMouseEnter={() => setHoveredIndex(i)}
+                                    onMouseLeave={() => setHoveredIndex(null)}
+                                    style={{ cursor: skill.description ? 'pointer' : 'default' }}
                                 >
                                     {/* Skill name (multi-line if has spaces, centered) */}
                                     {words.map((word, wordIndex) => (
@@ -428,6 +417,88 @@ export function RadarChart({
                                             {skill.value}%
                                         </text>
                                     </g>
+                                </g>
+                            );
+                        })}
+                    </g>
+
+                    {/* Tooltips rendered last to appear on top */}
+                    <g className="tooltips-layer">
+                        {skills.map((skill, i) => {
+                            const isHovered = hoveredIndex === i;
+
+                            if (!isHovered || !skill.description) {
+                                return null;
+                            }
+
+                            // Calculate label position (same as in axis-labels)
+                            const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
+                            const angleDeg = ((angle + Math.PI / 2) * 180) / Math.PI;
+                            const labelDistance = radius + 55;
+                            const extraOffset = { x: 0, y: 0 };
+
+                            if (angleDeg >= 315 || angleDeg < 45) {
+                                extraOffset.y = -10;
+                            } else if (angleDeg >= 45 && angleDeg < 135) {
+                                extraOffset.x = 10;
+                            } else if (angleDeg >= 135 && angleDeg < 225) {
+                                extraOffset.y = 10;
+                            } else {
+                                extraOffset.x = -10;
+                            }
+
+                            const labelX = center + labelDistance * Math.cos(angle) + extraOffset.x;
+                            const labelY = center + labelDistance * Math.sin(angle) + extraOffset.y;
+
+                            // Smart tooltip positioning based on label location
+                            const tooltipWidth = 220;
+                            let tooltipX = labelX - tooltipWidth / 2; // Default: centered
+                            const tooltipY = labelY + 25; // Below label
+
+                            // Adjust horizontal position if tooltip would overflow
+                            const padding = 10;
+                            if (labelX < center - 50) {
+                                // Label on left side - align tooltip to the left
+                                tooltipX = labelX - 40;
+                            } else if (labelX > center + 50) {
+                                // Label on right side - align tooltip to the right
+                                tooltipX = labelX - tooltipWidth + 40;
+                            }
+
+                            // Ensure tooltip stays within bounds
+                            if (tooltipX < padding) {
+                                tooltipX = padding;
+                            } else if (tooltipX + tooltipWidth > size - padding) {
+                                tooltipX = size - tooltipWidth - padding;
+                            }
+
+                            return (
+                                <g
+                                    // biome-ignore lint/suspicious/noArrayIndexKey: Tooltip keys match skill order
+                                    key={i}
+                                    className="tooltip"
+                                >
+                                    <foreignObject x={tooltipX} y={tooltipY} width={220} height={130}>
+                                        <div
+                                            className="flex flex-col px-3 py-2.5 rounded-lg text-xs max-h-full overflow-hidden"
+                                            style={{
+                                                backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                                                border: '2px solid rgba(79, 70, 229, 0.6)',
+                                                color: '#1f2937',
+                                                backdropFilter: 'blur(12px)',
+                                                boxShadow:
+                                                    '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
+                                                pointerEvents: 'none'
+                                            }}
+                                        >
+                                            <div className="font-bold mb-1.5" style={{ color: '#111827' }}>
+                                                {skill.name}
+                                            </div>
+                                            <div className="text-xs leading-relaxed" style={{ color: '#4b5563' }}>
+                                                {skill.description}
+                                            </div>
+                                        </div>
+                                    </foreignObject>
                                 </g>
                             );
                         })}

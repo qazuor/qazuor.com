@@ -52,6 +52,7 @@ interface Props {
             softSkills: string;
         };
         skillItems?: Record<string, string>; // For soft skills translations
+        skillDescriptions?: Record<string, string>; // For skill descriptions translations
         languages?: {
             title: string;
             native: string;
@@ -119,14 +120,19 @@ const categories = skillsData.map((category) => ({
     id: category.id,
     title: translations.categoryTitles?.[category.id] || category.id,
     skills: category.skills.map((skill) => ({
-        // Use translation for soft skills, keep original name for others
+        // Use translation for soft skills and other skills, keep original name for dev hard skills
         name:
-            category.id === 'softSkills' && translations.skillItems?.[skill.name]
+            (category.id === 'softSkills' || category.id === 'otherSkills') && translations.skillItems?.[skill.name]
                 ? translations.skillItems[skill.name]
                 : skill.name,
         value: skill.value,
         color: skill.color,
-        icon: iconMap[skill.icon] || ''
+        icon: iconMap[skill.icon] || '',
+        // Include translated description if available
+        description:
+            skill.description && translations.skillDescriptions?.[skill.description]
+                ? translations.skillDescriptions[skill.description]
+                : undefined
     }))
 }));
 ---

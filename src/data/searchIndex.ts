@@ -15,4 +15,4 @@ export function getSearchIndex(): SearchableItem[] {
 
 // For development: signal that index should be loaded from global variable
 export const SEARCH_INDEX_SOURCE = 'window';
-export const SEARCH_INDEX_TIMESTAMP = 1763242975635;
+export const SEARCH_INDEX_TIMESTAMP = 1763249445528;

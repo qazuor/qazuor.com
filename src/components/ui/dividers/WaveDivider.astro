@@ -10,7 +10,9 @@ interface Props {
         | 'about-to-skills'
         | 'skills-to-projects'
         | 'projects-to-blog'
+        | 'blog-to-services'
         | 'blog-to-testimonials'
+        | 'services-to-testimonials'
         | 'testimonials-to-contact'
         | 'contact-to-footer';
 }
@@ -161,6 +163,22 @@ const { transition = 'hero-to-about' } = Astro.props;
         --divider-transition-3: var(--blog-to-testimonials-3);
         --divider-transition-4: var(--blog-to-testimonials-4);
         --divider-transition-5: var(--blog-to-testimonials-5);
+    }
+
+    .wave-divider[data-transition='blog-to-services'] {
+        --divider-transition-1: var(--blog-to-services-1);
+        --divider-transition-2: var(--blog-to-services-2);
+        --divider-transition-3: var(--blog-to-services-3);
+        --divider-transition-4: var(--blog-to-services-4);
+        --divider-transition-5: var(--blog-to-services-5);
+    }
+
+    .wave-divider[data-transition='services-to-testimonials'] {
+        --divider-transition-1: var(--services-to-testimonials-1);
+        --divider-transition-2: var(--services-to-testimonials-2);
+        --divider-transition-3: var(--services-to-testimonials-3);
+        --divider-transition-4: var(--services-to-testimonials-4);
+        --divider-transition-5: var(--services-to-testimonials-5);
     }
 
     .wave-divider[data-transition='testimonials-to-contact'] {

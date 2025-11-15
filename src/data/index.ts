@@ -5,5 +5,6 @@
 
 export * from './colors';
 export * from './contact';
+export * from './services';
 export * from './skills';
 export * from './timeline';

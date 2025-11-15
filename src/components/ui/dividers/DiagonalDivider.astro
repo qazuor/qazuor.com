@@ -12,7 +12,9 @@ interface Props {
         | 'about-to-skills'
         | 'skills-to-projects'
         | 'projects-to-blog'
+        | 'blog-to-services'
         | 'blog-to-testimonials'
+        | 'services-to-testimonials'
         | 'testimonials-to-contact'
         | 'contact-to-footer';
 }
@@ -118,6 +120,18 @@ const line4Right = direction === 'right';
         --divider-transition-primary: var(--blog-to-testimonials-2);
         --divider-transition-secondary: var(--blog-to-testimonials-4);
         --divider-transition-accent: var(--blog-to-testimonials-3);
+    }
+
+    .diagonal-divider[data-transition='blog-to-services'] {
+        --divider-transition-primary: var(--blog-to-services-2);
+        --divider-transition-secondary: var(--blog-to-services-4);
+        --divider-transition-accent: var(--blog-to-services-3);
+    }
+
+    .diagonal-divider[data-transition='services-to-testimonials'] {
+        --divider-transition-primary: var(--services-to-testimonials-2);
+        --divider-transition-secondary: var(--services-to-testimonials-4);
+        --divider-transition-accent: var(--services-to-testimonials-3);
     }
 
     .diagonal-divider[data-transition='testimonials-to-contact'] {

@@ -21,6 +21,7 @@ interface SectionColors {
     skills: string;
     projects: string;
     blog: string;
+    services: string;
     testimonials: string;
     contact: string;
     footer: string;
@@ -71,7 +72,9 @@ function generateTransitionCSS(colors: SectionColors, steps: number): string {
         { name: 'about-to-skills', from: colors.about, to: colors.skills },
         { name: 'skills-to-projects', from: colors.skills, to: colors.projects },
         { name: 'projects-to-blog', from: colors.projects, to: colors.blog },
+        { name: 'blog-to-services', from: colors.blog, to: colors.services },
         { name: 'blog-to-testimonials', from: colors.blog, to: colors.testimonials },
+        { name: 'services-to-testimonials', from: colors.services, to: colors.testimonials },
         { name: 'testimonials-to-contact', from: colors.testimonials, to: colors.contact },
         { name: 'contact-to-footer', from: colors.contact, to: colors.footer }
     ];
@@ -128,6 +131,7 @@ function loadColorsFromSource(sourceFile: string): { dark: SectionColors; light:
                 skills: colors.skills || '#000000',
                 projects: colors.projects || '#000000',
                 blog: colors.blog || '#000000',
+                services: colors.services || '#000000',
                 testimonials: colors.testimonials || '#000000',
                 contact: colors.contact || '#000000',
                 footer: colors.footer || '#000000'
@@ -166,6 +170,7 @@ function generateCompleteCSS(darkColors: SectionColors, lightColors: SectionColo
   --section-skills-bg: ${lightColors.skills.toLowerCase()};
   --section-projects-bg: ${lightColors.projects.toLowerCase()};
   --section-blog-bg: ${lightColors.blog.toLowerCase()};
+  --section-services-bg: ${lightColors.services.toLowerCase()};
   --section-testimonials-bg: ${lightColors.testimonials.toLowerCase()};
   --section-contact-bg: ${lightColors.contact.toLowerCase()};
   --section-footer-bg: ${lightColors.footer.toLowerCase()};
@@ -180,6 +185,7 @@ ${generateTransitionCSS(lightColors, steps).trimEnd()}
   --section-skills-bg: ${darkColors.skills.toLowerCase()};
   --section-projects-bg: ${darkColors.projects.toLowerCase()};
   --section-blog-bg: ${darkColors.blog.toLowerCase()};
+  --section-services-bg: ${darkColors.services.toLowerCase()};
   --section-testimonials-bg: ${darkColors.testimonials.toLowerCase()};
   --section-contact-bg: ${darkColors.contact.toLowerCase()};
   --section-footer-bg: ${darkColors.footer.toLowerCase()};

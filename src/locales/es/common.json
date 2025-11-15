@@ -127,10 +127,29 @@
         "subtitle": "Tecnologías con las que *trabajo*",
         "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.",
         "categories": {
-            "dev": "Habilidades de **Desarrollo**",
-            "design": "Habilidades de **Diseño**",
-            "languages": "Habilidades de Idiomas",
-            "tools": "Herramientas"
+            "devHardSkills": "Habilidades **Técnicas** de Desarrollo",
+            "otherSkills": "**Otras** Habilidades",
+            "softSkills": "Habilidades **Blandas**"
+        },
+        "items": {
+            "adaptability": "Adaptabilidad",
+            "positiveAttitude": "Actitud Positiva",
+            "communication": "Comunicación",
+            "timeManagement": "Gestión del Tiempo",
+            "flexibility": "Flexibilidad",
+            "analyticalThinking": "Pensamiento Analítico",
+            "teamwork": "Trabajo en Equipo",
+            "decisionMaking": "Toma de Decisiones",
+            "creativity": "Creatividad",
+            "problemSolving": "Resolución de Problemas",
+            "curiosity": "Curiosidad",
+            "negotiation": "Negociación",
+            "leadership": "Liderazgo"
+        },
+        "languages": {
+            "title": "Idiomas",
+            "native": "nativo",
+            "writtenOnly": "técnico/escrito"
         }
     },
     "projects": {
@@ -247,6 +266,7 @@
         "toggleTheme": "Cambiar tema",
         "scrollToTop": "Volver arriba",
         "toggleMenu": "Alternar menú",
+        "openCommandPalette": "Abrir paleta de comandos",
         "closeCommandPalette": "Cerrar paleta de comandos",
         "noArticles": "Sin artículos",
         "commandPalettePlaceholder": "Escribe un comando o busca..."

@@ -127,10 +127,29 @@
         "subtitle": "Technologies I *work with*",
         "description": "Here's a look at my skill set. The **tech world** changes every moment and that's what makes it *exciting*! I constantly keep my knowledge up to date and love exploring **new technologies** to keep growing.",
         "categories": {
-            "dev": "**Dev** Skills",
-            "design": "**Design** Skills",
-            "languages": "Language Skills",
-            "tools": "Tools"
+            "devHardSkills": "**Dev** Hard Skills",
+            "otherSkills": "**Other** Skills",
+            "softSkills": "**Soft** Skills"
+        },
+        "items": {
+            "adaptability": "Adaptability",
+            "positiveAttitude": "Positive Attitude",
+            "communication": "Communication",
+            "timeManagement": "Time Management",
+            "flexibility": "Flexibility",
+            "analyticalThinking": "Analytical Thinking",
+            "teamwork": "Teamwork",
+            "decisionMaking": "Decision Making",
+            "creativity": "Creativity",
+            "problemSolving": "Problem Solving",
+            "curiosity": "Curiosity",
+            "negotiation": "Negotiation",
+            "leadership": "Leadership"
+        },
+        "languages": {
+            "title": "Languages",
+            "native": "native",
+            "writtenOnly": "technical/written"
         }
     },
     "projects": {
@@ -247,6 +266,7 @@
         "toggleTheme": "Toggle theme",
         "scrollToTop": "Scroll to top",
         "toggleMenu": "Toggle menu",
+        "openCommandPalette": "Open command palette",
         "closeCommandPalette": "Close command palette",
         "noArticles": "No articles",
         "commandPalettePlaceholder": "Type a command or search..."

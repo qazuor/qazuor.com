@@ -5,6 +5,7 @@ import AboutSection from '../../components/sections/AboutSection.astro';
 import BlogSection from '../../components/sections/BlogSection.astro';
 import HeroSection from '../../components/sections/HeroSection.astro';
 import ProjectsSection from '../../components/sections/ProjectsSection.astro';
+import ServicesSection from '../../components/sections/ServicesSection.astro';
 import SkillsSection from '../../components/sections/SkillsSection.astro';
 import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
 import DiagonalDivider from '../../components/ui/dividers/DiagonalDivider.astro';
@@ -24,8 +25,12 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const title = t('seo.title', { markdown: true });
-const description = t('home.description', { markdown: true });
+// SEO Translations
+const seoTranslations = {
+    title: t('seo.title', { markdown: true }),
+    description: t('home.description', { markdown: true }),
+    imageAlt: t('seo.imageAlt', { markdown: true })
+};
 
 // SEO keywords - definidos directamente ya que las traducciones no manejan bien arrays
 const seoKeywords =
@@ -106,7 +111,6 @@ const sortedTestimonials = allTestimonials
         content: testimonial.data.content,
         avatar: testimonial.data.avatar,
         linkedinUrl: testimonial.data.linkedinUrl,
-        twitterUrl: testimonial.data.twitterUrl,
         source: testimonial.data.source
     }));
 
@@ -158,6 +162,7 @@ const skillsTranslations = {
         softSkills: t('skills.categories.softSkills', { markdown: true })
     },
     skillItems: {
+        // Soft Skills
         adaptability: t('skills.items.adaptability'),
         positiveAttitude: t('skills.items.positiveAttitude'),
         communication: t('skills.items.communication'),
@@ -170,7 +175,32 @@ const skillsTranslations = {
         problemSolving: t('skills.items.problemSolving'),
         curiosity: t('skills.items.curiosity'),
         negotiation: t('skills.items.negotiation'),
-        leadership: t('skills.items.leadership')
+        leadership: t('skills.items.leadership'),
+        // Other Skills
+        graphicDesign: t('skills.items.graphicDesign'),
+        branding: t('skills.items.branding'),
+        imageEditing: t('skills.items.imageEditing'),
+        noCodeAutomation: t('skills.items.noCodeAutomation'),
+        webPerformance: t('skills.items.webPerformance'),
+        webAccessibility: t('skills.items.webAccessibility'),
+        styleGuides: t('skills.items.styleGuides'),
+        integrations: t('skills.items.integrations'),
+        automation: t('skills.items.automation'),
+        apisWebhooks: t('skills.items.apisWebhooks'),
+        seo: t('skills.items.seo')
+    },
+    skillDescriptions: {
+        graphicDesignDescription: t('skills.descriptions.graphicDesignDescription'),
+        brandingDescription: t('skills.descriptions.brandingDescription'),
+        imageEditingDescription: t('skills.descriptions.imageEditingDescription'),
+        noCodeAutomationDescription: t('skills.descriptions.noCodeAutomationDescription'),
+        webPerformanceDescription: t('skills.descriptions.webPerformanceDescription'),
+        webAccessibilityDescription: t('skills.descriptions.webAccessibilityDescription'),
+        styleGuidesDescription: t('skills.descriptions.styleGuidesDescription'),
+        integrationsDescription: t('skills.descriptions.integrationsDescription'),
+        automationDescription: t('skills.descriptions.automationDescription'),
+        apisWebhooksDescription: t('skills.descriptions.apisWebhooksDescription'),
+        seoDescription: t('skills.descriptions.seoDescription')
     },
     languages: {
         title: t('skills.languages.title'),
@@ -239,17 +269,106 @@ const testimonialsTranslations = {
     viewProfile: t('testimonials.viewProfile', { markdown: true })
 };
 
+const servicesTranslations = {
+    title: t('services.title', { markdown: true }),
+    subtitle: t('services.subtitle', { markdown: true }),
+    description: t('services.description', { markdown: true }),
+    webApps: {
+        title: t('services.webApps.title', { markdown: true }),
+        description: t('services.webApps.description', { markdown: true }),
+        features: [
+            t('services.webApps.features.0'),
+            t('services.webApps.features.1'),
+            t('services.webApps.features.2'),
+            t('services.webApps.features.3'),
+            t('services.webApps.features.4'),
+            t('services.webApps.features.5')
+        ]
+    },
+    landingPages: {
+        title: t('services.landingPages.title', { markdown: true }),
+        description: t('services.landingPages.description', { markdown: true }),
+        features: [
+            t('services.landingPages.features.0'),
+            t('services.landingPages.features.1'),
+            t('services.landingPages.features.2'),
+            t('services.landingPages.features.3'),
+            t('services.landingPages.features.4'),
+            t('services.landingPages.features.5')
+        ]
+    },
+    automation: {
+        title: t('services.automation.title', { markdown: true }),
+        description: t('services.automation.description', { markdown: true }),
+        features: [
+            t('services.automation.features.0'),
+            t('services.automation.features.1'),
+            t('services.automation.features.2'),
+            t('services.automation.features.3'),
+            t('services.automation.features.4'),
+            t('services.automation.features.5')
+        ]
+    },
+    socialDesign: {
+        title: t('services.socialDesign.title', { markdown: true }),
+        description: t('services.socialDesign.description', { markdown: true }),
+        features: [
+            t('services.socialDesign.features.0'),
+            t('services.socialDesign.features.1'),
+            t('services.socialDesign.features.2'),
+            t('services.socialDesign.features.3'),
+            t('services.socialDesign.features.4'),
+            t('services.socialDesign.features.5')
+        ]
+    },
+    cta: {
+        title: t('services.cta.title', { markdown: true }),
+        description: t('services.cta.description', { markdown: true }),
+        button: t('services.cta.button', { markdown: true }),
+        consultation: t('services.cta.consultation', { markdown: true })
+    },
+    pricing: {
+        from: t('services.pricing.from', { markdown: true }),
+        consultation: t('services.pricing.consultation', { markdown: true }),
+        getQuote: t('services.pricing.getQuote', { markdown: true })
+    }
+};
+
+// Profile translations
+const profileTranslations = {
+    name: t('profile.name', { markdown: true }),
+    role: t('profile.role', { markdown: true })
+};
+
+// Hero content translations
+const heroContentTranslations = {
+    iBuild: [
+        t('home.iBuild.webapps', { markdown: true }),
+        t('home.iBuild.interfaces', { markdown: true }),
+        t('home.iBuild.solutions', { markdown: true }),
+        t('home.iBuild.experiences', { markdown: true }),
+        t('home.iBuild.uis', { markdown: true }),
+        t('home.iBuild.tools', { markdown: true })
+    ],
+    roles: [
+        t('home.roles.fullstack', { markdown: true }),
+        t('home.roles.frontend', { markdown: true }),
+        t('home.roles.designer', { markdown: true })
+    ],
+    subtitle: t('home.hero.subtitle', { markdown: true })
+};
+
 // Colors are now imported from data module
 ---
 
 <BaseLayout
-    title={title}
-    description={description}
-    imageAlt={t('seo.imageAlt', { markdown: true })}
+    title={seoTranslations.title}
+    description={seoTranslations.description}
+    imageAlt={seoTranslations.imageAlt}
     type="profile"
     keywords={seoKeywords}
-    author={t('profile.name', { markdown: true })}
-    jobTitle={t('profile.role', { markdown: true })}
+    author={profileTranslations.name}
+    jobTitle={profileTranslations.role}
     socialLinks={{
         github: contact.social.github,
         linkedin: contact.social.linkedin,
@@ -261,21 +380,10 @@ const testimonialsTranslations = {
     <div class="relative">
         <HeroSection
             primaryColor={sectionsColors.hero}
-            name={t('profile.name', { markdown: true })}
-            iBuild={[
-                t('home.iBuild.webapps', { markdown: true }),
-                t('home.iBuild.interfaces', { markdown: true }),
-                t('home.iBuild.solutions', { markdown: true }),
-                t('home.iBuild.experiences', { markdown: true }),
-                t('home.iBuild.uis', { markdown: true }),
-                t('home.iBuild.tools', { markdown: true })
-            ]}
-            roles={[
-                t('home.roles.fullstack', { markdown: true }),
-                t('home.roles.frontend', { markdown: true }),
-                t('home.roles.designer', { markdown: true })
-            ]}
-            subtitle={t('home.hero.subtitle', { markdown: true })}
+            name={profileTranslations.name}
+            iBuild={heroContentTranslations.iBuild}
+            roles={heroContentTranslations.roles}
+            subtitle={heroContentTranslations.subtitle}
             translations={heroTranslations}
             ariaLabels={heroAriaLabels}
         />
@@ -313,7 +421,16 @@ const testimonialsTranslations = {
             translations={blogTranslations}
             lang={lang}
         />
-        <DiagonalDivider direction="left" transition="blog-to-testimonials" />
+        <DiagonalDivider direction="left" transition="blog-to-services" />
+    </div>
+
+    <!-- Services Section with gradient background -->
+    <div class="relative">
+        <ServicesSection
+            primaryColor={sectionsColors.services}
+            translations={servicesTranslations}
+        />
+        <WaveDivider transition="services-to-testimonials" />
     </div>
 
     <!-- Testimonials Section with purple gradient background -->

@@ -85,15 +85,6 @@ export function RadarChart({
         };
     };
 
-    // Calculate axis endpoints (for grid lines)
-    const _calculateAxisPoint = (index: number): { x: number; y: number } => {
-        const angle = (Math.PI * 2 * index) / numSkills - Math.PI / 2;
-        return {
-            x: center + radius * Math.cos(angle),
-            y: center + radius * Math.sin(angle)
-        };
-    };
-
     // Generate grid levels (concentric polygons)
     const gridPolygons = Array.from({ length: gridLevels }, (_, i) => {
         const levelValue = ((i + 1) / gridLevels) * maxValue;

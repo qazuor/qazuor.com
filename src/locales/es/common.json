@@ -144,7 +144,31 @@
             "problemSolving": "Resolución de Problemas",
             "curiosity": "Curiosidad",
             "negotiation": "Negociación",
-            "leadership": "Liderazgo"
+            "leadership": "Liderazgo",
+            "graphicDesign": "Diseño Gráfico",
+            "branding": "Branding",
+            "imageEditing": "Edición de Imágenes",
+            "noCodeAutomation": "Automatización No-Code",
+            "webPerformance": "Rendimiento Web",
+            "webAccessibility": "Accesibilidad Web",
+            "styleGuides": "Guías de Estilo",
+            "integrations": "Integraciones",
+            "automation": "Automatización",
+            "apisWebhooks": "APIs & Webhooks",
+            "seo": "SEO"
+        },
+        "descriptions": {
+            "graphicDesignDescription": "Diseño de piezas para redes sociales (banners, flyers, posts, stories)",
+            "brandingDescription": "Diseño de identidades básicas de marca (logos sencillos, paletas de color, tipografías)",
+            "imageEditingDescription": "Edición básica de imágenes (corrección de color, recorte, montaje simple)",
+            "noCodeAutomationDescription": "Automatizaciones no-code (Make / Zapier / integraciones simples)",
+            "webPerformanceDescription": "Performance y optimización básica de páginas (imágenes, lazy loading, etc.)",
+            "webAccessibilityDescription": "Accesibilidad web básica (buen contraste, estructura semántica, labels, etc.)",
+            "styleGuidesDescription": "Guías de estilo básicas para marcas (uso de logo, colores, tipografías)",
+            "integrationsDescription": "Integración de herramientas externas (formularios, chats, CRMs simples, newsletters)",
+            "automationDescription": "Automatizaciones con Make / Zapier (ej: formulario → email → hoja de cálculo)",
+            "apisWebhooksDescription": "Integración entre web y herramientas de terceros (Notion, Sheets, etc.)",
+            "seoDescription": "Optimización para motores de búsqueda"
         },
         "languages": {
             "title": "Idiomas",

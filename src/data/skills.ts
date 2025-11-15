@@ -4,10 +4,11 @@
  */
 
 export interface Skill {
-    name: string; // i18n key for soft skills, direct name for others
+    name: string; // i18n key for soft skills and other skills, direct name for dev hard skills
     icon: string; // icon filename (without path or extension)
     color: string; // hex color for radar chart
     value: number; // 0-100 for radar chart visualization
+    description?: string; // Optional description key for i18n (for other skills)
 }
 
 export interface SkillCategory {
@@ -41,11 +42,83 @@ export const skillsData: SkillCategory[] = [
     {
         id: 'otherSkills',
         skills: [
-            { name: 'CorelDRAW', icon: 'coreldraw', color: '#019639', value: 75 },
-            { name: 'Adobe Photoshop', icon: 'photoshop', color: '#31A8FF', value: 70 },
-            { name: 'Canva', icon: 'canva', color: '#00C4CC', value: 60 },
-            { name: 'WordPress', icon: 'wordpress', color: '#21759B', value: 65 },
-            { name: 'SEO Basics', icon: 'search', color: '#4285F4', value: 75 }
+            {
+                name: 'graphicDesign',
+                icon: 'coreldraw',
+                color: '#019639',
+                value: 85,
+                description: 'graphicDesignDescription'
+            },
+            {
+                name: 'branding',
+                icon: 'photoshop',
+                color: '#31A8FF',
+                value: 75,
+                description: 'brandingDescription'
+            },
+            {
+                name: 'imageEditing',
+                icon: 'canva',
+                color: '#00C4CC',
+                value: 80,
+                description: 'imageEditingDescription'
+            },
+            {
+                name: 'noCodeAutomation',
+                icon: 'api',
+                color: '#6366F1',
+                value: 70,
+                description: 'noCodeAutomationDescription'
+            },
+            {
+                name: 'webPerformance',
+                icon: 'arrow-up',
+                color: '#10B981',
+                value: 85,
+                description: 'webPerformanceDescription'
+            },
+            {
+                name: 'webAccessibility',
+                icon: 'check-circle',
+                color: '#14B8A6',
+                value: 75,
+                description: 'webAccessibilityDescription'
+            },
+            {
+                name: 'styleGuides',
+                icon: 'document-empty',
+                color: '#8B5CF6',
+                value: 70,
+                description: 'styleGuidesDescription'
+            },
+            {
+                name: 'integrations',
+                icon: 'external-link',
+                color: '#F97316',
+                value: 80,
+                description: 'integrationsDescription'
+            },
+            {
+                name: 'automation',
+                icon: 'restapi',
+                color: '#EC4899',
+                value: 75,
+                description: 'automationDescription'
+            },
+            {
+                name: 'apisWebhooks',
+                icon: 'send',
+                color: '#F59E0B',
+                value: 70,
+                description: 'apisWebhooksDescription'
+            },
+            {
+                name: 'seo',
+                icon: 'search',
+                color: '#4285F4',
+                value: 80,
+                description: 'seoDescription'
+            }
         ]
     },
     {

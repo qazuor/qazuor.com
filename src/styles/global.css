@@ -505,15 +505,6 @@
         padding: 0;
     }
 
-    /* Add some debug borders (remove in production) */
-    .debug .section {
-        border: 2px solid red;
-    }
-
-    .debug .section-divider {
-        border: 2px solid blue;
-    }
-
     /* Improved section content spacing */
     .section .container-custom {
         @apply relative z-20;
@@ -571,5 +562,21 @@
 
     .scrollbar-hide::-webkit-scrollbar {
         display: none; /* Chrome, Safari and Opera */
+    }
+
+    /* Command Palette Animations */
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .command-palette-enter {
+        animation: fadeInScale 0.15s ease-out forwards;
     }
 }

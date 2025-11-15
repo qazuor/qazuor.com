@@ -55,6 +55,7 @@
         "cmdk": "^1.1.1",
         "expressive-code-language-badge": "^1.1.0",
         "framer-motion": "^12.23.24",
+        "fuse.js": "^7.1.0",
         "gsap": "^3.13.0",
         "i18next-fs-backend": "^2.6.0",
         "lucide-react": "^0.552.0",

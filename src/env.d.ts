@@ -2,6 +2,14 @@
 /// <reference types="astro-i18next/client" />
 /// <reference path="./types/auto-animate.d.ts" />
 
+import type { SearchableItem } from './types/search';
+
+declare global {
+    interface Window {
+        __SEARCH_INDEX__: SearchableItem[];
+    }
+}
+
 declare module 'astro-i18next' {
     export interface AstroI18nextConfig {
         defaultLocale: string;

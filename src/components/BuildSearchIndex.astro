@@ -1,0 +1,121 @@
+---
+// BuildSearchIndex.astro - Generates search index during Astro build
+import { getCollection } from 'astro:content';
+import { commandPaletteData } from '../data/commandPalette';
+import type { SearchableItem } from '../types/search';
+
+// Generate search index at build time
+const searchIndex: SearchableItem[] = [];
+
+try {
+    // Add command palette items to search index first
+    for (const group of commandPaletteData) {
+        for (const item of group.items) {
+            const commandItem: SearchableItem = {
+                id: item.id,
+                title: item.label || item.id.charAt(0).toUpperCase() + item.id.slice(1),
+                description: item.href
+                    ? `Navigate to ${item.href}`
+                    : item.external
+                      ? `Open external link`
+                      : `Execute ${item.id} command`,
+                tags: item.keywords || [group.heading.toLowerCase()],
+                category: 'command',
+                url: item.href || '#',
+                type: 'command'
+            };
+
+            searchIndex.push(commandItem);
+        }
+    }
+
+    // Get all collections
+    const [projects, blog, tools] = await Promise.all([
+        getCollection('projects'),
+        getCollection('blog'),
+        getCollection('tools')
+    ]);
+
+    // Process projects
+    for (const project of projects) {
+        const item: SearchableItem = {
+            id: project.id,
+            title: project.data.title,
+            description: project.data.description,
+            tags: project.data.tags,
+            category: 'projects',
+            url: `/projects/${project.slug}`,
+            type: 'content',
+            publishDate: project.data.publishDate,
+            featured: project.data.featured
+        };
+        searchIndex.push(item);
+    }
+
+    // Process blog posts
+    for (const post of blog) {
+        const item: SearchableItem = {
+            id: post.id,
+            title: post.data.title,
+            description: post.data.excerpt,
+            tags: post.data.tags,
+            category: 'blog',
+            url: `/blog/${post.slug}`,
+            type: 'content',
+            publishDate: post.data.publishDate,
+            featured: false
+        };
+        searchIndex.push(item);
+    }
+
+    // Process tools
+    for (const tool of tools) {
+        const item: SearchableItem = {
+            id: tool.id,
+            title: tool.data.title,
+            description: tool.data.description,
+            tags: tool.data.tags,
+            category: 'tools',
+            url: `/tools/${tool.slug}`,
+            type: 'content',
+            publishDate: tool.data.createdAt,
+            featured: tool.data.featured
+        };
+        searchIndex.push(item);
+    }
+
+    // Sort by relevance
+    searchIndex.sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+
+        if (a.publishDate && b.publishDate) {
+            return b.publishDate.getTime() - a.publishDate.getTime();
+        }
+
+        return a.title.localeCompare(b.title);
+    });
+} catch (error) {
+    console.error('❌ Error generating search index:', error);
+}
+
+// Make search index available to client
+const searchIndexJson = JSON.stringify(searchIndex, (_key, value) => {
+    // Handle Date objects properly
+    if (value instanceof Date) {
+        return value.toISOString();
+    }
+    return value;
+});
+---
+
+<script define:vars={{ searchIndex: searchIndexJson }}>
+  // Make search index available globally for the command palette
+  try {
+    const parsedIndex = JSON.parse(searchIndex);
+    window.__SEARCH_INDEX__ = parsedIndex;
+  } catch (error) {
+    console.error('❌ Error loading search index on client:', error);
+    window.__SEARCH_INDEX__ = [];
+  }
+</script>

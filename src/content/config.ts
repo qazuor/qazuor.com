@@ -41,9 +41,8 @@ const testimonialsCollection = defineCollection({
         content: z.string(),
         avatar: z.string().optional(),
         linkedinUrl: z.string().url().optional(),
-        twitterUrl: z.string().url().optional(),
         featured: z.boolean().default(false),
-        source: z.enum(['linkedin', 'twitter', 'email', 'other']).default('other'),
+        source: z.enum(['linkedin', 'email', 'other']).default('other'),
         date: z.date(),
         order: z.number().default(999)
     })

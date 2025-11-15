@@ -1,6 +1,5 @@
 ---
 import LinkedinIcon from '../../icons/social/linkedin.svg?raw';
-import TwitterIcon from '../../icons/social/twitter.svg?raw';
 import ArrowTopRightIcon from '../../icons/ui/arrow-top-right.svg?raw';
 import ChatBubbleIcon from '../../icons/ui/chat-bubble.svg?raw';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
@@ -15,8 +14,7 @@ interface Props {
         content: string;
         avatar?: string;
         linkedinUrl?: string;
-        twitterUrl?: string;
-        source: 'linkedin' | 'twitter' | 'email' | 'other';
+        source: 'linkedin' | 'email' | 'other';
     }>;
     primaryColor?: string;
     translations: {
@@ -77,11 +75,6 @@ const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
                                             <div class="w-4 h-4 text-white" set:html={LinkedinIcon} />
                                         </div>
                                     )}
-                                    {testimonial.source === 'twitter' && (
-                                        <div class="flex-shrink-0 w-6 h-6 rounded bg-black dark:bg-white flex items-center justify-center">
-                                            <div class="w-4 h-4 text-white dark:text-black" set:html={TwitterIcon} />
-                                        </div>
-                                    )}
                                 </div>
 
                                 {/* Content */}
@@ -117,9 +110,9 @@ const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
                                                 showHtml={false}
                                             />
                                             {/* Profile Link */}
-                                            {(testimonial.linkedinUrl || testimonial.twitterUrl) && (
+                                            {testimonial.linkedinUrl && (
                                                 <a
-                                                    href={testimonial.linkedinUrl || testimonial.twitterUrl}
+                                                    href={testimonial.linkedinUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     class="flex-shrink-0 text-muted-foreground hover:text-primary transition-colors"

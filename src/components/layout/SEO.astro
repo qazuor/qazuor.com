@@ -6,7 +6,6 @@ import { contact } from '../../data';
  *
  * Comprehensive SEO optimization including:
  * - Open Graph tags
- * - Twitter Cards
  * - JSON-LD structured data (Article, Person, WebSite)
  * - Breadcrumbs JSON-LD for navigation context
  * - Canonical URLs
@@ -73,7 +72,6 @@ const imageURL = new URL(image, Astro.site);
 
 // Site configuration
 const siteName = 'qazuor.com';
-const twitterHandle = '@qazuor';
 
 // Robots meta
 const robotsContent = `${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`;
@@ -160,16 +158,6 @@ const breadcrumbsJsonLd =
         </>
     )
 }
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content={twitterHandle} />
-<meta name="twitter:creator" content={twitterHandle} />
-<meta name="twitter:url" content={canonicalURL.href} />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={imageURL.href} />
-<meta name="twitter:image:alt" content={imageAlt} />
 
 <!-- Additional SEO -->
 <meta name="format-detection" content="telephone=no" />

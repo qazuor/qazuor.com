@@ -7,9 +7,11 @@ import arrowTrendingUpIcon from '../../icons/timeline/arrow-trending-up.svg?raw'
 import avatureIcon from '../../icons/timeline/avature.svg?raw';
 import boltIcon from '../../icons/timeline/bolt.svg?raw';
 import briefcaseIcon from '../../icons/timeline/briefcase.svg?raw';
+import broadbandIcon from '../../icons/timeline/broadband.svg?raw';
 import cogIcon from '../../icons/timeline/cog.svg?raw';
 import computerDesktopIcon from '../../icons/timeline/computer-desktop.svg?raw';
 import deviceDesktopIcon from '../../icons/timeline/device-desktop.svg?raw';
+import dialupIcon from '../../icons/timeline/dialup.svg?raw';
 import eyeIcon from '../../icons/timeline/eye.svg?raw';
 import globeIcon from '../../icons/timeline/globe.svg?raw';
 import heartIcon from '../../icons/timeline/heart.svg?raw';
@@ -39,9 +41,11 @@ const iconMap: { [key: string]: string } = {
     avature: avatureIcon,
     bolt: boltIcon,
     briefcase: briefcaseIcon,
+    broadband: broadbandIcon,
     cog: cogIcon,
     'computer-desktop': computerDesktopIcon,
     'device-desktop': deviceDesktopIcon,
+    dialup: dialupIcon,
     eye: eyeIcon,
     globe: globeIcon,
     heart: heartIcon,

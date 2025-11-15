@@ -1,8 +1,9 @@
 ---
 import { skillsData } from '../../data';
+// Import tech icons
 import AstroIcon from '../../icons/tech/astro.svg?raw';
 import CanvaIcon from '../../icons/tech/canva.svg?raw';
-import ClaudeIcon from '../../icons/tech/claude.svg?raw';
+import ClaudeCodeIcon from '../../icons/tech/claudecode.svg?raw';
 import CoreldrawIcon from '../../icons/tech/coreldraw.svg?raw';
 import Css3Icon from '../../icons/tech/css3.svg?raw';
 import DrizzleIcon from '../../icons/tech/drizzle.svg?raw';
@@ -11,22 +12,31 @@ import GitIcon from '../../icons/tech/git.svg?raw';
 import GithubIcon from '../../icons/tech/github.svg?raw';
 import HonoIcon from '../../icons/tech/hono.svg?raw';
 import Html5Icon from '../../icons/tech/html5.svg?raw';
-// Import all the new icons as raw SVG strings
 import JavascriptIcon from '../../icons/tech/javascript.svg?raw';
-import NodeJSIcon from '../../icons/tech/nodejs.svg?raw';
-// Design icons
+import NodejsIcon from '../../icons/tech/nodejs.svg?raw';
 import PhotoshopIcon from '../../icons/tech/photoshop.svg?raw';
 import PostgresqlIcon from '../../icons/tech/postgresql.svg?raw';
 import ReactIcon from '../../icons/tech/react.svg?raw';
 import RestApiIcon from '../../icons/tech/restapi.svg?raw';
-// Language icons
 import SpanishIcon from '../../icons/tech/spanish.svg?raw';
 import TailwindIcon from '../../icons/tech/tailwind.svg?raw';
 import TanstackIcon from '../../icons/tech/tanstack.svg?raw';
-import TypeScriptIcon from '../../icons/tech/typescript.svg?raw';
-import VscodeIcon from '../../icons/tech/vscode.svg?raw';
+import TypescriptIcon from '../../icons/tech/typescript.svg?raw';
+import UsaIcon from '../../icons/tech/usa.svg?raw';
+import WordpressIcon from '../../icons/tech/wordpress.svg?raw';
 import ZodIcon from '../../icons/tech/zod.svg?raw';
-import SkillsGrid from '../interactive/SkillsGrid.astro';
+// Import UI icons (for soft skills and placeholders)
+import ArrowRightIcon from '../../icons/ui/arrow-right.svg?raw';
+import ArrowUpIcon from '../../icons/ui/arrow-up.svg?raw';
+import ChatBubbleIcon from '../../icons/ui/chat-bubble.svg?raw';
+import CheckCircleIcon from '../../icons/ui/check-circle.svg?raw';
+import ClockIcon from '../../icons/ui/clock.svg?raw';
+import DocumentEmptyIcon from '../../icons/ui/document-empty.svg?raw';
+import HomeIcon from '../../icons/ui/home.svg?raw';
+import SearchIcon from '../../icons/ui/search.svg?raw';
+import SunIcon from '../../icons/ui/sun.svg?raw';
+import XCircleIcon from '../../icons/ui/x-circle.svg?raw';
+import SkillsRadarGrid from '../interactive/SkillsRadarGrid.astro';
 import AnimatedGradientBackground from '../ui/AnimatedGradientBackground.astro';
 import SectionTitle from '../ui/SectionTitle.astro';
 
@@ -37,10 +47,15 @@ interface Props {
         subtitle: string;
         description: string;
         categoryTitles: {
-            dev: string;
-            design: string;
-            languages: string;
-            tools: string;
+            devHardSkills: string;
+            otherSkills: string;
+            softSkills: string;
+        };
+        skillItems?: Record<string, string>; // For soft skills translations
+        languages?: {
+            title: string;
+            native: string;
+            writtenOnly: string;
         };
     };
 }
@@ -53,21 +68,20 @@ const {
         description:
             "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
         categoryTitles: {
-            dev: 'Dev Skills',
-            design: 'Design Skills',
-            languages: 'Language Skills',
-            tools: 'Tools & Others'
+            devHardSkills: 'Dev Hard Skills',
+            otherSkills: 'Other Skills',
+            softSkills: 'Soft Skills'
         }
     }
 } = Astro.props;
 
-const icons: Record<string, string> = {
-    // Dev skills
+// Icon map
+const iconMap: Record<string, string> = {
+    // Tech icons
     javascript: JavascriptIcon,
-    typescript: TypeScriptIcon,
-    nodejs: NodeJSIcon,
+    typescript: TypescriptIcon,
+    nodejs: NodejsIcon,
     drizzle: DrizzleIcon,
-    git: GitIcon,
     postgresql: PostgresqlIcon,
     react: ReactIcon,
     astro: AstroIcon,
@@ -78,25 +92,41 @@ const icons: Record<string, string> = {
     hono: HonoIcon,
     restapi: RestApiIcon,
     zod: ZodIcon,
-    // Tools
+    git: GitIcon,
     github: GithubIcon,
-    vscode: VscodeIcon,
-    claude: ClaudeIcon,
-    // Design
+    claudecode: ClaudeCodeIcon,
+    english: EnglishIcon,
+    spanish: SpanishIcon,
     coreldraw: CoreldrawIcon,
     photoshop: PhotoshopIcon,
     canva: CanvaIcon,
-    // Languages
-    english: EnglishIcon,
-    spanish: SpanishIcon
+    wordpress: WordpressIcon,
+    // UI icons (soft skills placeholders)
+    'arrow-right': ArrowRightIcon,
+    'arrow-up': ArrowUpIcon,
+    'chat-bubble': ChatBubbleIcon,
+    'check-circle': CheckCircleIcon,
+    clock: ClockIcon,
+    'document-empty': DocumentEmptyIcon,
+    home: HomeIcon,
+    search: SearchIcon,
+    sun: SunIcon,
+    'x-circle': XCircleIcon
 };
 
 // Map data with translated titles and icons
 const categories = skillsData.map((category) => ({
-    title: translations.categoryTitles?.[category.id as keyof typeof translations.categoryTitles] || category.id,
+    id: category.id,
+    title: translations.categoryTitles?.[category.id] || category.id,
     skills: category.skills.map((skill) => ({
-        ...skill,
-        icon: icons[skill.icon] || ''
+        // Use translation for soft skills, keep original name for others
+        name:
+            category.id === 'softSkills' && translations.skillItems?.[skill.name]
+                ? translations.skillItems[skill.name]
+                : skill.name,
+        value: skill.value,
+        color: skill.color,
+        icon: iconMap[skill.icon] || ''
     }))
 }));
 ---
@@ -110,27 +140,37 @@ const categories = skillsData.map((category) => ({
     <AnimatedGradientBackground />
 
     <div class="container-custom">
-        <div class="max-w-6xl mx-auto">
-            <!-- Section Title -->
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Title (only title and subtitle, no description) -->
             <SectionTitle
                 title={translations.title}
                 subtitle={translations.subtitle}
-                description={translations.description}
-                subtitleClassName="mb-8"
+                subtitleClassName="mb-12"
                 className="max-w-3xl mx-auto"
             />
 
-            <!-- Skills Grid -->
-            <SkillsGrid categories={categories} />
+            <!-- Skills Radar Grid with description -->
+            <SkillsRadarGrid
+                categories={categories}
+                description={translations.description}
+                languageIcons={{ spanish: SpanishIcon, english: UsaIcon }}
+                languageTranslations={translations.languages}
+            />
         </div>
     </div>
 </section>
 
 <style>
-    .skill-category h3 {
-        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+    .skills-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 4rem 0 13rem 0;
+    }
+
+    @media (max-width: 768px) {
+        .skills-section {
+            padding: 3rem 0;
+        }
     }
 </style>

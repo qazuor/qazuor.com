@@ -101,7 +101,7 @@ export const timelineData: TimelineItem[] = [
             en: 'First dial-up connection - the modem sound 📞 still feels nostalgic.',
             es: 'Primer conexión dial-up. Aquello de escuchar el módem 📞 conectar era pura magia.'
         },
-        icon: 'globe',
+        icon: 'dialup',
         category: 'skill',
         colorLightTheme: '#dc2626',
         colorDarkTheme: '#f87171', // lighter variant for dark theme
@@ -155,7 +155,7 @@ export const timelineData: TimelineItem[] = [
             en: 'First high-speed connection ⚡. The web felt infinite 🌐.',
             es: 'Primera conexión rápida ⚡. Se abre un universo nuevo de posibilidades 🌐.'
         },
-        icon: 'bolt',
+        icon: 'broadband',
         category: 'skill',
         colorLightTheme: '#059669',
         colorDarkTheme: '#34d399', // lighter variant for dark theme

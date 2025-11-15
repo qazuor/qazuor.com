@@ -20,12 +20,12 @@ import '../styles/generated-colors.css';
 // Other imports
 import AutoAnimateGlobal from '../components/AutoAnimateGlobal.astro';
 import { SmoothScroll } from '../components/animations/SmoothScroll';
+import BuildSearchIndex from '../components/BuildSearchIndex.astro';
 import { CommandPalette } from '../components/interactive/CommandPalette';
 import { ScrollToTop } from '../components/interactive/ScrollToTop';
 import Footer from '../components/layout/Footer.astro';
 import Navigation from '../components/layout/Navigation.astro';
 import SEO from '../components/layout/SEO.astro';
-import { contact } from '../data';
 import { languages } from '../i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
 
@@ -137,18 +137,15 @@ const alternateLinks = locales.map((locale) => {
         <!-- Smooth Scroll Integration -->
         <SmoothScroll client:only="react" />
 
+        <!-- Build Search Index -->
+        <BuildSearchIndex />
+
         <!-- Command Palette (Ctrl+K) -->
         <CommandPalette
             client:only="react"
             lang={lang}
             ariaLabel={t('aria.closeCommandPalette')}
             placeholder={t('aria.commandPalettePlaceholder')}
-            socialLinks={{
-                github: contact.social.github,
-                linkedin: contact.social.linkedin,
-                fiverr: contact.social.fiverr,
-                upwork: contact.social.upwork
-            }}
         />
 
         <!-- Scroll to Top Button -->

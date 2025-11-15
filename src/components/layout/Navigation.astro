@@ -1,6 +1,7 @@
 ---
 import { normalizeTrailingSlash } from '@reunmedia/astro-normalize-trailing-slash';
 import { getLangFromUrl, getTranslations, translatePath } from '../../i18n/utils';
+import { CommandButton } from '../interactive/CommandButton';
 import { LanguageSelector } from '../interactive/LanguageSelector';
 import { ThemeToggle } from '../interactive/ThemeToggle';
 
@@ -83,6 +84,7 @@ const isActive = (href: string) => {
 
             <!-- Actions -->
             <div class="hidden md:flex items-center gap-2">
+                <CommandButton ariaLabel={t('aria.openCommandPalette')} client:load />
                 <LanguageSelector currentLocale={lang} client:load />
                 <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:load />
             </div>
@@ -123,6 +125,7 @@ const isActive = (href: string) => {
                 ))
             }
             <div class="flex items-center gap-2 px-4 pt-2 border-t border-foreground/10">
+                <CommandButton ariaLabel={t('aria.openCommandPalette')} client:load />
                 <LanguageSelector currentLocale={lang} client:load />
                 <ThemeToggle client:load />
             </div>
@@ -237,24 +240,16 @@ const isActive = (href: string) => {
 
     // Handle scroll-based navigation highlighting
     function setupScrollNavigation() {
-        console.log('Setting up scroll navigation, isHomePage:', isHomePage());
-
         if (!isHomePage()) return;
 
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-link[data-is-anchor="true"]');
         const mobileNavLinks = document.querySelectorAll('.nav-link-mobile[data-is-anchor="true"]');
 
-        console.log('Found sections:', sections.length);
-        console.log('Found nav links:', navLinks.length);
-        console.log('Found mobile nav links:', mobileNavLinks.length);
-
         if (sections.length === 0) return;
 
         // Function to update active link
         function updateActiveLink(activeId: string): void {
-            console.log('Updating active link for section:', activeId);
-
             // Update desktop links
             navLinks.forEach((link) => {
                 const href = link.getAttribute('href') || '';
@@ -299,21 +294,18 @@ const isActive = (href: string) => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    console.log('Section intersecting:', entry.target.id);
                     updateActiveLink(entry.target.id);
                 }
             });
         }, observerOptions);
 
         sections.forEach((section) => {
-            console.log('Observing section:', section.id);
             observer.observe(section);
         });
 
         // Handle scroll to top (clear active states)
         window.addEventListener('scroll', () => {
             if (window.pageYOffset < 100) {
-                console.log('At top, clearing all active states');
                 navLinks.forEach((link) => {
                     link.classList.remove('text-primary');
                     link.classList.add('text-foreground-secondary');
@@ -368,7 +360,6 @@ const isActive = (href: string) => {
 
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM loaded, initializing navigation...');
         setupMobileNavigation();
         setupScrollNavigation();
         setupSmoothScroll();

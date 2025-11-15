@@ -4,5 +4,6 @@
  */
 
 export * from './useContactForm';
+export * from './useContentSearch';
 export * from './useScrollAnimation';
 export * from './useStaggerAnimation';

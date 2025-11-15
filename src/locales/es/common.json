@@ -3,6 +3,7 @@
         "home": "Inicio",
         "blog": "Blog",
         "projects": "Proyectos",
+        "services": "Servicios",
         "tools": "Herramientas",
         "about": "Acerca de",
         "skills": "Habilidades",
@@ -206,6 +207,70 @@
                 "description": "Pronóstico del tiempo interactivo con gráficos hermosos y búsqueda de ubicación.",
                 "tags": ["React", "API", "Gráficos"]
             }
+        }
+    },
+    "services": {
+        "title": "Servicios **Profesionales**",
+        "subtitle": "Soluciones integrales para dar *vida* a tu **visión digital**",
+        "description": "Desde el concepto hasta el despliegue, ayudo a las empresas a triunfar online",
+        "webApps": {
+            "title": "Aplicaciones Web **Full-Stack**",
+            "description": "Aplicaciones web completas con tecnologías modernas, desde frontend hasta backend e integración de base de datos.",
+            "features": {
+                "0": "Desarrollo de aplicaciones web personalizadas",
+                "1": "Diseño e integración de bases de datos",
+                "2": "Autenticación y autorización de usuarios",
+                "3": "Desarrollo e integración de APIs",
+                "4": "Optimización de rendimiento",
+                "5": "Diseño responsivo"
+            }
+        },
+        "landingPages": {
+            "title": "**Landing Pages** y Sitios Estáticos",
+            "description": "Landing pages de alta conversión y sitios web estáticos ultrarrápidos optimizados para rendimiento y SEO.",
+            "features": {
+                "0": "Landing pages de alta conversión",
+                "1": "Optimización SEO",
+                "2": "Diseño responsivo mobile-first",
+                "3": "Rendimiento ultrarrápido",
+                "4": "Integración de analytics",
+                "5": "Listo para A/B testing"
+            }
+        },
+        "automation": {
+            "title": "**Automatización** e Integraciones",
+            "description": "Optimiza tus flujos de trabajo con automatizaciones personalizadas e integraciones perfectas con terceros.",
+            "features": {
+                "0": "Automatización de workflows",
+                "1": "Integraciones de APIs",
+                "2": "Sincronización de datos",
+                "3": "Webhooks personalizados",
+                "4": "Optimización de procesos",
+                "5": "Conectores de terceros"
+            }
+        },
+        "socialDesign": {
+            "title": "Diseño para **Redes Sociales**",
+            "description": "Contenido visual atractivo y assets de marca diseñados para captar tu audiencia en plataformas sociales.",
+            "features": {
+                "0": "Plantillas para redes sociales",
+                "1": "Diseño de identidad de marca",
+                "2": "Planificación de feed de Instagram",
+                "3": "Plantillas para stories",
+                "4": "Materiales de marketing",
+                "5": "Guías de marca"
+            }
+        },
+        "cta": {
+            "title": "¿Listo para comenzar tu proyecto?",
+            "description": "Hablemos sobre cómo puedo ayudar a dar vida a tu visión",
+            "button": "Comenzar",
+            "consultation": "Consulta gratuita disponible"
+        },
+        "pricing": {
+            "from": "Desde",
+            "consultation": "Consultar",
+            "getQuote": "Obtener Cotización"
         }
     },
     "testimonials": {

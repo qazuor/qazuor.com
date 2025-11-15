@@ -3,6 +3,7 @@
         "home": "Home",
         "blog": "Blog",
         "projects": "Projects",
+        "services": "Services",
         "tools": "Tools",
         "about": "About",
         "skills": "Skills",
@@ -206,6 +207,70 @@
                 "description": "Interactive weather forecast with beautiful charts and location search.",
                 "tags": ["React", "API", "Charts"]
             }
+        }
+    },
+    "services": {
+        "title": "**Professional** Services",
+        "subtitle": "Comprehensive solutions to bring your *digital vision* to **life**",
+        "description": "From concept to deployment, I help businesses succeed online",
+        "webApps": {
+            "title": "**Full-Stack** Web Applications",
+            "description": "Complete web applications with modern technologies, from frontend to backend and database integration.",
+            "features": {
+                "0": "Custom web application development",
+                "1": "Database design and integration",
+                "2": "User authentication & authorization",
+                "3": "API development and integration",
+                "4": "Performance optimization",
+                "5": "Responsive design"
+            }
+        },
+        "landingPages": {
+            "title": "**Landing Pages** & Static Sites",
+            "description": "High-converting landing pages and blazing-fast static websites optimized for performance and SEO.",
+            "features": {
+                "0": "High-conversion landing pages",
+                "1": "SEO optimization",
+                "2": "Mobile-first responsive design",
+                "3": "Lightning-fast performance",
+                "4": "Analytics integration",
+                "5": "A/B testing ready"
+            }
+        },
+        "automation": {
+            "title": "**Automation** & Integrations",
+            "description": "Streamline your workflows with custom automations and seamless third-party integrations.",
+            "features": {
+                "0": "Workflow automation",
+                "1": "API integrations",
+                "2": "Data synchronization",
+                "3": "Custom webhooks",
+                "4": "Process optimization",
+                "5": "Third-party connectors"
+            }
+        },
+        "socialDesign": {
+            "title": "**Social Media** Design",
+            "description": "Compelling visual content and brand assets designed to engage your audience across social platforms.",
+            "features": {
+                "0": "Social media templates",
+                "1": "Brand identity design",
+                "2": "Instagram feed planning",
+                "3": "Story templates",
+                "4": "Marketing materials",
+                "5": "Brand guidelines"
+            }
+        },
+        "cta": {
+            "title": "Ready to start your project?",
+            "description": "Let's discuss how I can help bring your vision to life",
+            "button": "Get Started",
+            "consultation": "Free consultation available"
+        },
+        "pricing": {
+            "from": "Starting from",
+            "consultation": "Consultation required",
+            "getQuote": "Get Custom Quote"
         }
     },
     "testimonials": {

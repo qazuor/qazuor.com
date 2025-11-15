@@ -11,6 +11,7 @@ import lighthouse from 'astro-lighthouse';
 import subsites from 'astro-subsites';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import colorInterpolation from './integrations/color-interpolation.ts';
+import searchIndex from './integrations/search-index.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,6 +19,9 @@ export default defineConfig({
     output: 'static',
 
     integrations: [
+        // Search Index Generator (early to setup infrastructure)
+        searchIndex(),
+
         // Color Interpolation Generator (first to run early)
         colorInterpolation({
             sourceFile: 'src/data/colors.ts',

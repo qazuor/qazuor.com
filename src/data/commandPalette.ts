@@ -37,6 +37,22 @@ export const commandPaletteData: CommandGroup[] = [
                 label: 'Home'
             },
             {
+                id: 'about',
+                value: 'about me contact',
+                href: '/#about',
+                icon: 'home',
+                keywords: ['about', 'me', 'contact', 'acerca'],
+                label: 'About'
+            },
+            {
+                id: 'skills',
+                value: 'skills abilities competencies',
+                href: '/#skills',
+                icon: 'star',
+                keywords: ['skills', 'abilities', 'competencies', 'habilidades'],
+                label: 'Skills'
+            },
+            {
                 id: 'projects',
                 value: 'projects work portfolio',
                 href: '/projects',
@@ -53,6 +69,22 @@ export const commandPaletteData: CommandGroup[] = [
                 label: 'Blog'
             },
             {
+                id: 'services',
+                value: 'services work pricing',
+                href: '/#services',
+                icon: 'gear',
+                keywords: ['services', 'work', 'pricing', 'servicios', 'precios'],
+                label: 'Services'
+            },
+            {
+                id: 'testimonials',
+                value: 'testimonials reviews feedback',
+                href: '/#testimonials',
+                icon: 'quote',
+                keywords: ['testimonials', 'reviews', 'feedback', 'testimonios', 'reseñas'],
+                label: 'Testimonials'
+            },
+            {
                 id: 'tools',
                 value: 'tools utilities',
                 href: '/tools',
@@ -61,12 +93,12 @@ export const commandPaletteData: CommandGroup[] = [
                 label: 'Tools'
             },
             {
-                id: 'about',
-                value: 'about me contact',
-                href: '/#about',
-                icon: 'home',
-                keywords: ['about', 'me', 'contact', 'acerca'],
-                label: 'About'
+                id: 'contact',
+                value: 'contact get in touch',
+                href: '/#contact',
+                icon: 'mail',
+                keywords: ['contact', 'get in touch', 'email', 'contacto'],
+                label: 'Contact'
             }
         ]
     },

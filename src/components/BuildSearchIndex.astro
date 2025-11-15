@@ -109,7 +109,7 @@ const searchIndexJson = JSON.stringify(searchIndex, (_key, value) => {
 });
 ---
 
-<script define:vars={{ searchIndex: searchIndexJson }}>
+<script is:inline define:vars={{ searchIndex: searchIndexJson }}>
   // Make search index available globally for the command palette
   try {
     const parsedIndex = JSON.parse(searchIndex);

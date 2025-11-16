@@ -41,7 +41,19 @@ export function RadarChart({
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Detect mobile screen size
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Intersection Observer for entrance animation
     useEffect(() => {
@@ -351,7 +363,7 @@ export function RadarChart({
 
                             // Split name by spaces for multi-line text (centered)
                             const words = skill.name.split(' ');
-                            const lineHeight = isHighlighted ? 16 : 14;
+                            const lineHeight = isHighlighted ? (isMobile ? 18 : 16) : isMobile ? 16 : 14;
                             const startY = labelY - ((words.length - 1) * lineHeight) / 2 - 6;
 
                             return (
@@ -378,7 +390,13 @@ export function RadarChart({
                                                     : 'font-medium text-foreground-secondary fill-current'
                                             }`}
                                             style={{
-                                                fontSize: isHighlighted ? '15px' : '13px',
+                                                fontSize: isHighlighted
+                                                    ? isMobile
+                                                        ? '17px'
+                                                        : '15px'
+                                                    : isMobile
+                                                      ? '15px'
+                                                      : '13px',
                                                 letterSpacing: '0.3px'
                                             }}
                                         >
@@ -409,7 +427,13 @@ export function RadarChart({
                                                 isHighlighted ? 'font-bold' : 'font-semibold'
                                             }`}
                                             style={{
-                                                fontSize: isHighlighted ? '13px' : '12px',
+                                                fontSize: isHighlighted
+                                                    ? isMobile
+                                                        ? '15px'
+                                                        : '13px'
+                                                    : isMobile
+                                                      ? '14px'
+                                                      : '12px',
                                                 fill: '#ffffff',
                                                 filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))'
                                             }}
@@ -480,7 +504,7 @@ export function RadarChart({
                                 >
                                     <foreignObject x={tooltipX} y={tooltipY} width={220} height={130}>
                                         <div
-                                            className="flex flex-col px-3 py-2.5 rounded-lg text-xs max-h-full overflow-hidden"
+                                            className="flex flex-col px-3 py-2.5 rounded-lg max-h-full overflow-hidden"
                                             style={{
                                                 backgroundColor: 'rgba(255, 255, 255, 0.98)',
                                                 border: '2px solid rgba(79, 70, 229, 0.6)',
@@ -488,13 +512,20 @@ export function RadarChart({
                                                 backdropFilter: 'blur(12px)',
                                                 boxShadow:
                                                     '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
-                                                pointerEvents: 'none'
+                                                pointerEvents: 'none',
+                                                fontSize: isMobile ? '0.875rem' : '0.75rem'
                                             }}
                                         >
-                                            <div className="font-bold mb-1.5" style={{ color: '#111827' }}>
+                                            <div
+                                                className="font-bold mb-1.5"
+                                                style={{
+                                                    color: '#111827',
+                                                    fontSize: isMobile ? '0.9375rem' : '0.8125rem'
+                                                }}
+                                            >
                                                 {skill.name}
                                             </div>
-                                            <div className="text-xs leading-relaxed" style={{ color: '#4b5563' }}>
+                                            <div className="leading-relaxed" style={{ color: '#4b5563' }}>
                                                 {skill.description}
                                             </div>
                                         </div>

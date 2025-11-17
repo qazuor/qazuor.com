@@ -21,7 +21,7 @@ const navItems = [
         href: isHomePage ? `${translatePath('/', lang)}#blog` : translatePath('/blog', lang),
         label: t('nav.blog')
     },
-    { href: `${translatePath('/', lang)}#services`, label: t('nav.services') },
+    { href: translatePath('/services', lang), label: t('nav.services') },
     { href: `${translatePath('/', lang)}#testimonials`, label: t('nav.testimonials') },
     { href: translatePath('/tools', lang), label: t('nav.tools') },
     { href: `${translatePath('/', lang)}#contact`, label: t('nav.contact') }

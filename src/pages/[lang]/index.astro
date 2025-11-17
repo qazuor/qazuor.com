@@ -5,7 +5,6 @@ import AboutSection from '../../components/sections/AboutSection.astro';
 import BlogSection from '../../components/sections/BlogSection.astro';
 import HeroSection from '../../components/sections/HeroSection.astro';
 import ProjectsSection from '../../components/sections/ProjectsSection.astro';
-import ServicesSection from '../../components/sections/ServicesSection.astro';
 import SkillsSection from '../../components/sections/SkillsSection.astro';
 import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
 import DiagonalDivider from '../../components/ui/dividers/DiagonalDivider.astro';
@@ -269,71 +268,6 @@ const testimonialsTranslations = {
     viewProfile: t('testimonials.viewProfile', { markdown: true })
 };
 
-const servicesTranslations = {
-    title: t('services.title', { markdown: true }),
-    subtitle: t('services.subtitle', { markdown: true }),
-    description: t('services.description', { markdown: true }),
-    webApps: {
-        title: t('services.webApps.title', { markdown: true }),
-        description: t('services.webApps.description', { markdown: true }),
-        features: [
-            t('services.webApps.features.0'),
-            t('services.webApps.features.1'),
-            t('services.webApps.features.2'),
-            t('services.webApps.features.3'),
-            t('services.webApps.features.4'),
-            t('services.webApps.features.5')
-        ]
-    },
-    landingPages: {
-        title: t('services.landingPages.title', { markdown: true }),
-        description: t('services.landingPages.description', { markdown: true }),
-        features: [
-            t('services.landingPages.features.0'),
-            t('services.landingPages.features.1'),
-            t('services.landingPages.features.2'),
-            t('services.landingPages.features.3'),
-            t('services.landingPages.features.4'),
-            t('services.landingPages.features.5')
-        ]
-    },
-    automation: {
-        title: t('services.automation.title', { markdown: true }),
-        description: t('services.automation.description', { markdown: true }),
-        features: [
-            t('services.automation.features.0'),
-            t('services.automation.features.1'),
-            t('services.automation.features.2'),
-            t('services.automation.features.3'),
-            t('services.automation.features.4'),
-            t('services.automation.features.5')
-        ]
-    },
-    socialDesign: {
-        title: t('services.socialDesign.title', { markdown: true }),
-        description: t('services.socialDesign.description', { markdown: true }),
-        features: [
-            t('services.socialDesign.features.0'),
-            t('services.socialDesign.features.1'),
-            t('services.socialDesign.features.2'),
-            t('services.socialDesign.features.3'),
-            t('services.socialDesign.features.4'),
-            t('services.socialDesign.features.5')
-        ]
-    },
-    cta: {
-        title: t('services.cta.title', { markdown: true }),
-        description: t('services.cta.description', { markdown: true }),
-        button: t('services.cta.button', { markdown: true }),
-        consultation: t('services.cta.consultation', { markdown: true })
-    },
-    pricing: {
-        from: t('services.pricing.from', { markdown: true }),
-        consultation: t('services.pricing.consultation', { markdown: true }),
-        getQuote: t('services.pricing.getQuote', { markdown: true })
-    }
-};
-
 // Profile translations
 const profileTranslations = {
     name: t('profile.name', { markdown: true }),
@@ -421,16 +355,7 @@ const heroContentTranslations = {
             translations={blogTranslations}
             lang={lang}
         />
-        <DiagonalDivider direction="left" transition="blog-to-services" />
-    </div>
-
-    <!-- Services Section with gradient background -->
-    <div class="relative">
-        <ServicesSection
-            primaryColor={sectionsColors.services}
-            translations={servicesTranslations}
-        />
-        <WaveDivider transition="services-to-testimonials" />
+        <DiagonalDivider direction="left" transition="blog-to-testimonials" />
     </div>
 
     <!-- Testimonials Section with purple gradient background -->

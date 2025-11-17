@@ -489,6 +489,20 @@
         },
         "relatedServices": {
             "title": "También Te Puede Interesar"
+        },
+        "featuresTitle": "**Qué Incluye**",
+        "featuresSubtitle": "Características completas diseñadas para tu éxito",
+        "pricingTitle": "**Guía** de Inversión",
+        "pricingSubtitle": "Precios transparentes para trabajo de calidad",
+        "pricingRanges": "**Rangos** de Precios",
+        "pricingFactorsTitle": "**¿Qué Afecta** el Costo?",
+        "faqTitle": "**Preguntas** Frecuentes",
+        "faqSubtitle": "Todo lo que necesitas saber",
+        "cta": {
+            "title": "¿Listo para comenzar tu proyecto?",
+            "description": "Hablemos sobre cómo puedo ayudarte a dar vida a tu visión",
+            "button": "Comenzar",
+            "consultation": "Consulta gratuita disponible"
         }
     },
     "testimonials": {

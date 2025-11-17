@@ -489,6 +489,20 @@
         },
         "relatedServices": {
             "title": "You Might Also Like"
+        },
+        "featuresTitle": "**What's Included**",
+        "featuresSubtitle": "Comprehensive features designed for your success",
+        "pricingTitle": "**Investment** Guide",
+        "pricingSubtitle": "Transparent pricing for quality work",
+        "pricingRanges": "**Pricing Ranges**",
+        "pricingFactorsTitle": "**What Affects** the Cost?",
+        "faqTitle": "**Frequently** Asked Questions",
+        "faqSubtitle": "Everything you need to know",
+        "cta": {
+            "title": "Ready to start your project?",
+            "description": "Let's discuss how I can help bring your vision to life",
+            "button": "Get Started",
+            "consultation": "Free consultation available"
         }
     },
     "testimonials": {

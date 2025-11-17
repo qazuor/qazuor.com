@@ -1,13 +1,23 @@
 ---
 import { normalizeTrailingSlash } from '@reunmedia/astro-normalize-trailing-slash';
+import { services } from '../../data/services';
 import { getLangFromUrl, getTranslations, translatePath } from '../../i18n/utils';
 import { CommandButton } from '../interactive/CommandButton';
 import { LanguageSelector } from '../interactive/LanguageSelector';
+import { ServicesDropdown } from '../interactive/ServicesDropdown';
 import { ThemeToggle } from '../interactive/ThemeToggle';
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
+
+// Services dropdown translations (clean markdown syntax)
+const servicesDropdownTranslations = {
+    webApps: t('services.webApps.title', { markdown: false }).replace(/\*\*/g, ''),
+    landingPages: t('services.landingPages.title', { markdown: false }).replace(/\*\*/g, ''),
+    automation: t('services.automation.title', { markdown: false }).replace(/\*\*/g, ''),
+    socialDesign: t('services.socialDesign.title', { markdown: false }).replace(/\*\*/g, '')
+};
 
 // Check if we're on the home page for navigation logic
 const isHomePage =
@@ -62,24 +72,40 @@ const isActive = (href: string) => {
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center gap-8">
                 {
-                    navItems.map((item) => (
-                        <a
-                            href={item.href.includes('#') ? item.href : normalizeTrailingSlash(item.href)}
-                            class={`nav-link text-xs font-medium transition-all duration-base relative group ${
-                                isActive(item.href) ? 'text-primary' : 'text-foreground-secondary hover:text-foreground'
-                            }`}
-                            data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
-                            data-is-home-page={isHomePage ? 'true' : 'false'}
-                        >
-                            {item.label}
-                            {/* Underline animation */}
-                            <span
-                                class={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-base ${
-                                    isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                    navItems.map((item) => {
+                        // Use dropdown for services
+                        if (item.href.includes('/services')) {
+                            return (
+                                <ServicesDropdown
+                                    client:load
+                                    currentLocale={lang}
+                                    currentPath={currentPath}
+                                    allServicesLabel={item.label}
+                                    translations={servicesDropdownTranslations}
+                                />
+                            );
+                        }
+
+                        // Regular link for other items
+                        return (
+                            <a
+                                href={item.href.includes('#') ? item.href : normalizeTrailingSlash(item.href)}
+                                class={`nav-link text-xs font-medium transition-all duration-base relative group ${
+                                    isActive(item.href) ? 'text-primary' : 'text-foreground-secondary hover:text-foreground'
                                 }`}
-                            />
-                        </a>
-                    ))
+                                data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
+                                data-is-home-page={isHomePage ? 'true' : 'false'}
+                            >
+                                {item.label}
+                                {/* Underline animation */}
+                                <span
+                                    class={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-base ${
+                                        isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                                    }`}
+                                />
+                            </a>
+                        );
+                    })
                 }
             </div>
 
@@ -110,20 +136,62 @@ const isActive = (href: string) => {
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-2">
             {
-                navItems.map((item) => (
-                    <a
-                        href={normalizeTrailingSlash(item.href)}
-                        class={`nav-link-mobile block px-4 py-3 text-xs font-medium transition-all duration-base ${
-                            isActive(item.href)
-                                ? 'bg-primary/10 text-primary'
-                                : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
-                        }`}
-                        data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
-                        data-is-home-page={isHomePage ? 'true' : 'false'}
-                    >
-                        {item.label}
-                    </a>
-                ))
+                navItems.map((item) => {
+                    // Services with submenu
+                    if (item.href.includes('/services')) {
+                        return (
+                            <>
+                                {/* Main Services Link */}
+                                <a
+                                    href={normalizeTrailingSlash(item.href)}
+                                    class={`nav-link-mobile block px-4 py-3 text-xs font-medium transition-all duration-base ${
+                                        isActive(item.href)
+                                            ? 'bg-primary/10 text-primary'
+                                            : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
+                                    }`}
+                                >
+                                    📋 {item.label}
+                                </a>
+                                {/* Services Submenu */}
+                                <div class="pl-4 space-y-1">
+                                    {services.map((service) => {
+                                        const serviceLabel = servicesDropdownTranslations[
+                                            service.id === 'web-apps' ? 'webApps' :
+                                            service.id === 'landing-pages' ? 'landingPages' :
+                                            service.id === 'automation-integration' ? 'automation' :
+                                            'socialDesign'
+                                        ];
+                                        return (
+                                            <a
+                                                href={`/${lang}/services/${service.slug}`}
+                                                class="nav-link-mobile block px-4 py-2 text-xs text-foreground-secondary hover:bg-foreground/5 hover:text-foreground transition-all duration-base rounded-lg"
+                                            >
+                                                <span class="mr-2">{service.icon}</span>
+                                                {serviceLabel}
+                                            </a>
+                                        );
+                                    })}
+                                </div>
+                            </>
+                        );
+                    }
+
+                    // Regular links for other items
+                    return (
+                        <a
+                            href={normalizeTrailingSlash(item.href)}
+                            class={`nav-link-mobile block px-4 py-3 text-xs font-medium transition-all duration-base ${
+                                isActive(item.href)
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
+                            }`}
+                            data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
+                            data-is-home-page={isHomePage ? 'true' : 'false'}
+                        >
+                            {item.label}
+                        </a>
+                    );
+                })
             }
             <div class="flex items-center gap-2 px-4 pt-2 border-t border-foreground/10">
                 <CommandButton ariaLabel={t('aria.openCommandPalette')} client:load />

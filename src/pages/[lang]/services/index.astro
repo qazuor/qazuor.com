@@ -1,0 +1,218 @@
+---
+import AnimatedGradientBackground from '../../../components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '../../../components/ui/SectionTitle.astro';
+import { sectionsColors } from '../../../data';
+import type { Service } from '../../../data/services';
+import { services } from '../../../data/services';
+import { languages } from '../../../i18n/ui';
+import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+// SEO
+const pageTitle = t('services.allServices');
+const pageDescription = t('services.subtitle');
+
+// Map service IDs to their translations
+const serviceTranslations: Record<
+    string,
+    {
+        title: string;
+        description: string;
+        features: string[];
+    }
+> = {
+    'web-apps': {
+        title: t('services.webApps.title', { markdown: true }),
+        description: t('services.webApps.description', { markdown: true }),
+        features: [
+            t('services.webApps.features.0'),
+            t('services.webApps.features.1'),
+            t('services.webApps.features.2'),
+            t('services.webApps.features.3'),
+            t('services.webApps.features.4'),
+            t('services.webApps.features.5')
+        ]
+    },
+    'landing-pages': {
+        title: t('services.landingPages.title', { markdown: true }),
+        description: t('services.landingPages.description', { markdown: true }),
+        features: [
+            t('services.landingPages.features.0'),
+            t('services.landingPages.features.1'),
+            t('services.landingPages.features.2'),
+            t('services.landingPages.features.3'),
+            t('services.landingPages.features.4'),
+            t('services.landingPages.features.5')
+        ]
+    },
+    'automation-integration': {
+        title: t('services.automation.title', { markdown: true }),
+        description: t('services.automation.description', { markdown: true }),
+        features: [
+            t('services.automation.features.0'),
+            t('services.automation.features.1'),
+            t('services.automation.features.2'),
+            t('services.automation.features.3'),
+            t('services.automation.features.4'),
+            t('services.automation.features.5')
+        ]
+    },
+    'social-media-design': {
+        title: t('services.socialDesign.title', { markdown: true }),
+        description: t('services.socialDesign.description', { markdown: true }),
+        features: [
+            t('services.socialDesign.features.0'),
+            t('services.socialDesign.features.1'),
+            t('services.socialDesign.features.2'),
+            t('services.socialDesign.features.3'),
+            t('services.socialDesign.features.4'),
+            t('services.socialDesign.features.5')
+        ]
+    }
+};
+
+// Helper function to format pricing display
+const formatPricing = (service: Service): string => {
+    const pricingTranslations = {
+        from: t('services.pricing.from'),
+        consultation: t('services.pricing.consultation')
+    };
+
+    switch (service.pricing.type) {
+        case 'from':
+            return `${pricingTranslations.from} $${service.pricing.min?.toLocaleString()}`;
+        case 'range':
+            return `$${service.pricing.min?.toLocaleString()} - $${service.pricing.max?.toLocaleString()}`;
+        case 'consultation':
+            return pricingTranslations.consultation;
+        default:
+            return pricingTranslations.consultation;
+    }
+};
+
+// CTA Translations
+const ctaTranslations = {
+    title: t('services.cta.title', { markdown: true }),
+    description: t('services.cta.description', { markdown: true }),
+    button: t('services.cta.button', { markdown: true }),
+    consultation: t('services.cta.consultation', { markdown: true })
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+    <!-- Services Section -->
+    <section
+        id="services"
+        class="relative section services-section overflow-hidden pt-32"
+        style={`background-color: ${sectionsColors.services}`}
+    >
+        <!-- Animated Gradient Background -->
+        <AnimatedGradientBackground />
+
+        <div class="container-custom">
+            <!-- Section Title -->
+            <SectionTitle
+                title={t('services.title', { markdown: true })}
+                subtitle={t('services.subtitle', { markdown: true })}
+                customElement="h1"
+            />
+
+            <!-- Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                {services.map((service) => {
+                    const serviceTranslation = serviceTranslations[service.id];
+
+                    return (
+                        <div class="group bg-foreground/5 backdrop-blur-sm rounded-2xl p-8 border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300">
+
+                            <!-- Service Header -->
+                            <div class="flex items-start gap-4 mb-6">
+                                <div class="text-4xl">{service.icon}</div>
+                                <div class="flex-1">
+                                    <h2
+                                        class="text-2xl font-bold text-foreground mb-2"
+                                        set:html={serviceTranslation.title}
+                                    />
+                                    <p class="text-foreground-secondary leading-relaxed">
+                                        {serviceTranslation.description}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Features List (Preview - First 4) -->
+                            <div class="mb-6">
+                                <ul class="space-y-2">
+                                    {serviceTranslation.features.slice(0, 4).map((feature: string) => (
+                                        <li class="flex items-center text-foreground-secondary">
+                                            <svg class="w-5 h-5 text-primary mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                            </svg>
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <!-- Pricing -->
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between p-4 bg-foreground/5 rounded-lg border border-foreground/10">
+                                    <span class="text-foreground-secondary font-medium">
+                                        {lang === 'es' ? 'Precio:' : 'Price:'}
+                                    </span>
+                                    <span class="text-foreground font-bold text-lg">{formatPricing(service)}</span>
+                                </div>
+                            </div>
+
+                            <!-- CTA Button -->
+                            <a
+                                href={service.ctaUrl}
+                                class="inline-flex items-center justify-center w-full px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-all duration-200 group-hover:scale-105"
+                            >
+                                {service.ctaText}
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    );
+                })}
+            </div>
+
+            <!-- Call to Action Section -->
+            <div class="text-center bg-foreground/5 backdrop-blur-sm rounded-2xl p-8 border border-foreground/10">
+                <h2 class="text-2xl font-bold text-foreground mb-4" set:html={ctaTranslations.title} />
+                <p class="text-foreground-secondary mb-6 max-w-2xl mx-auto" set:html={ctaTranslations.description} />
+
+                <!-- Main CTA Button -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a
+                        href={`/${lang}/contact`}
+                        class="inline-flex items-center px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors duration-200"
+                    >
+                        <span set:html={ctaTranslations.button} />
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                        </svg>
+                    </a>
+
+                    <!-- Free Consultation Badge -->
+                    <div class="flex items-center text-foreground-secondary text-sm">
+                        <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <span set:html={ctaTranslations.consultation} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

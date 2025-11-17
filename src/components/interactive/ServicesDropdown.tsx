@@ -1,0 +1,54 @@
+import { services } from '../../data/services';
+import { NavDropdown, type NavDropdownItem } from './NavDropdown';
+
+interface ServicesDropdownProps {
+    currentLocale: string;
+    currentPath: string;
+    allServicesLabel: string;
+    translations: {
+        webApps: string;
+        landingPages: string;
+        automation: string;
+        socialDesign: string;
+    };
+}
+
+/**
+ * Services-specific dropdown wrapper
+ * Uses the generic NavDropdown component with services configuration
+ */
+export function ServicesDropdown({
+    currentLocale,
+    currentPath,
+    allServicesLabel,
+    translations
+}: ServicesDropdownProps) {
+    // Map service IDs to translations
+    const serviceLabels: Record<string, string> = {
+        'web-apps': translations.webApps,
+        'landing-pages': translations.landingPages,
+        'automation-integration': translations.automation,
+        'social-media-design': translations.socialDesign
+    };
+
+    // Build dropdown items
+    const dropdownItems: NavDropdownItem[] = [
+        {
+            id: 'all-services',
+            label: allServicesLabel,
+            icon: '📋',
+            href: `/${currentLocale}/services`
+        },
+        ...services.map((service) => ({
+            id: service.id,
+            label: serviceLabels[service.id],
+            icon: service.icon,
+            href: `/${currentLocale}/services/${service.slug}`
+        }))
+    ];
+
+    // Check if we're on any services page
+    const isServicesActive = currentPath.includes('/services');
+
+    return <NavDropdown label={allServicesLabel} items={dropdownItems} isActive={isServicesActive} />;
+}

@@ -256,7 +256,9 @@ const isActive = (href: string) => {
     // Mobile navigation hide/show on scroll
     function setupMobileNavigation() {
         const nav = document.getElementById('main-nav');
-        let scrollTimeout: NodeJS.Timeout | undefined;
+        let lastScrollY = 0;
+        let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+        const SCROLL_THRESHOLD = 100;
 
         function updateNavVisibility() {
             const currentScrollY = window.scrollY;
@@ -265,27 +267,39 @@ const isActive = (href: string) => {
             if (isDesktop) {
                 // Always show on desktop, remove mobile classes
                 nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up', 'mobile-nav-slide-down');
+                lastScrollY = currentScrollY;
                 return;
             }
 
-            // Mobile behavior: hide only when at absolute top (scroll 0)
+            const isScrollingDown = currentScrollY > lastScrollY;
+            const isScrollingUp = currentScrollY < lastScrollY;
+
+            // Mobile behavior: show at top, hide when scrolling down, show when scrolling up
             if (currentScrollY === 0) {
-                // Hide when at top with slide up animation
-                nav?.classList.remove('mobile-nav-slide-down');
-                nav?.classList.add('mobile-nav-slide-up');
-                // After animation completes, hide completely
-                setTimeout(() => {
-                    if (window.scrollY === 0) {
-                        nav?.classList.add('mobile-nav-hidden');
-                    }
-                }, 300);
-            } else {
-                // Show when scrolling down from top with slide down animation
+                // Show when at top with slide down animation
+                nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up');
+                nav?.classList.add('mobile-nav-slide-down');
+            } else if (isScrollingDown && currentScrollY > SCROLL_THRESHOLD) {
+                // Hide when scrolling down past threshold
+                if (!nav?.classList.contains('mobile-nav-hidden')) {
+                    nav?.classList.remove('mobile-nav-slide-down');
+                    nav?.classList.add('mobile-nav-slide-up');
+                    // After animation completes, hide completely
+                    setTimeout(() => {
+                        if (window.scrollY > SCROLL_THRESHOLD && window.scrollY > lastScrollY) {
+                            nav?.classList.add('mobile-nav-hidden');
+                        }
+                    }, 300);
+                }
+            } else if (isScrollingUp) {
+                // Show when scrolling up
                 if (nav?.classList.contains('mobile-nav-hidden')) {
                     nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up');
                     nav?.classList.add('mobile-nav-slide-down');
                 }
             }
+
+            lastScrollY = currentScrollY;
         }
 
         // Handle scroll with throttling

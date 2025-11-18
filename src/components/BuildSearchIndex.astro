@@ -2,7 +2,12 @@
 // BuildSearchIndex.astro - Generates search index during Astro build
 import { getCollection } from 'astro:content';
 import { commandPaletteData } from '../data/commandPalette';
+import { services } from '../data/services';
+import { getLangFromUrl, getTranslations } from '../i18n/utils';
 import type { SearchableItem } from '../types/search';
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 
 // Generate search index at build time
 const searchIndex: SearchableItem[] = [];
@@ -80,6 +85,30 @@ try {
             type: 'content',
             publishDate: tool.data.createdAt,
             featured: tool.data.featured
+        };
+        searchIndex.push(item);
+    }
+
+    // Process services
+    for (const service of services) {
+        const serviceName =
+            service.id === 'web-apps'
+                ? 'webApps'
+                : service.id === 'landing-pages'
+                  ? 'landingPages'
+                  : service.id === 'automation-integration'
+                    ? 'automation'
+                    : 'socialDesign';
+
+        const item: SearchableItem = {
+            id: service.id,
+            title: t(`services.${serviceName}.title`, { markdown: false }),
+            description: t(`services.${serviceName}.description`, { markdown: false }),
+            tags: [t('nav.services').toLowerCase(), serviceName.toLowerCase()],
+            category: 'services',
+            url: `/${lang}/services/${service.slug}`,
+            type: 'content',
+            featured: false
         };
         searchIndex.push(item);
     }

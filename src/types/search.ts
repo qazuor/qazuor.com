@@ -3,7 +3,7 @@ export type SearchableItem = {
     title: string;
     description: string;
     tags: string[];
-    category: 'projects' | 'blog' | 'tools' | 'command';
+    category: 'projects' | 'blog' | 'tools' | 'command' | 'services';
     url: string;
     type: 'content' | 'command';
     publishDate?: Date;

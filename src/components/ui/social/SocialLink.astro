@@ -40,5 +40,5 @@ const iconSize = sizeClasses[size];
     class={`text-foreground-secondary hover:text-primary transition-colors duration-base ${className}`}
     aria-label={ariaLabel}
 >
-    <div class={iconSize} set:html={icon} />
+    <div class={`${iconSize} text-foreground-secondary`} set:html={icon} />
 </a>

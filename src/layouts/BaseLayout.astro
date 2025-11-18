@@ -18,16 +18,16 @@ import '../styles/fonts.css';
 import '../styles/generated-colors.css';
 
 // Other imports
-import AutoAnimateGlobal from '../components/AutoAnimateGlobal.astro';
-import { SmoothScroll } from '../components/animations/SmoothScroll';
-import BuildSearchIndex from '../components/BuildSearchIndex.astro';
-import { CommandPalette } from '../components/interactive/CommandPalette';
-import { ScrollToTop } from '../components/interactive/ScrollToTop';
-import Footer from '../components/layout/Footer.astro';
-import Navigation from '../components/layout/Navigation.astro';
-import SEO from '../components/layout/SEO.astro';
-import { languages } from '../i18n/ui';
-import { getLangFromUrl, getRouteFromUrl, getTranslations } from '../i18n/utils';
+import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
+import { SmoothScroll } from '@/components/animations/SmoothScroll';
+import BuildSearchIndex from '@/components/BuildSearchIndex.astro';
+import { CommandPalette } from '@/components/interactive/CommandPalette';
+import { ScrollToTop } from '@/components/interactive/ScrollToTop';
+import Footer from '@/components/layout/Footer.astro';
+import Navigation from '@/components/layout/Navigation.astro';
+import SEO from '@/components/layout/SEO.astro';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getRouteFromUrl, getTranslations } from '@/i18n/utils';
 
 interface Props {
     title: string;

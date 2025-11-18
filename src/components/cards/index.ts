@@ -2,7 +2,7 @@
  * Cards Components Barrel Export
  */
 
-export * from './ProjectCard';
+export * from '@/components/cards/ProjectCard';
 
 // Astro Components
 // Note: Astro components must be imported directly with .astro extension

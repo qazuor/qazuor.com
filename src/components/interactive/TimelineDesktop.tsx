@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { TimelineIcon } from '../ui';
+import { TimelineIcon } from '@/components/ui';
 
 const TIMELINE_SPACING = 120;
 

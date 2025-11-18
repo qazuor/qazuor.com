@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js';
 import { useCallback, useState } from 'react';
-import { getSearchIndex } from '../data/searchIndex';
-import type { SearchableItem } from '../types/search';
+import { getSearchIndex } from '@/data/searchIndex';
+import type { SearchableItem } from '@/types/search';
 
 interface ContentSearchResult {
     title: string;

@@ -3,7 +3,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import '../../styles/timeline-mobile.css';
-import { TimelineIcon } from '../ui';
+import { TimelineIcon } from '@/components/ui';
 
 // Register GSAP plugins only once
 let isRegistered = false;

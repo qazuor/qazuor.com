@@ -3,25 +3,25 @@
  * Centralized export for all React and Astro components
  */
 
-export * from './animations';
-export * from './animations/SmoothScroll';
-export * from './cards';
-export * from './cards/ProjectCard';
+export * from '@/components/animations';
+export * from '@/components/animations/SmoothScroll';
+export * from '@/components/cards';
+export * from '@/components/cards/ProjectCard';
 // Components by category
-export * from './forms';
-export * from './forms/Contact';
-export * from './forms/FormField';
-export * from './forms/StatusMessage';
-export * from './forms/SubmitButton';
-export * from './interactive';
+export * from '@/components/forms';
+export * from '@/components/forms/Contact';
+export * from '@/components/forms/FormField';
+export * from '@/components/forms/StatusMessage';
+export * from '@/components/forms/SubmitButton';
+export * from '@/components/interactive';
 // Legacy exports for backward compatibility
-export * from './interactive/CommandPalette';
-export * from './interactive/LanguageSelector';
-export * from './interactive/ScrollAnimatedSection';
-export * from './interactive/ScrollToTop';
-export * from './interactive/ThemeToggle';
-export { default as Timeline } from './interactive/Timeline';
-export * from './ui';
+export * from '@/components/interactive/CommandPalette';
+export * from '@/components/interactive/LanguageSelector';
+export * from '@/components/interactive/ScrollAnimatedSection';
+export * from '@/components/interactive/ScrollToTop';
+export * from '@/components/interactive/ThemeToggle';
+export { default as Timeline } from '@/components/interactive/Timeline';
+export * from '@/components/ui';
 
 // Astro Components
 // Note: Astro components must be imported directly with .astro extension

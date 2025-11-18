@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap } from '../lib/gsap';
+import { gsap } from '@/lib/gsap';
 
 /**
  * Configuration options for scroll-triggered animations

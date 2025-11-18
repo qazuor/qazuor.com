@@ -98,7 +98,12 @@ export default defineConfig({
         })
     ],
     vite: {
-        assetsInclude: ['**/*.woff', '**/*.woff2']
+        assetsInclude: ['**/*.woff', '**/*.woff2'],
+        resolve: {
+            alias: {
+                '@': new URL('./src', import.meta.url).pathname
+            }
+        }
     },
     i18n: {
         defaultLocale: 'en',

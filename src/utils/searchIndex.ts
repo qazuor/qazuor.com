@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import type { SearchableItem } from '../types/search';
+import type { SearchableItem } from '@/types/search';
 
 /**
  * Generates search index from Astro collections at build time

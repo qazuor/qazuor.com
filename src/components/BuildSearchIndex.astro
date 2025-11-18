@@ -1,10 +1,10 @@
 ---
 // BuildSearchIndex.astro - Generates search index during Astro build
 import { getCollection } from 'astro:content';
-import { commandPaletteData } from '../data/commandPalette';
-import { services } from '../data/services';
-import { getLangFromUrl, getTranslations } from '../i18n/utils';
-import type { SearchableItem } from '../types/search';
+import { commandPaletteData } from '@/data/commandPalette';
+import { services } from '@/data/services';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import type { SearchableItem } from '@/types/search';
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);

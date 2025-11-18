@@ -17,6 +17,7 @@
         "format:check": "biome check .",
         "format:md": "prettier --write '**/*.md'",
         "format:md:claude": "prettier --write '.claude/**/*.md'",
+        "check:budgets": "./scripts/check-budgets.sh",
         "generate-colors": "node scripts/generate-colors.js",
         "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules'",
         "test": "vitest",

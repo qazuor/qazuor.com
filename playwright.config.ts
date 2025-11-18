@@ -17,6 +17,20 @@ export default defineConfig({
         screenshot: 'only-on-failure',
         video: 'retain-on-failure'
     },
+    // Visual regression testing configuration
+    expect: {
+        toHaveScreenshot: {
+            // Maximum pixel difference ratio
+            maxDiffPixelRatio: 0.02,
+            // Animation stabilization
+            animations: 'disabled',
+            // CSS animations
+            caret: 'hide'
+        }
+    },
+    // Separate directory for visual tests
+    testMatch: ['**/*.spec.ts'],
+    testIgnore: ['**/node_modules/**'],
     webServer: {
         command: 'npm run dev',
         url: 'http://localhost:4321',

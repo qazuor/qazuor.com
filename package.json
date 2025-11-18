@@ -27,6 +27,9 @@
         "e2e:ui": "playwright test --ui",
         "e2e:debug": "playwright test --debug",
         "e2e:headed": "playwright test --headed",
+        "test:visual": "playwright test tests/visual/",
+        "test:visual:update": "playwright test tests/visual/ --update-snapshots",
+        "test:visual:ui": "playwright test tests/visual/ --ui",
         "prepare": "husky"
     },
     "dependencies": {

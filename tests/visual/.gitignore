@@ -1,0 +1,6 @@
+# Ignore test results and diffs
+test-results/
+playwright-report/
+
+# Keep baseline screenshots (commit these)
+!**/*-snapshots/**/*.png

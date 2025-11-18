@@ -48,7 +48,7 @@
         "@playwright/test": "^1.56.1",
         "@reunmedia/astro-normalize-trailing-slash": "^0.1.1",
         "@studio-freight/lenis": "^1.0.42",
-        "astro": "^5.15.3",
+        "astro": "^5.15.9",
         "astro-lighthouse": "^0.1.3",
         "astro-subsites": "^0.1.0",
         "clsx": "^2.1.1",

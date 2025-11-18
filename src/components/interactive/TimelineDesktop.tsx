@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { TimelineIcon } from '@/components/ui';
 
-const TIMELINE_SPACING = 120;
+// Responsive spacing
+const TIMELINE_SPACING_DESKTOP = 120;
+const TIMELINE_SPACING_MOBILE = 80;
+const POPOVER_WIDTH_DESKTOP = 500;
+const POPOVER_WIDTH_MOBILE = 280;
 
 interface TimelineItem {
     id: number;
@@ -32,8 +36,29 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
     const [isTimelineHovered, setIsTimelineHovered] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
     const scrollTimeoutRef = useRef<number | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const touchStartX = useRef<number>(0);
+    const touchEndX = useRef<number>(0);
+
+    // Responsive values
+    const TIMELINE_SPACING = isMobile ? TIMELINE_SPACING_MOBILE : TIMELINE_SPACING_DESKTOP;
+    const POPOVER_WIDTH = isMobile ? POPOVER_WIDTH_MOBILE : POPOVER_WIDTH_DESKTOP;
+
+    // Detect mobile screen size
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const calculatePopoverPosition = (index: number): 'center' | 'left' | 'right' => {
+        // Always center on mobile
+        if (isMobile) return 'center';
+
         const totalItems = mainTimelineItems.length;
         if (index < 2) return 'left';
         if (index > totalItems - 4) return 'right';
@@ -55,9 +80,8 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
         let maxScroll = totalWidth - containerWidth;
 
         if (popoverPosition === 'right') {
-            const popoverWidth = 500;
-            scrollPosition += popoverWidth / 2;
-            maxScroll += popoverWidth / 2;
+            scrollPosition += POPOVER_WIDTH / 2;
+            maxScroll += POPOVER_WIDTH / 2;
         }
 
         // ensure we don't scroll beyond the boundaries
@@ -79,9 +103,12 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
         }
     }, [mainTimelineItems]); // Re-run when timeline items change
 
-    // Block page scroll when timeline is hovered
+    // Block page scroll when timeline is hovered (desktop only)
     // biome-ignore lint/correctness/useExhaustiveDependencies: Functions are stable and adding them as dependencies would cause infinite re-renders
     useEffect(() => {
+        // Skip wheel navigation on mobile - use touch instead
+        if (isMobile) return;
+
         const handleWheel = (e: WheelEvent) => {
             if (isTimelineHovered) {
                 if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
@@ -159,7 +186,7 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
                 }
             };
         }
-    }, [isTimelineHovered, currentIndex, mainTimelineItems]); // Removed function dependencies
+    }, [isTimelineHovered, currentIndex, mainTimelineItems, isMobile]); // Removed function dependencies
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: Functions are stable and adding them as dependencies would cause infinite re-renders
     useEffect(() => {
@@ -216,6 +243,51 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
         };
     }, []);
 
+    // Touch handlers for mobile swipe navigation
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (!isMobile) return;
+        touchStartX.current = e.targetTouches[0].clientX;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isMobile) return;
+        touchEndX.current = e.targetTouches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+        if (!isMobile) return;
+
+        const swipeDistance = touchStartX.current - touchEndX.current;
+        const minSwipeDistance = 50;
+
+        if (Math.abs(swipeDistance) > minSwipeDistance) {
+            if (swipeDistance > 0) {
+                // Swipe left - next item
+                const nextIndex = Math.min(currentIndex + 1, mainTimelineItems.length - 1);
+                if (nextIndex !== currentIndex) {
+                    setCurrentIndex(nextIndex);
+                    setSelectedItem(mainTimelineItems[nextIndex]);
+                    setPopoverPosition(calculatePopoverPosition(nextIndex));
+                    scrollToItem(nextIndex);
+                    setIsAutoPlaying(false);
+                }
+            } else {
+                // Swipe right - previous item
+                const prevIndex = Math.max(currentIndex - 1, 0);
+                if (prevIndex !== currentIndex) {
+                    setCurrentIndex(prevIndex);
+                    setSelectedItem(mainTimelineItems[prevIndex]);
+                    setPopoverPosition(calculatePopoverPosition(prevIndex));
+                    scrollToItem(prevIndex);
+                    setIsAutoPlaying(false);
+                }
+            }
+        }
+
+        touchStartX.current = 0;
+        touchEndX.current = 0;
+    };
+
     return (
         <div ref={containerRef} className="flex flex-col items-center justify-center">
             <div className="w-full mx-auto">
@@ -235,6 +307,9 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
                         className="relative mb-16 flex items-start px-16"
                         onMouseEnter={handleTimelineMouseEnter}
                         onMouseLeave={handleTimelineMouseLeave}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
                         role="group"
                         aria-label="Timeline navigation"
                         style={{
@@ -391,15 +466,16 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
                                 {/* popover content - positioned absolutely to avoid layout shifts */}
                                 {selectedItem?.id === item.id && (
                                     <div
-                                        className="absolute z-20 w-[500px] backdrop-blur-sm rounded-lg p-4 shadow-2xl opacity-100 transition-all duration-300 ease-out"
+                                        className="absolute z-20 backdrop-blur-sm rounded-lg p-4 shadow-2xl opacity-100 transition-all duration-300 ease-out"
                                         style={{
-                                            top: '190px',
+                                            width: `${POPOVER_WIDTH}px`,
+                                            top: isMobile ? '160px' : '190px',
                                             left:
                                                 popoverPosition === 'left'
                                                     ? '0px'
                                                     : popoverPosition === 'right'
-                                                      ? `${TIMELINE_SPACING - 500}px`
-                                                      : `${(TIMELINE_SPACING - 500) / 2}px`,
+                                                      ? `${TIMELINE_SPACING - POPOVER_WIDTH}px`
+                                                      : `${(TIMELINE_SPACING - POPOVER_WIDTH) / 2}px`,
                                             backgroundColor: 'hsl(var(--popover) / 0.95)',
                                             borderColor: 'hsl(var(--border))'
                                         }}
@@ -414,11 +490,14 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
                                                       : 'text-center'
                                             }`}
                                         >
-                                            <h3 className="text-sm font-semibold mb-2" style={{ color: item.colorHex }}>
+                                            <h3
+                                                className={`${isMobile ? 'text-xs' : 'text-sm'} font-semibold mb-2`}
+                                                style={{ color: item.colorHex }}
+                                            >
                                                 {item.title}
                                             </h3>
                                             <p
-                                                className="text-xs leading-relaxed"
+                                                className={`${isMobile ? 'text-[10px]' : 'text-xs'} leading-relaxed`}
                                                 style={{ color: 'hsl(var(--text-secondary))' }}
                                             >
                                                 {item.content}

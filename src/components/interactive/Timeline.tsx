@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { timelineData } from '@/data/timeline';
 import TimelineDesktop from './TimelineDesktop';
-import TimelineMobile from './TimelineMobile';
 
 // Adapter type for component compatibility
 interface TimelineItemForComponent {
@@ -41,60 +40,7 @@ function useTheme() {
     return isDark;
 }
 
-// Function to adapt timeline data for components including special items for mobile
-function getTimelineItemsWithSpecial(lang: 'en' | 'es', isDark: boolean): TimelineItemForComponent[] {
-    // Get regular timeline items
-    const regularItems = timelineData
-        .filter((item) => {
-            return item.viewInDesktop && item.viewInMobile;
-        })
-        .map((item, index) => {
-            const currentColor = isDark ? item.colorDarkTheme : item.colorLightTheme;
-            return {
-                id: index + 2, // Start from 2 to accommodate beginning item
-                year: item.year,
-                title: item.title[lang],
-                subtitle: item.category.charAt(0).toUpperCase() + item.category.slice(1),
-                content: item.description[lang],
-                color: hexToTailwindGradient(currentColor),
-                colorHex: currentColor,
-                icon: item.icon,
-                isSpecial: false
-            };
-        });
-
-    // Create beginning item
-    const beginningItem: TimelineItemForComponent = {
-        id: 1,
-        year: 'START',
-        title: 'My Journey',
-        subtitle: 'Beginning',
-        content: 'Where it all started',
-        color: 'from-indigo-500 to-purple-500',
-        colorHex: '#6366f1',
-        icon: 'rocket',
-        isSpecial: true,
-        specialType: 'beginning'
-    };
-
-    // Create end item
-    const endItem: TimelineItemForComponent = {
-        id: regularItems.length + 2,
-        year: 'NOW',
-        title: 'Present Day',
-        subtitle: 'Today',
-        content: 'Building the future',
-        color: 'from-emerald-500 to-teal-500',
-        colorHex: '#10b981',
-        icon: 'sparkles',
-        isSpecial: true,
-        specialType: 'end'
-    };
-
-    return [beginningItem, ...regularItems, endItem];
-}
-
-// Function to adapt timeline data for components (desktop version - original)
+// Function to adapt timeline data for components
 function getTimelineItems(lang: 'en' | 'es', isDark: boolean): TimelineItemForComponent[] {
     return timelineData
         .filter((item) => {
@@ -177,41 +123,15 @@ interface TimelineProps {
     };
 }
 
-export default function Timeline({ lang, translations }: TimelineProps) {
-    const [isMobile, setIsMobile] = useState(false);
-    const [isClient, setIsClient] = useState(false);
+export default function Timeline({ lang }: TimelineProps) {
     const isDark = useTheme();
-
-    // Check if device is mobile
-    useEffect(() => {
-        setIsClient(true);
-
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768); // md breakpoint
-        };
-
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
 
     // Get timeline items based on language and theme
     const timelineItems = getTimelineItems(lang, isDark);
-    const timelineItemsWithSpecial = getTimelineItemsWithSpecial(lang, isDark);
-
-    // Avoid hydration mismatch by not rendering until client-side
-    if (!isClient) {
-        return <div className="min-h-screen"></div>;
-    }
 
     return (
         <div>
-            {isMobile ? (
-                <TimelineMobile lang={lang} timelineItems={timelineItemsWithSpecial} translations={translations} />
-            ) : (
-                <TimelineDesktop lang={lang} timelineItems={timelineItems} />
-            )}
+            <TimelineDesktop lang={lang} timelineItems={timelineItems} />
         </div>
     );
 }

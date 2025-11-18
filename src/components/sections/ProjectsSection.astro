@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import Badge from '@/components/ui/Badge.astro';
 import FilterButton from '@/components/ui/FilterButton.astro';
@@ -108,10 +109,17 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
                         {/* Project Image */}
                         {project.image && (
                             <div class="mb-4 aspect-video rounded-lg overflow-hidden bg-background-tertiary">
-                                <img
+                                <Picture
                                     src={project.image}
                                     alt={`${project.title} - ${project.description.substring(0, 80)}${project.description.length > 80 ? '...' : ''}`}
+                                    width={800}
+                                    height={450}
+                                    widths={[400, 600, 800]}
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    formats={['avif', 'webp']}
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                         )}

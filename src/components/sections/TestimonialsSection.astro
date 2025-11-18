@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
@@ -87,11 +88,17 @@ const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
                                     {/* Avatar */}
                                     <div class="flex-shrink-0">
                                         {testimonial.avatar ? (
-                                            <img
+                                            <Picture
                                                 src={testimonial.avatar}
                                                 alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`}
+                                                width={96}
+                                                height={96}
+                                                widths={[48, 96]}
+                                                sizes="48px"
+                                                formats={['avif', 'webp']}
                                                 class="w-12 h-12 rounded-full object-cover border-2 border-border"
                                                 loading="lazy"
+                                                decoding="async"
                                             />
                                         ) : (
                                             <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg">

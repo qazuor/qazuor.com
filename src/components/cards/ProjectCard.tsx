@@ -34,7 +34,7 @@ export function ProjectCard({
                 {image ? (
                     <img
                         src={image}
-                        alt={title}
+                        alt={`${title} - ${description.substring(0, 80)}${description.length > 80 ? '...' : ''}`}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 ) : (

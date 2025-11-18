@@ -89,7 +89,7 @@ const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
                                         {testimonial.avatar ? (
                                             <img
                                                 src={testimonial.avatar}
-                                                alt={testimonial.name}
+                                                alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`}
                                                 class="w-12 h-12 rounded-full object-cover border-2 border-border"
                                                 loading="lazy"
                                             />

@@ -110,7 +110,7 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
                             <div class="mb-4 aspect-video rounded-lg overflow-hidden bg-background-tertiary">
                                 <img
                                     src={project.image}
-                                    alt={project.title}
+                                    alt={`${project.title} - ${project.description.substring(0, 80)}${project.description.length > 80 ? '...' : ''}`}
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
                             </div>

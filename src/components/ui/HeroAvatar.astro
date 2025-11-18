@@ -1,4 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
+import photo1 from '@/assets/images/photo1.png';
+import photo2 from '@/assets/images/photo2.png';
 import RotatingRoles from './RotatingRoles.astro';
 
 interface Props {
@@ -27,17 +30,25 @@ const { name, roles, className = '' } = Astro.props;
 
         <!-- Hero Photo - full image, positioned to overflow the circle -->
         <div class="relative z-20 bottom-0 mt-10 photo-hover-container">
-            <img
-                src="/photo1.png"
+            <Picture
+                src={photo1}
+                widths={[640, 1024, 1920]}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                formats={['avif', 'webp', 'png']}
                 alt={`${name} - Full-Stack Developer`}
                 class="w-full h-auto top-0 transition-all duration-100 left-0 photo-default"
                 loading="eager"
+                decoding="async"
             />
-            <img
-                src="/photo2.png"
+            <Picture
+                src={photo2}
+                widths={[640, 1024, 1920]}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                formats={['avif', 'webp', 'png']}
                 alt={`${name} - Full-Stack Developer`}
                 class="w-full h-auto absolute transition-all duration-100 top-0 left-0 opacity-0 photo-hover"
                 loading="lazy"
+                decoding="async"
             />
         </div>
 

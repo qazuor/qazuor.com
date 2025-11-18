@@ -18,6 +18,13 @@ export default defineConfig({
     site: 'https://example.com',
     output: 'static',
 
+    // Image optimization with Sharp
+    image: {
+        service: {
+            entrypoint: 'astro/assets/services/sharp'
+        }
+    },
+
     integrations: [
         // Search Index Generator (early to setup infrastructure)
         searchIndex(),

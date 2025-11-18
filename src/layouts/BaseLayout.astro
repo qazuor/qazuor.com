@@ -18,6 +18,7 @@ import '../styles/fonts.css';
 import '../styles/generated-colors.css';
 
 // Other imports
+import { ViewTransitions } from 'astro:transitions';
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import { SmoothScroll } from '@/components/animations/SmoothScroll';
 import BuildSearchIndex from '@/components/BuildSearchIndex.astro';
@@ -129,6 +130,9 @@ const alternateLinks = locales.map((locale) => {
                 document.documentElement.classList.remove('dark');
             }
         </script>
+
+        <!-- View Transitions for smooth page navigation -->
+        <ViewTransitions />
     </head>
     <body>
         <!-- Skip to main content link for accessibility -->

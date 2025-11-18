@@ -30,7 +30,7 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const timeoutRef = useRef<NodeJS.Timeout>();
+    const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
     useEffect(() => {
         setMounted(true);

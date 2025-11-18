@@ -1,5 +1,20 @@
 import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+    type CalculationParams,
+    calculateAngle,
+    calculateIconPoint,
+    generateGridPolygons,
+    generateSkillPolygon
+} from '@/utils/radarChart/calculations';
+import {
+    calculateBadgeDimensions,
+    calculateFontSize,
+    calculateLabelPosition,
+    calculateLineHeight,
+    calculateMultiLineStartY,
+    calculateTooltipPosition
+} from '@/utils/radarChart/positioning';
 
 export interface RadarChartSkill {
     name: string;
@@ -78,43 +93,34 @@ export function RadarChart({
     const center = size / 2;
     const radius = (size / 2) * 0.6; // 60% of half size for more padding
 
-    // Calculate polygon points for each skill
-    const calculatePoint = (index: number, value: number): { x: number; y: number } => {
-        const angle = (Math.PI * 2 * index) / numSkills - Math.PI / 2; // Start from top
-        const distance = (value / maxValue) * radius;
-        return {
-            x: center + distance * Math.cos(angle),
-            y: center + distance * Math.sin(angle)
-        };
-    };
+    // Memoized calculation parameters
+    const params: CalculationParams = useMemo(
+        () => ({
+            center,
+            radius,
+            numSkills,
+            maxValue
+        }),
+        [center, radius, numSkills, maxValue]
+    );
 
-    // Calculate icon position (at outer edge of radar, same distance for all)
-    const calculateIconPoint = (index: number): { x: number; y: number } => {
-        const angle = (Math.PI * 2 * index) / numSkills - Math.PI / 2;
-        const distance = radius * 1.05; // Fixed distance at outer edge
-        return {
-            x: center + distance * Math.cos(angle),
-            y: center + distance * Math.sin(angle)
-        };
-    };
+    // Memoized grid polygons (concentric circles)
+    const gridPolygons = useMemo(() => generateGridPolygons(gridLevels, params), [gridLevels, params]);
 
-    // Generate grid levels (concentric polygons)
-    const gridPolygons = Array.from({ length: gridLevels }, (_, i) => {
-        const levelValue = ((i + 1) / gridLevels) * maxValue;
-        const points = Array.from({ length: numSkills }, (_, j) => {
-            return calculatePoint(j, levelValue);
-        });
-        return points.map((p) => `${p.x},${p.y}`).join(' ');
-    });
+    // Memoized skill data polygon
+    const { points: skillPoints, polygon: skillPolygon } = useMemo(
+        () =>
+            generateSkillPolygon(
+                skills.map((s) => s.value),
+                params
+            ),
+        [skills, params]
+    );
 
-    // Generate skill data polygon
-    const skillPoints = skills.map((skill, i) => calculatePoint(i, skill.value));
-    const skillPolygon = skillPoints.map((p) => `${p.x},${p.y}`).join(' ');
-
-    // Handle click on skill point
-    const handlePointClick = (index: number): void => {
-        setSelectedIndex(selectedIndex === index ? null : index);
-    };
+    // Memoized click handler
+    const handlePointClick = useCallback((index: number): void => {
+        setSelectedIndex((prev) => (prev === index ? null : index));
+    }, []);
 
     return (
         <div ref={containerRef} className={`radar-chart-container ${className}`}>
@@ -243,7 +249,7 @@ export function RadarChart({
                     {/* Skill points (icons at outer edge) */}
                     <g className="skill-points">
                         {skills.map((skill, i) => {
-                            const point = calculateIconPoint(i);
+                            const point = calculateIconPoint(i, params);
                             const isHovered = hoveredIndex === i;
                             const isSelected = selectedIndex === i;
                             const isHighlighted = isHovered || isSelected;
@@ -331,40 +337,15 @@ export function RadarChart({
                     {/* Axis labels (skill names with percentage) */}
                     <g className="axis-labels">
                         {skills.map((skill, i) => {
-                            const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
-                            const angleDeg = ((angle + Math.PI / 2) * 180) / Math.PI;
-
-                            // Intelligent label positioning based on angle
-                            // Adjust distance based on quadrant to avoid icon overlap
-                            const labelDistance = radius + 55;
-                            const extraOffset = { x: 0, y: 0 };
-
-                            // Top (270-90 deg) - push up more
-                            if (angleDeg >= 315 || angleDeg < 45) {
-                                extraOffset.y = -10;
-                            }
-                            // Right (45-135 deg) - push right more
-                            else if (angleDeg >= 45 && angleDeg < 135) {
-                                extraOffset.x = 10;
-                            }
-                            // Bottom (135-225 deg) - push down more
-                            else if (angleDeg >= 135 && angleDeg < 225) {
-                                extraOffset.y = 10;
-                            }
-                            // Left (225-315 deg) - push left more
-                            else {
-                                extraOffset.x = -10;
-                            }
-
-                            const labelX = center + labelDistance * Math.cos(angle) + extraOffset.x;
-                            const labelY = center + labelDistance * Math.sin(angle) + extraOffset.y;
-
+                            const angle = calculateAngle(i, numSkills);
+                            const { x: labelX, y: labelY } = calculateLabelPosition(angle, radius, center);
                             const isHighlighted = hoveredIndex === i || selectedIndex === i;
 
                             // Split name by spaces for multi-line text (centered)
                             const words = skill.name.split(' ');
-                            const lineHeight = isHighlighted ? (isMobile ? 22 : 16) : isMobile ? 20 : 14;
-                            const startY = labelY - ((words.length - 1) * lineHeight) / 2 - 6;
+                            const lineHeight = calculateLineHeight(isHighlighted, isMobile);
+                            const startY = calculateMultiLineStartY(labelY, words.length, lineHeight);
+                            const badgeDimensions = calculateBadgeDimensions(isMobile);
 
                             return (
                                 // biome-ignore lint/a11y/noStaticElementInteractions: SVG g element used for mouse events on labels
@@ -390,13 +371,12 @@ export function RadarChart({
                                                     : 'font-medium text-foreground-secondary fill-current'
                                             }`}
                                             style={{
-                                                fontSize: isHighlighted
-                                                    ? isMobile
-                                                        ? '20px'
-                                                        : '15px'
-                                                    : isMobile
-                                                      ? '18px'
-                                                      : '13px',
+                                                fontSize: `${calculateFontSize(isHighlighted, isMobile, {
+                                                    highlightedMobile: 20,
+                                                    highlightedDesktop: 15,
+                                                    normalMobile: 18,
+                                                    normalDesktop: 13
+                                                })}px`,
                                                 letterSpacing: '0.3px'
                                             }}
                                         >
@@ -408,11 +388,11 @@ export function RadarChart({
                                     <g>
                                         {/* Background badge - more opaque */}
                                         <rect
-                                            x={labelX - (isMobile ? 24 : 18)}
+                                            x={labelX - badgeDimensions.width / 2}
                                             y={labelY + ((words.length - 1) * lineHeight) / 2 + (isMobile ? 8 : 2)}
-                                            width={isMobile ? 48 : 36}
-                                            height={isMobile ? 22 : 16}
-                                            rx={isMobile ? 11 : 8}
+                                            width={badgeDimensions.width}
+                                            height={badgeDimensions.height}
+                                            rx={badgeDimensions.rx}
                                             fill={skill.color}
                                             opacity={isHighlighted ? 0.9 : 0.85}
                                             className="transition-all duration-200"
@@ -427,13 +407,12 @@ export function RadarChart({
                                                 isHighlighted ? 'font-bold' : 'font-semibold'
                                             }`}
                                             style={{
-                                                fontSize: isHighlighted
-                                                    ? isMobile
-                                                        ? '18px'
-                                                        : '13px'
-                                                    : isMobile
-                                                      ? '16px'
-                                                      : '12px',
+                                                fontSize: `${calculateFontSize(isHighlighted, isMobile, {
+                                                    highlightedMobile: 18,
+                                                    highlightedDesktop: 13,
+                                                    normalMobile: 16,
+                                                    normalDesktop: 12
+                                                })}px`,
                                                 fill: '#ffffff',
                                                 filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))'
                                             }}
@@ -455,46 +434,10 @@ export function RadarChart({
                                 return null;
                             }
 
-                            // Calculate label position (same as in axis-labels)
-                            const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
-                            const angleDeg = ((angle + Math.PI / 2) * 180) / Math.PI;
-                            const labelDistance = radius + 55;
-                            const extraOffset = { x: 0, y: 0 };
-
-                            if (angleDeg >= 315 || angleDeg < 45) {
-                                extraOffset.y = -10;
-                            } else if (angleDeg >= 45 && angleDeg < 135) {
-                                extraOffset.x = 10;
-                            } else if (angleDeg >= 135 && angleDeg < 225) {
-                                extraOffset.y = 10;
-                            } else {
-                                extraOffset.x = -10;
-                            }
-
-                            const labelX = center + labelDistance * Math.cos(angle) + extraOffset.x;
-                            const labelY = center + labelDistance * Math.sin(angle) + extraOffset.y;
-
-                            // Smart tooltip positioning based on label location
-                            const tooltipWidth = 220;
-                            let tooltipX = labelX - tooltipWidth / 2; // Default: centered
-                            const tooltipY = labelY + 25; // Below label
-
-                            // Adjust horizontal position if tooltip would overflow
-                            const padding = 10;
-                            if (labelX < center - 50) {
-                                // Label on left side - align tooltip to the left
-                                tooltipX = labelX - 40;
-                            } else if (labelX > center + 50) {
-                                // Label on right side - align tooltip to the right
-                                tooltipX = labelX - tooltipWidth + 40;
-                            }
-
-                            // Ensure tooltip stays within bounds
-                            if (tooltipX < padding) {
-                                tooltipX = padding;
-                            } else if (tooltipX + tooltipWidth > size - padding) {
-                                tooltipX = size - tooltipWidth - padding;
-                            }
+                            // Calculate label and tooltip positions
+                            const angle = calculateAngle(i, numSkills);
+                            const { x: labelX, y: labelY } = calculateLabelPosition(angle, radius, center);
+                            const { x: tooltipX, y: tooltipY } = calculateTooltipPosition(labelX, labelY, center, size);
 
                             return (
                                 <g

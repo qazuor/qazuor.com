@@ -1,0 +1,44 @@
+{
+  "title": "Proyectos **Destacados**",
+  "subtitle": "Una colección de proyectos que he *construido* y en los que he **contribuido**",
+  "description": "Una colección de **aplicaciones web** y herramientas que he construido",
+  "viewDemo": "**Demo**",
+  "viewCode": "**Código**",
+  "featured": "*Destacado*",
+  "noProjects": "No se encontraron proyectos con el filtro seleccionado.",
+  "filterAll": "**Todos**",
+  "cta": {
+    "title": "¿Tienes un proyecto en mente?",
+    "description": "Hablemos sobre cómo podemos trabajar juntos",
+    "button": "Iniciar conversación"
+  },
+  "examples": {
+    "project1": {
+      "title": "Plataforma E-Commerce",
+      "description": "Tienda online completa con carrito, checkout y panel de administración.",
+      "tags": [
+        "React",
+        "Node.js",
+        "PostgreSQL"
+      ]
+    },
+    "project2": {
+      "title": "App de Gestión de Tareas",
+      "description": "Gestor de tareas colaborativo con actualizaciones en tiempo real y funciones de equipo.",
+      "tags": [
+        "TypeScript",
+        "WebSocket",
+        "Tailwind"
+      ]
+    },
+    "project3": {
+      "title": "Dashboard del Clima",
+      "description": "Pronóstico del tiempo interactivo con gráficos hermosos y búsqueda de ubicación.",
+      "tags": [
+        "React",
+        "API",
+        "Gráficos"
+      ]
+    }
+  }
+}

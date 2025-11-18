@@ -1,0 +1,54 @@
+{
+  "title": "**Skills**",
+  "subtitle": "Technologies I *work with*",
+  "description": "Here's a look at my skill set. The **tech world** changes every moment and that's what makes it *exciting*! I constantly keep my knowledge up to date and love exploring **new technologies** to keep growing.",
+  "categories": {
+    "devHardSkills": "**Dev** Hard Skills",
+    "otherSkills": "**Other** Skills",
+    "softSkills": "**Soft** Skills"
+  },
+  "items": {
+    "adaptability": "Adaptability",
+    "positiveAttitude": "Positive Attitude",
+    "communication": "Communication",
+    "timeManagement": "Time Management",
+    "flexibility": "Flexibility",
+    "analyticalThinking": "Analytical Thinking",
+    "teamwork": "Teamwork",
+    "decisionMaking": "Decision Making",
+    "creativity": "Creativity",
+    "problemSolving": "Problem Solving",
+    "curiosity": "Curiosity",
+    "negotiation": "Negotiation",
+    "leadership": "Leadership",
+    "graphicDesign": "Graphic Design",
+    "branding": "Branding",
+    "imageEditing": "Image Editing",
+    "noCodeAutomation": "No-Code Automation",
+    "webPerformance": "Web Performance",
+    "webAccessibility": "Web Accessibility",
+    "styleGuides": "Style Guides",
+    "integrations": "Integrations",
+    "automation": "Automation",
+    "apisWebhooks": "APIs & Webhooks",
+    "seo": "SEO"
+  },
+  "descriptions": {
+    "graphicDesignDescription": "Design pieces for social media (banners, flyers, posts, stories)",
+    "brandingDescription": "Basic brand identity design (simple logos, color palettes, typography)",
+    "imageEditingDescription": "Basic image editing (color correction, cropping, simple montage)",
+    "noCodeAutomationDescription": "No-code automations (Make / Zapier / simple integrations)",
+    "webPerformanceDescription": "Basic page performance and optimization (images, lazy loading, etc.)",
+    "webAccessibilityDescription": "Basic web accessibility (good contrast, semantic structure, labels, etc.)",
+    "styleGuidesDescription": "Basic brand style guides (logo usage, colors, typography)",
+    "integrationsDescription": "Integration of external tools (forms, chats, simple CRMs, newsletters)",
+    "automationDescription": "Automations with Make / Zapier (e.g.: form → email → spreadsheet)",
+    "apisWebhooksDescription": "Integration between web and third-party tools (Notion, Sheets, etc.)",
+    "seoDescription": "Search engine optimization"
+  },
+  "languages": {
+    "title": "Languages",
+    "native": "native",
+    "writtenOnly": "technical/written"
+  }
+}

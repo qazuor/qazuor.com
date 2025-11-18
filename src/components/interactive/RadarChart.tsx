@@ -363,7 +363,7 @@ export function RadarChart({
 
                             // Split name by spaces for multi-line text (centered)
                             const words = skill.name.split(' ');
-                            const lineHeight = isHighlighted ? (isMobile ? 18 : 16) : isMobile ? 16 : 14;
+                            const lineHeight = isHighlighted ? (isMobile ? 22 : 16) : isMobile ? 20 : 14;
                             const startY = labelY - ((words.length - 1) * lineHeight) / 2 - 6;
 
                             return (
@@ -392,10 +392,10 @@ export function RadarChart({
                                             style={{
                                                 fontSize: isHighlighted
                                                     ? isMobile
-                                                        ? '17px'
+                                                        ? '20px'
                                                         : '15px'
                                                     : isMobile
-                                                      ? '15px'
+                                                      ? '18px'
                                                       : '13px',
                                                 letterSpacing: '0.3px'
                                             }}
@@ -408,11 +408,11 @@ export function RadarChart({
                                     <g>
                                         {/* Background badge - more opaque */}
                                         <rect
-                                            x={labelX - 18}
-                                            y={labelY + ((words.length - 1) * lineHeight) / 2 + 2}
-                                            width={36}
-                                            height={16}
-                                            rx={8}
+                                            x={labelX - (isMobile ? 24 : 18)}
+                                            y={labelY + ((words.length - 1) * lineHeight) / 2 + (isMobile ? 8 : 2)}
+                                            width={isMobile ? 48 : 36}
+                                            height={isMobile ? 22 : 16}
+                                            rx={isMobile ? 11 : 8}
                                             fill={skill.color}
                                             opacity={isHighlighted ? 0.9 : 0.85}
                                             className="transition-all duration-200"
@@ -420,7 +420,7 @@ export function RadarChart({
                                         {/* Percentage text - white with shadow for better contrast */}
                                         <text
                                             x={labelX}
-                                            y={labelY + ((words.length - 1) * lineHeight) / 2 + 10}
+                                            y={labelY + ((words.length - 1) * lineHeight) / 2 + (isMobile ? 19 : 10)}
                                             textAnchor="middle"
                                             dominantBaseline="middle"
                                             className={`transition-all duration-200 ${
@@ -429,10 +429,10 @@ export function RadarChart({
                                             style={{
                                                 fontSize: isHighlighted
                                                     ? isMobile
-                                                        ? '15px'
+                                                        ? '18px'
                                                         : '13px'
                                                     : isMobile
-                                                      ? '14px'
+                                                      ? '16px'
                                                       : '12px',
                                                 fill: '#ffffff',
                                                 filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))'
@@ -513,14 +513,14 @@ export function RadarChart({
                                                 boxShadow:
                                                     '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
                                                 pointerEvents: 'none',
-                                                fontSize: isMobile ? '0.875rem' : '0.75rem'
+                                                fontSize: isMobile ? '1rem' : '0.75rem'
                                             }}
                                         >
                                             <div
                                                 className="font-bold mb-1.5"
                                                 style={{
                                                     color: '#111827',
-                                                    fontSize: isMobile ? '0.9375rem' : '0.8125rem'
+                                                    fontSize: isMobile ? '1.125rem' : '0.8125rem'
                                                 }}
                                             >
                                                 {skill.name}

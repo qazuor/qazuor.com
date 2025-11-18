@@ -1,5 +1,5 @@
-import sendIcon from '../../icons/ui/send.svg?raw';
-import spinnerIcon from '../../icons/ui/spinner.svg?raw';
+import sendIcon from '@/icons/ui/send.svg?raw';
+import spinnerIcon from '@/icons/ui/spinner.svg?raw';
 
 /**
  * Props for the SubmitButton component

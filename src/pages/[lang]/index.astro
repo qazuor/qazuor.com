@@ -1,19 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
-import { Contact } from '../../components/forms/Contact';
-import AboutSection from '../../components/sections/AboutSection.astro';
-import BlogSection from '../../components/sections/BlogSection.astro';
-import HeroSection from '../../components/sections/HeroSection.astro';
-import ProjectsSection from '../../components/sections/ProjectsSection.astro';
-import SkillsSection from '../../components/sections/SkillsSection.astro';
-import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
-import DiagonalDivider from '../../components/ui/dividers/DiagonalDivider.astro';
-import WaveDivider from '../../components/ui/dividers/WaveDivider.astro';
-import ZigzagDivider from '../../components/ui/dividers/ZigZagDivider.astro';
-import { contact, sectionsColors } from '../../data';
-import { languages } from '../../i18n/ui';
-import { getLangFromUrl, getTranslations } from '../../i18n/utils';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Contact } from '@/components/forms/Contact';
+import AboutSection from '@/components/sections/AboutSection.astro';
+import BlogSection from '@/components/sections/BlogSection.astro';
+import HeroSection from '@/components/sections/HeroSection.astro';
+import ProjectsSection from '@/components/sections/ProjectsSection.astro';
+import SkillsSection from '@/components/sections/SkillsSection.astro';
+import TestimonialsSection from '@/components/sections/TestimonialsSection.astro';
+import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
+import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
+import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
+import { contact, sectionsColors } from '@/data';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({

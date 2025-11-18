@@ -1,32 +1,32 @@
 import type React from 'react';
 
 // Import all SVG icons statically
-import academicCapIcon from '../../icons/timeline/academic-cap.svg?raw';
-import accessIcon from '../../icons/timeline/access.svg?raw';
-import arrowTrendingUpIcon from '../../icons/timeline/arrow-trending-up.svg?raw';
-import avatureIcon from '../../icons/timeline/avature.svg?raw';
-import boltIcon from '../../icons/timeline/bolt.svg?raw';
-import briefcaseIcon from '../../icons/timeline/briefcase.svg?raw';
-import broadbandIcon from '../../icons/timeline/broadband.svg?raw';
-import cogIcon from '../../icons/timeline/cog.svg?raw';
-import computerDesktopIcon from '../../icons/timeline/computer-desktop.svg?raw';
-import deviceDesktopIcon from '../../icons/timeline/device-desktop.svg?raw';
-import dialupIcon from '../../icons/timeline/dialup.svg?raw';
-import eyeIcon from '../../icons/timeline/eye.svg?raw';
-import globeIcon from '../../icons/timeline/globe.svg?raw';
-import heartIcon from '../../icons/timeline/heart.svg?raw';
-import html5Icon from '../../icons/timeline/html5.svg?raw';
-import javascriptIcon from '../../icons/timeline/javascript.svg?raw';
-import makeIcon from '../../icons/timeline/make.svg?raw';
-import paintBrushIcon from '../../icons/timeline/paint-brush.svg?raw';
-import paperAirplaneIcon from '../../icons/timeline/paper-airplane.svg?raw';
-import phpIcon from '../../icons/timeline/php.svg?raw';
-import rocketIcon from '../../icons/timeline/rocket.svg?raw';
-import sparklesIcon from '../../icons/timeline/sparkles.svg?raw';
-import starIcon from '../../icons/timeline/star.svg?raw';
-import userCircleIcon from '../../icons/timeline/user-circle.svg?raw';
-import userGroupIcon from '../../icons/timeline/user-group.svg?raw';
-import visualBasicIcon from '../../icons/timeline/visual-basic.svg?raw';
+import academicCapIcon from '@/icons/timeline/academic-cap.svg?raw';
+import accessIcon from '@/icons/timeline/access.svg?raw';
+import arrowTrendingUpIcon from '@/icons/timeline/arrow-trending-up.svg?raw';
+import avatureIcon from '@/icons/timeline/avature.svg?raw';
+import boltIcon from '@/icons/timeline/bolt.svg?raw';
+import briefcaseIcon from '@/icons/timeline/briefcase.svg?raw';
+import broadbandIcon from '@/icons/timeline/broadband.svg?raw';
+import cogIcon from '@/icons/timeline/cog.svg?raw';
+import computerDesktopIcon from '@/icons/timeline/computer-desktop.svg?raw';
+import deviceDesktopIcon from '@/icons/timeline/device-desktop.svg?raw';
+import dialupIcon from '@/icons/timeline/dialup.svg?raw';
+import eyeIcon from '@/icons/timeline/eye.svg?raw';
+import globeIcon from '@/icons/timeline/globe.svg?raw';
+import heartIcon from '@/icons/timeline/heart.svg?raw';
+import html5Icon from '@/icons/timeline/html5.svg?raw';
+import javascriptIcon from '@/icons/timeline/javascript.svg?raw';
+import makeIcon from '@/icons/timeline/make.svg?raw';
+import paintBrushIcon from '@/icons/timeline/paint-brush.svg?raw';
+import paperAirplaneIcon from '@/icons/timeline/paper-airplane.svg?raw';
+import phpIcon from '@/icons/timeline/php.svg?raw';
+import rocketIcon from '@/icons/timeline/rocket.svg?raw';
+import sparklesIcon from '@/icons/timeline/sparkles.svg?raw';
+import starIcon from '@/icons/timeline/star.svg?raw';
+import userCircleIcon from '@/icons/timeline/user-circle.svg?raw';
+import userGroupIcon from '@/icons/timeline/user-group.svg?raw';
+import visualBasicIcon from '@/icons/timeline/visual-basic.svg?raw';
 
 interface TimelineIconProps {
     iconName: string;

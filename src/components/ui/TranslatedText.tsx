@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import type { TranslationOptions } from '../../i18n/utils';
-import { getLangFromUrl, getTranslations } from '../../i18n/utils';
+import type { TranslationOptions } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 
 interface TranslatedTextProps extends TranslationOptions {
     /** Clave de traducción */

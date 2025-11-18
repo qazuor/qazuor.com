@@ -1,4 +1,4 @@
-import { useContactForm, useScrollAnimation, useStaggerAnimation } from '../../hooks';
+import { useContactForm, useScrollAnimation, useStaggerAnimation } from '@/hooks';
 import { FormField } from './FormField';
 import { StatusMessage } from './StatusMessage';
 import { SubmitButton } from './SubmitButton';

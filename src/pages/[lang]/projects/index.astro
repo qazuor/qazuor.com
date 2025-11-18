@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import { ProjectCard } from '../../../components/cards/ProjectCard';
-import { ScrollAnimatedSection } from '../../../components/interactive/ScrollAnimatedSection';
-import EmailLink from '../../../components/ui/EmailLink.astro';
-import { contact } from '../../../data';
-import { languages } from '../../../i18n/ui';
-import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { ProjectCard } from '@/components/cards/ProjectCard';
+import { ScrollAnimatedSection } from '@/components/interactive/ScrollAnimatedSection';
+import EmailLink from '@/components/ui/EmailLink.astro';
+import { contact } from '@/data';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({

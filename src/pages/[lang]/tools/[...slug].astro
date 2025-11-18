@@ -1,8 +1,8 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
-import { languages } from '../../../i18n/ui';
-import { getLangFromUrl, getTranslations, translatePath } from '../../../i18n/utils';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
     const tools = await getCollection('tools');

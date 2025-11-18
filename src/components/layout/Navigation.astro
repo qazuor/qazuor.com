@@ -1,11 +1,11 @@
 ---
 import { normalizeTrailingSlash } from '@reunmedia/astro-normalize-trailing-slash';
-import { services } from '../../data/services';
-import { getLangFromUrl, getTranslations, translatePath } from '../../i18n/utils';
-import { CommandButton } from '../interactive/CommandButton';
-import { LanguageSelector } from '../interactive/LanguageSelector';
-import { ServicesDropdown } from '../interactive/ServicesDropdown';
-import { ThemeToggle } from '../interactive/ThemeToggle';
+import { CommandButton } from '@/components/interactive/CommandButton';
+import { LanguageSelector } from '@/components/interactive/LanguageSelector';
+import { ServicesDropdown } from '@/components/interactive/ServicesDropdown';
+import { ThemeToggle } from '@/components/interactive/ThemeToggle';
+import { services } from '@/data/services';
+import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);

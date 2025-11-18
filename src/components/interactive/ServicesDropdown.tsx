@@ -1,4 +1,4 @@
-import { services } from '../../data/services';
+import { services } from '@/data/services';
 import { NavDropdown, type NavDropdownItem } from './NavDropdown';
 
 interface ServicesDropdownProps {

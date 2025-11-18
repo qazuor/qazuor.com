@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import searchIcon from '../../icons/ui/search.svg?raw';
+import searchIcon from '@/icons/ui/search.svg?raw';
 
 interface HelpDialogProps {
     isOpen: boolean;

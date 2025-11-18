@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import moonIcon from '../../icons/ui/moon.svg?raw';
-import sunIcon from '../../icons/ui/sun.svg?raw';
+import moonIcon from '@/icons/ui/moon.svg?raw';
+import sunIcon from '@/icons/ui/sun.svg?raw';
 
 interface ThemeToggleProps {
     ariaLabel?: string;

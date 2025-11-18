@@ -1,5 +1,5 @@
-import checkCircleIcon from '../../icons/ui/check-circle.svg?raw';
-import xCircleIcon from '../../icons/ui/x-circle.svg?raw';
+import checkCircleIcon from '@/icons/ui/check-circle.svg?raw';
+import xCircleIcon from '@/icons/ui/x-circle.svg?raw';
 
 /**
  * Props for the StatusMessage component

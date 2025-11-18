@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { timelineData } from '../../data/timeline';
+import { timelineData } from '@/data/timeline';
 import TimelineDesktop from './TimelineDesktop';
 import TimelineMobile from './TimelineMobile';
 

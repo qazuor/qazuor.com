@@ -1,16 +1,16 @@
 import { Command } from 'cmdk';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { commandPaletteData, getShortcutForItem, keyboardShortcuts } from '../../data/commandPalette';
-import { type ContentSearchResult, useContentSearch } from '../../hooks/useContentSearch';
-import fiverrIcon from '../../icons/social/fiverr.svg?raw';
-import githubIcon from '../../icons/social/github.svg?raw';
-import linkedinIcon from '../../icons/social/linkedin.svg?raw';
-import upworkIcon from '../../icons/social/upwork.svg?raw';
-import folderIcon from '../../icons/ui/folder.svg?raw';
-import homeIcon from '../../icons/ui/home.svg?raw';
-import newspaperIcon from '../../icons/ui/newspaper.svg?raw';
-import searchIcon from '../../icons/ui/search.svg?raw';
-import type { CommandItem } from '../../types/commandPalette';
+import { commandPaletteData, getShortcutForItem, keyboardShortcuts } from '@/data/commandPalette';
+import { type ContentSearchResult, useContentSearch } from '@/hooks/useContentSearch';
+import fiverrIcon from '@/icons/social/fiverr.svg?raw';
+import githubIcon from '@/icons/social/github.svg?raw';
+import linkedinIcon from '@/icons/social/linkedin.svg?raw';
+import upworkIcon from '@/icons/social/upwork.svg?raw';
+import folderIcon from '@/icons/ui/folder.svg?raw';
+import homeIcon from '@/icons/ui/home.svg?raw';
+import newspaperIcon from '@/icons/ui/newspaper.svg?raw';
+import searchIcon from '@/icons/ui/search.svg?raw';
+import type { CommandItem } from '@/types/commandPalette';
 import { HelpDialog } from './HelpDialog';
 
 interface CommandPaletteProps {

@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths, Page } from 'astro';
-import { languages } from '../../../i18n/ui';
-import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
 // Define the type for our blog post data
 interface BlogPostData {

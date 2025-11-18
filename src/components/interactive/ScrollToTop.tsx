@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import arrowUpIcon from '../../icons/ui/arrow-up.svg?raw';
+import arrowUpIcon from '@/icons/ui/arrow-up.svg?raw';
 
 interface ScrollToTopProps {
     ariaLabel?: string;

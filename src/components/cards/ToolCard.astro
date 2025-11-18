@@ -1,6 +1,6 @@
 ---
-import { getTranslations, translatePath } from '../../i18n/utils';
-import SecondaryTitle from '../ui/SecondaryTitle.astro';
+import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
+import { getTranslations, translatePath } from '@/i18n/utils';
 
 const { tool, lang, featured = false, class: className = '' } = Astro.props;
 const t = getTranslations(lang);

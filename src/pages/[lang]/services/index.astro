@@ -1,12 +1,12 @@
 ---
-import AnimatedGradientBackground from '../../../components/ui/AnimatedGradientBackground.astro';
-import SectionTitle from '../../../components/ui/SectionTitle.astro';
-import { sectionsColors } from '../../../data';
-import type { Service } from '../../../data/services';
-import { services } from '../../../data/services';
-import { languages } from '../../../i18n/ui';
-import { getLangFromUrl, getTranslations } from '../../../i18n/utils';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { sectionsColors } from '@/data';
+import type { Service } from '@/data/services';
+import { services } from '@/data/services';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({

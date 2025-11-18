@@ -1,4 +1,4 @@
-import commandIcon from '../../icons/ui/command.svg?raw';
+import commandIcon from '@/icons/ui/command.svg?raw';
 
 interface CommandButtonProps {
     ariaLabel?: string;

@@ -29,8 +29,10 @@ interface NavDropdownProps {
 export function NavDropdown({ label, items, isActive = false, className = '', onOpenChange }: NavDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [focusedIndex, setFocusedIndex] = useState(-1);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+    const menuItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
     useEffect(() => {
         setMounted(true);
@@ -61,6 +63,13 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
         };
     }, [isOpen, handleSetIsOpen]);
 
+    // Auto-focus menu item when focusedIndex changes
+    useEffect(() => {
+        if (focusedIndex >= 0 && focusedIndex < menuItemRefs.current.length) {
+            menuItemRefs.current[focusedIndex]?.focus();
+        }
+    }, [focusedIndex]);
+
     const handleMouseEnter = () => {
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
@@ -81,9 +90,26 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleSetIsOpen(!isOpen);
+            if (!isOpen) {
+                handleSetIsOpen(true);
+                setFocusedIndex(0);
+            }
         } else if (e.key === 'Escape') {
             handleSetIsOpen(false);
+            setFocusedIndex(-1);
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (!isOpen) {
+                handleSetIsOpen(true);
+                setFocusedIndex(0);
+            } else {
+                setFocusedIndex((prev) => (prev < items.length - 1 ? prev + 1 : prev));
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (isOpen) {
+                setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+            }
         }
     };
 
@@ -114,7 +140,7 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
                     isActive ? 'text-primary' : 'text-foreground-secondary hover:text-foreground'
                 }`}
                 aria-expanded={isOpen}
-                aria-haspopup="true"
+                aria-haspopup="menu"
                 aria-label={`${label} menu`}
             >
                 {label}
@@ -137,17 +163,32 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute top-full left-0 mt-2 w-52 rounded-lg bg-card border border-foreground/10 shadow-lg overflow-hidden z-[100] opacity-100 translate-y-0 transition-all duration-200">
+                <div
+                    role="menu"
+                    aria-label={`${label} menu`}
+                    className="absolute top-full left-0 mt-2 w-52 rounded-lg bg-card border border-foreground/10 shadow-lg overflow-hidden z-[100] opacity-100 translate-y-0 transition-all duration-200"
+                >
                     {items.map((item, index) => (
                         <a
                             key={item.id}
+                            ref={(el) => {
+                                menuItemRefs.current[index] = el;
+                            }}
                             href={item.href}
+                            role="menuitem"
+                            tabIndex={focusedIndex === index ? 0 : -1}
                             className={`flex items-center gap-2.5 px-3 py-2 text-xs text-foreground-secondary hover:text-foreground hover:bg-foreground/5 transition-colors ${
                                 index === 0
                                     ? 'font-medium text-foreground border-b border-foreground/10'
                                     : 'font-normal'
                             }`}
                             onClick={() => handleSetIsOpen(false)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    window.location.href = item.href;
+                                }
+                            }}
                         >
                             {item.icon && (
                                 <span className="text-lg opacity-80" aria-hidden="true">

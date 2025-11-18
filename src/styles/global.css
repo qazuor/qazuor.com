@@ -579,4 +579,42 @@
     .command-palette-enter {
         animation: fadeInScale 0.15s ease-out forwards;
     }
+
+    /* Skip Link for Accessibility (WCAG 2.4.1) */
+    .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+        color: hsl(var(--primary-foreground));
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.875rem;
+        border-radius: 8px;
+        box-shadow:
+            0 4px 6px -1px rgb(0 0 0 / 0.1),
+            0 2px 4px -1px rgb(0 0 0 / 0.06);
+        backdrop-filter: blur(10px);
+        transition:
+            top var(--duration-normal) var(--ease-out),
+            transform var(--duration-normal) var(--ease-out),
+            box-shadow var(--duration-normal) var(--ease-out);
+    }
+
+    .skip-link:focus {
+        top: 16px;
+        transform: translateX(-50%) scale(1.02);
+        outline: 2px solid hsl(var(--accent));
+        outline-offset: 4px;
+        box-shadow:
+            0 20px 25px -5px rgb(0 0 0 / 0.2),
+            0 10px 10px -5px rgb(0 0 0 / 0.1);
+    }
+
+    .skip-link:hover {
+        transform: translateX(-50%) scale(1.05);
+    }
 }

@@ -590,7 +590,8 @@
         "openCommandPalette": "Open command palette",
         "closeCommandPalette": "Close command palette",
         "noArticles": "No articles",
-        "commandPalettePlaceholder": "Type a command or search..."
+        "commandPalettePlaceholder": "Type a command or search...",
+        "skipToContent": "Skip to main content"
     },
     "social": {
         "github": "GitHub",

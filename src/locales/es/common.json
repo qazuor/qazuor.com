@@ -590,7 +590,8 @@
         "openCommandPalette": "Abrir paleta de comandos",
         "closeCommandPalette": "Cerrar paleta de comandos",
         "noArticles": "Sin artículos",
-        "commandPalettePlaceholder": "Escribe un comando o busca..."
+        "commandPalettePlaceholder": "Escribe un comando o busca...",
+        "skipToContent": "Saltar al contenido principal"
     },
     "social": {
         "github": "GitHub",

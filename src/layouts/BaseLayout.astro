@@ -131,6 +131,11 @@ const alternateLinks = locales.map((locale) => {
         </script>
     </head>
     <body>
+        <!-- Skip to main content link for accessibility -->
+        <a href="#main-content" class="skip-link">
+            {t('aria.skipToContent')}
+        </a>
+
         <!-- AutoAnimate Global -->
         <AutoAnimateGlobal />
 
@@ -153,7 +158,7 @@ const alternateLinks = locales.map((locale) => {
 
         <Navigation />
 
-        <main class="min-h-screen">
+        <main id="main-content" class="min-h-screen">
             <slot />
         </main>
 

@@ -17,10 +17,10 @@ const { roles, className = '' } = Astro.props;
 </div>
 
 <script>
-    import { gsap } from '@/lib/gsap';
+    import { loadGSAP } from '@/lib/gsap';
 
-    // Initialize rotating roles with GSAP
-    document.addEventListener('DOMContentLoaded', () => {
+    // Initialize rotating roles with GSAP (lazy-loaded)
+    document.addEventListener('DOMContentLoaded', async () => {
         const rotatingRolesElement = document.getElementById('rotating-roles');
 
         if (rotatingRolesElement) {
@@ -29,6 +29,9 @@ const { roles, className = '' } = Astro.props;
             if (rolesData) {
                 try {
                     const roles: string[] = JSON.parse(rolesData);
+
+                    // Lazy load GSAP
+                    const gsap = await loadGSAP();
 
                     // GSAP Timeline for smooth role transitions
                     const createRoleTransition = () => {

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { ScrollTrigger } from '@/lib/gsap';
+import { loadScrollTrigger } from '@/lib/gsap';
 import { initLenis } from '@/lib/lenis';
 
 /**
  * Smooth Scroll component using Lenis
- * Integrates with GSAP ScrollTrigger
+ * Integrates with GSAP ScrollTrigger (lazy-loaded)
  */
 export function SmoothScroll() {
     useEffect(() => {
@@ -13,14 +13,21 @@ export function SmoothScroll() {
 
         if (!lenis) return;
 
-        // Integrate Lenis with GSAP ScrollTrigger
-        lenis.on('scroll', () => {
-            ScrollTrigger.update();
+        let scrollTriggerInstance: typeof import('gsap/ScrollTrigger').ScrollTrigger | null = null;
+
+        // Lazy load ScrollTrigger
+        loadScrollTrigger().then(({ ScrollTrigger }) => {
+            scrollTriggerInstance = ScrollTrigger;
+
+            // Integrate Lenis with GSAP ScrollTrigger
+            lenis.on('scroll', () => {
+                ScrollTrigger.update();
+            });
         });
 
         // Update ScrollTrigger on resize
         const handleResize = () => {
-            ScrollTrigger.refresh();
+            scrollTriggerInstance?.refresh();
         };
 
         window.addEventListener('resize', handleResize);

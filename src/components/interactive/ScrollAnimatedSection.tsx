@@ -1,5 +1,5 @@
-import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
+import { loadScrollTrigger } from '@/lib/gsap';
 
 interface ScrollAnimatedSectionProps {
     title: string;
@@ -8,7 +8,7 @@ interface ScrollAnimatedSectionProps {
 }
 
 /**
- * Section that animates in on scroll using GSAP ScrollTrigger
+ * Section that animates in on scroll using GSAP ScrollTrigger (lazy-loaded)
  */
 export function ScrollAnimatedSection({ title, description, children }: ScrollAnimatedSectionProps) {
     const sectionRef = useRef<HTMLDivElement>(null);
@@ -19,55 +19,59 @@ export function ScrollAnimatedSection({ title, description, children }: ScrollAn
     useEffect(() => {
         if (!sectionRef.current) return;
 
-        // Dynamically import ScrollTrigger to avoid SSR issues
-        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
-            gsap.registerPlugin(ScrollTrigger);
-        });
+        let ctx: gsap.Context | null = null;
 
-        const ctx = gsap.context(() => {
-            // Title animation
-            gsap.from(titleRef.current, {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: 'top 80%',
-                    end: 'top 50%',
-                    scrub: 1
-                }
-            });
+        // Lazy load GSAP and ScrollTrigger
+        loadScrollTrigger().then(({ gsap }) => {
+            if (!sectionRef.current) return;
 
-            // Description animation
-            gsap.from(descRef.current, {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: 'top 75%',
-                    end: 'top 45%',
-                    scrub: 1
-                }
-            });
-
-            // Content animation
-            if (contentRef.current) {
-                gsap.from(contentRef.current, {
-                    y: 40,
+            ctx = gsap.context(() => {
+                // Title animation
+                gsap.from(titleRef.current, {
+                    y: 50,
                     opacity: 0,
                     duration: 1,
                     scrollTrigger: {
                         trigger: sectionRef.current,
-                        start: 'top 70%',
-                        end: 'top 40%',
+                        start: 'top 80%',
+                        end: 'top 50%',
                         scrub: 1
                     }
                 });
-            }
-        }, sectionRef);
 
-        return () => ctx.revert();
+                // Description animation
+                gsap.from(descRef.current, {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top 75%',
+                        end: 'top 45%',
+                        scrub: 1
+                    }
+                });
+
+                // Content animation
+                if (contentRef.current) {
+                    gsap.from(contentRef.current, {
+                        y: 40,
+                        opacity: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: 'top 70%',
+                            end: 'top 40%',
+                            scrub: 1
+                        }
+                    });
+                }
+            }, sectionRef);
+        });
+
+        return () => {
+            ctx?.revert();
+        };
     }, []);
 
     return (

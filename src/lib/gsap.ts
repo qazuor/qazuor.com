@@ -1,23 +1,88 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+/**
+ * GSAP Lazy Loading Utilities
+ *
+ * This module provides lazy loading for GSAP and its plugins to reduce initial bundle size.
+ * GSAP is only loaded when explicitly requested via the loader functions.
+ */
 
-// Register GSAP plugins and configure only on client
-let gsapConfigured = false;
-if (typeof window !== 'undefined' && !gsapConfigured) {
-    gsap.registerPlugin(ScrollTrigger);
+// Track if GSAP has been initialized to avoid duplicate configurations
+let gsapInitialized = false;
 
-    // Default GSAP configuration
-    gsap.defaults({
-        ease: 'power3.out',
-        duration: 0.8
-    });
+/**
+ * Lazy load GSAP core library
+ * @returns Promise resolving to GSAP instance
+ */
+export async function loadGSAP() {
+    const gsapModule = await import('gsap');
+    const gsap = gsapModule.default;
 
-    // Configure ScrollTrigger to prevent excessive API calls
-    ScrollTrigger.config({
-        autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
-    });
+    // Apply default configuration only once
+    if (!gsapInitialized && typeof window !== 'undefined') {
+        gsap.defaults({
+            ease: 'power3.out',
+            duration: 0.8
+        });
+        gsapInitialized = true;
+    }
 
-    gsapConfigured = true;
+    return gsap;
+}
+
+/**
+ * Lazy load GSAP ScrollTrigger plugin
+ * @returns Promise resolving to { gsap, ScrollTrigger }
+ */
+export async function loadScrollTrigger() {
+    const [gsapModule, scrollTriggerModule] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')]);
+
+    const gsap = gsapModule.default;
+    const { ScrollTrigger } = scrollTriggerModule;
+
+    // Register plugin and configure
+    if (typeof window !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Configure ScrollTrigger to prevent excessive API calls
+        ScrollTrigger.config({
+            autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load'
+        });
+
+        // Apply default GSAP config if not already done
+        if (!gsapInitialized) {
+            gsap.defaults({
+                ease: 'power3.out',
+                duration: 0.8
+            });
+            gsapInitialized = true;
+        }
+    }
+
+    return { gsap, ScrollTrigger };
+}
+
+/**
+ * Lazy load GSAP ScrollToPlugin
+ * @returns Promise resolving to { gsap, ScrollToPlugin }
+ */
+export async function loadScrollToPlugin() {
+    const [gsapModule, scrollToModule] = await Promise.all([import('gsap'), import('gsap/ScrollToPlugin')]);
+
+    const gsap = gsapModule.default;
+    const { ScrollToPlugin } = scrollToModule;
+
+    if (typeof window !== 'undefined') {
+        gsap.registerPlugin(ScrollToPlugin);
+
+        if (!gsapInitialized) {
+            gsap.defaults({
+                ease: 'power3.out',
+                duration: 0.8
+            });
+            gsapInitialized = true;
+        }
+    }
+
+    return { gsap, ScrollToPlugin };
 }
 
 interface AnimationOptions {
@@ -26,13 +91,15 @@ interface AnimationOptions {
 }
 
 /**
- * Common animation utilities
+ * Common animation utilities using lazy-loaded GSAP
+ * Each animation function loads GSAP on-demand
  */
 export const animations = {
     /**
      * Fade in element from bottom
      */
-    fadeIn: (element: string | Element, options: AnimationOptions = {}) => {
+    fadeIn: async (element: string | Element, options: AnimationOptions = {}) => {
+        const gsap = await loadGSAP();
         return gsap.from(element, {
             y: 50,
             opacity: 0,
@@ -44,7 +111,8 @@ export const animations = {
     /**
      * Fade in elements with stagger
      */
-    fadeInStagger: (elements: string | NodeListOf<Element>, options: AnimationOptions = {}) => {
+    fadeInStagger: async (elements: string | NodeListOf<Element>, options: AnimationOptions = {}) => {
+        const gsap = await loadGSAP();
         return gsap.from(elements, {
             y: 50,
             opacity: 0,
@@ -57,7 +125,8 @@ export const animations = {
     /**
      * Scroll-triggered fade in
      */
-    fadeInOnScroll: (element: string | Element, options: AnimationOptions = {}) => {
+    fadeInOnScroll: async (element: string | Element, options: AnimationOptions = {}) => {
+        const { gsap } = await loadScrollTrigger();
         return gsap.from(element, {
             y: 100,
             opacity: 0,
@@ -75,7 +144,8 @@ export const animations = {
     /**
      * Simple scroll parallax effect for elements
      */
-    parallax: (element: string | Element, yDistance = 100, options: AnimationOptions = {}) => {
+    parallax: async (element: string | Element, yDistance = 100, options: AnimationOptions = {}) => {
+        const { gsap } = await loadScrollTrigger();
         return gsap.to(element, {
             y: yDistance,
             scrollTrigger: {
@@ -92,7 +162,8 @@ export const animations = {
     /**
      * Scale animation
      */
-    scaleIn: (element: string | Element, options: AnimationOptions = {}) => {
+    scaleIn: async (element: string | Element, options: AnimationOptions = {}) => {
+        const gsap = await loadGSAP();
         return gsap.from(element, {
             scale: 0,
             opacity: 0,
@@ -102,5 +173,3 @@ export const animations = {
         });
     }
 };
-
-export { gsap, ScrollTrigger };

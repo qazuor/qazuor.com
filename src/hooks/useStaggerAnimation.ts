@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap } from '@/lib/gsap';
+import { loadScrollTrigger } from '@/lib/gsap';
 
 /**
  * Configuration options for staggered scroll-triggered animations
@@ -26,7 +26,7 @@ interface StaggerAnimationOptions {
 }
 
 /**
- * Custom hook for staggered scroll-triggered GSAP animations
+ * Custom hook for staggered scroll-triggered GSAP animations (lazy-loaded)
  *
  * @param selector - CSS selector for the elements to animate within the container
  * @param options - GSAP animation options including stagger timing
@@ -68,19 +68,22 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLDivElement>(
         const elements = containerRef.current.querySelectorAll(selector);
         if (elements.length === 0) return;
 
-        gsap.from(elements, {
-            opacity,
-            y,
-            x,
-            duration,
-            stagger,
-            ease,
-            delay,
-            scrollTrigger: {
-                trigger: elements[0],
-                start,
-                toggleActions
-            }
+        // Lazy load GSAP and ScrollTrigger
+        loadScrollTrigger().then(({ gsap }) => {
+            gsap.from(elements, {
+                opacity,
+                y,
+                x,
+                duration,
+                stagger,
+                ease,
+                delay,
+                scrollTrigger: {
+                    trigger: elements[0],
+                    start,
+                    toggleActions
+                }
+            });
         });
     }, [selector, y, x, opacity, duration, stagger, ease, delay, start, toggleActions]);
 

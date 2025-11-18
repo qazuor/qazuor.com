@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap } from '@/lib/gsap';
+import { loadScrollTrigger } from '@/lib/gsap';
 
 /**
  * Configuration options for scroll-triggered animations
@@ -24,7 +24,7 @@ interface ScrollAnimationOptions {
 }
 
 /**
- * Custom hook for scroll-triggered GSAP animations
+ * Custom hook for scroll-triggered GSAP animations (lazy-loaded)
  *
  * @param selector - CSS selector for the element(s) to animate within the container
  * @param options - GSAP animation options
@@ -59,18 +59,21 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
         const element = containerRef.current.querySelector(selector);
         if (!element) return;
 
-        gsap.from(element, {
-            opacity,
-            y,
-            x,
-            duration,
-            ease,
-            delay,
-            scrollTrigger: {
-                trigger: element,
-                start,
-                toggleActions
-            }
+        // Lazy load GSAP and ScrollTrigger
+        loadScrollTrigger().then(({ gsap }) => {
+            gsap.from(element, {
+                opacity,
+                y,
+                x,
+                duration,
+                ease,
+                delay,
+                scrollTrigger: {
+                    trigger: element,
+                    start,
+                    toggleActions
+                }
+            });
         });
     }, [selector, y, x, opacity, duration, ease, delay, start, toggleActions]);
 

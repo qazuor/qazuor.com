@@ -15,18 +15,18 @@ export interface SectionColors {
 }
 
 /**
- * Dark mode colors (purple-blue gradient palette)
+ * Dark mode colors (blue gradient palette - hue 210°)
  */
 export const darkModeColors: SectionColors = {
-    hero: '#18122B', // Deep purple
-    about: '#2A1F3D', // Darker purple-blue (was #393053)
-    skills: '#332952', // Darker medium purple-blue (was #443C68)
-    projects: '#393053', // Purple-blue (unchanged)
-    blog: '#18122B', // Deep purple (latest articles)
-    services: '#2A1F3D', // Darker purple-blue (complementing about)
-    testimonials: '#393053', // Purple-blue
-    contact: '#332952', // Darker medium purple-blue (was #443C68)
-    footer: '#140A1F' // Very dark purple matching bg-background dark mode
+    hero: '#0F1A2B', // Deep blue
+    about: '#1A2A3D', // Dark blue (was #2A1F3D)
+    skills: '#1E3552', // Medium dark blue (was #332952)
+    projects: '#253853', // Blue (was #393053)
+    blog: '#0F1A2B', // Deep blue (latest articles)
+    services: '#1A2A3D', // Dark blue (complementing about)
+    testimonials: '#253853', // Blue
+    contact: '#1E3552', // Medium dark blue (was #332952)
+    footer: '#0A1420' // Very dark blue matching bg-background dark mode
 };
 
 /**

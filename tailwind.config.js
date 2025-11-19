@@ -64,7 +64,7 @@ export default {
                     keyword: 'oklch(0.65 0.20 330 / <alpha-value>)',
                     string: 'oklch(0.75 0.15 90 / <alpha-value>)',
                     number: 'oklch(0.70 0.18 40 / <alpha-value>)',
-                    comment: 'oklch(0.55 0.05 270 / <alpha-value>)'
+                    comment: 'oklch(0.55 0.05 210 / <alpha-value>)'
                 },
                 card: {
                     DEFAULT: 'hsl(var(--card))',
@@ -179,7 +179,7 @@ export default {
                 xl: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
                 '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
                 glow: '0 0 20px rgb(22 242 179 / 0.3)',
-                'glow-primary': '0 0 20px oklch(0.55 0.22 270 / 0.3)',
+                'glow-primary': '0 0 20px oklch(0.55 0.22 210 / 0.3)',
                 'glow-secondary': '0 0 20px oklch(0.70 0.18 180 / 0.3)'
             },
             transitionDuration: {

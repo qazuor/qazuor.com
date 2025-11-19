@@ -79,6 +79,9 @@ export default defineConfig({
         }),
         mdx(),
         favicons({
+            input: {
+                favicons: ['public/favicon.svg', 'public/avatar.png']
+            },
             appName: 'qazuor',
             appShortName: 'qazuor',
             appDescription: 'Portfolio & Technical Blog - Full Stack Developer',

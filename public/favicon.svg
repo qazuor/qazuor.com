@@ -1,11 +1,16 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
-    <path d="M12 8h8c2.2 0 4 1.8 4 4v4c0 2.2-1.8 4-4 4h-4v4h-4V8z" fill="white"/>
-    <path d="M12 12h4v4h-4v-4z" fill="url(#gradient)"/>
-    <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#3B82F6"/>
-            <stop offset="100%" style="stop-color:#10B981"/>
-        </linearGradient>
-    </defs>
+<rect width="32" height="32" fill="#2A394F"/>
+<path d="M25 7.77519V3H12.613V4.6124H11V19H23.6609V14.0698H17.4217V15.6822H14.1957V7.77519H25Z" fill="black"/>
+<path d="M23 16H19V17.5H23V16Z" fill="#FFF9DC"/>
+<path d="M11 25.6113H14.2792V29H17.6558V25.6113H21V19H11V25.6113Z" fill="#F3EDD2"/>
+<path d="M14 22V19H21V22H14Z" fill="#D2CA9E"/>
+<path d="M14 29H17.5V32H14V29Z" fill="#223F68"/>
+<path d="M21 22.5497H23.5924V25.9503H27V32H17.5V25.5H21V22.5497Z" fill="#5D83A7"/>
+<path d="M7.99013 22.5738H11.0099V25.6032H14.2618V32H5V25.6032H7.99013V22.5738Z" fill="#5D83A7"/>
+<rect x="19" y="27" width="2" height="2" fill="#ADBFD1"/>
+<rect x="9" y="29" width="2" height="3" fill="#ADBFD1"/>
+<rect x="11" y="27" width="2" height="2" fill="#ADBFD1"/>
+<rect x="21" y="29" width="2" height="1" fill="#ADBFD1"/>
+<rect x="19" y="30" width="2" height="2" fill="#ADBFD1"/>
+<path d="M14 16V8H24V14.3876H17.4628V16H14Z" fill="#F3EDD2"/>
 </svg>

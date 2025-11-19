@@ -5,6 +5,7 @@ import { initLenis } from '@/lib/lenis';
 /**
  * Smooth Scroll component using Lenis
  * Integrates with GSAP ScrollTrigger (lazy-loaded)
+ * Compatible with Astro View Transitions
  */
 export function SmoothScroll() {
     useEffect(() => {
@@ -32,9 +33,22 @@ export function SmoothScroll() {
 
         window.addEventListener('resize', handleResize);
 
+        // Re-initialize after page transitions
+        const handlePageTransition = () => {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+                scrollTriggerInstance?.refresh();
+                // Scroll to top on page change
+                lenis?.scrollTo(0, { immediate: true });
+            }, 100);
+        };
+
+        document.addEventListener('page-transition-complete', handlePageTransition);
+
         // Cleanup
         return () => {
             window.removeEventListener('resize', handleResize);
+            document.removeEventListener('page-transition-complete', handlePageTransition);
             lenis?.destroy();
         };
     }, []);

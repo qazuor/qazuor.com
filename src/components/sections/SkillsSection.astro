@@ -47,9 +47,8 @@ interface Props {
         subtitle: string;
         description: string;
         categoryTitles: {
-            devHardSkills: string;
-            otherSkills: string;
-            softSkills: string;
+            technicalSkills: string;
+            humanCreativeSkills: string;
         };
         skillItems?: Record<string, string>; // For soft skills translations
         skillDescriptions?: Record<string, string>; // For skill descriptions translations
@@ -69,9 +68,8 @@ const {
         description:
             "Here's a look at my skill set. The tech world changes every moment and that's what makes it exciting! I constantly keep my knowledge up to date and love exploring new technologies to keep growing.",
         categoryTitles: {
-            devHardSkills: 'Dev Hard Skills',
-            otherSkills: 'Other Skills',
-            softSkills: 'Soft Skills'
+            technicalSkills: 'Technical Skills',
+            humanCreativeSkills: 'Human & Creative Skills'
         }
     }
 } = Astro.props;
@@ -120,9 +118,9 @@ const categories = skillsData.map((category) => ({
     id: category.id,
     title: translations.categoryTitles?.[category.id] || category.id,
     skills: category.skills.map((skill) => ({
-        // Use translation for soft skills and other skills, keep original name for dev hard skills
+        // Use translation for humanCreativeSkills, keep original name for technicalSkills
         name:
-            (category.id === 'softSkills' || category.id === 'otherSkills') && translations.skillItems?.[skill.name]
+            category.id === 'humanCreativeSkills' && translations.skillItems?.[skill.name]
                 ? translations.skillItems[skill.name]
                 : skill.name,
         value: skill.value,

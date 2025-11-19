@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 /**
  * Visual Regression Tests
@@ -9,13 +9,39 @@ import { expect, test } from '@playwright/test';
  * To update baselines: npx playwright test --update-snapshots
  */
 
+/**
+ * Helper function to prepare page for visual regression testing
+ * Disables infinite animations and waits for page stability
+ */
+async function preparePageForScreenshot(page: Page) {
+    await page.waitForLoadState('networkidle');
+
+    // Disable infinite animations that prevent screenshot stability
+    await page.addStyleTag({
+        content: `
+            *, *::before, *::after {
+                animation-duration: 0s !important;
+                animation-delay: 0s !important;
+                transition-duration: 0s !important;
+                transition-delay: 0s !important;
+            }
+            .animate-bounce, .animate-spin, .animate-pulse {
+                animation: none !important;
+            }
+        `
+    });
+
+    // Wait for any remaining transitions to complete
+    await page.waitForTimeout(500);
+}
+
 test.describe('Visual Regression - Critical Pages', () => {
     test.describe('Homepage', () => {
         test('should match homepage visual snapshot (desktop)', async ({ page }) => {
             await page.goto('/en');
 
             // Wait for page to be fully loaded
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             // Take full page screenshot
             await expect(page).toHaveScreenshot('homepage-desktop.png', {
@@ -25,7 +51,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match homepage hero section', async ({ page }) => {
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             // Screenshot of hero section only
             const heroSection = page.locator('section').first();
@@ -35,7 +61,7 @@ test.describe('Visual Regression - Critical Pages', () => {
         test('should match homepage visual snapshot (mobile)', async ({ page }) => {
             await page.setViewportSize({ width: 375, height: 667 });
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('homepage-mobile.png', {
                 fullPage: true
@@ -45,7 +71,7 @@ test.describe('Visual Regression - Critical Pages', () => {
         test('should match homepage visual snapshot (tablet)', async ({ page }) => {
             await page.setViewportSize({ width: 768, height: 1024 });
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('homepage-tablet.png', {
                 fullPage: true
@@ -56,7 +82,7 @@ test.describe('Visual Regression - Critical Pages', () => {
     test.describe('Services Pages', () => {
         test('should match services index (desktop)', async ({ page }) => {
             await page.goto('/en/services');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('services-index-desktop.png', {
                 fullPage: true
@@ -65,7 +91,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match web-apps service page', async ({ page }) => {
             await page.goto('/en/services/web-apps');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('service-web-apps.png', {
                 fullPage: true
@@ -74,7 +100,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match landing-pages service page', async ({ page }) => {
             await page.goto('/en/services/landing-pages');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('service-landing-pages.png', {
                 fullPage: true
@@ -83,7 +109,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match automation service page', async ({ page }) => {
             await page.goto('/en/services/automation-integration');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('service-automation.png', {
                 fullPage: true
@@ -92,7 +118,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match social-media service page', async ({ page }) => {
             await page.goto('/en/services/social-media-design');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('service-social-media.png', {
                 fullPage: true
@@ -110,8 +136,7 @@ test.describe('Visual Regression - Critical Pages', () => {
                 localStorage.setItem('theme', 'dark');
             });
 
-            await page.waitForLoadState('networkidle');
-            await page.waitForTimeout(500); // Wait for theme transition
+            await preparePageForScreenshot(page); // Wait for theme transition
 
             await expect(page).toHaveScreenshot('homepage-dark-mode.png', {
                 fullPage: true
@@ -127,8 +152,7 @@ test.describe('Visual Regression - Critical Pages', () => {
                 localStorage.setItem('theme', 'light');
             });
 
-            await page.waitForLoadState('networkidle');
-            await page.waitForTimeout(500);
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('homepage-light-mode.png', {
                 fullPage: true
@@ -143,8 +167,7 @@ test.describe('Visual Regression - Critical Pages', () => {
                 localStorage.setItem('theme', 'dark');
             });
 
-            await page.waitForLoadState('networkidle');
-            await page.waitForTimeout(500);
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('services-dark-mode.png', {
                 fullPage: true
@@ -155,7 +178,7 @@ test.describe('Visual Regression - Critical Pages', () => {
     test.describe('Interactive Components', () => {
         test('should match navigation menu (desktop)', async ({ page }) => {
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             const nav = page.locator('nav').first();
             await expect(nav).toHaveScreenshot('navigation-desktop.png');
@@ -164,7 +187,7 @@ test.describe('Visual Regression - Critical Pages', () => {
         test('should match navigation menu (mobile)', async ({ page }) => {
             await page.setViewportSize({ width: 375, height: 667 });
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             const nav = page.locator('nav').first();
             await expect(nav).toHaveScreenshot('navigation-mobile.png');
@@ -172,7 +195,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match footer', async ({ page }) => {
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             const footer = page.locator('footer').first();
             await footer.scrollIntoViewIfNeeded();
@@ -183,7 +206,7 @@ test.describe('Visual Regression - Critical Pages', () => {
     test.describe('Critical UI Components', () => {
         test('should match theme toggle button', async ({ page }) => {
             await page.goto('/en');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             // Find theme toggle button
             const themeToggle = page.locator('button[aria-label*="theme" i], button[aria-label*="Toggle" i]').first();
@@ -206,7 +229,7 @@ test.describe('Visual Regression - Critical Pages', () => {
     test.describe('Language Variations', () => {
         test('should match homepage in Spanish', async ({ page }) => {
             await page.goto('/es');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('homepage-spanish.png', {
                 fullPage: true
@@ -215,7 +238,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
         test('should match services page in Spanish', async ({ page }) => {
             await page.goto('/es/services');
-            await page.waitForLoadState('networkidle');
+            await preparePageForScreenshot(page);
 
             await expect(page).toHaveScreenshot('services-spanish.png', {
                 fullPage: true
@@ -244,7 +267,7 @@ test.describe('Visual Regression - Critical Pages', () => {
                 });
 
                 await page.goto('/en');
-                await page.waitForLoadState('networkidle');
+                await preparePageForScreenshot(page);
 
                 // Only screenshot above the fold for different viewports
                 await expect(page).toHaveScreenshot(`homepage-${viewport.name}.png`, {
@@ -261,7 +284,7 @@ test.describe('Visual Regression - Critical Pages', () => {
 
             // Should be 404 or redirect
             if (response && (response.status() === 404 || response.status() >= 400)) {
-                await page.waitForLoadState('networkidle');
+                await preparePageForScreenshot(page);
                 await expect(page).toHaveScreenshot('404-page.png', {
                     fullPage: true
                 });

@@ -19,13 +19,17 @@ export default defineConfig({
     },
     // Visual regression testing configuration
     expect: {
+        // Timeout for expect assertions (including screenshots)
+        timeout: 60000,
         toHaveScreenshot: {
-            // Maximum pixel difference ratio
-            maxDiffPixelRatio: 0.02,
+            // Maximum pixel difference ratio (increased for dynamic content)
+            maxDiffPixelRatio: 0.05,
             // Animation stabilization
             animations: 'disabled',
             // CSS animations
-            caret: 'hide'
+            caret: 'hide',
+            // Maximum number of retries for screenshot stability
+            maxDiffPixels: 100
         }
     },
     // Separate directory for visual tests

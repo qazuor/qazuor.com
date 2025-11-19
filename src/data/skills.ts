@@ -12,14 +12,15 @@ export interface Skill {
 }
 
 export interface SkillCategory {
-    id: 'devHardSkills' | 'otherSkills' | 'softSkills';
+    id: 'technicalSkills' | 'humanCreativeSkills';
     skills: Skill[];
 }
 
 export const skillsData: SkillCategory[] = [
     {
-        id: 'devHardSkills',
+        id: 'technicalSkills',
         skills: [
+            // Core Development Skills
             { name: 'JavaScript', icon: 'javascript', color: '#F7DF1E', value: 90 },
             { name: 'TypeScript', icon: 'typescript', color: '#3178C6', value: 88 },
             { name: 'Node.js', icon: 'nodejs', color: '#339933', value: 85 },
@@ -31,45 +32,10 @@ export const skillsData: SkillCategory[] = [
             { name: 'PostgreSQL', icon: 'postgresql', color: '#336791', value: 78 },
             { name: 'Drizzle ORM', icon: 'drizzle', color: '#C5F74F', value: 75 },
             { name: 'Hono', icon: 'hono', color: '#E36002', value: 80 },
-            { name: 'REST API', icon: 'restapi', color: '#61DAFB', value: 85 },
             { name: 'Zod', icon: 'zod', color: '#3E67B1', value: 83 },
-            { name: 'TanStack Start', icon: 'tanstack', color: '#FF6154', value: 70 },
             { name: 'Git', icon: 'git', color: '#F05032', value: 88 },
-            { name: 'GitHub', icon: 'github', color: '#181717', value: 86 },
-            { name: 'Claude Code', icon: 'claudecode', color: '#D97706', value: 85 }
-        ]
-    },
-    {
-        id: 'otherSkills',
-        skills: [
-            {
-                name: 'graphicDesign',
-                icon: 'coreldraw',
-                color: '#019639',
-                value: 85,
-                description: 'graphicDesignDescription'
-            },
-            {
-                name: 'branding',
-                icon: 'photoshop',
-                color: '#31A8FF',
-                value: 75,
-                description: 'brandingDescription'
-            },
-            {
-                name: 'imageEditing',
-                icon: 'canva',
-                color: '#00C4CC',
-                value: 80,
-                description: 'imageEditingDescription'
-            },
-            {
-                name: 'noCodeAutomation',
-                icon: 'api',
-                color: '#6366F1',
-                value: 70,
-                description: 'noCodeAutomationDescription'
-            },
+            { name: 'Claude Code', icon: 'claudecode', color: '#D97706', value: 85 },
+            // Technical Other Skills
             {
                 name: 'webPerformance',
                 icon: 'arrow-up',
@@ -85,34 +51,6 @@ export const skillsData: SkillCategory[] = [
                 description: 'webAccessibilityDescription'
             },
             {
-                name: 'styleGuides',
-                icon: 'document-empty',
-                color: '#8B5CF6',
-                value: 70,
-                description: 'styleGuidesDescription'
-            },
-            {
-                name: 'integrations',
-                icon: 'external-link',
-                color: '#F97316',
-                value: 80,
-                description: 'integrationsDescription'
-            },
-            {
-                name: 'automation',
-                icon: 'restapi',
-                color: '#EC4899',
-                value: 75,
-                description: 'automationDescription'
-            },
-            {
-                name: 'apisWebhooks',
-                icon: 'send',
-                color: '#F59E0B',
-                value: 70,
-                description: 'apisWebhooksDescription'
-            },
-            {
                 name: 'seo',
                 icon: 'search',
                 color: '#4285F4',
@@ -122,21 +60,48 @@ export const skillsData: SkillCategory[] = [
         ]
     },
     {
-        id: 'softSkills',
+        id: 'humanCreativeSkills',
         skills: [
-            { name: 'adaptability', icon: 'arrow-right', color: '#06B6D4', value: 80 },
+            // Top Soft Skills (High Value)
             { name: 'positiveAttitude', icon: 'sun', color: '#F59E0B', value: 100 },
-            { name: 'communication', icon: 'chat-bubble', color: '#3B82F6', value: 90 },
-            { name: 'timeManagement', icon: 'clock', color: '#8B5CF6', value: 80 },
-            { name: 'flexibility', icon: 'arrow-up', color: '#10B981', value: 80 },
-            { name: 'analyticalThinking', icon: 'search', color: '#EF4444', value: 90 },
             { name: 'teamwork', icon: 'home', color: '#EC4899', value: 100 },
-            { name: 'decisionMaking', icon: 'check-circle', color: '#14B8A6', value: 85 },
-            { name: 'creativity', icon: 'sun', color: '#F97316', value: 95 },
-            { name: 'problemSolving', icon: 'x-circle', color: '#6366F1', value: 85 },
             { name: 'curiosity', icon: 'document-empty', color: '#84CC16', value: 100 },
-            { name: 'negotiation', icon: 'chat-bubble', color: '#A855F7', value: 75 },
-            { name: 'leadership', icon: 'arrow-up', color: '#DC2626', value: 75 }
+            { name: 'creativity', icon: 'sun', color: '#F97316', value: 95 },
+            { name: 'communication', icon: 'chat-bubble', color: '#3B82F6', value: 90 },
+            { name: 'analyticalThinking', icon: 'search', color: '#EF4444', value: 90 },
+            { name: 'decisionMaking', icon: 'check-circle', color: '#14B8A6', value: 85 },
+            { name: 'problemSolving', icon: 'x-circle', color: '#6366F1', value: 85 },
+            { name: 'adaptability', icon: 'arrow-right', color: '#06B6D4', value: 80 },
+            { name: 'flexibility', icon: 'arrow-up', color: '#10B981', value: 80 },
+            // Creative Skills
+            {
+                name: 'graphicDesign',
+                icon: 'coreldraw',
+                color: '#019639',
+                value: 85,
+                description: 'graphicDesignDescription'
+            },
+            {
+                name: 'imageEditing',
+                icon: 'canva',
+                color: '#00C4CC',
+                value: 80,
+                description: 'imageEditingDescription'
+            },
+            {
+                name: 'branding',
+                icon: 'photoshop',
+                color: '#31A8FF',
+                value: 75,
+                description: 'brandingDescription'
+            },
+            {
+                name: 'automation',
+                icon: 'restapi',
+                color: '#EC4899',
+                value: 75,
+                description: 'automationDescription'
+            }
         ]
     }
 ];

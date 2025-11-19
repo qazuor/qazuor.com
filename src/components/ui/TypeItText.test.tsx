@@ -316,7 +316,7 @@ describe('TypeItText Component', () => {
             const TypeItMock = vi.mocked(TypeItModule).default;
 
             // Clear previous calls from other tests
-            TypeItMock.mockClear();
+            vi.clearAllMocks();
 
             const { rerender } = render(<TypeItText texts={['Initial']} />);
 
@@ -333,7 +333,7 @@ describe('TypeItText Component', () => {
             const TypeItMock = vi.mocked(TypeItModule).default;
 
             // Clear previous calls from other tests
-            TypeItMock.mockClear();
+            vi.clearAllMocks();
 
             const { rerender } = render(<TypeItText texts={defaultTexts} speed={50} />);
 

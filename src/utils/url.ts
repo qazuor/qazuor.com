@@ -173,7 +173,7 @@ export function getPathSegments(url: string): string[] {
  * changeLocale('/fr/blog', 'es', ['en', 'es']);  // '/es/blog' (removes invalid 'fr')
  * ```
  */
-export function changeLocale(url: string, newLocale: string, validLocales: string[] = ['en', 'es']): string {
+export function changeLocale(url: string, newLocale: string, _validLocales: string[] = ['en', 'es']): string {
     const [pathPart, ...rest] = url.split(/([?#])/);
     const queryAndHash = rest.join('');
 

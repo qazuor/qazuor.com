@@ -401,12 +401,12 @@ test.describe('Command Palette', () => {
             const commandPalette = page.locator('[role="dialog"], [role="combobox"], .command-palette').first();
 
             // Focused element should be within command palette
-            const isWithin = await focusedElement.evaluate(
-                (el, palette) => {
-                    return palette.contains(el);
-                },
-                await commandPalette.elementHandle()
-            );
+            const paletteHandle = await commandPalette.elementHandle();
+            expect(paletteHandle).not.toBeNull();
+
+            const isWithin = await focusedElement.evaluate((el, palette) => {
+                return palette?.contains(el) ?? false;
+            }, paletteHandle!);
 
             expect(isWithin).toBe(true);
         });

@@ -12,6 +12,9 @@
             "!**/node_modules",
             "!**/dist",
             "!**/.astro",
+            "!**/coverage",
+            "!**/playwright-report",
+            "!**/test-results",
             "!**/package-lock.json",
             "!src/styles/global.css",
             "!src/styles/generated-colors.css"

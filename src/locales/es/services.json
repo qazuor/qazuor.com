@@ -1,290 +1,290 @@
 {
-  "title": "Servicios **Profesionales**",
-  "subtitle": "Soluciones integrales para dar *vida* a tu **visión digital**",
-  "description": "Desde el concepto hasta el despliegue, ayudo a las empresas a triunfar online",
-  "allServices": "Todos los Servicios",
-  "webApps": {
-    "title": "Aplicaciones Web **Full-Stack**",
-    "description": "Aplicaciones web completas con tecnologías modernas, desde frontend hasta backend e integración de base de datos.",
-    "descriptionExpanded": "Desarrollo aplicaciones web completas adaptadas a las necesidades específicas de tu negocio. Desde el diseño de base de datos hasta la interfaz de usuario, cada componente está desarrollado con atención al detalle, seguridad y rendimiento. Ya sea que necesites un portal de clientes, herramienta interna o plataforma SaaS, entrego soluciones escalables que crecen con tu negocio.",
-    "features": {
-      "0": "Desarrollo de aplicaciones web personalizadas",
-      "1": "Diseño e integración de bases de datos",
-      "2": "Autenticación y autorización de usuarios",
-      "3": "Desarrollo e integración de APIs",
-      "4": "Optimización de rendimiento",
-      "5": "Diseño responsivo",
-      "6": "Funcionalidad en tiempo real",
-      "7": "Integraciones con terceros",
-      "8": "Arquitectura escalable"
+    "title": "Servicios **Profesionales**",
+    "subtitle": "Soluciones integrales para dar *vida* a tu **visión digital**",
+    "description": "Desde el concepto hasta el despliegue, ayudo a las empresas a triunfar online",
+    "allServices": "Todos los Servicios",
+    "webApps": {
+        "title": "Aplicaciones Web **Full-Stack**",
+        "description": "Aplicaciones web completas con tecnologías modernas, desde frontend hasta backend e integración de base de datos.",
+        "descriptionExpanded": "Desarrollo aplicaciones web completas adaptadas a las necesidades específicas de tu negocio. Desde el diseño de base de datos hasta la interfaz de usuario, cada componente está desarrollado con atención al detalle, seguridad y rendimiento. Ya sea que necesites un portal de clientes, herramienta interna o plataforma SaaS, entrego soluciones escalables que crecen con tu negocio.",
+        "features": {
+            "0": "Desarrollo de aplicaciones web personalizadas",
+            "1": "Diseño e integración de bases de datos",
+            "2": "Autenticación y autorización de usuarios",
+            "3": "Desarrollo e integración de APIs",
+            "4": "Optimización de rendimiento",
+            "5": "Diseño responsivo",
+            "6": "Funcionalidad en tiempo real",
+            "7": "Integraciones con terceros",
+            "8": "Arquitectura escalable"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Proyectos pequeños**: $2,000 - $3,500",
+                "**Proyectos medianos**: $3,500 - $5,500",
+                "**Proyectos grandes**: $5,500 - $8,000+"
+            ],
+            "factors": [
+                "Complejidad y alcance del proyecto",
+                "Requerimientos y arquitectura de base de datos",
+                "Integraciones con terceros necesarias",
+                "Funcionalidades y características personalizadas",
+                "Plazos y expectativas de entrega"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "¿Cuánto tiempo toma construir una aplicación web típica?",
+                "answer": "El tiempo de desarrollo varía según la complejidad. Una aplicación pequeña típicamente toma 4-6 semanas, proyectos medianos 6-10 semanas, y aplicaciones a gran escala 10-16 semanas desde la consulta inicial hasta el despliegue."
+            },
+            {
+                "question": "¿Qué tecnologías utilizas?",
+                "answer": "Utilizo tecnologías modernas y probadas incluyendo **React**, **TypeScript**, **Node.js**, **PostgreSQL**, y **AWS/Vercel** para hosting. El stack específico se elige según los requerimientos de tu proyecto y necesidades de escalabilidad."
+            },
+            {
+                "question": "¿Ofreces soporte continuo después del lanzamiento?",
+                "answer": "¡Sí! Ofrezco paquetes de mantenimiento que incluyen corrección de bugs, actualizaciones de seguridad, mejoras de funcionalidades y soporte técnico. Podemos discutir el mejor plan de soporte para tus necesidades durante nuestra consulta."
+            },
+            {
+                "question": "¿Puedes integrar con sistemas existentes?",
+                "answer": "Absolutamente. Tengo experiencia integrando con diversos servicios de terceros, APIs y sistemas legacy. Ya sea CRM, procesadores de pago o bases de datos personalizadas, puedo construir conexiones perfectas."
+            },
+            {
+                "question": "¿Qué incluye el costo del proyecto?",
+                "answer": "El costo del proyecto incluye planificación, diseño, desarrollo, pruebas, despliegue y capacitación inicial. El hosting continuo, registro de dominio y tarifas de servicios de terceros son aparte."
+            }
+        ],
+        "meta": {
+            "title": "Desarrollo de Aplicaciones Web Full-Stack | Soluciones Personalizadas",
+            "description": "Servicios profesionales de desarrollo de aplicaciones web full-stack. Desde el concepto hasta el despliegue, construyo aplicaciones web escalables y seguras adaptadas a las necesidades de tu negocio."
+        }
+    },
+    "landingPages": {
+        "title": "**Landing Pages** y Sitios Estáticos",
+        "description": "Landing pages de alta conversión y sitios web estáticos ultrarrápidos optimizados para rendimiento y SEO.",
+        "descriptionExpanded": "Destaca con landing pages ultrarrápidas diseñadas para convertir visitantes en clientes. Construidas con generadores de sitios estáticos modernos, tus páginas cargan instantáneamente, rankean más alto en buscadores y proveen experiencias excepcionales en todos los dispositivos. Perfecto para lanzamientos de productos, campañas de marketing y sitios web de negocios.",
+        "features": {
+            "0": "Landing pages de alta conversión",
+            "1": "Optimización SEO",
+            "2": "Diseño responsivo mobile-first",
+            "3": "Rendimiento ultrarrápido",
+            "4": "Integración de analytics",
+            "5": "Listo para A/B testing",
+            "6": "Integración de formularios de contacto",
+            "7": "Opciones de integración con CMS",
+            "8": "Monitoreo de rendimiento"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Landing page única**: $800 - $1,500",
+                "**Sitio multi-página**: $1,500 - $3,000",
+                "**Sitio complejo con CMS**: $3,000+"
+            ],
+            "factors": [
+                "Número de páginas y secciones",
+                "Complejidad de diseño y personalización",
+                "Requerimientos de integración con CMS",
+                "Animaciones e interacciones personalizadas",
+                "Necesidades de soporte multilingüe"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "¿Cuál es la diferencia entre una landing page y un sitio web?",
+                "answer": "Una landing page es una página única y enfocada diseñada para un objetivo específico (ej: capturar leads, promocionar un producto). Un sitio web tiene múltiples páginas con información más amplia. Ambos pueden construirse como sitios estáticos para rendimiento óptimo."
+            },
+            {
+                "question": "¿Qué tan rápido cargará mi sitio?",
+                "answer": "Los sitios estáticos típicamente alcanzan **puntuaciones de Lighthouse de 95+** con tiempos de carga menores a 1 segundo. Esto es significativamente más rápido que sitios tradicionales WordPress o con bases de datos, mejorando tanto la experiencia de usuario como el SEO."
+            },
+            {
+                "question": "¿Puedo actualizar el contenido yo mismo?",
+                "answer": "¡Sí! Puedo integrar soluciones de CMS headless como **Contentful**, **Sanity** o **Strapi** que te permiten actualizar contenido a través de una interfaz amigable sin conocimientos de programación."
+            },
+            {
+                "question": "¿Mi sitio funcionará en dispositivos móviles?",
+                "answer": "Absolutamente. Todos los sitios se construyen con un enfoque **mobile-first**, asegurando visualización y funcionalidad perfecta en smartphones, tablets y desktops. El diseño responsivo es estándar, no un agregado."
+            },
+            {
+                "question": "¿Ofreces hosting?",
+                "answer": "Recomiendo y puedo configurar hosting en plataformas como **Vercel** o **Netlify**, que ofrecen planes gratuitos, despliegues automáticos y excelente rendimiento. La configuración de hosting y costos del primer año están incluidos en el proyecto."
+            }
+        ],
+        "meta": {
+            "title": "Desarrollo de Landing Pages y Sitios Web Estáticos | Alto Rendimiento",
+            "description": "Landing pages profesionales y sitios web estáticos que cargan instantáneamente y convierten visitantes. Optimizados para SEO, mobile-friendly y construidos con tecnologías modernas."
+        }
+    },
+    "automation": {
+        "title": "**Automatización** e Integraciones",
+        "description": "Optimiza tus flujos de trabajo con automatizaciones personalizadas e integraciones perfectas con terceros.",
+        "descriptionExpanded": "Ahorra tiempo y reduce errores con soluciones de automatización personalizadas. Desde sincronización simple de datos hasta automatización compleja de flujos de trabajo, construyo integraciones que conectan tus herramientas y eliminan tareas repetitivas. Ya sea conectando tu CRM con tu plataforma de marketing o automatizando procesamiento de datos, creo sistemas confiables que trabajan 24/7.",
+        "features": {
+            "0": "Automatización de workflows",
+            "1": "Integraciones de APIs",
+            "2": "Sincronización de datos",
+            "3": "Webhooks personalizados",
+            "4": "Optimización de procesos",
+            "5": "Conectores de terceros",
+            "6": "Tareas programadas y cron jobs",
+            "7": "Automatización de emails",
+            "8": "Generación de reportes"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Integración simple**: Consulta requerida",
+                "**Múltiples integraciones**: Cotización personalizada según complejidad",
+                "**Automatización completa de flujo**: Cotización personalizada"
+            ],
+            "factors": [
+                "Número de sistemas a integrar",
+                "Complejidad de API y limitaciones",
+                "Volumen de datos y necesidades de procesamiento",
+                "Lógica personalizada y reglas de negocio",
+                "Requerimientos de monitoreo y mantenimiento"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "¿Qué herramientas puedes integrar?",
+                "answer": "Puedo integrar virtualmente cualquier herramienta con una API incluyendo **CRMs** (Salesforce, HubSpot), **gestión de proyectos** (Asana, Jira), **e-commerce** (Shopify, WooCommerce), **marketing** (Mailchimp, ActiveCampaign), y muchas más."
+            },
+            {
+                "question": "¿Qué tan confiables son los flujos automatizados?",
+                "answer": "Los flujos automatizados incluyen manejo de errores, lógica de reintentos y monitoreo para asegurar confiabilidad. Implemento logging y alertas para identificar y resolver rápidamente cualquier problema que pueda surgir."
+            },
+            {
+                "question": "¿Puedes automatizar nuestros procesos manuales existentes?",
+                "answer": "¡Sí! Me especializo en analizar flujos de trabajo manuales y construir soluciones de automatización. Identificaremos cuellos de botella, mapearemos el proceso y crearemos automatizaciones que te ahorrarán horas cada semana."
+            },
+            {
+                "question": "¿Qué pasa si un servicio integrado cambia su API?",
+                "answer": "Construyo integraciones con versionado y manejo de errores para minimizar interrupciones. También ofrezco paquetes de mantenimiento que incluyen monitoreo de cambios en APIs y actualizaciones para mantener tus integraciones funcionando sin problemas."
+            },
+            {
+                "question": "¿Cuánto tiempo toma configurar una integración?",
+                "answer": "Integraciones simples pueden configurarse en 1-2 semanas. Flujos de trabajo complejos multi-sistema pueden tomar 3-6 semanas dependiendo de requerimientos, necesidades de testing y migración de datos."
+            }
+        ],
+        "meta": {
+            "title": "Servicios de Automatización de Flujos e Integración de APIs | Soluciones Personalizadas",
+            "description": "Servicios profesionales de automatización de flujos de trabajo e integración de APIs. Conecta tus herramientas, elimina tareas repetitivas y optimiza tus procesos de negocio."
+        }
+    },
+    "socialDesign": {
+        "title": "Diseño para **Redes Sociales**",
+        "description": "Contenido visual atractivo y assets de marca diseñados para captar tu audiencia en plataformas sociales.",
+        "descriptionExpanded": "Construye una presencia cohesiva y atractiva en redes sociales con assets de diseño profesional. Desde posts de Instagram hasta banners de LinkedIn, creo contenido visualmente impactante que se alinea con tu identidad de marca y captura atención en feeds saturados. Obtén plantillas listas para usar que hacen que publicar consistentemente sea sin esfuerzo.",
+        "features": {
+            "0": "Plantillas para redes sociales",
+            "1": "Diseño de identidad de marca",
+            "2": "Planificación de feed de Instagram",
+            "3": "Plantillas para stories",
+            "4": "Materiales de marketing",
+            "5": "Guías de marca",
+            "6": "Gráficos optimizados por plataforma",
+            "7": "Posts y stories animados",
+            "8": "Plantillas de calendario de contenido"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Paquete básico**: $300 - $600 (10-15 plantillas)",
+                "**Paquete estándar**: $600 - $1,200 (20-30 plantillas + guía de marca)",
+                "**Paquete premium**: $1,200+ (Kit completo de marca + 40+ plantillas)"
+            ],
+            "factors": [
+                "Número de diseños de plantillas necesarios",
+                "Variedad de plataformas (Instagram, Facebook, LinkedIn, etc.)",
+                "Desarrollo de identidad de marca incluido",
+                "Contenido animado vs. estático",
+                "Rondas de revisión y personalización"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "¿Para qué plataformas diseñas?",
+                "answer": "Creo diseños optimizados para todas las plataformas principales incluyendo **Instagram**, **Facebook**, **LinkedIn**, **Twitter/X**, **Pinterest** y **TikTok**. Cada diseño está dimensionado y formateado específicamente para los requerimientos de la plataforma."
+            },
+            {
+                "question": "¿Podré editar las plantillas?",
+                "answer": "¡Sí! Las plantillas se entregan en formatos de **Figma** y **Canva**, haciéndolas fáciles de personalizar. También proporciono una guía rápida sobre cómo actualizar texto, colores e imágenes para mantener la consistencia de tu marca."
+            },
+            {
+                "question": "¿Creas el contenido real de redes sociales?",
+                "answer": "Diseño las plantillas visuales y assets de marca. La redacción de contenido, fotografía y publicación continua son servicios separados. Sin embargo, puedo recomendar partners de confianza para creación de contenido si es necesario."
+            },
+            {
+                "question": "¿Cuánto tiempo toma crear un paquete de plantillas?",
+                "answer": "Un paquete básico típicamente toma 1-2 semanas, paquetes estándar 2-3 semanas, y paquetes premium con branding completo 3-4 semanas. Esto incluye diseños iniciales, tu revisión y correcciones."
+            },
+            {
+                "question": "¿Puedes adaptar mi marca existente?",
+                "answer": "¡Absolutamente! Trabajaré con tus guías de marca existentes, colores, fuentes y estilo. Si no tienes guías formales, puedo crearlas basadas en tus materiales actuales y preferencias."
+            }
+        ],
+        "meta": {
+            "title": "Servicios de Diseño para Redes Sociales | Plantillas y Assets de Marca",
+            "description": "Servicios profesionales de diseño para redes sociales. Plantillas personalizadas, identidad de marca y contenido visual que involucra a tu audiencia en todas las plataformas."
+        }
+    },
+    "cta": {
+        "title": "¿Listo para comenzar tu proyecto?",
+        "description": "Hablemos sobre cómo puedo ayudarte a dar vida a tu visión",
+        "button": "Comenzar",
+        "consultation": "Consulta gratuita disponible"
     },
     "pricing": {
-      "breakdown": [
-        "**Proyectos pequeños**: $2,000 - $3,500",
-        "**Proyectos medianos**: $3,500 - $5,500",
-        "**Proyectos grandes**: $5,500 - $8,000+"
-      ],
-      "factors": [
-        "Complejidad y alcance del proyecto",
-        "Requerimientos y arquitectura de base de datos",
-        "Integraciones con terceros necesarias",
-        "Funcionalidades y características personalizadas",
-        "Plazos y expectativas de entrega"
-      ]
+        "from": "Desde",
+        "consultation": "Consultar",
+        "getQuote": "Obtener Cotización"
     },
-    "faqs": [
-      {
-        "question": "¿Cuánto tiempo toma construir una aplicación web típica?",
-        "answer": "El tiempo de desarrollo varía según la complejidad. Una aplicación pequeña típicamente toma 4-6 semanas, proyectos medianos 6-10 semanas, y aplicaciones a gran escala 10-16 semanas desde la consulta inicial hasta el despliegue."
-      },
-      {
-        "question": "¿Qué tecnologías utilizas?",
-        "answer": "Utilizo tecnologías modernas y probadas incluyendo **React**, **TypeScript**, **Node.js**, **PostgreSQL**, y **AWS/Vercel** para hosting. El stack específico se elige según los requerimientos de tu proyecto y necesidades de escalabilidad."
-      },
-      {
-        "question": "¿Ofreces soporte continuo después del lanzamiento?",
-        "answer": "¡Sí! Ofrezco paquetes de mantenimiento que incluyen corrección de bugs, actualizaciones de seguridad, mejoras de funcionalidades y soporte técnico. Podemos discutir el mejor plan de soporte para tus necesidades durante nuestra consulta."
-      },
-      {
-        "question": "¿Puedes integrar con sistemas existentes?",
-        "answer": "Absolutamente. Tengo experiencia integrando con diversos servicios de terceros, APIs y sistemas legacy. Ya sea CRM, procesadores de pago o bases de datos personalizadas, puedo construir conexiones perfectas."
-      },
-      {
-        "question": "¿Qué incluye el costo del proyecto?",
-        "answer": "El costo del proyecto incluye planificación, diseño, desarrollo, pruebas, despliegue y capacitación inicial. El hosting continuo, registro de dominio y tarifas de servicios de terceros son aparte."
-      }
-    ],
-    "meta": {
-      "title": "Desarrollo de Aplicaciones Web Full-Stack | Soluciones Personalizadas",
-      "description": "Servicios profesionales de desarrollo de aplicaciones web full-stack. Desde el concepto hasta el despliegue, construyo aplicaciones web escalables y seguras adaptadas a las necesidades de tu negocio."
-    }
-  },
-  "landingPages": {
-    "title": "**Landing Pages** y Sitios Estáticos",
-    "description": "Landing pages de alta conversión y sitios web estáticos ultrarrápidos optimizados para rendimiento y SEO.",
-    "descriptionExpanded": "Destaca con landing pages ultrarrápidas diseñadas para convertir visitantes en clientes. Construidas con generadores de sitios estáticos modernos, tus páginas cargan instantáneamente, rankean más alto en buscadores y proveen experiencias excepcionales en todos los dispositivos. Perfecto para lanzamientos de productos, campañas de marketing y sitios web de negocios.",
-    "features": {
-      "0": "Landing pages de alta conversión",
-      "1": "Optimización SEO",
-      "2": "Diseño responsivo mobile-first",
-      "3": "Rendimiento ultrarrápido",
-      "4": "Integración de analytics",
-      "5": "Listo para A/B testing",
-      "6": "Integración de formularios de contacto",
-      "7": "Opciones de integración con CMS",
-      "8": "Monitoreo de rendimiento"
+    "form": {
+        "title": "Comienza Hoy",
+        "subtitle": "Completa el formulario y te responderé dentro de 24 horas",
+        "comingSoon": "Las solicitudes de cotización estarán disponibles pronto. Por ahora, contáctame directamente.",
+        "fields": {
+            "name": "Nombre",
+            "email": "Email",
+            "company": "Empresa (opcional)",
+            "budget": "Rango de Presupuesto",
+            "description": "Descripción del Proyecto",
+            "service": "Servicio"
+        },
+        "budgetOptions": {
+            "0": "< $1,000",
+            "1": "$1,000 - $3,000",
+            "2": "$3,000 - $5,000",
+            "3": "$5,000 - $10,000",
+            "4": "$10,000+"
+        },
+        "placeholders": {
+            "name": "Juan Pérez",
+            "email": "juan@ejemplo.com",
+            "company": "Tu Empresa",
+            "description": "Cuéntame sobre tu proyecto, objetivos y plazos..."
+        },
+        "submit": "Enviar Solicitud",
+        "submitting": "Enviando...",
+        "success": "¡Gracias! Responderé dentro de 24 horas.",
+        "contactDirect": "También puedes contactarme en",
+        "errors": {
+            "nameRequired": "El nombre es requerido",
+            "emailRequired": "El email es requerido",
+            "emailInvalid": "Por favor ingresa un email válido",
+            "budgetRequired": "Por favor selecciona un rango de presupuesto",
+            "descriptionRequired": "La descripción del proyecto es requerida",
+            "descriptionMinLength": "Por favor proporciona al menos 20 caracteres"
+        }
     },
-    "pricing": {
-      "breakdown": [
-        "**Landing page única**: $800 - $1,500",
-        "**Sitio multi-página**: $1,500 - $3,000",
-        "**Sitio complejo con CMS**: $3,000+"
-      ],
-      "factors": [
-        "Número de páginas y secciones",
-        "Complejidad de diseño y personalización",
-        "Requerimientos de integración con CMS",
-        "Animaciones e interacciones personalizadas",
-        "Necesidades de soporte multilingüe"
-      ]
+    "relatedServices": {
+        "title": "También Te Puede Interesar"
     },
-    "faqs": [
-      {
-        "question": "¿Cuál es la diferencia entre una landing page y un sitio web?",
-        "answer": "Una landing page es una página única y enfocada diseñada para un objetivo específico (ej: capturar leads, promocionar un producto). Un sitio web tiene múltiples páginas con información más amplia. Ambos pueden construirse como sitios estáticos para rendimiento óptimo."
-      },
-      {
-        "question": "¿Qué tan rápido cargará mi sitio?",
-        "answer": "Los sitios estáticos típicamente alcanzan **puntuaciones de Lighthouse de 95+** con tiempos de carga menores a 1 segundo. Esto es significativamente más rápido que sitios tradicionales WordPress o con bases de datos, mejorando tanto la experiencia de usuario como el SEO."
-      },
-      {
-        "question": "¿Puedo actualizar el contenido yo mismo?",
-        "answer": "¡Sí! Puedo integrar soluciones de CMS headless como **Contentful**, **Sanity** o **Strapi** que te permiten actualizar contenido a través de una interfaz amigable sin conocimientos de programación."
-      },
-      {
-        "question": "¿Mi sitio funcionará en dispositivos móviles?",
-        "answer": "Absolutamente. Todos los sitios se construyen con un enfoque **mobile-first**, asegurando visualización y funcionalidad perfecta en smartphones, tablets y desktops. El diseño responsivo es estándar, no un agregado."
-      },
-      {
-        "question": "¿Ofreces hosting?",
-        "answer": "Recomiendo y puedo configurar hosting en plataformas como **Vercel** o **Netlify**, que ofrecen planes gratuitos, despliegues automáticos y excelente rendimiento. La configuración de hosting y costos del primer año están incluidos en el proyecto."
-      }
-    ],
-    "meta": {
-      "title": "Desarrollo de Landing Pages y Sitios Web Estáticos | Alto Rendimiento",
-      "description": "Landing pages profesionales y sitios web estáticos que cargan instantáneamente y convierten visitantes. Optimizados para SEO, mobile-friendly y construidos con tecnologías modernas."
-    }
-  },
-  "automation": {
-    "title": "**Automatización** e Integraciones",
-    "description": "Optimiza tus flujos de trabajo con automatizaciones personalizadas e integraciones perfectas con terceros.",
-    "descriptionExpanded": "Ahorra tiempo y reduce errores con soluciones de automatización personalizadas. Desde sincronización simple de datos hasta automatización compleja de flujos de trabajo, construyo integraciones que conectan tus herramientas y eliminan tareas repetitivas. Ya sea conectando tu CRM con tu plataforma de marketing o automatizando procesamiento de datos, creo sistemas confiables que trabajan 24/7.",
-    "features": {
-      "0": "Automatización de workflows",
-      "1": "Integraciones de APIs",
-      "2": "Sincronización de datos",
-      "3": "Webhooks personalizados",
-      "4": "Optimización de procesos",
-      "5": "Conectores de terceros",
-      "6": "Tareas programadas y cron jobs",
-      "7": "Automatización de emails",
-      "8": "Generación de reportes"
-    },
-    "pricing": {
-      "breakdown": [
-        "**Integración simple**: Consulta requerida",
-        "**Múltiples integraciones**: Cotización personalizada según complejidad",
-        "**Automatización completa de flujo**: Cotización personalizada"
-      ],
-      "factors": [
-        "Número de sistemas a integrar",
-        "Complejidad de API y limitaciones",
-        "Volumen de datos y necesidades de procesamiento",
-        "Lógica personalizada y reglas de negocio",
-        "Requerimientos de monitoreo y mantenimiento"
-      ]
-    },
-    "faqs": [
-      {
-        "question": "¿Qué herramientas puedes integrar?",
-        "answer": "Puedo integrar virtualmente cualquier herramienta con una API incluyendo **CRMs** (Salesforce, HubSpot), **gestión de proyectos** (Asana, Jira), **e-commerce** (Shopify, WooCommerce), **marketing** (Mailchimp, ActiveCampaign), y muchas más."
-      },
-      {
-        "question": "¿Qué tan confiables son los flujos automatizados?",
-        "answer": "Los flujos automatizados incluyen manejo de errores, lógica de reintentos y monitoreo para asegurar confiabilidad. Implemento logging y alertas para identificar y resolver rápidamente cualquier problema que pueda surgir."
-      },
-      {
-        "question": "¿Puedes automatizar nuestros procesos manuales existentes?",
-        "answer": "¡Sí! Me especializo en analizar flujos de trabajo manuales y construir soluciones de automatización. Identificaremos cuellos de botella, mapearemos el proceso y crearemos automatizaciones que te ahorrarán horas cada semana."
-      },
-      {
-        "question": "¿Qué pasa si un servicio integrado cambia su API?",
-        "answer": "Construyo integraciones con versionado y manejo de errores para minimizar interrupciones. También ofrezco paquetes de mantenimiento que incluyen monitoreo de cambios en APIs y actualizaciones para mantener tus integraciones funcionando sin problemas."
-      },
-      {
-        "question": "¿Cuánto tiempo toma configurar una integración?",
-        "answer": "Integraciones simples pueden configurarse en 1-2 semanas. Flujos de trabajo complejos multi-sistema pueden tomar 3-6 semanas dependiendo de requerimientos, necesidades de testing y migración de datos."
-      }
-    ],
-    "meta": {
-      "title": "Servicios de Automatización de Flujos e Integración de APIs | Soluciones Personalizadas",
-      "description": "Servicios profesionales de automatización de flujos de trabajo e integración de APIs. Conecta tus herramientas, elimina tareas repetitivas y optimiza tus procesos de negocio."
-    }
-  },
-  "socialDesign": {
-    "title": "Diseño para **Redes Sociales**",
-    "description": "Contenido visual atractivo y assets de marca diseñados para captar tu audiencia en plataformas sociales.",
-    "descriptionExpanded": "Construye una presencia cohesiva y atractiva en redes sociales con assets de diseño profesional. Desde posts de Instagram hasta banners de LinkedIn, creo contenido visualmente impactante que se alinea con tu identidad de marca y captura atención en feeds saturados. Obtén plantillas listas para usar que hacen que publicar consistentemente sea sin esfuerzo.",
-    "features": {
-      "0": "Plantillas para redes sociales",
-      "1": "Diseño de identidad de marca",
-      "2": "Planificación de feed de Instagram",
-      "3": "Plantillas para stories",
-      "4": "Materiales de marketing",
-      "5": "Guías de marca",
-      "6": "Gráficos optimizados por plataforma",
-      "7": "Posts y stories animados",
-      "8": "Plantillas de calendario de contenido"
-    },
-    "pricing": {
-      "breakdown": [
-        "**Paquete básico**: $300 - $600 (10-15 plantillas)",
-        "**Paquete estándar**: $600 - $1,200 (20-30 plantillas + guía de marca)",
-        "**Paquete premium**: $1,200+ (Kit completo de marca + 40+ plantillas)"
-      ],
-      "factors": [
-        "Número de diseños de plantillas necesarios",
-        "Variedad de plataformas (Instagram, Facebook, LinkedIn, etc.)",
-        "Desarrollo de identidad de marca incluido",
-        "Contenido animado vs. estático",
-        "Rondas de revisión y personalización"
-      ]
-    },
-    "faqs": [
-      {
-        "question": "¿Para qué plataformas diseñas?",
-        "answer": "Creo diseños optimizados para todas las plataformas principales incluyendo **Instagram**, **Facebook**, **LinkedIn**, **Twitter/X**, **Pinterest** y **TikTok**. Cada diseño está dimensionado y formateado específicamente para los requerimientos de la plataforma."
-      },
-      {
-        "question": "¿Podré editar las plantillas?",
-        "answer": "¡Sí! Las plantillas se entregan en formatos de **Figma** y **Canva**, haciéndolas fáciles de personalizar. También proporciono una guía rápida sobre cómo actualizar texto, colores e imágenes para mantener la consistencia de tu marca."
-      },
-      {
-        "question": "¿Creas el contenido real de redes sociales?",
-        "answer": "Diseño las plantillas visuales y assets de marca. La redacción de contenido, fotografía y publicación continua son servicios separados. Sin embargo, puedo recomendar partners de confianza para creación de contenido si es necesario."
-      },
-      {
-        "question": "¿Cuánto tiempo toma crear un paquete de plantillas?",
-        "answer": "Un paquete básico típicamente toma 1-2 semanas, paquetes estándar 2-3 semanas, y paquetes premium con branding completo 3-4 semanas. Esto incluye diseños iniciales, tu revisión y correcciones."
-      },
-      {
-        "question": "¿Puedes adaptar mi marca existente?",
-        "answer": "¡Absolutamente! Trabajaré con tus guías de marca existentes, colores, fuentes y estilo. Si no tienes guías formales, puedo crearlas basadas en tus materiales actuales y preferencias."
-      }
-    ],
-    "meta": {
-      "title": "Servicios de Diseño para Redes Sociales | Plantillas y Assets de Marca",
-      "description": "Servicios profesionales de diseño para redes sociales. Plantillas personalizadas, identidad de marca y contenido visual que involucra a tu audiencia en todas las plataformas."
-    }
-  },
-  "cta": {
-    "title": "¿Listo para comenzar tu proyecto?",
-    "description": "Hablemos sobre cómo puedo ayudarte a dar vida a tu visión",
-    "button": "Comenzar",
-    "consultation": "Consulta gratuita disponible"
-  },
-  "pricing": {
-    "from": "Desde",
-    "consultation": "Consultar",
-    "getQuote": "Obtener Cotización"
-  },
-  "form": {
-    "title": "Comienza Hoy",
-    "subtitle": "Completa el formulario y te responderé dentro de 24 horas",
-    "comingSoon": "Las solicitudes de cotización estarán disponibles pronto. Por ahora, contáctame directamente.",
-    "fields": {
-      "name": "Nombre",
-      "email": "Email",
-      "company": "Empresa (opcional)",
-      "budget": "Rango de Presupuesto",
-      "description": "Descripción del Proyecto",
-      "service": "Servicio"
-    },
-    "budgetOptions": {
-      "0": "< $1,000",
-      "1": "$1,000 - $3,000",
-      "2": "$3,000 - $5,000",
-      "3": "$5,000 - $10,000",
-      "4": "$10,000+"
-    },
-    "placeholders": {
-      "name": "Juan Pérez",
-      "email": "juan@ejemplo.com",
-      "company": "Tu Empresa",
-      "description": "Cuéntame sobre tu proyecto, objetivos y plazos..."
-    },
-    "submit": "Enviar Solicitud",
-    "submitting": "Enviando...",
-    "success": "¡Gracias! Responderé dentro de 24 horas.",
-    "contactDirect": "También puedes contactarme en",
-    "errors": {
-      "nameRequired": "El nombre es requerido",
-      "emailRequired": "El email es requerido",
-      "emailInvalid": "Por favor ingresa un email válido",
-      "budgetRequired": "Por favor selecciona un rango de presupuesto",
-      "descriptionRequired": "La descripción del proyecto es requerida",
-      "descriptionMinLength": "Por favor proporciona al menos 20 caracteres"
-    }
-  },
-  "relatedServices": {
-    "title": "También Te Puede Interesar"
-  },
-  "featuresTitle": "**Qué Incluye**",
-  "featuresSubtitle": "Características completas diseñadas para tu éxito",
-  "pricingTitle": "**Guía** de Inversión",
-  "pricingSubtitle": "Precios transparentes para trabajo de calidad",
-  "pricingRanges": "**Rangos** de Precios",
-  "pricingFactorsTitle": "**¿Qué Afecta** el Costo?",
-  "faqTitle": "**Preguntas** Frecuentes",
-  "faqSubtitle": "Todo lo que necesitas saber"
+    "featuresTitle": "**Qué Incluye**",
+    "featuresSubtitle": "Características completas diseñadas para tu éxito",
+    "pricingTitle": "**Guía** de Inversión",
+    "pricingSubtitle": "Precios transparentes para trabajo de calidad",
+    "pricingRanges": "**Rangos** de Precios",
+    "pricingFactorsTitle": "**¿Qué Afecta** el Costo?",
+    "faqTitle": "**Preguntas** Frecuentes",
+    "faqSubtitle": "Todo lo que necesitas saber"
 }

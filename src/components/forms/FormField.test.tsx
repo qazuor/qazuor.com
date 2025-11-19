@@ -152,14 +152,14 @@ describe('FormField Component', () => {
         });
 
         it('should apply error border class when error exists', () => {
-            const { container } = render(<FormField {...defaultProps} error="Error message" />);
+            render(<FormField {...defaultProps} error="Error message" />);
 
             const input = screen.getByLabelText('Test Label');
             expect(input).toHaveClass('border-error');
         });
 
         it('should not apply error border class when no error', () => {
-            const { container } = render(<FormField {...defaultProps} />);
+            render(<FormField {...defaultProps} />);
 
             const input = screen.getByLabelText('Test Label');
             expect(input).not.toHaveClass('border-error');
@@ -290,7 +290,7 @@ describe('FormField Component', () => {
 
         it('should clear error when value changes', async () => {
             const handleChange = vi.fn();
-            const user = userEvent.setup();
+            const _user = userEvent.setup();
 
             const { rerender } = render(<FormField {...defaultProps} error="Required field" onChange={handleChange} />);
 

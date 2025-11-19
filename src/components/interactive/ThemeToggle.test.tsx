@@ -41,7 +41,7 @@ describe('ThemeToggle Component', () => {
         // Setup mocks
         Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true });
         Object.defineProperty(window, 'matchMedia', {
-            value: vi.fn((query: string) => matchMediaMock(false)),
+            value: vi.fn((_query: string) => matchMediaMock(false)),
             writable: true
         });
 
@@ -75,7 +75,7 @@ describe('ThemeToggle Component', () => {
 
         it('should render placeholder button before mount', () => {
             const { container } = render(<ThemeToggle />);
-            const button = screen.getByRole('button');
+            const _button = screen.getByRole('button');
 
             // Should have placeholder div
             const placeholder = container.querySelector('.w-5.h-5');
@@ -112,7 +112,7 @@ describe('ThemeToggle Component', () => {
         });
 
         it('should use system preference when no saved theme (dark)', async () => {
-            window.matchMedia = vi.fn((query: string) => matchMediaMock(true)) as unknown as typeof window.matchMedia;
+            window.matchMedia = vi.fn((_query: string) => matchMediaMock(true)) as unknown as typeof window.matchMedia;
 
             render(<ThemeToggle />);
 
@@ -123,7 +123,7 @@ describe('ThemeToggle Component', () => {
 
         it('should prefer saved theme over system preference', async () => {
             localStorageMock.setItem('theme', 'light');
-            window.matchMedia = vi.fn((query: string) => matchMediaMock(true)) as unknown as typeof window.matchMedia;
+            window.matchMedia = vi.fn((_query: string) => matchMediaMock(true)) as unknown as typeof window.matchMedia;
 
             render(<ThemeToggle />);
 

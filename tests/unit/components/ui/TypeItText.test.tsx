@@ -3,11 +3,32 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TypeItText } from '@/components/ui/TypeItText';
 
 // Mock TypeIt library
+interface TypeItInstance {
+    go: () => TypeItInstance;
+    destroy: () => void;
+}
+
 vi.mock('typeit', () => {
+    const TypeItMockClass = vi.fn().mockImplementation(function (
+        this: TypeItInstance,
+        element: HTMLElement,
+        options: { html?: boolean; strings?: string[] }
+    ) {
+        // Simulate typing animation by setting innerHTML
+        if (element && options?.strings && options.strings.length > 0) {
+            element.innerHTML = options.html
+                ? options.strings[0]
+                : options.strings[0].replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // Return instance methods
+        this.go = vi.fn(() => this);
+        this.destroy = vi.fn();
+        return this;
+    });
+
     return {
-        default: vi.fn((element, options) => ({
-            go: vi.fn()
-        }))
+        default: TypeItMockClass
     };
 });
 

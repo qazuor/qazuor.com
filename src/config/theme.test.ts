@@ -253,11 +253,11 @@ describe('Theme Configuration', () => {
         });
 
         it('should be in ascending order', () => {
-            const sm = Number.parseInt(breakpoints.sm);
-            const md = Number.parseInt(breakpoints.md);
-            const lg = Number.parseInt(breakpoints.lg);
-            const xl = Number.parseInt(breakpoints.xl);
-            const xxl = Number.parseInt(breakpoints['2xl']);
+            const sm = Number.parseInt(breakpoints.sm, 10);
+            const md = Number.parseInt(breakpoints.md, 10);
+            const lg = Number.parseInt(breakpoints.lg, 10);
+            const xl = Number.parseInt(breakpoints.xl, 10);
+            const xxl = Number.parseInt(breakpoints['2xl'], 10);
 
             expect(sm).toBeLessThan(md);
             expect(md).toBeLessThan(lg);

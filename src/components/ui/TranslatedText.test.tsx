@@ -59,19 +59,19 @@ vi.mock('@/i18n/utils', () => ({
 }));
 
 describe('TranslatedText Component', () => {
-    const originalLocation = window.location;
-
     beforeEach(() => {
         // Mock window.location
-        delete (window as { location?: Location }).location;
-        window.location = {
-            ...originalLocation,
-            href: 'http://localhost:3000/en/page'
-        };
+        Object.defineProperty(window, 'location', {
+            writable: true,
+            value: {
+                href: 'http://localhost:3000/en/page',
+                pathname: '/en/page'
+            }
+        });
     });
 
     afterEach(() => {
-        window.location = originalLocation;
+        vi.restoreAllMocks();
     });
 
     describe('Rendering', () => {
@@ -333,18 +333,18 @@ describe('TranslatedText Component', () => {
 });
 
 describe('useTranslations Hook', () => {
-    const originalLocation = window.location;
-
     beforeEach(() => {
-        delete (window as { location?: Location }).location;
-        window.location = {
-            ...originalLocation,
-            href: 'http://localhost:3000/en/page'
-        };
+        Object.defineProperty(window, 'location', {
+            writable: true,
+            value: {
+                href: 'http://localhost:3000/en/page',
+                pathname: '/en/page'
+            }
+        });
     });
 
     afterEach(() => {
-        window.location = originalLocation;
+        vi.restoreAllMocks();
     });
 
     it('should return translation function', () => {

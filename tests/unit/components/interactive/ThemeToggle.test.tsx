@@ -90,7 +90,7 @@ describe('ThemeToggle Component', () => {
         });
 
         it('loads saved theme from localStorage', async () => {
-            localStorageMock['theme'] = 'dark';
+            localStorageMock.theme = 'dark';
             render(<ThemeToggle />);
 
             await waitFor(() => {
@@ -139,7 +139,7 @@ describe('ThemeToggle Component', () => {
 
         it('toggles from dark to light theme', async () => {
             const user = userEvent.setup();
-            localStorageMock['theme'] = 'dark';
+            localStorageMock.theme = 'dark';
             render(<ThemeToggle />);
 
             await waitFor(() => {

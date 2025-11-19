@@ -69,13 +69,13 @@ describe('TranslatedText Component', () => {
     describe('Basic Translation', () => {
         it('renders translated text in English', () => {
             mockLocation('/en/home');
-            const { container } = render(<TranslatedText textextKey="welcome.title" />);
+            const { container } = render(<TranslatedText textKey="welcome.title" />);
             expect(container.textContent).toBe('Welcome');
         });
 
         it('renders translated text in Spanish', () => {
             mockLocation('/es/inicio');
-            const { container } = render(<TranslatedText textextKey="welcome.title" />);
+            const { container } = render(<TranslatedText textKey="welcome.title" />);
             expect(container.textContent).toBe('Bienvenido');
         });
 

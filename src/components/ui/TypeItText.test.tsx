@@ -3,8 +3,17 @@ import { describe, expect, it, vi } from 'vitest';
 import { TypeItText } from './TypeItText';
 
 // Mock TypeIt library
+interface TypeItInstance {
+    go: () => TypeItInstance;
+    destroy: () => void;
+}
+
 vi.mock('typeit', () => {
-    const TypeItMockClass = vi.fn().mockImplementation(function (element, options) {
+    const TypeItMockClass = vi.fn().mockImplementation(function (
+        this: TypeItInstance,
+        element: HTMLElement,
+        options: { html?: boolean; strings?: string[] }
+    ) {
         // Simulate typing animation by setting innerHTML
         if (element && options?.strings && options.strings.length > 0) {
             element.innerHTML = options.html

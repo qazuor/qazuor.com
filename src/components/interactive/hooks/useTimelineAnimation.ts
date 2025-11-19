@@ -309,7 +309,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
      * Handle mouse over timeline item
      */
     const handleMouseOver = useCallback(
-        (item: TimelineItem, index: number) => {
+        (_item: TimelineItem, index: number) => {
             if (isScrolling) return;
 
             setIsAutoPlaying(false);

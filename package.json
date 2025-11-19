@@ -46,6 +46,7 @@
         "astro-subsites": "^0.1.0",
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
+        "embla-carousel-react": "^8.6.0",
         "expressive-code-language-badge": "^1.1.0",
         "framer-motion": "^12.23.24",
         "fuse.js": "^7.1.0",
@@ -55,9 +56,11 @@
         "mermaid": "^11.4.1",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
+        "react-masonry-css": "^1.0.16",
         "sharp": "^0.34.5",
         "tailwind-merge": "^3.3.1",
-        "typeit": "^8.8.7"
+        "typeit": "^8.8.7",
+        "yet-another-react-lightbox": "^3.25.0"
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.5",

@@ -30,100 +30,83 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
 ---
 
 <div class="skills-radar-grid">
-    <!-- First Row: Soft Skills + Description with Languages -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-8 lg:mb-12">
-        <!-- Description Text with Languages - Shows first on mobile -->
-        <div class="description-wrapper order-1 lg:order-2">
-            <div class="description-content">
-                {description && <div class="description-text" set:html={description} />}
+    <!-- First Row: Description Text + Language Skills (Full Width) -->
+    <div class="description-languages-wrapper">
+        <div class="description-content">
+            {description && <div class="description-text" set:html={description} />}
 
-                <!-- Language Skills -->
-                <div class="language-skills" data-animate>
-                    <h4 class="language-title"
-                        >{languageTranslations?.title || 'Languages'}</h4
-                    >
-                    <div class="language-item" data-animate-bar>
-                        <div class="language-label">
-                            <div class="language-name-wrapper">
-                                {
-                                    languageIcons?.spanish && (
-                                        <span
-                                            class="language-flag"
-                                            set:html={languageIcons.spanish}
-                                        />
-                                    )
-                                }
-                                <span class="language-name"
-                                    >Spanish <span class="language-note"
-                                        >({languageTranslations?.native ||
-                                            'native'})</span
-                                    ></span
-                                >
-                            </div>
-                            <span class="language-value">100%</span>
+            <!-- Language Skills -->
+            <div class="language-skills" data-animate>
+                <h4 class="language-title"
+                    >{languageTranslations?.title || 'Languages'}</h4
+                >
+                <div class="language-item" data-animate-bar>
+                    <div class="language-label">
+                        <div class="language-name-wrapper">
+                            {
+                                languageIcons?.spanish && (
+                                    <span
+                                        class="language-flag"
+                                        set:html={languageIcons.spanish}
+                                    />
+                                )
+                            }
+                            <span class="language-name"
+                                >Spanish <span class="language-note"
+                                    >({languageTranslations?.native ||
+                                        'native'})</span
+                                ></span
+                            >
                         </div>
-                        <div class="language-bar-wrapper">
-                            <div class="language-bar">
-                                <div class="language-bar-bg"></div>
-                                <div
-                                    class="language-progress spanish-progress"
-                                    data-value="100"
-                                ></div>
-                            </div>
+                        <span class="language-value">100%</span>
+                    </div>
+                    <div class="language-bar-wrapper">
+                        <div class="language-bar">
+                            <div class="language-bar-bg"></div>
+                            <div
+                                class="language-progress spanish-progress"
+                                data-value="100"
+                            ></div>
                         </div>
                     </div>
-                    <div class="language-item" data-animate-bar>
-                        <div class="language-label">
-                            <div class="language-name-wrapper">
-                                {
-                                    languageIcons?.english && (
-                                        <span
-                                            class="language-flag"
-                                            set:html={languageIcons.english}
-                                        />
-                                    )
-                                }
-                                <span class="language-name"
-                                    >English <span class="language-note"
-                                        >({languageTranslations?.writtenOnly ||
-                                            'written only'})</span
-                                    ></span
-                                >
-                            </div>
-                            <span class="language-value">85%</span>
+                </div>
+                <div class="language-item" data-animate-bar>
+                    <div class="language-label">
+                        <div class="language-name-wrapper">
+                            {
+                                languageIcons?.english && (
+                                    <span
+                                        class="language-flag"
+                                        set:html={languageIcons.english}
+                                    />
+                                )
+                            }
+                            <span class="language-name"
+                                >English <span class="language-note"
+                                    >({languageTranslations?.writtenOnly ||
+                                        'written only'})</span
+                                ></span
+                            >
                         </div>
-                        <div class="language-bar-wrapper">
-                            <div class="language-bar">
-                                <div class="language-bar-bg"></div>
-                                <div
-                                    class="language-progress english-progress"
-                                    data-value="85"
-                                ></div>
-                            </div>
+                        <span class="language-value">85%</span>
+                    </div>
+                    <div class="language-bar-wrapper">
+                        <div class="language-bar">
+                            <div class="language-bar-bg"></div>
+                            <div
+                                class="language-progress english-progress"
+                                data-value="85"
+                            ></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Soft Skills Chart - Shows second on mobile -->
-        <div class="radar-chart-wrapper order-2 lg:order-1">
-            <RadarChart
-                client:visible
-                title={categories[2].title}
-                titleHtml={true}
-                skills={categories[2].skills}
-                size={550}
-                gridLevels={5}
-                maxValue={100}
-                className="w-full"
-            />
-        </div>
     </div>
 
-    <!-- Second Row: Dev Hard Skills + Other Skills -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        <!-- Dev Hard Skills Chart -->
+    <!-- Second Row: Two Radar Charts Side by Side (Desktop) / Stacked (Mobile) -->
+    <div class="charts-wrapper">
+        <!-- Technical Skills Chart -->
         <div class="radar-chart-wrapper">
             <RadarChart
                 client:visible
@@ -137,7 +120,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
             />
         </div>
 
-        <!-- Other Skills Chart -->
+        <!-- Human & Creative Skills Chart -->
         <div class="radar-chart-wrapper">
             <RadarChart
                 client:visible
@@ -158,6 +141,37 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         width: 100%;
         max-width: 1600px;
         margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    /* First Row: Description + Languages (Full Width) */
+    .description-languages-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .description-content {
+        max-width: 900px;
+        width: 100%;
+    }
+
+    /* Second Row: Two Charts Side by Side */
+    .charts-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+        .charts-wrapper {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
     }
 
     .radar-chart-wrapper {
@@ -179,21 +193,6 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
             0 12px 30px -5px rgba(0, 0, 0, 0.15),
             0 10px 15px -6px rgba(0, 0, 0, 0.1);
         border-color: var(--color-primary);
-    }
-
-    /* Description Wrapper - No card style */
-    .description-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        min-height: 100%;
-    }
-
-    .description-content {
-        max-width: 600px;
-        width: 100%;
     }
 
     .description-text {
@@ -389,6 +388,14 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
 
     /* Mobile optimizations */
     @media (max-width: 1024px) {
+        .skills-radar-grid {
+            gap: 2rem;
+        }
+
+        .charts-wrapper {
+            gap: 1.5rem;
+        }
+
         .radar-chart-wrapper {
             padding: 1.5rem;
         }
@@ -405,12 +412,16 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
     }
 
     @media (max-width: 768px) {
-        .radar-chart-wrapper {
-            padding: 1.25rem;
+        .skills-radar-grid {
+            gap: 2rem;
         }
 
-        .description-wrapper {
-            margin-bottom: 2rem;
+        .charts-wrapper {
+            gap: 2rem;
+        }
+
+        .radar-chart-wrapper {
+            padding: 1.25rem;
         }
 
         .description-text {

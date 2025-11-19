@@ -271,16 +271,35 @@ export default function colorInterpolation(options: ColorInterpolationOptions = 
             }
 
             // Load colors from source
-            const { dark, light } = loadColorsFromSource(sourceFile); // Generate CSS
+            const { dark, light } = loadColorsFromSource(sourceFile);
+
+            // Generate CSS content
             const cssContent = generateCompleteCSS(dark, light, steps);
 
-            // Write to output file
-            writeFileSync(outputFilePath, cssContent, 'utf-8');
+            // Check if content actually changed (comparing without timestamp header)
+            let shouldWrite = true;
+            if (existsSync(outputFilePath)) {
+                const existingContent = readFileSync(outputFilePath, 'utf-8');
 
-            console.log('✅ Generated color interpolations');
-            console.log(`   📊 ${Object.keys(dark).length} sections`);
-            console.log(`   🎨 ${steps} interpolation steps`);
-            console.log(`   📄 Output: ${outputFile}`);
+                // Extract CSS without the header comment (which contains timestamp)
+                const stripHeader = (content: string) => content.replace(/\/\*\*[\s\S]*?\*\/\n*/m, '').trim();
+
+                const existingCSS = stripHeader(existingContent);
+                const newCSS = stripHeader(cssContent);
+
+                shouldWrite = existingCSS !== newCSS;
+            }
+
+            // Only write if content changed
+            if (shouldWrite) {
+                writeFileSync(outputFilePath, cssContent, 'utf-8');
+                console.log('✅ Generated color interpolations (content changed)');
+                console.log(`   📊 ${Object.keys(dark).length} sections`);
+                console.log(`   🎨 ${steps} interpolation steps`);
+                console.log(`   📄 Output: ${outputFile}`);
+            } else {
+                console.log('⏭️  Color interpolations unchanged, skipping write');
+            }
         } catch (error) {
             console.error('❌ Failed to generate color interpolations:', error);
             throw error;

@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
@@ -53,10 +53,23 @@ export function getSearchIndex(): SearchableItem[] {
 
 // For development: signal that index should be loaded from global variable
 export const SEARCH_INDEX_SOURCE = 'window';
-export const SEARCH_INDEX_TIMESTAMP = ${Date.now()};
 `;
 
-        writeFileSync(searchIndexPath, indexContent, 'utf8');
+        // Only write if file doesn't exist or content changed (excluding timestamp)
+        let shouldWrite = true;
+        if (existsSync(searchIndexPath)) {
+            const existingContent = readFileSync(searchIndexPath, 'utf8');
+            // Compare content without the old timestamp line
+            const existingWithoutTimestamp = existingContent
+                .replace(/export const SEARCH_INDEX_TIMESTAMP = \d+;?\n?/, '')
+                .trim();
+            const newContent = indexContent.trim();
+            shouldWrite = existingWithoutTimestamp !== newContent;
+        }
+
+        if (shouldWrite) {
+            writeFileSync(searchIndexPath, indexContent, 'utf8');
+        }
     } catch (error) {
         console.error('❌ Error generating search index file:', error);
     }

@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test';
  */
 test.describe('Command Palette', () => {
     test.describe('Opening and Closing', () => {
-        test('should open with Cmd+K on Mac', async ({ page, browserName }) => {
+        test('should open with Cmd+K on Mac', async ({ page }) => {
             await page.goto('/en');
 
             // Use Cmd+K (Mac) or Ctrl+K (Windows/Linux)
@@ -404,9 +404,11 @@ test.describe('Command Palette', () => {
             const paletteHandle = await commandPalette.elementHandle();
             expect(paletteHandle).not.toBeNull();
 
-            const isWithin = await focusedElement.evaluate((el, palette) => {
-                return palette?.contains(el) ?? false;
-            }, paletteHandle!);
+            const isWithin = paletteHandle
+                ? await focusedElement.evaluate((el, palette) => {
+                      return palette?.contains(el) ?? false;
+                  }, paletteHandle)
+                : false;
 
             expect(isWithin).toBe(true);
         });

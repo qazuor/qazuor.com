@@ -108,7 +108,7 @@ export function RadarChart({
     const gridPolygons = useMemo(() => generateGridPolygons(gridLevels, params), [gridLevels, params]);
 
     // Memoized skill data polygon
-    const { points: skillPoints, polygon: skillPolygon } = useMemo(
+    const { polygon: skillPolygon } = useMemo(
         () =>
             generateSkillPolygon(
                 skills.map((s) => s.value),

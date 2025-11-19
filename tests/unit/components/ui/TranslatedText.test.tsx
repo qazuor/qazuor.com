@@ -33,7 +33,7 @@ vi.mock('@/i18n/utils', () => ({
         const langTranslations = translations[lang as keyof typeof translations] || translations.en;
 
         // Return a translation function
-        return (key: string, options?: any) => {
+        return (key: string, options?: { params?: Record<string, string | number> }) => {
             let text = langTranslations[key as keyof typeof langTranslations] || key;
 
             // Handle params replacement
@@ -51,7 +51,7 @@ vi.mock('@/i18n/utils', () => ({
 // Mock window.location
 const mockLocation = (pathname: string) => {
     const url = `http://localhost${pathname}`;
-    delete (window as any).location;
+    delete (window as { location?: Location }).location;
     window.location = {
         href: url,
         pathname: pathname,
@@ -62,7 +62,7 @@ const mockLocation = (pathname: string) => {
         port: '',
         search: '',
         hash: ''
-    } as any;
+    } as Location;
 };
 
 describe('TranslatedText Component', () => {

@@ -122,8 +122,7 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
     }
 
     return (
-        // biome-ignore lint/a11y/noStaticElementInteractions: Dropdown container needs hover events for UX
-        // biome-ignore lint/a11y/useSemanticElements: div is appropriate for dropdown positioning container
+        // biome-ignore lint/a11y/useSemanticElements: div with role="group" is semantically correct for dropdown containers
         <div
             ref={dropdownRef}
             className={`relative ${className}`}

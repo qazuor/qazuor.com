@@ -39,8 +39,9 @@ describe('Card Component', () => {
             const handleClick = vi.fn();
             render(<Card onClick={handleClick}>Clickable Card</Card>);
 
-            const card = screen.getByText('Clickable Card').parentElement!;
-            await user.click(card);
+            const card = screen.getByText('Clickable Card').parentElement;
+            expect(card).not.toBeNull();
+            if (card) await user.click(card);
 
             expect(handleClick).toHaveBeenCalledOnce();
         });
@@ -62,9 +63,12 @@ describe('Card Component', () => {
             const handleClick = vi.fn();
             render(<Card onClick={handleClick}>Keyboard Accessible Card</Card>);
 
-            const card = screen.getByText('Keyboard Accessible Card').parentElement!;
-            card.focus();
-            await user.keyboard('{Enter}');
+            const card = screen.getByText('Keyboard Accessible Card').parentElement;
+            expect(card).not.toBeNull();
+            if (card) {
+                card.focus();
+                await user.keyboard('{Enter}');
+            }
 
             expect(handleClick).toHaveBeenCalledOnce();
         });
@@ -74,9 +78,12 @@ describe('Card Component', () => {
             const handleClick = vi.fn();
             render(<Card onClick={handleClick}>Keyboard Accessible Card</Card>);
 
-            const card = screen.getByText('Keyboard Accessible Card').parentElement!;
-            card.focus();
-            await user.keyboard(' ');
+            const card = screen.getByText('Keyboard Accessible Card').parentElement;
+            expect(card).not.toBeNull();
+            if (card) {
+                card.focus();
+                await user.keyboard(' ');
+            }
 
             expect(handleClick).toHaveBeenCalledOnce();
         });
@@ -209,10 +216,11 @@ describe('Card Component', () => {
                 </Card>
             );
 
-            const card = screen.getByText('Click me!').closest('div.card-hover')!;
+            const card = screen.getByText('Click me!').closest('div.card-hover');
             expect(card).toBeInTheDocument();
+            expect(card).not.toBeNull();
 
-            await user.click(card);
+            if (card) await user.click(card);
             expect(handleClick).toHaveBeenCalledOnce();
         });
     });

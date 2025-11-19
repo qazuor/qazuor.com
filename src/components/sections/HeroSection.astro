@@ -63,16 +63,16 @@ const {
 ---
 
 <section
-    class="relative flex items-center justify-center overflow-hidden hero-section pt-8 lg:pt-0"
+    class="relative flex items-center justify-center overflow-hidden hero-section pt-4 lg:pt-0"
     id="hero"
     style={`background-color: ${primaryColor}; min-height: calc(100vh - 60px);`}
 >
     <div class="container-custom overflow-x-visible">
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <!-- Text Content -->
-            <div class="space-y-4 lg:space-y-6 overflow-visible">
+            <div class="space-y-2 lg:space-y-6 overflow-visible">
                 <!-- Hero Title -->
-                <div class="hero-element pb-3 lg:pb-5">
+                <div class="hero-element pb-1 lg:pb-5">
                     <h1 class="text-3xl md:text-5xl lg:text-7xl font-black tracking-tight">
                         <span class="gradient-text-hero">{name}</span>
                     </h1>
@@ -137,7 +137,7 @@ const {
         </div>
 
         <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->
-        <div class="lg:hidden absolute bottom-16 left-2 z-30">
+        <div class="lg:hidden absolute bottom-20 left-4 z-30">
             <ScrollIndicator text={translations.scroll} />
         </div>
     </div>

@@ -5,7 +5,9 @@ import { type ContentSearchResult, useContentSearch } from '@/hooks/useContentSe
 import fiverrIcon from '@/icons/social/fiverr.svg?raw';
 import githubIcon from '@/icons/social/github.svg?raw';
 import linkedinIcon from '@/icons/social/linkedin.svg?raw';
+import mailIcon from '@/icons/social/mail.svg?raw';
 import upworkIcon from '@/icons/social/upwork.svg?raw';
+import whatsappIcon from '@/icons/social/whatsapp.svg?raw';
 import folderIcon from '@/icons/ui/folder.svg?raw';
 import homeIcon from '@/icons/ui/home.svg?raw';
 import newspaperIcon from '@/icons/ui/newspaper.svg?raw';
@@ -97,6 +99,10 @@ export function CommandPaletteInner({
                 return fiverrIcon;
             case 'upwork':
                 return upworkIcon;
+            case 'whatsapp':
+                return whatsappIcon;
+            case 'mail':
+                return mailIcon;
             default:
                 return searchIcon;
         }

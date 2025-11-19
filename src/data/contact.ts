@@ -13,6 +13,8 @@ export interface ContactData {
         linkedin: string;
         fiverr: string;
         upwork: string;
+        whatsapp: string;
+        mail: string;
         buymeacoffee?: string;
     };
 }
@@ -27,6 +29,8 @@ export const contact: ContactData = {
         linkedin: 'https://linkedin.com/in/qazuor',
         fiverr: 'https://www.fiverr.com/sellers/leandroasrilevi/',
         upwork: 'https://www.upwork.com/freelancers/~01881c38344e9431d7',
+        whatsapp: 'https://wa.me/543442453797',
+        mail: 'mailto:hello@qazuor.com',
         buymeacoffee: 'https://buymeacoffee.com/qazuor'
     }
 };

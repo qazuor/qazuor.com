@@ -2,12 +2,14 @@
 import FiverrIcon from '@/icons/social/fiverr.svg?raw';
 import GithubIcon from '@/icons/social/github.svg?raw';
 import LinkedinIcon from '@/icons/social/linkedin.svg?raw';
+import MailIcon from '@/icons/social/mail.svg?raw';
 import UpworkIcon from '@/icons/social/upwork.svg?raw';
+import WhatsAppIcon from '@/icons/social/whatsapp.svg?raw';
 
 interface Props {
     href: string;
     ariaLabel: string;
-    iconName: 'github' | 'linkedin' | 'fiverr' | 'upwork';
+    iconName: 'github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail';
     size?: 'sm' | 'md' | 'lg';
     className?: string;
 }
@@ -19,7 +21,9 @@ const iconMap = {
     github: GithubIcon,
     linkedin: LinkedinIcon,
     fiverr: FiverrIcon,
-    upwork: UpworkIcon
+    upwork: UpworkIcon,
+    whatsapp: WhatsAppIcon,
+    mail: MailIcon
 };
 
 const icon = iconMap[iconName];

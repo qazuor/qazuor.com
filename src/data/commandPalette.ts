@@ -161,6 +161,24 @@ export const commandPaletteData: CommandGroup[] = [
                 icon: 'upwork',
                 keywords: ['upwork', 'freelance', 'platform', 'jobs', 'clients'],
                 label: 'Upwork'
+            },
+            {
+                id: 'whatsapp',
+                value: 'whatsapp chat message contact',
+                href: 'https://wa.me/543442453797',
+                external: true,
+                icon: 'whatsapp',
+                keywords: ['whatsapp', 'chat', 'message', 'contact', 'phone'],
+                label: 'WhatsApp'
+            },
+            {
+                id: 'mail',
+                value: 'email mail contact message',
+                href: 'mailto:hello@qazuor.com',
+                external: true,
+                icon: 'mail',
+                keywords: ['email', 'mail', 'contact', 'message', 'send'],
+                label: 'Email'
             }
         ]
     }

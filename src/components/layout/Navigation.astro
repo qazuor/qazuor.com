@@ -11,6 +11,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
 
+// Helper function to format nav labels as HTML tags
+const formatAsTag = (label: string) => `<${label.toLowerCase()} />`;
+
 // Services dropdown translations (clean markdown syntax)
 const servicesDropdownTranslations = {
     webApps: t('services.webApps.title', { markdown: false }).replace(/\*\*/g, ''),
@@ -24,17 +27,17 @@ const isHomePage =
     currentPath === translatePath('/', lang) || currentPath === `/${lang}` || currentPath === `/${lang}/`;
 
 const navItems = [
-    { href: `${translatePath('/', lang)}#about`, label: t('nav.about') },
-    { href: `${translatePath('/', lang)}#skills`, label: t('nav.skills') },
-    { href: `${translatePath('/', lang)}#projects`, label: t('nav.projects') },
+    { href: `${translatePath('/', lang)}#about`, label: formatAsTag(t('nav.about')) },
+    { href: `${translatePath('/', lang)}#skills`, label: formatAsTag(t('nav.skills')) },
+    { href: `${translatePath('/', lang)}#projects`, label: formatAsTag(t('nav.projects')) },
     {
         href: isHomePage ? `${translatePath('/', lang)}#blog` : translatePath('/blog', lang),
-        label: t('nav.blog')
+        label: formatAsTag(t('nav.blog'))
     },
-    { href: translatePath('/services', lang), label: t('nav.services') },
-    { href: `${translatePath('/', lang)}#testimonials`, label: t('nav.testimonials') },
-    { href: translatePath('/tools', lang), label: t('nav.tools') },
-    { href: `${translatePath('/', lang)}#contact`, label: t('nav.contact') }
+    { href: translatePath('/services', lang), label: formatAsTag(t('nav.services')) },
+    { href: `${translatePath('/', lang)}#testimonials`, label: formatAsTag(t('nav.testimonials')) },
+    { href: translatePath('/tools', lang), label: formatAsTag(t('nav.tools')) },
+    { href: `${translatePath('/', lang)}#contact`, label: formatAsTag(t('nav.contact')) }
 ];
 
 const isActive = (href: string) => {
@@ -66,11 +69,11 @@ const isActive = (href: string) => {
                 >
                     <img src="/avatar.png" alt="qazuor avatar" class="w-full h-full object-cover" loading="eager" />
                 </div>
-                <span class="text-xl font-bold gradient-text">qazuor</span>
+                <span class="text-lg font-bold gradient-text font-mono">~/qazuor</span>
             </a>
 
             <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center gap-8">
+            <div class="hidden md:flex items-center gap-5">
                 {
                     navItems.map((item) => {
                         // Use dropdown for services
@@ -90,7 +93,7 @@ const isActive = (href: string) => {
                         return (
                             <a
                                 href={item.href.includes('#') ? item.href : normalizeTrailingSlash(item.href)}
-                                class={`nav-link text-xs font-medium transition-all duration-base relative group ${
+                                class={`nav-link text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base relative group ${
                                     isActive(item.href) ? 'text-primary' : 'text-foreground-secondary hover:text-foreground'
                                 }`}
                                 data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
@@ -144,7 +147,7 @@ const isActive = (href: string) => {
                                 {/* Main Services Link */}
                                 <a
                                     href={normalizeTrailingSlash(item.href)}
-                                    class={`nav-link-mobile block px-4 py-3 text-xs font-medium transition-all duration-base ${
+                                    class={`nav-link-mobile block px-4 py-3 text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base ${
                                         isActive(item.href)
                                             ? 'bg-primary/10 text-primary'
                                             : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
@@ -164,7 +167,7 @@ const isActive = (href: string) => {
                                         return (
                                             <a
                                                 href={`/${lang}/services/${service.slug}`}
-                                                class="nav-link-mobile block px-4 py-2 text-xs text-foreground-secondary hover:bg-foreground/5 hover:text-foreground transition-all duration-base rounded-lg"
+                                                class="nav-link-mobile block px-4 py-2 text-[0.65rem] text-foreground-secondary hover:bg-foreground/5 hover:text-foreground transition-all duration-base rounded-lg"
                                             >
                                                 <span class="mr-2">{service.icon}</span>
                                                 {serviceLabel}
@@ -180,7 +183,7 @@ const isActive = (href: string) => {
                     return (
                         <a
                             href={normalizeTrailingSlash(item.href)}
-                            class={`nav-link-mobile block px-4 py-3 text-xs font-medium transition-all duration-base ${
+                            class={`nav-link-mobile block px-4 py-3 text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base ${
                                 isActive(item.href)
                                     ? 'bg-primary/10 text-primary'
                                     : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'

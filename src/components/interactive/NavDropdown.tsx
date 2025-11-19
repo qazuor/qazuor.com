@@ -116,7 +116,9 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
     if (!mounted) {
         return (
             <div className={`relative ${className}`}>
-                <span className="nav-link text-xs font-medium text-foreground-secondary">{label}</span>
+                <span className="nav-link text-[0.65rem] font-medium font-mono whitespace-nowrap text-foreground-secondary">
+                    {label}
+                </span>
             </div>
         );
     }
@@ -135,7 +137,7 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
                 type="button"
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
-                className={`nav-link text-xs font-medium transition-all duration-base relative group flex items-center gap-1 ${
+                className={`nav-link text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base relative group flex items-center gap-1 ${
                     isActive ? 'text-primary' : 'text-foreground-secondary hover:text-foreground'
                 }`}
                 aria-expanded={isOpen}
@@ -176,7 +178,7 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
                             href={item.href}
                             role="menuitem"
                             tabIndex={focusedIndex === index ? 0 : -1}
-                            className={`flex items-center gap-2.5 px-3 py-2 text-xs text-foreground-secondary hover:text-foreground hover:bg-foreground/5 transition-colors ${
+                            className={`flex items-center gap-2.5 px-3 py-2 text-[0.65rem] text-foreground-secondary hover:text-foreground hover:bg-foreground/5 transition-colors ${
                                 index === 0
                                     ? 'font-medium text-foreground border-b border-foreground/10'
                                     : 'font-normal'

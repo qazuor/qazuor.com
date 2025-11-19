@@ -13,7 +13,13 @@ export default defineConfig({
         environment: 'happy-dom',
         globals: true,
         setupFiles: ['./src/test/setup.ts'],
-        exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**', '**/.{git,cache,output,temp}/**'],
+        exclude: [
+            '**/node_modules/**',
+            '**/dist/**',
+            '**/tests/e2e/**',
+            '**/tests/visual/**',
+            '**/.{git,cache,output,temp}/**'
+        ],
         coverage: {
             provider: 'v8',
             reporter: ['text', 'json', 'html'],
@@ -21,6 +27,7 @@ export default defineConfig({
                 'node_modules/',
                 'src/test/',
                 'tests/e2e/',
+                'tests/visual/',
                 '**/*.test.{ts,tsx}',
                 '**/*.spec.{ts,tsx}',
                 '**/types.ts',

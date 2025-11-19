@@ -18,6 +18,7 @@ import '../styles/fonts.css';
 import '../styles/generated-colors.css';
 
 // Other imports
+// NOTE: ViewTransitions is deprecated. TODO: Migrate to transition:animate directive in Astro 5.x
 import { ViewTransitions } from 'astro:transitions';
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import { SmoothScroll } from '@/components/animations/SmoothScroll';
@@ -132,6 +133,7 @@ const alternateLinks = locales.map((locale) => {
         </script>
 
         <!-- View Transitions for smooth page navigation -->
+        <!-- NOTE: ViewTransitions is deprecated. Will migrate to transition:animate in Astro 5.x -->
         <ViewTransitions />
     </head>
     <body>

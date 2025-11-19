@@ -155,14 +155,14 @@ test.describe('Services Pages', () => {
             await firstServiceLink.click();
 
             // Verify we're on a service page
-            await expect(page.url()).toContain('/services/');
+            expect(page.url()).toContain('/services/');
 
             // Go back
             await page.goBack();
 
             // Verify we're back at services index
-            await expect(page.url()).toContain('/services');
-            await expect(page.url()).not.toContain('/services/web-apps');
+            expect(page.url()).toContain('/services');
+            expect(page.url()).not.toContain('/services/web-apps');
         });
 
         test('should maintain language context', async ({ page }) => {
@@ -177,7 +177,7 @@ test.describe('Services Pages', () => {
                 await serviceLink.click();
 
                 // Verify we're still in Spanish
-                await expect(page.url()).toContain('/es/');
+                expect(page.url()).toContain('/es/');
             }
         });
     });

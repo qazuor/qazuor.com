@@ -51,18 +51,21 @@ vi.mock('@/i18n/utils', () => ({
 // Mock window.location
 const mockLocation = (pathname: string) => {
     const url = `http://localhost${pathname}`;
-    delete (window as { location?: Location }).location;
-    window.location = {
-        href: url,
-        pathname: pathname,
-        origin: 'http://localhost',
-        protocol: 'http:',
-        host: 'localhost',
-        hostname: 'localhost',
-        port: '',
-        search: '',
-        hash: ''
-    } as Location;
+    Object.defineProperty(window, 'location', {
+        value: {
+            href: url,
+            pathname: pathname,
+            origin: 'http://localhost',
+            protocol: 'http:',
+            host: 'localhost',
+            hostname: 'localhost',
+            port: '',
+            search: '',
+            hash: ''
+        },
+        writable: true,
+        configurable: true
+    });
 };
 
 describe('TranslatedText Component', () => {

@@ -53,8 +53,8 @@ interface UseTimelineAnimationReturn {
     // Refs
     timelineRef: React.RefObject<HTMLDivElement | null>;
     containerRef: React.RefObject<HTMLDivElement | null>;
-    touchStartX: React.MutableRefObject<number>;
-    touchEndX: React.MutableRefObject<number>;
+    touchStartX: React.RefObject<number>;
+    touchEndX: React.RefObject<number>;
 
     // Constants
     TIMELINE_SPACING: number;

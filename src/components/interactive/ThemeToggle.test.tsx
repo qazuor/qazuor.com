@@ -75,7 +75,6 @@ describe('ThemeToggle Component', () => {
 
         it('should render placeholder button before mount', () => {
             const { container } = render(<ThemeToggle />);
-            const _button = screen.getByRole('button');
 
             // Should have placeholder div
             const placeholder = container.querySelector('.w-5.h-5');

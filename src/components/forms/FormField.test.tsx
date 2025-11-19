@@ -290,7 +290,6 @@ describe('FormField Component', () => {
 
         it('should clear error when value changes', async () => {
             const handleChange = vi.fn();
-            const _user = userEvent.setup();
 
             const { rerender } = render(<FormField {...defaultProps} error="Required field" onChange={handleChange} />);
 

@@ -1,11 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright configuration for E2E testing
+ * Playwright configuration for E2E and Visual Regression testing
  * See https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-    testDir: './tests/e2e',
+    // No default testDir - specified in package.json scripts (e2e or visual)
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,

@@ -7,7 +7,7 @@ interface Props {
 const { roles, className = '' } = Astro.props;
 ---
 
-<div class={`absolute bottom-10 left-1/2 -translate-x-1/2 z-40 ${className}`}>
+<div class={`absolute bottom-20 left-1/2 -translate-x-1/2 ${className}`} style="z-index: 100;">
     <span
         id="rotating-roles"
         class="text-lg font-medium text-primary bg-background/90 backdrop-blur-md px-4 py-2 rounded-full border border-foreground/20 shadow-lg rotating-roles"

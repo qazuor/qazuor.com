@@ -63,19 +63,16 @@ const { name, roles, className = '' } = Astro.props;
         @apply hidden lg:block;
     }
 
-    /* Mobile avatar - hidden on desktop, larger and positioned to overflow right */
+    /* Mobile avatar - hidden on desktop, larger and responsive */
     .mobile-avatar {
         @apply block lg:hidden;
-        max-width: 350px;
-        margin-left: auto;
-        margin-right: -2rem; /* Negative margin to overflow the container */
-        transform: translateX(1rem); /* Additional push to the right */
-        margin-top: -3rem; /* Move much closer to content above */
+        width: clamp(320px, 60vw, 420px); /* Responsive width between 320px and 420px */
+        max-width: 100%;
     }
 
     .mobile-avatar .shadow-circle {
-        width: 400px !important;
-        height: 400px !important;
+        width: clamp(400px, 70vw, 500px) !important; /* Responsive circle */
+        height: clamp(400px, 70vw, 500px) !important;
     }
 
     .shadow-circle {

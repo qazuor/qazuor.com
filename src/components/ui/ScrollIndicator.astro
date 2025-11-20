@@ -10,7 +10,7 @@ const { text, className = '' } = Astro.props;
 ---
 
 <!-- Desktop version -->
-<div class={`hidden lg:flex flex-col items-center mt-5 ${className}`}>
+<div class={`hidden lg:flex flex-col items-center mt-12 ${className}`}>
     <span class="text-sm text-foreground-secondary">{text}</span>
     <div class="w-6 h-6 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
 </div>

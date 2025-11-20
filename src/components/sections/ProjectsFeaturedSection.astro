@@ -1,5 +1,5 @@
 ---
-import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
+import { ProjectsFeaturedStack } from '@/components/sections/ProjectsFeaturedStack';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 
@@ -57,32 +57,8 @@ const featuredProjects = projects
 	</div>
 
 	<!-- Stacking Cards Section -->
-	<main class="main-projects relative z-[200]">
-		{
-			featuredProjects.map((project, index) => (
-				<div
-					class="h-screen flex items-center justify-center sticky top-48 md:top-40 w-full px-5 box-border"
-					id={`project-${index}`}
-				>
-					<div
-						class="flex flex-col relative -top-1/4 h-[600px] w-[80vw] max-w-[1600px]"
-						style={`z-index: ${100 - index}`}
-					>
-						<ProjectCardNew
-							client:load
-							title={project.title}
-							description={project.description}
-							technologies={project.technologies}
-							images={project.images}
-							slug={project.slug}
-							layout={index % 2 === 0 ? 'default' : 'reversed'}
-							variant="home"
-							lang={lang}
-						/>
-					</div>
-				</div>
-			))
-		}
+	<main class="relative z-[200]">
+		<ProjectsFeaturedStack client:load projects={featuredProjects} lang={lang} />
 
 		<!-- View All Button -->
 		{
@@ -99,9 +75,3 @@ const featuredProjects = projects
 		}
 	</main>
 </div>
-
-<style>
-	.main-projects {
-		position: relative;
-	}
-</style>

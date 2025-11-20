@@ -152,7 +152,7 @@
             }
 
             // Try to find translation, fallback to formatted hash
-            const translationKey = hashText.toLowerCase();
+            const translationKey = hashText.toLowerCase() as keyof typeof t;
             return t[translationKey] || hashText
                 .split('-')
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -163,7 +163,7 @@
         const pageSegment = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : 'home';
 
         // Try to find translation
-        const translationKey = pageSegment.toLowerCase();
+        const translationKey = pageSegment.toLowerCase() as keyof typeof t;
         return t[translationKey] || pageSegment
             .split('-')
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -236,7 +236,10 @@
         // Pause at top
         tl.to({}, { duration: PAUSE_DURATION });
 
-        return tl.then();
+        // Convert GSAP Timeline to Promise
+        return new Promise<void>((resolve) => {
+            tl.eventCallback('onComplete', () => resolve());
+        });
     }
 
     /**
@@ -268,7 +271,10 @@
         tl.set(overlay, { y: '100%' });
         tl.set(titleElement, { opacity: 0, y: 20 });
 
-        return tl.then();
+        // Convert GSAP Timeline to Promise
+        return new Promise<void>((resolve) => {
+            tl.eventCallback('onComplete', () => resolve());
+        });
     }
 
     /**

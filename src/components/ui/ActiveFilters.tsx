@@ -4,6 +4,8 @@ export interface ActiveFiltersProps {
     onClearAll: () => void;
     translations: {
         activeFilters: string;
+        activeFiltersLabel: string;
+        moreFilters: string;
         clearAll: string;
     };
 }
@@ -20,7 +22,9 @@ export function ActiveFilters({ selectedTechnologies, onRemove, onClearAll, tran
 
     return (
         <div className="flex items-center gap-3 px-3 md:px-6 bg-foreground/5 rounded-lg border border-foreground/10 h-[52px]">
-            <span className="text-xs md:text-sm font-medium text-foreground-secondary whitespace-nowrap">Filtros:</span>
+            <span className="text-xs md:text-sm font-medium text-foreground-secondary whitespace-nowrap">
+                {translations.activeFiltersLabel}
+            </span>
 
             <div className="flex items-center gap-2 flex-1 overflow-hidden">
                 {visibleTechnologies.map((tech) => {
@@ -55,7 +59,7 @@ export function ActiveFilters({ selectedTechnologies, onRemove, onClearAll, tran
 
                 {hiddenCount > 0 && (
                     <span className="inline-flex items-center px-2.5 py-0.5 bg-foreground/10 text-foreground-secondary rounded-full text-xs font-medium whitespace-nowrap">
-                        +{hiddenCount} más
+                        +{hiddenCount} {translations.moreFilters}
                     </span>
                 )}
             </div>

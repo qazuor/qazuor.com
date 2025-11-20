@@ -18,6 +18,8 @@
         "selectAll": "Select All",
         "clearAll": "Clear All",
         "activeFilters": "Active filters",
+        "activeFiltersLabel": "Filters:",
+        "moreFilters": "more",
         "noResults": "No technologies found",
         "categories": {
             "all": "All Projects",
@@ -30,6 +32,15 @@
         "openSource": "Open Source Projects",
         "commercial": "Commercial Projects",
         "client": "Client Projects"
+    },
+    "card": {
+        "viewProject": "View Project",
+        "categories": {
+            "openSource": "Open Source",
+            "commercial": "Commercial",
+            "client": "Client"
+        },
+        "moreTechnologies": "more"
     },
     "detail": {
         "backToProjects": "Back to Projects",

@@ -579,6 +579,27 @@
         animation: fadeInScale 0.15s ease-out forwards;
     }
 
+    /* Project Card Animations */
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% center;
+        }
+        100% {
+            background-position: 200% center;
+        }
+    }
+
     /* Skip Link for Accessibility (WCAG 2.4.1) */
     .skip-link {
         position: absolute;

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
 import { ActiveFilters } from '@/components/ui/ActiveFilters';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { TechnologyFilter } from '@/components/ui/TechnologyFilter';
 import { sectionsColors } from '@/data';
@@ -22,22 +23,30 @@ const t = getTranslations(lang);
 // Load Content Collections
 const allProjects = await getCollection('projects');
 
-// Sort projects by order field, then by date
+// Sort projects: featured first, then by order field, then by date
 const sortedProjects = allProjects
     .sort((a, b) => {
+        // Featured projects come first
+        const aFeatured = a.data.featured || false;
+        const bFeatured = b.data.featured || false;
+        if (aFeatured !== bFeatured) {
+            return bFeatured ? 1 : -1;
+        }
+        // Then by order
         if (a.data.order !== b.data.order) {
             return a.data.order - b.data.order;
         }
+        // Finally by date
         return b.data.publishDate.getTime() - a.data.publishDate.getTime();
     })
     .map((project) => ({
         title: project.data.title,
         description: project.data.description,
         slug: project.data.slug || project.slug,
-        category: project.data.category,
+        category: project.data.category as 'open-source' | 'commercial' | 'client',
         technologies: project.data.technologies,
         images: project.data.images,
-        featured: project.data.featured,
+        featured: project.data.featured || false,
         order: project.data.order
     }));
 
@@ -65,6 +74,8 @@ const filterTranslations = {
     selectAll: t('projects.filters.selectAll'),
     clearAll: t('projects.filters.clearAll'),
     activeFilters: t('projects.filters.activeFilters'),
+    activeFiltersLabel: t('projects.filters.activeFiltersLabel'),
+    moreFilters: t('projects.filters.moreFilters'),
     clearFilters: t('projects.filters.clearFilters'),
     noResults: t('projects.filters.noResults')
 };
@@ -73,6 +84,16 @@ const categoryTitles = {
     'open-source': t('projects.categoryTitles.openSource'),
     commercial: t('projects.categoryTitles.commercial'),
     client: t('projects.categoryTitles.client')
+};
+
+const cardTranslations = {
+    viewProject: t('projects.card.viewProject'),
+    categories: {
+        openSource: t('projects.card.categories.openSource'),
+        commercial: t('projects.card.categories.commercial'),
+        client: t('projects.card.categories.client')
+    },
+    moreTechnologies: t('projects.card.moreTechnologies')
 };
 ---
 
@@ -100,26 +121,28 @@ const categoryTitles = {
 			<!-- Store category titles for JavaScript -->
 			<script id="category-titles" type="application/json" set:html={JSON.stringify(categoryTitles)}></script>
 
-			<!-- Categories Container (for AutoAnimate) -->
+			<!-- Categories Container -->
 			<div id="categories-container">
-			<!-- Projects by Category -->
 			{
 				Object.entries(projectsByCategory).map(([category, projects]) => {
 					if (projects.length === 0) return null;
 
 					return (
 						<div class="mb-16 category-section" data-category={category}>
-							{/* Category Title */}
-							<h2 class="text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
+							<div class="mb-8 flex items-center gap-3">
 								<span class="w-2 h-8 bg-primary rounded-full" />
-								{categoryTitles[category as keyof typeof categoryTitles]}
+								<SecondaryTitle
+									text={categoryTitles[category as keyof typeof categoryTitles]}
+									element="h2"
+									size="xl"
+									showHtml={false}
+								/>
 								<span class="category-count text-lg font-normal text-foreground-secondary">
 									({projects.length})
 								</span>
-							</h2>
+							</div>
 
-							{/* Projects Grid */}
-							<div class="projects-grid flex flex-wrap -mx-3" data-auto-animate>
+							<div class="projects-grid flex flex-wrap -mx-3">
 								{projects.map((project) => (
 									<div
 										class="project-card w-full md:w-1/2 lg:w-1/3 px-3 mb-6"
@@ -134,6 +157,9 @@ const categoryTitles = {
 											slug={project.slug}
 											variant="list"
 											lang={lang}
+											category={project.category}
+											featured={project.featured}
+											translations={cardTranslations}
 										/>
 									</div>
 								))}
@@ -185,17 +211,7 @@ import { createRoot } from 'react-dom/client';
 
 	// Get translations from the JSON script tag
 	const translationsScript = document.getElementById('filter-translations');
-	const filterTranslations = translationsScript
-		? JSON.parse(translationsScript.textContent || '{}')
-		: {
-				filterButton: 'Filter Technologies',
-				searchPlaceholder: 'Search technologies...',
-				selectAll: 'Select All',
-				clearAll: 'Clear All',
-				activeFilters: 'Active filters',
-				clearFilters: 'Clear all filters',
-				noResults: 'No technologies found'
-		  };
+	const filterTranslations = translationsScript ? JSON.parse(translationsScript.textContent || '{}') : {};
 
 	let selectedTechnologies: string[] = [];
 	let filterRoot: ReturnType<typeof createRoot> | null = null;
@@ -365,6 +381,8 @@ import { createRoot } from 'react-dom/client';
 					onClearAll: clearAllFilters,
 					translations: {
 						activeFilters: filterTranslations.activeFilters,
+						activeFiltersLabel: filterTranslations.activeFiltersLabel,
+						moreFilters: filterTranslations.moreFilters,
 						clearAll: filterTranslations.clearFilters
 					}
 				})
@@ -377,7 +395,6 @@ import { createRoot } from 'react-dom/client';
 		// Initialize AutoAnimate on categories container
 		const categoriesContainer = document.getElementById('categories-container');
 		if (categoriesContainer) {
-			console.log('Initializing AutoAnimate on categories container');
 			autoAnimate(categoriesContainer, {
 				duration: 400,
 				disrespectUserMotionPreference: true
@@ -386,20 +403,11 @@ import { createRoot } from 'react-dom/client';
 
 		// Initialize AutoAnimate on all project grids
 		const projectGrids = document.querySelectorAll('.projects-grid');
-		console.log('Found grids:', projectGrids.length);
-
-		// Check if user prefers reduced motion
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		console.log('Prefers reduced motion:', prefersReducedMotion);
-
 		projectGrids.forEach((grid) => {
-			console.log('Initializing AutoAnimate on grid:', grid);
-			const controller = autoAnimate(grid as HTMLElement, {
+			autoAnimate(grid as HTMLElement, {
 				duration: 400,
 				disrespectUserMotionPreference: true
 			});
-			console.log('AutoAnimate controller:', controller);
-			console.log('Is enabled?', controller.isEnabled());
 		});
 
 		// Read initial filters from URL

@@ -1,5 +1,6 @@
 ---
 import { contact } from '@/data';
+import BuyMeACoffeeLink from './social/BuyMeACoffeeLink.astro';
 import FiverrLink from './social/FiverrLink.astro';
 import GitHubLink from './social/GitHubLink.astro';
 import LinkedInLink from './social/LinkedInLink.astro';
@@ -15,10 +16,11 @@ interface Props {
         upwork: string;
         whatsapp: string;
         mail: string;
+        buymeacoffee: string;
     };
     size?: 'sm' | 'md' | 'lg';
     className?: string;
-    networks?: ('github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail')[];
+    networks?: ('github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail' | 'buymeacoffee')[];
 }
 
 const {
@@ -28,11 +30,12 @@ const {
         fiverr: 'Fiverr',
         upwork: 'Upwork',
         whatsapp: 'WhatsApp',
-        mail: 'Email'
+        mail: 'Email',
+        buymeacoffee: 'Buy Me a Coffee'
     },
     size = 'md',
     className = '',
-    networks = ['github', 'linkedin', 'fiverr', 'upwork', 'whatsapp', 'mail']
+    networks = ['linkedin', 'fiverr', 'upwork', 'github', 'buymeacoffee', 'whatsapp', 'mail']
 } = Astro.props;
 
 // Map of component types
@@ -42,7 +45,8 @@ const componentMap = {
     fiverr: FiverrLink,
     upwork: UpworkLink,
     whatsapp: WhatsAppLink,
-    mail: MailLink
+    mail: MailLink,
+    buymeacoffee: BuyMeACoffeeLink
 };
 
 // Map of social networks configuration
@@ -70,11 +74,15 @@ const socialConfig = {
     mail: {
         href: contact.social.mail,
         ariaLabel: ariaLabels.mail
+    },
+    buymeacoffee: {
+        href: contact.social.buymeacoffee,
+        ariaLabel: ariaLabels.buymeacoffee
     }
 };
 ---
 
-<div class={`flex gap-4 ${className}`}>
+<div class={`flex gap-4 items-center mt-6 lg:mt-0 ${className}`}>
     {
         networks.map((network) => {
             const Component = componentMap[network];

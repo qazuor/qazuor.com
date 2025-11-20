@@ -1,4 +1,5 @@
 ---
+import BuyMeACoffeeIcon from '@/icons/social/buymeacoffe.svg?raw';
 import FiverrIcon from '@/icons/social/fiverr.svg?raw';
 import GithubIcon from '@/icons/social/github.svg?raw';
 import LinkedinIcon from '@/icons/social/linkedin.svg?raw';
@@ -9,7 +10,7 @@ import WhatsAppIcon from '@/icons/social/whatsapp.svg?raw';
 interface Props {
     href: string;
     ariaLabel: string;
-    iconName: 'github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail';
+    iconName: 'github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail' | 'buymeacoffee';
     size?: 'sm' | 'md' | 'lg';
     className?: string;
 }
@@ -23,15 +24,16 @@ const iconMap = {
     fiverr: FiverrIcon,
     upwork: UpworkIcon,
     whatsapp: WhatsAppIcon,
-    mail: MailIcon
+    mail: MailIcon,
+    buymeacoffee: BuyMeACoffeeIcon
 };
 
 const icon = iconMap[iconName];
 
 const sizeClasses = {
-    sm: 'w-4 h-4',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8'
+    sm: 'w-3.5 h-3.5',
+    md: 'w-[18px] h-[18px]',
+    lg: 'w-5 h-5'
 };
 
 const iconSize = sizeClasses[size];
@@ -41,8 +43,162 @@ const iconSize = sizeClasses[size];
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    class={`text-foreground-secondary hover:text-primary transition-colors duration-base ${className}`}
+    class={`social-link inline-flex items-center justify-center transition-colors duration-base ${className}`}
     aria-label={ariaLabel}
+    data-tooltip={ariaLabel}
+    data-tooltip-position="bottom"
 >
-    <div class={`${iconSize} text-foreground-secondary`} set:html={icon} />
+    <div class={`social-icon ${iconSize} flex items-center justify-center`} set:html={icon} />
 </a>
+
+<style>
+    .social-icon {
+        transition: color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .social-icon :global(svg) {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    /* Estado normal: contraste moderado */
+    :global(html.dark) .social-icon {
+        color: rgb(156 163 175); /* gray-400 - Visible pero sutil en tema oscuro */
+    }
+
+    :global(html:not(.dark)) .social-icon {
+        color: rgb(107 114 128); /* gray-500 - Visible pero sutil en tema claro */
+    }
+
+    /* Hover: alto contraste */
+    :global(html.dark) .social-link:hover .social-icon {
+        color: rgb(229 231 235); /* gray-200 - Más visible en tema oscuro */
+    }
+
+    :global(html:not(.dark)) .social-link:hover .social-icon {
+        color: rgb(17 24 39); /* gray-900 - Más visible en tema claro */
+    }
+
+    /* Tooltip styles */
+    [data-tooltip] {
+        position: relative;
+    }
+
+    /* Tooltip arrow */
+    [data-tooltip]::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 4px 6px 0 6px;
+        border-style: solid;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* Tooltip text */
+    [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: 50%;
+        top: -6px;
+        transform: translateX(-50%) translateY(-100%);
+        text-align: center;
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 80px;
+        border-radius: 6px;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    /* Theme-specific tooltip colors - Dark theme */
+    :global(html.dark) [data-tooltip]::before {
+        border-color: rgb(55 65 81) transparent transparent transparent; /* gray-700 */
+    }
+
+    :global(html.dark) [data-tooltip]::after {
+        background: rgb(55 65 81); /* gray-700 */
+        color: rgb(229 231 235); /* gray-200 */
+    }
+
+    /* Theme-specific tooltip colors - Light theme */
+    :global(html:not(.dark)) [data-tooltip]::before {
+        border-color: rgb(31 41 55) transparent transparent transparent; /* gray-800 */
+    }
+
+    :global(html:not(.dark)) [data-tooltip]::after {
+        background: rgb(31 41 55); /* gray-800 */
+        color: rgb(243 244 246); /* gray-100 */
+    }
+
+    /* Tooltip positions */
+    [data-tooltip-position='top']::before {
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    [data-tooltip-position='top']::after {
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100%);
+    }
+
+    [data-tooltip-position='bottom']::before {
+        top: 100%;
+        margin-top: 18px;
+        transform: translateX(-50%) translateY(-100%) rotate(-180deg);
+    }
+
+    [data-tooltip-position='bottom']::after {
+        top: 100%;
+        margin-top: 18px;
+        transform: translateX(-50%) translateY(0%);
+    }
+
+    [data-tooltip-position='left']::before {
+        left: 0%;
+        top: 50%;
+        margin-left: -12px;
+        transform: translateY(-50%) rotate(-90deg);
+    }
+
+    [data-tooltip-position='left']::after {
+        left: 0%;
+        top: 50%;
+        margin-left: -8px;
+        transform: translateX(-100%) translateY(-50%);
+    }
+
+    [data-tooltip-position='right']::before {
+        left: 100%;
+        top: 50%;
+        margin-left: 1px;
+        transform: translateY(-50%) rotate(90deg);
+    }
+
+    [data-tooltip-position='right']::after {
+        left: 100%;
+        top: 50%;
+        margin-left: 8px;
+        transform: translateX(0%) translateY(-50%);
+    }
+
+    /* Show tooltip on hover */
+    [data-tooltip]:hover::after,
+    [data-tooltip]:hover::before {
+        opacity: 1;
+    }
+</style>

@@ -15,7 +15,7 @@ export interface ContactData {
         upwork: string;
         whatsapp: string;
         mail: string;
-        buymeacoffee?: string;
+        buymeacoffee: string;
     };
 }
 

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
+import { ProjectCard } from '@/components/cards/ProjectCard';
 import { ActiveFilters } from '@/components/ui/ActiveFilters';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
@@ -45,7 +45,7 @@ const sortedProjects = allProjects
         slug: project.data.slug || project.slug,
         category: project.data.category as 'open-source' | 'commercial' | 'client',
         technologies: project.data.technologies,
-        images: project.data.images,
+        images: project.data.images.map((img) => img.src),
         featured: project.data.featured || false,
         order: project.data.order
     }));
@@ -148,7 +148,7 @@ const cardTranslations = {
 										class="project-card w-full md:w-1/2 lg:w-1/3 px-3 mb-6"
 										data-technologies={JSON.stringify(project.technologies)}
 									>
-										<ProjectCardNew
+										<ProjectCard
 											client:load
 											title={project.title}
 											description={project.description}

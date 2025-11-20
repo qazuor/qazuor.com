@@ -1,121 +1,304 @@
-interface ProjectCardProps {
+import { useEffect, useRef, useState } from 'react';
+import { ImageCarousel } from '../ui/ImageCarousel';
+import { ImageLightbox } from '../ui/Lightbox';
+
+export interface ProjectCardProps {
     title: string;
     description: string;
-    tags: string[];
-    image?: string;
-    demoUrl?: string;
-    codeUrl?: string;
+    technologies: string[];
+    images: string[];
+    slug: string;
+    layout?: 'default' | 'reversed';
+    variant?: 'home' | 'list';
+    lang?: string;
+    category?: 'open-source' | 'commercial' | 'client';
     featured?: boolean;
     translations?: {
-        demo: string;
-        code: string;
-        featured: string;
+        viewProject: string;
+        categories: {
+            openSource: string;
+            commercial: string;
+            client: string;
+        };
+        moreTechnologies: string;
     };
 }
+
+// Category color mapping - enhanced visibility
+const categoryColors = {
+    'open-source': {
+        shadow: 'hover:shadow-emerald-500/20',
+        gradient: 'from-emerald-500/10 via-transparent to-transparent',
+        badge: 'bg-emerald-600 text-white border-emerald-700'
+    },
+    commercial: {
+        shadow: 'hover:shadow-blue-500/20',
+        gradient: 'from-blue-500/10 via-transparent to-transparent',
+        badge: 'bg-blue-600 text-white border-blue-700'
+    },
+    client: {
+        shadow: 'hover:shadow-purple-500/20',
+        gradient: 'from-purple-500/10 via-transparent to-transparent',
+        badge: 'bg-purple-600 text-white border-purple-700'
+    }
+};
 
 export function ProjectCard({
     title,
     description,
-    tags,
-    image,
-    demoUrl,
-    codeUrl,
-    featured = false,
+    technologies,
+    images,
+    slug,
+    layout = 'default',
+    variant = 'list',
+    lang = 'en',
+    category = 'open-source',
+    featured: _featured = false,
     translations = {
-        demo: 'Demo',
-        code: 'Code',
-        featured: 'Featured'
+        viewProject: 'View Project',
+        categories: {
+            openSource: 'Open Source',
+            commercial: 'Commercial',
+            client: 'Client'
+        },
+        moreTechnologies: 'more'
     }
 }: ProjectCardProps) {
-    return (
-        <article className="project-card card-hover group overflow-hidden h-full flex flex-col">
-            {/* Image */}
-            <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20">
-                {image ? (
-                    <img
-                        src={image}
-                        alt={`${title} - ${description.substring(0, 80)}${description.length > 80 ? '...' : ''}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-6xl font-bold text-primary/40 group-hover:scale-110 transition-transform duration-500">
-                        {title[0]}
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [lightboxIndex, setLightboxIndex] = useState(0);
+    const [isVisible, setIsVisible] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    const handleImageClick = (index: number) => {
+        setLightboxIndex(index);
+        setLightboxOpen(true);
+    };
+
+    const handleInfoClick = () => {
+        window.location.href = `/${lang}/projects/${slug}`;
+    };
+
+    // Display max 5 technology badges
+    const displayTechnologies = technologies.slice(0, 5);
+
+    const isReversed = layout === 'reversed';
+    const isHome = variant === 'home';
+    const colors = categoryColors[category];
+
+    // Intersection Observer for scroll animations
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        if (cardRef.current) {
+            observer.observe(cardRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    // Home variant (horizontal layout)
+    if (isHome) {
+        return (
+            <>
+                <div
+                    ref={cardRef}
+                    className={`grid md:grid-cols-2 h-[600px] items-stretch gap-0 transform transition-all duration-700 ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                >
+                    {/* Image Section */}
+                    <div className={`${isReversed ? 'md:order-2' : 'md:order-1'} h-full relative group`}>
+                        <ImageCarousel images={images} onImageClick={handleImageClick} alt={title} fullHeight />
+                        {/* Gradient overlay */}
+                        <div
+                            className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
+                        />
                     </div>
-                )}
-                {featured && (
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">
-                        {translations.featured}
-                    </div>
-                )}
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
 
-            {/* Content */}
-            <div className="p-6 flex-1 flex flex-col">
-                {/* Title */}
-                <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
-                    {title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-foreground-secondary text-sm mb-4 flex-1">{description}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                    {tags.map((tag) => (
-                        <span
-                            key={tag}
-                            className="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300"
+                    {/* Info Section */}
+                    <div
+                        className={`flex flex-col justify-center ${
+                            isReversed ? 'md:order-1' : 'md:order-2'
+                        } h-full bg-background px-8 py-8`}
+                    >
+                        <button
+                            type="button"
+                            onClick={handleInfoClick}
+                            className="text-left space-y-4 group cursor-pointer"
                         >
-                            {tag}
-                        </span>
-                    ))}
-                </div>
+                            <h3 className="text-2xl md:text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
+                                {title}
+                            </h3>
 
-                {/* Actions */}
-                {(demoUrl || codeUrl) && (
-                    <div className="flex gap-3 pt-4 border-t border-foreground/10">
-                        {demoUrl && (
-                            <a
-                                href={demoUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 text-sm font-medium"
-                            >
+                            <p className="text-foreground-secondary leading-relaxed">{description}</p>
+
+                            {/* Technologies */}
+                            <div className="flex flex-wrap gap-2">
+                                {displayTechnologies.map((tech) => (
+                                    <span
+                                        key={tech}
+                                        className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                                {technologies.length > 5 && (
+                                    <span className="px-3 py-1 bg-foreground/5 text-foreground-secondary rounded-full text-sm font-medium border border-foreground/10">
+                                        +{technologies.length - 5} more
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Click indicator */}
+                            <div className="inline-flex items-center gap-2 text-primary group-hover:gap-3 transition-all bg-background/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-primary/20 shadow-sm group-hover:shadow-md group-hover:border-primary/40 w-fit">
+                                <span className="text-sm font-medium">View Project</span>
                                 <svg
                                     className="w-4 h-4"
                                     fill="none"
-                                    viewBox="0 0 24 24"
                                     stroke="currentColor"
+                                    viewBox="0 0 24 24"
                                     aria-hidden="true"
                                 >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                        d="M9 5l7 7-7 7"
                                     />
                                 </svg>
-                                {translations.demo}
-                            </a>
-                        )}
-                        {codeUrl && (
-                            <a
-                                href={codeUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-foreground/20 text-foreground rounded-lg hover:border-primary hover:text-primary transition-colors duration-300 text-sm font-medium"
-                            >
-                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                </svg>
-                                {translations.code}
-                            </a>
-                        )}
+                            </div>
+                        </button>
                     </div>
-                )}
-            </div>
-        </article>
+                </div>
+
+                <ImageLightbox
+                    images={images}
+                    initialIndex={lightboxIndex}
+                    isOpen={lightboxOpen}
+                    onClose={() => setLightboxOpen(false)}
+                    alt={title}
+                />
+            </>
+        );
+    }
+
+    // List variant (vertical card with enhanced effects)
+    return (
+        <>
+            <article
+                ref={cardRef}
+                className={`group relative h-full rounded-xl overflow-hidden transform transition-all duration-700 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+            >
+                {/* Animated gradient border glow */}
+                <div
+                    className={`absolute -inset-0.5 bg-gradient-to-br from-primary/30 via-accent/30 to-secondary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl blur-md -z-10`}
+                />
+
+                {/* Card container with glassmorphism */}
+                <div
+                    className={`relative h-full bg-card backdrop-blur-sm border border-border rounded-xl overflow-hidden transition-all duration-500 shadow-lg ${colors.shadow} hover:shadow-2xl group-hover:scale-[1.02] transform flex flex-col`}
+                >
+                    {/* Category badge - improved visibility */}
+                    <div className="absolute top-4 left-4 z-20">
+                        <div
+                            className={`px-3 py-1.5 ${colors.badge} text-xs font-semibold rounded-full border shadow-lg backdrop-blur-md`}
+                        >
+                            {category === 'open-source'
+                                ? translations.categories.openSource
+                                : category === 'commercial'
+                                  ? translations.categories.commercial
+                                  : translations.categories.client}
+                        </div>
+                    </div>
+
+                    {/* Image section with enhanced hover */}
+                    <div className="relative aspect-video overflow-hidden">
+                        <div className="transform transition-transform duration-500 group-hover:scale-105">
+                            <ImageCarousel images={images} onImageClick={handleImageClick} alt={title} />
+                        </div>
+                        {/* Gradient overlay on hover */}
+                        <div
+                            className={`absolute inset-0 bg-gradient-to-t ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
+                        />
+                    </div>
+
+                    {/* Content section */}
+                    <div className="p-6 bg-card flex flex-col flex-1">
+                        <div className="flex-1">
+                            {/* Title */}
+                            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 mb-3">
+                                {title}
+                            </h3>
+
+                            {/* Description */}
+                            <p className="text-foreground-secondary text-sm leading-relaxed line-clamp-3 mb-4">
+                                {description}
+                            </p>
+
+                            {/* Technologies with stagger effect */}
+                            <div className="flex flex-wrap gap-2">
+                                {displayTechnologies.map((tech, index) => (
+                                    <span
+                                        key={tech}
+                                        className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium border border-primary/20 hover:bg-primary/20 hover:border-primary/40 transition-all duration-300"
+                                        style={{
+                                            animationDelay: `${index * 50}ms`,
+                                            animation: isVisible ? 'fadeInScale 0.3s ease-out forwards' : 'none'
+                                        }}
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                                {technologies.length > 5 && (
+                                    <span className="px-3 py-1 bg-foreground/5 text-foreground-secondary rounded-full text-xs font-medium border border-foreground/10">
+                                        +{technologies.length - 5} {translations.moreTechnologies}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* View project button - always at bottom */}
+                        <button
+                            type="button"
+                            onClick={handleInfoClick}
+                            className="flex items-center gap-2 text-primary group-hover:gap-3 transition-all duration-300 font-medium text-sm mt-4 w-fit"
+                            aria-label={`${translations.viewProject}: ${title}`}
+                        >
+                            <span>{translations.viewProject}</span>
+                            <svg
+                                className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            {/* Lightbox */}
+            <ImageLightbox
+                images={images}
+                initialIndex={lightboxIndex}
+                isOpen={lightboxOpen}
+                onClose={() => setLightboxOpen(false)}
+                alt={title}
+            />
+        </>
     );
 }

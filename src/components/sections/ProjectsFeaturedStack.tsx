@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
-import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
+import { ProjectCard } from '@/components/cards/ProjectCard';
 
 // Register ScrollTrigger plugin
 if (typeof window !== 'undefined') {
@@ -83,7 +83,7 @@ export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackP
                     style={{ zIndex: index + 1 }}
                 >
                     <div className="h-[600px] w-[80vw] max-w-[1600px]">
-                        <ProjectCardNew
+                        <ProjectCard
                             title={project.title}
                             description={project.description}
                             technologies={project.technologies}

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 interface ProjectFiltersProps {
     categories: { value: string; label: string }[];
     technologies: string[];
-    onFilterChange: (filters: FilterState) => void;
+    onFilterChange?: (filters: FilterState) => void;
     translations: {
         categoryLabel: string;
         technologyLabel: string;
@@ -27,7 +27,7 @@ export function ProjectFilters({ categories, technologies, onFilterChange, trans
             technologies: selectedTechnologies
         };
 
-        onFilterChange(filters);
+        onFilterChange?.(filters);
 
         // Emit custom event for script tag to listen
         const event = new CustomEvent('filterChange', { detail: filters });
@@ -90,6 +90,7 @@ export function ProjectFilters({ categories, technologies, onFilterChange, trans
                     {categories.map((category) => (
                         <button
                             key={category.value}
+                            type="button"
                             onClick={() => handleCategoryClick(category.value)}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                                 selectedCategory === category.value
@@ -113,6 +114,7 @@ export function ProjectFilters({ categories, technologies, onFilterChange, trans
                         return (
                             <button
                                 key={tech}
+                                type="button"
                                 onClick={() => handleTechnologyClick(tech)}
                                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-300 ${
                                     isSelected
@@ -137,6 +139,7 @@ export function ProjectFilters({ categories, technologies, onFilterChange, trans
             {hasActiveFilters && (
                 <div className="flex justify-center pt-2">
                     <button
+                        type="button"
                         onClick={handleClearFilters}
                         className="text-sm text-foreground-secondary hover:text-foreground underline transition-colors duration-200"
                     >

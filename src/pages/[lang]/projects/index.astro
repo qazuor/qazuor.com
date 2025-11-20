@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
-import { ProjectFilters, type FilterState } from '@/components/ui/ProjectFilters';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import { type FilterState, ProjectFilters } from '@/components/ui/ProjectFilters';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
@@ -10,9 +10,9 @@ import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
-	return Object.keys(languages).map((lang) => ({
-		params: { lang }
-	}));
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -23,48 +23,46 @@ const allProjects = await getCollection('projects');
 
 // Sort projects by order field, then by date
 const sortedProjects = allProjects
-	.sort((a, b) => {
-		if (a.data.order !== b.data.order) {
-			return a.data.order - b.data.order;
-		}
-		return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-	})
-	.map((project) => ({
-		title: project.data.title,
-		description: project.data.description,
-		slug: project.data.slug || project.slug,
-		category: project.data.category,
-		technologies: project.data.technologies,
-		images: project.data.images,
-		featured: project.data.featured,
-		order: project.data.order
-	}));
+    .sort((a, b) => {
+        if (a.data.order !== b.data.order) {
+            return a.data.order - b.data.order;
+        }
+        return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+    })
+    .map((project) => ({
+        title: project.data.title,
+        description: project.data.description,
+        slug: project.data.slug || project.slug,
+        category: project.data.category,
+        technologies: project.data.technologies,
+        images: project.data.images,
+        featured: project.data.featured,
+        order: project.data.order
+    }));
 
 // Extract unique categories
 const categories = [
-	{ value: 'all', label: t('projects.filters.categories.all') },
-	{ value: 'open-source', label: t('projects.filters.categories.openSource') },
-	{ value: 'commercial', label: t('projects.filters.categories.commercial') },
-	{ value: 'client', label: t('projects.filters.categories.client') }
+    { value: 'all', label: t('projects.filters.categories.all') },
+    { value: 'open-source', label: t('projects.filters.categories.openSource') },
+    { value: 'commercial', label: t('projects.filters.categories.commercial') },
+    { value: 'client', label: t('projects.filters.categories.client') }
 ];
 
 // Extract all unique technologies
-const allTechnologies = Array.from(
-	new Set(sortedProjects.flatMap((p) => p.technologies))
-).sort();
+const allTechnologies = Array.from(new Set(sortedProjects.flatMap((p) => p.technologies))).sort();
 
 // Translations
 const pageTitle = `${t('projects.title')} - qazuor.com`;
 const translations = {
-	title: t('projects.title'),
-	subtitle: t('projects.subtitle'),
-	noResults: t('projects.noResults')
+    title: t('projects.title', { markdown: true }),
+    subtitle: t('projects.subtitle', { markdown: true }),
+    noResults: t('projects.noResults')
 };
 
 const filterTranslations = {
-	categoryLabel: t('projects.filters.categoryLabel'),
-	technologyLabel: t('projects.filters.technologyLabel'),
-	clearFilters: t('projects.filters.clearFilters')
+    categoryLabel: t('projects.filters.categoryLabel'),
+    technologyLabel: t('projects.filters.technologyLabel'),
+    clearFilters: t('projects.filters.clearFilters')
 };
 ---
 
@@ -86,7 +84,6 @@ const filterTranslations = {
 					client:load
 					categories={categories}
 					technologies={allTechnologies}
-					onFilterChange={() => {}}
 					translations={filterTranslations}
 				/>
 			</div>

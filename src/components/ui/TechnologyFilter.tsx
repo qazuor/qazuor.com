@@ -128,13 +128,13 @@ export function TechnologyFilter({
     const activeCount = selectedTechnologies.length;
 
     return (
-        <div className="relative">
+        <div className="relative w-full md:w-auto">
             {/* Filter Button */}
             <button
                 ref={buttonRef}
                 type="button"
                 onClick={handleToggle}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative"
+                className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative"
                 aria-expanded={isOpen}
                 aria-haspopup="true"
             >

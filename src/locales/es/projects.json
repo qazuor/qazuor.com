@@ -13,12 +13,23 @@
         "categoryLabel": "Categoría",
         "technologyLabel": "Tecnologías",
         "clearFilters": "Limpiar todos los filtros",
+        "filterButton": "Filtrar Tecnologías",
+        "searchPlaceholder": "Buscar tecnologías...",
+        "selectAll": "Seleccionar Todo",
+        "clearAll": "Limpiar Todo",
+        "activeFilters": "Filtros activos",
+        "noResults": "No se encontraron tecnologías",
         "categories": {
             "all": "Todos los Proyectos",
             "openSource": "Open Source",
             "commercial": "Comercial",
             "client": "Proyectos de Cliente"
         }
+    },
+    "categoryTitles": {
+        "openSource": "Proyectos Open Source",
+        "commercial": "Proyectos Comerciales",
+        "client": "Proyectos de Cliente"
     },
     "detail": {
         "backToProjects": "Volver a Proyectos",

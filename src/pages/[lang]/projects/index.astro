@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
+import { ActiveFilters } from '@/components/ui/ActiveFilters';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import { type FilterState, ProjectFilters } from '@/components/ui/ProjectFilters';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { TechnologyFilter } from '@/components/ui/TechnologyFilter';
 import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -40,13 +41,12 @@ const sortedProjects = allProjects
         order: project.data.order
     }));
 
-// Extract unique categories
-const categories = [
-    { value: 'all', label: t('projects.filters.categories.all') },
-    { value: 'open-source', label: t('projects.filters.categories.openSource') },
-    { value: 'commercial', label: t('projects.filters.categories.commercial') },
-    { value: 'client', label: t('projects.filters.categories.client') }
-];
+// Group projects by category
+const projectsByCategory = {
+    'open-source': sortedProjects.filter((p) => p.category === 'open-source'),
+    commercial: sortedProjects.filter((p) => p.category === 'commercial'),
+    client: sortedProjects.filter((p) => p.category === 'client')
+};
 
 // Extract all unique technologies
 const allTechnologies = Array.from(new Set(sortedProjects.flatMap((p) => p.technologies))).sort();
@@ -60,17 +60,24 @@ const translations = {
 };
 
 const filterTranslations = {
-    categoryLabel: t('projects.filters.categoryLabel'),
-    technologyLabel: t('projects.filters.technologyLabel'),
-    clearFilters: t('projects.filters.clearFilters')
+    filterButton: t('projects.filters.filterButton'),
+    searchPlaceholder: t('projects.filters.searchPlaceholder'),
+    selectAll: t('projects.filters.selectAll'),
+    clearAll: t('projects.filters.clearAll'),
+    activeFilters: t('projects.filters.activeFilters'),
+    clearFilters: t('projects.filters.clearFilters'),
+    noResults: t('projects.filters.noResults')
+};
+
+const categoryTitles = {
+    'open-source': t('projects.categoryTitles.openSource'),
+    commercial: t('projects.categoryTitles.commercial'),
+    client: t('projects.categoryTitles.client')
 };
 ---
 
 <BaseLayout title={pageTitle}>
-	<section
-		class="relative min-h-screen overflow-hidden"
-		style={`background-color: ${sectionsColors.projects}`}
-	>
+	<section class="relative min-h-screen overflow-hidden" style={`background-color: ${sectionsColors.projects}`}>
 		<!-- Animated Gradient Background -->
 		<AnimatedGradientBackground />
 
@@ -78,42 +85,80 @@ const filterTranslations = {
 			<!-- Section Title -->
 			<SectionTitle title={translations.title} subtitle={translations.subtitle} />
 
-			<!-- Filters -->
-			<div class="mb-12 sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-6 rounded-lg shadow-lg">
-				<ProjectFilters
-					client:load
-					categories={categories}
-					technologies={allTechnologies}
-					translations={filterTranslations}
-				/>
+			<!-- Filter Section -->
+			<div class="mb-8 flex justify-between items-start gap-4 flex-wrap">
+				<!-- Active Filters (left side) -->
+				<div class="flex-1 min-w-0" id="active-filters-container"></div>
+
+				<!-- Filter Button (right side) -->
+				<div id="filter-button-container"></div>
 			</div>
 
-			<!-- Projects Grid -->
-			<div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-				{
-					sortedProjects.map((project) => (
-						<div
-							class="project-card"
-							data-category={project.category}
-							data-technologies={JSON.stringify(project.technologies)}
-						>
-							<ProjectCardNew
-								client:load
-								title={project.title}
-								description={project.description}
-								technologies={project.technologies}
-								images={project.images}
-								slug={project.slug}
-								variant="list"
-								lang={lang}
-							/>
+			<!-- Store translations for JavaScript -->
+			<script id="filter-translations" type="application/json" set:html={JSON.stringify(filterTranslations)}></script>
+
+			<!-- Store category titles for JavaScript -->
+			<script id="category-titles" type="application/json" set:html={JSON.stringify(categoryTitles)}></script>
+
+			<!-- Categories Container (for AutoAnimate) -->
+			<div id="categories-container">
+			<!-- Projects by Category -->
+			{
+				Object.entries(projectsByCategory).map(([category, projects]) => {
+					if (projects.length === 0) return null;
+
+					return (
+						<div class="mb-16 category-section" data-category={category}>
+							{/* Category Title */}
+							<h2 class="text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
+								<span class="w-2 h-8 bg-primary rounded-full" />
+								{categoryTitles[category as keyof typeof categoryTitles]}
+								<span class="category-count text-lg font-normal text-foreground-secondary">
+									({projects.length})
+								</span>
+							</h2>
+
+							{/* Projects Grid */}
+							<div class="projects-grid flex flex-wrap -mx-3" data-auto-animate>
+								{projects.map((project) => (
+									<div
+										class="project-card w-full md:w-1/2 lg:w-1/3 px-3 mb-6"
+										data-technologies={JSON.stringify(project.technologies)}
+									>
+										<ProjectCardNew
+											client:load
+											title={project.title}
+											description={project.description}
+											technologies={project.technologies}
+											images={project.images}
+											slug={project.slug}
+											variant="list"
+											lang={lang}
+										/>
+									</div>
+								))}
+							</div>
 						</div>
-					))
-				}
+					);
+				})
+			}
 			</div>
 
 			<!-- Empty State -->
-			<div id="empty-state" class="hidden text-center py-12">
+			<div id="empty-state" class="hidden text-center py-16">
+				<svg
+					class="w-24 h-24 mx-auto mb-4 text-foreground-secondary opacity-50"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="1.5"
+						d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+					></path>
+				</svg>
 				<p class="text-foreground-secondary text-lg">{translations.noResults}</p>
 			</div>
 		</div>
@@ -121,62 +166,251 @@ const filterTranslations = {
 </BaseLayout>
 
 <script>
-	import type { FilterState } from '@/components/ui/ProjectFilters';
+	import { ActiveFilters } from '@/components/ui/ActiveFilters';
+import { TechnologyFilter } from '@/components/ui/TechnologyFilter';
+import autoAnimate from '@formkit/auto-animate';
+import { createElement } from 'react';
+import { createRoot } from 'react-dom/client';
 
-	// Client-side filtering logic
-	function applyFilters(filters: FilterState) {
-		const projectCards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
-		const emptyState = document.getElementById('empty-state');
-		let visibleCount = 0;
+	// Get all technologies and translations from the page
+	const allProjects = document.querySelectorAll('.project-card');
+	const allTechnologies = Array.from(
+		new Set(
+			Array.from(allProjects).flatMap((card) => {
+				const techs = card.getAttribute('data-technologies');
+				return techs ? JSON.parse(techs) : [];
+			})
+		)
+	).sort();
 
-		projectCards.forEach((card) => {
-			const category = card.dataset.category || '';
-			const technologies = JSON.parse(card.dataset.technologies || '[]') as string[];
+	// Get translations from the JSON script tag
+	const translationsScript = document.getElementById('filter-translations');
+	const filterTranslations = translationsScript
+		? JSON.parse(translationsScript.textContent || '{}')
+		: {
+				filterButton: 'Filter Technologies',
+				searchPlaceholder: 'Search technologies...',
+				selectAll: 'Select All',
+				clearAll: 'Clear All',
+				activeFilters: 'Active filters',
+				clearFilters: 'Clear all filters',
+				noResults: 'No technologies found'
+		  };
 
-			// Check category filter
-			const categoryMatch = filters.category === 'all' || category === filters.category;
+	let selectedTechnologies: string[] = [];
+	let filterRoot: ReturnType<typeof createRoot> | null = null;
+	let activeRoot: ReturnType<typeof createRoot> | null = null;
 
-			// Check technologies filter (AND logic - all selected techs must be present)
-			const techMatch =
-				filters.technologies.length === 0 ||
-				filters.technologies.every((tech) => technologies.includes(tech));
+	// Store all cards on initial load for each category
+	const allCardsByCategory = new Map<HTMLElement, HTMLElement[]>();
+	// Store all category sections
+	const allCategorySections = new Map<string, HTMLElement>();
 
-			const isVisible = categoryMatch && techMatch;
+	// Function to apply filters
+	function applyFilters(technologies: string[]) {
+		selectedTechnologies = technologies;
+		const categoriesContainer = document.getElementById('categories-container');
+		if (!categoriesContainer) return;
 
-			if (isVisible) {
-				card.style.display = '';
-				visibleCount++;
-			} else {
-				card.style.display = 'none';
+		let totalVisible = 0;
+
+		// Store all category sections on first run
+		if (allCategorySections.size === 0) {
+			const sections = document.querySelectorAll('.category-section');
+			sections.forEach((section) => {
+				const category = (section as HTMLElement).getAttribute('data-category');
+				if (category) {
+					allCategorySections.set(category, section as HTMLElement);
+				}
+			});
+		}
+
+		// Determine which categories should be visible
+		const visibleCategories = new Map<string, number>();
+
+		allCategorySections.forEach((section, category) => {
+			const projectsGrid = section.querySelector('.projects-grid') as HTMLElement;
+			if (!projectsGrid) return;
+
+			// Store all cards on first run
+			if (!allCardsByCategory.has(section)) {
+				const cards = Array.from(section.querySelectorAll('.project-card')) as HTMLElement[];
+				allCardsByCategory.set(section, cards);
+			}
+
+			const allCards = allCardsByCategory.get(section) || [];
+
+			// Determine which cards should be visible
+			const visibleCards = allCards.filter((card) => {
+				const cardTechs = JSON.parse(card.getAttribute('data-technologies') || '[]') as string[];
+				return technologies.length === 0 || technologies.every((tech) => cardTechs.includes(tech));
+			});
+
+			// Get currently visible cards in the grid
+			const currentCards = Array.from(projectsGrid.children) as HTMLElement[];
+
+			// Remove cards that shouldn't be visible
+			currentCards.forEach((card) => {
+				if (!visibleCards.includes(card)) {
+					projectsGrid.removeChild(card);
+				}
+			});
+
+			// Add cards that should be visible but aren't
+			visibleCards.forEach((card) => {
+				if (!projectsGrid.contains(card)) {
+					projectsGrid.appendChild(card);
+				}
+			});
+
+			const visibleInCategory = visibleCards.length;
+			totalVisible += visibleInCategory;
+
+			// Update category count
+			const countElement = section.querySelector('.category-count');
+			if (countElement) {
+				countElement.textContent = `(${visibleInCategory})`;
+			}
+
+			// Store visible count for this category
+			if (visibleInCategory > 0) {
+				visibleCategories.set(category, visibleInCategory);
+			}
+		});
+
+		// Get currently visible category sections in the container
+		const currentSections = Array.from(categoriesContainer.children) as HTMLElement[];
+
+		// Remove category sections that shouldn't be visible
+		currentSections.forEach((section) => {
+			const category = section.getAttribute('data-category');
+			if (category && !visibleCategories.has(category)) {
+				categoriesContainer.removeChild(section);
+			}
+		});
+
+		// Add category sections that should be visible but aren't
+		allCategorySections.forEach((section, category) => {
+			if (visibleCategories.has(category) && !categoriesContainer.contains(section)) {
+				categoriesContainer.appendChild(section);
 			}
 		});
 
 		// Show/hide empty state
+		const emptyState = document.getElementById('empty-state');
 		if (emptyState) {
-			if (visibleCount === 0) {
+			if (totalVisible === 0) {
 				emptyState.classList.remove('hidden');
 			} else {
 				emptyState.classList.add('hidden');
 			}
 		}
+
+		// Update URL
+		const params = new URLSearchParams();
+		if (technologies.length > 0) {
+			params.set('tech', technologies.join(','));
+		}
+		const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+		window.history.replaceState({}, '', newUrl);
 	}
 
-	// Listen for filter changes from ProjectFilters component
-	window.addEventListener('filterChange', ((event: CustomEvent<FilterState>) => {
-		applyFilters(event.detail);
-	}) as EventListener);
+	// Function to remove a technology
+	function removeTechnology(tech: string) {
+		const newTechnologies = selectedTechnologies.filter((t) => t !== tech);
+		applyFilters(newTechnologies);
+		renderComponents();
+	}
 
-	// Apply initial filters from URL on page load
+	// Function to clear all filters
+	function clearAllFilters() {
+		applyFilters([]);
+		renderComponents();
+	}
+
+	// Render React components
+	function renderComponents() {
+		// Render Technology Filter Button
+		const filterButtonContainer = document.getElementById('filter-button-container');
+		if (filterButtonContainer) {
+			if (!filterRoot) {
+				filterRoot = createRoot(filterButtonContainer);
+			}
+			filterRoot.render(
+				createElement(TechnologyFilter, {
+					technologies: allTechnologies,
+					selectedTechnologies: selectedTechnologies,
+					onFilterChange: (techs: string[]) => {
+						applyFilters(techs);
+						// Use setTimeout to allow AutoAnimate to process the DOM changes first
+						setTimeout(() => {
+							renderComponents();
+						}, 0);
+					},
+					translations: filterTranslations
+				})
+			);
+		}
+
+		// Render Active Filters
+		const activeFiltersContainer = document.getElementById('active-filters-container');
+		if (activeFiltersContainer) {
+			if (!activeRoot) {
+				activeRoot = createRoot(activeFiltersContainer);
+			}
+			activeRoot.render(
+				createElement(ActiveFilters, {
+					selectedTechnologies: selectedTechnologies,
+					onRemove: removeTechnology,
+					onClearAll: clearAllFilters,
+					translations: {
+						activeFilters: filterTranslations.activeFilters,
+						clearAll: filterTranslations.clearFilters
+					}
+				})
+			);
+		}
+	}
+
+	// Initialize on page load
 	document.addEventListener('DOMContentLoaded', () => {
+		// Initialize AutoAnimate on categories container
+		const categoriesContainer = document.getElementById('categories-container');
+		if (categoriesContainer) {
+			console.log('Initializing AutoAnimate on categories container');
+			autoAnimate(categoriesContainer, {
+				duration: 400,
+				disrespectUserMotionPreference: true
+			});
+		}
+
+		// Initialize AutoAnimate on all project grids
+		const projectGrids = document.querySelectorAll('.projects-grid');
+		console.log('Found grids:', projectGrids.length);
+
+		// Check if user prefers reduced motion
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		console.log('Prefers reduced motion:', prefersReducedMotion);
+
+		projectGrids.forEach((grid) => {
+			console.log('Initializing AutoAnimate on grid:', grid);
+			const controller = autoAnimate(grid as HTMLElement, {
+				duration: 400,
+				disrespectUserMotionPreference: true
+			});
+			console.log('AutoAnimate controller:', controller);
+			console.log('Is enabled?', controller.isEnabled());
+		});
+
+		// Read initial filters from URL
 		const params = new URLSearchParams(window.location.search);
-		const category = params.get('category') || 'all';
 		const tech = params.get('tech');
+		if (tech) {
+			selectedTechnologies = tech.split(',').filter((t) => allTechnologies.includes(t));
+		}
 
-		const initialFilters: FilterState = {
-			category,
-			technologies: tech ? tech.split(',') : []
-		};
-
-		applyFilters(initialFilters);
+		// Apply initial filters and render components
+		applyFilters(selectedTechnologies);
+		renderComponents();
 	});
 </script>

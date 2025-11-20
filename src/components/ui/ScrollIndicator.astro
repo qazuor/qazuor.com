@@ -16,7 +16,7 @@ const { text, className = '' } = Astro.props;
 </div>
 
 <!-- Mobile version - positioned absolutely within hero -->
-<div class="absolute lg:hidden bottom-6 left-6 z-30 flex flex-col items-center">
+<div class="absolute lg:hidden bottom-6 left-4 z-30 flex flex-col items-center">
     <span class="text-xs text-foreground-secondary mb-1">{text}</span>
     <div class="w-5 h-5 text-foreground-secondary animate-bounce" set:html={ArrowDownIcon} />
 </div>

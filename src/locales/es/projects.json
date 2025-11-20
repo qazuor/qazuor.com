@@ -4,9 +4,39 @@
     "description": "Una colección de **aplicaciones web** y herramientas que he construido",
     "viewDemo": "**Demo**",
     "viewCode": "**Código**",
+    "viewAll": "**Ver Todos los Proyectos** →",
     "featured": "*Destacado*",
     "noProjects": "No se encontraron proyectos con el filtro seleccionado.",
+    "noResults": "No se encontraron proyectos que coincidan con tus criterios.",
     "filterAll": "**Todos**",
+    "filters": {
+        "categoryLabel": "Categoría",
+        "technologyLabel": "Tecnologías",
+        "clearFilters": "Limpiar todos los filtros",
+        "categories": {
+            "all": "Todos los Proyectos",
+            "openSource": "Open Source",
+            "commercial": "Comercial",
+            "client": "Proyectos de Cliente"
+        }
+    },
+    "detail": {
+        "backToProjects": "Volver a Proyectos",
+        "publishedOn": "Publicado el",
+        "technologies": "Tecnologías Utilizadas",
+        "gallery": "Galería del Proyecto",
+        "categories": {
+            "openSource": "Open Source",
+            "commercial": "Proyecto Comercial",
+            "client": "Proyecto de Cliente"
+        },
+        "links": {
+            "title": "Enlaces",
+            "github": "Ver en GitHub",
+            "demo": "Ver Demo",
+            "visit": "Visitar Sitio"
+        }
+    },
     "cta": {
         "title": "¿Tienes un proyecto en mente?",
         "description": "Hablemos sobre cómo podemos trabajar juntos",

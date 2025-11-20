@@ -1,0 +1,207 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { ProjectGallery } from '@/components/sections/ProjectGallery';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import Badge from '@/components/ui/Badge.astro';
+import IconLink from '@/components/ui/IconLink.astro';
+import { sectionsColors } from '@/data';
+import ExternalLinkIcon from '@/icons/ui/external-link.svg?raw';
+import GithubIcon from '@/icons/social/github.svg?raw';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const allProjects = await getCollection('projects');
+
+	const paths = [];
+	for (const lang of Object.keys(languages)) {
+		for (const project of allProjects) {
+			paths.push({
+				params: {
+					lang,
+					slug: project.data.slug || project.slug
+				},
+				props: { project }
+			});
+		}
+	}
+
+	return paths;
+}
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+const { Content } = await project.render();
+
+// Get translations
+const categoryLabels = {
+	'open-source': t('projects.detail.categories.openSource'),
+	commercial: t('projects.detail.categories.commercial'),
+	client: t('projects.detail.categories.client')
+};
+
+const pageTitle = `${project.data.title} - ${t('projects.title')} - qazuor.com`;
+const categoryLabel = categoryLabels[project.data.category] || project.data.category;
+
+// Format date
+const formattedDate = new Intl.DateTimeFormat(lang, {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric'
+}).format(project.data.publishDate);
+---
+
+<BaseLayout title={pageTitle} description={project.data.description}>
+	<section
+		class="relative min-h-screen overflow-hidden"
+		style={`background-color: ${sectionsColors.projects}`}
+	>
+		<!-- Animated Gradient Background -->
+		<AnimatedGradientBackground />
+
+		<div class="container-custom py-16 relative z-10">
+			<!-- Breadcrumb -->
+			<div class="mb-8">
+				<a
+					href={`/${lang}/projects`}
+					class="inline-flex items-center gap-2 text-foreground-secondary hover:text-foreground transition-colors duration-200"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+							clip-rule="evenodd"></path>
+					</svg>
+					{t('projects.detail.backToProjects')}
+				</a>
+			</div>
+
+			<!-- Project Header -->
+			<div class="max-w-4xl mx-auto">
+				<div class="mb-6">
+					<Badge
+						text={categoryLabel}
+						variant="tag"
+						size="md"
+						showHtml={false}
+						className="mb-4"
+					/>
+					<h1 class="text-4xl md:text-5xl font-bold text-foreground mb-4">
+						{project.data.title}
+					</h1>
+					<p class="text-xl text-foreground-secondary mb-6">
+						{project.data.longDescription || project.data.description}
+					</p>
+
+					<!-- Metadata -->
+					<div class="flex flex-wrap items-center gap-4 text-sm text-foreground-secondary mb-8">
+						<span>
+							{t('projects.detail.publishedOn')}: {formattedDate}
+						</span>
+					</div>
+				</div>
+
+				<!-- Technologies -->
+				<div class="mb-8">
+					<h2 class="text-lg font-semibold text-foreground mb-3">
+						{t('projects.detail.technologies')}
+					</h2>
+					<div class="flex flex-wrap gap-2">
+						{
+							project.data.technologies.map((tech) => (
+								<Badge text={tech} variant="tag" size="md" showHtml={false} />
+							))
+						}
+					</div>
+				</div>
+
+				<!-- Links -->
+				<div class="mb-12">
+					<h2 class="text-lg font-semibold text-foreground mb-3">
+						{t('projects.detail.links.title')}
+					</h2>
+					<div class="flex flex-wrap gap-3">
+						{
+							project.data.githubUrl && (
+								<IconLink
+									href={project.data.githubUrl}
+									text={t('projects.detail.links.github')}
+									icon={GithubIcon}
+									target="_blank"
+									rel="noopener noreferrer"
+									variant="secondary"
+									size="md"
+									className="inline-flex items-center gap-2 border border-foreground/10"
+									showHtml={true}
+								/>
+							)
+						}
+						{
+							project.data.demoUrl && (
+								<IconLink
+									href={project.data.demoUrl}
+									text={t('projects.detail.links.demo')}
+									icon={ExternalLinkIcon}
+									target="_blank"
+									rel="noopener noreferrer"
+									variant="primary"
+									size="md"
+									className="inline-flex items-center gap-2"
+									showHtml={true}
+								/>
+							)
+						}
+						{
+							project.data.publicUrl && (
+								<IconLink
+									href={project.data.publicUrl}
+									text={t('projects.detail.links.visit')}
+									icon={ExternalLinkIcon}
+									target="_blank"
+									rel="noopener noreferrer"
+									variant="primary"
+									size="md"
+									className="inline-flex items-center gap-2"
+									showHtml={true}
+								/>
+							)
+						}
+					</div>
+				</div>
+
+				<!-- Markdown Content -->
+				<div class="prose prose-lg dark:prose-invert max-w-none mb-12">
+					<Content />
+				</div>
+
+				<!-- Gallery -->
+				{
+					project.data.images && project.data.images.length > 0 && (
+						<div class="mb-12">
+							<h2 class="text-2xl font-bold text-foreground mb-6">
+								{t('projects.detail.gallery')}
+							</h2>
+							<ProjectGallery
+								client:load
+								images={project.data.images}
+								alt={project.data.title}
+							/>
+						</div>
+					)
+				}
+			</div>
+		</div>
+	</section>
+</BaseLayout>

@@ -4,7 +4,7 @@ import { Contact } from '@/components/forms/Contact';
 import AboutSection from '@/components/sections/AboutSection.astro';
 import BlogSection from '@/components/sections/BlogSection.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
-import ProjectsSection from '@/components/sections/ProjectsSection.astro';
+import ProjectsFeaturedSection from '@/components/sections/ProjectsFeaturedSection.astro';
 import SkillsSection from '@/components/sections/SkillsSection.astro';
 import TestimonialsSection from '@/components/sections/TestimonialsSection.astro';
 import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
@@ -75,11 +75,11 @@ const sortedProjects = allProjects
     .map((project) => ({
         title: project.data.title,
         description: project.data.description,
-        tags: project.data.tags,
-        image: project.data.image,
-        demoUrl: project.data.demoUrl,
-        codeUrl: project.data.codeUrl,
-        featured: project.data.featured
+        slug: project.data.slug || project.slug,
+        technologies: project.data.technologies,
+        images: project.data.images,
+        featured: project.data.featured,
+        order: project.data.order
     }));
 
 // Sort blog posts by date (newest first) and filter out drafts
@@ -202,8 +202,7 @@ const skillsTranslations = {
 const projectsTranslations = {
     title: t('projects.title', { markdown: true }),
     subtitle: t('projects.subtitle', { markdown: true }),
-    noProjects: t('projects.noProjects', { markdown: true }),
-    filterAll: t('projects.filterAll', { markdown: true })
+    viewAll: t('projects.viewAll', { markdown: true })
 };
 
 const projectCardTranslations = {
@@ -329,11 +328,11 @@ const heroContentTranslations = {
 
     <!-- Projects Section with blue gradient background -->
     <div class="relative">
-        <ProjectsSection
+        <ProjectsFeaturedSection
             primaryColor={sectionsColors.projects}
             projects={sortedProjects}
             translations={projectsTranslations}
-            cardTranslations={projectCardTranslations}
+            lang={lang}
         />
         <DiagonalDivider direction="right" transition="projects-to-blog" />
     </div>

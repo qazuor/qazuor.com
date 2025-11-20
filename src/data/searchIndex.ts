@@ -7,10 +7,10 @@ import type { SearchableItem } from '../types/search';
 // and made available via window.__SEARCH_INDEX__
 
 export function getSearchIndex(): SearchableItem[] {
-    if (typeof window !== 'undefined' && window.__SEARCH_INDEX__) {
-        return window.__SEARCH_INDEX__;
-    }
-    return [];
+  if (typeof window !== 'undefined' && window.__SEARCH_INDEX__) {
+    return window.__SEARCH_INDEX__;
+  }
+  return [];
 }
 
 // For development: signal that index should be loaded from global variable

@@ -4,9 +4,39 @@
     "description": "A collection of **web applications** and tools I've built",
     "viewDemo": "**Demo**",
     "viewCode": "**Code**",
+    "viewAll": "**View All Projects** →",
     "featured": "*Featured*",
     "noProjects": "No projects found with the selected filter.",
+    "noResults": "No projects found matching your criteria.",
     "filterAll": "**All**",
+    "filters": {
+        "categoryLabel": "Category",
+        "technologyLabel": "Technologies",
+        "clearFilters": "Clear all filters",
+        "categories": {
+            "all": "All Projects",
+            "openSource": "Open Source",
+            "commercial": "Commercial",
+            "client": "Client Projects"
+        }
+    },
+    "detail": {
+        "backToProjects": "Back to Projects",
+        "publishedOn": "Published on",
+        "technologies": "Technologies Used",
+        "gallery": "Project Gallery",
+        "categories": {
+            "openSource": "Open Source",
+            "commercial": "Commercial Project",
+            "client": "Client Project"
+        },
+        "links": {
+            "title": "Links",
+            "github": "View on GitHub",
+            "demo": "View Demo",
+            "visit": "Visit Site"
+        }
+    },
     "cta": {
         "title": "Have a project in mind?",
         "description": "Let's discuss how we can work together",

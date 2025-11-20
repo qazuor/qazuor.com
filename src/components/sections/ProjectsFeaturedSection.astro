@@ -1,0 +1,106 @@
+---
+import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+
+interface Project {
+    title: string;
+    description: string;
+    slug: string;
+    technologies: string[];
+    images: string[];
+    featured: boolean;
+    order: number;
+}
+
+interface Props {
+    projects: Project[];
+    primaryColor?: string;
+    translations?: {
+        title: string;
+        subtitle: string;
+        viewAll: string;
+    };
+    lang?: string;
+}
+
+const {
+    projects = [],
+    primaryColor = '#3b82f6',
+    translations = {
+        title: 'Featured Projects',
+        subtitle: 'Explore some of my best work and recent projects',
+        viewAll: 'View All Projects'
+    },
+    lang = 'en'
+} = Astro.props;
+
+// Filter featured projects and sort by order
+const featuredProjects = projects
+    .filter((p) => p.featured)
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 4); // Max 4 featured projects
+---
+
+<div
+	class="section section-blue relative"
+	style={`background-color: ${primaryColor}`}
+>
+	<AnimatedGradientBackground />
+
+	<!-- Header Section -->
+	<div class="pb-16 md:pb-24 relative z-10">
+		<div class="container-custom">
+			<SectionTitle title={translations.title} subtitle={translations.subtitle} />
+		</div>
+	</div>
+
+	<!-- Stacking Cards Section -->
+	<main class="main-projects relative z-[200]">
+		{
+			featuredProjects.map((project, index) => (
+				<div
+					class="h-screen flex items-center justify-center sticky top-48 md:top-40 w-full px-5 box-border"
+					id={`project-${index}`}
+				>
+					<div
+						class="flex flex-col relative -top-1/4 h-[600px] w-[80vw] max-w-[1600px]"
+						style={`z-index: ${100 - index}`}
+					>
+						<ProjectCardNew
+							client:load
+							title={project.title}
+							description={project.description}
+							technologies={project.technologies}
+							images={project.images}
+							slug={project.slug}
+							layout={index % 2 === 0 ? 'default' : 'reversed'}
+							variant="home"
+							lang={lang}
+						/>
+					</div>
+				</div>
+			))
+		}
+
+		<!-- View All Button -->
+		{
+			featuredProjects.length > 0 && (
+				<div class="h-screen flex items-center justify-center px-5 box-border relative z-[300]">
+					<a
+						href={`/${lang}/projects`}
+						class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-lg font-bold text-lg transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:shadow-[0_0_50px_rgba(59,130,246,0.8),0_0_80px_rgba(168,85,247,0.4)]"
+					>
+						<span set:html={translations.viewAll} />
+					</a>
+				</div>
+			)
+		}
+	</main>
+</div>
+
+<style>
+	.main-projects {
+		position: relative;
+	}
+</style>

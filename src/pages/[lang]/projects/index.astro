@@ -1,78 +1,185 @@
 ---
 import { getCollection } from 'astro:content';
-import { ProjectCard } from '@/components/cards/ProjectCard';
-import { ScrollAnimatedSection } from '@/components/interactive/ScrollAnimatedSection';
-import EmailLink from '@/components/ui/EmailLink.astro';
-import { contact } from '@/data';
+import { ProjectCardNew } from '@/components/cards/ProjectCardNew';
+import { ProjectFilters, type FilterState } from '@/components/ui/ProjectFilters';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
-    return Object.keys(languages).map((lang) => ({
-        params: { lang }
-    }));
+	return Object.keys(languages).map((lang) => ({
+		params: { lang }
+	}));
 }
 
 const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
 
 // Load Content Collections
 const allProjects = await getCollection('projects');
 
 // Sort projects by order field, then by date
 const sortedProjects = allProjects
-    .sort((a, b) => {
-        if (a.data.order !== b.data.order) {
-            return a.data.order - b.data.order;
-        }
-        return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-    })
-    .slice(0, 6); // Show top 6 projects
+	.sort((a, b) => {
+		if (a.data.order !== b.data.order) {
+			return a.data.order - b.data.order;
+		}
+		return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+	})
+	.map((project) => ({
+		title: project.data.title,
+		description: project.data.description,
+		slug: project.data.slug || project.slug,
+		category: project.data.category,
+		technologies: project.data.technologies,
+		images: project.data.images,
+		featured: project.data.featured,
+		order: project.data.order
+	}));
 
-const t = getTranslations(lang);
+// Extract unique categories
+const categories = [
+	{ value: 'all', label: t('projects.filters.categories.all') },
+	{ value: 'open-source', label: t('projects.filters.categories.openSource') },
+	{ value: 'commercial', label: t('projects.filters.categories.commercial') },
+	{ value: 'client', label: t('projects.filters.categories.client') }
+];
 
-const title = `${t('projects.title')} - qazuor.com`;
+// Extract all unique technologies
+const allTechnologies = Array.from(
+	new Set(sortedProjects.flatMap((p) => p.technologies))
+).sort();
+
+// Translations
+const pageTitle = `${t('projects.title')} - qazuor.com`;
+const translations = {
+	title: t('projects.title'),
+	subtitle: t('projects.subtitle'),
+	noResults: t('projects.noResults')
+};
+
+const filterTranslations = {
+	categoryLabel: t('projects.filters.categoryLabel'),
+	technologyLabel: t('projects.filters.technologyLabel'),
+	clearFilters: t('projects.filters.clearFilters')
+};
 ---
 
-<BaseLayout title={title}>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <!-- Header with scroll animation -->
-        <ScrollAnimatedSection client:load title={t('projects.title')} description={t('projects.subtitle')} />
+<BaseLayout title={pageTitle}>
+	<section
+		class="relative min-h-screen overflow-hidden"
+		style={`background-color: ${sectionsColors.projects}`}
+	>
+		<!-- Animated Gradient Background -->
+		<AnimatedGradientBackground />
 
-        <!-- Projects Grid with staggered animations -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-            {
-                sortedProjects.map((project) => (
-                    <ProjectCard
-                        client:load
-                        title={project.data.title}
-                        description={project.data.description}
-                        tags={project.data.tags}
-                        featured={project.data.featured}
-                        demoUrl={project.data.demoUrl}
-                        codeUrl={project.data.codeUrl}
-                    />
-                ))
-            }
-        </div>
+		<div class="container-custom py-16 relative z-10">
+			<!-- Section Title -->
+			<SectionTitle title={translations.title} subtitle={translations.subtitle} />
 
-        <!-- Call to Action with Tailwind animation -->
-        <div class="mt-20 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700">
-            <div class="bg-primary rounded-2xl p-8 md:p-12 text-center text-primary-foreground">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Want to work together?</h2>
-                <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
-                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of your
-                    visions.
-                </p>
-                <EmailLink
-                    email={contact.email}
-                    text="Get in Touch"
-                    subject="Let's work together!"
-                    body="Hi! I'd love to discuss a potential project with you."
-                    variant="ghost"
-                    className="bg-background text-foreground hover:bg-background/90"
-                />
-            </div>
-        </div>
-    </div>
+			<!-- Filters -->
+			<div class="mb-12 sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+				<ProjectFilters
+					client:load
+					categories={categories}
+					technologies={allTechnologies}
+					onFilterChange={() => {}}
+					translations={filterTranslations}
+				/>
+			</div>
+
+			<!-- Projects Grid -->
+			<div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{
+					sortedProjects.map((project) => (
+						<div
+							class="project-card"
+							data-category={project.category}
+							data-technologies={JSON.stringify(project.technologies)}
+						>
+							<ProjectCardNew
+								client:load
+								title={project.title}
+								description={project.description}
+								technologies={project.technologies}
+								images={project.images}
+								slug={project.slug}
+								variant="list"
+								lang={lang}
+							/>
+						</div>
+					))
+				}
+			</div>
+
+			<!-- Empty State -->
+			<div id="empty-state" class="hidden text-center py-12">
+				<p class="text-foreground-secondary text-lg">{translations.noResults}</p>
+			</div>
+		</div>
+	</section>
 </BaseLayout>
+
+<script>
+	import type { FilterState } from '@/components/ui/ProjectFilters';
+
+	// Client-side filtering logic
+	function applyFilters(filters: FilterState) {
+		const projectCards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
+		const emptyState = document.getElementById('empty-state');
+		let visibleCount = 0;
+
+		projectCards.forEach((card) => {
+			const category = card.dataset.category || '';
+			const technologies = JSON.parse(card.dataset.technologies || '[]') as string[];
+
+			// Check category filter
+			const categoryMatch = filters.category === 'all' || category === filters.category;
+
+			// Check technologies filter (AND logic - all selected techs must be present)
+			const techMatch =
+				filters.technologies.length === 0 ||
+				filters.technologies.every((tech) => technologies.includes(tech));
+
+			const isVisible = categoryMatch && techMatch;
+
+			if (isVisible) {
+				card.style.display = '';
+				visibleCount++;
+			} else {
+				card.style.display = 'none';
+			}
+		});
+
+		// Show/hide empty state
+		if (emptyState) {
+			if (visibleCount === 0) {
+				emptyState.classList.remove('hidden');
+			} else {
+				emptyState.classList.add('hidden');
+			}
+		}
+	}
+
+	// Listen for filter changes from ProjectFilters component
+	window.addEventListener('filterChange', ((event: CustomEvent<FilterState>) => {
+		applyFilters(event.detail);
+	}) as EventListener);
+
+	// Apply initial filters from URL on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		const params = new URLSearchParams(window.location.search);
+		const category = params.get('category') || 'all';
+		const tech = params.get('tech');
+
+		const initialFilters: FilterState = {
+			category,
+			technologies: tech ? tech.split(',') : []
+		};
+
+		applyFilters(initialFilters);
+	});
+</script>

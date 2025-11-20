@@ -5,11 +5,17 @@ const projectsCollection = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
-        description: z.string(),
-        tags: z.array(z.string()),
-        image: z.string().optional(),
-        demoUrl: z.string().url().optional(),
-        codeUrl: z.string().url().optional(),
+        description: z.string(), // Short description for cards
+        longDescription: z.string().optional(), // Long description for individual page (markdown)
+        slug: z.string().optional(), // Auto-generated from title if not provided
+        category: z.enum(['open-source', 'commercial', 'client']),
+        tags: z.array(z.string()), // Used for tags/labels
+        technologies: z.array(z.string()), // Used for filtering
+        images: z.array(z.string()), // Array of image URLs
+        mainImage: z.string().optional(), // Main image (defaults to images[0])
+        githubUrl: z.string().url().optional(), // For open-source projects
+        demoUrl: z.string().url().optional(), // For open-source projects
+        publicUrl: z.string().url().optional(), // For client/commercial projects
         featured: z.boolean().default(false),
         publishDate: z.date(),
         order: z.number().default(999)

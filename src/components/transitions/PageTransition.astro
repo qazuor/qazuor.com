@@ -134,7 +134,16 @@
     /**
      * Extract page title from URL (path + hash) with i18n
      */
-    function getPageTitleFromUrl(url: URL): string {
+    function getPageTitleFromUrl(url: URL, doc?: Document): string {
+        // Check if we have a custom transition title in meta tag
+        if (doc) {
+            const transitionTitleMeta = doc.querySelector('meta[name="transition-title"]');
+            if (transitionTitleMeta) {
+                const customTitle = transitionTitleMeta.getAttribute('content');
+                if (customTitle) return customTitle;
+            }
+        }
+
         // Extract locale from URL
         const pathSegments = url.pathname.split('/').filter(Boolean);
         const locale = (pathSegments[0] === 'en' || pathSegments[0] === 'es') ? pathSegments[0] : 'en';
@@ -157,6 +166,12 @@
                 .split('-')
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ');
+        }
+
+        // Check if it's a project detail page (e.g., /en/projects/project-slug)
+        if (pathSegments.length >= 3 && pathSegments[1] === 'projects') {
+            // Return "Projects" translation instead of the project slug
+            return t.projects;
         }
 
         // Get last segment of path (after locale)
@@ -208,8 +223,8 @@
     /**
      * Animate transition IN (overlay enters)
      */
-    async function animateIn(toUrl: URL): Promise<void> {
-        const pageTitle = getPageTitleFromUrl(toUrl);
+    async function animateIn(toUrl: URL, doc?: Document): Promise<void> {
+        const pageTitle = getPageTitleFromUrl(toUrl, doc);
         titleElement.textContent = pageTitle;
 
         const tl = gsap.timeline();
@@ -360,11 +375,11 @@
         isNavigating = true;
 
         try {
-            // Run animation and page fetch in parallel
-            const [_, newDoc] = await Promise.all([
-                animateIn(toUrl),
-                fetchPage(toUrl.href)
-            ]);
+            // Fetch page first to get custom title
+            const newDoc = await fetchPage(toUrl.href);
+
+            // Run animation with the fetched document
+            await animateIn(toUrl, newDoc);
 
             // Update page content
             updatePage(newDoc, toUrl);

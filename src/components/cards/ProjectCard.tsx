@@ -74,9 +74,7 @@ export function ProjectCard({
         setLightboxOpen(true);
     };
 
-    const handleInfoClick = () => {
-        window.location.href = `/${lang}/projects/${slug}`;
-    };
+    const projectUrl = `/${lang}/projects/${slug}`;
 
     // Display max 5 technology badges
     const displayTechnologies = technologies.slice(0, 5);
@@ -131,11 +129,7 @@ export function ProjectCard({
                             isReversed ? 'md:order-1' : 'md:order-2'
                         } h-full bg-background px-8 py-8`}
                     >
-                        <button
-                            type="button"
-                            onClick={handleInfoClick}
-                            className="text-left space-y-4 group cursor-pointer"
-                        >
+                        <a href={projectUrl} className="text-left space-y-4 group cursor-pointer">
                             <h3 className="text-2xl md:text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
                                 {title}
                             </h3>
@@ -177,7 +171,7 @@ export function ProjectCard({
                                     />
                                 </svg>
                             </div>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -269,10 +263,9 @@ export function ProjectCard({
                             </div>
                         </div>
 
-                        {/* View project button - always at bottom */}
-                        <button
-                            type="button"
-                            onClick={handleInfoClick}
+                        {/* View project link - always at bottom */}
+                        <a
+                            href={projectUrl}
                             className="flex items-center gap-2 text-primary group-hover:gap-3 transition-all duration-300 font-medium text-sm mt-4 w-fit"
                             aria-label={`${translations.viewProject}: ${title}`}
                         >
@@ -286,7 +279,7 @@ export function ProjectCard({
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </article>

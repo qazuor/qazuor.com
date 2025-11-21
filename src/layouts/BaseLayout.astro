@@ -115,6 +115,9 @@ const alternateLinks = locales.map((locale) => {
             ))
         }
 
+        <!-- Additional head content from pages -->
+        <slot name="head" />
+
         <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
         <script is:inline>
             const theme = localStorage.getItem('theme');

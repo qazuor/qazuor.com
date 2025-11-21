@@ -394,7 +394,7 @@ const isActive = (href: string) => {
     }
 
     // Smooth scroll functionality
-    function smoothScrollTo(targetY: number, duration = 1200): void {
+    function smoothScrollTo(targetY: number, duration = 1200, onComplete?: () => void): void {
         const startY = window.pageYOffset;
         const distance = targetY - startY;
         let startTime: number | null = null;
@@ -413,6 +413,8 @@ const isActive = (href: string) => {
 
             if (progress < 1) {
                 requestAnimationFrame(animation);
+            } else if (onComplete) {
+                onComplete();
             }
         }
         requestAnimationFrame(animation);
@@ -569,46 +571,69 @@ const isActive = (href: string) => {
         });
     }
 
-    // Handle smooth scroll clicks
-    function setupSmoothScroll() {
-        const anchorLinks = document.querySelectorAll('a[href*="#"]');
+    // Smooth scroll click handler using event delegation
+    // Uses CAPTURE phase to intercept clicks BEFORE they bubble
+    // This ensures we can prevent default behavior before the browser processes the hash
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const link = target.closest('a[href*="#"]') as HTMLAnchorElement;
 
-        anchorLinks.forEach((link) => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href') || '';
+        if (!link) return;
 
-                if (href.includes('#') && isHomePage()) {
-                    const url = new URL(href, window.location.origin);
-                    const currentPath = window.location.pathname;
+        const href = link.getAttribute('href') || '';
+        if (!href.includes('#')) return;
 
-                    if (href.startsWith('#') || url.pathname === currentPath) {
-                        e.preventDefault();
-                        const targetId = url.hash.substring(1);
-                        const targetElement = document.getElementById(targetId);
+        // Only handle on home page
+        if (!isHomePage()) return;
 
-                        if (targetElement) {
-                            // Close menus if open
-                            closeMobileMenu();
-                            closeActionsMenu();
+        try {
+            const url = new URL(href, window.location.origin);
+            const currentPath = window.location.pathname;
 
-                            const header = document.querySelector('nav');
-                            const headerHeight = header ? header.offsetHeight : 80;
-                            const elementPosition = targetElement.getBoundingClientRect().top;
-                            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+            // Normalize paths (remove trailing slashes)
+            const normalizePath = (p: string) => p.endsWith('/') && p.length > 1 ? p.slice(0, -1) : p;
+            const isSamePath = normalizePath(url.pathname) === normalizePath(currentPath);
 
-                            smoothScrollTo(offsetPosition);
+            // Only handle same-page hash navigation
+            if (isSamePath && url.hash) {
+                const targetId = url.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    // CRITICAL: Prevent default IMMEDIATELY in capture phase
+                    // This stops the browser from processing the hash before our scroll
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Close menus if open
+                    closeMobileMenu();
+                    closeActionsMenu();
+
+                    const header = document.querySelector('nav');
+                    const headerHeight = header ? header.offsetHeight : 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+                    // Execute smooth scroll FIRST, then update URL when complete
+                    // This prevents the browser from doing instant scroll
+                    smoothScrollTo(offsetPosition, 1200, () => {
+                        // Update URL without triggering scroll (after animation completes)
+                        if (window.history?.replaceState) {
+                            window.history.replaceState(null, '', url.href);
                         }
-                    }
+                    });
                 }
-            });
-        });
-    }
+            }
+        } catch (err) {
+            // Invalid URL, ignore
+            console.error('[Navigation] Invalid URL in smooth scroll handler:', err);
+        }
+    }, true); // CAPTURE PHASE - intercepts event before it bubbles
 
     // Initialize navigation functions
     function initNavigation() {
         setupMobileNavigation();
         setupScrollNavigation();
-        setupSmoothScroll();
     }
 
     // Initialize on initial page load

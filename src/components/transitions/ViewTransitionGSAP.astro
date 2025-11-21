@@ -204,19 +204,9 @@
         const isSamePage = currentPath === newPath;
 
         if (isSamePage) {
-            // Handle same-page hash navigation manually
-            // Astro won't trigger page-load event, so we need to update hash and scroll
-            if (newUrl.hash) {
-                // Update URL hash without reload (use full href including hash)
-                window.history.pushState({}, '', newUrl.href);
-
-                // Scroll to target element
-                const targetId = newUrl.hash.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
+            // Prevent Astro from handling this navigation with View Transitions
+            // Let Navigation.astro handle the smooth scroll instead
+            event.preventDefault();
             return;
         }
 
@@ -253,44 +243,11 @@
      * MANUAL HASH NAVIGATION HANDLER
      * Astro doesn't trigger before-preparation for same-page hash links,
      * so we need to handle them manually
+     *
+     * NOTE: This handler is intentionally removed to prevent conflicts with
+     * Navigation.astro's smooth scroll implementation which includes header offset.
+     * Same-page hash navigation is now handled by Navigation.astro exclusively.
      */
-    document.addEventListener('click', (e: MouseEvent) => {
-        // Ignore modified clicks
-        if (e.ctrlKey || e.shiftKey || e.metaKey || e.altKey || e.button !== 0) return;
-
-        const link = (e.target as HTMLElement)?.closest('a');
-        if (!link) return;
-
-        const href = link.getAttribute('href');
-        if (!href) return;
-
-        try {
-            const currentUrl = new URL(window.location.href);
-            const newUrl = new URL(href, window.location.origin);
-
-            // Normalize pathnames for comparison (ignore trailing slashes)
-            const currentPath = normalizePathname(currentUrl.pathname);
-            const newPath = normalizePathname(newUrl.pathname);
-
-            // Only handle same-page hash navigation
-            if (currentPath === newPath && newUrl.hash) {
-                e.preventDefault();
-
-                // Update URL hash
-                window.history.pushState({}, '', newUrl.href);
-
-                // Scroll to target element
-                const targetId = newUrl.hash.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        } catch (error) {
-            // Invalid URL, let browser handle it
-            return;
-        }
-    });
 
     /**
      * HOOK 2: Before swap - Wait for entrance, swap, then exit

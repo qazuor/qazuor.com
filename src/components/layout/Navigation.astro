@@ -255,14 +255,13 @@ const isActive = (href: string) => {
 <div id="menu-backdrop" class="hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-40"></div>
 
 <script>
-    // Mobile menu toggle (< 768px)
-    const mobileButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
-    const backdrop = document.getElementById('menu-backdrop');
-
+    // Helper functions for menu state management
     function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const backdrop = document.getElementById('menu-backdrop');
+
         mobileMenu?.classList.add('hidden');
         menuIcon?.classList.remove('hidden');
         closeIcon?.classList.add('hidden');
@@ -270,52 +269,80 @@ const isActive = (href: string) => {
     }
 
     function openMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const backdrop = document.getElementById('menu-backdrop');
+
         mobileMenu?.classList.remove('hidden');
         menuIcon?.classList.add('hidden');
         closeIcon?.classList.remove('hidden');
         backdrop?.classList.remove('hidden');
     }
 
-    mobileButton?.addEventListener('click', () => {
-        const isHidden = mobileMenu?.classList.contains('hidden');
-        if (isHidden) {
-            openMobileMenu();
-        } else {
-            closeMobileMenu();
-        }
-    });
-
-    // Actions menu toggle (768-1199px)
-    const actionsButton = document.getElementById('actions-menu-button');
-    const actionsMenu = document.getElementById('actions-menu');
-
     function closeActionsMenu() {
+        const actionsMenu = document.getElementById('actions-menu');
         actionsMenu?.classList.add('hidden');
     }
 
     function openActionsMenu() {
+        const actionsMenu = document.getElementById('actions-menu');
         actionsMenu?.classList.remove('hidden');
     }
 
-    actionsButton?.addEventListener('click', () => {
-        const isHidden = actionsMenu?.classList.contains('hidden');
-        if (isHidden) {
-            openActionsMenu();
-        } else {
-            closeActionsMenu();
-        }
-    });
-
-    // Close menus when clicking backdrop
-    backdrop?.addEventListener('click', () => {
-        closeMobileMenu();
-    });
-
-    // Close menus when clicking outside
+    // Event delegation - single listener for ALL menu interactions
+    // This persists across View Transitions without needing to re-register
     document.addEventListener('click', (e) => {
-        const target = e.target as Node;
+        const target = e.target as HTMLElement;
 
-        // Close actions menu if clicking outside
+        // Mobile menu button toggle
+        if (target.closest('#mobile-menu-button')) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const isHidden = mobileMenu?.classList.contains('hidden');
+            if (isHidden) {
+                openMobileMenu();
+            } else {
+                closeMobileMenu();
+            }
+            return;
+        }
+
+        // Actions menu button toggle
+        if (target.closest('#actions-menu-button')) {
+            const actionsMenu = document.getElementById('actions-menu');
+            const isHidden = actionsMenu?.classList.contains('hidden');
+            if (isHidden) {
+                openActionsMenu();
+            } else {
+                closeActionsMenu();
+            }
+            return;
+        }
+
+        // Backdrop click - close mobile menu
+        if (target.closest('#menu-backdrop')) {
+            closeMobileMenu();
+            return;
+        }
+
+        // Services submenu toggle in mobile menu
+        if (target.closest('#services-toggle')) {
+            const servicesSubmenu = document.getElementById('services-submenu');
+            const servicesArrow = document.getElementById('services-arrow');
+            const isHidden = servicesSubmenu?.classList.contains('hidden');
+            if (isHidden) {
+                servicesSubmenu?.classList.remove('hidden');
+                servicesArrow?.classList.add('rotate-90');
+            } else {
+                servicesSubmenu?.classList.add('hidden');
+                servicesArrow?.classList.remove('rotate-90');
+            }
+            return;
+        }
+
+        // Close actions menu when clicking outside
+        const actionsMenu = document.getElementById('actions-menu');
+        const actionsButton = document.getElementById('actions-menu-button');
         if (
             actionsMenu &&
             !actionsMenu.contains(target) &&
@@ -326,70 +353,39 @@ const isActive = (href: string) => {
         }
     });
 
-    // Services submenu toggle in mobile menu
-    const servicesToggle = document.getElementById('services-toggle');
-    const servicesSubmenu = document.getElementById('services-submenu');
-    const servicesArrow = document.getElementById('services-arrow');
+    // Close menus when clicking on navigation links or interactive elements
+    // Using event delegation so this persists across View Transitions
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
 
-    servicesToggle?.addEventListener('click', () => {
-        const isHidden = servicesSubmenu?.classList.contains('hidden');
-        if (isHidden) {
-            servicesSubmenu?.classList.remove('hidden');
-            servicesArrow?.classList.add('rotate-90');
-        } else {
-            servicesSubmenu?.classList.add('hidden');
-            servicesArrow?.classList.remove('rotate-90');
+        // Close mobile menu when clicking any link inside it
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu && target.closest('#mobile-menu a')) {
+            closeMobileMenu();
+            return;
+        }
+
+        // Close menus when clicking interactive elements in the actions area
+        const clickedButton = target.closest('button');
+        const isLanguageSelector = target.closest('.language-selector');
+        const isSvgClick = target.tagName === 'svg' || target.tagName === 'SVG' || target.closest('svg');
+
+        if (clickedButton || isLanguageSelector || isSvgClick) {
+            const mobileMenuActions = mobileMenu?.querySelector('.flex.items-center.gap-2.p-4');
+            const actionsMenu = document.getElementById('actions-menu');
+            const actionsMenuContent = actionsMenu?.querySelector('.flex.items-center.gap-2.p-4');
+
+            // Check if the click is inside mobile menu actions
+            if (mobileMenuActions?.contains(target) || target.closest('#mobile-menu .flex.items-center.gap-2.p-4')) {
+                setTimeout(closeMobileMenu, 150);
+            }
+
+            // Check if the click is inside actions menu
+            if (actionsMenuContent?.contains(target) || target.closest('#actions-menu .flex.items-center.gap-2.p-4')) {
+                setTimeout(closeActionsMenu, 150);
+            }
         }
     });
-
-    // Close menus when clicking on any navigation link or interactive element
-    function setupMenuClosing() {
-        // Close mobile menu when clicking any link inside it
-        const mobileMenuLinks = mobileMenu?.querySelectorAll('a');
-        mobileMenuLinks?.forEach((link) => {
-            link.addEventListener('click', () => {
-                closeMobileMenu();
-            });
-        });
-
-        // Close menus when clicking on interactive elements in the actions area
-        // Use event delegation since React components hydrate after DOM load
-        const closeOnInteraction = (menu: HTMLElement | null, closeFunc: () => void) => {
-            if (!menu) return;
-
-            menu.addEventListener('click', (e) => {
-                const target = e.target as HTMLElement;
-
-                // Check if it's a button or inside a language selector
-                // Also check parent elements since SVG clicks bubble up
-                const clickedButton = target.closest('button');
-                const isLanguageSelector = target.closest('.language-selector');
-                const isSvgClick = target.tagName === 'svg' || target.tagName === 'SVG' || target.closest('svg');
-
-                // Close menu if clicking on interactive elements
-                if (clickedButton || isLanguageSelector || isSvgClick) {
-                    // Give the component time to execute its action
-                    setTimeout(closeFunc, 150);
-                }
-            });
-        };
-
-        // Get the action containers inside menus
-        const mobileMenuActions = mobileMenu?.querySelector('.flex.items-center.gap-2.p-4');
-        const actionsMenuContent = actionsMenu?.querySelector('.flex.items-center.gap-2.p-4');
-
-        closeOnInteraction(mobileMenuActions as HTMLElement, closeMobileMenu);
-        closeOnInteraction(actionsMenuContent as HTMLElement, closeActionsMenu);
-    }
-
-    // Setup after DOM is loaded
-    document.addEventListener('DOMContentLoaded', setupMenuClosing);
-
-    // Re-setup after View Transitions navigation
-    document.addEventListener('astro:page-load', setupMenuClosing);
-
-    // Also setup after a delay to catch hydrated React components
-    setTimeout(setupMenuClosing, 500);
 
     // Check if we're on home page
     function isHomePage() {

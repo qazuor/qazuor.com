@@ -195,10 +195,6 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
     // Ensure filterAll is available (injected by Astro define:vars)
     const filterAllValue = filterAll;
 
-    const filterButtons = document.querySelectorAll('.filter-button');
-    const projectsGrid = document.getElementById('projects-grid');
-    const emptyState = document.getElementById('empty-state');
-
     // Store all project cards data for filtering
     let allProjectCards = [];
 
@@ -217,39 +213,47 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
     // Re-initialize after View Transitions navigation
     document.addEventListener('astro:page-load', initProjectCards);
 
-    filterButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const filter = button.getAttribute('data-filter');
+    // Event delegation for filter buttons
+    // This persists across View Transitions without needing to re-register
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        const button = target.closest('.filter-button');
 
-            // Update active button
-            filterButtons.forEach((btn) => {
-                btn.classList.remove('bg-primary', 'text-white', 'shadow-glow-primary');
-                btn.classList.add('bg-foreground/5', 'text-foreground-secondary');
-            });
-            button.classList.add('bg-primary', 'text-white', 'shadow-glow-primary');
-            button.classList.remove('bg-foreground/5', 'text-foreground-secondary');
+        if (!button) return;
 
-            // Clear current cards (this will trigger auto-animate)
-            const currentCards = projectsGrid.querySelectorAll('.project-card');
-            currentCards.forEach(card => card.remove());
+        const filter = button.getAttribute('data-filter');
+        const projectsGrid = document.getElementById('projects-grid');
+        const emptyState = document.getElementById('empty-state');
+        const filterButtons = document.querySelectorAll('.filter-button');
 
-            // Filter and add matching cards
-            const matchingCards = allProjectCards.filter(({ tags }) =>
-                filter === filterAllValue || tags.includes(filter)
-            );
-
-            // Add matching cards back (this will trigger auto-animate)
-            matchingCards.forEach(({ element }) => {
-                const newCard = element.cloneNode(true);
-                projectsGrid.appendChild(newCard);
-            });
-
-            // Show/hide empty state
-            if (matchingCards.length === 0) {
-                emptyState?.classList.remove('hidden');
-            } else {
-                emptyState?.classList.add('hidden');
-            }
+        // Update active button
+        filterButtons.forEach((btn) => {
+            btn.classList.remove('bg-primary', 'text-white', 'shadow-glow-primary');
+            btn.classList.add('bg-foreground/5', 'text-foreground-secondary');
         });
+        button.classList.add('bg-primary', 'text-white', 'shadow-glow-primary');
+        button.classList.remove('bg-foreground/5', 'text-foreground-secondary');
+
+        // Clear current cards (this will trigger auto-animate)
+        const currentCards = projectsGrid.querySelectorAll('.project-card');
+        currentCards.forEach(card => card.remove());
+
+        // Filter and add matching cards
+        const matchingCards = allProjectCards.filter(({ tags }) =>
+            filter === filterAllValue || tags.includes(filter)
+        );
+
+        // Add matching cards back (this will trigger auto-animate)
+        matchingCards.forEach(({ element }) => {
+            const newCard = element.cloneNode(true);
+            projectsGrid.appendChild(newCard);
+        });
+
+        // Show/hide empty state
+        if (matchingCards.length === 0) {
+            emptyState?.classList.remove('hidden');
+        } else {
+            emptyState?.classList.add('hidden');
+        }
     });
 </script>

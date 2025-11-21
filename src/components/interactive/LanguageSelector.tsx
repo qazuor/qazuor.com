@@ -1,3 +1,4 @@
+import { navigate } from 'astro:transitions/client';
 import { useEffect, useRef, useState } from 'react';
 
 interface LanguageSelectorProps {
@@ -42,15 +43,17 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
 
     const changeLanguage = (locale: string) => {
         const currentPath = window.location.pathname;
+        const currentHash = window.location.hash;
+
         // Remove existing locale prefix (en or es)
         const pathWithoutLocale = currentPath.replace(/^\/(en|es)/, '');
 
-        // Add new locale prefix
-        const newPath = `/${locale}${pathWithoutLocale || '/'}`;
+        // Add new locale prefix and preserve hash
+        const newPath = `/${locale}${pathWithoutLocale || '/'}${currentHash}`;
 
-        // Dispatch a custom event that the transition system can listen to
-        const event = new CustomEvent('navigate', { detail: { url: newPath } });
-        window.dispatchEvent(event);
+        // Use Astro's official navigate() API for programmatic navigation
+        // This will trigger View Transitions automatically
+        navigate(newPath);
     };
 
     if (!mounted) {

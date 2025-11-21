@@ -135,7 +135,7 @@ export function ImageCarousel({
                 >
                     {images.map((image, index) => (
                         <button
-                            key={`dot-${image}`}
+                            key={image}
                             type="button"
                             onClick={() => scrollTo(index)}
                             className={`w-2 h-2 rounded-full transition-all ${

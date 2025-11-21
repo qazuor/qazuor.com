@@ -31,10 +31,18 @@ export function ProjectGallery({ images, alt = 'Project image' }: ProjectGallery
         <>
             <Masonry breakpointCols={breakpointColumns} className="masonry-grid" columnClassName="masonry-grid-column">
                 {images.map((image, index) => (
-                    <div
-                        key={index}
-                        className="masonry-item group relative cursor-pointer overflow-hidden rounded-lg"
+                    <button
+                        key={image}
+                        type="button"
+                        className="masonry-item group relative cursor-pointer overflow-hidden rounded-lg border-0 bg-transparent p-0 w-full text-left"
                         onClick={() => handleImageClick(index)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleImageClick(index);
+                            }
+                        }}
+                        aria-label={`View image ${index + 1}`}
                     >
                         <img
                             src={image}
@@ -50,6 +58,7 @@ export function ProjectGallery({ images, alt = 'Project image' }: ProjectGallery
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
+                                aria-hidden="true"
                             >
                                 <path
                                     strokeLinecap="round"
@@ -59,7 +68,7 @@ export function ProjectGallery({ images, alt = 'Project image' }: ProjectGallery
                                 />
                             </svg>
                         </div>
-                    </div>
+                    </button>
                 ))}
             </Masonry>
 

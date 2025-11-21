@@ -7,7 +7,7 @@ interface Props {
     titleClassName?: string;
     subtitleClassName?: string;
     descriptionClassName?: string;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
+    size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     alignment?: 'left' | 'center';
     showGradient?: boolean;
     customElement?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -47,6 +47,11 @@ const sizeClasses = {
     xl: {
         title: 'text-5xl md:text-6xl',
         subtitle: 'text-2xl',
+        description: 'text-xl'
+    },
+    '2xl': {
+        title: 'text-7xl md:text-7xl',
+        subtitle: 'text-3xl',
         description: 'text-xl'
     }
 };

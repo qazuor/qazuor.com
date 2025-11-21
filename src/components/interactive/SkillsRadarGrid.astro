@@ -480,33 +480,41 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
 
 <script>
     // Animate language bars on viewport entry
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px'
-    };
+    function initializeLanguageBars() {
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const languageItems = entry.target.querySelectorAll('[data-animate-bar]');
-                languageItems.forEach((item, index) => {
-                    const progressBar = item.querySelector('.language-progress') as HTMLElement;
-                    const value = progressBar?.getAttribute('data-value');
-                    if (progressBar && value) {
-                        progressBar.style.setProperty('--progress-width', `${value}%`);
-                        setTimeout(() => {
-                            item.classList.add('animate-in');
-                        }, index * 150);
-                    }
-                });
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const languageItems = entry.target.querySelectorAll('[data-animate-bar]');
+                    languageItems.forEach((item, index) => {
+                        const progressBar = item.querySelector('.language-progress') as HTMLElement;
+                        const value = progressBar?.getAttribute('data-value');
+                        if (progressBar && value) {
+                            progressBar.style.setProperty('--progress-width', `${value}%`);
+                            setTimeout(() => {
+                                item.classList.add('animate-in');
+                            }, index * 150);
+                        }
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    // Observe language skills section
-    const languageSkills = document.querySelector('[data-animate]');
-    if (languageSkills) {
-        observer.observe(languageSkills);
+        // Observe language skills section
+        const languageSkills = document.querySelector('[data-animate]');
+        if (languageSkills) {
+            observer.observe(languageSkills);
+        }
     }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initializeLanguageBars);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initializeLanguageBars);
 </script>

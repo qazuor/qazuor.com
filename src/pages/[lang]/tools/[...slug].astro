@@ -206,7 +206,7 @@ const toolsUrl = translatePath('/tools', lang);
 </BaseLayout>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    function initToolDemo() {
         const tryDemoButton = document.getElementById('tryDemo');
         const toolDemo = document.getElementById('toolDemo');
 
@@ -216,5 +216,11 @@ const toolsUrl = translatePath('/tools', lang);
                 toolDemo.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         }
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initToolDemo);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initToolDemo);
 </script>

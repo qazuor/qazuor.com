@@ -385,6 +385,9 @@ const isActive = (href: string) => {
     // Setup after DOM is loaded
     document.addEventListener('DOMContentLoaded', setupMenuClosing);
 
+    // Re-setup after View Transitions navigation
+    document.addEventListener('astro:page-load', setupMenuClosing);
+
     // Also setup after a delay to catch hydrated React components
     setTimeout(setupMenuClosing, 500);
 
@@ -605,12 +608,18 @@ const isActive = (href: string) => {
         });
     }
 
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
+    // Initialize navigation functions
+    function initNavigation() {
         setupMobileNavigation();
         setupScrollNavigation();
         setupSmoothScroll();
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initNavigation);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initNavigation);
 </script>
 
 <style>

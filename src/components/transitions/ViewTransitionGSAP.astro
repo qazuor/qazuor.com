@@ -1,0 +1,348 @@
+---
+/**
+ * ViewTransitionGSAP Component - Production Implementation
+ *
+ * Integrates Astro View Transitions with custom GSAP animations.
+ * Maintains the exact design and timing of the original PageTransition.astro
+ * but fixes script execution issues by leveraging Astro's built-in system.
+ *
+ * Features:
+ * - Black overlay slides up from bottom with rounded wave border
+ * - Page title appears with fade-in and slide-up animation
+ * - DOM swap happens invisibly behind overlay
+ * - Overlay slides up and out revealing new page
+ * - All scripts re-execute automatically via View Transitions
+ *
+ * Technical:
+ * - Uses event.swap override for full timing control
+ * - Uses transition:persist to maintain overlay across navigations
+ * - Identical animation to original (0.6s + 0.4s + 0.3s = 1.3s total)
+ */
+---
+
+<!-- Transition overlay container with transition:persist -->
+<div
+    id="page-transition-overlay"
+    transition:persist="page-transition-overlay"
+    class="page-transition-overlay"
+    aria-hidden="true"
+>
+    <div
+        id="page-transition-title"
+        transition:persist="page-transition-title"
+        class="page-transition-title"
+    ></div>
+</div>
+
+<style>
+    /* Overlay container - initially hidden below viewport */
+    .page-transition-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        z-index: 9999;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(100%);
+        will-change: transform;
+        overflow: hidden;
+    }
+
+    /* Wave-like rounded border at top */
+    .page-transition-overlay::before {
+        content: '';
+        position: absolute;
+        top: -80px;
+        left: -10%;
+        width: 120%;
+        height: 150px;
+        background-color: #000;
+        border-radius: 0 0 50% 50% / 0 0 80px 80px;
+        z-index: -1;
+    }
+
+    /* Wave-like rounded border at bottom */
+    .page-transition-overlay::after {
+        content: '';
+        position: absolute;
+        bottom: -80px;
+        left: -10%;
+        width: 120%;
+        height: 150px;
+        background-color: #000;
+        border-radius: 50% 50% 0 0 / 80px 80px 0 0;
+        z-index: -1;
+    }
+
+    /* Page title styling */
+    .page-transition-title {
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        padding: 0 2rem;
+        max-width: 90%;
+        line-height: 1.2;
+        font-family: 'Inter', system-ui, sans-serif;
+        will-change: opacity, transform;
+        z-index: 10;
+        position: relative;
+    }
+</style>
+
+<style is:global>
+    /* Disable default View Transitions animations */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+        mix-blend-mode: normal;
+    }
+
+    /* Make view transition instant */
+    ::view-transition-group(root) {
+        animation-duration: 0s !important;
+    }
+</style>
+
+<script>
+    import { gsap } from 'gsap';
+
+    // Translations for page titles (same as current system)
+    const translations = {
+        en: {
+            home: 'Home',
+            blog: 'Blog',
+            projects: 'Projects',
+            services: 'Services',
+            tools: 'Tools',
+            about: 'About',
+            skills: 'Skills',
+            testimonials: 'Testimonials',
+            contact: 'Contact'
+        },
+        es: {
+            home: 'Inicio',
+            blog: 'Blog',
+            projects: 'Proyectos',
+            services: 'Servicios',
+            tools: 'Herramientas',
+            about: 'Acerca de',
+            skills: 'Habilidades',
+            testimonials: 'Testimonios',
+            contact: 'Contacto'
+        }
+    };
+
+    // Animation configuration (identical to original)
+    const TRANSITION_DURATION = 0.6; // Overlay slide duration
+    const TITLE_DELAY = 0.1; // Title appears early while overlay slides
+    const PAUSE_DURATION = 0.3; // Brief pause at peak
+    const EASE = 'power4.inOut'; // Smooth easing
+
+    // DOM elements
+    const overlay = document.getElementById('page-transition-overlay')!;
+    const titleElement = document.getElementById('page-transition-title')!;
+
+    // Timeline for entrance animation (shared between hooks)
+    let entranceTimeline: gsap.core.Timeline | null = null;
+
+    /**
+     * Normalize pathname by removing trailing slash for comparison
+     */
+    function normalizePathname(pathname: string): string {
+        return pathname.endsWith('/') && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
+    }
+
+    /**
+     * Get page title from URL
+     */
+    function getPageTitle(url: URL): string {
+        const pathSegments = url.pathname.split('/').filter(Boolean);
+        const locale = pathSegments[0] === 'en' || pathSegments[0] === 'es' ? pathSegments[0] : 'en';
+        const t = translations[locale];
+
+        // Handle hash navigation
+        if (url.hash) {
+            let hashText = url.hash.substring(1);
+            if (hashText === 'hero') hashText = 'home';
+            const translationKey = hashText.toLowerCase() as keyof typeof t;
+            return t[translationKey] || hashText;
+        }
+
+        // Handle project pages
+        if (pathSegments.length >= 3 && pathSegments[1] === 'projects') {
+            return t.projects;
+        }
+
+        // Default page title
+        const pageSegment = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : 'home';
+        const translationKey = pageSegment.toLowerCase() as keyof typeof t;
+        return t[translationKey] || pageSegment;
+    }
+
+    /**
+     * HOOK 1: Before preparation - Start entrance animation IMMEDIATELY
+     * This fires as soon as user clicks a link (before fetch)
+     */
+    document.addEventListener('astro:before-preparation', ((event: any) => {
+        const currentUrl = new URL(window.location.href);
+        const newUrl = new URL(event.to);
+
+        // Skip animation if pathname doesn't change (same-page hash navigation)
+        // When pathname is the same, Astro only scrolls and doesn't trigger swap
+        // This prevents the animation from getting stuck
+        // Normalize pathnames to ignore trailing slashes
+        const currentPath = normalizePathname(currentUrl.pathname);
+        const newPath = normalizePathname(newUrl.pathname);
+        const isSamePage = currentPath === newPath;
+
+        if (isSamePage) {
+            // Handle same-page hash navigation manually
+            // Astro won't trigger page-load event, so we need to update hash and scroll
+            if (newUrl.hash) {
+                // Update URL hash without reload (use full href including hash)
+                window.history.pushState({}, '', newUrl.href);
+
+                // Scroll to target element
+                const targetId = newUrl.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+            return;
+        }
+
+        const pageTitle = getPageTitle(newUrl);
+        titleElement.textContent = pageTitle;
+
+        // Start entrance animation immediately (no delay!)
+        entranceTimeline = gsap.timeline();
+
+        // Overlay slides up from bottom
+        entranceTimeline.to(overlay, {
+            y: 0,
+            duration: TRANSITION_DURATION,
+            ease: EASE
+        });
+
+        // Title fades in and slides up after overlay starts
+        entranceTimeline.to(
+            titleElement,
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: EASE
+            },
+            `+=${TITLE_DELAY}`
+        );
+
+        // Pause at top
+        entranceTimeline.to({}, { duration: PAUSE_DURATION });
+    }) as EventListener);
+
+    /**
+     * MANUAL HASH NAVIGATION HANDLER
+     * Astro doesn't trigger before-preparation for same-page hash links,
+     * so we need to handle them manually
+     */
+    document.addEventListener('click', (e: MouseEvent) => {
+        // Ignore modified clicks
+        if (e.ctrlKey || e.shiftKey || e.metaKey || e.altKey || e.button !== 0) return;
+
+        const link = (e.target as HTMLElement)?.closest('a');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        try {
+            const currentUrl = new URL(window.location.href);
+            const newUrl = new URL(href, window.location.origin);
+
+            // Normalize pathnames for comparison (ignore trailing slashes)
+            const currentPath = normalizePathname(currentUrl.pathname);
+            const newPath = normalizePathname(newUrl.pathname);
+
+            // Only handle same-page hash navigation
+            if (currentPath === newPath && newUrl.hash) {
+                e.preventDefault();
+
+                // Update URL hash
+                window.history.pushState({}, '', newUrl.href);
+
+                // Scroll to target element
+                const targetId = newUrl.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        } catch (error) {
+            // Invalid URL, let browser handle it
+            return;
+        }
+    });
+
+    /**
+     * HOOK 2: Before swap - Wait for entrance, swap, then exit
+     */
+    document.addEventListener('astro:before-swap', ((event: any) => {
+        const originalSwap = event.swap;
+
+        event.swap = async () => {
+            // STEP 1: Wait for entrance animation to complete
+            if (entranceTimeline) {
+                // Check if timeline is already complete (can happen with hash navigation)
+                if (entranceTimeline.progress() !== 1) {
+                    await new Promise<void>((resolve) => {
+                        entranceTimeline!.eventCallback('onComplete', () => resolve());
+                    });
+                }
+                entranceTimeline = null;
+            }
+
+            // STEP 2: Perform DOM swap (invisible behind overlay)
+            await originalSwap();
+
+            // STEP 3: Animate OUT (reveals new content)
+            const tlOut = gsap.timeline();
+
+            // Title fades out and slides up
+            tlOut.to(titleElement, {
+                opacity: 0,
+                y: -20,
+                duration: 0.3,
+                ease: EASE
+            });
+
+            // Overlay slides up out of view
+            tlOut.to(
+                overlay,
+                {
+                    y: '-100%',
+                    duration: TRANSITION_DURATION,
+                    ease: EASE
+                },
+                '-=0.1' // Slight overlap
+            );
+
+            // Reset for next transition
+            tlOut.set(overlay, { y: '100%' });
+            tlOut.set(titleElement, { opacity: 0, y: 20 });
+
+            // Wait for exit animation
+            await new Promise<void>((resolve) => {
+                tlOut.eventCallback('onComplete', () => resolve());
+            });
+        };
+    }) as EventListener);
+</script>

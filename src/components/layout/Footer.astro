@@ -238,17 +238,34 @@ const data = footerData[lang];
 
 <script>
     // Scroll to top functionality
-    document.addEventListener('DOMContentLoaded', () => {
-        const scrollButton = document.querySelector('.scroll-to-top');
-        if (scrollButton) {
-            scrollButton.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
+    let scrollToTopHandler: (() => void) | null = null;
+
+    function initScrollToTop() {
+        const scrollButton = document.querySelector('.scroll-to-top') as HTMLButtonElement | null;
+        if (!scrollButton) return;
+
+        // Remove previous listener if exists
+        if (scrollToTopHandler) {
+            scrollButton.removeEventListener('click', scrollToTopHandler);
         }
-    });
+
+        // Create new handler
+        scrollToTopHandler = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        };
+
+        // Add new listener
+        scrollButton.addEventListener('click', scrollToTopHandler);
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initScrollToTop);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initScrollToTop);
 </script>
 
 <style>

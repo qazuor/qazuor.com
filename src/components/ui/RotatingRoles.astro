@@ -19,8 +19,11 @@ const { roles, className = '' } = Astro.props;
 <script>
     import { loadGSAP } from '@/lib/gsap';
 
+    // Store active timeline to prevent duplicates
+    let activeTimeline: any = null;
+
     // Initialize rotating roles with GSAP (lazy-loaded)
-    document.addEventListener('DOMContentLoaded', async () => {
+    async function initializeRotatingRoles() {
         const rotatingRolesElement = document.getElementById('rotating-roles');
 
         if (rotatingRolesElement) {
@@ -32,6 +35,12 @@ const { roles, className = '' } = Astro.props;
 
                     // Lazy load GSAP
                     const gsap = await loadGSAP();
+
+                    // Kill previous timeline if it exists
+                    if (activeTimeline) {
+                        activeTimeline.kill();
+                        activeTimeline = null;
+                    }
 
                     // GSAP Timeline for smooth role transitions
                     const createRoleTransition = () => {
@@ -72,7 +81,7 @@ const { roles, className = '' } = Astro.props;
 
                     // Start the animation if there are multiple roles
                     if (roles.length > 1) {
-                        createRoleTransition();
+                        activeTimeline = createRoleTransition();
                     } else {
                         gsap.from(rotatingRolesElement, {
                             opacity: 0,
@@ -87,7 +96,13 @@ const { roles, className = '' } = Astro.props;
                 }
             }
         }
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initializeRotatingRoles);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initializeRotatingRoles);
 </script>
 
 <style>

@@ -203,13 +203,19 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
     let allProjectCards = [];
 
     // Initialize: capture all project cards
-    document.addEventListener('DOMContentLoaded', () => {
+    function initProjectCards() {
         const initialCards = document.querySelectorAll('.project-card');
         allProjectCards = Array.from(initialCards).map(card => ({
             element: card.cloneNode(true),
             tags: JSON.parse(card.getAttribute('data-tags') || '[]')
         }));
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initProjectCards);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initProjectCards);
 
     filterButtons.forEach((button) => {
         button.addEventListener('click', () => {

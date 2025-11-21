@@ -1,6 +1,24 @@
 ---
 /**
- * PageTransition Component - GSAP Implementation
+ * ⚠️ DEPRECATED - DO NOT USE ⚠️
+ *
+ * This file has been REPLACED by ViewTransitionGSAP.astro
+ *
+ * Reason: Migrated to Astro View Transitions API for better compatibility
+ * Date: 2025-11-21
+ * Migration: Session 002-view-transitions-migration
+ *
+ * The new implementation (ViewTransitionGSAP.astro) provides:
+ * - Same animation and timing as this component
+ * - Better script re-initialization with astro:page-load
+ * - Built-in prefetching support
+ * - No manual navigation interception needed
+ *
+ * This file is kept as backup reference only.
+ *
+ * ---
+ *
+ * Original: PageTransition Component - GSAP Implementation
  *
  * Creates smooth page transition effect with sliding overlay and animated page title.
  * Uses GSAP for animations and manual navigation handling.

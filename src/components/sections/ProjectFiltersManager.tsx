@@ -22,7 +22,10 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
     const [mounted, setMounted] = useState(false);
 
-    // Initialize technologies from DOM on mount
+    // Store all cards permanently - preserve original DOM elements
+    const allCardsCache = useState(() => new Map<string, Array<{ element: HTMLElement; technologies: string[] }>>())[0];
+
+    // Initialize technologies and cards cache from DOM on mount
     useEffect(() => {
         const allProjects = document.querySelectorAll('.project-card');
         const techs = Array.from(
@@ -36,6 +39,22 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
 
         setAllTechnologies(techs);
 
+        // Cache all cards on first mount
+        const sections = document.querySelectorAll('.category-section');
+        sections.forEach((section) => {
+            const category = (section as HTMLElement).getAttribute('data-category');
+            if (!category) return;
+
+            const cards = Array.from(section.querySelectorAll('.project-card')) as HTMLElement[];
+            allCardsCache.set(
+                category,
+                cards.map((card) => ({
+                    element: card, // Keep original element, don't clone
+                    technologies: JSON.parse(card.getAttribute('data-technologies') || '[]')
+                }))
+            );
+        });
+
         // Read initial filters from URL
         const params = new URLSearchParams(window.location.search);
         const tech = params.get('tech');
@@ -44,110 +63,87 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
         }
 
         setMounted(true);
-    }, []);
+    }, [allCardsCache]);
 
-    const applyFilters = useCallback((technologies: string[]) => {
-        const categoriesContainer = document.getElementById('categories-container');
-        if (!categoriesContainer) return;
+    const applyFilters = useCallback(
+        (technologies: string[]) => {
+            const categoriesContainer = document.getElementById('categories-container');
+            if (!categoriesContainer) return;
 
-        const allCategorySections = new Map<string, HTMLElement>();
-        const allCardsByCategory = new Map<HTMLElement, HTMLElement[]>();
+            let totalVisible = 0;
 
-        // Get all category sections
-        const sections = document.querySelectorAll('.category-section');
-        sections.forEach((section) => {
-            const category = (section as HTMLElement).getAttribute('data-category');
-            if (category) {
-                allCategorySections.set(category, section as HTMLElement);
-            }
-        });
+            // Get all category sections
+            const sections = document.querySelectorAll('.category-section');
 
-        let totalVisible = 0;
-        const visibleCategories = new Map<string, number>();
+            sections.forEach((section) => {
+                const category = (section as HTMLElement).getAttribute('data-category');
+                if (!category) return;
 
-        allCategorySections.forEach((section, category) => {
-            const projectsGrid = section.querySelector('.projects-grid') as HTMLElement;
-            if (!projectsGrid) return;
+                const projectsGrid = section.querySelector('.projects-grid') as HTMLElement;
+                if (!projectsGrid) return;
 
-            // Store all cards
-            if (!allCardsByCategory.has(section)) {
-                const cards = Array.from(section.querySelectorAll('.project-card')) as HTMLElement[];
-                allCardsByCategory.set(section, cards);
-            }
+                const allCards = allCardsCache.get(category) || [];
 
-            const allCards = allCardsByCategory.get(section) || [];
+                // Determine visible cards based on filter
+                const visibleCards = allCards.filter(({ technologies: cardTechs }) => {
+                    return technologies.length === 0 || technologies.every((tech) => cardTechs.includes(tech));
+                });
 
-            // Determine visible cards
-            const visibleCards = allCards.filter((card) => {
-                const cardTechs = JSON.parse(card.getAttribute('data-technologies') || '[]') as string[];
-                return technologies.length === 0 || technologies.every((tech) => cardTechs.includes(tech));
-            });
+                // Get currently visible cards in the grid
+                const currentCards = Array.from(projectsGrid.children) as HTMLElement[];
 
-            // Get currently visible cards
-            const currentCards = Array.from(projectsGrid.children) as HTMLElement[];
+                // Remove cards that should be hidden
+                currentCards.forEach((card) => {
+                    const shouldBeVisible = visibleCards.some(({ element }) => element === card);
+                    if (!shouldBeVisible) {
+                        projectsGrid.removeChild(card);
+                    }
+                });
 
-            // Remove cards that shouldn't be visible
-            currentCards.forEach((card) => {
-                if (!visibleCards.includes(card)) {
-                    projectsGrid.removeChild(card);
+                // Add cards that should be visible (preserve order)
+                visibleCards.forEach(({ element }) => {
+                    if (!projectsGrid.contains(element)) {
+                        projectsGrid.appendChild(element);
+                    }
+                });
+
+                const visibleInCategory = visibleCards.length;
+                totalVisible += visibleInCategory;
+
+                // Update category count
+                const countElement = section.querySelector('.category-count');
+                if (countElement) {
+                    countElement.textContent = `(${visibleInCategory})`;
+                }
+
+                // Show/hide category section
+                if (visibleInCategory > 0) {
+                    (section as HTMLElement).style.display = '';
+                } else {
+                    (section as HTMLElement).style.display = 'none';
                 }
             });
 
-            // Add cards that should be visible
-            visibleCards.forEach((card) => {
-                if (!projectsGrid.contains(card)) {
-                    projectsGrid.appendChild(card);
+            // Show/hide empty state
+            const emptyState = document.getElementById('empty-state');
+            if (emptyState) {
+                if (totalVisible === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
                 }
-            });
-
-            const visibleInCategory = visibleCards.length;
-            totalVisible += visibleInCategory;
-
-            // Update category count
-            const countElement = section.querySelector('.category-count');
-            if (countElement) {
-                countElement.textContent = `(${visibleInCategory})`;
             }
 
-            if (visibleInCategory > 0) {
-                visibleCategories.set(category, visibleInCategory);
+            // Update URL
+            const params = new URLSearchParams();
+            if (technologies.length > 0) {
+                params.set('tech', technologies.join(','));
             }
-        });
-
-        // Update visible category sections
-        const currentSections = Array.from(categoriesContainer.children) as HTMLElement[];
-
-        currentSections.forEach((section) => {
-            const category = section.getAttribute('data-category');
-            if (category && !visibleCategories.has(category)) {
-                categoriesContainer.removeChild(section);
-            }
-        });
-
-        allCategorySections.forEach((section, category) => {
-            if (visibleCategories.has(category) && !categoriesContainer.contains(section)) {
-                categoriesContainer.appendChild(section);
-            }
-        });
-
-        // Show/hide empty state
-        const emptyState = document.getElementById('empty-state');
-        if (emptyState) {
-            if (totalVisible === 0) {
-                emptyState.classList.remove('hidden');
-            } else {
-                emptyState.classList.add('hidden');
-            }
-        }
-
-        // Update URL
-        const params = new URLSearchParams();
-        if (technologies.length > 0) {
-            params.set('tech', technologies.join(','));
-        }
-        const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
-        window.history.replaceState({}, '', newUrl);
-    }, []);
+            const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+            window.history.replaceState({}, '', newUrl);
+        },
+        [allCardsCache]
+    );
 
     // Apply filters whenever selection changes
     useEffect(() => {

@@ -67,7 +67,7 @@ export function TimelineCard({ item, popoverPosition, popoverWidth, timelineSpac
             className="absolute z-20 backdrop-blur-sm rounded-lg p-4 shadow-2xl opacity-100 transition-all duration-300 ease-out"
             style={{
                 width: `${popoverWidth}px`,
-                top: isMobile ? '160px' : '190px',
+                top: isMobile ? '200px' : '190px',
                 left: getLeftPosition(),
                 backgroundColor: 'hsl(var(--popover) / 0.95)',
                 borderColor: 'hsl(var(--border))'
@@ -75,13 +75,13 @@ export function TimelineCard({ item, popoverPosition, popoverWidth, timelineSpac
         >
             <div className={getTextAlignment()}>
                 <h3
-                    className={`${isMobile ? 'text-xs' : 'text-sm'} font-semibold mb-2`}
+                    className={`${isMobile ? 'text-sm' : 'text-sm'} font-semibold mb-2`}
                     style={{ color: item.colorHex }}
                 >
                     {item.title}
                 </h3>
                 <p
-                    className={`${isMobile ? 'text-[10px]' : 'text-xs'} leading-relaxed`}
+                    className={`${isMobile ? 'text-xs' : 'text-xs'} leading-relaxed`}
                     style={{ color: 'hsl(var(--text-secondary))' }}
                 >
                     {item.content}

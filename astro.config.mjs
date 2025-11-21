@@ -3,12 +3,13 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
-import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
+import astroConsoleCleaner from 'astro-console-cleaner';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
 import subsites from 'astro-subsites';
+import { defineConfig } from 'astro/config';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
@@ -36,6 +37,8 @@ export default defineConfig({
             steps: 5,
             watch: true
         }),
+
+        astroConsoleCleaner(),
 
         lighthouse(),
         // 1. Frameworks first

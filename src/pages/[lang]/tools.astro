@@ -139,7 +139,7 @@ const description = t('tools.subtitle');
 
 <script>
     // Category filtering functionality
-    document.addEventListener('DOMContentLoaded', () => {
+    function initToolsFiltering() {
         const filterButtons = document.querySelectorAll('.category-filter-btn');
         const toolCards = document.querySelectorAll('.tool-card');
         const noToolsMessage = document.querySelector('.no-tools-message');
@@ -180,5 +180,11 @@ const description = t('tools.subtitle');
                 }
             });
         });
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initToolsFiltering);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initToolsFiltering);
 </script>

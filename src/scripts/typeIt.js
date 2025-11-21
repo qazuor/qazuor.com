@@ -19,7 +19,13 @@ export function initTypeIt(roles) {
 
 // Auto-initialize if roles are available in window
 if (typeof window !== 'undefined' && window.heroRoles) {
-    document.addEventListener('DOMContentLoaded', () => {
+    function autoInit() {
         initTypeIt(window.heroRoles);
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', autoInit);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', autoInit);
 }

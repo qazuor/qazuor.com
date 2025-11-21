@@ -16,6 +16,15 @@ export interface CalculationParams {
 }
 
 /**
+ * Round number to fixed decimal places to ensure SSR/client consistency
+ * This prevents hydration mismatches between server and client
+ */
+export function roundTo(value: number, decimals: number = 2): number {
+    const multiplier = 10 ** decimals;
+    return Math.round(value * multiplier) / multiplier;
+}
+
+/**
  * Calculate angle in radians for a skill at given index
  * Starts from top (-90 degrees) and goes clockwise
  */
@@ -34,8 +43,8 @@ export function calculatePoint(
     const angle = calculateAngle(index, numSkills);
     const distance = (value / maxValue) * radius;
     return {
-        x: center + distance * Math.cos(angle),
-        y: center + distance * Math.sin(angle)
+        x: roundTo(center + distance * Math.cos(angle)),
+        y: roundTo(center + distance * Math.sin(angle))
     };
 }
 
@@ -47,8 +56,8 @@ export function calculateIconPoint(index: number, { center, radius, numSkills }:
     const angle = calculateAngle(index, numSkills);
     const distance = radius * 1.05; // Fixed distance at outer edge
     return {
-        x: center + distance * Math.cos(angle),
-        y: center + distance * Math.sin(angle)
+        x: roundTo(center + distance * Math.cos(angle)),
+        y: roundTo(center + distance * Math.sin(angle))
     };
 }
 

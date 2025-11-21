@@ -37,11 +37,16 @@
     });
   }
 
+  // Initialize on initial page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAutoAnimate);
   } else {
     initAutoAnimate();
   }
 
+  // Re-initialize after View Transitions navigation
+  document.addEventListener('astro:page-load', initAutoAnimate);
+
+  // Fallback re-initialization after delay (for edge cases)
   setTimeout(initAutoAnimate, 1000);
 </script>

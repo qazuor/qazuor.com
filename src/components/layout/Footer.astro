@@ -238,7 +238,7 @@ const data = footerData[lang];
 
 <script>
     // Scroll to top functionality
-    document.addEventListener('DOMContentLoaded', () => {
+    function initScrollToTop() {
         const scrollButton = document.querySelector('.scroll-to-top');
         if (scrollButton) {
             scrollButton.addEventListener('click', () => {
@@ -248,7 +248,13 @@ const data = footerData[lang];
                 });
             });
         }
-    });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initScrollToTop);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initScrollToTop);
 </script>
 
 <style>

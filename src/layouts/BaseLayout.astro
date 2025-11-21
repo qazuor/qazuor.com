@@ -17,6 +17,8 @@ import '../styles/fonts.css';
 // Import auto-generated colors
 import '../styles/generated-colors.css';
 
+// View Transitions with Custom GSAP Animation
+import { ViewTransitions } from 'astro:transitions';
 // Other imports
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import { SmoothScroll } from '@/components/animations/SmoothScroll';
@@ -26,7 +28,8 @@ import { ScrollToTop } from '@/components/interactive/ScrollToTop';
 import Footer from '@/components/layout/Footer.astro';
 import Navigation from '@/components/layout/Navigation.astro';
 import SEO from '@/components/layout/SEO.astro';
-import PageTransition from '@/components/transitions/PageTransition.astro';
+import ViewTransitionGSAP from '@/components/transitions/ViewTransitionGSAP.astro';
+// import PageTransition from '@/components/transitions/PageTransition.astro';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '@/i18n/utils';
 
@@ -108,6 +111,9 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Favicons are automatically injected by astro-favicons integration -->
 
+        <!-- View Transitions (Astro official) -->
+        <ViewTransitions />
+
         <!-- Alternate language links -->
         {
             alternateLinks.map(({ locale, path }) => (
@@ -117,6 +123,12 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Additional head content from pages -->
         <slot name="head" />
+
+        <!-- Fix for View Transitions + GSAP ScrollTrigger conflict -->
+        <!-- https://github.com/withastro/astro/issues/12725 -->
+        <script is:inline>
+            delete window.onscrollend;
+        </script>
 
         <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
         <script is:inline>
@@ -155,8 +167,8 @@ const alternateLinks = locales.map((locale) => {
         <!-- Scroll to Top Button -->
         <ScrollToTop client:load ariaLabel={t('aria.scrollToTop')} />
 
-        <!-- Page Transition Overlay -->
-        <PageTransition />
+        <!-- View Transitions with Custom GSAP Animation -->
+        <ViewTransitionGSAP />
 
         <Navigation />
 
@@ -169,8 +181,8 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Mermaid Diagram Renderer -->
         <script type="module" is:inline>
-            // Simple approach: load mermaid synchronously and handle errors gracefully
-            document.addEventListener('DOMContentLoaded', async () => {
+            // Mermaid initialization function
+            async function initializeMermaid() {
                 try {
                     // Try to load mermaid
                     const mermaidModule = await import(
@@ -302,7 +314,13 @@ const alternateLinks = locales.map((locale) => {
                 } catch (error) {
                     console.error('Mermaid failed to load:', error);
                 }
-            });
+            }
+
+            // Initialize on initial page load
+            document.addEventListener('DOMContentLoaded', initializeMermaid);
+
+            // Re-initialize after View Transitions navigation
+            document.addEventListener('astro:page-load', initializeMermaid);
         </script>
 
         {/* Analytics and scripts can be added here */}

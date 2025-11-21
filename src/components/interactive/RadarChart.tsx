@@ -5,7 +5,8 @@ import {
     calculateAngle,
     calculateIconPoint,
     generateGridPolygons,
-    generateSkillPolygon
+    generateSkillPolygon,
+    roundTo
 } from '@/utils/radarChart/calculations';
 import {
     calculateBadgeDimensions,
@@ -152,8 +153,8 @@ export function RadarChart({
                             const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
                             const extendedDistance = radius * 1.25;
                             const extendedPoint = {
-                                x: center + extendedDistance * Math.cos(angle),
-                                y: center + extendedDistance * Math.sin(angle)
+                                x: roundTo(center + extendedDistance * Math.cos(angle)),
+                                y: roundTo(center + extendedDistance * Math.sin(angle))
                             };
                             return (
                                 <linearGradient
@@ -199,8 +200,8 @@ export function RadarChart({
                             const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
                             const extendedDistance = radius * 1.25; // Extend beyond outer circle
                             const extendedPoint = {
-                                x: center + extendedDistance * Math.cos(angle),
-                                y: center + extendedDistance * Math.sin(angle)
+                                x: roundTo(center + extendedDistance * Math.cos(angle)),
+                                y: roundTo(center + extendedDistance * Math.sin(angle))
                             };
                             return (
                                 <line

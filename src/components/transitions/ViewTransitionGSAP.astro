@@ -18,6 +18,7 @@
  * - Uses transition:persist to maintain overlay across navigations
  * - Identical animation to original (0.6s + 0.4s + 0.3s = 1.3s total)
  */
+import SectionTitle from '@/components/ui/SectionTitle.astro';
 ---
 
 <!-- Transition overlay container with transition:persist -->
@@ -27,11 +28,126 @@
     class="page-transition-overlay"
     aria-hidden="true"
 >
+    <!-- Wave border at top -->
+    <div class="wave-top">
+        <svg class="w-full h-32 md:h-40" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+                d="M0,120 L0,0 C150,80 300,30 450,60 C600,90 750,40 900,70 C1050,100 1150,50 1200,0 L1200,120 Z"
+                fill="#000"
+                fill-opacity="0.3"
+            >
+                <animate
+                    attributeName="d"
+                    dur="10s"
+                    repeatCount="indefinite"
+                    values="
+                        M0,120 L0,0 C150,80 300,30 450,60 C600,90 750,40 900,70 C1050,100 1150,50 1200,0 L1200,120 Z;
+                        M0,120 L0,40 C150,20 300,70 450,30 C600,50 750,80 900,40 C1050,60 1150,90 1200,40 L1200,120 Z;
+                        M0,120 L0,20 C150,60 300,10 450,50 C600,30 750,70 900,50 C1050,80 1150,60 1200,20 L1200,120 Z;
+                        M0,120 L0,0 C150,80 300,30 450,60 C600,90 750,40 900,70 C1050,100 1150,50 1200,0 L1200,120 Z
+                    "
+                ></animate>
+            </path>
+            <path
+                d="M0,120 L0,20 C200,70 400,30 600,60 C800,90 1000,40 1200,20 L1200,120 Z"
+                fill="#000"
+                fill-opacity="0.5"
+            >
+                <animate
+                    attributeName="d"
+                    dur="8s"
+                    repeatCount="indefinite"
+                    values="
+                        M0,120 L0,20 C200,70 400,30 600,60 C800,90 1000,40 1200,20 L1200,120 Z;
+                        M0,120 L0,50 C200,30 400,70 600,40 C800,20 1000,80 1200,50 L1200,120 Z;
+                        M0,120 L0,35 C200,55 400,20 600,50 C800,45 1000,65 1200,35 L1200,120 Z;
+                        M0,120 L0,20 C200,70 400,30 600,60 C800,90 1000,40 1200,20 L1200,120 Z
+                    "
+                ></animate>
+            </path>
+            <path
+                d="M0,120 L0,40 C120,60 240,35 360,50 C480,65 600,40 720,55 C840,70 960,45 1080,60 C1150,70 1180,50 1200,40 L1200,120 Z"
+                fill="#000"
+            >
+                <animate
+                    attributeName="d"
+                    dur="6s"
+                    repeatCount="indefinite"
+                    values="
+                        M0,120 L0,40 C120,60 240,35 360,50 C480,65 600,40 720,55 C840,70 960,45 1080,60 C1150,70 1180,50 1200,40 L1200,120 Z;
+                        M0,120 L0,60 C120,35 240,60 360,40 C480,50 600,65 720,45 C840,55 960,70 1080,50 C1150,55 1180,70 1200,60 L1200,120 Z;
+                        M0,120 L0,50 C120,45 240,50 360,35 C480,55 600,50 720,40 C840,60 960,55 1080,45 C1150,60 1180,55 1200,50 L1200,120 Z;
+                        M0,120 L0,40 C120,60 240,35 360,50 C480,65 600,40 720,55 C840,70 960,45 1080,60 C1150,70 1180,50 1200,40 L1200,120 Z
+                    "
+                ></animate>
+            </path>
+        </svg>
+    </div>
+
+    <!-- Title in center -->
     <div
         id="page-transition-title"
         transition:persist="page-transition-title"
         class="page-transition-title"
-    ></div>
+    >
+        <SectionTitle title="" size="2xl" showGradient={true} customElement="h1" />
+    </div>
+
+    <!-- Wave border at bottom -->
+    <div class="wave-bottom">
+        <svg class="w-full h-32 md:h-40" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+                d="M0,0 L0,120 C150,40 300,90 450,60 C600,30 750,80 900,50 C1050,20 1150,70 1200,120 L1200,0 Z"
+                fill="#000"
+                fill-opacity="0.3"
+            >
+                <animate
+                    attributeName="d"
+                    dur="10s"
+                    repeatCount="indefinite"
+                    values="
+                        M0,0 L0,120 C150,40 300,90 450,60 C600,30 750,80 900,50 C1050,20 1150,70 1200,120 L1200,0 Z;
+                        M0,0 L0,80 C150,100 300,50 450,90 C600,70 750,40 900,80 C1050,60 1150,30 1200,80 L1200,0 Z;
+                        M0,0 L0,100 C150,60 300,110 450,70 C600,50 750,100 900,60 C1050,40 1150,90 1200,100 L1200,0 Z;
+                        M0,0 L0,120 C150,40 300,90 450,60 C600,30 750,80 900,50 C1050,20 1150,70 1200,120 L1200,0 Z
+                    "
+                ></animate>
+            </path>
+            <path
+                d="M0,0 L0,100 C200,50 400,90 600,70 C800,40 1000,80 1200,100 L1200,0 Z"
+                fill="#000"
+                fill-opacity="0.5"
+            >
+                <animate
+                    attributeName="d"
+                    dur="8s"
+                    repeatCount="indefinite"
+                    values="
+                        M0,0 L0,100 C200,50 400,90 600,70 C800,40 1000,80 1200,100 L1200,0 Z;
+                        M0,0 L0,70 C200,90 400,50 600,80 C800,70 1000,40 1200,70 L1200,0 Z;
+                        M0,0 L0,85 C200,65 400,100 600,60 C800,55 1000,95 1200,85 L1200,0 Z;
+                        M0,0 L0,100 C200,50 400,90 600,70 C800,40 1000,80 1200,100 L1200,0 Z
+                    "
+                ></animate>
+            </path>
+            <path
+                d="M0,0 L0,80 C120,60 240,85 360,70 C480,55 600,80 720,65 C840,50 960,75 1080,60 C1150,50 1180,70 1200,80 L1200,0 Z"
+                fill="#000"
+            >
+                <animate
+                    attributeName="d"
+                    dur="6s"
+                    repeatCount="indefinite"
+                    values="
+                        M0,0 L0,80 C120,60 240,85 360,70 C480,55 600,80 720,65 C840,50 960,75 1080,60 C1150,50 1180,70 1200,80 L1200,0 Z;
+                        M0,0 L0,60 C120,85 240,60 360,80 C480,70 600,55 720,75 C840,65 960,50 1080,70 C1150,65 1180,50 1200,60 L1200,0 Z;
+                        M0,0 L0,70 C120,75 240,70 360,85 C480,65 600,70 720,80 C840,60 960,65 1080,75 C1150,60 1180,65 1200,70 L1200,0 Z;
+                        M0,0 L0,80 C120,60 240,85 360,70 C480,55 600,80 720,65 C840,50 960,75 1080,60 C1150,50 1180,70 1200,80 L1200,0 Z
+                    "
+                ></animate>
+            </path>
+        </svg>
+    </div>
 </div>
 
 <style>
@@ -46,54 +162,55 @@
         z-index: 9999;
         pointer-events: none;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        transform: translateY(100%);
+        transform: translateY(115%);
         will-change: transform;
-        overflow: hidden;
+        overflow: visible;
     }
 
-    /* Wave-like rounded border at top */
-    .page-transition-overlay::before {
-        content: '';
+    /* Wave at top - positioned at the edge of the overlay */
+    .wave-top {
         position: absolute;
-        top: -80px;
-        left: -10%;
-        width: 120%;
-        height: 150px;
-        background-color: #000;
-        border-radius: 0 0 50% 50% / 0 0 80px 80px;
-        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+        transform: translateY(-100%);
     }
 
-    /* Wave-like rounded border at bottom */
-    .page-transition-overlay::after {
-        content: '';
+    /* Wave at bottom - positioned at the edge of the overlay */
+    .wave-bottom {
         position: absolute;
-        bottom: -80px;
-        left: -10%;
-        width: 120%;
-        height: 150px;
-        background-color: #000;
-        border-radius: 50% 50% 0 0 / 80px 80px 0 0;
-        z-index: -1;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+        transform: translateY(100%);
     }
 
-    /* Page title styling */
+    /* Page title styling - wrapper for SectionTitle component */
     .page-transition-title {
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: 700;
-        color: #fff;
-        text-align: center;
         opacity: 0;
         transform: translateY(20px);
         padding: 0 2rem;
         max-width: 90%;
-        line-height: 1.2;
-        font-family: 'Inter', system-ui, sans-serif;
         will-change: opacity, transform;
         z-index: 10;
         position: relative;
+    }
+
+    /* Override SectionTitle styles for transition overlay */
+    .page-transition-title :global(.section-title) {
+        margin-bottom: 0;
+    }
+
+    .page-transition-title :global(.gradient-text-section) {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 </style>
 
@@ -141,9 +258,9 @@
     };
 
     // Animation configuration (identical to original)
-    const TRANSITION_DURATION = 0.6; // Overlay slide duration
-    const TITLE_DELAY = 0.1; // Title appears early while overlay slides
-    const PAUSE_DURATION = 0.3; // Brief pause at peak
+    const TRANSITION_DURATION = 1; // Overlay slide duration
+    const TITLE_DELAY = 0; // Title appears early while overlay slides
+    const PAUSE_DURATION = 0.1; // Brief pause at peak
     const EASE = 'power4.inOut'; // Smooth easing
 
     // DOM elements
@@ -211,7 +328,12 @@
         }
 
         const pageTitle = getPageTitle(newUrl);
-        titleElement.textContent = pageTitle;
+
+        // Update the SectionTitle component text
+        const gradientTextElement = titleElement.querySelector('.gradient-text-section');
+        if (gradientTextElement) {
+            gradientTextElement.textContent = pageTitle;
+        }
 
         // Start entrance animation immediately (no delay!)
         entranceTimeline = gsap.timeline();
@@ -285,7 +407,7 @@
             tlOut.to(
                 overlay,
                 {
-                    y: '-100%',
+                    y: '-115%',
                     duration: TRANSITION_DURATION,
                     ease: EASE
                 },
@@ -293,7 +415,7 @@
             );
 
             // Reset for next transition
-            tlOut.set(overlay, { y: '100%' });
+            tlOut.set(overlay, { y: '115%' });
             tlOut.set(titleElement, { opacity: 0, y: 20 });
 
             // Wait for exit animation

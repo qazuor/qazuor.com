@@ -1,15 +1,20 @@
 ---
 title: React 19 - What's New and Exciting
-excerpt: Explore the latest features in React 19 including the new Compiler, Server Components, Actions, and improved hooks.
+excerpt:
+  Explore the latest features in React 19 including the new Compiler, Server
+  Components, Actions, and improved hooks.
 publishDate: 2025-01-05
 tags: [React, JavaScript, Web Development, Frontend]
 readTime: 10 min read
 draft: false
+category: Frontend
+image: ./_images/placeholder-2.jpg
 ---
 
 ## React 19 is Here!
 
-React 19 brings significant improvements and new features that make building web applications easier and more performant than ever.
+React 19 brings significant improvements and new features that make building web
+applications easier and more performant than ever.
 
 ## Major Features
 
@@ -135,9 +140,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button disabled={pending}>
-      {pending ? 'Submitting...' : 'Submit'}
-    </button>
+    <button disabled={pending}>{pending ? 'Submitting...' : 'Submit'}</button>
   );
 }
 ```
@@ -237,7 +240,9 @@ function Component({ items }) {
 
 ## Conclusion
 
-React 19 represents a significant leap forward in React development. The new compiler, server components, and actions make building performant applications easier than ever.
+React 19 represents a significant leap forward in React development. The new
+compiler, server components, and actions make building performant applications
+easier than ever.
 
 Start upgrading your projects today and experience the improvements firsthand!
 

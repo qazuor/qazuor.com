@@ -1,15 +1,21 @@
 ---
 title: Mastering TypeScript in 2025
-excerpt: Advanced TypeScript patterns and best practices for building robust, type-safe applications. Learn utility types, generics, and more.
+excerpt:
+  Advanced TypeScript patterns and best practices for building robust, type-safe
+  applications. Learn utility types, generics, and more.
 publishDate: 2025-01-10
 tags: [TypeScript, JavaScript, Programming, Best Practices]
 readTime: 12 min read
 draft: false
+category: Programming
+image: ./_images/placeholder-3.jpg
 ---
 
 ## Introduction
 
-TypeScript has become the standard for modern JavaScript development. In this guide, we'll explore advanced patterns that will take your TypeScript skills to the next level.
+TypeScript has become the standard for modern JavaScript development. In this
+guide, we'll explore advanced patterns that will take your TypeScript skills to
+the next level.
 
 ## Advanced Type Patterns
 
@@ -99,10 +105,7 @@ const user = data as User;
 // ✅ Good
 function isUser(data: unknown): data is User {
   return (
-    typeof data === 'object' &&
-    data !== null &&
-    'id' in data &&
-    'name' in data
+    typeof data === 'object' && data !== null && 'id' in data && 'name' in data
   );
 }
 
@@ -172,7 +175,8 @@ const invalid: Endpoint = '/users'; // ❌ Type error
 
 ## Conclusion
 
-Mastering these TypeScript patterns will help you write more robust, maintainable code. Start incorporating them into your projects today!
+Mastering these TypeScript patterns will help you write more robust,
+maintainable code. Start incorporating them into your projects today!
 
 ## Further Reading
 

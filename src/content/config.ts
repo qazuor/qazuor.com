@@ -26,16 +26,18 @@ const projectsCollection = defineCollection({
 // Blog collection schema
 const blogCollection = defineCollection({
     type: 'content',
-    schema: z.object({
-        title: z.string(),
-        excerpt: z.string(),
-        publishDate: z.date(),
-        tags: z.array(z.string()),
-        author: z.string().default('qazuor'),
-        readTime: z.string(),
-        draft: z.boolean().default(false),
-        image: z.string().optional()
-    })
+    schema: ({ image }) =>
+        z.object({
+            title: z.string(),
+            excerpt: z.string(),
+            publishDate: z.date(),
+            tags: z.array(z.string()),
+            author: z.string().default('qazuor'),
+            readTime: z.string(),
+            draft: z.boolean().default(false),
+            image: image().optional(), // Local image (relative path from content file)
+            category: z.string().optional() // Category for card badge
+        })
 });
 
 // Testimonials collection schema

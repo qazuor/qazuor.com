@@ -1,21 +1,28 @@
 ---
 title: Getting Started with Astro
-excerpt: Learn how to build lightning-fast websites with Astro, the modern web framework that ships zero JavaScript by default.
+excerpt:
+  Learn how to build lightning-fast websites with Astro, the modern web
+  framework that ships zero JavaScript by default.
 publishDate: 2025-01-15
 tags: [Astro, React, Web Development, Performance]
 readTime: 8 min read
 draft: false
+category: Web Development
+image: ./_images/placeholder-1.jpg
 ---
 
 ## Why Astro?
 
-Astro is a revolutionary framework that prioritizes performance by shipping zero JavaScript by default. It's perfect for content-focused websites like blogs, marketing sites, and portfolios.
+Astro is a revolutionary framework that prioritizes performance by shipping zero
+JavaScript by default. It's perfect for content-focused websites like blogs,
+marketing sites, and portfolios.
 
 ## Key Benefits
 
 ### 1. Zero JavaScript by Default
 
-Astro generates static HTML with no JavaScript unless you explicitly need it. This results in:
+Astro generates static HTML with no JavaScript unless you explicitly need it.
+This results in:
 
 - Faster page loads
 - Better SEO
@@ -23,13 +30,14 @@ Astro generates static HTML with no JavaScript unless you explicitly need it. Th
 
 ### 2. Bring Your Own Framework
 
-Use React, Vue, Svelte, or any other framework you prefer. Astro supports them all through its "islands architecture."
+Use React, Vue, Svelte, or any other framework you prefer. Astro supports them
+all through its "islands architecture."
 
 ```jsx
 // React component in Astro
 import { Counter } from './Counter.jsx';
 
-<Counter client:load />
+<Counter client:load />;
 ```
 
 ### 3. Content Collections
@@ -62,7 +70,8 @@ npm run dev
 
 ## Islands Architecture
 
-The islands architecture allows you to hydrate interactive components only where needed:
+The islands architecture allows you to hydrate interactive components only where
+needed:
 
 - `client:load` - Hydrate immediately
 - `client:idle` - Hydrate when browser is idle
@@ -70,7 +79,8 @@ The islands architecture allows you to hydrate interactive components only where
 
 ## Conclusion
 
-Astro is the perfect choice for building fast, content-focused websites. Give it a try on your next project!
+Astro is the perfect choice for building fast, content-focused websites. Give it
+a try on your next project!
 
 ## Resources
 

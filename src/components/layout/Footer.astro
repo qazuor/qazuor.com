@@ -1,17 +1,24 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { contact } from '@/data/contact';
+import { getTranslations } from '@/i18n/utils';
 
 interface Props {
     lang?: 'en' | 'es';
 }
 
 const { lang = 'en' } = Astro.props;
+const t = getTranslations(lang);
 
 // Get latest projects
 const allProjects = await getCollection('projects');
 const latestProjects = allProjects
-    .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
+    .sort(
+        (a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) =>
+            new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+    )
     .slice(0, 4);
 
 // Footer data
@@ -27,7 +34,7 @@ const footerData = {
         projects: {
             title: 'Latest projects',
             items: [
-                ...latestProjects.map((project) => ({
+                ...latestProjects.map((project: CollectionEntry<'projects'>) => ({
                     name: project.data.title,
                     url: `/en/projects#${project.slug}`
                 })),
@@ -40,13 +47,7 @@ const footerData = {
             cta: "Let's get in touch!"
         },
         social: {
-            title: 'Follow me on',
-            links: [
-                { name: 'GitHub', url: contact.social.github },
-                { name: 'LinkedIn', url: contact.social.linkedin },
-                { name: 'Fiverr', url: contact.social.fiverr },
-                { name: 'Upwork', url: contact.social.upwork }
-            ]
+            title: t('social.followMe')
         }
     },
     es: {
@@ -60,7 +61,7 @@ const footerData = {
         projects: {
             title: 'Proyectos recientes',
             items: [
-                ...latestProjects.map((project) => ({
+                ...latestProjects.map((project: CollectionEntry<'projects'>) => ({
                     name: project.data.title,
                     url: `/es/projects#${project.slug}`
                 })),
@@ -74,13 +75,7 @@ const footerData = {
             cta: '¡Pongámonos en contacto!'
         },
         social: {
-            title: 'Sígueme en',
-            links: [
-                { name: 'GitHub', url: contact.social.github },
-                { name: 'LinkedIn', url: contact.social.linkedin },
-                { name: 'Fiverr', url: contact.social.fiverr },
-                { name: 'Upwork', url: contact.social.upwork }
-            ]
+            title: t('social.followMe')
         }
     }
 };
@@ -164,22 +159,18 @@ const data = footerData[lang];
                     {data.social.title}
                     <span class="text-foreground-muted">—</span>
                 </h3>
-                <ul class="space-y-2">
-                    {
-                        data.social.links.map((link) => (
-                            <li>
-                                <a
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="text-sm text-foreground-muted hover:text-primary transition-colors duration-base"
-                                >
-                                    {link.name}
-                                </a>
-                            </li>
-                        ))
-                    }
-                </ul>
+                <SocialLinks
+                    ariaLabels={{
+                        github: t('aria.github'),
+                        linkedin: t('aria.linkedin'),
+                        fiverr: t('aria.fiverr'),
+                        upwork: t('aria.upwork'),
+                        whatsapp: t('aria.whatsapp'),
+                        mail: t('aria.mail'),
+                        buymeacoffee: t('aria.buymeacoffee')
+                    }}
+                    size="md"
+                />
             </div>
         </div>
 

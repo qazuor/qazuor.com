@@ -1,5 +1,8 @@
 ---
+import { getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import { Contact } from '@/components/forms/Contact';
 import AboutSection from '@/components/sections/AboutSection.astro';
 import BlogSection from '@/components/sections/BlogSection.astro';
@@ -65,28 +68,41 @@ const allBlogPosts = await getCollection('blog');
 const allTestimonials = await getCollection('testimonials');
 
 // Sort projects by order field, then by date
-const sortedProjects = allProjects
-    .sort((a, b) => {
-        if (a.data.order !== b.data.order) {
-            return a.data.order - b.data.order;
-        }
-        return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-    })
-    .map((project) => ({
-        title: project.data.title,
-        description: project.data.description,
-        slug: project.data.slug || project.slug,
-        technologies: project.data.technologies,
-        images: project.data.images,
-        featured: project.data.featured,
-        order: project.data.order
-    }));
+const sortedProjects = await Promise.all(
+    allProjects
+        .sort((a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) => {
+            if (a.data.order !== b.data.order) {
+                return a.data.order - b.data.order;
+            }
+            return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+        })
+        .map(async (project: CollectionEntry<'projects'>) => {
+            const processedImages = await Promise.all(
+                project.data.images.map(async (img: ImageMetadata) => {
+                    const optimizedImg = await getImage({ src: img });
+                    return optimizedImg.src;
+                })
+            );
+            return {
+                title: project.data.title,
+                description: project.data.description,
+                slug: project.data.slug || project.slug,
+                technologies: project.data.technologies,
+                images: processedImages,
+                featured: project.data.featured,
+                order: project.data.order
+            };
+        })
+);
 
 // Sort blog posts by date (newest first) and filter out drafts
 const sortedBlogPosts = allBlogPosts
-    .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
-    .map((post) => ({
+    .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
+    .sort(
+        (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
+            b.data.publishDate.getTime() - a.data.publishDate.getTime()
+    )
+    .map((post: CollectionEntry<'blog'>) => ({
         title: post.data.title,
         excerpt: post.data.excerpt,
         date: post.data.publishDate.toISOString().split('T')[0],
@@ -97,13 +113,13 @@ const sortedBlogPosts = allBlogPosts
 
 // Sort testimonials by order and date
 const sortedTestimonials = allTestimonials
-    .sort((a, b) => {
+    .sort((a: CollectionEntry<'testimonials'>, b: CollectionEntry<'testimonials'>) => {
         if (a.data.order !== b.data.order) {
             return a.data.order - b.data.order;
         }
         return b.data.date.getTime() - a.data.date.getTime();
     })
-    .map((testimonial) => ({
+    .map((testimonial: CollectionEntry<'testimonials'>) => ({
         name: testimonial.data.name,
         role: testimonial.data.role,
         company: testimonial.data.company,
@@ -204,12 +220,6 @@ const projectsTranslations = {
     title: t('projects.title', { markdown: true }),
     subtitle: t('projects.subtitle', { markdown: true }),
     viewAll: t('projects.viewAll', { markdown: true })
-};
-
-const projectCardTranslations = {
-    demo: t('projects.viewDemo', { markdown: true }),
-    code: t('projects.viewCode', { markdown: true }),
-    featured: t('projects.featured', { markdown: true })
 };
 
 const blogTranslations = {

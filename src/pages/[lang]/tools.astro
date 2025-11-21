@@ -1,4 +1,5 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import ToolCard from '@/components/cards/ToolCard.astro';
 import { languages } from '@/i18n/ui';
@@ -18,14 +19,19 @@ const t = getTranslations(lang);
 const allTools = await getCollection('tools');
 
 // Sort tools by featured first, then by creation date
-const sortedTools = allTools.sort((a, b) => {
-    if (a.data.featured && !b.data.featured) return -1;
-    if (!a.data.featured && b.data.featured) return 1;
-    return b.data.createdAt.getTime() - a.data.createdAt.getTime();
-});
+const sortedTools: CollectionEntry<'tools'>[] = allTools.sort(
+    (a: CollectionEntry<'tools'>, b: CollectionEntry<'tools'>) => {
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+    }
+);
 
 // Get unique categories
-const categories = ['all', ...new Set(allTools.map((tool) => tool.data.category.toLowerCase()))];
+const categories = [
+    'all',
+    ...new Set(allTools.map((tool: CollectionEntry<'tools'>) => tool.data.category.toLowerCase()))
+];
 
 const title = t('tools.title');
 const description = t('tools.subtitle');

@@ -1,11 +1,12 @@
 ---
+import { getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import { ProjectCard } from '@/components/cards/ProjectCard';
-import { ActiveFilters } from '@/components/ui/ActiveFilters';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import { TechnologyFilter } from '@/components/ui/TechnologyFilter';
 import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -24,31 +25,41 @@ const t = getTranslations(lang);
 const allProjects = await getCollection('projects');
 
 // Sort projects: featured first, then by order field, then by date
-const sortedProjects = allProjects
-    .sort((a, b) => {
-        // Featured projects come first
-        const aFeatured = a.data.featured || false;
-        const bFeatured = b.data.featured || false;
-        if (aFeatured !== bFeatured) {
-            return bFeatured ? 1 : -1;
-        }
-        // Then by order
-        if (a.data.order !== b.data.order) {
-            return a.data.order - b.data.order;
-        }
-        // Finally by date
-        return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-    })
-    .map((project) => ({
-        title: project.data.title,
-        description: project.data.description,
-        slug: project.data.slug || project.slug,
-        category: project.data.category as 'open-source' | 'commercial' | 'client',
-        technologies: project.data.technologies,
-        images: project.data.images.map((img) => img.src),
-        featured: project.data.featured || false,
-        order: project.data.order
-    }));
+const sortedProjects = await Promise.all(
+    allProjects
+        .sort((a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) => {
+            // Featured projects come first
+            const aFeatured = a.data.featured || false;
+            const bFeatured = b.data.featured || false;
+            if (aFeatured !== bFeatured) {
+                return bFeatured ? 1 : -1;
+            }
+            // Then by order
+            if (a.data.order !== b.data.order) {
+                return a.data.order - b.data.order;
+            }
+            // Finally by date
+            return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+        })
+        .map(async (project: CollectionEntry<'projects'>) => {
+            const processedImages = await Promise.all(
+                project.data.images.map(async (img: ImageMetadata) => {
+                    const optimizedImg = await getImage({ src: img });
+                    return optimizedImg.src;
+                })
+            );
+            return {
+                title: project.data.title,
+                description: project.data.description,
+                slug: project.data.slug || project.slug,
+                category: project.data.category as 'open-source' | 'commercial' | 'client',
+                technologies: project.data.technologies,
+                images: processedImages,
+                featured: project.data.featured || false,
+                order: project.data.order
+            };
+        })
+);
 
 // Group projects by category
 const projectsByCategory = {
@@ -56,9 +67,6 @@ const projectsByCategory = {
     commercial: sortedProjects.filter((p) => p.category === 'commercial'),
     client: sortedProjects.filter((p) => p.category === 'client')
 };
-
-// Extract all unique technologies
-const allTechnologies = Array.from(new Set(sortedProjects.flatMap((p) => p.technologies))).sort();
 
 // Translations
 const pageTitle = `${t('projects.title')} - qazuor.com`;

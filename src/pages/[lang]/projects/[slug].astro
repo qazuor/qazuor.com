@@ -1,37 +1,42 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import { ProjectGallery } from '@/components/sections/ProjectGallery';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import Badge from '@/components/ui/Badge.astro';
 import IconLink from '@/components/ui/IconLink.astro';
+import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data';
-import ExternalLinkIcon from '@/icons/ui/external-link.svg?raw';
-import GithubIcon from '@/icons/social/github.svg?raw';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import GithubIcon from '@/icons/social/github.svg?raw';
+import ExternalLinkIcon from '@/icons/ui/external-link.svg?raw';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-	const allProjects = await getCollection('projects');
+    const allProjects = await getCollection('projects');
 
-	const paths = [];
-	for (const lang of Object.keys(languages)) {
-		for (const project of allProjects) {
-			paths.push({
-				params: {
-					lang,
-					slug: project.data.slug || project.slug
-				},
-				props: { project }
-			});
-		}
-	}
+    const paths = [];
+    for (const lang of Object.keys(languages)) {
+        for (const project of allProjects) {
+            paths.push({
+                params: {
+                    lang,
+                    slug: project.data.slug || project.slug
+                },
+                props: { project }
+            });
+        }
+    }
 
-	return paths;
+    return paths;
 }
 
 interface Props {
-	project: CollectionEntry<'projects'>;
+    project: CollectionEntry<'projects'>;
 }
 
 const { project } = Astro.props;
@@ -40,25 +45,38 @@ const t = getTranslations(lang);
 
 const { Content } = await project.render();
 
+// Convert ImageMetadata to optimized URLs for React component
+const processedImages = await Promise.all(
+    project.data.images.map(async (img: ImageMetadata) => {
+        const optimizedImg = await getImage({ src: img });
+        return optimizedImg.src;
+    })
+);
+const imageSrcs = processedImages;
+
 // Get translations
-const categoryLabels = {
-	'open-source': t('projects.detail.categories.openSource'),
-	commercial: t('projects.detail.categories.commercial'),
-	client: t('projects.detail.categories.client')
+const categoryLabels: Record<string, string> = {
+    'open-source': t('projects.detail.categories.openSource'),
+    commercial: t('projects.detail.categories.commercial'),
+    client: t('projects.detail.categories.client')
 };
 
 const pageTitle = `${project.data.title} - ${t('projects.title')} - qazuor.com`;
-const categoryLabel = categoryLabels[project.data.category] || project.data.category;
+const categoryLabel: string = categoryLabels[project.data.category] || project.data.category;
+const transitionTitle = project.data.title; // Title to show in page transition
 
 // Format date
 const formattedDate = new Intl.DateTimeFormat(lang, {
-	year: 'numeric',
-	month: 'long',
-	day: 'numeric'
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
 }).format(project.data.publishDate);
 ---
 
 <BaseLayout title={pageTitle} description={project.data.description}>
+	<!-- Meta tag for page transition title -->
+	<meta slot="head" name="transition-title" content={transitionTitle} />
+
 	<section
 		class="relative min-h-screen overflow-hidden"
 		style={`background-color: ${sectionsColors.projects}`}
@@ -89,119 +107,244 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
 			</div>
 
 			<!-- Project Header -->
+			<div class="mb-12">
+				<SectionTitle
+					title={project.data.title}
+					subtitle={project.data.longDescription || project.data.description}
+				/>
+
+				<!-- Metadata Cards -->
+				<div class="flex flex-wrap items-center gap-3 mt-6">
+					<!-- Category Badge -->
+					<div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-lg">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M7 2a1 1 0 00-.707 1.707L7 4.414v3.758a1 1 0 01-.293.707l-4 4C.817 14.769 2.156 18 4.828 18h10.343c2.673 0 4.012-3.231 2.122-5.121l-4-4A1 1 0 0113 8.172V4.414l.707-.707A1 1 0 0013 2H7zm2 6.172V4h2v4.172a3 3 0 00.879 2.12l1.027 1.028a4 4 0 00-2.171.102l-.47.156a4 4 0 01-2.53 0l-.563-.187a1.993 1.993 0 00-.114-.035l1.063-1.063A3 3 0 009 8.172z" clip-rule="evenodd" />
+						</svg>
+						<span class="text-sm font-medium text-primary">{categoryLabel}</span>
+					</div>
+
+					<!-- Date Badge -->
+					<div class="inline-flex items-center gap-2 px-4 py-2 bg-foreground/5 border border-border rounded-lg">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground-secondary" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+						</svg>
+						<span class="text-sm font-medium text-foreground-secondary">{formattedDate}</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Gallery at top -->
+			{
+				imageSrcs && imageSrcs.length > 0 && (
+					<div class="mb-16">
+						<ProjectGallery
+							client:load
+							images={imageSrcs}
+							alt={project.data.title}
+						/>
+					</div>
+				)
+			}
+
 			<div class="max-w-4xl mx-auto">
-				<div class="mb-6">
-					<Badge
-						text={categoryLabel}
-						variant="tag"
-						size="md"
-						showHtml={false}
-						className="mb-4"
-					/>
-					<h1 class="text-4xl md:text-5xl font-bold text-foreground mb-4">
-						{project.data.title}
-					</h1>
-					<p class="text-xl text-foreground-secondary mb-6">
-						{project.data.longDescription || project.data.description}
-					</p>
 
-					<!-- Metadata -->
-					<div class="flex flex-wrap items-center gap-4 text-sm text-foreground-secondary mb-8">
-						<span>
-							{t('projects.detail.publishedOn')}: {formattedDate}
-						</span>
+				<!-- Quick Info Cards -->
+				<div class="grid md:grid-cols-2 gap-6 mb-12">
+					<!-- Technologies Card -->
+					<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+						<SecondaryTitle
+							text={t('projects.detail.technologies', { markdown: false })}
+							element="h2"
+							size="lg"
+							className="mb-4"
+							showHtml={false}
+						/>
+						<div class="flex flex-wrap gap-2">
+							{
+								project.data.technologies.map((tech: string) => (
+									<Badge text={tech} variant="tag" size="md" showHtml={false} />
+								))
+							}
+						</div>
+					</div>
+
+					<!-- Links Card -->
+					<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+						<SecondaryTitle
+							text={t('projects.detail.links.title', { markdown: false })}
+							element="h2"
+							size="lg"
+							className="mb-4"
+							showHtml={false}
+						/>
+						<div class="flex flex-col gap-3">
+							{
+								project.data.githubUrl && (
+									<IconLink
+										href={project.data.githubUrl}
+										text={t('projects.detail.links.github')}
+										icon={GithubIcon}
+										target="_blank"
+										rel="noopener noreferrer"
+										variant="secondary"
+										size="md"
+										className="inline-flex items-center gap-2 border border-foreground/10 justify-center"
+										showHtml={true}
+									/>
+								)
+							}
+							{
+								project.data.demoUrl && (
+									<IconLink
+										href={project.data.demoUrl}
+										text={t('projects.detail.links.demo')}
+										icon={ExternalLinkIcon}
+										target="_blank"
+										rel="noopener noreferrer"
+										variant="primary"
+										size="md"
+										className="inline-flex items-center gap-2 justify-center"
+										showHtml={true}
+									/>
+								)
+							}
+							{
+								project.data.publicUrl && (
+									<IconLink
+										href={project.data.publicUrl}
+										text={t('projects.detail.links.visit')}
+										icon={ExternalLinkIcon}
+										target="_blank"
+										rel="noopener noreferrer"
+										variant="primary"
+										size="md"
+										className="inline-flex items-center gap-2 justify-center"
+										showHtml={true}
+									/>
+								)
+							}
+						</div>
 					</div>
 				</div>
 
-				<!-- Technologies -->
-				<div class="mb-8">
-					<h2 class="text-lg font-semibold text-foreground mb-3">
-						{t('projects.detail.technologies')}
-					</h2>
-					<div class="flex flex-wrap gap-2">
-						{
-							project.data.technologies.map((tech) => (
-								<Badge text={tech} variant="tag" size="md" showHtml={false} />
-							))
-						}
-					</div>
-				</div>
-
-				<!-- Links -->
-				<div class="mb-12">
-					<h2 class="text-lg font-semibold text-foreground mb-3">
-						{t('projects.detail.links.title')}
-					</h2>
-					<div class="flex flex-wrap gap-3">
-						{
-							project.data.githubUrl && (
-								<IconLink
-									href={project.data.githubUrl}
-									text={t('projects.detail.links.github')}
-									icon={GithubIcon}
-									target="_blank"
-									rel="noopener noreferrer"
-									variant="secondary"
-									size="md"
-									className="inline-flex items-center gap-2 border border-foreground/10"
-									showHtml={true}
-								/>
-							)
-						}
-						{
-							project.data.demoUrl && (
-								<IconLink
-									href={project.data.demoUrl}
-									text={t('projects.detail.links.demo')}
-									icon={ExternalLinkIcon}
-									target="_blank"
-									rel="noopener noreferrer"
-									variant="primary"
-									size="md"
-									className="inline-flex items-center gap-2"
-									showHtml={true}
-								/>
-							)
-						}
-						{
-							project.data.publicUrl && (
-								<IconLink
-									href={project.data.publicUrl}
-									text={t('projects.detail.links.visit')}
-									icon={ExternalLinkIcon}
-									target="_blank"
-									rel="noopener noreferrer"
-									variant="primary"
-									size="md"
-									className="inline-flex items-center gap-2"
-									showHtml={true}
-								/>
-							)
-						}
-					</div>
-				</div>
-
-				<!-- Markdown Content -->
-				<div class="prose prose-lg dark:prose-invert max-w-none mb-12">
+				<!-- Markdown Content with improved styles -->
+				<div class="project-content mb-16">
 					<Content />
 				</div>
-
-				<!-- Gallery -->
-				{
-					project.data.images && project.data.images.length > 0 && (
-						<div class="mb-12">
-							<h2 class="text-2xl font-bold text-foreground mb-6">
-								{t('projects.detail.gallery')}
-							</h2>
-							<ProjectGallery
-								client:load
-								images={project.data.images}
-								alt={project.data.title}
-							/>
-						</div>
-					)
-				}
 			</div>
 		</div>
 	</section>
 </BaseLayout>
+
+<style>
+	/* Custom styles for project content */
+	.project-content {
+		@apply text-foreground-secondary;
+	}
+
+	/* Headings */
+	.project-content :global(h2) {
+		@apply text-xl md:text-2xl font-bold text-foreground mb-3 mt-10 first:mt-0;
+		@apply flex items-center gap-3;
+	}
+
+	.project-content :global(h2::before) {
+		content: '';
+		@apply w-1 h-6 bg-primary rounded-full flex-shrink-0;
+	}
+
+	.project-content :global(h3) {
+		@apply text-lg md:text-xl font-semibold text-foreground mb-2 mt-6;
+	}
+
+	.project-content :global(h4) {
+		@apply text-base md:text-lg font-semibold text-foreground mb-2 mt-4;
+	}
+
+	/* Paragraphs */
+	.project-content :global(p) {
+		@apply text-sm md:text-base leading-relaxed mb-6;
+	}
+
+	/* Lists */
+	.project-content :global(ul) {
+		@apply list-none space-y-2 mb-6 ml-0;
+	}
+
+	.project-content :global(ol) {
+		@apply list-none space-y-2 mb-6 ml-0;
+		counter-reset: item;
+	}
+
+	.project-content :global(li) {
+		@apply relative pl-8 text-sm md:text-base leading-relaxed;
+	}
+
+	/* Bullet points for unordered lists */
+	.project-content :global(ul > li::before) {
+		content: '';
+		@apply absolute left-0 top-2 w-2 h-2 bg-primary rounded-full;
+	}
+
+	/* Numbers for ordered lists */
+	.project-content :global(ol > li) {
+		counter-increment: item;
+	}
+
+	.project-content :global(ol > li::before) {
+		content: counter(item) '.';
+		@apply absolute left-0 top-0 text-primary font-semibold;
+	}
+
+	/* Nested lists */
+	.project-content :global(li > ul),
+	.project-content :global(li > ol) {
+		@apply mt-3;
+	}
+
+	/* Strong/Bold */
+	.project-content :global(strong) {
+		@apply text-foreground font-semibold;
+	}
+
+	/* Code blocks */
+	.project-content :global(code) {
+		@apply bg-foreground/5 text-primary px-1.5 py-0.5 rounded text-sm font-mono;
+	}
+
+	.project-content :global(pre) {
+		@apply bg-foreground/5 border border-border rounded-lg p-4 overflow-x-auto mb-6;
+	}
+
+	.project-content :global(pre code) {
+		@apply bg-transparent px-0 py-0;
+	}
+
+	/* Links */
+	.project-content :global(a) {
+		@apply text-primary hover:text-primary/80 underline decoration-primary/30 hover:decoration-primary/60 transition-colors;
+	}
+
+	/* Blockquotes */
+	.project-content :global(blockquote) {
+		@apply border-l-4 border-primary pl-6 py-2 my-6 italic text-foreground-secondary;
+	}
+
+	/* Tables */
+	.project-content :global(table) {
+		@apply w-full border-collapse mb-6;
+	}
+
+	.project-content :global(th) {
+		@apply bg-foreground/5 border border-border px-4 py-2 text-left font-semibold text-foreground;
+	}
+
+	.project-content :global(td) {
+		@apply border border-border px-4 py-2;
+	}
+
+	/* Horizontal rules */
+	.project-content :global(hr) {
+		@apply border-t border-border my-8;
+	}
+</style>

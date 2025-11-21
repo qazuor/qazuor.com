@@ -11,8 +11,8 @@ export async function getStaticPaths() {
     // Generate paths for each language and each blog post
     return Object.keys(languages).flatMap((lang) =>
         allBlogPosts
-            .filter((post) => !post.data.draft)
-            .map((post) => ({
+            .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
+            .map((post: CollectionEntry<'blog'>) => ({
                 params: { lang, slug: post.slug },
                 props: { post }
             }))
@@ -92,7 +92,7 @@ const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
             <!-- Tags -->
             <div class="flex flex-wrap gap-2">
                 {
-                    post.data.tags.map((tag) => (
+                    post.data.tags.map((tag: string) => (
                         <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
                             #{tag}
                         </span>

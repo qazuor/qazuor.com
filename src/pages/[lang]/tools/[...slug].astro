@@ -1,5 +1,6 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -14,8 +15,8 @@ export async function getStaticPaths() {
     // Generate paths for each language
     const langs = Object.keys(languages);
 
-    langs.forEach((lang) => {
-        tools.forEach((tool) => {
+    langs.forEach((lang: string) => {
+        tools.forEach((tool: CollectionEntry<'tools'>) => {
             paths.push({
                 params: {
                     lang,

@@ -154,6 +154,13 @@
     let entranceTimeline: gsap.core.Timeline | null = null;
 
     /**
+     * Normalize pathname by removing trailing slash for comparison
+     */
+    function normalizePathname(pathname: string): string {
+        return pathname.endsWith('/') && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
+    }
+
+    /**
      * Get page title from URL
      */
     function getPageTitle(url: URL): string {
@@ -191,9 +198,25 @@
         // Skip animation if pathname doesn't change (same-page hash navigation)
         // When pathname is the same, Astro only scrolls and doesn't trigger swap
         // This prevents the animation from getting stuck
-        const isSamePage = currentUrl.pathname === newUrl.pathname;
+        // Normalize pathnames to ignore trailing slashes
+        const currentPath = normalizePathname(currentUrl.pathname);
+        const newPath = normalizePathname(newUrl.pathname);
+        const isSamePage = currentPath === newPath;
 
         if (isSamePage) {
+            // Handle same-page hash navigation manually
+            // Astro won't trigger page-load event, so we need to update hash and scroll
+            if (newUrl.hash) {
+                // Update URL hash without reload (use full href including hash)
+                window.history.pushState({}, '', newUrl.href);
+
+                // Scroll to target element
+                const targetId = newUrl.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
             return;
         }
 
@@ -225,6 +248,49 @@
         // Pause at top
         entranceTimeline.to({}, { duration: PAUSE_DURATION });
     }) as EventListener);
+
+    /**
+     * MANUAL HASH NAVIGATION HANDLER
+     * Astro doesn't trigger before-preparation for same-page hash links,
+     * so we need to handle them manually
+     */
+    document.addEventListener('click', (e: MouseEvent) => {
+        // Ignore modified clicks
+        if (e.ctrlKey || e.shiftKey || e.metaKey || e.altKey || e.button !== 0) return;
+
+        const link = (e.target as HTMLElement)?.closest('a');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        try {
+            const currentUrl = new URL(window.location.href);
+            const newUrl = new URL(href, window.location.origin);
+
+            // Normalize pathnames for comparison (ignore trailing slashes)
+            const currentPath = normalizePathname(currentUrl.pathname);
+            const newPath = normalizePathname(newUrl.pathname);
+
+            // Only handle same-page hash navigation
+            if (currentPath === newPath && newUrl.hash) {
+                e.preventDefault();
+
+                // Update URL hash
+                window.history.pushState({}, '', newUrl.href);
+
+                // Scroll to target element
+                const targetId = newUrl.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        } catch (error) {
+            // Invalid URL, let browser handle it
+            return;
+        }
+    });
 
     /**
      * HOOK 2: Before swap - Wait for entrance, swap, then exit

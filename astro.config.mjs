@@ -38,7 +38,7 @@ export default defineConfig({
             watch: true
         }),
 
-        astroConsoleCleaner(),
+        // astroConsoleCleaner(), // Temporarily disabled due to CSS parsing issues
 
         lighthouse(),
         // 1. Frameworks first

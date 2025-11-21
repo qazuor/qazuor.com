@@ -1,4 +1,4 @@
-import { ArrowTopRightIcon } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './BlogPostCard.css';
 
@@ -98,7 +98,7 @@ export function BlogPostCard({
             <a href={slug} className="blog-post-card__icon-container" aria-label={`Read ${title}`}>
                 <div className="blog-post-card__icon-circle" style={{ backgroundColor: categoryColor }}>
                     <span className="blog-post-card__icon">
-                        <ArrowTopRightIcon />
+                        <ArrowUpRight />
                     </span>
                 </div>
             </a>

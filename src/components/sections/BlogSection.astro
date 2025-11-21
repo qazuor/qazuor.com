@@ -46,7 +46,7 @@ const categoryPlaceholders: Record<string, string> = {
 // Map posts with images (optimized by Astro)
 const postsWithImages = await Promise.all(
     posts.slice(0, 3).map(async (post) => {
-        const fullPost = allBlogPosts.find((p) => `/${lang}/blog/${p.slug}` === post.slug);
+        const fullPost = allBlogPosts.find((p: { slug: string }) => `/${lang}/blog/${p.slug}` === post.slug);
         const category = fullPost?.data.category || post.tags[0] || 'Article';
 
         let optimizedImage = '';

@@ -3,12 +3,12 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
+import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
 import subsites from 'astro-subsites';
-import { defineConfig } from 'astro/config';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
@@ -112,6 +112,51 @@ export default defineConfig({
         resolve: {
             alias: {
                 '@': new URL('./src', import.meta.url).pathname
+            }
+        },
+        build: {
+            rollupOptions: {
+                output: {
+                    manualChunks(id) {
+                        // Vendor libraries
+                        if (id.includes('node_modules')) {
+                            if (id.includes('react') || id.includes('react-dom')) {
+                                return 'vendor-react';
+                            }
+                            if (id.includes('gsap')) {
+                                return 'vendor-gsap';
+                            }
+                            if (id.includes('@studio-freight/lenis')) {
+                                return 'vendor-lenis';
+                            }
+                            if (
+                                id.includes('yet-another-react-lightbox') ||
+                                id.includes('embla-carousel')
+                            ) {
+                                return 'vendor-ui';
+                            }
+                            if (id.includes('fuse.js') || id.includes('typeit')) {
+                                return 'vendor-utils';
+                            }
+                        }
+
+                        // i18n locales
+                        if (id.includes('/locales/en/')) {
+                            return 'i18n-en';
+                        }
+                        if (id.includes('/locales/es/')) {
+                            return 'i18n-es';
+                        }
+
+                        // Icons
+                        if (id.includes('/icons/timeline/')) {
+                            return 'icons-timeline';
+                        }
+                        if (id.includes('/icons/ui/')) {
+                            return 'icons-ui';
+                        }
+                    }
+                }
             }
         }
     },

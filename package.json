@@ -64,7 +64,7 @@
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.5",
-        "@astrojs/react": "^4.4.1",
+        "@astrojs/react": "^4.4.2",
         "@astrojs/tailwind": "^6.0.2",
         "@axe-core/playwright": "^4.11.0",
         "@biomejs/biome": "^2.3.4",

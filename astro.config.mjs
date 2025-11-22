@@ -10,6 +10,7 @@ import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
 import subsites from 'astro-subsites';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
+import viteCompression from 'vite-plugin-compression';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
 
@@ -108,6 +109,21 @@ export default defineConfig({
         })
     ],
     vite: {
+        plugins: [
+            // Enable compression in development and preview
+            viteCompression({
+                algorithm: 'gzip',
+                ext: '.gz',
+                threshold: 1024, // Only compress files > 1KB
+                deleteOriginFile: false
+            }),
+            viteCompression({
+                algorithm: 'brotliCompress',
+                ext: '.br',
+                threshold: 1024,
+                deleteOriginFile: false
+            })
+        ],
         assetsInclude: ['**/*.woff', '**/*.woff2'],
         resolve: {
             alias: {
@@ -129,10 +145,7 @@ export default defineConfig({
                             if (id.includes('@studio-freight/lenis')) {
                                 return 'vendor-lenis';
                             }
-                            if (
-                                id.includes('yet-another-react-lightbox') ||
-                                id.includes('embla-carousel')
-                            ) {
+                            if (id.includes('yet-another-react-lightbox') || id.includes('embla-carousel')) {
                                 return 'vendor-ui';
                             }
                             if (id.includes('fuse.js') || id.includes('typeit')) {

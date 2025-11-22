@@ -58,7 +58,7 @@
         "react-dom": "^19.2.0",
         "react-masonry-css": "^1.0.16",
         "sharp": "^0.34.5",
-        "tailwind-merge": "^3.3.1",
+        "tailwind-merge": "^3.4.0",
         "typeit": "^8.8.7",
         "yet-another-react-lightbox": "^3.25.0"
     },

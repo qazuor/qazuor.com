@@ -5,6 +5,11 @@ import type { ImageMetadata } from 'astro';
 import { BlogPostCard } from '@/components/cards/BlogPostCard';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+// Static imports for placeholder images
+import placeholderDefault from '@/content/blog/_images/placeholder-default.jpg';
+import placeholderFrontend from '@/content/blog/_images/placeholder-frontend.jpg';
+import placeholderProgramming from '@/content/blog/_images/placeholder-programming.jpg';
+import placeholderWebdev from '@/content/blog/_images/placeholder-webdev.jpg';
 import ArrowLongRightIcon from '@/icons/ui/arrow-long-right.svg?raw';
 import DocumentEmptyIcon from '@/icons/ui/document-empty.svg?raw';
 
@@ -36,11 +41,31 @@ const { posts, primaryColor = '#8b5cf6', translations, lang } = Astro.props;
 // Get full blog collection with images
 const allBlogPosts = await getCollection('blog');
 
-// Category placeholder mapping
-const categoryPlaceholders: Record<string, string> = {
-    Frontend: './_images/placeholder-frontend.jpg',
-    Programming: './_images/placeholder-programming.jpg',
-    'Web Development': './_images/placeholder-webdev.jpg'
+// Category placeholder mapping (using static imports)
+const categoryPlaceholders: Record<string, ImageMetadata> = {
+    Frontend: placeholderFrontend,
+    Programming: placeholderProgramming,
+    'Web Development': placeholderWebdev,
+    WebAssembly: placeholderProgramming,
+    JavaScript: placeholderFrontend,
+    TypeScript: placeholderFrontend,
+    React: placeholderFrontend,
+    Astro: placeholderFrontend,
+    'Node.js': placeholderProgramming,
+    API: placeholderWebdev,
+    Database: placeholderProgramming,
+    DevOps: placeholderProgramming,
+    Testing: placeholderProgramming,
+    Performance: placeholderWebdev,
+    Security: placeholderProgramming,
+    Accessibility: placeholderWebdev,
+    SEO: placeholderWebdev,
+    Design: placeholderFrontend,
+    'UI/UX': placeholderFrontend,
+    CSS: placeholderFrontend,
+    Tutorial: placeholderWebdev,
+    Guide: placeholderWebdev,
+    Article: placeholderDefault
 };
 
 // Map posts with images (optimized by Astro)
@@ -63,17 +88,13 @@ const postsWithImages = await Promise.all(
 
         // Fallback to category placeholder
         if (!optimizedImage) {
-            const placeholderPath = categoryPlaceholders[category] || './_images/placeholder-default.jpg';
+            const placeholderImage = categoryPlaceholders[category] || placeholderDefault;
             try {
-                // Need to dynamically import the placeholder
-                const placeholderModule = await import(
-                    `../../content/blog/_images/${placeholderPath.split('/').pop()}`
-                );
-                const img = await getImage({ src: placeholderModule.default as ImageMetadata });
+                const img = await getImage({ src: placeholderImage });
                 optimizedImage = img.src;
             } catch (error) {
                 console.warn(`Failed to load placeholder for category ${category}:`, error);
-                // Last resort fallback
+                // Last resort fallback - use default placeholder without optimization
                 optimizedImage = '/placeholder.jpg';
             }
         }

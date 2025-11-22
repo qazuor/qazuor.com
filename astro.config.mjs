@@ -4,7 +4,6 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
 import compressor from 'astro-compressor';
-import astroConsoleCleaner from 'astro-console-cleaner';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
@@ -37,8 +36,6 @@ export default defineConfig({
             steps: 5,
             watch: true
         }),
-
-        // astroConsoleCleaner(), // Temporarily disabled due to CSS parsing issues
 
         lighthouse(),
         // 1. Frameworks first

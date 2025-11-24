@@ -1,16 +1,32 @@
 /* Font imports from Fontsource */
 
-/* Inter - Sans Serif (Primary) */
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
+/* ============================================
+ * CRITICAL FONTS (loaded synchronously)
+ * These fonts are used in the hero section and above-the-fold content
+ * ============================================ */
 
-/* JetBrains Mono - Monospace (Primary Code Font) */
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
-@import "@fontsource/jetbrains-mono/600.css";
-@import "@fontsource/jetbrains-mono/700.css";
+/* Inter - Critical weights for hero section */
+@import "@fontsource/inter/400.css"; /* Body text */
+@import "@fontsource/inter/600.css"; /* Headings (h1, h2) */
+@import "@fontsource/inter/700.css"; /* Bold emphasis (CTAs, strong text) */
+
+/* ============================================
+ * NON-CRITICAL FONTS (lazy loaded)
+ * These fonts are loaded asynchronously to avoid blocking render
+ * Used for: Medium headings (500), Code blocks (JetBrains Mono)
+ * ============================================ */
+
+/* Lazy load non-critical fonts using @layer to control specificity */
+@layer non-critical-fonts {
+    /* Inter - Additional weights */
+    @import "@fontsource/inter/500.css" layer(non-critical-fonts);
+
+    /* JetBrains Mono - Code blocks (not in hero) */
+    @import "@fontsource/jetbrains-mono/400.css" layer(non-critical-fonts);
+    @import "@fontsource/jetbrains-mono/500.css" layer(non-critical-fonts);
+    @import "@fontsource/jetbrains-mono/600.css" layer(non-critical-fonts);
+    @import "@fontsource/jetbrains-mono/700.css" layer(non-critical-fonts);
+}
 
 /* Font family classes for direct usage */
 

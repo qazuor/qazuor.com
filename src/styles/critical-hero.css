@@ -1,0 +1,151 @@
+/* ============================================
+ * CRITICAL CSS - HERO SECTION
+ *
+ * This CSS is inlined in <head> to prevent FOUC and improve LCP.
+ * Contains ONLY styles needed for above-the-fold hero section.
+ *
+ * Generated from: src/styles/global.css
+ * Last updated: 2025-11-24
+ * ============================================ */
+
+/* CSS Variables (dark mode only - default theme) */
+:root {
+    /* Background colors - Dark mode */
+    --bg-primary-dark: 256 45% 6%;
+    --bg-secondary-dark: 250 30% 10%;
+
+    /* Text colors - Dark mode */
+    --text-primary-dark: 240 15% 96%;
+    --text-secondary-dark: 240 10% 72%;
+
+    /* Shadcn/ui Dark Variables */
+    --background: 256 45% 8%;
+    --foreground: 240 15% 96%;
+    --primary: 215 60% 50%;
+}
+
+/* Dark mode class (set by inline script) */
+html.dark {
+    color-scheme: dark;
+}
+
+/* Base typography and layout */
+body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    line-height: 1.5;
+}
+
+/* Container utility */
+.container-custom {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+    .container-custom {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container-custom {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Hero Section Styles */
+.hero-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .hero-section {
+        align-items: center;
+        padding-top: 0;
+    }
+}
+
+/* Gradient Text Animation for Hero Title */
+.gradient-text-hero {
+    background: linear-gradient(to right, #2563eb, #a855f7, #7c3aed);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 12s ease infinite;
+}
+
+html.dark .gradient-text-hero {
+    background: linear-gradient(to right, #d8b4fe, #fbcfe8, #93c5fd);
+}
+
+/* Gradient Animation Keyframes */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Text Color Utilities */
+.text-foreground {
+    color: hsl(var(--foreground));
+}
+
+.text-foreground-secondary {
+    color: hsl(var(--text-secondary-dark));
+}
+
+.text-primary {
+    color: hsl(var(--primary));
+}
+
+/* Prevent layout shift during font load */
+.font-black {
+    font-weight: 900;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* Prevent FOUC for hero elements */
+.hero-element {
+    opacity: 1;
+}
+
+/* Skip link for accessibility (critical for a11y) */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}

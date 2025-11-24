@@ -11,7 +11,7 @@ import skillsEs from '@/locales/es/skills.json';
 export const languages = {
     en: 'English',
     es: 'Español'
-};
+} as const;
 
 export const defaultLang = 'en';
 

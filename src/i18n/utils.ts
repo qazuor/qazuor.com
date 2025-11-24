@@ -1,8 +1,17 @@
-import { defaultLang, type Locale, ui } from './ui';
+import { defaultLang, type Locale, languages, ui } from './ui';
 
+/**
+ * Get locale from URL pathname
+ *
+ * @example
+ * ```typescript
+ * getLangFromUrl(new URL('https://example.com/es/about')); // 'es'
+ * getLangFromUrl(new URL('https://example.com/invalid/about')); // 'en' (default)
+ * ```
+ */
 export function getLangFromUrl(url: URL): Locale {
     const [, lang] = url.pathname.split('/');
-    if (lang in ui) return lang as Locale;
+    if (lang in languages) return lang as Locale;
     return defaultLang;
 }
 
@@ -43,6 +52,17 @@ export interface TranslationOptions {
     fallback?: string;
 }
 
+/**
+ * Get translations for a locale
+ *
+ * @example
+ * ```typescript
+ * const t = getTranslations('en');
+ * t('common.title'); // Returns translated string
+ * t('services.webApps.title', { markdown: true }); // Processes markdown
+ * t('hero.greeting', { params: { name: 'John' } }); // Interpolates params
+ * ```
+ */
 export function getTranslations(lang: Locale) {
     return function t(key: string, options?: TranslationOptions): string {
         const keys = key.split('.');
@@ -77,18 +97,36 @@ export function getTranslations(lang: Locale) {
     };
 }
 
+/**
+ * Get the route path from URL, removing the locale prefix
+ *
+ * @example
+ * ```typescript
+ * getRouteFromUrl(new URL('https://example.com/es/about')); // '/about'
+ * getRouteFromUrl(new URL('https://example.com/about')); // '/about'
+ * ```
+ */
 export function getRouteFromUrl(url: URL): string {
     const pathname = url.pathname;
     const parts = pathname.split('/');
     const lang = parts[1];
 
-    if (lang in ui) {
+    if (lang in languages) {
         parts.splice(1, 1);
     }
 
     return parts.join('/') || '/';
 }
 
+/**
+ * Translate a path by adding the locale prefix
+ *
+ * @example
+ * ```typescript
+ * translatePath('/about', 'es'); // '/es/about'
+ * translatePath('about', 'en'); // '/en/about'
+ * ```
+ */
 export function translatePath(path: string, lang: Locale): string {
     // Remove leading slash
     const cleanPath = path.startsWith('/') ? path.slice(1) : path;

@@ -1,0 +1,86 @@
+---
+/**
+ * SVG Sprite for Timeline Icons
+ *
+ * Generates a hidden SVG sprite containing all timeline icons as symbols.
+ * This component reads all SVG files from the timeline icons directory at build time,
+ * extracts their viewBox and content, and creates a sprite that can be referenced
+ * by the TimelineIcon component using <use> elements.
+ *
+ * @component
+ * @example
+ * ```astro
+ * <TimelineIconSprite />
+ * ```
+ */
+
+interface IconSymbol {
+    name: string;
+    viewBox: string;
+    content: string;
+}
+
+/**
+ * Extracts viewBox and inner content from an SVG string
+ *
+ * @param svgString - Raw SVG file content
+ * @returns Object containing viewBox attribute and inner SVG content
+ */
+function extractSVGContent(svgString: string): { viewBox: string; content: string } {
+    const viewBoxMatch = svgString.match(/viewBox="([^"]+)"/);
+    const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 24 24';
+
+    const contentMatch = svgString.match(/<svg[^>]*>([\s\S]*)<\/svg>/);
+    const content = contentMatch ? contentMatch[1].trim() : '';
+
+    return { viewBox, content };
+}
+
+/**
+ * Generates symbol definitions for all timeline icons
+ *
+ * Reads all SVG files from the timeline icons directory and converts them
+ * into symbol definitions for use in an SVG sprite.
+ *
+ * @returns Array of icon symbol objects with name, viewBox, and content
+ */
+function generateSymbols(): IconSymbol[] {
+    try {
+        // Use Vite's import.meta.glob to read SVG files at build time
+        const iconModules = import.meta.glob('../../icons/timeline/*.svg', {
+            query: '?raw',
+            eager: true,
+            import: 'default'
+        });
+
+        return Object.entries(iconModules).map(([path, content]) => {
+            // Extract filename without extension from path
+            const name = path.split('/').pop()?.replace('.svg', '') || '';
+            const svgContent = content as string;
+            const { viewBox, content: innerContent } = extractSVGContent(svgContent);
+
+            return { name, viewBox, content: innerContent };
+        });
+    } catch (error) {
+        console.error('Failed to generate timeline icon sprite:', error);
+        return [];
+    }
+}
+
+const symbols = generateSymbols();
+---
+
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="position: absolute; width: 0; height: 0; overflow: hidden;"
+    aria-hidden="true"
+>
+    <defs>
+        {
+            symbols.map(({ name, viewBox, content }) => (
+                <symbol id={`timeline-${name}`} viewBox={viewBox} set:html={content} />
+            ))
+        }
+    </defs>
+</svg>

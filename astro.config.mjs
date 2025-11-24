@@ -14,6 +14,7 @@ import viteCompression from 'vite-plugin-compression';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import fontPreloader from './integrations/astro-font-preloader/index.ts';
 import searchIndex from './integrations/search-index.ts';
+import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,6 +45,12 @@ export default defineConfig({
             outputFile: 'src/styles/generated-colors.css',
             steps: 5,
             watch: true
+        }),
+
+        // Timeline Sprite Watcher (enable HMR for icon changes)
+        timelineSpriteWatcher({
+            iconsPath: 'src/icons/timeline',
+            verbose: true
         }),
 
         lighthouse(),
@@ -170,9 +177,6 @@ export default defineConfig({
                         }
 
                         // Icons
-                        if (id.includes('/icons/timeline/')) {
-                            return 'icons-timeline';
-                        }
                         if (id.includes('/icons/ui/')) {
                             return 'icons-ui';
                         }

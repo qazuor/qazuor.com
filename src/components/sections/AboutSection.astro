@@ -5,6 +5,7 @@ import GetInTouchLink from '@/components/ui/GetInTouchLink.astro';
 import ProfileCodeBlock from '@/components/ui/ProfileCodeBlock.astro';
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import TimelineIconSprite from '@/components/ui/TimelineIconSprite.astro';
 
 interface Props {
     primaryColor?: string;
@@ -60,6 +61,9 @@ const {
 ---
 
 <section class="relative section about-section overflow-hidden" id="about" style={`background-color: ${primaryColor}`}>
+    <!-- Timeline Icon Sprite -->
+    <TimelineIconSprite />
+
     <!-- Animated Gradient Background -->
     <AnimatedGradientBackground />
 

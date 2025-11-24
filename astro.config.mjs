@@ -10,6 +10,7 @@ import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
 import subsites from 'astro-subsites';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
+import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import fontPreloader from './integrations/astro-font-preloader/index.ts';
@@ -125,6 +126,14 @@ export default defineConfig({
     ],
     vite: {
         plugins: [
+            // Bundle analyzer (only in build mode)
+            process.env.ANALYZE === 'true' &&
+                visualizer({
+                    filename: './dist/stats.html',
+                    open: true,
+                    gzipSize: true,
+                    brotliSize: true
+                }),
             // Enable compression in development and preview
             viteCompression({
                 algorithm: 'gzip',

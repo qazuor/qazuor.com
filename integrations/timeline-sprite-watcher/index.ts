@@ -57,6 +57,7 @@ export default function timelineSpriteWatcher(options: TimelineSpriteWatcherOpti
 
     let projectRoot = '';
     let viteServer: ViteDevServer | null = null;
+    let spriteModuleEverLoaded = false; // Track if sprite was ever loaded
 
     return {
         name: 'timeline-sprite-watcher',
@@ -132,6 +133,7 @@ export default function timelineSpriteWatcher(options: TimelineSpriteWatcherOpti
                         );
 
                         if (spriteModule) {
+                            spriteModuleEverLoaded = true; // Mark as loaded
                             const module = viteServer.moduleGraph.urlToModuleMap.get(spriteModule);
                             if (module) {
                                 // Invalidate the module
@@ -147,8 +149,9 @@ export default function timelineSpriteWatcher(options: TimelineSpriteWatcherOpti
                                     console.log('✅ Sprite module invalidated, HMR triggered\n');
                                 }
                             }
-                        } else if (verbose) {
-                            console.warn('⚠️  Could not find TimelineIconSprite module\n');
+                        } else if (verbose && spriteModuleEverLoaded) {
+                            // Only warn if module was previously loaded (unusual case)
+                            console.warn('⚠️  Could not find TimelineIconSprite module (was previously loaded)\n');
                         }
                     }
                 }

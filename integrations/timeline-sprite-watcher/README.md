@@ -103,6 +103,18 @@ When an SVG file changes, the integration:
 3. Verify the file extension is `.svg` (case-sensitive)
 4. If still not working, restart the dev server
 
+### No warning on first SVG change
+
+**Behavior:** When you modify an SVG file before visiting any page that uses the
+sprite, you see `🔄 SVG changed` but no "Sprite module invalidated" message
+
+**Why:** This is expected. The sprite module isn't loaded until a page that uses
+it is visited. The integration silently ignores changes until the module is
+first loaded, then HMR works normally.
+
+**Is this a problem?** No. Once you visit a page with the sprite, HMR will work
+for all subsequent changes.
+
 ### Full reload instead of HMR
 
 **Behavior:** The integration triggers a full page reload instead of hot module

@@ -75,23 +75,19 @@ const {
             <!-- Two Column Layout -->
             <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-start mt-12">
                 <!-- Left Column - Code Block -->
-                <div class="order-2 md:order-1">
-                    <ProfileCodeBlock lang={lang} className="max-w-none" />
-                </div>
+                <ProfileCodeBlock lang={lang} className="max-w-none order-2 md:order-1" />
 
                 <!-- Right Column - Text Content -->
-                <div class="order-1 md:order-2 space-y-6">
-                    <div class="prose prose-lg max-w-none">
-                        <SecondaryTitle text={translations.storyTitle} variant="story" size="lg" className="mb-6" />
+                <article class="order-1 md:order-2 prose prose-lg max-w-none space-y-6">
+                    <SecondaryTitle text={translations.storyTitle} variant="story" size="lg" className="mb-6" />
 
-                        <div class="text-foreground-secondary leading-relaxed space-y-4">
-                            <p set:html={translations.storyParagraph1} />
-                            <p set:html={translations.storyParagraph2} />
-                            <p set:html={translations.storyParagraph3} />
-                            <p class="text-foreground font-medium" set:html={translations.storySummary} />
-                        </div>
+                    <div class="text-foreground-secondary leading-relaxed space-y-4">
+                        <p set:html={translations.storyParagraph1} />
+                        <p set:html={translations.storyParagraph2} />
+                        <p set:html={translations.storyParagraph3} />
+                        <p class="text-foreground font-medium" set:html={translations.storySummary} />
                     </div>
-                </div>
+                </article>
             </div>
         </div>
 

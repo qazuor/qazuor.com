@@ -17,8 +17,11 @@ import '../styles/fonts.css';
 // Import auto-generated colors
 import '../styles/generated-colors.css';
 
+// Astro image optimization
+import { getImage } from 'astro:assets';
 // View Transitions with Custom GSAP Animation
 import { ViewTransitions } from 'astro:transitions';
+import photo1 from '@/assets/images/photo1.png';
 // Other imports
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import { SmoothScroll } from '@/components/animations/SmoothScroll';
@@ -57,6 +60,12 @@ interface Props {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
+// Optimize hero image for LCP (Largest Contentful Paint)
+const optimizedPhoto = await getImage({
+    src: photo1,
+    format: 'webp'
+});
+
 const {
     title,
     description = t('home.description'),
@@ -90,6 +99,46 @@ const alternateLinks = locales.map((locale) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content={Astro.generator} />
+
+        <!-- Performance: Preload Critical Resources -->
+        <!-- Only preload fonts used above-the-fold (hero section) -->
+        <!-- Using crossorigin="anonymous" is required for font preloading -->
+
+        <!-- Inter 400 - Body text (used throughout hero section) -->
+        <link
+            rel="preload"
+            href="/fonts/inter-latin-400-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+
+        <!-- Inter 600 - Headings (h1, h2 in hero) -->
+        <link
+            rel="preload"
+            href="/fonts/inter-latin-600-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+
+        <!-- Inter 700 - Bold emphasis (CTAs and strong text) -->
+        <link
+            rel="preload"
+            href="/fonts/inter-latin-700-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+
+        <!-- Preload LCP image (hero image) with high priority -->
+        <!-- Optimized with Astro's getImage() for WebP format -->
+        <link
+            rel="preload"
+            href={optimizedPhoto.src}
+            as="image"
+            fetchpriority="high"
+        />
 
         <!-- SEO Component -->
         <SEO

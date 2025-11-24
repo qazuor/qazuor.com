@@ -5,6 +5,9 @@ dist/
 # generated types
 .astro/
 
+# generated fonts (copied by astro-font-preloader integration)
+public/fonts/
+
 # dependencies
 node_modules/
 

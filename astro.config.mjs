@@ -12,6 +12,7 @@ import subsites from 'astro-subsites';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import viteCompression from 'vite-plugin-compression';
 import colorInterpolation from './integrations/color-interpolation.ts';
+import fontPreloader from './integrations/astro-font-preloader/index.ts';
 import searchIndex from './integrations/search-index.ts';
 
 // https://astro.build/config
@@ -29,6 +30,13 @@ export default defineConfig({
     integrations: [
         // Search Index Generator (early to setup infrastructure)
         searchIndex(),
+
+        // Font Preloader (copy fonts to public/fonts before build)
+        fontPreloader({
+            autoDetect: true,
+            subsets: ['latin'],
+            verbose: true
+        }),
 
         // Color Interpolation Generator (first to run early)
         colorInterpolation({

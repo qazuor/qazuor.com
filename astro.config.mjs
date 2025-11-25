@@ -3,6 +3,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
+import AstroPWA from '@vite-pwa/astro';
 import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
@@ -21,6 +22,12 @@ import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.
 export default defineConfig({
     site: 'https://example.com',
     output: 'static',
+
+    // Prefetch optimization for faster navigation
+    prefetch: {
+        prefetchAll: true,
+        defaultStrategy: 'viewport' // More aggressive than 'hover' default
+    },
 
     // Image optimization with Sharp
     image: {
@@ -118,7 +125,70 @@ export default defineConfig({
         subsites(),
         normalizeTrailingSlash(),
 
-        // 4. Compression - ALWAYS LAST
+        // 4. PWA - Service Worker for offline caching
+        AstroPWA({
+            mode: 'production',
+            base: '/',
+            scope: '/',
+            includeAssets: ['favicon.svg', 'fonts/*.woff2'],
+            registerType: 'autoUpdate',
+            manifest: false, // Using astro-favicons manifest
+            workbox: {
+                // Exclude HTML from precache (too large due to inline SVGs)
+                // HTML will be cached at runtime with NetworkFirst strategy
+                globPatterns: ['**/*.{js,css,woff2,png,jpg,jpeg,svg,webp,avif,ico}'],
+                // Cache strategies
+                runtimeCaching: [
+                    {
+                        // Cache pages with NetworkFirst (always try network)
+                        urlPattern: /^https:\/\/qazuor-com\.vercel\.app\/.*$/,
+                        handler: 'NetworkFirst',
+                        options: {
+                            cacheName: 'pages-cache',
+                            expiration: {
+                                maxEntries: 50,
+                                maxAgeSeconds: 60 * 60 * 24 * 7 // 1 week
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200]
+                            }
+                        }
+                    },
+                    {
+                        // Cache static assets with CacheFirst
+                        urlPattern: /\.(js|css|woff2?|png|jpg|jpeg|svg|webp|avif)$/,
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'static-assets',
+                            expiration: {
+                                maxEntries: 100,
+                                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                            }
+                        }
+                    },
+                    {
+                        // Cache fonts specifically
+                        urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'google-fonts-cache',
+                            expiration: {
+                                maxEntries: 10,
+                                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                            }
+                        }
+                    }
+                ],
+                // Don't cache these
+                navigateFallback: null,
+                cleanupOutdatedCaches: true
+            },
+            devOptions: {
+                enabled: false // Disable in dev to avoid issues
+            }
+        }),
+
+        // 5. Compression - ALWAYS LAST
         compressor({
             gzip: true,
             brotli: true

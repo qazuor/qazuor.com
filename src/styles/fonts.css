@@ -7,8 +7,9 @@
 
 /* Inter - Critical weights for hero section */
 @import "@fontsource/inter/400.css"; /* Body text */
-@import "@fontsource/inter/600.css"; /* Headings (h1, h2) */
+@import "@fontsource/inter/600.css"; /* Headings (h2, h3) */
 @import "@fontsource/inter/700.css"; /* Bold emphasis (CTAs, strong text) */
+@import "@fontsource/inter/900.css"; /* Hero h1 (font-black) */
 
 /* ============================================
  * NON-CRITICAL FONTS (lazy loaded)

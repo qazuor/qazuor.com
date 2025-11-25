@@ -100,7 +100,7 @@ const alternateLinks = locales.map((locale) => {
             crossorigin="anonymous"
         />
 
-        <!-- Inter 600 - Headings (h1, h2 in hero) -->
+        <!-- Inter 600 - Subheadings (h2, h3) -->
         <link
             rel="preload"
             href="/fonts/inter-latin-600-normal.woff2"
@@ -113,6 +113,15 @@ const alternateLinks = locales.map((locale) => {
         <link
             rel="preload"
             href="/fonts/inter-latin-700-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+
+        <!-- Inter 900 - Hero h1 (font-black) - Critical for LCP -->
+        <link
+            rel="preload"
+            href="/fonts/inter-latin-900-normal.woff2"
             as="font"
             type="font/woff2"
             crossorigin="anonymous"
@@ -350,12 +359,18 @@ const alternateLinks = locales.map((locale) => {
         <!-- New Footer Component -->
         <Footer lang={lang} />
 
-        <!-- Mermaid Diagram Renderer -->
+        <!-- Mermaid Diagram Renderer (Lazy Load) -->
         <script type="module" is:inline>
             // Mermaid initialization function
             async function initializeMermaid() {
+                // Check for mermaid blocks FIRST (before loading library)
+                const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+
+                // Exit early if no mermaid diagrams on page (saves ~548KB)
+                if (mermaidBlocks.length === 0) return;
+
                 try {
-                    // Try to load mermaid
+                    // Only load mermaid when needed
                     const mermaidModule = await import(
                         'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
                     );
@@ -393,11 +408,6 @@ const alternateLinks = locales.map((locale) => {
                         },
                         securityLevel: 'loose'
                     });
-
-                    // Process mermaid blocks
-                    const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
-
-                    if (mermaidBlocks.length === 0) return;
 
                     // First, preserve expressive-code assets from the first block
                     const firstExpressiveContainer = document.querySelector('.expressive-code');

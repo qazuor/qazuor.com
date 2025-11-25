@@ -36,7 +36,15 @@ const blogCollection = defineCollection({
             readTime: z.string(),
             draft: z.boolean().default(false),
             image: image().optional(), // Local image (relative path from content file)
-            category: z.string().optional() // Category for card badge
+            category: z.string().optional(), // Category for card badge
+            // Series support for multi-part articles
+            series: z
+                .object({
+                    id: z.string(), // Unique series identifier: "hospeda"
+                    name: z.string(), // Display name: "Hospeda: Building a tourism portal"
+                    part: z.number() // Part number: 1, 2, 3...
+                })
+                .optional()
         })
 });
 

@@ -71,12 +71,30 @@
         "readTime": "min de lectura",
         "viewAll": "Ver **todos** los artículos",
         "noArticles": "Aún no hay artículos. *¡Vuelve pronto!*",
+        "toc": {
+            "title": "En esta página",
+            "openToc": "Abrir índice de contenidos",
+            "closeToc": "Cerrar"
+        },
         "pagination": {
             "previous": "Anterior",
             "next": "Siguiente",
             "page": "Página",
             "of": "de",
             "articles": "artículos"
+        },
+        "series": {
+            "partOf": "Parte",
+            "of": "de",
+            "currentPart": "Leyendo ahora"
+        },
+        "navigation": {
+            "label": "Navegación del artículo",
+            "previous": "Anterior",
+            "next": "Siguiente"
+        },
+        "related": {
+            "title": "Artículos Relacionados"
         },
         "cta": {
             "title": "¿Quieres aprender más?",

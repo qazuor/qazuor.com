@@ -71,12 +71,30 @@
         "readTime": "min read",
         "viewAll": "View **all** articles",
         "noArticles": "No articles yet. *Check back soon!*",
+        "toc": {
+            "title": "On this page",
+            "openToc": "Open table of contents",
+            "closeToc": "Close"
+        },
         "pagination": {
             "previous": "Previous",
             "next": "Next",
             "page": "Page",
             "of": "of",
             "articles": "articles"
+        },
+        "series": {
+            "partOf": "Part",
+            "of": "of",
+            "currentPart": "Reading now"
+        },
+        "navigation": {
+            "label": "Post navigation",
+            "previous": "Previous",
+            "next": "Next"
+        },
+        "related": {
+            "title": "Related Articles"
         },
         "cta": {
             "title": "Want to learn more?",

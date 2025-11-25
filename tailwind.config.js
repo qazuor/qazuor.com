@@ -180,7 +180,8 @@ export default {
                 '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
                 glow: '0 0 20px rgb(22 242 179 / 0.3)',
                 'glow-primary': '0 0 20px oklch(0.55 0.22 210 / 0.3)',
-                'glow-secondary': '0 0 20px oklch(0.70 0.18 180 / 0.3)'
+                'glow-secondary': '0 0 20px oklch(0.70 0.18 180 / 0.3)',
+                dropdown: '0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 6px -1px rgb(0 0 0 / 0.05)'
             },
             transitionDuration: {
                 fast: '150ms',
@@ -191,6 +192,32 @@ export default {
             },
             transitionTimingFunction: {
                 spring: 'cubic-bezier(0.27, 0.22, 0.44, 1.03)'
+            },
+            keyframes: {
+                slideInDropdown: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateY(-8px) translateX(0)'
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateY(0) translateX(0)'
+                    }
+                },
+                slideInDropdownCentered: {
+                    '0%': {
+                        opacity: '0',
+                        translate: '0 -8px'
+                    },
+                    '100%': {
+                        opacity: '1',
+                        translate: '0 0'
+                    }
+                }
+            },
+            animation: {
+                slideInDropdown: 'slideInDropdown 550ms cubic-bezier(0.17, 0.67, 0.51, 1)',
+                slideInDropdownCentered: 'slideInDropdownCentered 550ms cubic-bezier(0.17, 0.67, 0.51, 1)'
             }
         }
     },

@@ -195,7 +195,12 @@
         "tryDemo": "Try Demo",
         "viewSource": "View Source",
         "comingSoon": "Coming Soon",
-        "noTools": "No tools found for this category"
+        "noTools": "No tools found for this category",
+        "dropdown": {
+            "headerTitle": "Tools",
+            "headerDescription": "Free developer tools and utilities",
+            "viewAll": "View All Tools"
+        }
     },
     "aria": {
         "github": "Visit my GitHub profile",

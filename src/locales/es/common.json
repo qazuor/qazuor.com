@@ -195,7 +195,12 @@
         "tryDemo": "Probar Demo",
         "viewSource": "Ver Código",
         "comingSoon": "Próximamente",
-        "noTools": "No se encontraron herramientas para esta categoría"
+        "noTools": "No se encontraron herramientas para esta categoría",
+        "dropdown": {
+            "headerTitle": "Herramientas",
+            "headerDescription": "Herramientas gratuitas y utilidades para desarrolladores",
+            "viewAll": "Ver Todas las Herramientas"
+        }
     },
     "aria": {
         "github": "Visita mi perfil de GitHub",

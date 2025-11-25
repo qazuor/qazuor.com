@@ -19,6 +19,18 @@ interface NavDropdownProps {
     className?: string;
     /** Callback when dropdown state changes */
     onOpenChange?: (isOpen: boolean) => void;
+    /** Layout variant: 'list' (vertical single column) or 'grid' (2-column grid like Josh Comeau) */
+    variant?: 'list' | 'grid';
+    /** Optional header with title and description */
+    header?: {
+        title?: string;
+        description?: string;
+    };
+    /** Show "View All" link separately from grid items */
+    viewAllLink?: {
+        label: string;
+        href: string;
+    };
 }
 
 /**
@@ -26,7 +38,16 @@ interface NavDropdownProps {
  * Supports hover, click, and keyboard navigation
  * Reusable for any navigation dropdown needs
  */
-export function NavDropdown({ label, items, isActive = false, className = '', onOpenChange }: NavDropdownProps) {
+export function NavDropdown({
+    label,
+    items,
+    isActive = false,
+    className = '',
+    onOpenChange,
+    variant = 'list',
+    header,
+    viewAllLink
+}: NavDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -113,6 +134,24 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
         }
     };
 
+    const handleMenuKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            handleSetIsOpen(false);
+            setFocusedIndex(-1);
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setFocusedIndex((prev) => (prev < items.length - 1 ? prev + 1 : prev));
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+        } else if (e.key === 'Tab') {
+            // Allow normal tab behavior but close menu
+            handleSetIsOpen(false);
+            setFocusedIndex(-1);
+        }
+    };
+
     if (!mounted) {
         return (
             <div className={`relative ${className}`}>
@@ -167,45 +206,122 @@ export function NavDropdown({ label, items, isActive = false, className = '', on
                 <div
                     role="menu"
                     aria-label={`${label} menu`}
-                    className="absolute top-full left-0 mt-2 w-52 rounded-lg bg-card border border-foreground/10 shadow-lg overflow-hidden z-[100] opacity-100 translate-y-0 transition-all duration-200"
+                    onKeyDown={handleMenuKeyDown}
+                    className={`
+                        absolute top-full border border-foreground/[0.06] overflow-visible z-[100]
+                        shadow-lg
+                        bg-background dark:bg-card
+                        ${
+                            variant === 'grid'
+                                ? 'w-[480px] rounded-lg left-1/2 -translate-x-1/2 mt-8 animate-slideInDropdownCentered'
+                                : 'w-52 rounded-lg left-0 mt-3 animate-slideInDropdown'
+                        }
+                    `}
                 >
-                    {items.map((item, index) => (
-                        <a
-                            key={item.id}
-                            ref={(el) => {
-                                menuItemRefs.current[index] = el;
-                            }}
-                            href={item.href}
-                            role="menuitem"
-                            tabIndex={focusedIndex === index ? 0 : -1}
-                            className={`flex items-center gap-2.5 px-3 py-2 text-[0.65rem] text-foreground-secondary hover:text-foreground hover:bg-foreground/5 transition-colors ${
-                                index === 0
-                                    ? 'font-medium text-foreground border-b border-foreground/10'
-                                    : 'font-normal'
-                            }`}
-                            onClick={() => handleSetIsOpen(false)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    window.location.href = item.href;
-                                }
-                            }}
+                    {/* Arrow/Triangle Indicator - only for grid variant */}
+                    {variant === 'grid' && (
+                        <div
+                            className="absolute -top-[14px] left-1/2 -translate-x-1/2 w-8 h-[14px] overflow-hidden"
+                            aria-hidden="true"
                         >
-                            {item.icon && (
-                                <span className="text-lg opacity-80" aria-hidden="true">
-                                    {item.icon}
-                                </span>
+                            <div className="absolute top-[7px] left-1/2 -translate-x-1/2 w-5 h-5 rotate-45 bg-background dark:bg-card border-l border-t border-foreground/[0.06]" />
+                        </div>
+                    )}
+                    {/* Header (if provided) */}
+                    {header && (header.title || header.description) && (
+                        <div className="px-4 pt-4 pb-3 border-b border-foreground/[0.06]">
+                            {header.title && (
+                                <h3 className="text-sm font-bold text-primary uppercase tracking-wide">
+                                    {header.title}
+                                </h3>
                             )}
-                            <div className="flex-1">
-                                <div>{item.label}</div>
-                                {item.description && (
-                                    <div className="text-[10px] text-foreground-secondary/70 mt-0.5">
-                                        {item.description}
-                                    </div>
+                            {header.description && (
+                                <p className="text-[0.75rem] text-foreground-secondary/70 mt-1 leading-relaxed">
+                                    {header.description}
+                                </p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Grid Items */}
+                    <div className={variant === 'grid' ? 'grid grid-cols-2 gap-1 p-3' : 'flex flex-col'}>
+                        {items.map((item, index) => (
+                            <a
+                                key={item.id}
+                                ref={(el) => {
+                                    menuItemRefs.current[index] = el;
+                                }}
+                                href={item.href}
+                                role="menuitem"
+                                tabIndex={focusedIndex === index ? 0 : -1}
+                                className={`
+                                    flex items-center gap-2 transition-all duration-200
+                                    ${
+                                        variant === 'grid'
+                                            ? 'px-3 py-2 text-[0.8125rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.02] focus:bg-foreground/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/20'
+                                            : 'px-3 py-2 text-[0.65rem] hover:bg-foreground/5'
+                                    }
+                                    ${
+                                        index === 0 && variant === 'list'
+                                            ? 'font-medium text-foreground border-b border-foreground/10'
+                                            : 'font-normal text-foreground-secondary hover:text-foreground'
+                                    }
+                                `}
+                                onClick={() => handleSetIsOpen(false)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        window.location.href = item.href;
+                                    }
+                                }}
+                            >
+                                {item.icon && (
+                                    <span className="text-[1.125rem] flex-shrink-0 opacity-60" aria-hidden="true">
+                                        {item.icon}
+                                    </span>
                                 )}
-                            </div>
-                        </a>
-                    ))}
+                                <div className="flex-1 min-w-0">
+                                    <div
+                                        className={`${variant === 'grid' ? 'text-[0.8125rem] leading-snug font-normal break-words' : ''}`}
+                                    >
+                                        {item.label}
+                                    </div>
+                                    {item.description && (
+                                        <div className="text-[10px] text-foreground-secondary/70 mt-0.5">
+                                            {item.description}
+                                        </div>
+                                    )}
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* View All Link (if provided) */}
+                    {viewAllLink && (
+                        <div className="border-t border-foreground/[0.06] p-3">
+                            <a
+                                href={viewAllLink.href}
+                                className="flex items-center justify-between px-3 py-2 text-[0.8125rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.02] transition-all duration-200 text-foreground-secondary hover:text-foreground font-medium focus:bg-foreground/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                onClick={() => handleSetIsOpen(false)}
+                            >
+                                <span>{viewAllLink.label}</span>
+                                <svg
+                                    className="w-4 h-4 opacity-50"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

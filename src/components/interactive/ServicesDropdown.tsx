@@ -10,6 +10,9 @@ interface ServicesDropdownProps {
         landingPages: string;
         automation: string;
         socialDesign: string;
+        headerTitle?: string;
+        headerDescription?: string;
+        viewAllLabel?: string;
     };
 }
 
@@ -31,24 +34,39 @@ export function ServicesDropdown({
         'social-media-design': translations.socialDesign
     };
 
-    // Build dropdown items
-    const dropdownItems: NavDropdownItem[] = [
-        {
-            id: 'all-services',
-            label: allServicesLabel,
-            icon: '📋',
-            href: `/${currentLocale}/services`
-        },
-        ...services.map((service) => ({
-            id: service.id,
-            label: serviceLabels[service.id],
-            icon: service.icon,
-            href: `/${currentLocale}/services/${service.slug}`
-        }))
-    ];
+    // Build dropdown items (without "All Services" - it goes in viewAllLink)
+    const dropdownItems: NavDropdownItem[] = services.map((service) => ({
+        id: service.id,
+        label: serviceLabels[service.id],
+        icon: service.icon,
+        href: `/${currentLocale}/services/${service.slug}`
+    }));
 
     // Check if we're on any services page
     const isServicesActive = currentPath.includes('/services');
 
-    return <NavDropdown label={allServicesLabel} items={dropdownItems} isActive={isServicesActive} />;
+    return (
+        <NavDropdown
+            label={allServicesLabel}
+            items={dropdownItems}
+            isActive={isServicesActive}
+            variant="grid"
+            header={
+                translations.headerTitle || translations.headerDescription
+                    ? {
+                          title: translations.headerTitle,
+                          description: translations.headerDescription
+                      }
+                    : undefined
+            }
+            viewAllLink={
+                translations.viewAllLabel
+                    ? {
+                          label: translations.viewAllLabel,
+                          href: `/${currentLocale}/services`
+                      }
+                    : undefined
+            }
+        />
+    );
 }

@@ -286,5 +286,10 @@
     "pricingRanges": "**Rangos** de Precios",
     "pricingFactorsTitle": "**¿Qué Afecta** el Costo?",
     "faqTitle": "**Preguntas** Frecuentes",
-    "faqSubtitle": "Todo lo que necesitas saber"
+    "faqSubtitle": "Todo lo que necesitas saber",
+    "dropdown": {
+        "headerTitle": "Servicios",
+        "headerDescription": "Soluciones profesionales de desarrollo web y diseño",
+        "viewAll": "Ver Todos los Servicios"
+    }
 }

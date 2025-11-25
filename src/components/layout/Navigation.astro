@@ -1,15 +1,35 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { normalizeTrailingSlash } from '@reunmedia/astro-normalize-trailing-slash';
 import { CommandButton } from '@/components/interactive/CommandButton';
 import { LanguageSelector } from '@/components/interactive/LanguageSelector';
 import { ServicesDropdown } from '@/components/interactive/ServicesDropdown';
 import { ThemeToggle } from '@/components/interactive/ThemeToggle';
+import { ToolsDropdown } from '@/components/interactive/ToolsDropdown';
 import { services } from '@/data/services';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
+
+// Get tools for dropdown
+const allTools = await getCollection('tools');
+const toolsForDropdown = allTools
+    .sort((a: CollectionEntry<'tools'>, b: CollectionEntry<'tools'>) => {
+        // Featured first, then by date
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+    })
+    .slice(0, 5) // Show only the first 5 tools in the dropdown
+    .map((tool: CollectionEntry<'tools'>) => ({
+        slug: tool.slug,
+        title: tool.data.title,
+        icon: '🛠️', // You can customize this based on tool category if needed
+        category: tool.data.category
+    }));
 
 // Helper function to format nav labels as HTML tags
 const formatAsTag = (label: string) => `<${label.toLowerCase()} />`;
@@ -19,7 +39,17 @@ const servicesDropdownTranslations = {
     webApps: t('services.webApps.title', { markdown: false }).replace(/\*\*/g, ''),
     landingPages: t('services.landingPages.title', { markdown: false }).replace(/\*\*/g, ''),
     automation: t('services.automation.title', { markdown: false }).replace(/\*\*/g, ''),
-    socialDesign: t('services.socialDesign.title', { markdown: false }).replace(/\*\*/g, '')
+    socialDesign: t('services.socialDesign.title', { markdown: false }).replace(/\*\*/g, ''),
+    headerTitle: t('services.dropdown.headerTitle'),
+    headerDescription: t('services.dropdown.headerDescription'),
+    viewAllLabel: t('services.dropdown.viewAll')
+};
+
+// Tools dropdown translations
+const toolsDropdownTranslations = {
+    headerTitle: t('tools.dropdown.headerTitle'),
+    headerDescription: t('tools.dropdown.headerDescription'),
+    viewAllLabel: t('tools.dropdown.viewAll')
 };
 
 // Check if we're on the home page for navigation logic
@@ -85,6 +115,20 @@ const isActive = (href: string) => {
                                     currentPath={currentPath}
                                     allServicesLabel={item.label}
                                     translations={servicesDropdownTranslations}
+                                />
+                            );
+                        }
+
+                        // Use dropdown for tools
+                        if (item.href.includes('/tools')) {
+                            return (
+                                <ToolsDropdown
+                                    client:load
+                                    currentLocale={lang}
+                                    currentPath={currentPath}
+                                    allToolsLabel={item.label}
+                                    tools={toolsForDropdown}
+                                    translations={toolsDropdownTranslations}
                                 />
                             );
                         }

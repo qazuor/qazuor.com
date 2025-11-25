@@ -637,4 +637,231 @@
     .skip-link:hover {
         transform: translateX(-50%) scale(1.05);
     }
+
+    /* ==========================================================================
+       CONTENT PROSE - Centralized markdown content styles
+       Used by: projects/[slug], blog/[slug], tools/[...slug]
+       ========================================================================== */
+
+    .content-prose {
+        @apply text-foreground-secondary;
+    }
+
+    /* Headings - H1 */
+    .content-prose h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-top: 4rem;
+        margin-bottom: 1rem;
+        line-height: 1.3;
+        color: hsl(var(--primary));
+    }
+
+    .content-prose h1:first-child {
+        margin-top: 0;
+    }
+
+    /* Headings - H2 with decorative bar */
+    .content-prose h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-top: 3rem;
+        margin-bottom: 0.875rem;
+        line-height: 1.35;
+        color: hsl(var(--primary));
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .content-prose h2:first-child {
+        margin-top: 0;
+    }
+
+    .content-prose h2::before {
+        content: '';
+        width: 0.25rem;
+        height: 1.5rem;
+        background-color: hsl(var(--primary));
+        border-radius: 9999px;
+        flex-shrink: 0;
+    }
+
+    /* Headings - H3 */
+    .content-prose h3 {
+        font-size: 1.0625rem;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+        color: hsl(var(--foreground));
+    }
+
+    /* Headings - H4 uppercase */
+    .content-prose h4 {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        margin-top: 2rem;
+        margin-bottom: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: hsl(var(--foreground-secondary));
+    }
+
+    /* Paragraphs */
+    .content-prose p {
+        font-size: 0.875rem;
+        margin-bottom: 1.25rem;
+        line-height: 1.75;
+    }
+
+    /* Lists - Custom bullets */
+    .content-prose ul {
+        list-style: none;
+        margin: 0 0 1.5rem 0;
+        padding: 0;
+    }
+
+    .content-prose ol {
+        list-style: none;
+        margin: 0 0 1.5rem 0;
+        padding: 0;
+        counter-reset: item;
+    }
+
+    .content-prose li {
+        position: relative;
+        padding-left: 2rem;
+        font-size: 0.875rem;
+        line-height: 1.75;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Unordered list - custom bullets */
+    .content-prose ul > li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: hsl(var(--primary));
+        border-radius: 9999px;
+    }
+
+    /* Ordered list - custom numbers */
+    .content-prose ol > li {
+        counter-increment: item;
+    }
+
+    .content-prose ol > li::before {
+        content: counter(item) '.';
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: hsl(var(--primary));
+        font-weight: 600;
+    }
+
+    /* Nested lists */
+    .content-prose li > ul,
+    .content-prose li > ol {
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+    }
+
+    /* Strong/Bold */
+    .content-prose strong {
+        color: hsl(var(--foreground));
+        font-weight: 600;
+    }
+
+    /* Links - always underlined */
+    .content-prose a {
+        color: hsl(var(--primary));
+        text-decoration: underline;
+        text-decoration-color: hsl(var(--primary) / 0.3);
+        transition: text-decoration-color 0.2s;
+    }
+
+    .content-prose a:hover {
+        text-decoration-color: hsl(var(--primary) / 0.6);
+    }
+
+    /* Inline code */
+    .content-prose code {
+        background-color: hsl(var(--foreground) / 0.05);
+        color: hsl(var(--primary));
+        padding: 0.125rem 0.375rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    }
+
+    /* Code blocks */
+    .content-prose pre {
+        background-color: hsl(var(--foreground) / 0.05);
+        border: 1px solid hsl(var(--border));
+        border-radius: 0.5rem;
+        padding: 1rem;
+        overflow-x: auto;
+        margin-bottom: 1.5rem;
+        font-size: 0.75rem;
+        line-height: 1.75;
+    }
+
+    .content-prose pre code {
+        background-color: transparent;
+        padding: 0;
+        font-size: inherit;
+    }
+
+    /* Blockquotes */
+    .content-prose blockquote {
+        border-left: 4px solid hsl(var(--primary));
+        padding-left: 1.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        margin: 1.5rem 0;
+        font-style: italic;
+        color: hsl(var(--foreground-secondary));
+        font-size: 0.875rem;
+    }
+
+    /* Tables */
+    .content-prose table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    .content-prose th {
+        background-color: hsl(var(--foreground) / 0.05);
+        border: 1px solid hsl(var(--border));
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: hsl(var(--foreground));
+    }
+
+    .content-prose td {
+        border: 1px solid hsl(var(--border));
+        padding: 0.75rem 1rem;
+    }
+
+    /* Horizontal rules */
+    .content-prose hr {
+        border: 0;
+        border-top: 1px solid hsl(var(--border));
+        margin: 2rem 0;
+    }
+
+    /* Images */
+    .content-prose img {
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        max-width: 100%;
+        height: auto;
+    }
 }

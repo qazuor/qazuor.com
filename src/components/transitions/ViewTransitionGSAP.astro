@@ -151,7 +151,7 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
 </div>
 
 <style>
-    /* Overlay container - initially hidden below viewport */
+    /* Overlay container - initially hidden below viewport and invisible */
     .page-transition-overlay {
         position: fixed;
         top: 0;
@@ -168,6 +168,7 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
         transform: translateY(115%);
         will-change: transform;
         overflow: visible;
+        visibility: hidden; /* Hide from accessibility tree when not in use */
     }
 
     /* Wave at top - positioned at the edge of the overlay */
@@ -338,6 +339,9 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
         // Start entrance animation immediately (no delay!)
         entranceTimeline = gsap.timeline();
 
+        // Make overlay visible first
+        entranceTimeline.set(overlay, { visibility: 'visible' });
+
         // Overlay slides up from bottom
         entranceTimeline.to(overlay, {
             y: 0,
@@ -415,7 +419,7 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
             );
 
             // Reset for next transition
-            tlOut.set(overlay, { y: '115%' });
+            tlOut.set(overlay, { y: '115%', visibility: 'hidden' });
             tlOut.set(titleElement, { opacity: 0, y: 20 });
 
             // Wait for exit animation

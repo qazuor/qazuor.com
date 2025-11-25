@@ -78,7 +78,7 @@ body {
 
 /* Gradient Text Animation for Hero Title */
 .gradient-text-hero {
-    background: linear-gradient(to right, #2563eb, #a855f7, #7c3aed);
+    background: linear-gradient(to right, #2563eb, #7c3aed, #0ea5e9);
     background-size: 300% 100%;
     background-clip: text;
     -webkit-background-clip: text;
@@ -87,7 +87,11 @@ body {
 }
 
 html.dark .gradient-text-hero {
-    background: linear-gradient(to right, #d8b4fe, #fbcfe8, #93c5fd);
+    background: linear-gradient(to right, #3b82f6, #8b5cf6, #06b6d4);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* Gradient Animation Keyframes */

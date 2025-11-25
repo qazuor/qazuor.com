@@ -27,6 +27,7 @@
 import { readdir, watch } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { AstroIntegration } from 'astro';
+// @ts-expect-error - Vite types are available at runtime but not in type checking
 import type { ViteDevServer } from 'vite';
 
 /**
@@ -128,9 +129,9 @@ export default function timelineSpriteWatcher(options: TimelineSpriteWatcherOpti
                     // Invalidate the sprite module to trigger HMR
                     if (viteServer) {
                         // Find the TimelineIconSprite module
-                        const spriteModule = Array.from(viteServer.moduleGraph.urlToModuleMap.keys()).find((url) =>
-                            url.includes('TimelineIconSprite.astro')
-                        );
+                        const spriteModule = (
+                            Array.from(viteServer.moduleGraph.urlToModuleMap.keys()) as string[]
+                        ).find((url) => url.includes('TimelineIconSprite.astro'));
 
                         if (spriteModule) {
                             spriteModuleEverLoaded = true; // Mark as loaded

@@ -8,8 +8,6 @@ import '../styles/generated-colors.css';
 
 // Astro image optimization
 import { getImage } from 'astro:assets';
-// View Transitions with Custom GSAP Animation
-import { ViewTransitions } from 'astro:transitions';
 import photo1 from '@/assets/images/photo1.png';
 // Other imports
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
@@ -83,7 +81,7 @@ const alternateLinks = locales.map((locale) => {
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang} class="dark" transition:animate="fade">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -279,9 +277,6 @@ const alternateLinks = locales.map((locale) => {
         />
 
         <!-- Favicons are automatically injected by astro-favicons integration -->
-
-        <!-- View Transitions (Astro official) -->
-        <ViewTransitions />
 
         <!-- Alternate language links -->
         {

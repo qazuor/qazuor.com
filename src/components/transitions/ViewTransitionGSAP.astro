@@ -17,8 +17,73 @@
  * - Uses event.swap override for full timing control
  * - Uses transition:persist to maintain overlay across navigations
  * - Identical animation to original (0.6s + 0.4s + 0.3s = 1.3s total)
+ * - Page titles map generated at build time from Content Collections
  */
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { languages } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+
+// Generate page titles map at build time
+const pageTitles: Record<string, string> = {};
+const langs = Object.keys(languages) as Array<'en' | 'es'>;
+
+// 1. Static pages from translations
+for (const lang of langs) {
+    const t = getTranslations(lang);
+    const nav = {
+        home: t('nav.home'),
+        blog: t('nav.blog'),
+        projects: t('nav.projects'),
+        services: t('nav.services'),
+        tools: t('nav.tools'),
+        about: t('nav.about'),
+        skills: t('nav.skills'),
+        testimonials: t('nav.testimonials'),
+        contact: t('nav.contact')
+    };
+
+    // Root and section pages
+    pageTitles[`/${lang}`] = nav.home;
+    pageTitles[`/${lang}/blog`] = nav.blog;
+    pageTitles[`/${lang}/projects`] = nav.projects;
+    pageTitles[`/${lang}/services`] = nav.services;
+    pageTitles[`/${lang}/tools`] = nav.tools;
+
+    // Hash sections (for single-page navigation)
+    pageTitles[`/${lang}#hero`] = nav.home;
+    pageTitles[`/${lang}#about`] = nav.about;
+    pageTitles[`/${lang}#skills`] = nav.skills;
+    pageTitles[`/${lang}#services`] = nav.services;
+    pageTitles[`/${lang}#projects`] = nav.projects;
+    pageTitles[`/${lang}#testimonials`] = nav.testimonials;
+    pageTitles[`/${lang}#contact`] = nav.contact;
+}
+
+// 2. Blog posts from Content Collection
+const blogs = await getCollection('blog', (entry: CollectionEntry<'blog'>) => !entry.data.draft);
+for (const post of blogs) {
+    for (const lang of langs) {
+        pageTitles[`/${lang}/blog/${post.slug}`] = post.data.title;
+    }
+}
+
+// 3. Tools from Content Collection
+const tools = await getCollection('tools');
+for (const tool of tools) {
+    for (const lang of langs) {
+        pageTitles[`/${lang}/tools/${tool.slug}`] = tool.data.title;
+    }
+}
+
+// 4. Projects from Content Collection
+const projects = await getCollection('projects');
+for (const project of projects) {
+    for (const lang of langs) {
+        pageTitles[`/${lang}/projects/${project.slug}`] = project.data.title;
+    }
+}
 ---
 
 <!-- Transition overlay container with transition:persist -->
@@ -229,34 +294,20 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
     }
 </style>
 
+<!-- Inject page titles map generated at build time -->
+<script is:inline define:vars={{ pageTitles }}>
+    window.__PAGE_TITLES__ = pageTitles;
+</script>
+
 <script>
     import { gsap } from 'gsap';
 
-    // Translations for page titles (same as current system)
-    const translations = {
-        en: {
-            home: 'Home',
-            blog: 'Blog',
-            projects: 'Projects',
-            services: 'Services',
-            tools: 'Tools',
-            about: 'About',
-            skills: 'Skills',
-            testimonials: 'Testimonials',
-            contact: 'Contact'
-        },
-        es: {
-            home: 'Inicio',
-            blog: 'Blog',
-            projects: 'Proyectos',
-            services: 'Servicios',
-            tools: 'Herramientas',
-            about: 'Acerca de',
-            skills: 'Habilidades',
-            testimonials: 'Testimonios',
-            contact: 'Contacto'
+    // Type declaration for the global page titles map
+    declare global {
+        interface Window {
+            __PAGE_TITLES__: Record<string, string>;
         }
-    };
+    }
 
     // Animation configuration (identical to original)
     const TRANSITION_DURATION = 1; // Overlay slide duration
@@ -279,30 +330,29 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
     }
 
     /**
-     * Get page title from URL
+     * Get page title from URL using the build-time generated map
      */
     function getPageTitle(url: URL): string {
-        const pathSegments = url.pathname.split('/').filter(Boolean);
-        const locale = pathSegments[0] === 'en' || pathSegments[0] === 'es' ? pathSegments[0] : 'en';
-        const t = translations[locale];
+        const titles = window.__PAGE_TITLES__ || {};
+        const normalizedPath = normalizePathname(url.pathname);
 
-        // Handle hash navigation
+        // Try exact match with hash first
         if (url.hash) {
-            let hashText = url.hash.substring(1);
-            if (hashText === 'hero') hashText = 'home';
-            const translationKey = hashText.toLowerCase() as keyof typeof t;
-            return t[translationKey] || hashText;
+            const pathWithHash = `${normalizedPath}${url.hash}`;
+            if (titles[pathWithHash]) {
+                return titles[pathWithHash];
+            }
         }
 
-        // Handle project pages
-        if (pathSegments.length >= 3 && pathSegments[1] === 'projects') {
-            return t.projects;
+        // Try exact path match
+        if (titles[normalizedPath]) {
+            return titles[normalizedPath];
         }
 
-        // Default page title
-        const pageSegment = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : 'home';
-        const translationKey = pageSegment.toLowerCase() as keyof typeof t;
-        return t[translationKey] || pageSegment;
+        // Fallback: extract last segment and capitalize
+        const segments = normalizedPath.split('/').filter(Boolean);
+        const lastSegment = segments[segments.length - 1] || 'home';
+        return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, ' ');
     }
 
     /**

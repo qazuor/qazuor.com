@@ -17,7 +17,7 @@ export function getLangFromUrl(url: URL): Locale {
 
 /**
  * Procesa marcadores Markdown en el texto
- * Soporta: **negrita**, *cursiva*, `código`
+ * Soporta: **negrita**, *cursiva**, `código`
  */
 function processMarkdown(text: string): string {
     return text
@@ -25,6 +25,18 @@ function processMarkdown(text: string): string {
         .replace(/\*(.*?)\*/g, '<em>$1</em>') // *cursiva*
         .replace(/`(.*?)`/g, '<code>$1</code>') // `código`
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>'); // [texto](url)
+}
+
+/**
+ * Elimina marcadores Markdown del texto dejando solo el contenido
+ * Soporta: **negrita**, *cursiva*, `código`, [links](url)
+ */
+function stripMarkdown(text: string): string {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '$1') // **negrita** → negrita
+        .replace(/\*(.*?)\*/g, '$1') // *cursiva* → cursiva
+        .replace(/`(.*?)`/g, '$1') // `código` → código
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1'); // [texto](url) → texto
 }
 
 /**
@@ -88,10 +100,13 @@ export function getTranslations(lang: Locale) {
             result = interpolateParams(result, options.params);
         }
 
-        // 2. Después procesar Markdown
-        if (options?.markdown) {
+        // 2. Después procesar o eliminar Markdown
+        if (options?.markdown === true) {
             result = processMarkdown(result);
+        } else if (options?.markdown === false) {
+            result = stripMarkdown(result);
         }
+        // Si markdown no está definido, devolver el texto sin modificar
 
         return result;
     };

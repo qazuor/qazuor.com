@@ -36,8 +36,8 @@ const serviceKeyMap: Record<string, string> = {
 const serviceKey = serviceKeyMap[service.id];
 
 // SEO
-const pageTitle = t(service.meta.titleKey);
-const pageDescription = t(service.meta.descriptionKey);
+const pageTitle = t(service.meta.titleKey, { markdown: false });
+const pageDescription = t(service.meta.descriptionKey, { markdown: false });
 
 // Service translations
 const serviceTitle = t(`services.${serviceKey}.title`, { markdown: true });

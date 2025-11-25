@@ -56,7 +56,7 @@ const { page }: Props = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const title = `${t('blog.title')} - qazuor.com`;
+const title = `${t('blog.title', { markdown: false })} - qazuor.com`;
 ---
 
 <BaseLayout title={title}>

@@ -18,8 +18,8 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
 // SEO
-const pageTitle = t('services.allServices');
-const pageDescription = t('services.subtitle');
+const pageTitle = t('services.allServices', { markdown: false });
+const pageDescription = t('services.subtitle', { markdown: false });
 
 // Map service IDs to their translations
 const serviceTranslations: Record<

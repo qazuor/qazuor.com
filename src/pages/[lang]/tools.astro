@@ -37,8 +37,8 @@ const categories = [
     ...new Set(allTools.map((tool: CollectionEntry<'tools'>) => tool.data.category.toLowerCase()))
 ];
 
-const title = t('tools.title');
-const description = t('tools.subtitle');
+const title = t('tools.title', { markdown: false });
+const description = t('tools.subtitle', { markdown: false });
 ---
 
 <BaseLayout title={title} description={description}>

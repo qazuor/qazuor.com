@@ -66,7 +66,7 @@ const title = `${t('blog.title')} - qazuor.com`;
         <div class="container-custom">
             <!-- Header -->
             <div class="mb-16">
-                <SectionTitle title={t('blog.title')} subtitle={t('blog.subtitle')} />
+                <SectionTitle title={t('blog.title', { markdown: true })} subtitle={t('blog.subtitle', { markdown: true })} />
 
                 <!-- Page indicator -->
                 {

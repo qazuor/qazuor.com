@@ -600,6 +600,22 @@
         }
     }
 
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .animate-gradient {
+        animation: gradient 3s ease infinite;
+    }
+
     /* Skip Link for Accessibility (WCAG 2.4.1) */
     .skip-link {
         position: absolute;
@@ -673,6 +689,11 @@
 
     .content-prose h1:first-child {
         margin-top: 0;
+    }
+
+    /* Hide first h1 in blog posts (title is shown in hero) */
+    .content-prose.blog-post-content > h1:first-child {
+        display: none;
     }
 
     /* Headings - H2 with marker/highlighter effect */

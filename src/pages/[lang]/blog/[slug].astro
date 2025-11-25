@@ -1,12 +1,14 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import { TableOfContents } from '@/components/blog/TableOfContents';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getAdjacentPosts, getRelatedPosts, getSeriesPosts } from '@/utils/blog';
 
 export async function getStaticPaths() {
     const allBlogPosts = await getCollection('blog');
@@ -17,20 +19,24 @@ export async function getStaticPaths() {
             .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
             .map((post: CollectionEntry<'blog'>) => ({
                 params: { lang, slug: post.slug },
-                props: { post }
+                props: { post, allPosts: allBlogPosts }
             }))
     );
 }
 
 interface Props {
     post: CollectionEntry<'blog'>;
+    allPosts: CollectionEntry<'blog'>[];
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await post.render();
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
+
+// Get TOC translation
+const tocTitle = t('blog.toc.title');
 
 const title = `${post.data.title} - qazuor.com`;
 const description = post.data.excerpt;
@@ -44,103 +50,395 @@ const formattedDate = new Date(post.data.publishDate).toLocaleDateString(lang ==
 
 // Extract read time number
 const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
+
+// Get blog post metadata (related, series, adjacent)
+const relatedPosts = getRelatedPosts(post, allPosts);
+const seriesData = getSeriesPosts(post, allPosts);
+const { prev, next } = getAdjacentPosts(post, allPosts);
 ---
 
 <BaseLayout title={title} description={description}>
-    <div class="relative section overflow-hidden pt-32 pb-20" style={`background-color: ${sectionsColors.blog}`}>
-        <AnimatedGradientBackground />
+    <!-- Hero Section with Background Image -->
+    {post.data.image ? (
+        <section class="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">
+            <!-- Background Image -->
+            <Image
+                src={post.data.image}
+                alt={post.data.title}
+                width={1920}
+                height={1080}
+                class="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+            />
+            <!-- Dark Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+            <!-- Bottom gradient fade to section background -->
+            <div class="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[--section-blog-bg] to-transparent"></div>
 
-        <article class="container-custom">
-            <div class="max-w-4xl mx-auto">
-        <!-- Back button -->
-        <a
-            href={`/${lang}/blog`}
-            class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors duration-300 mb-8"
-        >
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7"></path>
-            </svg>
-            {t('blog.title')}
-        </a>
+            <!-- Content on top of image -->
+            <div class="relative z-10 w-full pb-12 pt-32">
+                <div class="container-custom">
+                    <div class="max-w-4xl mx-auto">
+                        <!-- Back button with translucent background -->
+                        <a
+                            href={`/${lang}/blog`}
+                            class="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors duration-300 mb-6 bg-black/30 backdrop-blur-sm px-3 py-1.5"
+                        >
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            <span set:html={t('blog.title', { markdown: true })} />
+                        </a>
 
-        <!-- Article Header -->
-        <header class="mb-12">
-            <SectionTitle title={post.data.title} subtitle={post.data.excerpt} size="lg" />
+                        <!-- Title with translucent background, shifted left to align text with description -->
+                        <div class="block mb-4">
+                            <div class="inline-block bg-black/30 backdrop-blur-sm -translate-x-4">
+                                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight px-4 py-2">
+                                    <span class="gradient-text-section">{post.data.title}</span>
+                                </h1>
+                            </div>
+                        </div>
 
-            <!-- Meta information -->
-            <div class="flex flex-wrap items-center gap-4 text-foreground-secondary mb-6">
-                <time datetime={post.data.publishDate.toISOString()} class="flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width={2}
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                    </svg>
-                    {formattedDate}
-                </time>
-                <span>•</span>
-                <span class="flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    {readTimeNumber}
-                    {t('blog.readTime')}
-                </span>
-            </div>
+                        <!-- Excerpt -->
+                        <p class="text-lg md:text-xl text-white mb-6 max-w-3xl drop-shadow-md">
+                            {post.data.excerpt}
+                        </p>
 
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-2">
-                {
-                    post.data.tags.map((tag: string) => (
-                        <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
-                            #{tag}
-                        </span>
-                    ))
-                }
-            </div>
-        </header>
+                        <!-- Meta information -->
+                        <div class="flex flex-wrap items-center gap-4 text-white/90 mb-6 drop-shadow-sm">
+                            <time datetime={post.data.publishDate.toISOString()} class="flex items-center gap-2 font-medium">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width={2}
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    ></path>
+                                </svg>
+                                {formattedDate}
+                            </time>
+                            <span>•</span>
+                            <span class="flex items-center gap-2 font-medium">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width={2}
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                {readTimeNumber}
+                                {t('blog.readTime')}
+                            </span>
+                        </div>
 
-        <!-- Article Content -->
-        <div class="content-prose">
-            <Content />
-        </div>
-
-        <!-- Article Footer -->
-        <footer class="mt-16 pt-8 border-t border-foreground/10">
-            <!-- Share section (optional - can add later) -->
-            <div class="flex items-center justify-between">
-                <a
-                    href={`/${lang}/blog`}
-                    class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors duration-300 font-medium shadow-glow-primary"
-                >
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7"
-                        ></path>
-                    </svg>
-                    {t('blog.title')}
-                </a>
-
-                <!-- Author info (optional) -->
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center"
-                    >
-                        <span class="text-2xl">👨‍💻</span>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-foreground">qazuor</p>
-                        <p class="text-xs text-foreground-secondary">{post.data.author || 'qazuor'}</p>
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-2">
+                            {
+                                post.data.tags.map((tag: string) => (
+                                    <span class="px-3 py-1.5 text-sm font-semibold bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-sm shadow-sm">
+                                        #{tag}
+                                    </span>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </footer>
+        </section>
+    ) : (
+        <!-- Fallback without image -->
+        <section class="relative w-full pt-32 pb-12" style={`background-color: ${sectionsColors.blog}`}>
+            <AnimatedGradientBackground />
+            <div class="container-custom relative z-10">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Back button -->
+                    <a
+                        href={`/${lang}/blog`}
+                        class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors duration-300 mb-6"
+                    >
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span set:html={t('blog.title', { markdown: true })} />
+                    </a>
+
+                    <!-- Title -->
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
+                        {post.data.title}
+                    </h1>
+
+                    <!-- Excerpt -->
+                    <p class="text-lg md:text-xl text-foreground-secondary mb-6 max-w-3xl">
+                        {post.data.excerpt}
+                    </p>
+
+                    <!-- Meta information -->
+                    <div class="flex flex-wrap items-center gap-4 text-foreground-secondary mb-6">
+                        <time datetime={post.data.publishDate.toISOString()} class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width={2}
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                ></path>
+                            </svg>
+                            {formattedDate}
+                        </time>
+                        <span>•</span>
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width={2}
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {readTimeNumber}
+                            {t('blog.readTime')}
+                        </span>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2">
+                        {
+                            post.data.tags.map((tag: string) => (
+                                <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
+                                    #{tag}
+                                </span>
+                            ))
+                        }
+                    </div>
+                </div>
             </div>
-        </article>
+        </section>
+    )}
+
+    <!-- Article Content Section -->
+    <div class="relative section overflow-hidden py-16" style={`background-color: ${sectionsColors.blog}`}>
+        <AnimatedGradientBackground />
+
+        <div class="container-custom relative z-10 xl:flex xl:gap-12">
+            <article class="max-w-4xl mx-auto xl:mx-0 xl:flex-1 xl:min-w-0">
+                <!-- Article Content -->
+                <div class="content-prose blog-post-content">
+                    <Content />
+                </div>
+
+                <!-- Article Footer -->
+                <footer class="mt-16 pt-12 border-t border-foreground/10 space-y-16">
+
+                    <!-- Series Navigation -->
+                    {seriesData && (
+                        <section class="rounded-lg border border-foreground/10 bg-surface/30 backdrop-blur-sm">
+                            <div class="p-5">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between gap-4 mb-4">
+                                    <div class="min-w-0">
+                                        <p class="text-xs text-foreground-secondary mb-1">
+                                            {t('blog.series.partOf')} {seriesData.currentPart} {t('blog.series.of')} {seriesData.totalParts}
+                                        </p>
+                                        <h2 class="text-base font-semibold text-foreground truncate">
+                                            {seriesData.name}
+                                        </h2>
+                                    </div>
+                                    <!-- Progress indicator -->
+                                    <span class="flex-shrink-0 text-sm font-medium text-primary tabular-nums">
+                                        {seriesData.currentPart}/{seriesData.totalParts}
+                                    </span>
+                                </div>
+
+                                <!-- Progress bar -->
+                                <div class="mb-4">
+                                    <div class="h-0.5 bg-foreground/10 rounded-full overflow-hidden">
+                                        <div
+                                            class="h-full bg-primary rounded-full transition-all duration-500"
+                                            style={`width: ${(seriesData.currentPart / seriesData.totalParts) * 100}%`}
+                                        ></div>
+                                    </div>
+                                </div>
+
+                                <!-- Posts list -->
+                                <ol class="space-y-1">
+                                    {seriesData.posts.map((seriesPost) => (
+                                        <li class="group">
+                                            {seriesPost.isCurrent ? (
+                                                <div class="flex items-center gap-3 px-3 py-2 rounded-md bg-primary/5 border-l-2 border-primary">
+                                                    <span class="flex-shrink-0 w-5 h-5 rounded text-xs bg-primary text-white flex items-center justify-center font-medium">
+                                                        {seriesPost.part}
+                                                    </span>
+                                                    <p class="flex-1 min-w-0 text-sm font-medium text-foreground truncate">
+                                                        {seriesPost.title}
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <a
+                                                    href={`/${lang}/blog/${seriesPost.slug}`}
+                                                    class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-foreground/5 transition-colors duration-200"
+                                                >
+                                                    <span class={`flex-shrink-0 w-5 h-5 rounded text-xs flex items-center justify-center font-medium transition-colors ${
+                                                        seriesPost.part < seriesData.currentPart
+                                                            ? 'bg-primary/15 text-primary'
+                                                            : 'bg-foreground/10 text-foreground-secondary group-hover:text-foreground'
+                                                    }`}>
+                                                        {seriesPost.part < seriesData.currentPart ? (
+                                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                            </svg>
+                                                        ) : seriesPost.part}
+                                                    </span>
+                                                    <p class="flex-1 min-w-0 text-sm text-foreground-secondary group-hover:text-foreground transition-colors truncate">
+                                                        {seriesPost.title}
+                                                    </p>
+                                                    <svg class="w-4 h-4 text-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                                                    </svg>
+                                                </a>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        </section>
+                    )}
+
+                    <!-- Previous / Next Navigation -->
+                    {(prev || next) && (
+                        <nav class="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label={t('blog.navigation.label')}>
+                            {prev ? (
+                                <a
+                                    href={`/${lang}/blog/${prev.slug}`}
+                                    class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-surface-elevated to-surface border border-foreground/10 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
+                                >
+                                    <!-- Hover gradient overlay -->
+                                    <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                    <div class="relative p-6">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-foreground/5 group-hover:bg-primary/10 transition-colors">
+                                                <svg class="w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:-translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-xs text-foreground-secondary uppercase tracking-widest font-semibold">
+                                                {t('blog.navigation.previous')}
+                                            </span>
+                                        </div>
+                                        <h3 class="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 text-lg">
+                                            {prev.title}
+                                        </h3>
+                                    </div>
+                                </a>
+                            ) : <div class="hidden md:block" />}
+                            {next ? (
+                                <a
+                                    href={`/${lang}/blog/${next.slug}`}
+                                    class="group relative overflow-hidden rounded-2xl bg-gradient-to-bl from-surface-elevated to-surface border border-foreground/10 hover:border-accent/30 transition-all duration-300 hover:shadow-xl hover:shadow-accent/10 md:col-start-2"
+                                >
+                                    <!-- Hover gradient overlay -->
+                                    <div class="absolute inset-0 bg-gradient-to-l from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                    <div class="relative p-6 text-right">
+                                        <div class="flex items-center justify-end gap-3 mb-3">
+                                            <span class="text-xs text-foreground-secondary uppercase tracking-widest font-semibold">
+                                                {t('blog.navigation.next')}
+                                            </span>
+                                            <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-foreground/5 group-hover:bg-accent/10 transition-colors">
+                                                <svg class="w-5 h-5 text-foreground-secondary group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <h3 class="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2 text-lg">
+                                            {next.title}
+                                        </h3>
+                                    </div>
+                                </a>
+                            ) : null}
+                        </nav>
+                    )}
+
+                    <!-- Related Posts -->
+                    {relatedPosts.length > 0 && (
+                        <section>
+                            <div class="flex items-center gap-3 mb-8">
+                                <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20">
+                                    <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                    </svg>
+                                </span>
+                                <h2 class="text-xl font-bold text-foreground">
+                                    {t('blog.related.title')}
+                                </h2>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {relatedPosts.map((related) => (
+                                    <a
+                                        href={`/${lang}/blog/${related.slug}`}
+                                        class="group relative overflow-hidden rounded-2xl bg-surface-elevated border border-foreground/10 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1"
+                                    >
+                                        <!-- Gradient accent bar -->
+                                        <div class="h-1 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] group-hover:animate-gradient"></div>
+
+                                        <div class="p-5">
+                                            <!-- Category badge -->
+                                            {related.category && (
+                                                <span class="inline-block px-2.5 py-1 text-xs font-semibold rounded-lg bg-primary/10 text-primary mb-3">
+                                                    {related.category}
+                                                </span>
+                                            )}
+
+                                            <h3 class="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-3 text-base leading-snug">
+                                                {related.title}
+                                            </h3>
+
+                                            <p class="text-sm text-foreground-secondary line-clamp-2 mb-4 leading-relaxed">
+                                                {related.excerpt}
+                                            </p>
+
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex flex-wrap gap-1.5">
+                                                    {related.tags.slice(0, 2).map((tag) => (
+                                                        <span class="text-xs px-2 py-0.5 bg-foreground/5 text-foreground-secondary rounded-md group-hover:bg-primary/5 group-hover:text-primary/80 transition-colors">
+                                                            #{tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                                <svg class="w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    <!-- Back to Blog -->
+                    <div class="flex justify-center pt-4">
+                        <a
+                            href={`/${lang}/blog`}
+                            class="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-primary-600 text-white rounded-2xl hover:from-primary-600 hover:to-primary transition-all duration-300 font-semibold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+                        >
+                            <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            <span set:html={t('blog.title', { markdown: true })} />
+                        </a>
+                    </div>
+                </footer>
+            </article>
+
+            <!-- TOC Wrapper - Sticky sidebar on desktop, mobile button renders independently -->
+            <div class="xl:w-64 xl:flex-shrink-0">
+                <TableOfContents
+                    headings={headings}
+                    title={tocTitle}
+                    client:load
+                />
+            </div>
+        </div>
     </div>
 </BaseLayout>

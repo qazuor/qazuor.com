@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import CalloutEnhancer from '@/components/blog/CalloutEnhancer.astro';
 import { TableOfContents } from '@/components/blog/TableOfContents';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import { sectionsColors } from '@/data/colors';
@@ -224,6 +225,9 @@ const { prev, next } = getAdjacentPosts(post, allPosts);
                 <div class="content-prose blog-post-content">
                     <Content />
                 </div>
+
+                <!-- Callout Enhancement Script -->
+                <CalloutEnhancer />
 
                 <!-- Article Footer -->
                 <footer class="mt-16 pt-12 border-t border-foreground/10 space-y-16">

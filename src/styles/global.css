@@ -947,6 +947,285 @@
         margin-bottom: 0;
     }
 
+    /* ============================================
+       CALLOUTS - Josh W Comeau inspired design
+       Syntax: > **Info:** Content here
+       ============================================ */
+
+    /* Base callout styles */
+    .content-prose blockquote[class*="callout-"] {
+        position: relative;
+        font-style: normal;
+        border-left: none;
+        border-radius: 0.75rem;
+        padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+        margin: 2rem 0;
+        overflow: visible;
+    }
+
+    /* Remove default blockquote quote mark for callouts */
+    .content-prose blockquote[class*="callout-"]::before {
+        display: none !important;
+    }
+
+    /* Icon circle - positioned on the left border, more outside */
+    .content-prose blockquote[class*="callout-"]::after {
+        position: absolute;
+        top: -1rem;
+        left: -1rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1.25rem;
+        line-height: 1;
+        z-index: 10;
+    }
+
+    /* ---- INFO Callout (blue) ---- */
+    .callout-info,
+    .content-prose blockquote.callout-info {
+        background: hsl(210 60% 95%);
+        border: 1px solid hsl(210 100% 50% / 0.3);
+        box-shadow:
+            inset 5px 0 0 hsl(210 100% 50%),
+            0 2px 8px hsl(210 100% 50% / 0.1);
+    }
+
+    .dark .content-prose blockquote.callout-info {
+        background: hsl(210 40% 18%);
+    }
+
+    .content-prose blockquote.callout-info::after {
+        content: 'ℹ';
+        background: hsl(210 60% 95%);
+        border: 2px solid hsl(210 100% 50%);
+        color: hsl(210 100% 50%);
+        font-weight: 700;
+        font-family: Georgia, serif;
+    }
+
+    .dark .content-prose blockquote.callout-info::after {
+        background: hsl(var(--background));
+    }
+
+    .callout-info strong:first-of-type {
+        color: hsl(210 100% 40%);
+    }
+
+    .dark .callout-info strong:first-of-type {
+        color: hsl(210 100% 65%);
+    }
+
+    /* ---- WARNING Callout (yellow) ---- */
+    .callout-warning,
+    .content-prose blockquote.callout-warning {
+        background: hsl(45 80% 94%);
+        border: 1px solid hsl(45 100% 50% / 0.3);
+        box-shadow:
+            inset 5px 0 0 hsl(45 100% 50%),
+            0 2px 8px hsl(45 100% 50% / 0.1);
+    }
+
+    .dark .content-prose blockquote.callout-warning {
+        background: hsl(45 40% 16%);
+    }
+
+    .content-prose blockquote.callout-warning::after {
+        content: '⚠';
+        background: hsl(45 80% 94%);
+        border: 2px solid hsl(45 100% 50%);
+        color: hsl(45 100% 40%);
+        font-size: 1.1rem;
+    }
+
+    .dark .content-prose blockquote.callout-warning::after {
+        background: hsl(var(--background));
+        color: hsl(45 100% 50%);
+    }
+
+    .callout-warning strong:first-of-type {
+        color: hsl(45 100% 35%);
+    }
+
+    .dark .callout-warning strong:first-of-type {
+        color: hsl(45 100% 60%);
+    }
+
+    /* ---- SUCCESS Callout (teal/green) ---- */
+    .callout-success,
+    .content-prose blockquote.callout-success {
+        background: hsl(160 50% 94%);
+        border: 1px solid hsl(160 70% 40% / 0.3);
+        box-shadow:
+            inset 5px 0 0 hsl(160 70% 40%),
+            0 2px 8px hsl(160 70% 40% / 0.1);
+    }
+
+    .dark .content-prose blockquote.callout-success {
+        background: hsl(160 35% 16%);
+    }
+
+    .content-prose blockquote.callout-success::after {
+        content: '✓';
+        background: hsl(160 50% 94%);
+        border: 2px solid hsl(160 70% 40%);
+        color: hsl(160 70% 35%);
+        font-weight: 700;
+    }
+
+    .dark .content-prose blockquote.callout-success::after {
+        background: hsl(var(--background));
+        color: hsl(160 70% 40%);
+    }
+
+    .callout-success strong:first-of-type {
+        color: hsl(160 70% 35%);
+    }
+
+    .dark .callout-success strong:first-of-type {
+        color: hsl(160 70% 55%);
+    }
+
+    /* ---- ERROR Callout (red) ---- */
+    .callout-error,
+    .content-prose blockquote.callout-error {
+        background: hsl(0 60% 96%);
+        border: 1px solid hsl(0 85% 55% / 0.3);
+        box-shadow:
+            inset 5px 0 0 hsl(0 85% 55%),
+            0 2px 8px hsl(0 85% 55% / 0.1);
+    }
+
+    .dark .content-prose blockquote.callout-error {
+        background: hsl(0 40% 18%);
+    }
+
+    .content-prose blockquote.callout-error::after {
+        content: '✕';
+        background: hsl(0 60% 96%);
+        border: 2px solid hsl(0 85% 55%);
+        color: hsl(0 85% 45%);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .dark .content-prose blockquote.callout-error::after {
+        background: hsl(var(--background));
+        color: hsl(0 85% 55%);
+    }
+
+    .callout-error strong:first-of-type {
+        color: hsl(0 85% 45%);
+    }
+
+    .dark .callout-error strong:first-of-type {
+        color: hsl(0 85% 65%);
+    }
+
+    /* ---- TIP Callout (purple) ---- */
+    .callout-tip,
+    .content-prose blockquote.callout-tip {
+        background: hsl(280 50% 96%);
+        border: 1px solid hsl(280 70% 55% / 0.3);
+        box-shadow:
+            inset 5px 0 0 hsl(280 70% 55%),
+            0 2px 8px hsl(280 70% 55% / 0.1);
+    }
+
+    .dark .content-prose blockquote.callout-tip {
+        background: hsl(280 35% 18%);
+    }
+
+    .content-prose blockquote.callout-tip::after {
+        content: '✦';
+        background: hsl(280 50% 96%);
+        border: 2px solid hsl(280 70% 55%);
+        color: hsl(280 70% 45%);
+        font-size: 1.1rem;
+    }
+
+    .dark .content-prose blockquote.callout-tip::after {
+        background: hsl(var(--background));
+        color: hsl(280 70% 55%);
+    }
+
+    .callout-tip strong:first-of-type {
+        color: hsl(280 70% 45%);
+    }
+
+    .dark .callout-tip strong:first-of-type {
+        color: hsl(280 70% 65%);
+    }
+
+    /* ---- QUOTE Callout (slate/gray - neutral) ---- */
+    .callout-quote,
+    .content-prose blockquote.callout-quote {
+        background: hsl(220 20% 95%);
+        border: 1px solid hsl(220 15% 50% / 0.3);
+        box-shadow:
+            inset 5px 0 0 hsl(220 15% 55%),
+            0 2px 8px hsl(220 15% 50% / 0.1);
+        font-style: italic;
+    }
+
+    .dark .content-prose blockquote.callout-quote {
+        background: hsl(220 20% 20%);
+    }
+
+    .content-prose blockquote.callout-quote::after {
+        content: '❝';
+        background: hsl(220 20% 95%);
+        border: 2px solid hsl(220 15% 55%);
+        color: hsl(220 15% 45%);
+        font-size: 1.4rem;
+        font-style: normal;
+        line-height: 0.9;
+    }
+
+    .dark .content-prose blockquote.callout-quote::after {
+        background: hsl(var(--background));
+        color: hsl(220 15% 55%);
+    }
+
+    .callout-quote strong:first-of-type {
+        color: hsl(220 15% 45%);
+    }
+
+    .dark .callout-quote strong:first-of-type {
+        color: hsl(220 15% 65%);
+    }
+
+    .callout-quote p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+
+    /* Callout paragraph spacing */
+    .content-prose blockquote[class*="callout-"] p {
+        margin-bottom: 0.75rem;
+    }
+
+    .content-prose blockquote[class*="callout-"] p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Callout links */
+    .content-prose blockquote[class*="callout-"] a {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    /* Callout code inline */
+    .content-prose blockquote[class*="callout-"] code {
+        background: hsl(var(--foreground) / 0.1);
+        padding: 0.15em 0.4em;
+        border-radius: 0.25rem;
+        font-size: 0.875em;
+    }
+
     /* Tables - modern style */
     .content-prose table {
         width: 100%;

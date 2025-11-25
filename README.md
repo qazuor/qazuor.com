@@ -1,50 +1,84 @@
-# Astro Starter Kit: Basics
+# qazuor.com
 
-```sh
-npm create astro@latest -- --template basics
-```
+Personal portfolio and technical blog built with Astro, React, and TailwindCSS.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## Performance Metrics
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This project is optimized for Core Web Vitals and achieves excellent performance
+scores:
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+| Metric            | Target  | Current | Status           |
+| ----------------- | ------- | ------- | ---------------- |
+| LCP               | < 2.5s  | ~271ms  | Excellent        |
+| FCP               | < 1.8s  | ~271ms  | Excellent        |
+| CLS               | < 0.1   | 0.00    | Excellent        |
+| DOM Elements      | < 2000  | 1655    | 17% under budget |
+| JS Bundle (gzip)  | < 500KB | 308KB   | 38% under budget |
+| CSS Bundle (gzip) | < 100KB | 40KB    | 60% under budget |
 
-## 🚀 Project Structure
+### Performance Optimizations
 
-Inside of your Astro project, you'll see the following folders and files:
+- Critical CSS inlined for instant hero render
+- Font preloading (3 critical fonts with `font-display: swap`)
+- LCP image preloaded with `fetchpriority="high"`
+- SVG sprite for timeline icons (99.3% reduction: 393KB to 2.6KB)
+- Manual chunking for optimal caching
+- Lazy loading with `client:visible` for below-fold components
+- Brotli/Gzip/Zstd compression
+
+For detailed performance documentation, see
+[docs/PERFORMANCE.md](docs/PERFORMANCE.md).
+
+## Tech Stack
+
+- **Framework:** Astro (SSG)
+- **UI Components:** React 19 (Islands Architecture)
+- **Styling:** TailwindCSS
+- **Animations:** GSAP + Lenis
+- **Content:** Astro Content Collections
+- **Language:** TypeScript
+- **Deployment:** Vercel
+
+## Project Structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
+qazuor.com/
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/       # React components (islands)
+│   ├── layouts/          # Astro layouts
+│   ├── pages/            # Astro pages (routes)
+│   ├── content/          # Content collections (blog, projects)
+│   ├── styles/           # Global styles and fonts
+│   ├── i18n/             # Internationalization (en/es)
+│   └── icons/            # SVG icons
+├── public/               # Static assets
+├── docs/                 # Project documentation
+└── .claude/              # AI agents, commands, skills
 ```
 
-To learn more about the folder structure of an Astro project, refer to
-[our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Commands
 
-## 🧞 Commands
+| Command              | Action                               |
+| :------------------- | :----------------------------------- |
+| `npm install`        | Install dependencies                 |
+| `npm run dev`        | Start dev server at `localhost:4321` |
+| `npm run build`      | Build production site to `./dist/`   |
+| `npm run preview`    | Preview production build locally     |
+| `npm run typecheck`  | Run TypeScript type checking         |
+| `npm run lint`       | Lint code                            |
+| `npm run test`       | Run tests                            |
+| `npm run lighthouse` | Run Lighthouse audit                 |
 
-All commands are run from the root of the project, from a terminal:
+## Features
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- Bilingual support (English/Spanish)
+- Dark mode (default)
+- View Transitions API for smooth navigation
+- Command Palette (Ctrl+K)
+- Accessible (WCAG 2.1 Level AA)
+- SEO optimized with structured data
+- PWA ready with web manifest
 
-## 👀 Want to learn more?
+## License
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into
-our [Discord server](https://astro.build/chat).
+MIT

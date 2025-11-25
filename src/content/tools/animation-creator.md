@@ -1,10 +1,11 @@
 ---
-title: "CSS Animation Creator"
-description: "Build and preview CSS animations with keyframes editor and live preview"
-category: "CSS"
-tags: ["css", "animation", "keyframes", "generator"]
+title: 'CSS Animation Creator'
+description:
+  'Build and preview CSS animations with keyframes editor and live preview'
+category: 'CSS'
+tags: ['css', 'animation', 'keyframes', 'generator']
 featured: true
-difficulty: "intermediate"
+difficulty: 'intermediate'
 createdAt: 2025-11-08
 updatedAt: 2025-11-08
 demo: true
@@ -12,7 +13,8 @@ demo: true
 
 ## CSS Animation Creator
 
-Build complex CSS animations with an intuitive keyframes editor and live preview.
+Build complex CSS animations with an intuitive keyframes editor and live
+preview.
 
 ## Features
 

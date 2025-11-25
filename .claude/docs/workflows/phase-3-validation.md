@@ -110,7 +110,7 @@ failing checks.
 
 **Format:**
 
-````markdown
+`````markdown
 # QA Validation Report: {Feature Name}
 
 ## Summary
@@ -208,7 +208,9 @@ failing checks.
    ```bash
    pnpm lint
 ````
-````
+`````
+
+`````
 
 - Check code style
 - Check formatting
@@ -661,7 +663,8 @@ All layers properly separated:
    a. **Update TODOs.md:**
    ```markdown
    | V-001 | HIGH | Missing auth check | ✅ Fixed | @backend |
-````
+`````
+
 ````
 
 b. **Update .checkpoint.json:**
@@ -787,3 +790,4 @@ Before proceeding to Phase 4:
 ---
 
 **Remember: Quality is non-negotiable. Fix issues before proceeding.**
+````

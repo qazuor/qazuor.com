@@ -1,10 +1,11 @@
 ---
-title: "Color Palette Generator"
-description: "Generate harmonious color palettes with different color harmony rules"
-category: "Design"
-tags: ["color", "palette", "design", "harmony"]
+title: 'Color Palette Generator'
+description:
+  'Generate harmonious color palettes with different color harmony rules'
+category: 'Design'
+tags: ['color', 'palette', 'design', 'harmony']
 featured: false
-difficulty: "beginner"
+difficulty: 'beginner'
 createdAt: 2025-11-08
 updatedAt: 2025-11-08
 demo: true

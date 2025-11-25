@@ -30,7 +30,7 @@ feature completion.
 
 **Read PDR.md (Product Development Requirements):**
 
-````markdown
+`````markdown
 1. Locate PDR.md for the feature
 2. Read acceptance criteria section
 3. Note functional requirements
@@ -832,4 +832,8 @@ When this skill is applied, produce:
 |---------|------|---------|--------|---------|
 | 1.0.0 | 2025-10-31 | Initial version | @tech-lead | P-004 |
 ````
-````
+`````
+
+```
+
+```

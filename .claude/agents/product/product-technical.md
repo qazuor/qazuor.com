@@ -74,7 +74,7 @@ specifications, assess feasibility, and create implementation plans during Phase
 
 When creating a Technical Analysis document, follow this structure:
 
-````markdown
+`````markdown
 # Technical Analysis: [Feature Name]
 
 ## 1. Overview
@@ -1155,4 +1155,8 @@ A technical analysis is complete when:
 |---------|------|---------|--------|---------|
 | 1.0.0 | 2025-10-31 | Initial version | @tech-lead | P-004 |
 ````
-````
+`````
+
+```
+
+```

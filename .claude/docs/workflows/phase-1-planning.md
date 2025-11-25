@@ -606,7 +606,7 @@ technical approach, which defines the task scope
 
 **Format:**
 
-````markdown
+`````markdown
 # TODO List: {Feature Name}
 
 ## Progress Summary
@@ -670,7 +670,9 @@ technical approach, which defines the task scope
    - [Technical Analysis](./tech-analysis.md)
    - [TODOs & Progress](./TODOs.md)
 ````
-````
+`````
+
+`````
 
 2. **Document Changes**
    - Any changes from initial requirements?
@@ -755,7 +757,7 @@ This will:
 ✅ Update status automatically as you complete tasks
 
 Sync to GitHub? (yes/no)
-````
+`````
 
 **If User Says Yes:**
 

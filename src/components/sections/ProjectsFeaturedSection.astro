@@ -58,7 +58,7 @@ const featuredProjects = projects
 
 	<!-- Stacking Cards Section -->
 	<main class="relative z-[200]">
-		<ProjectsFeaturedStack client:visible projects={featuredProjects} lang={lang} />
+		<ProjectsFeaturedStack client:load projects={featuredProjects} lang={lang} />
 
 		<!-- View All Button -->
 		{

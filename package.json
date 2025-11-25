@@ -31,6 +31,12 @@
         "test:visual": "playwright test tests/visual/",
         "test:visual:update": "playwright test tests/visual/ --update-snapshots",
         "test:visual:ui": "playwright test tests/visual/ --ui",
+        "lighthouse": "lhci autorun",
+        "lighthouse:collect": "lhci collect",
+        "lighthouse:assert": "lhci assert",
+        "perf:check": "npm run build && lhci autorun",
+        "perf:test": "node scripts/performance-test.js",
+        "perf:build": "npm run build && npm run perf:test",
         "prepare": "husky"
     },
     "dependencies": {
@@ -71,6 +77,7 @@
         "@biomejs/biome": "^2.3.4",
         "@commitlint/cli": "^20.1.0",
         "@commitlint/config-conventional": "^20.0.0",
+        "@lhci/cli": "^0.15.1",
         "@philnash/astro-pagination": "^0.5.0",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",

@@ -465,6 +465,23 @@ items, move oldest to [Archived Learnings](#9-archived-learnings).
 - Lazy load components with client:load directives
 - Use View Transitions API for smooth navigation
 
+### Performance Optimization (Nov 2025)
+
+- **Lazy loading i18n doesn't help Astro SSG** - `import.meta.glob()`
+  pre-bundles everything at build time; lazy loading adds complexity without
+  benefits
+- **SVG sprites are optimal for SSG** - Inline sprites (2.6KB) beat JS chunks
+  (393KB) by 99.3%
+- **Use `client:visible` for below-fold components** - Defers hydration until
+  scroll, saves ~15KB from initial bundle
+- **astro-favicons uses `name/short_name`** - Not `appName/appShortName` (API
+  differs from docs)
+- **Font preloading: max 3 critical fonts** - Inter 400/600/700 only; use
+  `@layer` for non-critical
+- **Critical CSS inline is essential** - ~2KB of hero styles in
+  `<style is:inline>` eliminates FOUC
+- **Production metrics baseline (Nov 2025):** LCP 184ms, CLS 0.00, TTFB 48ms
+
 ---
 
 ## 9. Archived Learnings

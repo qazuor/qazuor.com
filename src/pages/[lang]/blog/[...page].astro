@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import type { GetStaticPaths, Page } from 'astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -59,7 +60,7 @@ const title = `${t('blog.title')} - qazuor.com`;
 ---
 
 <BaseLayout title={title}>
-    <div class="relative section overflow-hidden pt-32" style="background-color: #0891b2;">
+    <div class="relative section overflow-hidden pt-32" style={`background-color: ${sectionsColors.blog}`}>
         <AnimatedGradientBackground />
 
         <div class="container-custom">

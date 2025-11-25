@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -45,7 +46,7 @@ const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
 ---
 
 <BaseLayout title={title} description={description}>
-    <div class="relative section overflow-hidden pt-32 pb-20" style="background-color: #0891b2;">
+    <div class="relative section overflow-hidden pt-32 pb-20" style={`background-color: ${sectionsColors.blog}`}>
         <AnimatedGradientBackground />
 
         <article class="container-custom">

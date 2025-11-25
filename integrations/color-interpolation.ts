@@ -22,6 +22,7 @@ interface SectionColors {
     projects: string;
     blog: string;
     services: string;
+    tools: string;
     testimonials: string;
     contact: string;
     footer: string;
@@ -132,6 +133,7 @@ function loadColorsFromSource(sourceFile: string): { dark: SectionColors; light:
                 projects: colors.projects || '#000000',
                 blog: colors.blog || '#000000',
                 services: colors.services || '#000000',
+                tools: colors.tools || '#000000',
                 testimonials: colors.testimonials || '#000000',
                 contact: colors.contact || '#000000',
                 footer: colors.footer || '#000000'
@@ -171,6 +173,7 @@ function generateCompleteCSS(darkColors: SectionColors, lightColors: SectionColo
   --section-projects-bg: ${lightColors.projects.toLowerCase()};
   --section-blog-bg: ${lightColors.blog.toLowerCase()};
   --section-services-bg: ${lightColors.services.toLowerCase()};
+  --section-tools-bg: ${lightColors.tools.toLowerCase()};
   --section-testimonials-bg: ${lightColors.testimonials.toLowerCase()};
   --section-contact-bg: ${lightColors.contact.toLowerCase()};
   --section-footer-bg: ${lightColors.footer.toLowerCase()};
@@ -186,6 +189,7 @@ ${generateTransitionCSS(lightColors, steps).trimEnd()}
   --section-projects-bg: ${darkColors.projects.toLowerCase()};
   --section-blog-bg: ${darkColors.blog.toLowerCase()};
   --section-services-bg: ${darkColors.services.toLowerCase()};
+  --section-tools-bg: ${darkColors.tools.toLowerCase()};
   --section-testimonials-bg: ${darkColors.testimonials.toLowerCase()};
   --section-contact-bg: ${darkColors.contact.toLowerCase()};
   --section-footer-bg: ${darkColors.footer.toLowerCase()};

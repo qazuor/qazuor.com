@@ -9,6 +9,7 @@ export interface SectionColors {
     projects: string;
     blog: string;
     services: string;
+    tools: string;
     testimonials: string;
     contact: string;
     footer: string;
@@ -24,6 +25,7 @@ export const darkModeColors: SectionColors = {
     projects: '#253853', // Blue (was #393053)
     blog: '#0F1A2B', // Deep blue (latest articles)
     services: '#1A2A3D', // Dark blue (complementing about)
+    tools: '#1A2A3D', // Dark blue (same as services)
     testimonials: '#253853', // Blue
     contact: '#1E3552', // Medium dark blue (was #332952)
     footer: '#0A1420' // Very dark blue matching bg-background dark mode
@@ -39,6 +41,7 @@ export const lightModeColors: SectionColors = {
     projects: '#ADC4CE', // Soft blue-gray
     blog: '#9AA6B2', // Blue-gray (repeating pattern)
     services: '#BCCCDC', // Light blue-gray (complementing about)
+    tools: '#BCCCDC', // Light blue-gray (same as services)
     testimonials: '#BCCCDC', // Light blue-gray
     contact: '#ADC4CE', // Soft blue-gray
     footer: '#E8EBF0' // Light blue-gray matching bg-background light mode
@@ -55,6 +58,7 @@ export const sectionsColorsCSSProps: SectionColors = {
     projects: 'var(--section-projects-bg)',
     blog: 'var(--section-blog-bg)',
     services: 'var(--section-services-bg)',
+    tools: 'var(--section-tools-bg)',
     testimonials: 'var(--section-testimonials-bg)',
     contact: 'var(--section-contact-bg)',
     footer: 'var(--section-footer-bg)'

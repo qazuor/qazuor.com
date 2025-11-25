@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -49,7 +50,7 @@ const toolsUrl = translatePath('/tools', lang);
 ---
 
 <BaseLayout title={title} description={description}>
-    <div class="relative section overflow-hidden pt-32 pb-20" style="background-color: #6366f1;">
+    <div class="relative section overflow-hidden pt-32 pb-20" style={`background-color: ${sectionsColors.tools}`}>
         <AnimatedGradientBackground />
 
         <article class="container-custom">

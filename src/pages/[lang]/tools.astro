@@ -5,6 +5,7 @@ import ToolCard from '@/components/cards/ToolCard.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -41,7 +42,7 @@ const description = t('tools.subtitle');
 ---
 
 <BaseLayout title={title} description={description}>
-    <div class="relative section overflow-hidden pt-32" style="background-color: #6366f1;">
+    <div class="relative section overflow-hidden pt-32" style={`background-color: ${sectionsColors.tools}`}>
         <AnimatedGradientBackground />
 
         <div class="container-custom">

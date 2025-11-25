@@ -99,9 +99,9 @@ export default defineConfig({
             input: {
                 favicons: ['public/favicon.svg', 'public/avatar.png']
             },
-            appName: 'qazuor',
-            appShortName: 'qazuor',
-            appDescription: 'Portfolio & Technical Blog - Full Stack Developer',
+            name: 'qazuor - Full-Stack Developer',
+            short_name: 'qazuor',
+            description: 'Portfolio & Technical Blog - Full Stack Developer',
             lang: 'en',
             background: '#0f172a',
             theme_color: '#3b82f6'

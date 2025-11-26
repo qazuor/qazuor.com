@@ -33,7 +33,7 @@ export function getSeriesPosts(currentPost: BlogPost, allPosts: BlogPost[]): Ser
         .map((post) => ({
             slug: getEffectiveSlug(post),
             title: post.data.title,
-            part: post.data.series!.part,
+            part: post.data.series?.part ?? 0,
             isCurrent: getEffectiveSlug(post) === getEffectiveSlug(currentPost)
         }))
         .sort((a, b) => a.part - b.part);

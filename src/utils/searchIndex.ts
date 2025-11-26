@@ -57,7 +57,7 @@ export async function generateSearchIndex(): Promise<SearchableItem[]> {
                 description: tool.data.description,
                 tags: tool.data.tags,
                 category: 'tools',
-                url: `/tools/${tool.slug}`,
+                url: `/goodies/${tool.slug}`,
                 type: 'content',
                 publishDate: tool.data.createdAt,
                 featured: tool.data.featured

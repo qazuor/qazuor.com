@@ -86,11 +86,11 @@ export const commandPaletteData: CommandGroup[] = [
             },
             {
                 id: 'tools',
-                value: 'tools utilities',
-                href: '/tools',
+                value: 'tools utilities goodies',
+                href: '/goodies',
                 icon: 'folder',
-                keywords: ['tools', 'utilities', 'herramientas'],
-                label: 'Tools'
+                keywords: ['tools', 'utilities', 'herramientas', 'goodies', 'snippets', 'links'],
+                label: 'Goodies'
             },
             {
                 id: 'contact',
@@ -189,7 +189,7 @@ export const keyboardShortcuts: Record<string, KeyboardShortcut> = {
     h: { type: 'navigation', href: '/', commandKey: true },
     p: { type: 'navigation', href: '/projects', commandKey: true },
     b: { type: 'navigation', href: '/blog', commandKey: true },
-    t: { type: 'navigation', href: '/tools', commandKey: true },
+    t: { type: 'navigation', href: '/goodies', commandKey: true },
     a: { type: 'navigation', href: '/#about', commandKey: true },
     '?': { type: 'action', action: 'showHelp', commandKey: true },
     c: { type: 'action', action: 'copyUrl', commandKey: true },

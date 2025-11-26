@@ -66,7 +66,7 @@ const navItems = [
     },
     { href: translatePath('/services', lang), label: formatAsTag(t('nav.services')) },
     { href: `${translatePath('/', lang)}#testimonials`, label: formatAsTag(t('nav.testimonials')) },
-    { href: translatePath('/tools', lang), label: formatAsTag(t('nav.tools')) },
+    { href: translatePath('/goodies', lang), label: formatAsTag(t('nav.tools')) },
     { href: `${translatePath('/', lang)}#contact`, label: formatAsTag(t('nav.contact')) }
 ];
 
@@ -119,8 +119,8 @@ const isActive = (href: string) => {
                             );
                         }
 
-                        // Use dropdown for tools
-                        if (item.href.includes('/tools')) {
+                        // Use dropdown for goodies
+                        if (item.href.includes('/goodies')) {
                             return (
                                 <ToolsDropdown
                                     client:load

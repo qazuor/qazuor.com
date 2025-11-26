@@ -27,11 +27,11 @@ export function ToolsDropdown({ currentLocale, currentPath, allToolsLabel, tools
         id: tool.slug,
         label: tool.title,
         icon: tool.icon || '⚙️',
-        href: `/${currentLocale}/tools/${tool.slug}`
+        href: `/${currentLocale}/goodies/${tool.slug}`
     }));
 
     // Check if we're on any tools page
-    const isToolsActive = currentPath.includes('/tools');
+    const isToolsActive = currentPath.includes('/goodies');
 
     return (
         <NavDropdown
@@ -51,7 +51,7 @@ export function ToolsDropdown({ currentLocale, currentPath, allToolsLabel, tools
                 translations?.viewAllLabel
                     ? {
                           label: translations.viewAllLabel,
-                          href: `/${currentLocale}/tools`
+                          href: `/${currentLocale}/goodies`
                       }
                     : undefined
             }

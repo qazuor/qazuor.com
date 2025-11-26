@@ -49,7 +49,7 @@ for (const lang of langs) {
     pageTitles[`/${lang}/blog`] = nav.blog;
     pageTitles[`/${lang}/projects`] = nav.projects;
     pageTitles[`/${lang}/services`] = nav.services;
-    pageTitles[`/${lang}/tools`] = nav.tools;
+    pageTitles[`/${lang}/goodies`] = nav.tools;
 
     // Hash sections (for single-page navigation)
     pageTitles[`/${lang}#hero`] = nav.home;
@@ -73,7 +73,7 @@ for (const post of blogs) {
 const tools = await getCollection('tools');
 for (const tool of tools) {
     for (const lang of langs) {
-        pageTitles[`/${lang}/tools/${tool.slug}`] = tool.data.title;
+        pageTitles[`/${lang}/goodies/${tool.slug}`] = tool.data.title;
     }
 }
 

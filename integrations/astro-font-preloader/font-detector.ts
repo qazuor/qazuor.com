@@ -112,7 +112,7 @@ export async function detectFonts(options: FontDetectorOptions): Promise<Detecte
                     }
                 }
             }
-        } catch (error) {
+        } catch (_error) {
             if (verbose) {
                 console.warn(`   ⚠️  Could not read file: ${filePath}`);
             }

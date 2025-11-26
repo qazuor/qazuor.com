@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import type { SearchableItem } from '@/types/search';
+import { getEffectiveSlug } from '@/utils/blog';
 
 /**
  * Generates search index from Astro collections at build time
@@ -41,7 +42,7 @@ export async function generateSearchIndex(): Promise<SearchableItem[]> {
                 description: post.data.excerpt,
                 tags: post.data.tags,
                 category: 'blog',
-                url: `/blog/${post.slug}`,
+                url: `/blog/${getEffectiveSlug(post)}`,
                 type: 'content',
                 publishDate: post.data.publishDate,
                 featured: false // Blog posts don't have featured field

@@ -8,6 +8,7 @@ import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getEffectiveSlug } from '@/utils/blog';
 
 // Define the type for our blog post data
 interface BlogPostData {
@@ -42,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
             date: post.data.publishDate.toISOString().split('T')[0],
             readTime: post.data.readTime,
             tags: post.data.tags,
-            slug: `/${lang}/blog/${post.slug}`
+            slug: `/${lang}/blog/${getEffectiveSlug(post)}`
         }));
 
         return paginate(postsForLang, {

@@ -9,7 +9,7 @@ import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getAdjacentPosts, getRelatedPosts, getSeriesPosts } from '@/utils/blog';
+import { getAdjacentPosts, getEffectiveSlug, getRelatedPosts, getSeriesPosts } from '@/utils/blog';
 
 export async function getStaticPaths() {
     const allBlogPosts = await getCollection('blog');
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
         allBlogPosts
             .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
             .map((post: CollectionEntry<'blog'>) => ({
-                params: { lang, slug: post.slug },
+                params: { lang, slug: getEffectiveSlug(post) },
                 props: { post, allPosts: allBlogPosts }
             }))
     );

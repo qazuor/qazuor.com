@@ -24,6 +24,7 @@ import { getCollection } from 'astro:content';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { languages } from '@/i18n/ui';
 import { getTranslations } from '@/i18n/utils';
+import { getEffectiveSlug } from '@/utils/blog';
 
 // Generate page titles map at build time
 const pageTitles: Record<string, string> = {};
@@ -65,7 +66,7 @@ for (const lang of langs) {
 const blogs = await getCollection('blog', (entry: CollectionEntry<'blog'>) => !entry.data.draft);
 for (const post of blogs) {
     for (const lang of langs) {
-        pageTitles[`/${lang}/blog/${post.slug}`] = post.data.title;
+        pageTitles[`/${lang}/blog/${getEffectiveSlug(post)}`] = post.data.title;
     }
 }
 

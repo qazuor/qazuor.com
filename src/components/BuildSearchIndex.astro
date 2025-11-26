@@ -5,6 +5,7 @@ import { commandPaletteData } from '@/data/commandPalette';
 import { services } from '@/data/services';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import type { SearchableItem } from '@/types/search';
+import { getEffectiveSlug } from '@/utils/blog';
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
@@ -65,7 +66,7 @@ try {
             description: post.data.excerpt,
             tags: post.data.tags,
             category: 'blog',
-            url: `/blog/${post.slug}`,
+            url: `/blog/${getEffectiveSlug(post)}`,
             type: 'content',
             publishDate: post.data.publishDate,
             featured: false

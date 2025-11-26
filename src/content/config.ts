@@ -35,6 +35,7 @@ const blogCollection = defineCollection({
             author: z.string().default('qazuor'),
             readTime: z.string(),
             draft: z.boolean().default(false),
+            slug: z.string().optional(), // Custom slug (uses filename if not provided)
             image: image().optional(), // Local image (relative path from content file)
             category: z.string().optional(), // Category for card badge
             // Series support for multi-part articles

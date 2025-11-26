@@ -1,3 +1,4 @@
+import { getEffectiveSlug } from './getEffectiveSlug';
 import type { BlogPost, PostSummary } from './types';
 
 interface ScoredPost {
@@ -34,7 +35,7 @@ function calculateRelevanceScore(current: BlogPost, candidate: BlogPost): number
  */
 function toPostSummary(post: BlogPost): PostSummary {
     return {
-        slug: post.slug,
+        slug: getEffectiveSlug(post),
         title: post.data.title,
         excerpt: post.data.excerpt,
         publishDate: post.data.publishDate,

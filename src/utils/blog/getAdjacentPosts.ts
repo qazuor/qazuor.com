@@ -1,3 +1,4 @@
+import { getEffectiveSlug } from './getEffectiveSlug';
 import type { AdjacentPosts, BlogPost, PostSummary } from './types';
 
 /**
@@ -5,7 +6,7 @@ import type { AdjacentPosts, BlogPost, PostSummary } from './types';
  */
 function toPostSummary(post: BlogPost): PostSummary {
     return {
-        slug: post.slug,
+        slug: getEffectiveSlug(post),
         title: post.data.title,
         excerpt: post.data.excerpt,
         publishDate: post.data.publishDate,

@@ -1,3 +1,4 @@
+import { getEffectiveSlug } from './getEffectiveSlug';
 import type { BlogPost, SeriesData, SeriesPost } from './types';
 
 /**
@@ -30,10 +31,10 @@ export function getSeriesPosts(currentPost: BlogPost, allPosts: BlogPost[]): Ser
             return true;
         })
         .map((post) => ({
-            slug: post.slug,
+            slug: getEffectiveSlug(post),
             title: post.data.title,
             part: post.data.series!.part,
-            isCurrent: post.slug === currentPost.slug
+            isCurrent: getEffectiveSlug(post) === getEffectiveSlug(currentPost)
         }))
         .sort((a, b) => a.part - b.part);
 

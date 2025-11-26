@@ -17,6 +17,7 @@ import { contact, sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getEffectiveSlug } from '@/utils/blog';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -108,7 +109,7 @@ const sortedBlogPosts = allBlogPosts
         date: post.data.publishDate.toISOString().split('T')[0],
         readTime: post.data.readTime,
         tags: post.data.tags,
-        slug: `/${lang}/blog/${post.slug}`
+        slug: `/${lang}/blog/${getEffectiveSlug(post)}`
     }));
 
 // Sort testimonials by order and date

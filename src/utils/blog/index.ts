@@ -2,6 +2,7 @@
 
 // Functions
 export { getAdjacentPosts } from './getAdjacentPosts';
+export { getEffectiveSlug } from './getEffectiveSlug';
 export type { GetRelatedPostsOptions } from './getRelatedPosts';
 export { getRelatedPosts } from './getRelatedPosts';
 export {

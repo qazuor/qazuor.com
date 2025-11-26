@@ -4,17 +4,17 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
 import AstroPWA from '@vite-pwa/astro';
-import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
 import subsites from 'astro-subsites';
+import { defineConfig } from 'astro/config';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
-import colorInterpolation from './integrations/color-interpolation.ts';
 import fontPreloader from './integrations/astro-font-preloader/index.ts';
+import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
 import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.ts';
 
@@ -261,6 +261,11 @@ export default defineConfig({
                         }
                     }
                 }
+            }
+        },
+        server: {
+            watch: {
+                ignored: ['**/node_modules/**', '**/.git/**']
             }
         }
     },

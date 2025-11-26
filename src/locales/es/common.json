@@ -4,7 +4,7 @@
         "blog": "Blog",
         "projects": "Proyectos",
         "services": "Servicios",
-        "tools": "Herramientas",
+        "tools": "Goodies",
         "about": "Acerca de",
         "skills": "Habilidades",
         "testimonials": "Testimonios",
@@ -196,28 +196,30 @@
         "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"
     },
     "tools": {
-        "title": "Herramientas para Desarrolladores",
-        "subtitle": "Herramientas gratuitas y experimentos para la comunidad",
+        "title": "Goodies",
+        "subtitle": "Recursos, utilidades y snippets para devs",
         "categories": {
-            "all": "Todas las Herramientas",
+            "all": "Todos los Goodies",
             "css": "CSS",
             "design": "Diseño",
-            "utilities": "Utilidades"
+            "utilities": "Utilidades",
+            "snippets": "Snippets",
+            "links": "Links"
         },
         "difficulty": {
             "beginner": "Principiante",
             "intermediate": "Intermedio",
             "advanced": "Avanzado"
         },
-        "featured": "Herramientas Destacadas",
+        "featured": "Goodies Destacados",
         "tryDemo": "Probar Demo",
         "viewSource": "Ver Código",
         "comingSoon": "Próximamente",
-        "noTools": "No se encontraron herramientas para esta categoría",
+        "noTools": "No se encontraron goodies para esta categoría",
         "dropdown": {
-            "headerTitle": "Herramientas",
-            "headerDescription": "Herramientas gratuitas y utilidades para desarrolladores",
-            "viewAll": "Ver Todas las Herramientas"
+            "headerTitle": "Goodies",
+            "headerDescription": "Recursos, utilidades y snippets para devs",
+            "viewAll": "Ver Todos los Goodies"
         }
     },
     "aria": {

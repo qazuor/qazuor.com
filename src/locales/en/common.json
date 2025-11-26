@@ -4,7 +4,7 @@
         "blog": "Blog",
         "projects": "Projects",
         "services": "Services",
-        "tools": "Tools",
+        "tools": "Goodies",
         "about": "About",
         "skills": "Skills",
         "testimonials": "Testimonials",
@@ -196,28 +196,30 @@
         "imageAlt": "qazuor - Full-Stack Developer Portfolio"
     },
     "tools": {
-        "title": "Developer Tools",
-        "subtitle": "Free tools and experiments for the community",
+        "title": "Goodies",
+        "subtitle": "Resources, utilities and snippets for devs",
         "categories": {
-            "all": "All Tools",
+            "all": "All Goodies",
             "css": "CSS",
             "design": "Design",
-            "utilities": "Utilities"
+            "utilities": "Utilities",
+            "snippets": "Snippets",
+            "links": "Links"
         },
         "difficulty": {
             "beginner": "Beginner",
             "intermediate": "Intermediate",
             "advanced": "Advanced"
         },
-        "featured": "Featured Tools",
+        "featured": "Featured Goodies",
         "tryDemo": "Try Demo",
         "viewSource": "View Source",
         "comingSoon": "Coming Soon",
-        "noTools": "No tools found for this category",
+        "noTools": "No goodies found for this category",
         "dropdown": {
-            "headerTitle": "Tools",
-            "headerDescription": "Free developer tools and utilities",
-            "viewAll": "View All Tools"
+            "headerTitle": "Goodies",
+            "headerDescription": "Resources, utilities and snippets for devs",
+            "viewAll": "View All Goodies"
         }
     },
     "aria": {

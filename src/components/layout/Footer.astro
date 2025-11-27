@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import photoFooter from '@/assets/images/photo-footer.png';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { contact } from '@/data/contact';
 import { getTranslations } from '@/i18n/utils';
@@ -12,71 +14,69 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const t = getTranslations(lang);
 
-// Get latest projects
-const allProjects = await getCollection('projects');
-const latestProjects = allProjects
+// Get latest blog posts
+const allBlogPosts = await getCollection('blog');
+const latestPosts = allBlogPosts
+    .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
     .sort(
-        (a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) =>
-            new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+        (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
+            b.data.publishDate.getTime() - a.data.publishDate.getTime()
     )
     .slice(0, 4);
 
 // Footer data
 const footerData = {
     en: {
-        contact: {
-            title: 'Contact information',
+        branding: {
+            title: 'Qazuor',
             description:
-                'Feel free to reach out to me any time. I prefer to talk over email, especially since we may be a few time zones away.',
-            email: contact.email,
-            phone: '+1-234-567-8900'
+                "I'm a full-stack developer passionate about creating modern web experiences. I help businesses and entrepreneurs bring their ideas to life through clean code and thoughtful design."
         },
-        projects: {
-            title: 'Latest projects',
+        explore: {
+            title: 'Explore',
             items: [
-                ...latestProjects.map((project: CollectionEntry<'projects'>) => ({
-                    name: project.data.title,
-                    url: `/en/projects#${project.slug}`
-                })),
-                { name: 'All projects', url: '/en/projects' }
+                { name: 'Services', url: '/en/services' },
+                { name: 'Projects', url: '/en/projects' },
+                { name: 'Blog', url: '/en/blog' },
+                { name: 'Goodies', url: '/en/goodies' }
             ]
         },
-        availability: {
-            title: 'Current availability',
-            description: "I usually work on several projects but I'll be happy to discuss new opportunities.",
-            cta: "Let's get in touch!"
+        latestPosts: {
+            title: 'Latest posts',
+            viewAll: 'View all posts'
         },
-        social: {
-            title: t('social.followMe')
-        }
+        contact: {
+            title: 'Contact me',
+            email: contact.email,
+            phone: contact.phone
+        },
+        madeWith: 'Made with 💙 with Astro'
     },
     es: {
-        contact: {
-            title: 'Información de contacto',
+        branding: {
+            title: 'Qazuor',
             description:
-                'No dudes en contactarme en cualquier momento. Prefiero hablar por email, especialmente porque podemos estar en diferentes zonas horarias.',
-            email: contact.email,
-            phone: '+1-234-567-8900'
+                'Soy un desarrollador full-stack apasionado por crear experiencias web modernas. Ayudo a empresas y emprendedores a dar vida a sus ideas a través de código limpio y diseño cuidado.'
         },
-        projects: {
-            title: 'Proyectos recientes',
+        explore: {
+            title: 'Explorar',
             items: [
-                ...latestProjects.map((project: CollectionEntry<'projects'>) => ({
-                    name: project.data.title,
-                    url: `/es/projects#${project.slug}`
-                })),
-                { name: 'Todos los proyectos', url: '/es/projects' }
+                { name: 'Servicios', url: '/es/services' },
+                { name: 'Proyectos', url: '/es/projects' },
+                { name: 'Blog', url: '/es/blog' },
+                { name: 'Goodies', url: '/es/goodies' }
             ]
         },
-        availability: {
-            title: 'Disponibilidad actual',
-            description:
-                'Usualmente trabajo en varios proyectos pero estaré encantado de discutir nuevas oportunidades.',
-            cta: '¡Pongámonos en contacto!'
+        latestPosts: {
+            title: 'Últimos posts',
+            viewAll: 'Ver todos los posts'
         },
-        social: {
-            title: t('social.followMe')
-        }
+        contact: {
+            title: 'Contáctame',
+            email: contact.email,
+            phone: contact.phone
+        },
+        madeWith: 'Hecho con 💙 con Astro'
     }
 };
 
@@ -84,182 +84,146 @@ const currentYear = new Date().getFullYear();
 const data = footerData[lang];
 ---
 
-<footer class="relative z-40 bg-background py-16 md:py-20 border-t border-foreground/10">
+<footer class="relative z-40 py-16 md:py-20" style="background-color: var(--section-footer-bg)">
     <div class="container-custom">
         <!-- Main Footer Content -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
-            <!-- Contact Information -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-foreground">
-                    {data.contact.title}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-6 lg:mb-12">
+            <!-- Branding / About with positioned image -->
+            <div class="sm:col-span-2 relative">
+                <h3 class="text-lg font-semibold text-foreground mb-4 lg:pl-64">
+                    {data.branding.title}
                     <span class="text-foreground-muted">—</span>
                 </h3>
-                <p class="text-sm text-foreground-muted leading-relaxed max-w-xs">
-                    {data.contact.description}
+                <p class="text-xs text-foreground-muted leading-relaxed lg:pl-64">
+                    {data.branding.description}
                 </p>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs text-foreground-muted">E:</span>
-                        <a
-                            href={`mailto:${data.contact.email}`}
-                            class="text-sm text-foreground hover:text-primary transition-colors duration-base"
-                        >
-                            {data.contact.email}
-                        </a>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs text-foreground-muted">P:</span>
-                        <span class="text-sm text-foreground-muted">{data.contact.phone}</span>
-                    </div>
-                </div>
+                <!-- Image positioned to extend to the bottom divider -->
+                <Image
+                    src={photoFooter}
+                    alt="Qazuor"
+                    width={280}
+                    height={280}
+                    class="hidden lg:block absolute left-0 -bottom-12 w-56 h-auto"
+                />
             </div>
 
-            <!-- Latest Projects -->
+            <!-- Latest Posts -->
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold text-foreground">
-                    {data.projects.title}
+                    {data.latestPosts.title}
                     <span class="text-foreground-muted">—</span>
                 </h3>
                 <ul class="space-y-2">
                     {
-                        data.projects.items.map((project) => (
+                        latestPosts.map((post) => (
                             <li>
                                 <a
-                                    href={project.url}
-                                    class="text-sm text-foreground-muted hover:text-primary transition-colors duration-base"
+                                    href={`/${lang}/blog/${post.slug}`}
+                                    class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base line-clamp-1"
                                 >
-                                    {project.name}
+                                    {post.data.title}
                                 </a>
                             </li>
                         ))
                     }
+                    <li>
+                        <a
+                            href={`/${lang}/blog`}
+                            class="text-xs text-primary hover:text-primary/80 transition-colors duration-base font-medium"
+                        >
+                            {data.latestPosts.viewAll} →
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- Current Availability -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-foreground">
-                    {data.availability.title}
-                    <span class="text-foreground-muted">—</span>
-                </h3>
-                <p class="text-sm text-foreground-muted leading-relaxed max-w-xs">
-                    {data.availability.description}
-                </p>
-                <a
-                    href={`mailto:${contact.email}`}
-                    class="inline-block text-sm text-primary hover:text-primary/80 transition-colors duration-base font-medium"
-                >
-                    {data.availability.cta}
-                </a>
-            </div>
+            <!-- Explore + Contact combined -->
+            <div class="space-y-6">
+                <!-- Explore / Navigation -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-semibold text-foreground">
+                        {data.explore.title}
+                        <span class="text-foreground-muted">—</span>
+                    </h3>
+                    <ul class="space-y-1">
+                        {
+                            data.explore.items.map((item) => (
+                                <li>
+                                    <a
+                                        href={item.url}
+                                        class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
+                                    >
+                                        {item.name}
+                                    </a>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
 
-            <!-- Social Links -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-foreground">
-                    {data.social.title}
-                    <span class="text-foreground-muted">—</span>
-                </h3>
-                <SocialLinks
-                    ariaLabels={{
-                        github: t('aria.github'),
-                        linkedin: t('aria.linkedin'),
-                        fiverr: t('aria.fiverr'),
-                        upwork: t('aria.upwork'),
-                        whatsapp: t('aria.whatsapp'),
-                        mail: t('aria.mail'),
-                        buymeacoffee: t('aria.buymeacoffee')
-                    }}
-                    size="md"
-                />
+                <!-- Contact -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-semibold text-foreground">
+                        {data.contact.title}
+                        <span class="text-foreground-muted">—</span>
+                    </h3>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-foreground-muted">E:</span>
+                            <a
+                                href={`mailto:${data.contact.email}`}
+                                class="text-xs text-foreground hover:text-primary transition-colors duration-base"
+                            >
+                                {data.contact.email}
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-foreground-muted">P:</span>
+                            <span class="text-xs text-foreground-muted">{data.contact.phone}</span>
+                        </div>
+                    </div>
+                    <SocialLinks
+                        ariaLabels={{
+                            github: t('aria.github'),
+                            linkedin: t('aria.linkedin'),
+                            fiverr: t('aria.fiverr'),
+                            upwork: t('aria.upwork'),
+                            whatsapp: t('aria.whatsapp'),
+                            mail: t('aria.mail'),
+                            buymeacoffee: t('aria.buymeacoffee')
+                        }}
+                        size="sm"
+                    />
+                </div>
             </div>
         </div>
 
+        <!-- Mobile Photo - positioned absolute, flipped -->
+        <Image
+            src={photoFooter}
+            alt="Qazuor"
+            width={180}
+            height={180}
+            class="lg:hidden absolute right-4 bottom-[130px] w-36 h-auto scale-x-[-1]"
+        />
+
         <!-- Bottom Footer -->
         <div class="pt-8 border-t border-foreground/10">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <!-- Copyright -->
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
-                        <span class="text-sm font-medium text-foreground">Q</span>
-                    </div>
-                    <span class="text-xs text-foreground-muted">
-                        © {currentYear} Qazuor. Made with 💙 in Remote.
-                    </span>
+            <div class="flex items-center justify-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
+                    <span class="text-sm font-medium text-foreground">Q</span>
                 </div>
-
-                <!-- Email Contact -->
-                <a
-                    href={`mailto:${contact.email}`}
-                    class="flex items-center gap-2 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 transition-all duration-base group"
-                    aria-label="Send email"
-                >
-                    <div
-                        class="w-6 h-6 rounded-full bg-foreground/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-base"
-                    >
-                        <svg
-                            class="w-3 h-3 text-foreground group-hover:text-primary transition-colors duration-base"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                            ></path>
-                        </svg>
-                    </div>
-                </a>
-
-                <!-- Scroll to Top -->
-                <button
-                    class="flex items-center gap-2 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 transition-all duration-base group scroll-to-top"
-                    aria-label="Scroll to top"
-                >
-                    <div
-                        class="w-6 h-6 rounded-full bg-foreground/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-base"
-                    >
-                        <svg
-                            class="w-3 h-3 text-foreground group-hover:text-primary transition-colors duration-base"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"
-                            ></path>
-                        </svg>
-                    </div>
-                </button>
+                <span class="text-xs text-foreground-muted">
+                    © {currentYear} Qazuor. {data.madeWith}
+                </span>
             </div>
         </div>
     </div>
 </footer>
 
-<script>
-    // Scroll to top functionality using event delegation
-    // This persists across View Transitions without needing to re-register
-    document.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-
-        // Check if click is on scroll-to-top button or its children
-        if (target.closest('.scroll-to-top')) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    });
-</script>
-
 <style>
     /* Custom hover effects */
     footer a:hover {
         transform: translateY(-1px);
-    }
-
-    .scroll-to-top:hover,
-    .scroll-to-top:focus {
-        transform: translateY(-2px);
     }
 </style>

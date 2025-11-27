@@ -96,54 +96,63 @@ const line4Right = direction === 'right';
         --divider-transition-primary: var(--hero-to-about-2);
         --divider-transition-secondary: var(--hero-to-about-4);
         --divider-transition-accent: var(--hero-to-about-3);
+        --divider-transition-final: var(--hero-to-about-5);
     }
 
     .diagonal-divider[data-transition='about-to-skills'] {
         --divider-transition-primary: var(--about-to-skills-2);
         --divider-transition-secondary: var(--about-to-skills-4);
         --divider-transition-accent: var(--about-to-skills-3);
+        --divider-transition-final: var(--about-to-skills-5);
     }
 
     .diagonal-divider[data-transition='skills-to-projects'] {
         --divider-transition-primary: var(--skills-to-projects-2);
         --divider-transition-secondary: var(--skills-to-projects-4);
         --divider-transition-accent: var(--skills-to-projects-3);
+        --divider-transition-final: var(--skills-to-projects-5);
     }
 
     .diagonal-divider[data-transition='projects-to-blog'] {
         --divider-transition-primary: var(--projects-to-blog-2);
         --divider-transition-secondary: var(--projects-to-blog-4);
         --divider-transition-accent: var(--projects-to-blog-3);
+        --divider-transition-final: var(--projects-to-blog-5);
     }
 
     .diagonal-divider[data-transition='blog-to-testimonials'] {
         --divider-transition-primary: var(--blog-to-testimonials-2);
         --divider-transition-secondary: var(--blog-to-testimonials-4);
         --divider-transition-accent: var(--blog-to-testimonials-3);
+        --divider-transition-final: var(--blog-to-testimonials-5);
     }
 
     .diagonal-divider[data-transition='blog-to-services'] {
         --divider-transition-primary: var(--blog-to-services-2);
         --divider-transition-secondary: var(--blog-to-services-4);
         --divider-transition-accent: var(--blog-to-services-3);
+        --divider-transition-final: var(--blog-to-services-5);
     }
 
     .diagonal-divider[data-transition='services-to-testimonials'] {
         --divider-transition-primary: var(--services-to-testimonials-2);
         --divider-transition-secondary: var(--services-to-testimonials-4);
         --divider-transition-accent: var(--services-to-testimonials-3);
+        --divider-transition-final: var(--services-to-testimonials-5);
     }
 
     .diagonal-divider[data-transition='testimonials-to-contact'] {
         --divider-transition-primary: var(--testimonials-to-contact-2);
         --divider-transition-secondary: var(--testimonials-to-contact-4);
         --divider-transition-accent: var(--testimonials-to-contact-3);
+        --divider-transition-final: var(--testimonials-to-contact-5);
     }
 
     .diagonal-divider[data-transition='contact-to-footer'] {
         --divider-transition-primary: var(--contact-to-footer-2);
         --divider-transition-secondary: var(--contact-to-footer-4);
         --divider-transition-accent: var(--contact-to-footer-3);
+        --divider-transition-final: var(--contact-to-footer-5);
     }
 
     /* Dynamic diagonal colors that respond to theme changes */
@@ -168,7 +177,7 @@ const line4Right = direction === 'right';
     }
 
     .diagonal-layer-5 {
-        fill: var(--divider-transition-secondary);
+        fill: var(--divider-transition-final);
         transition: fill 0.3s ease;
     }
 </style>

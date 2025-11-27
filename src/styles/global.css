@@ -99,6 +99,8 @@
         --border: 215 15% 82%; /* Light blue-gray border */
         --input: 215 15% 90%; /* Light blue-gray input backgrounds */
         --ring: 210 55% 50%; /* Blue focus ring */
+        /* Form field backgrounds - slightly darker than card for contrast */
+        --input-field-bg: rgba(0, 0, 0, 0.04);
         --chart-1: 210 55% 50%; /* Blue charts */
         --chart-2: 200 60% 45%;
         --chart-3: 190 50% 55%;
@@ -137,6 +139,8 @@
         --border: 245 25% 22%; /* Dark purple border */
         --input: 245 25% 15%; /* Dark purple input backgrounds */
         --ring: 250 60% 65%; /* Purple-blue focus ring */
+        /* Form field backgrounds - slightly lighter than card for contrast */
+        --input-field-bg: rgba(255, 255, 255, 0.12);
         --chart-1: 250 60% 65%; /* Purple-blue charts */
         --chart-2: 260 50% 60%; /* Purple charts */
         --chart-3: 240 40% 70%; /* Light purple charts */

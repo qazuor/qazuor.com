@@ -79,8 +79,9 @@ const toolsCollection = defineCollection({
         difficulty: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
         createdAt: z.date(),
         updatedAt: z.date(),
-        demo: z.boolean().default(false),
-        iframeUrl: z.string().url().optional(),
+        siteUrl: z.string().url(),
+        repoUrl: z.string().url(),
+        icon: z.string(),
         order: z.number().default(999)
     })
 });

@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths, Page } from 'astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { getCategoryColor } from '@/data/categoryColors';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -18,6 +18,7 @@ interface BlogPostData {
     readTime: string;
     tags: string[];
     slug: string;
+    category: string;
 }
 
 interface Props {
@@ -43,12 +44,13 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
             date: post.data.publishDate.toISOString().split('T')[0],
             readTime: post.data.readTime,
             tags: post.data.tags,
-            slug: `/${lang}/blog/${getEffectiveSlug(post)}`
+            slug: `/${lang}/blog/${getEffectiveSlug(post)}`,
+            category: post.data.category || post.data.tags[0] || 'Article'
         }));
 
         return paginate(postsForLang, {
             params: { lang },
-            pageSize: 6 // 6 posts per page
+            pageSize: 9 // 9 posts per page (3x3 grid)
         });
     });
 };
@@ -61,198 +63,230 @@ const title = `${t('blog.title', { markdown: false })} - qazuor.com`;
 ---
 
 <BaseLayout title={title}>
-    <div class="relative section overflow-hidden pt-32" style={`background-color: ${sectionsColors.blog}`}>
+    <div class="relative min-h-screen overflow-hidden" style={`background-color: ${sectionsColors.blog}`}>
         <AnimatedGradientBackground />
 
-        <div class="container-custom">
-            <!-- Header -->
-            <div class="mb-16">
-                <SectionTitle title={t('blog.title', { markdown: true })} subtitle={t('blog.subtitle', { markdown: true })} />
+        <div class="container-custom relative z-10 pt-32 pb-20">
+            <!-- Hero Header -->
+            <header class="text-center mb-16 md:mb-20">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    <span class="text-sm font-medium text-primary">{page.total} {t('blog.pagination.articles')}</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">
+                    <span class="gradient-text-section" set:html={t('blog.title', { markdown: true })} />
+                </h1>
+
+                <p class="text-lg md:text-xl text-foreground-secondary max-w-2xl mx-auto leading-relaxed" set:html={t('blog.subtitle', { markdown: true })} />
 
                 <!-- Page indicator -->
                 {
                     page.lastPage > 1 && (
-                        <p class="mt-6 text-center text-sm text-foreground-secondary">
-                            {t('blog.pagination.page')} {page.currentPage} {t('blog.pagination.of')} {page.lastPage} •{' '}
-                            {page.total} {t('blog.pagination.articles')}
-                        </p>
+                        <div class="mt-8 flex items-center justify-center gap-3">
+                            <div class="h-px w-12 bg-gradient-to-r from-transparent to-foreground/20"></div>
+                            <span class="text-sm text-foreground-muted font-medium tabular-nums">
+                                {t('blog.pagination.page')} {page.currentPage} {t('blog.pagination.of')} {page.lastPage}
+                            </span>
+                            <div class="h-px w-12 bg-gradient-to-l from-transparent to-foreground/20"></div>
+                        </div>
                     )
                 }
-            </div>
+            </header>
 
-        <!-- Blog Posts Grid -->
-        {
-            page.data.length > 0 ? (
-                <>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {page.data.map((post: BlogPostData) => (
-                            <article class="blog-card card-hover group p-6">
-                                {/* Header */}
-                                <div class="flex items-center gap-4 mb-4 text-sm text-foreground-muted">
-                                    <time datetime={post.date} class="flex items-center gap-2">
-                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width={2}
-                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                            />
-                                        </svg>
-                                        {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
-                                            year: 'numeric',
-                                            month: 'short',
-                                            day: 'numeric'
-                                        })}
-                                    </time>
-                                    <span>•</span>
-                                    <span class="flex items-center gap-2">
-                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width={2}
-                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                            />
-                                        </svg>
-                                        {post.readTime.match(/\d+/)?.[0]} {t('blog.readTime')}
-                                    </span>
-                                </div>
+            <!-- Blog Posts Grid -->
+            {
+                page.data.length > 0 ? (
+                    <>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                            {page.data.map((post: BlogPostData, index: number) => (
+                                <article
+                                    class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-card to-card/80 border border-foreground/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2"
+                                    style={`animation-delay: ${index * 50}ms`}
+                                >
+                                    {/* Gradient accent bar */}
+                                    <div
+                                        class="h-1 w-full transition-all duration-300 group-hover:h-1.5"
+                                        style={`background: linear-gradient(90deg, ${getCategoryColor(post.category).bg}, oklch(0.70 0.18 200))`}
+                                    />
 
-                                {/* Title */}
-                                <h3 class="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
-                                    <a href={post.slug} class="hover:underline">
-                                        {post.title}
+                                    {/* Card content */}
+                                    <a href={post.slug} class="block p-6 lg:p-7">
+                                        {/* Category & Meta */}
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span
+                                                class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider text-white shadow-lg"
+                                                style={`background: ${getCategoryColor(post.category).bg}; box-shadow: 0 4px 14px ${getCategoryColor(post.category).shadow}`}
+                                            >
+                                                {post.category}
+                                            </span>
+                                            <span class="flex items-center gap-1.5 text-xs text-foreground-muted font-medium">
+                                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                {post.readTime.match(/\d+/)?.[0]} min
+                                            </span>
+                                        </div>
+
+                                        {/* Title */}
+                                        <h2 class="text-xl lg:text-2xl font-bold text-foreground mb-3 leading-tight group-hover:text-primary transition-colors duration-300 line-clamp-2">
+                                            {post.title}
+                                        </h2>
+
+                                        {/* Excerpt */}
+                                        <p class="text-foreground-secondary text-sm lg:text-base mb-5 line-clamp-3 leading-relaxed">
+                                            {post.excerpt}
+                                        </p>
+
+                                        {/* Footer: Date & Tags */}
+                                        <div class="flex items-center justify-between pt-4 border-t border-foreground/5">
+                                            <time
+                                                datetime={post.date}
+                                                class="text-xs text-foreground-muted font-medium"
+                                            >
+                                                {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                })}
+                                            </time>
+
+                                            {/* Tags (max 2) */}
+                                            <div class="flex items-center gap-2">
+                                                {post.tags.slice(0, 2).map((tag: string) => (
+                                                    <span class="text-xs px-2 py-1 bg-foreground/5 text-foreground-muted rounded-md font-medium group-hover:bg-primary/10 group-hover:text-primary transition-colors duration-300">
+                                                        #{tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Read more indicator */}
+                                        <div class="absolute bottom-6 right-6 lg:bottom-7 lg:right-7 w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                                            <svg
+                                                class="w-5 h-5 text-foreground-muted group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </div>
                                     </a>
-                                </h3>
+                                </article>
+                            ))}
+                        </div>
 
-                                {/* Excerpt */}
-                                <p class="text-foreground-secondary text-sm mb-4 line-clamp-3">{post.excerpt}</p>
-
-                                {/* Tags */}
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    {post.tags.map((tag: string) => (
-                                        <span class="px-3 py-1 text-xs font-medium bg-foreground/5 text-foreground-secondary rounded-full border border-foreground/10 hover:border-primary hover:text-primary transition-colors duration-300">
-                                            #{tag}
-                                        </span>
-                                    ))}
-                                </div>
-
-                                {/* Read more link */}
-                                <a
-                                    href={post.slug}
-                                    class="inline-flex items-center text-primary hover:text-primary-600 font-medium transition-colors duration-300 group/link"
-                                >
-                                    {t('blog.readMore')}
-                                    <svg
-                                        class="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-300"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width={2}
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </a>
-                            </article>
-                        ))}
-                    </div>
-
-                    {/* Pagination Controls */}
-                    {page.lastPage > 1 && (
-                        <nav class="mt-16 flex items-center justify-center gap-2" aria-label="Pagination">
-                            {/* Previous Button */}
-                            {page.url.prev ? (
-                                <a
-                                    href={page.url.prev}
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary hover:bg-primary hover:text-white border border-foreground/10 hover:border-primary rounded-lg transition-all duration-300 font-medium"
-                                >
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width={2}
-                                            d="M15 19l-7-7 7-7"
-                                        />
-                                    </svg>
-                                    {t('blog.pagination.previous')}
-                                </a>
-                            ) : (
-                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary/50 border border-foreground/10 rounded-lg text-foreground-muted cursor-not-allowed">
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width={2}
-                                            d="M15 19l-7-7 7-7"
-                                        />
-                                    </svg>
-                                    {t('blog.pagination.previous')}
-                                </span>
-                            )}
-
-                            {/* Page Numbers */}
-                            <div class="flex items-center gap-2">
-                                {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
-                                    const isCurrentPage = pageNum === page.currentPage;
-                                    const href = pageNum === 1 ? `/${lang}/blog` : `/${lang}/blog/${pageNum}`;
-
-                                    return isCurrentPage ? (
-                                        <span class="px-4 py-2 bg-primary text-white rounded-lg font-bold shadow-glow-primary">
-                                            {pageNum}
-                                        </span>
-                                    ) : (
+                        {/* Pagination Controls */}
+                        {page.lastPage > 1 && (
+                            <nav class="mt-16 md:mt-20" aria-label="Pagination">
+                                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                    {/* Previous Button */}
+                                    {page.url.prev ? (
                                         <a
-                                            href={href}
-                                            class="px-4 py-2 bg-background-secondary hover:bg-primary hover:text-white border border-foreground/10 hover:border-primary rounded-lg transition-all duration-300 font-medium"
+                                            href={page.url.prev}
+                                            class="group inline-flex items-center gap-3 px-6 py-3 bg-card hover:bg-primary border border-foreground/10 hover:border-primary rounded-xl transition-all duration-300 font-semibold hover:text-white hover:shadow-lg hover:shadow-primary/25"
                                         >
-                                            {pageNum}
+                                            <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                            {t('blog.pagination.previous')}
                                         </a>
-                                    );
-                                })}
-                            </div>
+                                    ) : (
+                                        <span class="inline-flex items-center gap-3 px-6 py-3 bg-card/50 border border-foreground/5 rounded-xl text-foreground-muted cursor-not-allowed font-medium">
+                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                            {t('blog.pagination.previous')}
+                                        </span>
+                                    )}
 
-                            {/* Next Button */}
-                            {page.url.next ? (
-                                <a
-                                    href={page.url.next}
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary hover:bg-primary hover:text-white border border-foreground/10 hover:border-primary rounded-lg transition-all duration-300 font-medium"
-                                >
-                                    {t('blog.pagination.next')}
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width={2}
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </a>
-                            ) : (
-                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-background-secondary/50 border border-foreground/10 rounded-lg text-foreground-muted cursor-not-allowed">
-                                    {t('blog.pagination.next')}
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width={2}
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </span>
-                            )}
-                        </nav>
-                    )}
-                </>
-            ) : (
-                <div class="text-center py-20">
-                    <p class="text-foreground-secondary text-lg">{t('blog.noArticles')}</p>
-                </div>
-            )
-        }
+                                    {/* Page Numbers */}
+                                    <div class="flex items-center gap-2">
+                                        {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
+                                            const isCurrentPage = pageNum === page.currentPage;
+                                            const href = pageNum === 1 ? `/${lang}/blog` : `/${lang}/blog/${pageNum}`;
+
+                                            return isCurrentPage ? (
+                                                <span class="relative px-5 py-3 bg-gradient-to-br from-primary to-primary-600 text-white rounded-xl font-bold shadow-lg shadow-primary/30 tabular-nums">
+                                                    {pageNum}
+                                                    <span class="absolute inset-0 rounded-xl bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-300"></span>
+                                                </span>
+                                            ) : (
+                                                <a
+                                                    href={href}
+                                                    class="px-5 py-3 bg-card hover:bg-primary hover:text-white border border-foreground/10 hover:border-primary rounded-xl transition-all duration-300 font-semibold tabular-nums hover:shadow-lg hover:shadow-primary/20"
+                                                >
+                                                    {pageNum}
+                                                </a>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {/* Next Button */}
+                                    {page.url.next ? (
+                                        <a
+                                            href={page.url.next}
+                                            class="group inline-flex items-center gap-3 px-6 py-3 bg-card hover:bg-primary border border-foreground/10 hover:border-primary rounded-xl transition-all duration-300 font-semibold hover:text-white hover:shadow-lg hover:shadow-primary/25"
+                                        >
+                                            {t('blog.pagination.next')}
+                                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                    ) : (
+                                        <span class="inline-flex items-center gap-3 px-6 py-3 bg-card/50 border border-foreground/5 rounded-xl text-foreground-muted cursor-not-allowed font-medium">
+                                            {t('blog.pagination.next')}
+                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </span>
+                                    )}
+                                </div>
+                            </nav>
+                        )}
+                    </>
+                ) : (
+                    <div class="text-center py-20">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-foreground/5 mb-6">
+                            <svg class="w-10 h-10 text-foreground-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            </svg>
+                        </div>
+                        <p class="text-foreground-secondary text-xl font-medium">{t('blog.noArticles')}</p>
+                    </div>
+                )
+            }
         </div>
     </div>
 </BaseLayout>
+
+<style>
+    /* Card entrance animation */
+    article {
+        animation: fadeInUp 0.6s ease-out both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Gradient text animation */
+    .gradient-text-section {
+        background-size: 200% auto;
+        animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% center; }
+        50% { background-position: 100% center; }
+    }
+</style>

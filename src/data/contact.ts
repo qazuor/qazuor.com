@@ -5,7 +5,7 @@
 
 export interface ContactData {
     email: string;
-    phone?: string;
+    phone: string;
     location: string;
     address?: string;
     social: {
@@ -21,8 +21,8 @@ export interface ContactData {
 
 export const contact: ContactData = {
     email: 'hello@qazuor.com',
-    phone: '543442453797',
-    location: 'Remote',
+    phone: '+54 3442 453797',
+    location: 'Concepción del Uruguay, Entre Ríos, Argentina',
     address: 'Ruta 39 km 142, Lote 19, Concepcion del Uruguay, Entre Ríos, Argentina',
     social: {
         github: 'https://github.com/qazuor',

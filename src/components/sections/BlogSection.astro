@@ -122,7 +122,7 @@ const postsWithImages = await Promise.all(
         <SectionTitle title={translations.title} subtitle={translations.subtitle} />
 
         <!-- Blog Cards Container -->
-        <div class="blog-cards-container flex flex-col md:flex-row justify-between items-stretch gap-4 mb-12 min-h-[500px] md:min-h-[600px]">
+        <div class="blog-cards-container flex flex-col md:flex-row justify-between items-stretch gap-4 mb-12 min-h-[500px] md:min-h-[600px]" data-post-count={postsWithImages.length}>
             {
                 postsWithImages.map((post, index) => (
                     <BlogPostCard

@@ -245,3 +245,33 @@
     color: #fff;
     fill: currentColor;
 }
+
+/* When there's only 1 post, it takes full width */
+@media (min-width: 769px) {
+    .blog-cards-container[data-post-count="1"] .blog-post-card {
+        width: 100%;
+    }
+
+    .blog-cards-container[data-post-count="1"]:has(.blog-post-card:hover) .blog-post-card:not(:hover) {
+        width: 100%;
+    }
+
+    .blog-cards-container[data-post-count="1"] .blog-post-card:hover {
+        width: 100%;
+    }
+}
+
+/* When there are 2 posts, each takes 50% */
+@media (min-width: 769px) {
+    .blog-cards-container[data-post-count="2"] .blog-post-card {
+        width: calc(50% - var(--gap));
+    }
+
+    .blog-cards-container[data-post-count="2"]:has(.blog-post-card:hover) .blog-post-card:not(:hover) {
+        width: calc(30% - var(--gap));
+    }
+
+    .blog-cards-container[data-post-count="2"] .blog-post-card:hover {
+        width: calc(70% - var(--gap));
+    }
+}

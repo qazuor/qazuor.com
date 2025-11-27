@@ -118,7 +118,7 @@ const {
                 <SocialLinks ariaLabels={ariaLabels} className="hero-element" />
 
                 <!-- Scroll Indicator (only visible on desktop in flow) -->
-                <ScrollIndicator text={translations.scroll} className="hero-element mr-10 hidden lg:block" />
+                <ScrollIndicator text={translations.scroll} variant="desktop" className="hero-element hidden lg:block" />
 
             </div>
 
@@ -133,7 +133,7 @@ const {
 
         <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->
         <div class="lg:hidden absolute bottom-20 left-4 z-30">
-            <ScrollIndicator text={translations.scroll} />
+            <ScrollIndicator text={translations.scroll} variant="mobile" />
         </div>
     </div>
 </section>

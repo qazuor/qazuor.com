@@ -164,7 +164,7 @@ const isActive = (href: string) => {
 };
 ---
 
-<nav class="glass sticky top-0 z-[500] border-b" id="main-nav">
+<nav class="glass fixed top-0 left-0 right-0 z-[500] border-b nav-visible" id="main-nav">
     <div class="container-custom relative">
         <div class="flex justify-between items-center h-14">
             <!-- Logo with Avatar -->
@@ -542,50 +542,70 @@ const isActive = (href: string) => {
         requestAnimationFrame(animation);
     }
 
-    // Mobile navigation hide/show on scroll
-    function setupMobileNavigation() {
+    // Navigation hide/show on scroll (all breakpoints)
+    function setupNavigation() {
         const nav = document.getElementById('main-nav');
         let lastScrollY = 0;
         let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
-        const SCROLL_THRESHOLD = 100;
+        const SCROLL_THRESHOLD = 50;
+        const BOTTOM_THRESHOLD_PERCENT = 95; // Show nav when scrolled past this percentage
+
+        function getScrollPercent(): number {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (docHeight <= 0) return 0;
+            return (scrollTop / docHeight) * 100;
+        }
+
+        function showNav() {
+            if (!nav) return;
+            nav.classList.remove('nav-hidden', 'nav-slide-up');
+            nav.classList.add('nav-visible', 'nav-slide-down');
+        }
+
+        function hideNav() {
+            if (!nav) return;
+            // Don't hide if we're near the bottom
+            if (getScrollPercent() >= BOTTOM_THRESHOLD_PERCENT) return;
+
+            nav.classList.remove('nav-visible', 'nav-slide-down');
+            nav.classList.add('nav-slide-up');
+            // After animation completes, add hidden class
+            setTimeout(() => {
+                if (getScrollPercent() < BOTTOM_THRESHOLD_PERCENT && window.scrollY > SCROLL_THRESHOLD) {
+                    nav.classList.add('nav-hidden');
+                }
+            }, 300);
+        }
 
         function updateNavVisibility() {
             const currentScrollY = window.scrollY;
-            const isDesktop = window.innerWidth >= 768; // md breakpoint
+            const scrollPercent = getScrollPercent();
+            const isScrollingDown = currentScrollY > lastScrollY;
+            const isScrollingUp = currentScrollY < lastScrollY;
 
-            if (isDesktop) {
-                // Always show on desktop, remove mobile classes
-                nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up', 'mobile-nav-slide-down');
+            // Always show when near bottom of page
+            if (scrollPercent >= BOTTOM_THRESHOLD_PERCENT) {
+                showNav();
                 lastScrollY = currentScrollY;
                 return;
             }
 
-            const isScrollingDown = currentScrollY > lastScrollY;
-            const isScrollingUp = currentScrollY < lastScrollY;
+            // Show at top of page
+            if (currentScrollY <= SCROLL_THRESHOLD) {
+                showNav();
+                lastScrollY = currentScrollY;
+                return;
+            }
 
-            // Mobile behavior: show at top, hide when scrolling down, show when scrolling up
-            if (currentScrollY === 0) {
-                // Show when at top with slide down animation
-                nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up');
-                nav?.classList.add('mobile-nav-slide-down');
-            } else if (isScrollingDown && currentScrollY > SCROLL_THRESHOLD) {
-                // Hide when scrolling down past threshold
-                if (!nav?.classList.contains('mobile-nav-hidden')) {
-                    nav?.classList.remove('mobile-nav-slide-down');
-                    nav?.classList.add('mobile-nav-slide-up');
-                    // After animation completes, hide completely
-                    setTimeout(() => {
-                        if (window.scrollY > SCROLL_THRESHOLD && window.scrollY > lastScrollY) {
-                            nav?.classList.add('mobile-nav-hidden');
-                        }
-                    }, 300);
-                }
-            } else if (isScrollingUp) {
-                // Show when scrolling up
-                if (nav?.classList.contains('mobile-nav-hidden')) {
-                    nav?.classList.remove('mobile-nav-hidden', 'mobile-nav-slide-up');
-                    nav?.classList.add('mobile-nav-slide-down');
-                }
+            // Scrolling down - hide
+            if (isScrollingDown && currentScrollY > SCROLL_THRESHOLD) {
+                hideNav();
+            }
+
+            // Scrolling up - show
+            if (isScrollingUp) {
+                showNav();
             }
 
             lastScrollY = currentScrollY;
@@ -597,17 +617,11 @@ const isActive = (href: string) => {
             scrollTimeout = setTimeout(updateNavVisibility, 10);
         }
 
-        // Handle resize
-        function handleResize() {
-            updateNavVisibility();
-        }
-
         // Initial setup
         updateNavVisibility();
 
         // Event listeners
         window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', handleResize);
     }
 
     // Handle scroll-based navigation highlighting
@@ -754,7 +768,7 @@ const isActive = (href: string) => {
 
     // Initialize navigation functions
     function initNavigation() {
-        setupMobileNavigation();
+        setupNavigation();
         setupScrollNavigation();
     }
 
@@ -766,42 +780,51 @@ const isActive = (href: string) => {
 </script>
 
 <style>
-    /* Mobile navigation hide/show styles */
-    @media (max-width: 767px) {
-        .mobile-nav-hidden {
-            display: none !important;
-        }
+    /* Navigation hide/show styles - all breakpoints */
+    #main-nav {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
 
-        /* Slide down animation - navbar appears */
-        .mobile-nav-slide-down {
-            animation: slideDown 0.3s ease-out forwards;
-        }
+    .nav-visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-        /* Slide up animation - navbar disappears */
-        .mobile-nav-slide-up {
-            animation: slideUp 0.3s ease-in forwards;
-        }
+    .nav-hidden {
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+    }
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+    /* Slide down animation - navbar appears */
+    .nav-slide-down {
+        animation: navSlideDown 0.3s ease-out forwards;
+    }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
+    /* Slide up animation - navbar disappears */
+    .nav-slide-up {
+        animation: navSlideUp 0.3s ease-in forwards;
+    }
+
+    @keyframes navSlideDown {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes navSlideUp {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-100%);
+            opacity: 0;
         }
     }
 </style>

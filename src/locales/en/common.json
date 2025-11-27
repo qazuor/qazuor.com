@@ -165,6 +165,7 @@
             "name": "Name",
             "email": "Email",
             "company": "Company",
+            "subject": "Subject",
             "interest": "What's on your mind?",
             "message": "Message",
             "charCount": "characters",
@@ -176,6 +177,7 @@
             "name": "John Doe",
             "email": "john@example.com",
             "company": "Your company (optional)",
+            "subject": "Project Inquiry",
             "message": "Tell me about your project..."
         },
         "interests": {

@@ -155,16 +155,17 @@
         "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",
         "info": {
             "title": "Hablemos",
-            "description": "Estoy abierto a cualquier propuesta laboral: freelance, remoto, full-time o colaboraciones.",
+            "description": "Estoy abierto a cualquier oportunidad: freelance, remoto, tiempo completo o colaboraciones.",
             "email": "Email",
             "phone": "Teléfono",
             "location": "Ubicación",
-            "orConnect": "O conectemos por"
+            "orConnect": "O conéctate por"
         },
         "form": {
             "name": "Nombre",
             "email": "Correo electrónico",
             "company": "Empresa",
+            "subject": "Asunto",
             "interest": "¿Qué tienes en mente?",
             "message": "Mensaje",
             "charCount": "caracteres",
@@ -176,6 +177,7 @@
             "name": "Juan Pérez",
             "email": "juan@ejemplo.com",
             "company": "Tu empresa (opcional)",
+            "subject": "Consulta de Proyecto",
             "message": "Cuéntame sobre tu proyecto..."
         },
         "interests": {
@@ -186,7 +188,7 @@
             "appDevelopment": "Desarrollo de Apps",
             "remote": "Trabajo Remoto",
             "fulltime": "Empleado Full-time",
-            "contractor": "Contractor"
+            "contractor": "Contratista"
         },
         "errors": {
             "nameRequired": "El nombre es requerido",

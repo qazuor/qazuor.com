@@ -16,6 +16,7 @@ import viteCompression from 'vite-plugin-compression';
 import fontPreloader from './integrations/astro-font-preloader/index.ts';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
+import testimonialAvatars from './integrations/testimonial-avatars.ts';
 import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.ts';
 
 // https://astro.build/config
@@ -58,6 +59,11 @@ export default defineConfig({
         // Timeline Sprite Watcher (enable HMR for icon changes)
         timelineSpriteWatcher({
             iconsPath: 'src/icons/timeline',
+            verbose: true
+        }),
+
+        // Testimonial Avatars Downloader (downloads avatarUrl images locally)
+        testimonialAvatars({
             verbose: true
         }),
 
@@ -265,7 +271,19 @@ export default defineConfig({
         },
         server: {
             watch: {
-                ignored: ['**/node_modules/**', '**/.git/**']
+                ignored: [
+                    '**/node_modules/**',
+                    '**/.git/**',
+                    '**/.pnpm-store/**',
+                    '**/dist/**',
+                    '**/build/**',
+                    '**/.output/**',
+                    '**/coverage/**',
+                    '**/.vercel/**',
+                    '**/logs/**',
+                    '**/tmp/**',
+                    '**/temp/**'
+                ]
             }
         }
     },

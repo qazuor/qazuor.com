@@ -37,6 +37,7 @@ interface ContactProps {
             name: string;
             email: string;
             company: string;
+            subject: string;
             interest: string;
             message: string;
             charCount: string;
@@ -47,6 +48,7 @@ interface ContactProps {
             name: string;
             email: string;
             company: string;
+            subject: string;
             message: string;
         };
         interests: {
@@ -63,6 +65,7 @@ interface ContactProps {
             nameRequired: string;
             emailRequired: string;
             emailInvalid: string;
+            subjectRequired: string;
             messageRequired: string;
             messageMinLength: string;
         };
@@ -94,6 +97,7 @@ export function Contact({
             name: 'Name',
             email: 'Email',
             company: 'Company',
+            subject: 'Subject',
             interest: "What's on your mind?",
             message: 'Message',
             charCount: 'characters',
@@ -104,6 +108,7 @@ export function Contact({
             name: 'John Doe',
             email: 'john@example.com',
             company: 'Your company (optional)',
+            subject: 'Project Inquiry',
             message: 'Tell me about your project...'
         },
         interests: {
@@ -120,6 +125,7 @@ export function Contact({
             nameRequired: 'Name is required',
             emailRequired: 'Email is required',
             emailInvalid: 'Invalid email format',
+            subjectRequired: 'Subject is required',
             messageRequired: 'Message is required',
             messageMinLength: 'Message must be at least 10 characters'
         },
@@ -241,6 +247,18 @@ export function Contact({
                                     value={formData.company}
                                     onChange={handleChange}
                                     placeholder={translations.placeholders.company}
+                                />
+
+                                {/* Subject */}
+                                <FloatingFormField
+                                    label={translations.form.subject}
+                                    name="subject"
+                                    type="text"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    error={errors.subject}
+                                    placeholder={translations.placeholders.subject}
+                                    required
                                 />
 
                                 {/* Interest Selector */}

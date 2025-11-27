@@ -4,6 +4,7 @@ interface FormData {
     name: string;
     email: string;
     company: string;
+    subject: string;
     interests: string[];
     message: string;
 }
@@ -12,6 +13,7 @@ interface ValidationErrors {
     nameRequired: string;
     emailRequired: string;
     emailInvalid: string;
+    subjectRequired: string;
     messageRequired: string;
     messageMinLength: string;
 }
@@ -27,6 +29,7 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         name: '',
         email: '',
         company: '',
+        subject: '',
         interests: [],
         message: ''
     });
@@ -45,6 +48,10 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             newErrors.email = errorMessages.emailRequired;
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = errorMessages.emailInvalid;
+        }
+
+        if (!formData.subject.trim()) {
+            newErrors.subject = errorMessages.subjectRequired;
         }
 
         if (!formData.message.trim()) {
@@ -92,7 +99,7 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             // });
 
             setSubmitStatus('success');
-            setFormData({ name: '', email: '', company: '', interests: [], message: '' });
+            setFormData({ name: '', email: '', company: '', subject: '', interests: [], message: '' });
             onSuccess?.();
         } catch (_error) {
             setSubmitStatus('error');

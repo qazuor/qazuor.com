@@ -1,7 +1,7 @@
 export interface Service {
     id: string;
     slug: string;
-    icon: string;
+    iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design';
     themeColor: string;
     relatedServices: string[];
     pricing: {
@@ -22,7 +22,7 @@ export const services: Service[] = [
     {
         id: 'web-apps',
         slug: 'web-apps',
-        icon: '💻',
+        iconId: 'web-apps',
         themeColor: 'var(--section-skills-bg)',
         relatedServices: ['landing-pages', 'automation-integration'],
         pricing: {
@@ -41,7 +41,7 @@ export const services: Service[] = [
     {
         id: 'landing-pages',
         slug: 'landing-pages',
-        icon: '🚀',
+        iconId: 'landing-pages',
         themeColor: 'var(--section-projects-bg)',
         relatedServices: ['web-apps', 'social-media-design'],
         pricing: {
@@ -59,7 +59,7 @@ export const services: Service[] = [
     {
         id: 'automation-integration',
         slug: 'automation-integration',
-        icon: '⚡',
+        iconId: 'automation',
         themeColor: 'var(--section-about-bg)',
         relatedServices: ['web-apps', 'landing-pages'],
         pricing: {
@@ -75,7 +75,7 @@ export const services: Service[] = [
     {
         id: 'social-media-design',
         slug: 'social-media-design',
-        icon: '🎨',
+        iconId: 'social-design',
         themeColor: 'var(--section-contact-bg)',
         relatedServices: ['landing-pages', 'web-apps'],
         pricing: {

@@ -1,6 +1,7 @@
 ---
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -125,7 +126,7 @@ const relatedServices = services
 
         <div class="container-custom">
             <div class="max-w-4xl mx-auto text-center">
-                <div class="text-6xl mb-6">{service.icon}</div>
+                <ServiceIcon name={service.iconId} size={64} class="text-primary mb-6" />
                 <h1 class="text-5xl md:text-6xl font-bold text-foreground mb-6" set:html={serviceTitle} />
                 <p class="text-xl text-foreground-secondary leading-relaxed max-w-3xl mx-auto">
                     {serviceDescription}
@@ -299,7 +300,7 @@ const relatedServices = services
                                 class="group bg-foreground/5 backdrop-blur-sm rounded-2xl p-6 border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20 transition-all"
                             >
                                 <div class="flex items-start gap-4">
-                                    <span class="text-4xl">{related.icon}</span>
+                                    <ServiceIcon name={related.iconId} size={40} class="text-primary" />
                                     <div class="flex-1">
                                         <h3
                                             class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"

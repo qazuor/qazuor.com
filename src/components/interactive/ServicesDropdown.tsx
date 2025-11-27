@@ -1,4 +1,5 @@
 import { services } from '@/data/services';
+import { ServiceIcon } from '../ui/ServiceIcon';
 import { NavDropdown, type NavDropdownItem } from './NavDropdown';
 
 interface ServicesDropdownProps {
@@ -38,7 +39,7 @@ export function ServicesDropdown({
     const dropdownItems: NavDropdownItem[] = services.map((service) => ({
         id: service.id,
         label: serviceLabels[service.id],
-        icon: service.icon,
+        icon: <ServiceIcon name={service.iconId} size={18} />,
         href: `/${currentLocale}/services/${service.slug}`
     }));
 

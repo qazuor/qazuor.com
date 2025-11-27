@@ -1,6 +1,7 @@
 ---
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import type { Service } from '@/data/services';
 import { services } from '@/data/services';
 
@@ -98,7 +99,7 @@ const formatPricing = (service: Service) => {
                         
                         <!-- Service Header -->
                         <div class="flex items-start gap-4 mb-6">
-                            <div class="text-4xl">{service.icon}</div>
+                            <ServiceIcon name={service.iconId} size={40} class="text-primary" />
                             <div class="flex-1">
                                 <h3 
                                     class="text-2xl font-bold text-foreground mb-2"

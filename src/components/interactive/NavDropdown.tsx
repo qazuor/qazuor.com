@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface NavDropdownItem {
     id: string;
     label: string;
-    icon?: string;
+    icon?: ReactNode;
     href: string;
     description?: string;
 }
@@ -276,7 +277,7 @@ export function NavDropdown({
                                 }}
                             >
                                 {item.icon && (
-                                    <span className="text-[1.125rem] flex-shrink-0 opacity-60" aria-hidden="true">
+                                    <span className="flex-shrink-0 text-primary/80" aria-hidden="true">
                                         {item.icon}
                                     </span>
                                 )}

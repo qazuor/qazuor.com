@@ -12,7 +12,7 @@ interface Interest {
 }
 
 interface ContactProps {
-    contactData: {
+    contactData?: {
         email: string;
         phone: string;
         location: string;
@@ -83,7 +83,17 @@ interface ContactProps {
 }
 
 export function Contact({
-    contactData,
+    contactData = {
+        email: '',
+        phone: '',
+        location: '',
+        social: {
+            github: '',
+            linkedin: '',
+            whatsapp: '',
+            mail: ''
+        }
+    },
     translations = {
         title: 'Get In Touch',
         subtitle: "Have a project in mind? Let's work together!",

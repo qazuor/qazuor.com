@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import ToolCard from '@/components/cards/ToolCard.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
@@ -86,13 +87,24 @@ const goodiesUrl = translatePath('/goodies', lang);
             <!-- Featured Tools -->
             {
                 sortedTools.some((tool) => tool.data.featured) && (
-                    <div class="mb-16">
-                        <SecondaryTitle text={t('tools.featured', { markdown: true })} size="xl" className="mb-8" />
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="mb-16 category-section">
+                        <div class="mb-8 flex items-center gap-3">
+                            <span class="w-2 h-8 bg-primary rounded-full" />
+                            <SecondaryTitle
+                                text={t('tools.featured', { markdown: true })}
+                                element="h2"
+                                size="xl"
+                                showHtml={false}
+                            />
+                            <span class="category-count text-lg font-normal text-foreground-secondary">
+                                ({sortedTools.filter((tool) => tool.data.featured).length})
+                            </span>
+                        </div>
+                        <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-auto-animate="true" data-auto-animate-duration="300">
                             {sortedTools
                                 .filter((tool) => tool.data.featured)
                                 .map((tool) => (
-                                    <ToolCard tool={tool} lang={lang} featured={true} basePath="/goodies/tools" />
+                                    <ToolCard tool={tool} lang={lang} class={`tool-card tool-category-${tool.data.category.toLowerCase()}`} />
                                 ))}
                         </div>
                     </div>
@@ -100,16 +112,25 @@ const goodiesUrl = translatePath('/goodies', lang);
             }
 
             <!-- All Tools -->
-            <div>
-                <SecondaryTitle text={t('tools.allTools', { markdown: true })} size="xl" className="mb-8" />
-                <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="category-section">
+                <div class="mb-8 flex items-center gap-3">
+                    <span class="w-2 h-8 bg-primary rounded-full" />
+                    <SecondaryTitle
+                        text={t('tools.allTools', { markdown: true })}
+                        element="h2"
+                        size="xl"
+                        showHtml={false}
+                    />
+                    <span class="category-count text-lg font-normal text-foreground-secondary">
+                        ({sortedTools.length})
+                    </span>
+                </div>
+                <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-auto-animate="true" data-auto-animate-duration="300">
                     {
                         sortedTools.map((tool) => (
                             <ToolCard
                                 tool={tool}
                                 lang={lang}
-                                featured={false}
-                                basePath="/goodies/tools"
                                 class={`tool-card tool-category-${tool.data.category.toLowerCase()}`}
                             />
                         ))
@@ -125,6 +146,9 @@ const goodiesUrl = translatePath('/goodies', lang);
             </div>
         </div>
     </div>
+
+    <!-- Auto Animate Global -->
+    <AutoAnimateGlobal />
 </BaseLayout>
 
 <style>
@@ -141,54 +165,106 @@ const goodiesUrl = translatePath('/goodies', lang);
     }
 </style>
 
-<script>
-    // Category filtering functionality
-    function initToolsFiltering() {
-        const filterButtons = document.querySelectorAll('.category-filter-btn');
-        const toolCards = document.querySelectorAll('.tool-card');
-        const noToolsMessage = document.querySelector('.no-tools-message');
+<script is:inline>
+    // Store all tool cards data for filtering
+    let allToolsCache = [];
+
+    // Initialize: capture all tool cards
+    function initToolCards() {
+        const toolsGrids = document.querySelectorAll('.tools-grid');
+        if (toolsGrids.length === 0) return;
+
+        allToolsCache = [];
+
+        toolsGrids.forEach((grid, gridIndex) => {
+            const cards = grid.querySelectorAll('.tool-card');
+            cards.forEach((card) => {
+                const categoryClass = Array.from(card.classList).find((cls) => cls.startsWith('tool-category-'));
+                allToolsCache.push({
+                    element: card.cloneNode(true),
+                    category: categoryClass?.replace('tool-category-', '') || '',
+                    gridIndex
+                });
+            });
+        });
 
         // Set first button as active by default
+        const filterButtons = document.querySelectorAll('.category-filter-btn');
         if (filterButtons.length > 0) {
             filterButtons[0].classList.add('active');
         }
-
-        filterButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const category = button.getAttribute('data-category');
-
-                // Update active button
-                filterButtons.forEach((btn) => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                // Filter tools
-                let visibleCount = 0;
-                toolCards.forEach((card) => {
-                    const cardCategory = Array.from(card.classList)
-                        .find((cls) => cls.startsWith('tool-category-'))
-                        ?.replace('tool-category-', '');
-
-                    if (category === 'all' || cardCategory === category) {
-                        card.classList.remove('hidden');
-                        visibleCount++;
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                });
-
-                // Show/hide no tools message
-                if (visibleCount === 0) {
-                    noToolsMessage?.classList.remove('hidden');
-                } else {
-                    noToolsMessage?.classList.add('hidden');
-                }
-            });
-        });
     }
 
-    // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', initToolsFiltering);
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initToolCards);
 
     // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initToolsFiltering);
+    document.addEventListener('astro:page-load', initToolCards);
+
+    // Event delegation for filter buttons
+    // This persists across View Transitions without needing to re-register
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        const button = target.closest('.category-filter-btn');
+
+        if (!button) return;
+
+        const selectedCategory = button.getAttribute('data-category');
+        const toolsGrids = document.querySelectorAll('.tools-grid');
+        const noToolsMessage = document.querySelector('.no-tools-message');
+        const filterButtons = document.querySelectorAll('.category-filter-btn');
+
+        // Update active button
+        filterButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        let totalVisible = 0;
+
+        // Process each grid
+        toolsGrids.forEach((grid, gridIndex) => {
+            const section = grid.closest('.category-section');
+            const countElement = section?.querySelector('.category-count');
+
+            // Get cards for this grid
+            const gridCards = allToolsCache.filter((card) => card.gridIndex === gridIndex);
+
+            // Filter cards based on selected category
+            const visibleCards = gridCards.filter(({ category }) => {
+                return selectedCategory === 'all' || category === selectedCategory;
+            });
+
+            // Remove all current cards from this grid
+            const currentCards = grid.querySelectorAll('.tool-card');
+            currentCards.forEach((card) => card.remove());
+
+            // Add matching cards back
+            visibleCards.forEach(({ element }) => {
+                const newCard = element.cloneNode(true);
+                grid.appendChild(newCard);
+            });
+
+            // Update count for this section
+            if (countElement) {
+                countElement.textContent = `(${visibleCards.length})`;
+            }
+
+            // Show/hide section based on visible cards
+            if (section) {
+                if (visibleCards.length === 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = '';
+                }
+            }
+
+            totalVisible += visibleCards.length;
+        });
+
+        // Show/hide no tools message
+        if (totalVisible === 0) {
+            noToolsMessage?.classList.remove('hidden');
+        } else {
+            noToolsMessage?.classList.add('hidden');
+        }
+    });
 </script>

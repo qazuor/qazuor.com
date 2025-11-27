@@ -7,6 +7,7 @@ import { GoodiesDropdown } from '@/components/interactive/GoodiesDropdown';
 import { LanguageSelector } from '@/components/interactive/LanguageSelector';
 import { ServicesDropdown } from '@/components/interactive/ServicesDropdown';
 import { ThemeToggle } from '@/components/interactive/ThemeToggle';
+import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import { services } from '@/data/services';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 
@@ -31,7 +32,7 @@ const toolsForDropdown = allTools
     .map((tool: CollectionEntry<'tools'>) => ({
         slug: tool.slug,
         title: tool.data.title,
-        icon: '⚙️'
+        iconType: 'tools' as const
     }));
 
 // Sort and prepare snippets (max 4)
@@ -45,7 +46,7 @@ const snippetsForDropdown = allSnippets
     .map((snippet: CollectionEntry<'snippets'>) => ({
         slug: snippet.slug,
         title: snippet.data.title,
-        icon: '📝'
+        iconType: snippet.data.language as string
     }));
 
 // Sort and prepare CSS tricks (max 4)
@@ -59,7 +60,7 @@ const cssTricksForDropdown = allCssTricks
     .map((trick: CollectionEntry<'css-tricks'>) => ({
         slug: trick.slug,
         title: trick.data.title,
-        icon: '🎨'
+        iconType: 'css' as const
     }));
 
 // Sort and prepare useful links (max 4)
@@ -73,7 +74,7 @@ const usefulLinksForDropdown = allUsefulLinks
     .map((link: CollectionEntry<'useful-links'>) => ({
         slug: link.id,
         title: link.data.name,
-        icon: '🔗'
+        iconType: link.data.category as string
     }));
 
 // Build goodies categories for dropdown
@@ -335,7 +336,7 @@ const isActive = (href: string) => {
                                                     href={`/${lang}/services/${service.slug}`}
                                                     class="nav-link-mobile block px-4 py-2 text-[0.65rem] text-foreground-secondary hover:bg-foreground/5 hover:text-foreground transition-all duration-base rounded-lg"
                                                 >
-                                                    <span class="mr-2">{service.icon}</span>
+                                                    <ServiceIcon name={service.iconId} size={14} class="mr-2 inline" />
                                                     {serviceLabel}
                                                 </a>
                                             );

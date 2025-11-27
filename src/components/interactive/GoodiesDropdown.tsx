@@ -1,9 +1,27 @@
+import {
+    BookOpen,
+    Braces,
+    Code,
+    Database,
+    FileCode,
+    FileCode2,
+    FileText,
+    Globe,
+    GraduationCap,
+    Link,
+    Package,
+    Palette,
+    Sparkles,
+    Terminal,
+    Users,
+    Wrench
+} from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface GoodieItem {
     slug: string;
     title: string;
-    icon?: string;
+    iconType?: string;
 }
 
 interface GoodiesCategory {
@@ -26,11 +44,67 @@ interface GoodiesDropdownProps {
     };
 }
 
-const categoryIcons: Record<string, string> = {
-    tools: '🛠️',
-    snippets: '📝',
-    'css-tricks': '🎨',
-    'useful-links': '🔗'
+const CategoryIcon = ({ id, className }: { id: string; className?: string }) => {
+    const iconProps = { className: className || 'w-4 h-4', strokeWidth: 2 };
+    switch (id) {
+        case 'tools':
+            return <Wrench {...iconProps} />;
+        case 'snippets':
+            return <Code {...iconProps} />;
+        case 'css-tricks':
+            return <Palette {...iconProps} />;
+        case 'useful-links':
+            return <Link {...iconProps} />;
+        default:
+            return <Link {...iconProps} />;
+    }
+};
+
+// Icon component for individual items based on iconType
+const ItemIcon = ({ iconType, className }: { iconType: string; className?: string }) => {
+    const iconProps = { className: className || 'w-3.5 h-3.5', strokeWidth: 2 };
+    const normalizedType = iconType.toLowerCase();
+
+    switch (normalizedType) {
+        // Category icons (for tools)
+        case 'tools':
+            return <Wrench {...iconProps} />;
+        // Language icons (for snippets)
+        case 'typescript':
+            return <FileCode2 {...iconProps} />;
+        case 'javascript':
+            return <FileCode {...iconProps} />;
+        case 'css':
+            return <Palette {...iconProps} />;
+        case 'html':
+            return <Globe {...iconProps} />;
+        case 'bash':
+            return <Terminal {...iconProps} />;
+        case 'python':
+            return <Code {...iconProps} />;
+        case 'sql':
+            return <Database {...iconProps} />;
+        case 'json':
+            return <Braces {...iconProps} />;
+        case 'yaml':
+        case 'markdown':
+            return <FileText {...iconProps} />;
+        // Useful links category icons
+        case 'documentation':
+            return <BookOpen {...iconProps} />;
+        case 'library':
+            return <Package {...iconProps} />;
+        case 'tool':
+            return <Wrench {...iconProps} />;
+        case 'learning':
+            return <GraduationCap {...iconProps} />;
+        case 'inspiration':
+            return <Sparkles {...iconProps} />;
+        case 'community':
+            return <Users {...iconProps} />;
+        default:
+            return <Package {...iconProps} />;
+    }
 };
 
 /**
@@ -189,7 +263,7 @@ export function GoodiesDropdown({
                                 {/* Category Header */}
                                 <div className="flex items-center justify-between mb-2">
                                     <h4 className="text-[0.75rem] font-semibold text-foreground flex items-center gap-1.5">
-                                        <span aria-hidden="true">{categoryIcons[category.id]}</span>
+                                        <CategoryIcon id={category.id} className="w-4 h-4 text-primary" />
                                         {category.title}
                                     </h4>
                                     <a
@@ -212,10 +286,11 @@ export function GoodiesDropdown({
                                                 className="flex items-center gap-2 px-2 py-1.5 text-[0.75rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.01] transition-all duration-200 text-foreground-secondary hover:text-foreground"
                                                 onClick={() => handleSetIsOpen(false)}
                                             >
-                                                {item.icon && (
-                                                    <span className="text-sm opacity-60" aria-hidden="true">
-                                                        {item.icon}
-                                                    </span>
+                                                {item.iconType && (
+                                                    <ItemIcon
+                                                        iconType={item.iconType}
+                                                        className="w-3.5 h-3.5 shrink-0 opacity-60"
+                                                    />
                                                 )}
                                                 <span className="truncate">{item.title}</span>
                                             </a>
@@ -230,10 +305,11 @@ export function GoodiesDropdown({
                                                 key={item.slug}
                                                 className="flex items-center gap-2 px-2 py-1.5 text-[0.75rem] rounded-md text-foreground-secondary/60"
                                             >
-                                                {item.icon && (
-                                                    <span className="text-sm opacity-60" aria-hidden="true">
-                                                        {item.icon}
-                                                    </span>
+                                                {item.iconType && (
+                                                    <ItemIcon
+                                                        iconType={item.iconType}
+                                                        className="w-3.5 h-3.5 shrink-0 opacity-60"
+                                                    />
                                                 )}
                                                 <span className="truncate">{item.title}</span>
                                             </span>

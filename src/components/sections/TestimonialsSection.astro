@@ -1,8 +1,6 @@
 ---
-import { Picture } from 'astro:assets';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import LinkedinIcon from '@/icons/social/linkedin.svg?raw';
 import ChatBubbleIcon from '@/icons/ui/chat-bubble.svg?raw';
 
 interface Props {
@@ -250,7 +248,7 @@ const testimonials = allTestimonials.map((t, i) => ({
     </div>
 
     {/* Pass testimonial data to JavaScript */}
-    <script define:vars={{ testimonials: testimonials.map(t => ({
+    <script is:inline define:vars={{ testimonials: testimonials.map(t => ({
         name: t.name,
         role: t.role,
         company: t.company,

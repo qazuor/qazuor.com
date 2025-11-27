@@ -4,7 +4,6 @@ import PixelCanvas from '@/components/ui/PixelCanvas.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import { getInterestsForService, sectionsColors } from '@/data';
-import type { Service } from '@/data/services';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -84,25 +83,6 @@ const serviceTranslations: Record<
             t('services.socialDesign.features.5')
         ],
         ctaButton: t('services.socialDesign.ctaButton')
-    }
-};
-
-// Helper function to format pricing display
-const formatPricing = (service: Service): string => {
-    const pricingTranslations = {
-        from: t('services.pricing.from'),
-        consultation: t('services.pricing.consultation')
-    };
-
-    switch (service.pricing.type) {
-        case 'from':
-            return `${pricingTranslations.from} $${service.pricing.min?.toLocaleString()}`;
-        case 'range':
-            return `$${service.pricing.min?.toLocaleString()} - $${service.pricing.max?.toLocaleString()}`;
-        case 'consultation':
-            return pricingTranslations.consultation;
-        default:
-            return pricingTranslations.consultation;
     }
 };
 

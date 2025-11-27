@@ -1,0 +1,9 @@
+{
+  "name": "Squoosh",
+  "description": "Image compression web app by Google. Compress and compare images with different codecs.",
+  "url": "https://squoosh.app",
+  "category": "tool",
+  "tags": ["images", "compression", "optimization", "webp"],
+  "featured": false,
+  "order": 13
+}

@@ -3,10 +3,10 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import { normalizeTrailingSlash } from '@reunmedia/astro-normalize-trailing-slash';
 import { CommandButton } from '@/components/interactive/CommandButton';
+import { GoodiesDropdown } from '@/components/interactive/GoodiesDropdown';
 import { LanguageSelector } from '@/components/interactive/LanguageSelector';
 import { ServicesDropdown } from '@/components/interactive/ServicesDropdown';
 import { ThemeToggle } from '@/components/interactive/ThemeToggle';
-import { ToolsDropdown } from '@/components/interactive/ToolsDropdown';
 import { services } from '@/data/services';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 
@@ -14,22 +14,99 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const currentPath = Astro.url.pathname;
 
-// Get tools for dropdown
+// Get all goodies collections for dropdown
 const allTools = await getCollection('tools');
+const allSnippets = await getCollection('snippets');
+const allCssTricks = await getCollection('css-tricks');
+const allUsefulLinks = await getCollection('useful-links');
+
+// Sort and prepare tools (max 4)
 const toolsForDropdown = allTools
     .sort((a: CollectionEntry<'tools'>, b: CollectionEntry<'tools'>) => {
-        // Featured first, then by date
         if (a.data.featured && !b.data.featured) return -1;
         if (!a.data.featured && b.data.featured) return 1;
         return b.data.createdAt.getTime() - a.data.createdAt.getTime();
     })
-    .slice(0, 5) // Show only the first 5 tools in the dropdown
+    .slice(0, 4)
     .map((tool: CollectionEntry<'tools'>) => ({
         slug: tool.slug,
         title: tool.data.title,
-        icon: '🛠️', // You can customize this based on tool category if needed
-        category: tool.data.category
+        icon: '⚙️'
     }));
+
+// Sort and prepare snippets (max 4)
+const snippetsForDropdown = allSnippets
+    .sort((a: CollectionEntry<'snippets'>, b: CollectionEntry<'snippets'>) => {
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+    })
+    .slice(0, 4)
+    .map((snippet: CollectionEntry<'snippets'>) => ({
+        slug: snippet.slug,
+        title: snippet.data.title,
+        icon: '📝'
+    }));
+
+// Sort and prepare CSS tricks (max 4)
+const cssTricksForDropdown = allCssTricks
+    .sort((a: CollectionEntry<'css-tricks'>, b: CollectionEntry<'css-tricks'>) => {
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+    })
+    .slice(0, 4)
+    .map((trick: CollectionEntry<'css-tricks'>) => ({
+        slug: trick.slug,
+        title: trick.data.title,
+        icon: '🎨'
+    }));
+
+// Sort and prepare useful links (max 4)
+const usefulLinksForDropdown = allUsefulLinks
+    .sort((a: CollectionEntry<'useful-links'>, b: CollectionEntry<'useful-links'>) => {
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return a.data.order - b.data.order;
+    })
+    .slice(0, 4)
+    .map((link: CollectionEntry<'useful-links'>) => ({
+        slug: link.id,
+        title: link.data.name,
+        icon: '🔗'
+    }));
+
+// Build goodies categories for dropdown
+const goodiesCategories = [
+    {
+        id: 'tools' as const,
+        title: t('goodies.categories.tools'),
+        items: toolsForDropdown,
+        viewAllLabel: t('goodies.dropdown.viewAllTools'),
+        viewAllHref: `/${lang}/goodies/tools`
+    },
+    {
+        id: 'snippets' as const,
+        title: t('goodies.categories.snippets'),
+        items: snippetsForDropdown,
+        viewAllLabel: t('goodies.dropdown.viewAllSnippets'),
+        viewAllHref: `/${lang}/goodies/snippets`
+    },
+    {
+        id: 'css-tricks' as const,
+        title: t('goodies.categories.cssTricks'),
+        items: cssTricksForDropdown,
+        viewAllLabel: t('goodies.dropdown.viewAllCssTricks'),
+        viewAllHref: `/${lang}/goodies/css-tricks`
+    },
+    {
+        id: 'useful-links' as const,
+        title: t('goodies.categories.usefulLinks'),
+        items: usefulLinksForDropdown,
+        viewAllLabel: t('goodies.dropdown.viewAllLinks'),
+        viewAllHref: `/${lang}/goodies/useful-links`
+    }
+];
 
 // Helper function to format nav labels as HTML tags
 const formatAsTag = (label: string) => `<${label.toLowerCase()} />`;
@@ -45,11 +122,11 @@ const servicesDropdownTranslations = {
     viewAllLabel: t('services.dropdown.viewAll')
 };
 
-// Tools dropdown translations
-const toolsDropdownTranslations = {
-    headerTitle: t('tools.dropdown.headerTitle'),
-    headerDescription: t('tools.dropdown.headerDescription'),
-    viewAllLabel: t('tools.dropdown.viewAll')
+// Goodies dropdown translations
+const goodiesDropdownTranslations = {
+    headerTitle: t('goodies.dropdown.headerTitle'),
+    headerDescription: t('goodies.dropdown.headerDescription'),
+    viewAllLabel: t('goodies.dropdown.viewAll')
 };
 
 // Check if we're on the home page for navigation logic
@@ -122,13 +199,13 @@ const isActive = (href: string) => {
                         // Use dropdown for goodies
                         if (item.href.includes('/goodies')) {
                             return (
-                                <ToolsDropdown
+                                <GoodiesDropdown
                                     client:load
                                     currentLocale={lang}
                                     currentPath={currentPath}
-                                    allToolsLabel={item.label}
-                                    tools={toolsForDropdown}
-                                    translations={toolsDropdownTranslations}
+                                    triggerLabel={item.label}
+                                    categories={goodiesCategories}
+                                    translations={goodiesDropdownTranslations}
                                 />
                             );
                         }

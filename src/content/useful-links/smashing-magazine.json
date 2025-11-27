@@ -1,0 +1,9 @@
+{
+  "name": "Smashing Magazine",
+  "description": "Professional web design and development articles. Front-end, UX, accessibility and more.",
+  "url": "https://www.smashingmagazine.com",
+  "category": "learning",
+  "tags": ["design", "development", "ux", "articles"],
+  "featured": false,
+  "order": 33
+}

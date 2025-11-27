@@ -218,16 +218,15 @@
         "title": "Leandro Asrilevich - Desarrollador Full-Stack | Soluciones Web Modernas",
         "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"
     },
-    "tools": {
+    "goodies": {
         "title": "Goodies",
         "subtitle": "Recursos, utilidades y snippets para devs",
         "categories": {
             "all": "Todos los Goodies",
-            "css": "CSS",
-            "design": "Diseño",
-            "utilities": "Utilidades",
+            "tools": "Herramientas",
             "snippets": "Snippets",
-            "links": "Links"
+            "cssTricks": "Trucos CSS",
+            "usefulLinks": "Links Útiles"
         },
         "difficulty": {
             "beginner": "Principiante",
@@ -238,12 +237,36 @@
         "tryDemo": "Probar Demo",
         "viewSource": "Ver Código",
         "comingSoon": "Próximamente",
-        "noTools": "No se encontraron goodies para esta categoría",
+        "noItems": "No se encontraron items para esta categoría",
         "dropdown": {
             "headerTitle": "Goodies",
             "headerDescription": "Recursos, utilidades y snippets para devs",
-            "viewAll": "Ver Todos los Goodies"
+            "viewAll": "Ver Todos los Goodies",
+            "viewAllTools": "Ver Todas las Herramientas",
+            "viewAllSnippets": "Ver Todos los Snippets",
+            "viewAllCssTricks": "Ver Todos los Trucos CSS",
+            "viewAllLinks": "Ver Todos los Links"
         }
+    },
+    "tools": {
+        "title": "Herramientas",
+        "subtitle": "Herramientas interactivas y utilidades",
+        "noTools": "No se encontraron herramientas"
+    },
+    "snippets": {
+        "title": "Snippets",
+        "subtitle": "Fragmentos de código listos para usar",
+        "noSnippets": "No se encontraron snippets"
+    },
+    "cssTricks": {
+        "title": "Trucos CSS",
+        "subtitle": "Tips y técnicas rápidas de CSS",
+        "noTricks": "No se encontraron trucos CSS"
+    },
+    "usefulLinks": {
+        "title": "Links Útiles",
+        "subtitle": "Recursos seleccionados para desarrolladores",
+        "noLinks": "No se encontraron links"
     },
     "aria": {
         "github": "Visita mi perfil de GitHub",

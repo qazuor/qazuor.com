@@ -1,0 +1,197 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { sectionsColors } from '@/data/colors';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+const allSnippets = await getCollection('snippets');
+
+const sortedSnippets: CollectionEntry<'snippets'>[] = allSnippets.sort(
+    (a: CollectionEntry<'snippets'>, b: CollectionEntry<'snippets'>) => {
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+    }
+);
+
+const languages_filter = ['all', ...new Set(allSnippets.map((s: CollectionEntry<'snippets'>) => s.data.language))];
+
+const title = t('snippets.title', { markdown: false });
+const description = t('snippets.subtitle', { markdown: false });
+const goodiesUrl = translatePath('/goodies', lang);
+
+const languageIcons: Record<string, string> = {
+    typescript: '🔷',
+    javascript: '🟡',
+    css: '🎨',
+    html: '🌐',
+    bash: '💻',
+    python: '🐍',
+    sql: '🗃️',
+    json: '📋',
+    yaml: '📄',
+    markdown: '📝',
+    other: '📦'
+};
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="relative section overflow-hidden pt-32" style={`background-color: ${sectionsColors.goodies}`}>
+        <AnimatedGradientBackground />
+
+        <div class="container-custom">
+            <!-- Back Navigation -->
+            <div class="mb-8">
+                <a
+                    href={goodiesUrl}
+                    class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    {t('goodies.title')}
+                </a>
+            </div>
+
+            <!-- Header -->
+            <div class="mb-16">
+                <SectionTitle title={t('snippets.title', { markdown: true })} subtitle={t('snippets.subtitle', { markdown: true })} />
+            </div>
+
+            <!-- Language Filter -->
+            <div class="mb-12">
+                <div class="flex flex-wrap justify-center gap-3">
+                    {
+                        languages_filter.map((language) => (
+                            <button
+                                class="language-filter-btn px-6 py-3 rounded-full border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-all duration-300 text-sm font-medium flex items-center gap-2"
+                                data-language={language}
+                            >
+                                {language !== 'all' && <span>{languageIcons[language as string] || '📦'}</span>}
+                                {language === 'all' ? t('goodies.categories.all') : language}
+                            </button>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- Snippets Grid -->
+            <div class="snippets-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+                {
+                    sortedSnippets.map((snippet) => (
+                        <a
+                            href={translatePath(`/goodies/snippets/${snippet.slug}`, lang)}
+                            class={`snippet-card snippet-language-${snippet.data.language} group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1`}
+                        >
+                            {snippet.data.featured && (
+                                <div class="absolute top-4 right-4 z-10">
+                                    <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
+                                        ★ Featured
+                                    </span>
+                                </div>
+                            )}
+
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-2xl">{languageIcons[snippet.data.language] || '📦'}</span>
+                                <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
+                                    {snippet.data.language}
+                                </span>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                                {snippet.data.title}
+                            </h3>
+                            <p class="text-foreground-secondary text-sm line-clamp-2 mb-4">
+                                {snippet.data.description}
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                {snippet.data.tags.slice(0, 3).map((tag: string) => (
+                                    <span class="inline-flex items-center px-2 py-1 text-xs rounded-md bg-foreground/5 text-foreground-secondary">
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                        </a>
+                    ))
+                }
+            </div>
+
+            <!-- No Snippets Message -->
+            {sortedSnippets.length === 0 && (
+                <div class="text-center py-20">
+                    <div class="text-foreground-secondary text-lg">
+                        {t('snippets.noSnippets')}
+                    </div>
+                </div>
+            )}
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    .language-filter-btn.active {
+        @apply border-primary text-primary bg-primary/10;
+    }
+
+    .snippet-card.hidden {
+        @apply hidden;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    function initSnippetsFiltering() {
+        const filterButtons = document.querySelectorAll('.language-filter-btn');
+        const snippetCards = document.querySelectorAll('.snippet-card');
+
+        if (filterButtons.length > 0) {
+            filterButtons[0].classList.add('active');
+        }
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const language = button.getAttribute('data-language');
+
+                filterButtons.forEach((btn) => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                snippetCards.forEach((card) => {
+                    const cardLanguage = Array.from(card.classList)
+                        .find((cls) => cls.startsWith('snippet-language-'))
+                        ?.replace('snippet-language-', '');
+
+                    if (language === 'all' || cardLanguage === language) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initSnippetsFiltering);
+    document.addEventListener('astro:page-load', initSnippetsFiltering);
+</script>

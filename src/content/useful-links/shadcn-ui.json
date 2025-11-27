@@ -1,0 +1,9 @@
+{
+  "name": "shadcn/ui",
+  "description": "Beautifully designed components built with Radix UI and Tailwind CSS. Copy and paste into your apps.",
+  "url": "https://ui.shadcn.com",
+  "category": "library",
+  "tags": ["react", "components", "tailwind", "radix"],
+  "featured": true,
+  "order": 20
+}

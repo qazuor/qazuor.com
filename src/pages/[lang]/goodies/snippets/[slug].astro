@@ -1,0 +1,151 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import { sectionsColors } from '@/data/colors';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+    const snippets = await getCollection('snippets');
+    const paths: Array<{
+        params: { lang: string; slug: string };
+        props: { snippet: CollectionEntry<'snippets'> };
+    }> = [];
+
+    const langs = Object.keys(languages);
+
+    langs.forEach((lang: string) => {
+        snippets.forEach((snippet: CollectionEntry<'snippets'>) => {
+            paths.push({
+                params: {
+                    lang,
+                    slug: snippet.slug
+                },
+                props: { snippet }
+            });
+        });
+    });
+
+    return paths;
+}
+
+const { snippet } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+const { Content } = await snippet.render();
+
+const title = snippet.data.title;
+const description = snippet.data.description;
+const snippetsUrl = translatePath('/goodies/snippets', lang);
+
+const languageIcons: Record<string, string> = {
+    typescript: '🔷',
+    javascript: '🟡',
+    css: '🎨',
+    html: '🌐',
+    bash: '💻',
+    python: '🐍',
+    sql: '🗃️',
+    json: '📋',
+    yaml: '📄',
+    markdown: '📝',
+    other: '📦'
+};
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="relative section overflow-hidden pt-32 pb-20" style={`background-color: ${sectionsColors.goodies}`}>
+        <AnimatedGradientBackground />
+
+        <article class="container-custom">
+            <!-- Back Navigation -->
+            <div class="mb-8">
+                <a
+                    href={snippetsUrl}
+                    class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    {t('goodies.categories.snippets')}
+                </a>
+            </div>
+
+            <!-- Header -->
+            <header class="mb-12">
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="text-3xl">{languageIcons[snippet.data.language] || '📦'}</span>
+                    <span class="px-4 py-2 text-sm font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
+                        {snippet.data.language}
+                    </span>
+                    {snippet.data.featured && (
+                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
+                            ★ Featured
+                        </span>
+                    )}
+                </div>
+
+                <h1 class="text-xl md:text-2xl font-bold mb-4 leading-tight">
+                    <span class="gradient-text">{snippet.data.title}</span>
+                </h1>
+                <p class="text-sm md:text-base text-foreground-secondary leading-relaxed">
+                    {snippet.data.description}
+                </p>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-2 mt-4">
+                    {
+                        snippet.data.tags.map((tag: string) => (
+                            <span class="inline-flex items-center px-3 py-1 text-sm rounded-md bg-foreground/5 text-foreground-secondary">
+                                #{tag}
+                            </span>
+                        ))
+                    }
+                </div>
+            </header>
+
+            <!-- Code Block -->
+            <div class="mb-12">
+                <div class="relative">
+                    <div class="absolute top-3 right-3 z-10">
+                        <button
+                            id="copyCode"
+                            class="px-4 py-2 text-xs font-medium rounded-lg bg-foreground/10 text-foreground-secondary hover:bg-foreground/20 transition-colors"
+                        >
+                            Copy Code
+                        </button>
+                    </div>
+                    <pre class="rounded-lg bg-card border border-foreground/10 p-6 overflow-x-auto"><code id="codeBlock" class={`language-${snippet.data.language}`}>{snippet.data.code}</code></pre>
+                </div>
+            </div>
+
+            <!-- Documentation -->
+            <div class="content-prose">
+                <Content />
+            </div>
+        </article>
+    </div>
+</BaseLayout>
+
+<script>
+    function initCopyCode() {
+        const copyButton = document.getElementById('copyCode');
+        const codeBlock = document.getElementById('codeBlock');
+
+        if (copyButton && codeBlock) {
+            copyButton.addEventListener('click', async () => {
+                const code = codeBlock.textContent || '';
+                await navigator.clipboard.writeText(code);
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy Code';
+                }, 2000);
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initCopyCode);
+    document.addEventListener('astro:page-load', initCopyCode);
+</script>

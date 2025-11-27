@@ -1,0 +1,9 @@
+{
+  "name": "Regex101",
+  "description": "Online regex tester and debugger. Build, test, and debug regular expressions with explanations.",
+  "url": "https://regex101.com",
+  "category": "tool",
+  "tags": ["regex", "testing", "debugging", "patterns"],
+  "featured": false,
+  "order": 14
+}

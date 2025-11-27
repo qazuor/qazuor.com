@@ -1,0 +1,194 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import ToolCard from '@/components/cards/ToolCard.astro';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { sectionsColors } from '@/data/colors';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+// Get all tools
+const allTools = await getCollection('tools');
+
+// Sort tools by featured first, then by creation date
+const sortedTools: CollectionEntry<'tools'>[] = allTools.sort(
+    (a: CollectionEntry<'tools'>, b: CollectionEntry<'tools'>) => {
+        if (a.data.featured && !b.data.featured) return -1;
+        if (!a.data.featured && b.data.featured) return 1;
+        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+    }
+);
+
+// Get unique categories
+const categories = [
+    'all',
+    ...new Set(allTools.map((tool: CollectionEntry<'tools'>) => tool.data.category.toLowerCase()))
+];
+
+const title = t('tools.title', { markdown: false });
+const description = t('tools.subtitle', { markdown: false });
+const goodiesUrl = translatePath('/goodies', lang);
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="relative section overflow-hidden pt-32" style={`background-color: ${sectionsColors.goodies}`}>
+        <AnimatedGradientBackground />
+
+        <div class="container-custom">
+            <!-- Back Navigation -->
+            <div class="mb-8">
+                <a
+                    href={goodiesUrl}
+                    class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    {t('goodies.title')}
+                </a>
+            </div>
+
+            <!-- Header -->
+            <div class="mb-16">
+                <SectionTitle title={t('tools.title', { markdown: true })} subtitle={t('tools.subtitle', { markdown: true })} />
+            </div>
+
+            <!-- Category Filter -->
+            <div class="mb-12">
+                <div class="flex flex-wrap justify-center gap-3">
+                    {
+                        categories.map((category) => (
+                            <button
+                                class="category-filter-btn px-6 py-3 rounded-full border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-all duration-300 text-sm font-medium"
+                                data-category={category}
+                            >
+                                {category === 'all'
+                                    ? t('goodies.categories.all')
+                                    : (category as string).charAt(0).toUpperCase() + (category as string).slice(1)}
+                            </button>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- Featured Tools -->
+            {
+                sortedTools.some((tool) => tool.data.featured) && (
+                    <div class="mb-16">
+                        <SecondaryTitle text={t('goodies.featured', { markdown: true })} size="xl" className="mb-8" />
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {sortedTools
+                                .filter((tool) => tool.data.featured)
+                                .map((tool) => (
+                                    <ToolCard tool={tool} lang={lang} featured={true} basePath="/goodies/tools" />
+                                ))}
+                        </div>
+                    </div>
+                )
+            }
+
+            <!-- All Tools -->
+            <div>
+                <SecondaryTitle text={t('goodies.categories.all', { markdown: true })} size="xl" className="mb-8" />
+                <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {
+                        sortedTools.map((tool) => (
+                            <ToolCard
+                                tool={tool}
+                                lang={lang}
+                                featured={false}
+                                basePath="/goodies/tools"
+                                class={`tool-card tool-category-${tool.data.category.toLowerCase()}`}
+                            />
+                        ))
+                    }
+                </div>
+            </div>
+
+            <!-- No Tools Message -->
+            <div class="no-tools-message hidden text-center py-20">
+                <div class="text-foreground-secondary text-lg">
+                    {t('tools.noTools')}
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    .category-filter-btn.active {
+        @apply border-primary text-primary bg-primary/10;
+    }
+
+    .tool-card {
+        @apply transition-all duration-300;
+    }
+
+    .tool-card.hidden {
+        @apply opacity-0 scale-95 pointer-events-none;
+    }
+</style>
+
+<script>
+    // Category filtering functionality
+    function initToolsFiltering() {
+        const filterButtons = document.querySelectorAll('.category-filter-btn');
+        const toolCards = document.querySelectorAll('.tool-card');
+        const noToolsMessage = document.querySelector('.no-tools-message');
+
+        // Set first button as active by default
+        if (filterButtons.length > 0) {
+            filterButtons[0].classList.add('active');
+        }
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+
+                // Update active button
+                filterButtons.forEach((btn) => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Filter tools
+                let visibleCount = 0;
+                toolCards.forEach((card) => {
+                    const cardCategory = Array.from(card.classList)
+                        .find((cls) => cls.startsWith('tool-category-'))
+                        ?.replace('tool-category-', '');
+
+                    if (category === 'all' || cardCategory === category) {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Show/hide no tools message
+                if (visibleCount === 0) {
+                    noToolsMessage?.classList.remove('hidden');
+                } else {
+                    noToolsMessage?.classList.add('hidden');
+                }
+            });
+        });
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initToolsFiltering);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initToolsFiltering);
+</script>

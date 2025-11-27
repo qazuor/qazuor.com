@@ -1,0 +1,9 @@
+{
+  "name": "PageSpeed Insights",
+  "description": "Google's tool to analyze web page performance and get suggestions for improvement.",
+  "url": "https://pagespeed.web.dev",
+  "category": "tool",
+  "tags": ["performance", "lighthouse", "core-web-vitals", "seo"],
+  "featured": true,
+  "order": 12
+}

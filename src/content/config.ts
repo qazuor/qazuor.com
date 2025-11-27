@@ -85,9 +85,69 @@ const toolsCollection = defineCollection({
     })
 });
 
+// Snippets collection schema
+const snippetsCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        language: z.enum([
+            'typescript',
+            'javascript',
+            'css',
+            'html',
+            'bash',
+            'python',
+            'sql',
+            'json',
+            'yaml',
+            'markdown',
+            'other'
+        ]),
+        code: z.string(), // The main code snippet
+        tags: z.array(z.string()),
+        featured: z.boolean().default(false),
+        createdAt: z.date(),
+        updatedAt: z.date().optional(),
+        order: z.number().default(999)
+    })
+});
+
+// CSS Tricks collection schema (mini blog posts)
+const cssTricksCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string(), // Short hook/problem description
+        tags: z.array(z.string()),
+        featured: z.boolean().default(false),
+        browserSupport: z.array(z.string()).optional(), // e.g., ['Chrome 105+', 'Firefox 110+']
+        createdAt: z.date(),
+        updatedAt: z.date().optional(),
+        order: z.number().default(999)
+    })
+});
+
+// Useful Links collection schema
+const usefulLinksCollection = defineCollection({
+    type: 'data',
+    schema: z.object({
+        name: z.string(),
+        description: z.string(),
+        url: z.string().url(),
+        category: z.enum(['documentation', 'library', 'tool', 'learning', 'inspiration', 'community', 'other']),
+        tags: z.array(z.string()).optional(),
+        featured: z.boolean().default(false),
+        order: z.number().default(999)
+    })
+});
+
 export const collections = {
     projects: projectsCollection,
     blog: blogCollection,
     testimonials: testimonialsCollection,
-    tools: toolsCollection
+    tools: toolsCollection,
+    snippets: snippetsCollection,
+    'css-tricks': cssTricksCollection,
+    'useful-links': usefulLinksCollection
 };

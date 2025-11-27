@@ -1,0 +1,9 @@
+{
+  "name": "Zod",
+  "description": "TypeScript-first schema validation with static type inference. Parse, don't validate.",
+  "url": "https://zod.dev",
+  "category": "library",
+  "tags": ["typescript", "validation", "schema", "types"],
+  "featured": false,
+  "order": 23
+}

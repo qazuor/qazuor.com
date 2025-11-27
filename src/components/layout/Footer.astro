@@ -16,7 +16,7 @@ const t = getTranslations(lang);
 
 // Get latest blog posts
 const allBlogPosts = await getCollection('blog');
-const latestPosts = allBlogPosts
+const latestPosts: CollectionEntry<'blog'>[] = allBlogPosts
     .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
     .sort(
         (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>

@@ -218,16 +218,15 @@
         "title": "Leandro Asrilevich - Full-Stack Developer | Modern Web Solutions",
         "imageAlt": "qazuor - Full-Stack Developer Portfolio"
     },
-    "tools": {
+    "goodies": {
         "title": "Goodies",
         "subtitle": "Resources, utilities and snippets for devs",
         "categories": {
             "all": "All Goodies",
-            "css": "CSS",
-            "design": "Design",
-            "utilities": "Utilities",
+            "tools": "Tools",
             "snippets": "Snippets",
-            "links": "Links"
+            "cssTricks": "CSS Tricks",
+            "usefulLinks": "Useful Links"
         },
         "difficulty": {
             "beginner": "Beginner",
@@ -238,12 +237,36 @@
         "tryDemo": "Try Demo",
         "viewSource": "View Source",
         "comingSoon": "Coming Soon",
-        "noTools": "No goodies found for this category",
+        "noItems": "No items found for this category",
         "dropdown": {
             "headerTitle": "Goodies",
             "headerDescription": "Resources, utilities and snippets for devs",
-            "viewAll": "View All Goodies"
+            "viewAll": "View All Goodies",
+            "viewAllTools": "View All Tools",
+            "viewAllSnippets": "View All Snippets",
+            "viewAllCssTricks": "View All CSS Tricks",
+            "viewAllLinks": "View All Links"
         }
+    },
+    "tools": {
+        "title": "Tools",
+        "subtitle": "Interactive tools and utilities",
+        "noTools": "No tools found"
+    },
+    "snippets": {
+        "title": "Snippets",
+        "subtitle": "Ready-to-use code snippets",
+        "noSnippets": "No snippets found"
+    },
+    "cssTricks": {
+        "title": "CSS Tricks",
+        "subtitle": "Quick CSS tips and techniques",
+        "noTricks": "No CSS tricks found"
+    },
+    "usefulLinks": {
+        "title": "Useful Links",
+        "subtitle": "Curated resources for developers",
+        "noLinks": "No links found"
     },
     "aria": {
         "github": "Visit my GitHub profile",

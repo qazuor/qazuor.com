@@ -1,0 +1,9 @@
+{
+  "name": "DEV Community",
+  "description": "A constructive and inclusive social network for software developers. Share ideas and grow together.",
+  "url": "https://dev.to",
+  "category": "community",
+  "tags": ["community", "blog", "articles", "social"],
+  "featured": false,
+  "order": 51
+}

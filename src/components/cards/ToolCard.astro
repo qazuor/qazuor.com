@@ -2,7 +2,7 @@
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import { getTranslations, translatePath } from '@/i18n/utils';
 
-const { tool, lang, featured = false, class: className = '' } = Astro.props;
+const { tool, lang, featured = false, class: className = '', basePath = '/goodies/tools' } = Astro.props;
 const t = getTranslations(lang);
 
 const difficultyColors = {
@@ -11,7 +11,7 @@ const difficultyColors = {
     advanced: 'text-red-500 bg-red-500/10 border-red-500/20'
 } as const;
 
-const toolUrl = translatePath(`/goodies/${tool.slug}`, lang);
+const toolUrl = translatePath(`${basePath}/${tool.slug}`, lang);
 ---
 
 <article

@@ -1,0 +1,40 @@
+---
+title: "Container Queries for Component-Level Responsiveness"
+description: "Stop using viewport media queries for components. Container queries let elements respond to their container's size, not the window."
+tags: ["css", "responsive", "container-queries", "layout"]
+featured: true
+browserSupport: ["Chrome 105+", "Firefox 110+", "Safari 16+"]
+createdAt: 2025-11-27T00:00:00Z
+order: 1
+---
+
+# Container Queries
+
+**The problem:** You have a card component that needs different layouts at different sizes. Media queries look at the viewport, but your card might be in a sidebar or full-width section.
+
+## The Solution
+
+```css
+.card-container {
+  container-type: inline-size;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@container (min-width: 400px) {
+  .card {
+    grid-template-columns: 200px 1fr;
+  }
+}
+```
+
+## Why Not Media Queries?
+
+Media queries respond to the **viewport**. Container queries respond to the **parent container**. This means your component adapts to where it's placed, not the screen size.
+
+## Quick Tip
+
+Use `container-type: inline-size` for width-based queries. The `size` value also tracks height but has more performance overhead.

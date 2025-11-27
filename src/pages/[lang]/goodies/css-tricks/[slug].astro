@@ -1,0 +1,115 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import { sectionsColors } from '@/data/colors';
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+    const tricks = await getCollection('css-tricks');
+    const paths: Array<{
+        params: { lang: string; slug: string };
+        props: { trick: CollectionEntry<'css-tricks'> };
+    }> = [];
+
+    const langs = Object.keys(languages);
+
+    langs.forEach((lang: string) => {
+        tricks.forEach((trick: CollectionEntry<'css-tricks'>) => {
+            paths.push({
+                params: {
+                    lang,
+                    slug: trick.slug
+                },
+                props: { trick }
+            });
+        });
+    });
+
+    return paths;
+}
+
+const { trick } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+const { Content } = await trick.render();
+
+const title = trick.data.title;
+const description = trick.data.description;
+const cssTricksUrl = translatePath('/goodies/css-tricks', lang);
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="relative section overflow-hidden pt-32 pb-20" style={`background-color: ${sectionsColors.goodies}`}>
+        <AnimatedGradientBackground />
+
+        <article class="container-custom max-w-3xl">
+            <!-- Back Navigation -->
+            <div class="mb-8">
+                <a
+                    href={cssTricksUrl}
+                    class="inline-flex items-center gap-2 text-foreground-secondary hover:text-primary transition-colors"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    {t('goodies.categories.cssTricks')}
+                </a>
+            </div>
+
+            <!-- Header -->
+            <header class="mb-12">
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="text-3xl">🎨</span>
+                    <span class="px-4 py-2 text-sm font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
+                        CSS Trick
+                    </span>
+                    {trick.data.featured && (
+                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
+                            ★ Featured
+                        </span>
+                    )}
+                </div>
+
+                <h1 class="text-xl md:text-2xl font-bold mb-4 leading-tight">
+                    <span class="gradient-text">{trick.data.title}</span>
+                </h1>
+                <p class="text-sm md:text-base text-foreground-secondary leading-relaxed">
+                    {trick.data.description}
+                </p>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-2 mt-4">
+                    {
+                        trick.data.tags.map((tag: string) => (
+                            <span class="inline-flex items-center px-3 py-1 text-sm rounded-md bg-foreground/5 text-foreground-secondary">
+                                #{tag}
+                            </span>
+                        ))
+                    }
+                </div>
+
+                <!-- Browser Support -->
+                {trick.data.browserSupport && trick.data.browserSupport.length > 0 && (
+                    <div class="mt-6 p-4 rounded-lg bg-card border border-foreground/10">
+                        <h3 class="text-sm font-semibold mb-2">Browser Support</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {trick.data.browserSupport.map((browser: string) => (
+                                <span class="px-3 py-1 text-xs rounded-full bg-green-500/10 text-green-500 border border-green-500/20">
+                                    ✓ {browser}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </header>
+
+            <!-- Content -->
+            <div class="content-prose">
+                <Content />
+            </div>
+        </article>
+    </div>
+</BaseLayout>

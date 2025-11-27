@@ -1,0 +1,9 @@
+{
+  "name": "React Documentation",
+  "description": "The official React documentation. Learn React with interactive tutorials and comprehensive guides.",
+  "url": "https://react.dev",
+  "category": "documentation",
+  "tags": ["react", "javascript", "ui", "components"],
+  "featured": false,
+  "order": 4
+}

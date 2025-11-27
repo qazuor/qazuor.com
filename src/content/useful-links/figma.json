@@ -1,0 +1,9 @@
+{
+  "name": "Figma",
+  "description": "Collaborative interface design tool. Design, prototype, and gather feedback in one place.",
+  "url": "https://www.figma.com",
+  "category": "tool",
+  "tags": ["design", "prototyping", "ui", "collaboration"],
+  "featured": true,
+  "order": 16
+}

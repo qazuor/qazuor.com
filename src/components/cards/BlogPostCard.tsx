@@ -70,36 +70,39 @@ export function BlogPostCard({
             onMouseEnter={onHover}
             data-active={isMobile && (isActive || isVisible)}
         >
-            {/* Background Image */}
-            <img src={imageUrl} alt={title} className="blog-post-card__bg-image" loading="lazy" />
+            {/* Full card clickable link */}
+            <a href={slug} className="blog-post-card__link" aria-label={`Read ${title}`}>
+                {/* Background Image */}
+                <img src={imageUrl} alt="" className="blog-post-card__bg-image" loading="lazy" />
 
-            {/* Dark Overlay */}
-            <div className="blog-post-card__overlay" />
+                {/* Dark Overlay */}
+                <div className="blog-post-card__overlay" />
 
-            {/* Content */}
-            <div className="blog-post-card__content">
-                {/* Category Badge */}
-                <div className="blog-post-card__category" style={{ backgroundColor: categoryColor }}>
-                    {category}
-                </div>
+                {/* Content */}
+                <div className="blog-post-card__content">
+                    {/* Category Badge */}
+                    <div className="blog-post-card__category" style={{ backgroundColor: categoryColor }}>
+                        {category}
+                    </div>
 
-                {/* Title */}
-                <h3 className="blog-post-card__title">{title}</h3>
+                    {/* Title */}
+                    <h3 className="blog-post-card__title">{title}</h3>
 
-                {/* Quote/Excerpt Wrapper (accordion) */}
-                <div className="blog-post-card__quote-wrapper">
-                    <div className="blog-post-card__quote">
-                        <p>{excerpt}</p>
+                    {/* Quote/Excerpt Wrapper (accordion) */}
+                    <div className="blog-post-card__quote-wrapper">
+                        <div className="blog-post-card__quote">
+                            <p>{excerpt}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Corner Icon with Inverted Rounded Border */}
-            <a href={slug} className="blog-post-card__icon-container" aria-label={`Read ${title}`}>
-                <div className="blog-post-card__icon-circle" style={{ backgroundColor: categoryColor }}>
-                    <span className="blog-post-card__icon">
-                        <ArrowUpRight />
-                    </span>
+                {/* Corner Icon with Inverted Rounded Border */}
+                <div className="blog-post-card__icon-container">
+                    <div className="blog-post-card__icon-circle" style={{ backgroundColor: categoryColor }}>
+                        <span className="blog-post-card__icon">
+                            <ArrowUpRight />
+                        </span>
+                    </div>
                 </div>
             </a>
         </article>

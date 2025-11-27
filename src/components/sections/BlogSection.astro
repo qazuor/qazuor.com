@@ -10,6 +10,7 @@ import fallbackFrontend from '@/content/blog/_images/react-frontend.jpg';
 // Static imports for fallback images by category
 import fallbackDefault from '@/content/blog/_images/web-development.jpg';
 import fallbackWebdev from '@/content/blog/_images/web-development.jpg';
+import { getRotatingColor } from '@/data/categoryColors';
 import ArrowLongRightIcon from '@/icons/ui/arrow-long-right.svg?raw';
 import DocumentEmptyIcon from '@/icons/ui/document-empty.svg?raw';
 
@@ -106,9 +107,6 @@ const postsWithImages = await Promise.all(
         };
     })
 );
-
-// Category colors (same as CodePen)
-const categoryColors = ['#d3b19a', '#70b3b1', '#d05fa2'];
 ---
 
 <section
@@ -134,7 +132,7 @@ const categoryColors = ['#d3b19a', '#70b3b1', '#d05fa2'];
                         category={post.category}
                         imageUrl={post.imageUrl}
                         slug={post.slug}
-                        categoryColor={categoryColors[index % categoryColors.length]}
+                        categoryColor={getRotatingColor(index).bg}
                     />
                 ))
             }

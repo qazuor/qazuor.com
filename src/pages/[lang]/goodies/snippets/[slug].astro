@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
@@ -39,20 +40,6 @@ const { Content } = await snippet.render();
 const title = snippet.data.title;
 const description = snippet.data.description;
 const snippetsUrl = translatePath('/goodies/snippets', lang);
-
-const languageIcons: Record<string, string> = {
-    typescript: '🔷',
-    javascript: '🟡',
-    css: '🎨',
-    html: '🌐',
-    bash: '💻',
-    python: '🐍',
-    sql: '🗃️',
-    json: '📋',
-    yaml: '📄',
-    markdown: '📝',
-    other: '📦'
-};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -76,7 +63,7 @@ const languageIcons: Record<string, string> = {
             <!-- Header -->
             <header class="mb-12">
                 <div class="flex items-center gap-4 mb-4">
-                    <span class="text-3xl">{languageIcons[snippet.data.language] || '📦'}</span>
+                    <LanguageIcon name={snippet.data.language} size={32} class="text-primary" />
                     <span class="px-4 py-2 text-sm font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
                         {snippet.data.language}
                     </span>

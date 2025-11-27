@@ -87,7 +87,7 @@ const goodiesUrl = translatePath('/goodies', lang);
             {
                 sortedTools.some((tool) => tool.data.featured) && (
                     <div class="mb-16">
-                        <SecondaryTitle text={t('goodies.featured', { markdown: true })} size="xl" className="mb-8" />
+                        <SecondaryTitle text={t('tools.featured', { markdown: true })} size="xl" className="mb-8" />
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {sortedTools
                                 .filter((tool) => tool.data.featured)
@@ -101,7 +101,7 @@ const goodiesUrl = translatePath('/goodies', lang);
 
             <!-- All Tools -->
             <div>
-                <SecondaryTitle text={t('goodies.categories.all', { markdown: true })} size="xl" className="mb-8" />
+                <SecondaryTitle text={t('tools.allTools', { markdown: true })} size="xl" className="mb-8" />
                 <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {
                         sortedTools.map((tool) => (

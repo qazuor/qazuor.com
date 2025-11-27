@@ -2,6 +2,8 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import type { CategoryIconName } from '@/components/ui/CategoryIcon.astro';
+import CategoryIcon from '@/components/ui/CategoryIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -49,16 +51,6 @@ const title = t('usefulLinks.title', { markdown: false });
 const description = t('usefulLinks.subtitle', { markdown: false });
 const goodiesUrl = translatePath('/goodies', lang);
 
-const categoryIcons: Record<string, string> = {
-    documentation: '📚',
-    library: '📦',
-    tool: '🛠️',
-    learning: '🎓',
-    inspiration: '✨',
-    community: '👥',
-    other: '🔗'
-};
-
 const categoryLabels: Record<string, string> = {
     documentation: 'Documentation',
     library: 'Libraries',
@@ -98,7 +90,7 @@ const categoryLabels: Record<string, string> = {
                 sortedCategories.map((category) => (
                     <div class="mb-12">
                         <div class="flex items-center gap-3 mb-6">
-                            <span class="text-2xl">{categoryIcons[category] || '🔗'}</span>
+                            <CategoryIcon name={category as CategoryIconName} size={24} class="text-primary" />
                             <h2 class="text-xl font-semibold">{categoryLabels[category] || category}</h2>
                         </div>
 

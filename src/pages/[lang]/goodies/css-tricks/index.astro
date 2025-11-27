@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import CategoryIcon from '@/components/ui/CategoryIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -72,7 +73,7 @@ const goodiesUrl = translatePath('/goodies', lang);
                             )}
 
                             <div class="flex items-center gap-3 mb-4">
-                                <span class="text-2xl">🎨</span>
+                                <CategoryIcon name="css-tricks" size={24} class="text-primary" />
                                 <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
                                     CSS
                                 </span>

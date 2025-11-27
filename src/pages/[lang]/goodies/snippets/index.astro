@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -32,20 +33,6 @@ const languages_filter = ['all', ...new Set(allSnippets.map((s: CollectionEntry<
 const title = t('snippets.title', { markdown: false });
 const description = t('snippets.subtitle', { markdown: false });
 const goodiesUrl = translatePath('/goodies', lang);
-
-const languageIcons: Record<string, string> = {
-    typescript: '🔷',
-    javascript: '🟡',
-    css: '🎨',
-    html: '🌐',
-    bash: '💻',
-    python: '🐍',
-    sql: '🗃️',
-    json: '📋',
-    yaml: '📄',
-    markdown: '📝',
-    other: '📦'
-};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -80,7 +67,7 @@ const languageIcons: Record<string, string> = {
                                 class="language-filter-btn px-6 py-3 rounded-full border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-all duration-300 text-sm font-medium flex items-center gap-2"
                                 data-language={language}
                             >
-                                {language !== 'all' && <span>{languageIcons[language as string] || '📦'}</span>}
+                                {language !== 'all' && <LanguageIcon name={language as string} size={16} class="text-primary/80" />}
                                 {language === 'all' ? t('goodies.categories.all') : language}
                             </button>
                         ))
@@ -105,7 +92,7 @@ const languageIcons: Record<string, string> = {
                             )}
 
                             <div class="flex items-center gap-3 mb-4">
-                                <span class="text-2xl">{languageIcons[snippet.data.language] || '📦'}</span>
+                                <LanguageIcon name={snippet.data.language} size={24} class="text-primary" />
                                 <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
                                     {snippet.data.language}
                                 </span>
@@ -150,7 +137,7 @@ const languageIcons: Record<string, string> = {
     }
 
     .snippet-card.hidden {
-        @apply hidden;
+        display: none;
     }
 
     .line-clamp-2 {

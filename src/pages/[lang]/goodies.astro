@@ -2,6 +2,8 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import CategoryIcon from '@/components/ui/CategoryIcon.astro';
+import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -61,52 +63,38 @@ const description = t('goodies.subtitle', { markdown: false });
 
 const categories = [
     {
-        id: 'tools',
+        id: 'tools' as const,
         title: t('goodies.categories.tools'),
-        icon: '🛠️',
         items: featuredTools,
         total: allTools.length,
         href: translatePath('/goodies/tools', lang),
         viewAllLabel: t('goodies.dropdown.viewAllTools')
     },
     {
-        id: 'snippets',
+        id: 'snippets' as const,
         title: t('goodies.categories.snippets'),
-        icon: '📝',
         items: featuredSnippets,
         total: allSnippets.length,
         href: translatePath('/goodies/snippets', lang),
         viewAllLabel: t('goodies.dropdown.viewAllSnippets')
     },
     {
-        id: 'css-tricks',
+        id: 'css-tricks' as const,
         title: t('goodies.categories.cssTricks'),
-        icon: '🎨',
         items: featuredCssTricks,
         total: allCssTricks.length,
         href: translatePath('/goodies/css-tricks', lang),
         viewAllLabel: t('goodies.dropdown.viewAllCssTricks')
     },
     {
-        id: 'useful-links',
+        id: 'useful-links' as const,
         title: t('goodies.categories.usefulLinks'),
-        icon: '🔗',
         items: featuredLinks,
         total: allUsefulLinks.length,
         href: translatePath('/goodies/useful-links', lang),
         viewAllLabel: t('goodies.dropdown.viewAllLinks')
     }
 ];
-
-const languageIcons: Record<string, string> = {
-    typescript: '🔷',
-    javascript: '🟡',
-    css: '🎨',
-    html: '🌐',
-    bash: '💻',
-    python: '🐍',
-    other: '📦'
-};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -126,7 +114,7 @@ const languageIcons: Record<string, string> = {
                         <!-- Category Header -->
                         <div class="flex items-center justify-between mb-8">
                             <div class="flex items-center gap-3">
-                                <span class="text-3xl">{category.icon}</span>
+                                <CategoryIcon name={category.id} size={28} class="text-primary" />
                                 <div>
                                     <h2 class="text-xl font-bold">{category.title}</h2>
                                     <p class="text-sm text-foreground-secondary">{category.total} items</p>
@@ -168,7 +156,7 @@ const languageIcons: Record<string, string> = {
                                         class="group relative overflow-hidden rounded-xl border border-foreground/10 bg-card p-5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
                                     >
                                         <div class="flex items-center gap-2 mb-3">
-                                            <span class="text-lg">{languageIcons[snippet.data.language] || '📦'}</span>
+                                            <LanguageIcon name={snippet.data.language} size={18} class="text-primary/80" />
                                             <span class="px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
                                                 {snippet.data.language}
                                             </span>
@@ -184,7 +172,7 @@ const languageIcons: Record<string, string> = {
                                         class="group relative overflow-hidden rounded-xl border border-foreground/10 bg-card p-5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
                                     >
                                         <div class="flex items-center gap-2 mb-3">
-                                            <span class="text-lg">🎨</span>
+                                            <CategoryIcon name="css-tricks" size={18} class="text-primary/80" />
                                             <span class="px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
                                                 CSS
                                             </span>

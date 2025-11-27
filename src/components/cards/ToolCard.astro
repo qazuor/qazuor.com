@@ -1,8 +1,8 @@
 ---
 import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
-import { getTranslations, translatePath } from '@/i18n/utils';
+import { getTranslations } from '@/i18n/utils';
 
-const { tool, lang, featured = false, class: className = '', basePath = '/goodies/tools' } = Astro.props;
+const { tool, lang, class: className = '' } = Astro.props;
 const t = getTranslations(lang);
 
 const difficultyColors = {
@@ -11,35 +11,52 @@ const difficultyColors = {
     advanced: 'text-red-500 bg-red-500/10 border-red-500/20'
 } as const;
 
-const toolUrl = translatePath(`${basePath}/${tool.slug}`, lang);
+// Icon mapping for tools (Lucide icons)
+const iconMap: Record<string, string> = {
+    palette: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z" />
+    </svg>`,
+    play: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+        <polygon points="6 3 20 12 6 21 6 3" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polygon>
+    </svg>`,
+    braces: `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
+        <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
+    </svg>`,
+    default: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+    </svg>`
+};
+
+const iconSvg = iconMap[tool.data.icon] || iconMap.default;
 ---
 
 <article
     class={`tool-card group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 ${className}`}
 >
-    <!-- Featured Badge -->
-    {
-        featured && (
-            <div class="absolute top-4 right-4 z-10">
-                <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
-                    ★ Featured
+    <!-- Icon & Category -->
+    <div class="flex items-start gap-4 mb-4">
+        <div class="flex-shrink-0 p-3 rounded-xl bg-primary/10 text-primary">
+            <Fragment set:html={iconSvg} />
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+                <span
+                    class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
+                >
+                    {tool.data.category}
+                </span>
+                <span
+                    class={`inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full border ${difficultyColors[tool.data.difficulty as keyof typeof difficultyColors]}`}
+                >
+                    {t(`tools.difficulty.${tool.data.difficulty}`)}
                 </span>
             </div>
-        )
-    }
-
-    <!-- Category & Difficulty -->
-    <div class="flex items-center justify-between mb-4">
-        <span
-            class="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
-        >
-            {tool.data.category}
-        </span>
-        <span
-            class={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full border ${difficultyColors[tool.data.difficulty as keyof typeof difficultyColors]}`}
-        >
-            {t(`tools.difficulty.${tool.data.difficulty}`)}
-        </span>
+        </div>
     </div>
 
     <!-- Title & Description -->
@@ -72,55 +89,33 @@ const toolUrl = translatePath(`${basePath}/${tool.slug}`, lang);
 
     <!-- Actions -->
     <div class="flex items-center gap-3">
-        {
-            tool.data.demo ? (
-                <a
-                    href={toolUrl}
-                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M19 10a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    {t('tools.tryDemo')}
-                </a>
-            ) : (
-                <span class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-foreground/10 text-foreground-secondary cursor-not-allowed">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    {t('tools.comingSoon')}
-                </span>
-            )
-        }
-
         <a
-            href={toolUrl}
-            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+            href={tool.data.siteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
         >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                ></path>
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
             </svg>
-            {t('tools.viewDetails')}
+            {t('tools.goToSite')}
+        </a>
+
+        <a
+            href={tool.data.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+        >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            {t('tools.goToRepo')}
         </a>
     </div>
 

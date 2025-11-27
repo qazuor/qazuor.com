@@ -6,6 +6,7 @@
     "webApps": {
         "title": "**Full-Stack** Web Applications",
         "description": "Complete web applications with modern technologies, from frontend to backend and database integration.",
+        "ctaButton": "Start Your Project",
         "descriptionExpanded": "I build end-to-end web applications tailored to your specific business needs. From database design to user interface, every component is crafted with attention to detail, security, and performance. Whether you need a customer portal, internal tool, or SaaS platform, I deliver scalable solutions that grow with your business.",
         "features": {
             "0": "Custom web application development",
@@ -62,6 +63,7 @@
     "landingPages": {
         "title": "**Landing Pages** & Static Sites",
         "description": "High-converting landing pages and blazing-fast static websites optimized for performance and SEO.",
+        "ctaButton": "Get Your Landing Page",
         "descriptionExpanded": "Stand out with lightning-fast landing pages designed to convert visitors into customers. Built with modern static site generators, your pages load instantly, rank higher in search results, and provide exceptional user experiences across all devices. Perfect for product launches, marketing campaigns, and business websites.",
         "features": {
             "0": "High-conversion landing pages",
@@ -118,6 +120,7 @@
     "automation": {
         "title": "**Automation** & Integrations",
         "description": "Streamline your workflows with custom automations and seamless third-party integrations.",
+        "ctaButton": "Automate Your Workflow",
         "descriptionExpanded": "Save time and reduce errors with custom automation solutions. From simple data sync to complex workflow automation, I build integrations that connect your tools and eliminate repetitive tasks. Whether connecting your CRM to your marketing platform or automating data processing, I create reliable systems that work 24/7.",
         "features": {
             "0": "Workflow automation",
@@ -174,6 +177,7 @@
     "socialDesign": {
         "title": "**Social Media** Design",
         "description": "Compelling visual content and brand assets designed to engage your audience across social platforms.",
+        "ctaButton": "Design Your Brand",
         "descriptionExpanded": "Build a cohesive and engaging social media presence with professional design assets. From Instagram posts to LinkedIn banners, I create visually stunning content that aligns with your brand identity and captures attention in crowded feeds. Get ready-to-use templates that make consistent posting effortless.",
         "features": {
             "0": "Social media templates",

@@ -1,3 +1,4 @@
+import { INTEREST_IDS, type InterestId } from '@/data';
 import { useContactForm, useScrollAnimation, useStaggerAnimation } from '@/hooks';
 import { ContactInfo } from './ContactInfo';
 import { FloatingFormField } from './FloatingFormField';
@@ -57,6 +58,7 @@ interface ContactProps {
             webDevelopment: string;
             logoDesign: string;
             appDevelopment: string;
+            automation: string;
             remote: string;
             fulltime: string;
             contractor: string;
@@ -117,6 +119,7 @@ export function Contact({
             webDevelopment: 'Web Development',
             logoDesign: 'Logo Design',
             appDevelopment: 'App Development',
+            automation: 'Automation & Integrations',
             remote: 'Remote Work',
             fulltime: 'Full-time Employee',
             contractor: 'Contractor'
@@ -144,17 +147,11 @@ export function Contact({
             errorMessages: translations.errors
         });
 
-    // Build interests array from translations
-    const interests: Interest[] = [
-        { id: 'websiteDesign', label: translations.interests.websiteDesign },
-        { id: 'branding', label: translations.interests.branding },
-        { id: 'webDevelopment', label: translations.interests.webDevelopment },
-        { id: 'logoDesign', label: translations.interests.logoDesign },
-        { id: 'appDevelopment', label: translations.interests.appDevelopment },
-        { id: 'remote', label: translations.interests.remote },
-        { id: 'fulltime', label: translations.interests.fulltime },
-        { id: 'contractor', label: translations.interests.contractor }
-    ];
+    // Build interests array from centralized data
+    const interests: Interest[] = INTEREST_IDS.map((id: InterestId) => ({
+        id,
+        label: translations.interests[id]
+    }));
 
     // Animations
     const titleRef = useScrollAnimation('.section-title', { y: 30, duration: 0.8 });

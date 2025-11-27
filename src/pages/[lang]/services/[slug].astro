@@ -2,6 +2,7 @@
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
+import { getInterestsForService } from '@/data';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -346,7 +347,7 @@ const relatedServices = services
                 />
 
                 <a
-                    href={`/${lang}/contact`}
+                    href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
                     class="inline-flex items-center px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors text-lg"
                 >
                     <span set:html={t('services.cta.button', { markdown: true })} />

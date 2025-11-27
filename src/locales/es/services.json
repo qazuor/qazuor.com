@@ -6,6 +6,7 @@
     "webApps": {
         "title": "Aplicaciones Web **Full-Stack**",
         "description": "Aplicaciones web completas con tecnologías modernas, desde frontend hasta backend e integración de base de datos.",
+        "ctaButton": "Iniciar tu Proyecto",
         "descriptionExpanded": "Desarrollo aplicaciones web completas adaptadas a las necesidades específicas de tu negocio. Desde el diseño de base de datos hasta la interfaz de usuario, cada componente está desarrollado con atención al detalle, seguridad y rendimiento. Ya sea que necesites un portal de clientes, herramienta interna o plataforma SaaS, entrego soluciones escalables que crecen con tu negocio.",
         "features": {
             "0": "Desarrollo de aplicaciones web personalizadas",
@@ -62,6 +63,7 @@
     "landingPages": {
         "title": "**Landing Pages** y Sitios Estáticos",
         "description": "Landing pages de alta conversión y sitios web estáticos ultrarrápidos optimizados para rendimiento y SEO.",
+        "ctaButton": "Obtén tu Landing Page",
         "descriptionExpanded": "Destaca con landing pages ultrarrápidas diseñadas para convertir visitantes en clientes. Construidas con generadores de sitios estáticos modernos, tus páginas cargan instantáneamente, rankean más alto en buscadores y proveen experiencias excepcionales en todos los dispositivos. Perfecto para lanzamientos de productos, campañas de marketing y sitios web de negocios.",
         "features": {
             "0": "Landing pages de alta conversión",
@@ -118,6 +120,7 @@
     "automation": {
         "title": "**Automatización** e Integraciones",
         "description": "Optimiza tus flujos de trabajo con automatizaciones personalizadas e integraciones perfectas con terceros.",
+        "ctaButton": "Automatiza tu Flujo",
         "descriptionExpanded": "Ahorra tiempo y reduce errores con soluciones de automatización personalizadas. Desde sincronización simple de datos hasta automatización compleja de flujos de trabajo, construyo integraciones que conectan tus herramientas y eliminan tareas repetitivas. Ya sea conectando tu CRM con tu plataforma de marketing o automatizando procesamiento de datos, creo sistemas confiables que trabajan 24/7.",
         "features": {
             "0": "Automatización de workflows",
@@ -174,6 +177,7 @@
     "socialDesign": {
         "title": "Diseño para **Redes Sociales**",
         "description": "Contenido visual atractivo y assets de marca diseñados para captar tu audiencia en plataformas sociales.",
+        "ctaButton": "Diseña tu Marca",
         "descriptionExpanded": "Construye una presencia cohesiva y atractiva en redes sociales con assets de diseño profesional. Desde posts de Instagram hasta banners de LinkedIn, creo contenido visualmente impactante que se alinea con tu identidad de marca y captura atención en feeds saturados. Obtén plantillas listas para usar que hacen que publicar consistentemente sea sin esfuerzo.",
         "features": {
             "0": "Plantillas para redes sociales",

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { isValidInterest } from '@/data';
 
 interface FormData {
     name: string;
@@ -33,6 +34,63 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         interests: [],
         message: ''
     });
+
+    // Read interests from URL query params on mount and after View Transitions
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const readInterestsFromUrl = () => {
+            const params = new URLSearchParams(window.location.search);
+            const interestsParam = params.get('interests');
+
+            if (interestsParam) {
+                const interestsFromUrl = interestsParam
+                    .split(',')
+                    .map((i) => i.trim())
+                    .filter(isValidInterest);
+
+                if (interestsFromUrl.length > 0) {
+                    setFormData((prev) => ({ ...prev, interests: interestsFromUrl }));
+                }
+            }
+        };
+
+        const focusFirstInput = () => {
+            // Focus the first input if URL has #contact hash
+            if (window.location.hash === '#contact') {
+                // Small delay to ensure the form is rendered and scrolled into view
+                setTimeout(() => {
+                    const firstInput = document.querySelector<HTMLInputElement>('#contact input[name="name"]');
+                    firstInput?.focus();
+                }, 150);
+            }
+        };
+
+        // Read on initial mount
+        readInterestsFromUrl();
+        focusFirstInput();
+
+        // Also read after a small delay (for client:visible hydration timing)
+        const timeoutId = setTimeout(readInterestsFromUrl, 100);
+
+        // Listen for Astro View Transitions navigation
+        const handlePageLoad = () => {
+            // Small delay to ensure React component is ready after View Transition
+            setTimeout(() => {
+                readInterestsFromUrl();
+                focusFirstInput();
+            }, 50);
+        };
+
+        document.addEventListener('astro:page-load', handlePageLoad);
+        document.addEventListener('astro:after-swap', handlePageLoad);
+
+        return () => {
+            clearTimeout(timeoutId);
+            document.removeEventListener('astro:page-load', handlePageLoad);
+            document.removeEventListener('astro:after-swap', handlePageLoad);
+        };
+    }, []);
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');

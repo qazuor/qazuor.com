@@ -1,74 +1,154 @@
 import { useContactForm, useScrollAnimation, useStaggerAnimation } from '@/hooks';
-import { FormField } from './FormField';
+import { ContactInfo } from './ContactInfo';
+import { FloatingFormField } from './FloatingFormField';
+import { InterestSelector } from './InterestSelector';
 import { StatusMessage } from './StatusMessage';
 import { SubmitButton } from './SubmitButton';
 
+interface Interest {
+    id: string;
+    label: string;
+}
+
 interface ContactProps {
-    primaryColor?: string;
+    contactData: {
+        email: string;
+        phone: string;
+        location: string;
+        social: {
+            github: string;
+            linkedin: string;
+            whatsapp: string;
+            mail: string;
+        };
+    };
     translations?: {
         title: string;
         subtitle: string;
+        info: {
+            title: string;
+            description: string;
+            email: string;
+            phone: string;
+            location: string;
+            orConnect: string;
+        };
         form: {
             name: string;
             email: string;
-            subject: string;
+            company: string;
+            interest: string;
             message: string;
+            charCount: string;
             send: string;
             sending: string;
         };
         placeholders: {
             name: string;
             email: string;
-            subject: string;
+            company: string;
             message: string;
+        };
+        interests: {
+            websiteDesign: string;
+            branding: string;
+            webDevelopment: string;
+            logoDesign: string;
+            appDevelopment: string;
+            remote: string;
+            fulltime: string;
+            contractor: string;
         };
         errors: {
             nameRequired: string;
             emailRequired: string;
             emailInvalid: string;
-            subjectRequired: string;
             messageRequired: string;
             messageMinLength: string;
         };
         success: string;
         error: string;
     };
+    ariaLabels?: {
+        github: string;
+        linkedin: string;
+        whatsapp: string;
+        mail: string;
+    };
 }
 
 export function Contact({
-    primaryColor = '#ec4899',
+    contactData,
     translations = {
         title: 'Get In Touch',
         subtitle: "Have a project in mind? Let's work together!",
+        info: {
+            title: "Let's Talk",
+            description: "I'm open to any job opportunity: freelance, remote, full-time or collaborations.",
+            email: 'Email',
+            phone: 'Phone',
+            location: 'Location',
+            orConnect: 'Or connect via'
+        },
         form: {
             name: 'Name',
             email: 'Email',
-            subject: 'Subject',
+            company: 'Company',
+            interest: "What's on your mind?",
             message: 'Message',
+            charCount: 'characters',
             send: 'Send Message',
             sending: 'Sending...'
         },
         placeholders: {
             name: 'John Doe',
             email: 'john@example.com',
-            subject: 'Project Inquiry',
+            company: 'Your company (optional)',
             message: 'Tell me about your project...'
+        },
+        interests: {
+            websiteDesign: 'Website Design',
+            branding: 'Branding',
+            webDevelopment: 'Web Development',
+            logoDesign: 'Logo Design',
+            appDevelopment: 'App Development',
+            remote: 'Remote Work',
+            fulltime: 'Full-time Employee',
+            contractor: 'Contractor'
         },
         errors: {
             nameRequired: 'Name is required',
             emailRequired: 'Email is required',
             emailInvalid: 'Invalid email format',
-            subjectRequired: 'Subject is required',
             messageRequired: 'Message is required',
             messageMinLength: 'Message must be at least 10 characters'
         },
         success: 'Message sent successfully! I will get back to you soon.',
         error: 'Something went wrong. Please try again.'
+    },
+    ariaLabels = {
+        github: 'GitHub',
+        linkedin: 'LinkedIn',
+        whatsapp: 'WhatsApp',
+        mail: 'Email'
     }
 }: ContactProps) {
-    const { formData, errors, isSubmitting, submitStatus, handleChange, handleSubmit } = useContactForm({
-        errorMessages: translations.errors
-    });
+    const { formData, errors, isSubmitting, submitStatus, handleChange, handleInterestsChange, handleSubmit } =
+        useContactForm({
+            errorMessages: translations.errors
+        });
+
+    // Build interests array from translations
+    const interests: Interest[] = [
+        { id: 'websiteDesign', label: translations.interests.websiteDesign },
+        { id: 'branding', label: translations.interests.branding },
+        { id: 'webDevelopment', label: translations.interests.webDevelopment },
+        { id: 'logoDesign', label: translations.interests.logoDesign },
+        { id: 'appDevelopment', label: translations.interests.appDevelopment },
+        { id: 'remote', label: translations.interests.remote },
+        { id: 'fulltime', label: translations.interests.fulltime },
+        { id: 'contractor', label: translations.interests.contractor }
+    ];
 
     // Animations
     const titleRef = useScrollAnimation('.section-title', { y: 30, duration: 0.8 });
@@ -79,76 +159,132 @@ export function Contact({
     });
 
     return (
-        <section className="section section-indigo" id="contact" style={{ backgroundColor: primaryColor }}>
+        <section className="relative pt-16 pb-32 md:pt-20 md:pb-40" id="contact">
             <div className="container-custom">
-                <div className="max-w-4xl mx-auto">
-                    {/* Section Title */}
-                    <div ref={titleRef} className="mb-12">
-                        <div className="section-title text-center">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                                <span className="gradient-text">{translations.title}</span>
-                            </h2>
-                            <p className="text-foreground-secondary text-lg">{translations.subtitle}</p>
-                        </div>
+                {/* Section Title */}
+                <div ref={titleRef} className="mb-10 md:mb-14">
+                    <div className="section-title text-center">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                            <span className="gradient-text">{translations.title}</span>
+                        </h2>
+                        <p className="text-foreground-secondary text-sm md:text-base max-w-xl mx-auto">
+                            {translations.subtitle}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Split Layout: Info + Form Card */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto items-start">
+                    {/* Left Column: Contact Info */}
+                    <div className="lg:pt-4">
+                        <ContactInfo
+                            email={contactData.email}
+                            phone={contactData.phone}
+                            location={contactData.location}
+                            social={contactData.social}
+                            translations={{
+                                title: translations.info.title,
+                                description: translations.info.description,
+                                emailLabel: translations.info.email,
+                                phoneLabel: translations.info.phone,
+                                locationLabel: translations.info.location,
+                                orConnect: translations.info.orConnect
+                            }}
+                            ariaLabels={ariaLabels}
+                        />
                     </div>
 
-                    {/* Contact Form */}
-                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                        <FormField
-                            label={translations.form.name}
-                            name="name"
-                            type="text"
-                            value={formData.name}
-                            onChange={handleChange}
-                            error={errors.name}
-                            placeholder={translations.placeholders.name}
-                            required
-                        />
+                    {/* Right Column: Elevated Form Card */}
+                    <div>
+                        <div
+                            className="
+                                relative z-10
+                                bg-background
+                                rounded-2xl
+                                shadow-xl shadow-foreground/5
+                                border border-foreground/5
+                                p-6 md:p-8
+                                mb-[-80px] md:mb-[-100px]
+                            "
+                        >
+                            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                                {/* Name & Email in 2 columns */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <FloatingFormField
+                                        label={translations.form.name}
+                                        name="name"
+                                        type="text"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        error={errors.name}
+                                        placeholder={translations.placeholders.name}
+                                        required
+                                    />
 
-                        <FormField
-                            label={translations.form.email}
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            error={errors.email}
-                            placeholder={translations.placeholders.email}
-                            required
-                        />
+                                    <FloatingFormField
+                                        label={translations.form.email}
+                                        name="email"
+                                        type="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        error={errors.email}
+                                        placeholder={translations.placeholders.email}
+                                        required
+                                    />
+                                </div>
 
-                        <FormField
-                            label={translations.form.subject}
-                            name="subject"
-                            type="text"
-                            value={formData.subject}
-                            onChange={handleChange}
-                            error={errors.subject}
-                            placeholder={translations.placeholders.subject}
-                            required
-                        />
+                                {/* Company */}
+                                <FloatingFormField
+                                    label={translations.form.company}
+                                    name="company"
+                                    type="text"
+                                    value={formData.company}
+                                    onChange={handleChange}
+                                    placeholder={translations.placeholders.company}
+                                />
 
-                        <FormField
-                            label={translations.form.message}
-                            name="message"
-                            type="textarea"
-                            value={formData.message}
-                            onChange={handleChange}
-                            error={errors.message}
-                            placeholder={translations.placeholders.message}
-                            rows={6}
-                            required
-                        />
+                                {/* Interest Selector */}
+                                <InterestSelector
+                                    label={translations.form.interest}
+                                    interests={interests}
+                                    selectedInterests={formData.interests}
+                                    onChange={handleInterestsChange}
+                                />
 
-                        <SubmitButton
-                            isLoading={isSubmitting}
-                            loadingText={translations.form.sending}
-                            text={translations.form.send}
-                        />
+                                {/* Message with char counter */}
+                                <FloatingFormField
+                                    label={translations.form.message}
+                                    name="message"
+                                    type="textarea"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    error={errors.message}
+                                    placeholder={translations.placeholders.message}
+                                    rows={4}
+                                    required
+                                    maxLength={500}
+                                    showCharCount
+                                    charCountLabel={translations.form.charCount}
+                                />
 
-                        {/* Status Messages */}
-                        {submitStatus === 'success' && <StatusMessage type="success" message={translations.success} />}
-                        {submitStatus === 'error' && <StatusMessage type="error" message={translations.error} />}
-                    </form>
+                                <div className="pt-2">
+                                    <SubmitButton
+                                        isLoading={isSubmitting}
+                                        loadingText={translations.form.sending}
+                                        text={translations.form.send}
+                                    />
+                                </div>
+
+                                {/* Status Messages */}
+                                {submitStatus === 'success' && (
+                                    <StatusMessage type="success" message={translations.success} />
+                                )}
+                                {submitStatus === 'error' && (
+                                    <StatusMessage type="error" message={translations.error} />
+                                )}
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

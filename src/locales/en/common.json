@@ -153,11 +153,21 @@
     "contact": {
         "title": "Get In Touch",
         "subtitle": "Have a project in mind? Let's work together!",
+        "info": {
+            "title": "Let's Talk",
+            "description": "I'm open to any job opportunity: freelance, remote, full-time or collaborations.",
+            "email": "Email",
+            "phone": "Phone",
+            "location": "Location",
+            "orConnect": "Or connect via"
+        },
         "form": {
             "name": "Name",
             "email": "Email",
-            "subject": "Subject",
+            "company": "Company",
+            "interest": "What's on your mind?",
             "message": "Message",
+            "charCount": "characters",
             "send": "Send Message",
             "sending": "Sending...",
             "required": "*"
@@ -165,8 +175,18 @@
         "placeholders": {
             "name": "John Doe",
             "email": "john@example.com",
-            "subject": "Project Inquiry",
+            "company": "Your company (optional)",
             "message": "Tell me about your project..."
+        },
+        "interests": {
+            "websiteDesign": "Website Design",
+            "branding": "Branding",
+            "webDevelopment": "Web Development",
+            "logoDesign": "Logo Design",
+            "appDevelopment": "App Development",
+            "remote": "Remote Work",
+            "fulltime": "Full-time Employee",
+            "contractor": "Contractor"
         },
         "errors": {
             "nameRequired": "Name is required",

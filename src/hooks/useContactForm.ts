@@ -3,7 +3,8 @@ import { useState } from 'react';
 interface FormData {
     name: string;
     email: string;
-    subject: string;
+    company: string;
+    interests: string[];
     message: string;
 }
 
@@ -11,7 +12,6 @@ interface ValidationErrors {
     nameRequired: string;
     emailRequired: string;
     emailInvalid: string;
-    subjectRequired: string;
     messageRequired: string;
     messageMinLength: string;
 }
@@ -26,7 +26,8 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
-        subject: '',
+        company: '',
+        interests: [],
         message: ''
     });
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -46,10 +47,6 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             newErrors.email = errorMessages.emailInvalid;
         }
 
-        if (!formData.subject.trim()) {
-            newErrors.subject = errorMessages.subjectRequired;
-        }
-
         if (!formData.message.trim()) {
             newErrors.message = errorMessages.messageRequired;
         } else if (formData.message.trim().length < 10) {
@@ -67,6 +64,10 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         if (errors[name]) {
             setErrors((prev) => ({ ...prev, [name]: '' }));
         }
+    };
+
+    const handleInterestsChange = (interests: string[]) => {
+        setFormData((prev) => ({ ...prev, interests }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -91,7 +92,7 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             // });
 
             setSubmitStatus('success');
-            setFormData({ name: '', email: '', subject: '', message: '' });
+            setFormData({ name: '', email: '', company: '', interests: [], message: '' });
             onSuccess?.();
         } catch (_error) {
             setSubmitStatus('error');
@@ -107,6 +108,7 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         isSubmitting,
         submitStatus,
         handleChange,
+        handleInterestsChange,
         handleSubmit
     };
 }

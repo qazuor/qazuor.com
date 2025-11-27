@@ -153,11 +153,21 @@
     "contact": {
         "title": "Ponte en Contacto",
         "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",
+        "info": {
+            "title": "Hablemos",
+            "description": "Estoy abierto a cualquier propuesta laboral: freelance, remoto, full-time o colaboraciones.",
+            "email": "Email",
+            "phone": "Teléfono",
+            "location": "Ubicación",
+            "orConnect": "O conectemos por"
+        },
         "form": {
             "name": "Nombre",
             "email": "Correo electrónico",
-            "subject": "Asunto",
+            "company": "Empresa",
+            "interest": "¿Qué tienes en mente?",
             "message": "Mensaje",
+            "charCount": "caracteres",
             "send": "Enviar Mensaje",
             "sending": "Enviando...",
             "required": "*"
@@ -165,8 +175,18 @@
         "placeholders": {
             "name": "Juan Pérez",
             "email": "juan@ejemplo.com",
-            "subject": "Consulta de Proyecto",
+            "company": "Tu empresa (opcional)",
             "message": "Cuéntame sobre tu proyecto..."
+        },
+        "interests": {
+            "websiteDesign": "Diseño Web",
+            "branding": "Branding",
+            "webDevelopment": "Desarrollo Web",
+            "logoDesign": "Diseño de Logo",
+            "appDevelopment": "Desarrollo de Apps",
+            "remote": "Trabajo Remoto",
+            "fulltime": "Empleado Full-time",
+            "contractor": "Contractor"
         },
         "errors": {
             "nameRequired": "El nombre es requerido",

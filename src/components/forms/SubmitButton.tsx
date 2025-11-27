@@ -35,7 +35,7 @@ export function SubmitButton({ isLoading, loadingText, text }: SubmitButtonProps
             <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full px-6 py-4 bg-primary text-white rounded-lg font-medium hover:bg-primary-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-glow-primary flex items-center justify-center gap-2"
+                className="w-full px-5 py-3 bg-primary text-white text-sm rounded-lg font-medium hover:bg-accent transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
                 {isLoading ? (
                     <>

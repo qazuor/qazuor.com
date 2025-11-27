@@ -235,30 +235,56 @@ const blogTranslations = {
 const contactTranslations = {
     title: t('contact.title', { markdown: true }),
     subtitle: t('contact.subtitle', { markdown: true }),
+    info: {
+        title: t('contact.info.title', { markdown: true }),
+        description: t('contact.info.description', { markdown: true }),
+        email: t('contact.info.email', { markdown: true }),
+        phone: t('contact.info.phone', { markdown: true }),
+        location: t('contact.info.location', { markdown: true }),
+        orConnect: t('contact.info.orConnect', { markdown: true })
+    },
     form: {
         name: t('contact.form.name', { markdown: true }),
         email: t('contact.form.email', { markdown: true }),
-        subject: t('contact.form.subject', { markdown: true }),
+        company: t('contact.form.company', { markdown: true }),
+        interest: t('contact.form.interest', { markdown: true }),
         message: t('contact.form.message', { markdown: true }),
+        charCount: t('contact.form.charCount', { markdown: true }),
         send: t('contact.form.send', { markdown: true }),
         sending: t('contact.form.sending', { markdown: true })
     },
     placeholders: {
         name: t('contact.placeholders.name'),
         email: t('contact.placeholders.email'),
-        subject: t('contact.placeholders.subject'),
+        company: t('contact.placeholders.company'),
         message: t('contact.placeholders.message')
+    },
+    interests: {
+        websiteDesign: t('contact.interests.websiteDesign'),
+        branding: t('contact.interests.branding'),
+        webDevelopment: t('contact.interests.webDevelopment'),
+        logoDesign: t('contact.interests.logoDesign'),
+        appDevelopment: t('contact.interests.appDevelopment'),
+        remote: t('contact.interests.remote'),
+        fulltime: t('contact.interests.fulltime'),
+        contractor: t('contact.interests.contractor')
     },
     errors: {
         nameRequired: t('contact.errors.nameRequired', { markdown: true }),
         emailRequired: t('contact.errors.emailRequired', { markdown: true }),
         emailInvalid: t('contact.errors.emailInvalid', { markdown: true }),
-        subjectRequired: t('contact.errors.subjectRequired', { markdown: true }),
         messageRequired: t('contact.errors.messageRequired', { markdown: true }),
         messageMinLength: t('contact.errors.messageMinLength', { markdown: true })
     },
     success: t('contact.success', { markdown: true }),
     error: t('contact.error', { markdown: true })
+};
+
+const contactAriaLabels = {
+    github: t('aria.github'),
+    linkedin: t('aria.linkedin'),
+    whatsapp: t('aria.whatsapp'),
+    mail: t('aria.mail')
 };
 
 const testimonialsTranslations = {
@@ -371,9 +397,35 @@ const heroContentTranslations = {
         <ZigzagDivider transition="testimonials-to-contact" />
     </div>
 
-    <!-- Contact Section (normal background) -->
-    <div class="relative">
-        <Contact client:visible primaryColor={sectionsColors.contact} translations={contactTranslations} />
+    <!-- Contact Section with gradient background -->
+    <div
+        class="relative section section-contact overflow-hidden"
+        style={`background-color: ${sectionsColors.contact}`}
+    >
+        <!-- Animated Gradient Background (rendered from Astro) -->
+        <div class="absolute inset-0" style="top: 200px">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-lg blur-3xl"
+                style="animation: pulse 4s ease-in-out infinite; opacity: 0.6;"
+            >
+            </div>
+        </div>
+        <Contact
+            client:visible
+            contactData={{
+                email: contact.email,
+                phone: contact.phone,
+                location: contact.location,
+                social: {
+                    github: contact.social.github,
+                    linkedin: contact.social.linkedin,
+                    whatsapp: contact.social.whatsapp,
+                    mail: contact.social.mail
+                }
+            }}
+            translations={contactTranslations}
+            ariaLabels={contactAriaLabels}
+        />
         <DiagonalDivider direction="left" transition="contact-to-footer" />
     </div>
 </BaseLayout>

@@ -247,6 +247,7 @@ const contactTranslations = {
         name: t('contact.form.name', { markdown: true }),
         email: t('contact.form.email', { markdown: true }),
         company: t('contact.form.company', { markdown: true }),
+        subject: t('contact.form.subject', { markdown: true }),
         interest: t('contact.form.interest', { markdown: true }),
         message: t('contact.form.message', { markdown: true }),
         charCount: t('contact.form.charCount', { markdown: true }),
@@ -257,22 +258,24 @@ const contactTranslations = {
         name: t('contact.placeholders.name'),
         email: t('contact.placeholders.email'),
         company: t('contact.placeholders.company'),
+        subject: t('contact.placeholders.subject'),
         message: t('contact.placeholders.message')
     },
     interests: {
-        websiteDesign: t('contact.interests.websiteDesign'),
-        branding: t('contact.interests.branding'),
-        webDevelopment: t('contact.interests.webDevelopment'),
-        logoDesign: t('contact.interests.logoDesign'),
-        appDevelopment: t('contact.interests.appDevelopment'),
-        remote: t('contact.interests.remote'),
-        fulltime: t('contact.interests.fulltime'),
-        contractor: t('contact.interests.contractor')
+        websiteDesign: t('contact.interests.websiteDesign', { markdown: true }),
+        branding: t('contact.interests.branding', { markdown: true }),
+        webDevelopment: t('contact.interests.webDevelopment', { markdown: true }),
+        logoDesign: t('contact.interests.logoDesign', { markdown: true }),
+        appDevelopment: t('contact.interests.appDevelopment', { markdown: true }),
+        remote: t('contact.interests.remote', { markdown: true }),
+        fulltime: t('contact.interests.fulltime', { markdown: true }),
+        contractor: t('contact.interests.contractor', { markdown: true })
     },
     errors: {
         nameRequired: t('contact.errors.nameRequired', { markdown: true }),
         emailRequired: t('contact.errors.emailRequired', { markdown: true }),
         emailInvalid: t('contact.errors.emailInvalid', { markdown: true }),
+        subjectRequired: t('contact.errors.subjectRequired', { markdown: true }),
         messageRequired: t('contact.errors.messageRequired', { markdown: true }),
         messageMinLength: t('contact.errors.messageMinLength', { markdown: true })
     },

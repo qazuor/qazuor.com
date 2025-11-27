@@ -864,51 +864,81 @@ const testimonials = allTestimonials.map((t, i) => ({
 </style>
 
 <script>
-    // 3D Tilt Effect + Glow that follows cursor
-    function initTestimonialEffects() {
-        const cards = document.querySelectorAll<HTMLElement>('[data-tilt]');
+    // ============================================
+    // All event handlers use EVENT DELEGATION
+    // This ensures compatibility with View Transitions
+    // ============================================
 
-        cards.forEach((card) => {
-            const glowElement = card.querySelector<HTMLElement>('.testimonial-glow');
+    // Store scroll position globally for modal
+    let savedScrollY = 0;
 
-            // Mouse move handler for tilt + glow
-            card.addEventListener('mousemove', (e: MouseEvent) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+    // Store visible count for "View More" functionality
+    let visibleCount = 3;
 
-                // Calculate rotation (max 12 degrees for more dramatic effect)
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -12;
-                const rotateY = ((x - centerX) / centerX) * 12;
+    // ============================================
+    // EVENT DELEGATION: Mouse move for 3D tilt effect
+    // ============================================
+    document.addEventListener('mousemove', (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const card = target.closest('[data-tilt]') as HTMLElement | null;
 
-                // Apply 3D transform with enhanced scale
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        if (!card) return;
 
-                // Update glow position
-                if (glowElement) {
-                    const percentX = (x / rect.width) * 100;
-                    const percentY = (y / rect.height) * 100;
-                    glowElement.style.setProperty('--mouse-x', `${percentX}%`);
-                    glowElement.style.setProperty('--mouse-y', `${percentY}%`);
-                }
-            });
+        // Skip if reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-            // Mouse leave handler - reset
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            });
+        const glowElement = card.querySelector<HTMLElement>('.testimonial-glow');
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-            // Respect reduced motion preference
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                card.removeAttribute('data-tilt');
+        // Calculate rotation (max 12 degrees for more dramatic effect)
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -12;
+        const rotateY = ((x - centerX) / centerX) * 12;
+
+        // Apply 3D transform with enhanced scale
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+
+        // Update glow position
+        if (glowElement) {
+            const percentX = (x / rect.width) * 100;
+            const percentY = (y / rect.height) * 100;
+            glowElement.style.setProperty('--mouse-x', `${percentX}%`);
+            glowElement.style.setProperty('--mouse-y', `${percentY}%`);
+        }
+    });
+
+    // ============================================
+    // EVENT DELEGATION: Mouse leave for 3D tilt reset
+    // ============================================
+    document.addEventListener('mouseleave', (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const card = target.closest('[data-tilt]') as HTMLElement | null;
+
+        if (card) {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        }
+    }, true); // Use capture to catch mouseleave on the element itself
+
+    // ============================================
+    // EVENT DELEGATION: Mouseout for 3D tilt reset (backup)
+    // ============================================
+    document.addEventListener('mouseout', (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const relatedTarget = e.relatedTarget as HTMLElement | null;
+
+        // Check if we're leaving a tilt card
+        if (target.hasAttribute('data-tilt')) {
+            // Only reset if we're not moving to a child element
+            if (!relatedTarget || !target.contains(relatedTarget)) {
+                target.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             }
-        });
-    }
+        }
+    });
 
-    // Modal functionality
-    function initTestimonialModal() {
+    function openTestimonialModal(index: number) {
         const modal = document.getElementById('testimonial-modal');
         const modalAvatar = document.getElementById('modal-avatar');
         const modalTitle = document.getElementById('modal-title');
@@ -918,109 +948,135 @@ const testimonials = allTestimonials.map((t, i) => ({
         const modalLinkedin = document.getElementById('modal-linkedin') as HTMLAnchorElement;
         const modalSource = document.getElementById('modal-source');
         const modalClose = modal?.querySelector('.modal-close') as HTMLButtonElement | null;
-        const modalBackdrop = modal?.querySelector('.modal-backdrop');
 
         const testimonials = (window as any).__testimonials || [];
+        const testimonial = testimonials[index];
 
-        // Store scroll position
-        let savedScrollY = 0;
+        if (!testimonial || !modal) return;
 
-        // Open modal
-        function openModal(index: number) {
-            const testimonial = testimonials[index];
-            if (!testimonial || !modal) return;
-
-            // Use savedScrollY captured on mousedown, or fallback to current
-            if (savedScrollY === 0 && window.scrollY > 0) {
-                savedScrollY = window.scrollY;
-            }
-
-            // Lock scroll - use position fixed with negative top to maintain visual position
-            document.body.style.top = `-${savedScrollY}px`;
-            document.body.classList.add('modal-open');
-
-            // Populate modal content
-            if (modalAvatar) {
-                if (testimonial.avatar) {
-                    modalAvatar.innerHTML = `<img src="${testimonial.avatar}" alt="${testimonial.name}" />`;
-                } else {
-                    modalAvatar.innerHTML = testimonial.name.charAt(0);
-                }
-            }
-            if (modalTitle) modalTitle.textContent = testimonial.name;
-            if (modalRole) modalRole.textContent = testimonial.role;
-            if (modalCompany) modalCompany.textContent = testimonial.company;
-            if (modalContent) modalContent.textContent = testimonial.content;
-
-            // LinkedIn link
-            if (modalLinkedin) {
-                if (testimonial.linkedinUrl) {
-                    modalLinkedin.href = testimonial.linkedinUrl;
-                    modalLinkedin.classList.remove('hidden');
-                } else {
-                    modalLinkedin.classList.add('hidden');
-                }
-            }
-
-            // Source badge
-            if (modalSource) {
-                if (testimonial.source === 'linkedin') {
-                    modalSource.classList.remove('hidden');
-                } else {
-                    modalSource.classList.add('hidden');
-                }
-            }
-
-            // Show modal
-            modal.setAttribute('aria-hidden', 'false');
-
-            // Focus close button
-            modalClose?.focus({ preventScroll: true });
+        // Use savedScrollY captured on mousedown, or fallback to current
+        if (savedScrollY === 0 && window.scrollY > 0) {
+            savedScrollY = window.scrollY;
         }
 
-        // Close modal
-        function closeModal() {
-            if (!modal) return;
+        // Lock scroll - use position fixed with negative top to maintain visual position
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.classList.add('modal-open');
 
-            // Hide modal
-            modal.setAttribute('aria-hidden', 'true');
+        // Populate modal content
+        if (modalAvatar) {
+            if (testimonial.avatar) {
+                modalAvatar.innerHTML = `<img src="${testimonial.avatar}" alt="${testimonial.name}" />`;
+            } else {
+                modalAvatar.innerHTML = testimonial.name.charAt(0);
+            }
+        }
+        if (modalTitle) modalTitle.textContent = testimonial.name;
+        if (modalRole) modalRole.textContent = testimonial.role;
+        if (modalCompany) modalCompany.textContent = testimonial.company;
+        if (modalContent) modalContent.textContent = testimonial.content;
 
-            // Unlock scroll - remove fixed positioning and restore scroll
-            document.body.classList.remove('modal-open');
-            document.body.style.top = '';
-            window.scrollTo(0, savedScrollY);
+        // LinkedIn link
+        if (modalLinkedin) {
+            if (testimonial.linkedinUrl) {
+                modalLinkedin.href = testimonial.linkedinUrl;
+                modalLinkedin.classList.remove('hidden');
+            } else {
+                modalLinkedin.classList.add('hidden');
+            }
         }
 
-        // Event listeners for triggers
-        // Capture scroll position on mousedown (before any focus/scroll behavior)
-        document.querySelectorAll('[data-testimonial-trigger]').forEach((trigger) => {
-            trigger.addEventListener('mousedown', () => {
-                savedScrollY = window.scrollY;
-            }, { capture: true });
-
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                const index = parseInt(trigger.getAttribute('data-testimonial-trigger') || '0', 10);
-                openModal(index);
-            });
-        });
-
-        // Close button
-        modalClose?.addEventListener('click', closeModal);
-
-        // Backdrop click
-        modalBackdrop?.addEventListener('click', closeModal);
-
-        // Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal?.getAttribute('aria-hidden') === 'false') {
-                closeModal();
+        // Source badge
+        if (modalSource) {
+            if (testimonial.source === 'linkedin') {
+                modalSource.classList.remove('hidden');
+            } else {
+                modalSource.classList.add('hidden');
             }
-        });
+        }
+
+        // Show modal
+        modal.setAttribute('aria-hidden', 'false');
+
+        // Focus close button
+        modalClose?.focus({ preventScroll: true });
     }
 
-    // View More functionality
-    function initViewMore() {
+    function closeTestimonialModal() {
+        const modal = document.getElementById('testimonial-modal');
+        if (!modal) return;
+
+        // Hide modal
+        modal.setAttribute('aria-hidden', 'true');
+
+        // Unlock scroll - remove fixed positioning and restore scroll
+        document.body.classList.remove('modal-open');
+        document.body.style.top = '';
+        window.scrollTo(0, savedScrollY);
+    }
+
+    // ============================================
+    // EVENT DELEGATION: Mousedown to capture scroll position
+    // ============================================
+    document.addEventListener('mousedown', (e) => {
+        const target = e.target as HTMLElement;
+        const trigger = target.closest('[data-testimonial-trigger]');
+        if (trigger) {
+            savedScrollY = window.scrollY;
+        }
+    }, { capture: true });
+
+    // ============================================
+    // EVENT DELEGATION: Click for all interactions
+    // ============================================
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+
+        // Handle testimonial card click (open modal)
+        const trigger = target.closest('[data-testimonial-trigger]');
+        if (trigger) {
+            e.preventDefault();
+            const index = parseInt(trigger.getAttribute('data-testimonial-trigger') || '0', 10);
+            openTestimonialModal(index);
+            return;
+        }
+
+        // Handle modal close button click
+        if (target.closest('.testimonial-modal .modal-close')) {
+            closeTestimonialModal();
+            return;
+        }
+
+        // Handle modal backdrop click
+        if (target.closest('.testimonial-modal .modal-backdrop')) {
+            closeTestimonialModal();
+            return;
+        }
+
+        // Handle "View More" button click
+        const viewMoreBtn = target.closest('#view-more-testimonials');
+        if (viewMoreBtn) {
+            handleViewMore();
+            return;
+        }
+    });
+
+    // ============================================
+    // EVENT DELEGATION: Escape key to close modal
+    // ============================================
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('testimonial-modal');
+            if (modal?.getAttribute('aria-hidden') === 'false') {
+                closeTestimonialModal();
+            }
+        }
+    });
+
+    // ============================================
+    // VIEW MORE: Handle showing more testimonials
+    // ============================================
+    function handleViewMore() {
         const grid = document.getElementById('testimonials-grid');
         const viewMoreBtn = document.getElementById('view-more-testimonials');
         const viewMoreCount = document.getElementById('view-more-count');
@@ -1031,159 +1087,55 @@ const testimonials = allTestimonials.map((t, i) => ({
         const batchSize = parseInt(grid.dataset.batchSize || '6', 10);
         const totalCount = parseInt(grid.dataset.totalCount || '0', 10);
 
-        let visibleCount = initialCount;
+        // Get current visible count from stored value or initial
+        if (visibleCount < initialCount) {
+            visibleCount = initialCount;
+        }
 
-        viewMoreBtn.addEventListener('click', () => {
-            const newVisibleCount = Math.min(visibleCount + batchSize, totalCount);
+        const newVisibleCount = Math.min(visibleCount + batchSize, totalCount);
 
-            // Show next batch of testimonials with animation
-            const testimonialWrappers = grid.querySelectorAll<HTMLElement>('[data-testimonial-index]');
-            testimonialWrappers.forEach((wrapper) => {
-                const index = parseInt(wrapper.dataset.testimonialIndex || '0', 10);
-                if (index >= visibleCount && index < newVisibleCount) {
-                    wrapper.classList.remove('hidden');
-                    wrapper.style.opacity = '0';
-                    wrapper.style.transform = 'translateY(20px)';
+        // Show next batch of testimonials with animation
+        const testimonialWrappers = grid.querySelectorAll<HTMLElement>('[data-testimonial-index]');
+        testimonialWrappers.forEach((wrapper) => {
+            const index = parseInt(wrapper.dataset.testimonialIndex || '0', 10);
+            if (index >= visibleCount && index < newVisibleCount) {
+                wrapper.classList.remove('hidden');
+                wrapper.style.opacity = '0';
+                wrapper.style.transform = 'translateY(20px)';
 
-                    // Trigger animation
-                    requestAnimationFrame(() => {
-                        wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                        wrapper.style.opacity = '1';
-                        wrapper.style.transform = 'translateY(0)';
-                    });
-
-                    // Initialize tilt effect for newly visible cards
-                    const card = wrapper.querySelector<HTMLElement>('[data-tilt]');
-                    if (card) {
-                        initSingleCardTilt(card);
-                    }
-
-                    // Add click listener for modal
-                    const trigger = wrapper.querySelector<HTMLElement>('[data-testimonial-trigger]');
-                    if (trigger) {
-                        initSingleTrigger(trigger);
-                    }
-                }
-            });
-
-            visibleCount = newVisibleCount;
-
-            // Update or hide button
-            if (visibleCount >= totalCount) {
-                viewMoreBtn.parentElement?.classList.add('hidden');
-            } else {
-                const remaining = Math.min(batchSize, totalCount - visibleCount);
-                if (viewMoreCount) {
-                    viewMoreCount.textContent = `(+${remaining})`;
-                }
+                // Trigger animation
+                requestAnimationFrame(() => {
+                    wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    wrapper.style.opacity = '1';
+                    wrapper.style.transform = 'translateY(0)';
+                });
             }
         });
+
+        visibleCount = newVisibleCount;
+
+        // Update or hide button
+        if (visibleCount >= totalCount) {
+            viewMoreBtn.parentElement?.classList.add('hidden');
+        } else {
+            const remaining = Math.min(batchSize, totalCount - visibleCount);
+            if (viewMoreCount) {
+                viewMoreCount.textContent = `(+${remaining})`;
+            }
+        }
     }
 
-    // Helper to initialize tilt for a single card
-    function initSingleCardTilt(card: HTMLElement) {
-        const glowElement = card.querySelector<HTMLElement>('.testimonial-glow');
-
-        card.addEventListener('mousemove', (e: MouseEvent) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -12;
-            const rotateY = ((x - centerX) / centerX) * 12;
-
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-
-            if (glowElement) {
-                const percentX = (x / rect.width) * 100;
-                const percentY = (y / rect.height) * 100;
-                glowElement.style.setProperty('--mouse-x', `${percentX}%`);
-                glowElement.style.setProperty('--mouse-y', `${percentY}%`);
-            }
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-        });
+    // ============================================
+    // INITIALIZATION: Reset visible count on page load
+    // ============================================
+    function initTestimonials() {
+        const grid = document.getElementById('testimonials-grid');
+        if (grid) {
+            visibleCount = parseInt(grid.dataset.initialCount || '3', 10);
+        }
     }
 
-    // Helper to initialize modal trigger for a single element
-    let savedScrollY = 0;
-    function initSingleTrigger(trigger: HTMLElement) {
-        trigger.addEventListener('mousedown', () => {
-            savedScrollY = window.scrollY;
-        }, { capture: true });
-
-        trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            const index = parseInt(trigger.getAttribute('data-testimonial-trigger') || '0', 10);
-            const modal = document.getElementById('testimonial-modal');
-            const testimonials = (window as any).__testimonials || [];
-            const testimonial = testimonials[index];
-
-            if (!testimonial || !modal) return;
-
-            // Populate and open modal
-            const modalAvatar = document.getElementById('modal-avatar');
-            const modalTitle = document.getElementById('modal-title');
-            const modalRole = document.getElementById('modal-role');
-            const modalCompany = document.getElementById('modal-company');
-            const modalContent = document.getElementById('modal-content');
-            const modalLinkedin = document.getElementById('modal-linkedin') as HTMLAnchorElement;
-            const modalSource = document.getElementById('modal-source');
-
-            if (savedScrollY === 0 && window.scrollY > 0) {
-                savedScrollY = window.scrollY;
-            }
-
-            document.body.style.top = `-${savedScrollY}px`;
-            document.body.classList.add('modal-open');
-
-            if (modalAvatar) {
-                if (testimonial.avatar) {
-                    modalAvatar.innerHTML = `<img src="${testimonial.avatar}" alt="${testimonial.name}" />`;
-                } else {
-                    modalAvatar.innerHTML = testimonial.name.charAt(0);
-                }
-            }
-            if (modalTitle) modalTitle.textContent = testimonial.name;
-            if (modalRole) modalRole.textContent = testimonial.role;
-            if (modalCompany) modalCompany.textContent = testimonial.company;
-            if (modalContent) modalContent.textContent = testimonial.content;
-
-            if (modalLinkedin) {
-                if (testimonial.linkedinUrl) {
-                    modalLinkedin.href = testimonial.linkedinUrl;
-                    modalLinkedin.classList.remove('hidden');
-                } else {
-                    modalLinkedin.classList.add('hidden');
-                }
-            }
-
-            if (modalSource) {
-                if (testimonial.source === 'linkedin') {
-                    modalSource.classList.remove('hidden');
-                } else {
-                    modalSource.classList.add('hidden');
-                }
-            }
-
-            modal.setAttribute('aria-hidden', 'false');
-            (modal.querySelector('.modal-close') as HTMLButtonElement | null)?.focus({ preventScroll: true });
-        });
-    }
-
-    // Initialize on page load
-    initTestimonialEffects();
-    initTestimonialModal();
-    initViewMore();
-
-    // Re-initialize on Astro page transitions
-    document.addEventListener('astro:page-load', () => {
-        initTestimonialEffects();
-        initTestimonialModal();
-        initViewMore();
-    });
+    // Initialize on page load and after View Transitions
+    initTestimonials();
+    document.addEventListener('astro:page-load', initTestimonials);
 </script>

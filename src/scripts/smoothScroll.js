@@ -1,6 +1,7 @@
 /**
  * Smooth scroll utility for anchor links with custom easing
  * Handles both same-page and cross-page navigation
+ * Uses event delegation for View Transitions compatibility
  */
 
 // Custom easing function for ease-in-out
@@ -30,49 +31,46 @@ function smoothScrollTo(targetY, duration = 1200) {
     requestAnimationFrame(animation);
 }
 
-function setupSmoothScroll() {
-    // Handle all anchor links
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+// Event delegation for smooth scroll - persists across View Transitions
+function setupSmoothScrollDelegation() {
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) return;
 
-    anchorLinks.forEach((link) => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
+        const href = link.getAttribute('href');
 
-            if (href?.startsWith('#') && href.length > 1) {
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
+        if (href?.startsWith('#') && href.length > 1) {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            const targetElement = document.getElementById(targetId);
 
-                if (targetElement) {
-                    // Calculate offset for fixed header
-                    const header = document.querySelector('nav');
-                    const headerHeight = header ? header.offsetHeight : 80;
+            if (targetElement) {
+                // Calculate offset for fixed header
+                const header = document.querySelector('nav');
+                const headerHeight = header ? header.offsetHeight : 80;
 
-                    // Calculate target position with offset
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                // Calculate target position with offset
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
 
-                    // Update URL hash (without triggering scroll)
-                    if (window.history?.pushState) {
-                        window.history.pushState(null, '', `#${targetId}`);
-                    } else {
-                        window.location.hash = targetId;
-                    }
-
-                    // Use custom smooth scroll with easing
-                    smoothScrollTo(offsetPosition, 1200);
+                // Update URL hash (without triggering scroll)
+                if (window.history?.pushState) {
+                    window.history.pushState(null, '', `#${targetId}`);
+                } else {
+                    window.location.hash = targetId;
                 }
+
+                // Use custom smooth scroll with easing
+                smoothScrollTo(offsetPosition, 1200);
             }
-        });
+        }
     });
 }
 
 export function initializeSmoothScroll() {
-    // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', setupSmoothScroll);
-
-    // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', setupSmoothScroll);
+    // Setup event delegation once - no need for DOMContentLoaded or astro:page-load
+    // because event delegation on document persists across View Transitions
+    setupSmoothScrollDelegation();
 }
 
 // Initialize on script load

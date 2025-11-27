@@ -148,37 +148,57 @@ const goodiesUrl = translatePath('/goodies', lang);
     }
 </style>
 
-<script>
-    function initSnippetsFiltering() {
-        const filterButtons = document.querySelectorAll('.language-filter-btn');
-        const snippetCards = document.querySelectorAll('.snippet-card');
+<script is:inline>
+    // Guard to prevent multiple event listener registrations
+    if (!window.__snippetsFilterInitialized) {
+        window.__snippetsFilterInitialized = true;
 
-        if (filterButtons.length > 0) {
-            filterButtons[0].classList.add('active');
-        }
+        // Event delegation for filter buttons
+        // This persists across View Transitions without needing to re-register
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            const button = target.closest('.language-filter-btn');
 
-        filterButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const language = button.getAttribute('data-language');
+            if (!button) return;
 
-                filterButtons.forEach((btn) => btn.classList.remove('active'));
-                button.classList.add('active');
+            const language = button.getAttribute('data-language');
+            const filterButtons = document.querySelectorAll('.language-filter-btn');
+            const snippetCards = document.querySelectorAll('.snippet-card');
 
-                snippetCards.forEach((card) => {
-                    const cardLanguage = Array.from(card.classList)
-                        .find((cls) => cls.startsWith('snippet-language-'))
-                        ?.replace('snippet-language-', '');
+            // Update active button
+            filterButtons.forEach((btn) => btn.classList.remove('active'));
+            button.classList.add('active');
 
-                    if (language === 'all' || cardLanguage === language) {
-                        card.classList.remove('hidden');
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                });
+            // Filter cards
+            snippetCards.forEach((card) => {
+                const cardLanguage = Array.from(card.classList)
+                    .find((cls) => cls.startsWith('snippet-language-'))
+                    ?.replace('snippet-language-', '');
+
+                if (language === 'all' || cardLanguage === language) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
             });
         });
     }
 
-    document.addEventListener('DOMContentLoaded', initSnippetsFiltering);
+    // Initialize: set first button as active (runs on each page load)
+    function initSnippetsFiltering() {
+        const filterButtons = document.querySelectorAll('.language-filter-btn');
+        if (filterButtons.length > 0) {
+            filterButtons[0].classList.add('active');
+        }
+    }
+
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSnippetsFiltering);
+    } else {
+        initSnippetsFiltering();
+    }
+
+    // Re-initialize after View Transitions navigation
     document.addEventListener('astro:page-load', initSnippetsFiltering);
 </script>

@@ -166,105 +166,130 @@ const goodiesUrl = translatePath('/goodies', lang);
 </style>
 
 <script is:inline>
-    // Store all tool cards data for filtering
-    let allToolsCache = [];
+    // Guard to prevent multiple event listener registrations
+    if (!window.__toolsFilterInitialized) {
+        window.__toolsFilterInitialized = true;
 
-    // Initialize: capture all tool cards
-    function initToolCards() {
-        const toolsGrids = document.querySelectorAll('.tools-grid');
-        if (toolsGrids.length === 0) return;
+        // Store all tool cards data for filtering
+        window.__allToolsCache = [];
 
-        allToolsCache = [];
+        // Event delegation for filter buttons
+        // This persists across View Transitions without needing to re-register
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            const button = target.closest('.category-filter-btn');
 
-        toolsGrids.forEach((grid, gridIndex) => {
-            const cards = grid.querySelectorAll('.tool-card');
-            cards.forEach((card) => {
-                const categoryClass = Array.from(card.classList).find((cls) => cls.startsWith('tool-category-'));
-                allToolsCache.push({
-                    element: card.cloneNode(true),
-                    category: categoryClass?.replace('tool-category-', '') || '',
-                    gridIndex
+            if (!button) return;
+
+            // Only handle if we're on the tools page (check if tools-grid exists)
+            const toolsGrids = document.querySelectorAll('.tools-grid');
+            if (toolsGrids.length === 0) return;
+
+            // Re-initialize cache if empty (can happen after navigation)
+            if (!window.__allToolsCache || window.__allToolsCache.length === 0) {
+                window.__initToolCards();
+            }
+
+            const selectedCategory = button.getAttribute('data-category');
+            const noToolsMessage = document.querySelector('.no-tools-message');
+            const filterButtons = document.querySelectorAll('.category-filter-btn');
+
+            // Update active button
+            filterButtons.forEach((btn) => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            let totalVisible = 0;
+
+            // Process each grid
+            toolsGrids.forEach((grid, gridIndex) => {
+                const section = grid.closest('.category-section');
+                const countElement = section?.querySelector('.category-count');
+
+                // Get cards for this grid from cache
+                const gridCards = window.__allToolsCache.filter((card) => card.gridIndex === gridIndex);
+
+                // Filter cards based on selected category
+                const visibleCards = gridCards.filter(({ category }) => {
+                    return selectedCategory === 'all' || category === selectedCategory;
+                });
+
+                // Remove all current cards from this grid
+                const currentCards = grid.querySelectorAll('.tool-card');
+                currentCards.forEach((card) => card.remove());
+
+                // Add matching cards back
+                visibleCards.forEach(({ element }) => {
+                    const newCard = element.cloneNode(true);
+                    grid.appendChild(newCard);
+                });
+
+                // Update count for this section
+                if (countElement) {
+                    countElement.textContent = `(${visibleCards.length})`;
+                }
+
+                // Show/hide section based on visible cards
+                if (section) {
+                    if (visibleCards.length === 0) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = '';
+                    }
+                }
+
+                totalVisible += visibleCards.length;
+            });
+
+            // Show/hide no tools message
+            if (totalVisible === 0) {
+                noToolsMessage?.classList.remove('hidden');
+            } else {
+                noToolsMessage?.classList.add('hidden');
+            }
+
+            // Re-initialize AutoAnimate after filtering
+            // Use requestAnimationFrame to ensure DOM updates are complete
+            requestAnimationFrame(() => {
+                if (window.__initAutoAnimate) {
+                    window.__initAutoAnimate();
+                }
+            });
+        });
+
+        // Initialize: capture all tool cards
+        window.__initToolCards = function() {
+            const toolsGrids = document.querySelectorAll('.tools-grid');
+            if (toolsGrids.length === 0) return;
+
+            window.__allToolsCache = [];
+
+            toolsGrids.forEach((grid, gridIndex) => {
+                const cards = grid.querySelectorAll('.tool-card');
+                cards.forEach((card) => {
+                    const categoryClass = Array.from(card.classList).find((cls) => cls.startsWith('tool-category-'));
+                    window.__allToolsCache.push({
+                        element: card.cloneNode(true),
+                        category: categoryClass?.replace('tool-category-', '') || '',
+                        gridIndex
+                    });
                 });
             });
-        });
 
-        // Set first button as active by default
-        const filterButtons = document.querySelectorAll('.category-filter-btn');
-        if (filterButtons.length > 0) {
-            filterButtons[0].classList.add('active');
-        }
+            // Set first button as active by default
+            const filterButtons = document.querySelectorAll('.category-filter-btn');
+            if (filterButtons.length > 0) {
+                filterButtons[0].classList.add('active');
+            }
+        };
+
+        // Re-initialize after View Transitions navigation
+        document.addEventListener('astro:page-load', () => {
+            window.__initToolCards();
+        });
     }
 
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', initToolCards);
-
-    // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initToolCards);
-
-    // Event delegation for filter buttons
-    // This persists across View Transitions without needing to re-register
-    document.addEventListener('click', (e) => {
-        const target = e.target;
-        const button = target.closest('.category-filter-btn');
-
-        if (!button) return;
-
-        const selectedCategory = button.getAttribute('data-category');
-        const toolsGrids = document.querySelectorAll('.tools-grid');
-        const noToolsMessage = document.querySelector('.no-tools-message');
-        const filterButtons = document.querySelectorAll('.category-filter-btn');
-
-        // Update active button
-        filterButtons.forEach((btn) => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        let totalVisible = 0;
-
-        // Process each grid
-        toolsGrids.forEach((grid, gridIndex) => {
-            const section = grid.closest('.category-section');
-            const countElement = section?.querySelector('.category-count');
-
-            // Get cards for this grid
-            const gridCards = allToolsCache.filter((card) => card.gridIndex === gridIndex);
-
-            // Filter cards based on selected category
-            const visibleCards = gridCards.filter(({ category }) => {
-                return selectedCategory === 'all' || category === selectedCategory;
-            });
-
-            // Remove all current cards from this grid
-            const currentCards = grid.querySelectorAll('.tool-card');
-            currentCards.forEach((card) => card.remove());
-
-            // Add matching cards back
-            visibleCards.forEach(({ element }) => {
-                const newCard = element.cloneNode(true);
-                grid.appendChild(newCard);
-            });
-
-            // Update count for this section
-            if (countElement) {
-                countElement.textContent = `(${visibleCards.length})`;
-            }
-
-            // Show/hide section based on visible cards
-            if (section) {
-                if (visibleCards.length === 0) {
-                    section.style.display = 'none';
-                } else {
-                    section.style.display = '';
-                }
-            }
-
-            totalVisible += visibleCards.length;
-        });
-
-        // Show/hide no tools message
-        if (totalVisible === 0) {
-            noToolsMessage?.classList.remove('hidden');
-        } else {
-            noToolsMessage?.classList.add('hidden');
-        }
-    });
+    // Always initialize on script execution (handles both initial load and transitions)
+    if (window.__initToolCards) {
+        window.__initToolCards();
+    }
 </script>

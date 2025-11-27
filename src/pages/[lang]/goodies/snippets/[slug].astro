@@ -116,23 +116,28 @@ const snippetsUrl = translatePath('/goodies/snippets', lang);
     </div>
 </BaseLayout>
 
-<script>
-    function initCopyCode() {
-        const copyButton = document.getElementById('copyCode');
-        const codeBlock = document.getElementById('codeBlock');
+<script is:inline>
+    // Guard to prevent multiple event listener registrations
+    if (!window.__copyCodeInitialized) {
+        window.__copyCodeInitialized = true;
 
-        if (copyButton && codeBlock) {
-            copyButton.addEventListener('click', async () => {
-                const code = codeBlock.textContent || '';
-                await navigator.clipboard.writeText(code);
-                copyButton.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyButton.textContent = 'Copy Code';
-                }, 2000);
-            });
-        }
+        // Event delegation for copy code button
+        // This persists across View Transitions without needing to re-register
+        document.addEventListener('click', async (e) => {
+            const target = e.target;
+            const copyButton = target.closest('#copyCode');
+
+            if (!copyButton) return;
+
+            const codeBlock = document.getElementById('codeBlock');
+            if (!codeBlock) return;
+
+            const code = codeBlock.textContent || '';
+            await navigator.clipboard.writeText(code);
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => {
+                copyButton.textContent = 'Copy Code';
+            }, 2000);
+        });
     }
-
-    document.addEventListener('DOMContentLoaded', initCopyCode);
-    document.addEventListener('astro:page-load', initCopyCode);
 </script>

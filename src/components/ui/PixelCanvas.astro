@@ -153,8 +153,9 @@ const colorsLightString = colorsLight.join(',');
         `;
 
         private _parent: ParentNode | null = null;
-        private canvas: HTMLCanvasElement | null = null;
-        private ctx: CanvasRenderingContext2D | null = null;
+        // Made public to allow checking initialization state for View Transitions
+        public canvas: HTMLCanvasElement | null = null;
+        public ctx: CanvasRenderingContext2D | null = null;
         private pixels: Pixel[] = [];
         private animationFrame: number = 0;
         private timeInterval: number = 1000 / 60;
@@ -305,7 +306,8 @@ const colorsLightString = colorsLight.join(',');
             this.animationFrame = this.animatePixels(name);
         }
 
-        private init(): void {
+        // Made public to allow re-initialization after View Transitions
+        public init(): void {
             if (!this.canvas || !this.ctx) return;
 
             const rect = this.getBoundingClientRect();
@@ -384,5 +386,22 @@ const colorsLightString = colorsLight.join(',');
     // Register the custom element if not already registered
     if (!customElements.get('pixel-canvas')) {
         customElements.define('pixel-canvas', PixelCanvas as unknown as CustomElementConstructor);
+
+        // Re-initialize pixel-canvas elements after View Transitions
+        // This is needed because View Transitions may not properly trigger connectedCallback
+        // Only register once when the custom element is first defined
+        document.addEventListener('astro:page-load', () => {
+            // Small delay to ensure DOM is fully ready
+            requestAnimationFrame(() => {
+                const pixelCanvases = document.querySelectorAll('pixel-canvas');
+                pixelCanvases.forEach((el) => {
+                    const canvas = el as InstanceType<typeof PixelCanvas>;
+                    // Force re-initialization by calling init if the canvas exists
+                    if (canvas.canvas && canvas.ctx) {
+                        canvas.init();
+                    }
+                });
+            });
+        });
     }
 </script>

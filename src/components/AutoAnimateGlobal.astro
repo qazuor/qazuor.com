@@ -37,6 +37,9 @@
     });
   }
 
+  // Expose globally for other scripts to call after dynamic content changes
+  (window as any).__initAutoAnimate = initAutoAnimate;
+
   // Initialize on initial page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAutoAnimate);
@@ -45,8 +48,10 @@
   }
 
   // Re-initialize after View Transitions navigation
-  document.addEventListener('astro:page-load', initAutoAnimate);
-
-  // Fallback re-initialization after delay (for edge cases)
-  setTimeout(initAutoAnimate, 1000);
+  // Use requestAnimationFrame to ensure DOM is fully ready after transition
+  document.addEventListener('astro:page-load', () => {
+    requestAnimationFrame(() => {
+      initAutoAnimate();
+    });
+  });
 </script>

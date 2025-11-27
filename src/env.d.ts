@@ -5,6 +5,12 @@
 import type { SearchableItem } from './types/search';
 
 declare global {
+    interface ImportMetaEnv {
+        readonly RESEND_API_KEY: string;
+        readonly CONTACT_EMAIL: string;
+        readonly RESEND_FROM_EMAIL: string;
+    }
+
     interface Window {
         __SEARCH_INDEX__: SearchableItem[];
     }

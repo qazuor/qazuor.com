@@ -1,5 +1,10 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
+    "env": {
+        "RESEND_API_KEY": "@resend-api-key",
+        "CONTACT_EMAIL": "@contact-email",
+        "RESEND_FROM_EMAIL": "@resend-from-email"
+    },
     "redirects": [
         {
             "source": "/",

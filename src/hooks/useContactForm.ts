@@ -88,15 +88,17 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         setSubmitStatus('idle');
 
         try {
-            // Simular envío (en producción, aquí iría el endpoint real)
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-            // Aquí iría la lógica real de envío
-            // const response = await fetch('/api/contact', {
-            //   method: 'POST',
-            //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify(formData),
-            // });
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || 'Failed to send message');
+            }
 
             setSubmitStatus('success');
             setFormData({ name: '', email: '', company: '', subject: '', interests: [], message: '' });

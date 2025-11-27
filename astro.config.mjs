@@ -2,6 +2,7 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import vercel from '@astrojs/vercel';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
 import AstroPWA from '@vite-pwa/astro';
 import { defineConfig } from 'astro/config';
@@ -23,6 +24,7 @@ import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.
 export default defineConfig({
     site: 'https://example.com',
     output: 'static',
+    adapter: vercel(),
 
     // Prefetch optimization for faster navigation
     prefetch: {

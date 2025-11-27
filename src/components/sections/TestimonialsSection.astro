@@ -1,10 +1,8 @@
 ---
 import { Picture } from 'astro:assets';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import LinkedinIcon from '@/icons/social/linkedin.svg?raw';
-import ArrowTopRightIcon from '@/icons/ui/arrow-top-right.svg?raw';
 import ChatBubbleIcon from '@/icons/ui/chat-bubble.svg?raw';
 
 interface Props {
@@ -14,6 +12,7 @@ interface Props {
         company: string;
         content: string;
         avatar?: string;
+        avatarUrl?: string; // External URL - fallback when avatar not downloaded yet
         linkedinUrl?: string;
         source: 'linkedin' | 'email' | 'other';
     }>;
@@ -25,10 +24,24 @@ interface Props {
         readMore: string;
         readLess: string;
         viewProfile: string;
+        viewMore?: string;
     };
 }
 
-const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
+const { testimonials: allTestimonials, primaryColor = '#9333ea', translations } = Astro.props;
+
+// Show all testimonials, initially display first 3, then load more in batches of 6
+const initialCount = 3;
+const batchSize = 6;
+const hasMoreTestimonials = allTestimonials.length > initialCount;
+const count = Math.min(allTestimonials.length, initialCount); // For initial grid layout
+
+// Prepare testimonials with visibility class
+const testimonials = allTestimonials.map((t, i) => ({
+    ...t,
+    isHidden: i >= initialCount,
+    index: i
+}));
 ---
 
 <section
@@ -59,120 +72,556 @@ const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
                     <p class="text-foreground-secondary text-lg" set:html={translations.noTestimonials} />
                 </div>
             ) : (
-                /* Testimonials Grid */
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial) => (
-                        <article class="group">
-                            {/* Card */}
-                            <div class="h-full testimonial-card card-hover p-8">
-                                {/* Quote Icon */}
-                                <div class="flex items-start gap-4 mb-6">
-                                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                        <div class="w-5 h-5 text-primary" set:html={ChatBubbleIcon} />
-                                    </div>
-                                    {/* Source Icon */}
-                                    {testimonial.source === 'linkedin' && (
-                                        <div class="flex-shrink-0 w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
-                                            <div class="w-4 h-4 text-white" set:html={LinkedinIcon} />
-                                        </div>
-                                    )}
-                                </div>
+                <>
+                {/* Testimonials Grid - Dynamic layout based on count */}
+                <div
+                    id="testimonials-grid"
+                    class="grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                    data-testimonial-count={count}
+                    data-initial-count={initialCount}
+                    data-batch-size={batchSize}
+                    data-total-count={testimonials.length}
+                >
+                    {testimonials.map((testimonial) => {
+                        const cardClass = `group testimonial-wrapper ${testimonial.isHidden ? 'hidden' : ''}`;
+                        return (
+                        <article
+                            class={cardClass}
+                            data-testimonial-index={testimonial.index}
+                        >
+                            {/* Card with 3D tilt effect - Clickable to open modal */}
+                            <button
+                                type="button"
+                                class="h-full w-full text-left testimonial-card-3d cursor-pointer"
+                                data-tilt
+                                data-testimonial-trigger={testimonial.index}
+                                aria-label={`${translations.readMore}: ${testimonial.name}`}
+                            >
+                                {/* Glow effect layer */}
+                                <div class="testimonial-glow"></div>
 
-                                {/* Content */}
-                                <blockquote class="text-foreground mb-6 leading-relaxed">
-                                    "{testimonial.content}"
-                                </blockquote>
+                                {/* Gradient border */}
+                                <div class="testimonial-border"></div>
 
-                                {/* Author Info */}
-                                <footer class="flex items-center gap-4">
-                                    {/* Avatar */}
-                                    <div class="flex-shrink-0">
-                                        {testimonial.avatar ? (
-                                            <Picture
-                                                src={testimonial.avatar}
-                                                alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`}
-                                                width={96}
-                                                height={96}
-                                                widths={[48, 96]}
-                                                sizes="48px"
-                                                formats={['avif', 'webp']}
-                                                class="w-12 h-12 rounded-full object-cover border-2 border-border"
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
-                                        ) : (
-                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg">
-                                                {testimonial.name.charAt(0)}
+                                {/* Card content */}
+                                <div class="testimonial-content">
+                                    {/* Decorative quote mark */}
+                                    <div class="quote-decoration" aria-hidden="true">"</div>
+
+                                    {/* Header with source */}
+                                    <div class="flex items-center justify-between mb-4">
+                                        {testimonial.source === 'linkedin' && (
+                                            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0077B5]/20 border border-[#0077B5]/30">
+                                                <svg class="w-3.5 h-3.5 text-[#0077B5]" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                                </svg>
+                                                <span class="text-xs font-medium text-[#0077B5]">LinkedIn</span>
                                             </div>
                                         )}
                                     </div>
 
-                                    {/* Name and Role */}
-                                    <div class="flex-grow min-w-0">
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <SecondaryTitle
-                                                text={testimonial.name}
-                                                variant="accent"
-                                                size="sm"
-                                                showHtml={false}
-                                            />
-                                            {/* Profile Link */}
-                                            {testimonial.linkedinUrl && (
-                                                <a
-                                                    href={testimonial.linkedinUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    class="flex-shrink-0 text-muted-foreground hover:text-primary transition-colors"
-                                                    aria-label={`${translations.viewProfile} - ${testimonial.name}`}
-                                                >
-                                                    <div class="w-4 h-4" set:html={ArrowTopRightIcon} />
-                                                </a>
+                                    {/* Content - Truncated */}
+                                    <blockquote class="testimonial-quote line-clamp-4">
+                                        {testimonial.content}
+                                    </blockquote>
+
+                                    {/* Read more indicator */}
+                                    <div class="flex items-center gap-1 text-primary/80 text-sm mt-2 group-hover:text-primary transition-colors">
+                                        <span>{translations.readMore}</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </div>
+
+                                    {/* Author Info */}
+                                    <footer class="flex items-center gap-4 mt-auto pt-4 border-t border-white/10">
+                                        {/* Avatar with glow ring */}
+                                        <div class="flex-shrink-0 avatar-wrapper">
+                                            {(testimonial.avatar || testimonial.avatarUrl) ? (
+                                                <img
+                                                    src={testimonial.avatar || testimonial.avatarUrl}
+                                                    alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`}
+                                                    width={48}
+                                                    height={48}
+                                                    class="w-12 h-12 rounded-full object-cover"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                            ) : (
+                                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary via-accent to-secondary flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                                                    {testimonial.name.charAt(0)}
+                                                </div>
                                             )}
                                         </div>
-                                        <p class="text-sm text-foreground-secondary">{testimonial.role}</p>
-                                        <p class="text-sm text-muted-foreground font-medium">{testimonial.company}</p>
-                                    </div>
-                                </footer>
-                            </div>
+
+                                        {/* Name and Role */}
+                                        <div class="flex-grow min-w-0">
+                                            <div class="flex items-center gap-2 mb-0.5">
+                                                <span class="font-semibold text-white">
+                                                    {testimonial.name}
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-white/70">{testimonial.role}</p>
+                                            <p class="text-sm text-white/50 font-medium">{testimonial.company}</p>
+                                        </div>
+                                    </footer>
+                                </div>
+                            </button>
                         </article>
-                    ))}
+                    ); })}
                 </div>
+
+                {/* View More Button */}
+                {hasMoreTestimonials && (
+                    <div class="flex justify-center mt-10">
+                        <button
+                            type="button"
+                            id="view-more-testimonials"
+                            class="group relative inline-flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 rounded-full text-white font-medium transition-all duration-300 backdrop-blur-sm"
+                        >
+                            <span id="view-more-text">{translations.viewMore || 'View More'}</span>
+                            <span id="view-more-count" class="text-white/60">
+                                (+{Math.min(batchSize, testimonials.length - initialCount)})
+                            </span>
+                            <svg
+                                class="w-5 h-5 transform group-hover:translate-y-1 transition-transform duration-300"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                )}
+                </>
             )
         }
     </div>
+
+    {/* Testimonial Modal */}
+    <div
+        id="testimonial-modal"
+        class="testimonial-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-hidden="true"
+    >
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-content">
+                {/* Close button */}
+                <button
+                    type="button"
+                    class="modal-close"
+                    aria-label="Close modal"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                {/* Modal header */}
+                <div class="modal-header">
+                    <div class="modal-avatar" id="modal-avatar"></div>
+                    <div class="modal-author">
+                        <h3 id="modal-title" class="modal-name"></h3>
+                        <p id="modal-role" class="modal-role"></p>
+                        <p id="modal-company" class="modal-company"></p>
+                    </div>
+                </div>
+
+                {/* Modal body */}
+                <div class="modal-body">
+                    <div class="modal-quote-mark" aria-hidden="true">"</div>
+                    <blockquote id="modal-content" class="modal-quote"></blockquote>
+                </div>
+
+                {/* Source badge */}
+                <div id="modal-source" class="modal-source hidden">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span>LinkedIn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {/* Pass testimonial data to JavaScript */}
+    <script define:vars={{ testimonials: testimonials.map(t => ({
+        name: t.name,
+        role: t.role,
+        company: t.company,
+        content: t.content,
+        avatar: t.avatar || t.avatarUrl || null,
+        linkedinUrl: t.linkedinUrl || null,
+        source: t.source
+    })) }}>
+        window.__testimonials = testimonials;
+    </script>
 </section>
 
 <style>
-    /* Testimonial card styling */
-    .testimonial-card {
-        @apply rounded-2xl shadow-lg;
+    /* === DYNAMIC GRID LAYOUTS === */
+
+    /* Grid for 5 testimonials: 3 on first row, 2 centered on second row */
+    .testimonials-grid-5 {
+        display: grid;
+        grid-template-columns: 1fr;
     }
 
-    /* Add subtle animations */
+    @media (min-width: 768px) {
+        .testimonials-grid-5 {
+            grid-template-columns: repeat(6, 1fr);
+        }
+
+        /* First 3 items: each takes 2 columns (spans 2 of 6) */
+        .testimonials-grid-5 .testimonial-wrapper:nth-child(1),
+        .testimonials-grid-5 .testimonial-wrapper:nth-child(2),
+        .testimonials-grid-5 .testimonial-wrapper:nth-child(3) {
+            grid-column: span 2;
+        }
+
+        /* Items 4 and 5: centered - each takes 2 columns with offset */
+        .testimonials-grid-5 .testimonial-wrapper:nth-child(4) {
+            grid-column: 2 / span 2;
+        }
+
+        .testimonials-grid-5 .testimonial-wrapper:nth-child(5) {
+            grid-column: 4 / span 2;
+        }
+    }
+
+    /* === TESTIMONIAL CARD 3D + GLASSMORPHISM === */
+
+    .testimonial-wrapper {
+        perspective: 1000px;
+    }
+
+    .testimonial-card-3d {
+        position: relative;
+        height: 100%;
+        border-radius: 1.5rem;
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease-out;
+    }
+
+    /* Glow effect that follows cursor - subtle */
+    .testimonial-glow {
+        position: absolute;
+        inset: -4px;
+        border-radius: 1.5rem;
+        background: radial-gradient(
+            600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(147, 51, 234, 0.15),
+            rgba(59, 130, 246, 0.08) 30%,
+            transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+        z-index: 1;
+        filter: blur(3px);
+    }
+
+    .testimonial-card-3d:hover .testimonial-glow {
+        opacity: 1;
+    }
+
+    /* Animated gradient border - subtle */
+    .testimonial-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        padding: 1px;
+        background: linear-gradient(
+            135deg,
+            rgba(147, 51, 234, 0.5),
+            rgba(59, 130, 246, 0.5),
+            rgba(6, 182, 212, 0.4),
+            rgba(147, 51, 234, 0.5)
+        );
+        background-size: 300% 300%;
+        animation: borderGlow 8s ease infinite;
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.3;
+        transition: opacity 0.3s ease;
+        z-index: 2;
+    }
+
+    .testimonial-card-3d:hover .testimonial-border {
+        opacity: 0.7;
+        animation: borderGlow 4s ease infinite;
+    }
+
+    @keyframes borderGlow {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+
+    /* Card content with glassmorphism */
+    .testimonial-content {
+        position: relative;
+        height: 100%;
+        padding: 2rem;
+        border-radius: 1.5rem;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 3;
+    }
+
+    /* Decorative quote mark - LARGER & MORE VISIBLE */
+    .quote-decoration {
+        position: absolute;
+        top: -1.5rem;
+        right: 0.5rem;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 14rem;
+        font-weight: bold;
+        line-height: 1;
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(59, 130, 246, 0.1));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+        transition: all 0.4s ease;
+        transform: rotate(5deg);
+    }
+
+    .testimonial-card-3d:hover .quote-decoration {
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.15));
+        -webkit-background-clip: text;
+        background-clip: text;
+        transform: rotate(0deg) scale(1.02);
+    }
+
+    /* Shimmer/Shine effect on hover */
+    .testimonial-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+        );
+        transition: none;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .testimonial-card-3d:hover .testimonial-content::before {
+        animation: shimmer 1s ease forwards;
+    }
+
+    @keyframes shimmer {
+        0% {
+            left: -100%;
+        }
+        100% {
+            left: 100%;
+        }
+    }
+
+    /* Quote text */
+    .testimonial-quote {
+        position: relative;
+        font-size: 0.875rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.9);
+        flex-grow: 1;
+        z-index: 1;
+    }
+
+    /* === LIGHT MODE OVERRIDES === */
+    /* Same effects as dark mode but with cyan/sky blue colors */
+
+    /* Glow effect - same as dark but with cyan */
+    :global(html:not(.dark)) .testimonial-glow {
+        background: radial-gradient(
+            600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(6, 182, 212, 0.2),
+            rgba(56, 189, 248, 0.12) 30%,
+            transparent 50%
+        );
+        filter: blur(3px);
+    }
+
+    /* Animated gradient border - cyan version */
+    :global(html:not(.dark)) .testimonial-border {
+        background: linear-gradient(
+            135deg,
+            rgba(6, 182, 212, 0.6),
+            rgba(56, 189, 248, 0.6),
+            rgba(14, 165, 233, 0.5),
+            rgba(6, 182, 212, 0.6)
+        );
+        background-size: 300% 300%;
+    }
+
+    /* Card content - glassmorphism adapted for light bg */
+    :global(html:not(.dark)) .testimonial-content {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.7) 0%,
+            rgba(240, 249, 255, 0.6) 100%
+        );
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        box-shadow: 0 4px 24px rgba(6, 182, 212, 0.1);
+    }
+
+    /* Quote decoration - cyan gradient */
+    :global(html:not(.dark)) .quote-decoration {
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(56, 189, 248, 0.15));
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    :global(html:not(.dark)) .testimonial-card-3d:hover .quote-decoration {
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(56, 189, 248, 0.22));
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    /* Text colors for light mode */
+    :global(html:not(.dark)) .testimonial-quote {
+        color: rgba(15, 23, 42, 0.9);
+    }
+
+    :global(html:not(.dark)) .testimonial-card-3d footer {
+        border-top-color: rgba(6, 182, 212, 0.2);
+    }
+
+    :global(html:not(.dark)) .testimonial-card-3d .text-white {
+        color: rgba(15, 23, 42, 0.95);
+    }
+
+    :global(html:not(.dark)) .testimonial-card-3d .text-white\/70 {
+        color: rgba(15, 23, 42, 0.7);
+    }
+
+    :global(html:not(.dark)) .testimonial-card-3d .text-white\/50 {
+        color: rgba(15, 23, 42, 0.55);
+    }
+
+    /* Shimmer effect - slightly more visible for light mode */
+    :global(html:not(.dark)) .testimonial-content::before {
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(6, 182, 212, 0.15),
+            transparent
+        );
+    }
+
+    /* === MODAL LIGHT MODE === */
+    :global(html:not(.dark)) .modal-content {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(240, 249, 255, 0.98) 100%
+        );
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        box-shadow:
+            0 25px 50px -12px rgba(0, 0, 0, 0.15),
+            0 0 100px rgba(6, 182, 212, 0.15);
+    }
+
+    :global(html:not(.dark)) .modal-close {
+        background: rgba(6, 182, 212, 0.1);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        color: rgba(15, 23, 42, 0.8);
+    }
+
+    :global(html:not(.dark)) .modal-close:hover {
+        background: rgba(6, 182, 212, 0.2);
+    }
+
+    :global(html:not(.dark)) .modal-avatar {
+        background: linear-gradient(135deg, #06b6d4, #38bdf8);
+    }
+
+    :global(html:not(.dark)) .modal-name {
+        color: rgba(15, 23, 42, 0.95);
+    }
+
+    :global(html:not(.dark)) .modal-role {
+        color: rgba(15, 23, 42, 0.7);
+    }
+
+    :global(html:not(.dark)) .modal-company {
+        color: rgba(15, 23, 42, 0.55);
+    }
+
+    :global(html:not(.dark)) .modal-quote-mark {
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(56, 189, 248, 0.15));
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    :global(html:not(.dark)) .modal-quote {
+        color: rgba(15, 23, 42, 0.9);
+    }
+
+    :global(html:not(.dark)) .modal-source {
+        background: rgba(6, 182, 212, 0.1);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        color: #0891b2;
+    }
+
+    .testimonial-quote::before {
+        content: '"';
+    }
+
+    .testimonial-quote::after {
+        content: '"';
+    }
+
+    /* Avatar wrapper */
+    .avatar-wrapper {
+        position: relative;
+    }
+
+    /* Entry animations */
     @media (prefers-reduced-motion: no-preference) {
-        article {
+        .testimonial-wrapper {
             opacity: 0;
             animation: fadeInUp 0.6s ease-out forwards;
         }
 
-        article:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-        article:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        article:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-        article:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-        article:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-        article:nth-child(6) {
-            animation-delay: 0.6s;
-        }
+        .testimonial-wrapper:nth-child(1) { animation-delay: 0.1s; }
+        .testimonial-wrapper:nth-child(2) { animation-delay: 0.2s; }
+        .testimonial-wrapper:nth-child(3) { animation-delay: 0.3s; }
+        .testimonial-wrapper:nth-child(4) { animation-delay: 0.4s; }
+        .testimonial-wrapper:nth-child(5) { animation-delay: 0.5s; }
+        .testimonial-wrapper:nth-child(6) { animation-delay: 0.6s; }
     }
 
     @keyframes fadeInUp {
@@ -186,25 +635,555 @@ const { testimonials, primaryColor = '#9333ea', translations } = Astro.props;
         }
     }
 
-    /* Ensure cards maintain equal height */
-    article > div {
-        display: flex;
-        flex-direction: column;
-    }
-
-    blockquote {
-        flex-grow: 1;
-    }
-
-    /* Enhanced hover states */
-    article:hover .group {
-        transform: scale(1.02);
-    }
-
     /* Focus styles for accessibility */
-    a:focus-visible {
+    a:focus-visible,
+    button:focus-visible {
         outline: 2px solid rgb(59 130 246);
         outline-offset: 2px;
         border-radius: 0.25rem;
     }
+
+    /* === TESTIMONIAL MODAL === */
+    .testimonial-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .testimonial-modal[aria-hidden="false"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    .modal-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.3s ease;
+    }
+
+    .testimonial-modal[aria-hidden="false"] .modal-container {
+        transform: scale(1) translateY(0);
+    }
+
+    .modal-content {
+        position: relative;
+        background: linear-gradient(
+            135deg,
+            rgba(30, 20, 50, 0.95) 0%,
+            rgba(20, 10, 40, 0.98) 100%
+        );
+        border: 1px solid rgba(147, 51, 234, 0.3);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        box-shadow:
+            0 25px 50px -12px rgba(0, 0, 0, 0.5),
+            0 0 100px rgba(147, 51, 234, 0.2);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-right: 3rem;
+    }
+
+    .modal-avatar {
+        flex-shrink: 0;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #9333ea, #3b82f6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        overflow: hidden;
+    }
+
+    .modal-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .modal-author {
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    .modal-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: white;
+        margin: 0 0 0.25rem 0;
+    }
+
+    .modal-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
+    }
+
+    .modal-company {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .modal-linkedin {
+        flex-shrink: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0077B5;
+        border-radius: 0.5rem;
+        color: white;
+        transition: all 0.2s ease;
+    }
+
+    .modal-linkedin:hover {
+        background: #005885;
+        transform: translateY(-2px);
+    }
+
+    .modal-body {
+        position: relative;
+        padding: 1rem 0 0 0;
+    }
+
+    .modal-quote-mark {
+        position: absolute;
+        top: -1rem;
+        left: 1rem;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 6rem;
+        font-weight: bold;
+        line-height: 1;
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(59, 130, 246, 0.2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        pointer-events: none;
+    }
+
+    .modal-quote {
+        position: relative;
+        font-size: 0.9375rem;
+        line-height: 1.75;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        z-index: 1;
+    }
+
+    .modal-quote::before {
+        content: '"';
+    }
+
+    .modal-quote::after {
+        content: '"';
+    }
+
+    .modal-source {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(0, 119, 181, 0.2);
+        border: 1px solid rgba(0, 119, 181, 0.3);
+        border-radius: 2rem;
+        width: fit-content;
+        color: #0077B5;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    /* Line clamp for truncated text */
+    .line-clamp-4 {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Prevent body scroll when modal is open */
+    :global(body.modal-open) {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        right: 0;
+        overflow-y: scroll;
+    }
 </style>
+
+<script>
+    // 3D Tilt Effect + Glow that follows cursor
+    function initTestimonialEffects() {
+        const cards = document.querySelectorAll<HTMLElement>('[data-tilt]');
+
+        cards.forEach((card) => {
+            const glowElement = card.querySelector<HTMLElement>('.testimonial-glow');
+
+            // Mouse move handler for tilt + glow
+            card.addEventListener('mousemove', (e: MouseEvent) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Calculate rotation (max 12 degrees for more dramatic effect)
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+
+                // Apply 3D transform with enhanced scale
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+
+                // Update glow position
+                if (glowElement) {
+                    const percentX = (x / rect.width) * 100;
+                    const percentY = (y / rect.height) * 100;
+                    glowElement.style.setProperty('--mouse-x', `${percentX}%`);
+                    glowElement.style.setProperty('--mouse-y', `${percentY}%`);
+                }
+            });
+
+            // Mouse leave handler - reset
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+
+            // Respect reduced motion preference
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                card.removeAttribute('data-tilt');
+            }
+        });
+    }
+
+    // Modal functionality
+    function initTestimonialModal() {
+        const modal = document.getElementById('testimonial-modal');
+        const modalAvatar = document.getElementById('modal-avatar');
+        const modalTitle = document.getElementById('modal-title');
+        const modalRole = document.getElementById('modal-role');
+        const modalCompany = document.getElementById('modal-company');
+        const modalContent = document.getElementById('modal-content');
+        const modalLinkedin = document.getElementById('modal-linkedin') as HTMLAnchorElement;
+        const modalSource = document.getElementById('modal-source');
+        const modalClose = modal?.querySelector('.modal-close') as HTMLButtonElement | null;
+        const modalBackdrop = modal?.querySelector('.modal-backdrop');
+
+        const testimonials = (window as any).__testimonials || [];
+
+        // Store scroll position
+        let savedScrollY = 0;
+
+        // Open modal
+        function openModal(index: number) {
+            const testimonial = testimonials[index];
+            if (!testimonial || !modal) return;
+
+            // Use savedScrollY captured on mousedown, or fallback to current
+            if (savedScrollY === 0 && window.scrollY > 0) {
+                savedScrollY = window.scrollY;
+            }
+
+            // Lock scroll - use position fixed with negative top to maintain visual position
+            document.body.style.top = `-${savedScrollY}px`;
+            document.body.classList.add('modal-open');
+
+            // Populate modal content
+            if (modalAvatar) {
+                if (testimonial.avatar) {
+                    modalAvatar.innerHTML = `<img src="${testimonial.avatar}" alt="${testimonial.name}" />`;
+                } else {
+                    modalAvatar.innerHTML = testimonial.name.charAt(0);
+                }
+            }
+            if (modalTitle) modalTitle.textContent = testimonial.name;
+            if (modalRole) modalRole.textContent = testimonial.role;
+            if (modalCompany) modalCompany.textContent = testimonial.company;
+            if (modalContent) modalContent.textContent = testimonial.content;
+
+            // LinkedIn link
+            if (modalLinkedin) {
+                if (testimonial.linkedinUrl) {
+                    modalLinkedin.href = testimonial.linkedinUrl;
+                    modalLinkedin.classList.remove('hidden');
+                } else {
+                    modalLinkedin.classList.add('hidden');
+                }
+            }
+
+            // Source badge
+            if (modalSource) {
+                if (testimonial.source === 'linkedin') {
+                    modalSource.classList.remove('hidden');
+                } else {
+                    modalSource.classList.add('hidden');
+                }
+            }
+
+            // Show modal
+            modal.setAttribute('aria-hidden', 'false');
+
+            // Focus close button
+            modalClose?.focus({ preventScroll: true });
+        }
+
+        // Close modal
+        function closeModal() {
+            if (!modal) return;
+
+            // Hide modal
+            modal.setAttribute('aria-hidden', 'true');
+
+            // Unlock scroll - remove fixed positioning and restore scroll
+            document.body.classList.remove('modal-open');
+            document.body.style.top = '';
+            window.scrollTo(0, savedScrollY);
+        }
+
+        // Event listeners for triggers
+        // Capture scroll position on mousedown (before any focus/scroll behavior)
+        document.querySelectorAll('[data-testimonial-trigger]').forEach((trigger) => {
+            trigger.addEventListener('mousedown', () => {
+                savedScrollY = window.scrollY;
+            }, { capture: true });
+
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                const index = parseInt(trigger.getAttribute('data-testimonial-trigger') || '0', 10);
+                openModal(index);
+            });
+        });
+
+        // Close button
+        modalClose?.addEventListener('click', closeModal);
+
+        // Backdrop click
+        modalBackdrop?.addEventListener('click', closeModal);
+
+        // Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal?.getAttribute('aria-hidden') === 'false') {
+                closeModal();
+            }
+        });
+    }
+
+    // View More functionality
+    function initViewMore() {
+        const grid = document.getElementById('testimonials-grid');
+        const viewMoreBtn = document.getElementById('view-more-testimonials');
+        const viewMoreCount = document.getElementById('view-more-count');
+
+        if (!grid || !viewMoreBtn) return;
+
+        const initialCount = parseInt(grid.dataset.initialCount || '3', 10);
+        const batchSize = parseInt(grid.dataset.batchSize || '6', 10);
+        const totalCount = parseInt(grid.dataset.totalCount || '0', 10);
+
+        let visibleCount = initialCount;
+
+        viewMoreBtn.addEventListener('click', () => {
+            const newVisibleCount = Math.min(visibleCount + batchSize, totalCount);
+
+            // Show next batch of testimonials with animation
+            const testimonialWrappers = grid.querySelectorAll<HTMLElement>('[data-testimonial-index]');
+            testimonialWrappers.forEach((wrapper) => {
+                const index = parseInt(wrapper.dataset.testimonialIndex || '0', 10);
+                if (index >= visibleCount && index < newVisibleCount) {
+                    wrapper.classList.remove('hidden');
+                    wrapper.style.opacity = '0';
+                    wrapper.style.transform = 'translateY(20px)';
+
+                    // Trigger animation
+                    requestAnimationFrame(() => {
+                        wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        wrapper.style.opacity = '1';
+                        wrapper.style.transform = 'translateY(0)';
+                    });
+
+                    // Initialize tilt effect for newly visible cards
+                    const card = wrapper.querySelector<HTMLElement>('[data-tilt]');
+                    if (card) {
+                        initSingleCardTilt(card);
+                    }
+
+                    // Add click listener for modal
+                    const trigger = wrapper.querySelector<HTMLElement>('[data-testimonial-trigger]');
+                    if (trigger) {
+                        initSingleTrigger(trigger);
+                    }
+                }
+            });
+
+            visibleCount = newVisibleCount;
+
+            // Update or hide button
+            if (visibleCount >= totalCount) {
+                viewMoreBtn.parentElement?.classList.add('hidden');
+            } else {
+                const remaining = Math.min(batchSize, totalCount - visibleCount);
+                if (viewMoreCount) {
+                    viewMoreCount.textContent = `(+${remaining})`;
+                }
+            }
+        });
+    }
+
+    // Helper to initialize tilt for a single card
+    function initSingleCardTilt(card: HTMLElement) {
+        const glowElement = card.querySelector<HTMLElement>('.testimonial-glow');
+
+        card.addEventListener('mousemove', (e: MouseEvent) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -12;
+            const rotateY = ((x - centerX) / centerX) * 12;
+
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+
+            if (glowElement) {
+                const percentX = (x / rect.width) * 100;
+                const percentY = (y / rect.height) * 100;
+                glowElement.style.setProperty('--mouse-x', `${percentX}%`);
+                glowElement.style.setProperty('--mouse-y', `${percentY}%`);
+            }
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+    }
+
+    // Helper to initialize modal trigger for a single element
+    let savedScrollY = 0;
+    function initSingleTrigger(trigger: HTMLElement) {
+        trigger.addEventListener('mousedown', () => {
+            savedScrollY = window.scrollY;
+        }, { capture: true });
+
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            const index = parseInt(trigger.getAttribute('data-testimonial-trigger') || '0', 10);
+            const modal = document.getElementById('testimonial-modal');
+            const testimonials = (window as any).__testimonials || [];
+            const testimonial = testimonials[index];
+
+            if (!testimonial || !modal) return;
+
+            // Populate and open modal
+            const modalAvatar = document.getElementById('modal-avatar');
+            const modalTitle = document.getElementById('modal-title');
+            const modalRole = document.getElementById('modal-role');
+            const modalCompany = document.getElementById('modal-company');
+            const modalContent = document.getElementById('modal-content');
+            const modalLinkedin = document.getElementById('modal-linkedin') as HTMLAnchorElement;
+            const modalSource = document.getElementById('modal-source');
+
+            if (savedScrollY === 0 && window.scrollY > 0) {
+                savedScrollY = window.scrollY;
+            }
+
+            document.body.style.top = `-${savedScrollY}px`;
+            document.body.classList.add('modal-open');
+
+            if (modalAvatar) {
+                if (testimonial.avatar) {
+                    modalAvatar.innerHTML = `<img src="${testimonial.avatar}" alt="${testimonial.name}" />`;
+                } else {
+                    modalAvatar.innerHTML = testimonial.name.charAt(0);
+                }
+            }
+            if (modalTitle) modalTitle.textContent = testimonial.name;
+            if (modalRole) modalRole.textContent = testimonial.role;
+            if (modalCompany) modalCompany.textContent = testimonial.company;
+            if (modalContent) modalContent.textContent = testimonial.content;
+
+            if (modalLinkedin) {
+                if (testimonial.linkedinUrl) {
+                    modalLinkedin.href = testimonial.linkedinUrl;
+                    modalLinkedin.classList.remove('hidden');
+                } else {
+                    modalLinkedin.classList.add('hidden');
+                }
+            }
+
+            if (modalSource) {
+                if (testimonial.source === 'linkedin') {
+                    modalSource.classList.remove('hidden');
+                } else {
+                    modalSource.classList.add('hidden');
+                }
+            }
+
+            modal.setAttribute('aria-hidden', 'false');
+            (modal.querySelector('.modal-close') as HTMLButtonElement | null)?.focus({ preventScroll: true });
+        });
+    }
+
+    // Initialize on page load
+    initTestimonialEffects();
+    initTestimonialModal();
+    initViewMore();
+
+    // Re-initialize on Astro page transitions
+    document.addEventListener('astro:page-load', () => {
+        initTestimonialEffects();
+        initTestimonialModal();
+        initViewMore();
+    });
+</script>

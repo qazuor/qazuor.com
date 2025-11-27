@@ -17,7 +17,6 @@ import { contact, sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getEffectiveSlug } from '@/utils/blog';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -109,7 +108,7 @@ const sortedBlogPosts = allBlogPosts
         date: post.data.publishDate.toISOString().split('T')[0],
         readTime: post.data.readTime,
         tags: post.data.tags,
-        slug: `/${lang}/blog/${getEffectiveSlug(post)}`
+        slug: `/${lang}/blog/${post.slug}`
     }));
 
 // Sort testimonials by order and date
@@ -126,6 +125,7 @@ const sortedTestimonials = allTestimonials
         company: testimonial.data.company,
         content: testimonial.data.content,
         avatar: testimonial.data.avatar,
+        avatarUrl: testimonial.data.avatarUrl,
         linkedinUrl: testimonial.data.linkedinUrl,
         source: testimonial.data.source
     }));
@@ -267,7 +267,8 @@ const testimonialsTranslations = {
     noTestimonials: t('testimonials.noTestimonials', { markdown: true }),
     readMore: t('testimonials.readMore', { markdown: true }),
     readLess: t('testimonials.readLess', { markdown: true }),
-    viewProfile: t('testimonials.viewProfile', { markdown: true })
+    viewProfile: t('testimonials.viewProfile', { markdown: true }),
+    viewMore: t('testimonials.viewMore', { markdown: true })
 };
 
 // Profile translations

@@ -57,7 +57,8 @@ const testimonialsCollection = defineCollection({
         role: z.string(),
         company: z.string(),
         content: z.string(),
-        avatar: z.string().optional(),
+        avatar: z.string().optional(), // Local path (auto-generated from avatarUrl during build)
+        avatarUrl: z.string().url().optional(), // External URL - will be downloaded during build
         linkedinUrl: z.string().url().optional(),
         featured: z.boolean().default(false),
         source: z.enum(['linkedin', 'email', 'other']).default('other'),

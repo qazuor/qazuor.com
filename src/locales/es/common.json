@@ -255,9 +255,8 @@
         "featured": "Herramientas Destacadas",
         "allTools": "Todas las Herramientas",
         "noTools": "No se encontraron herramientas",
-        "tryDemo": "Probar Demo",
-        "comingSoon": "Próximamente",
-        "viewDetails": "Ver Detalles",
+        "goToSite": "Ir al Sitio",
+        "goToRepo": "Ver Código",
         "difficulty": {
             "beginner": "Principiante",
             "intermediate": "Intermedio",

@@ -255,9 +255,8 @@
         "featured": "Featured Tools",
         "allTools": "All Tools",
         "noTools": "No tools found",
-        "tryDemo": "Try Demo",
-        "comingSoon": "Coming Soon",
-        "viewDetails": "View Details",
+        "goToSite": "Go to Site",
+        "goToRepo": "View Code",
         "difficulty": {
             "beginner": "Beginner",
             "intermediate": "Intermediate",

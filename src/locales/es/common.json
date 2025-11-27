@@ -251,7 +251,17 @@
     "tools": {
         "title": "Herramientas",
         "subtitle": "Herramientas interactivas y utilidades",
-        "noTools": "No se encontraron herramientas"
+        "featured": "Herramientas Destacadas",
+        "allTools": "Todas las Herramientas",
+        "noTools": "No se encontraron herramientas",
+        "tryDemo": "Probar Demo",
+        "comingSoon": "Próximamente",
+        "viewDetails": "Ver Detalles",
+        "difficulty": {
+            "beginner": "Principiante",
+            "intermediate": "Intermedio",
+            "advanced": "Avanzado"
+        }
     },
     "snippets": {
         "title": "Snippets",

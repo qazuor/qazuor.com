@@ -251,7 +251,17 @@
     "tools": {
         "title": "Tools",
         "subtitle": "Interactive tools and utilities",
-        "noTools": "No tools found"
+        "featured": "Featured Tools",
+        "allTools": "All Tools",
+        "noTools": "No tools found",
+        "tryDemo": "Try Demo",
+        "comingSoon": "Coming Soon",
+        "viewDetails": "View Details",
+        "difficulty": {
+            "beginner": "Beginner",
+            "intermediate": "Intermediate",
+            "advanced": "Advanced"
+        }
     },
     "snippets": {
         "title": "Snippets",

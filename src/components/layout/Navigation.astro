@@ -32,7 +32,8 @@ const toolsForDropdown = allTools
     .map((tool: CollectionEntry<'tools'>) => ({
         slug: tool.slug,
         title: tool.data.title,
-        iconType: 'tools' as const
+        iconType: tool.data.icon,
+        externalUrl: tool.data.siteUrl
     }));
 
 // Sort and prepare snippets (max 4)

@@ -3,6 +3,7 @@ import {
     Braces,
     Code,
     Database,
+    ExternalLink,
     FileCode,
     FileCode2,
     FileText,
@@ -11,6 +12,7 @@ import {
     Link,
     Package,
     Palette,
+    Play,
     Sparkles,
     Terminal,
     Users,
@@ -22,6 +24,7 @@ interface GoodieItem {
     slug: string;
     title: string;
     iconType?: string;
+    externalUrl?: string;
 }
 
 interface GoodiesCategory {
@@ -66,6 +69,13 @@ const ItemIcon = ({ iconType, className }: { iconType: string; className?: strin
     const normalizedType = iconType.toLowerCase();
 
     switch (normalizedType) {
+        // Tool-specific icons
+        case 'palette':
+            return <Palette {...iconProps} />;
+        case 'play':
+            return <Play {...iconProps} />;
+        case 'braces':
+            return <Braces {...iconProps} />;
         // Category icons (for tools)
         case 'tools':
             return <Wrench {...iconProps} />;
@@ -275,13 +285,18 @@ export function GoodiesDropdown({
                                     </a>
                                 </div>
 
-                                {/* Items Grid - only show for categories with individual pages and items */}
-                                {category.id !== 'useful-links' && category.items.length > 0 && (
+                                {/* Items Grid - tools with external URLs */}
+                                {category.id === 'tools' && category.items.length > 0 && (
                                     <div className="grid grid-cols-2 gap-1">
                                         {category.items.slice(0, 4).map((item) => (
                                             <a
                                                 key={item.slug}
-                                                href={`/${currentLocale}/goodies/${category.id}/${item.slug}`}
+                                                href={
+                                                    item.externalUrl ||
+                                                    `/${currentLocale}/goodies/${category.id}/${item.slug}`
+                                                }
+                                                target={item.externalUrl ? '_blank' : undefined}
+                                                rel={item.externalUrl ? 'noopener noreferrer' : undefined}
                                                 role="menuitem"
                                                 className="flex items-center gap-2 px-2 py-1.5 text-[0.75rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.01] transition-all duration-200 text-foreground-secondary hover:text-foreground"
                                                 onClick={() => handleSetIsOpen(false)}
@@ -293,10 +308,37 @@ export function GoodiesDropdown({
                                                     />
                                                 )}
                                                 <span className="truncate">{item.title}</span>
+                                                {item.externalUrl && (
+                                                    <ExternalLink className="w-3 h-3 shrink-0 opacity-40" />
+                                                )}
                                             </a>
                                         ))}
                                     </div>
                                 )}
+                                {/* Items Grid - snippets and css-tricks with internal pages */}
+                                {category.id !== 'tools' &&
+                                    category.id !== 'useful-links' &&
+                                    category.items.length > 0 && (
+                                        <div className="grid grid-cols-2 gap-1">
+                                            {category.items.slice(0, 4).map((item) => (
+                                                <a
+                                                    key={item.slug}
+                                                    href={`/${currentLocale}/goodies/${category.id}/${item.slug}`}
+                                                    role="menuitem"
+                                                    className="flex items-center gap-2 px-2 py-1.5 text-[0.75rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.01] transition-all duration-200 text-foreground-secondary hover:text-foreground"
+                                                    onClick={() => handleSetIsOpen(false)}
+                                                >
+                                                    {item.iconType && (
+                                                        <ItemIcon
+                                                            iconType={item.iconType}
+                                                            className="w-3.5 h-3.5 shrink-0 opacity-60"
+                                                        />
+                                                    )}
+                                                    <span className="truncate">{item.title}</span>
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
                                 {/* For useful-links, show items as labels (only if there are items) */}
                                 {category.id === 'useful-links' && category.items.length > 0 && (
                                     <div className="grid grid-cols-2 gap-1">

@@ -1,9 +1,9 @@
 {
-  "name": "Tailwind CSS",
-  "description": "A utility-first CSS framework for rapidly building custom user interfaces.",
-  "url": "https://tailwindcss.com/docs",
-  "category": "documentation",
-  "tags": ["css", "tailwind", "styling", "utilities"],
-  "featured": true,
-  "order": 5
+    "name": "Tailwind CSS",
+    "description": "A utility-first CSS framework for rapidly building custom user interfaces.",
+    "url": "https://tailwindcss.com/docs",
+    "category": "documentation",
+    "tags": ["css", "tailwind", "styling", "utilities"],
+    "featured": true,
+    "order": 5
 }

@@ -1,9 +1,9 @@
 {
-  "name": "web.dev",
-  "description": "Google's guidance for modern web development. Learn best practices for building fast, reliable sites.",
-  "url": "https://web.dev",
-  "category": "learning",
-  "tags": ["performance", "pwa", "accessibility", "google"],
-  "featured": false,
-  "order": 32
+    "name": "web.dev",
+    "description": "Google's guidance for modern web development. Learn best practices for building fast, reliable sites.",
+    "url": "https://web.dev",
+    "category": "learning",
+    "tags": ["performance", "pwa", "accessibility", "google"],
+    "featured": false,
+    "order": 32
 }

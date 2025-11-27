@@ -1,9 +1,9 @@
 {
-  "name": "Stack Overflow",
-  "description": "The largest community for developers to learn, share knowledge, and build their careers.",
-  "url": "https://stackoverflow.com",
-  "category": "community",
-  "tags": ["q&a", "programming", "help", "community"],
-  "featured": true,
-  "order": 50
+    "name": "Stack Overflow",
+    "description": "The largest community for developers to learn, share knowledge, and build their careers.",
+    "url": "https://stackoverflow.com",
+    "category": "community",
+    "tags": ["q&a", "programming", "help", "community"],
+    "featured": true,
+    "order": 50
 }

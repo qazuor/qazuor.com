@@ -1,9 +1,9 @@
 {
-  "name": "Lucide Icons",
-  "description": "Beautiful & consistent open-source icons. Community-driven fork of Feather Icons.",
-  "url": "https://lucide.dev",
-  "category": "library",
-  "tags": ["icons", "svg", "react", "design"],
-  "featured": false,
-  "order": 24
+    "name": "Lucide Icons",
+    "description": "Beautiful & consistent open-source icons. Community-driven fork of Feather Icons.",
+    "url": "https://lucide.dev",
+    "category": "library",
+    "tags": ["icons", "svg", "react", "design"],
+    "featured": false,
+    "order": 24
 }

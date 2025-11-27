@@ -1,9 +1,9 @@
 {
-  "name": "TanStack Query",
-  "description": "Powerful asynchronous state management for React. Fetch, cache, and update data effortlessly.",
-  "url": "https://tanstack.com/query",
-  "category": "library",
-  "tags": ["react", "data-fetching", "cache", "state"],
-  "featured": false,
-  "order": 22
+    "name": "TanStack Query",
+    "description": "Powerful asynchronous state management for React. Fetch, cache, and update data effortlessly.",
+    "url": "https://tanstack.com/query",
+    "category": "library",
+    "tags": ["react", "data-fetching", "cache", "state"],
+    "featured": false,
+    "order": 22
 }

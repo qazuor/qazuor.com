@@ -1,9 +1,9 @@
 {
-  "name": "Astro Documentation",
-  "description": "Official Astro framework documentation. Build faster websites with less client-side JavaScript.",
-  "url": "https://docs.astro.build",
-  "category": "documentation",
-  "tags": ["astro", "framework", "static-site", "islands"],
-  "featured": true,
-  "order": 3
+    "name": "Astro Documentation",
+    "description": "Official Astro framework documentation. Build faster websites with less client-side JavaScript.",
+    "url": "https://docs.astro.build",
+    "category": "documentation",
+    "tags": ["astro", "framework", "static-site", "islands"],
+    "featured": true,
+    "order": 3
 }

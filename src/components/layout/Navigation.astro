@@ -399,15 +399,32 @@ const isActive = (href: string) => {
         actionsMenuButton?.setAttribute('aria-expanded', 'true');
     }
 
-    // Focus trap for mobile menu
-    function handleMobileMenuFocusTrap(e: KeyboardEvent) {
+    // Combined keyboard handler - single listener for better performance
+    // Early key check BEFORE any DOM queries to minimize overhead
+    function handleKeyboardNavigation(e: KeyboardEvent) {
+        // Early return for non-relevant keys - no DOM queries needed
+        if (e.key !== 'Tab' && e.key !== 'Escape') return;
+
+        if (e.key === 'Escape') {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                closeMobileMenu();
+                document.getElementById('mobile-menu-button')?.focus();
+                return;
+            }
+            const actionsMenu = document.getElementById('actions-menu');
+            if (actionsMenu && !actionsMenu.classList.contains('hidden')) {
+                closeActionsMenu();
+                document.getElementById('actions-menu-button')?.focus();
+            }
+            return;
+        }
+
+        // Tab key - focus trap for mobile menu
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-
         if (!mobileMenu || mobileMenu.classList.contains('hidden')) return;
-        if (e.key !== 'Tab') return;
 
-        // Get all focusable elements in the mobile menu AND the menu button
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
         const focusableElements = [
             mobileMenuButton,
             ...Array.from(mobileMenu.querySelectorAll<HTMLElement>(
@@ -421,13 +438,11 @@ const isActive = (href: string) => {
         const lastElement = focusableElements[focusableElements.length - 1];
 
         if (e.shiftKey) {
-            // Shift + Tab: if on first element, go to last
             if (document.activeElement === firstElement) {
                 e.preventDefault();
                 lastElement.focus();
             }
         } else {
-            // Tab: if on last element, go to first
             if (document.activeElement === lastElement) {
                 e.preventDefault();
                 firstElement.focus();
@@ -435,26 +450,8 @@ const isActive = (href: string) => {
         }
     }
 
-    // Close mobile menu on Escape key
-    function handleEscapeKey(e: KeyboardEvent) {
-        if (e.key === 'Escape') {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const actionsMenu = document.getElementById('actions-menu');
-
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                closeMobileMenu();
-                document.getElementById('mobile-menu-button')?.focus();
-            }
-            if (actionsMenu && !actionsMenu.classList.contains('hidden')) {
-                closeActionsMenu();
-                document.getElementById('actions-menu-button')?.focus();
-            }
-        }
-    }
-
-    // Attach keyboard listeners
-    document.addEventListener('keydown', handleMobileMenuFocusTrap);
-    document.addEventListener('keydown', handleEscapeKey);
+    // Single keyboard listener - checks key type before DOM queries
+    document.addEventListener('keydown', handleKeyboardNavigation);
 
     // Event delegation - single listener for ALL menu interactions
     // This persists across View Transitions without needing to re-register

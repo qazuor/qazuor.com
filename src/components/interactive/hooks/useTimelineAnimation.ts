@@ -22,8 +22,8 @@ export type PopoverPosition = 'center' | 'left' | 'right';
 /**
  * Configuration constants
  */
-const TIMELINE_SPACING_DESKTOP = 120;
-const TIMELINE_SPACING_MOBILE = 80;
+const TIMELINE_SPACING_DESKTOP = 180;
+const TIMELINE_SPACING_MOBILE = 100;
 const POPOVER_WIDTH_DESKTOP = 500;
 const POPOVER_WIDTH_MOBILE = 280;
 

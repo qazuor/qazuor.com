@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface TechnologyFilterProps {
     technologies: string[];
@@ -33,16 +33,32 @@ export function TechnologyFilter({
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     // Calculate max height when dropdown opens
-    useEffect(() => {
+    // MF-013: Use visualViewport for better iOS Safari support (address bar changes)
+    const calculateMaxHeight = useCallback(() => {
         if (isOpen && buttonRef.current && !isMobile) {
             const buttonRect = buttonRef.current.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
+            // Use visualViewport for iOS Safari address bar support
+            const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
             const bottomMargin = 16; // 16px margin from bottom
             const spaceBelow = viewportHeight - buttonRect.bottom - bottomMargin - 8; // 8px top margin + 16px bottom margin
             const calculatedMaxHeight = Math.min(600, spaceBelow);
             setMaxHeight(Math.max(200, calculatedMaxHeight)); // Minimum 200px
         }
     }, [isOpen, isMobile]);
+
+    useEffect(() => {
+        calculateMaxHeight();
+    }, [calculateMaxHeight]);
+
+    // MF-013: Listen to visualViewport resize for iOS Safari address bar changes
+    useEffect(() => {
+        if (!isOpen || isMobile) return;
+
+        window.visualViewport?.addEventListener('resize', calculateMaxHeight);
+        return () => {
+            window.visualViewport?.removeEventListener('resize', calculateMaxHeight);
+        };
+    }, [isOpen, isMobile, calculateMaxHeight]);
 
     // Close dropdown when clicking outside and handle scroll
     useEffect(() => {

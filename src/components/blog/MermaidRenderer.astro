@@ -1,0 +1,222 @@
+---
+/**
+ * MermaidRenderer Component
+ *
+ * Lazy loads and renders Mermaid diagrams in blog posts.
+ * Only included in blog post pages to avoid loading the library on other pages.
+ *
+ * Features:
+ * - Lazy loads Mermaid library only when diagrams are present
+ * - Supports theme switching (light/dark mode)
+ * - Re-renders diagrams on theme change
+ */
+---
+
+<script type="module" is:inline>
+    // Theme detection for Mermaid diagrams
+    function getMermaidTheme() {
+        return document.documentElement.classList.contains('dark') ? 'dark' : 'default';
+    }
+
+    function getMermaidThemeVariables() {
+        const isDark = document.documentElement.classList.contains('dark');
+        if (isDark) {
+            return {
+                primaryColor: '#8b5cf6',
+                primaryTextColor: '#f3f4f6',
+                primaryBorderColor: '#8b5cf6',
+                lineColor: '#22d3ee',
+                secondaryColor: '#1e293b',
+                tertiaryColor: '#334155',
+                background: '#1e293b',
+                mainBkg: '#1e293b',
+                secondaryBkg: '#334155',
+                textColor: '#f3f4f6',
+                fontSize: '16px',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                edgeLabelBackground: '#1e293b',
+                labelBackground: '#1e293b',
+                labelColor: '#f3f4f6'
+            };
+        }
+        return {
+            primaryColor: '#3b82f6',
+            primaryTextColor: '#1f2937',
+            primaryBorderColor: '#3b82f6',
+            lineColor: '#0891b2',
+            secondaryColor: '#f1f5f9',
+            tertiaryColor: '#e2e8f0',
+            background: '#ffffff',
+            mainBkg: '#f8fafc',
+            secondaryBkg: '#f1f5f9',
+            textColor: '#1f2937',
+            fontSize: '16px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            edgeLabelBackground: '#ffffff',
+            labelBackground: '#ffffff',
+            labelColor: '#1f2937'
+        };
+    }
+
+    // Mermaid initialization function
+    async function initializeMermaid() {
+        // Check for mermaid blocks FIRST (before loading library)
+        const mermaidBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+
+        // Exit early if no mermaid diagrams on page (saves ~548KB)
+        if (mermaidBlocks.length === 0) return;
+
+        try {
+            // Only load mermaid when needed
+            const mermaidModule = await import(
+                'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
+            );
+            const mermaid = mermaidModule.default || mermaidModule;
+
+            // Store mermaid reference for theme change re-render
+            window.__mermaidInstance = mermaid;
+
+            // Initialize Mermaid with current theme
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: getMermaidTheme(),
+                themeVariables: getMermaidThemeVariables(),
+                flowchart: {
+                    curve: 'basis',
+                    lineWidth: 3,
+                    padding: 20,
+                    diagramPadding: 8,
+                    htmlLabels: true,
+                    rankSpacing: 50,
+                    nodeSpacing: 50
+                },
+                securityLevel: 'loose'
+            });
+
+            // First, preserve expressive-code assets from the first block
+            const firstExpressiveContainer = document.querySelector('.expressive-code');
+            let expressiveCodeAssets = null;
+
+            if (firstExpressiveContainer) {
+                const linkTag = firstExpressiveContainer.querySelector('link[rel="stylesheet"]');
+                const scriptTag = firstExpressiveContainer.querySelector('script[type="module"]');
+
+                if (linkTag || scriptTag) {
+                    expressiveCodeAssets = {
+                        link: linkTag?.cloneNode(true),
+                        script: scriptTag?.cloneNode(true)
+                    };
+                }
+            }
+
+            mermaidBlocks.forEach((pre, index) => {
+                const expressiveContainer = pre.closest('.expressive-code');
+                const copyButton = expressiveContainer?.querySelector('.copy button[data-code]');
+                let code = copyButton?.getAttribute('data-code') || '';
+
+                if (!code) return;
+
+                // Fix expressive-code formatting
+                code = code.replace(/    /g, '\n').replace(/\u007f/g, '\n');
+                code = code.replace(/graph\s+(LR|RL)/gi, 'graph TD');
+                code = code.replace(/flowchart\s+(LR|RL)/gi, 'flowchart TD');
+
+                // Create mermaid container
+                const container = document.createElement('div');
+                container.className = 'expressive-code mermaid-diagram';
+
+                // If this is the first mermaid block, preserve the assets
+                if (index === 0 && expressiveCodeAssets) {
+                    if (expressiveCodeAssets.link) {
+                        container.appendChild(expressiveCodeAssets.link);
+                    }
+                    if (expressiveCodeAssets.script) {
+                        container.appendChild(expressiveCodeAssets.script);
+                    }
+                }
+
+                const figure = document.createElement('figure');
+                figure.className = 'frame';
+
+                const mermaidDiv = document.createElement('div');
+                mermaidDiv.className = 'mermaid';
+                mermaidDiv.textContent = code;
+
+                figure.appendChild(mermaidDiv);
+                container.appendChild(figure);
+
+                if (expressiveContainer) {
+                    expressiveContainer.replaceWith(container);
+                } else {
+                    pre.replaceWith(container);
+                }
+            });
+
+            // Render diagrams
+            await mermaid.run();
+
+            // Style edge labels
+            document.querySelectorAll('.mermaid svg g.edgeLabel').forEach((label) => {
+                const rect = label.querySelector('rect');
+                if (rect) {
+                    const currentWidth = parseFloat(rect.getAttribute('width') || '0');
+                    const currentHeight = parseFloat(rect.getAttribute('height') || '0');
+                    const currentX = parseFloat(rect.getAttribute('x') || '0');
+                    const currentY = parseFloat(rect.getAttribute('y') || '0');
+
+                    const padding = 8;
+                    rect.setAttribute('width', String(currentWidth + padding * 2));
+                    rect.setAttribute('height', String(currentHeight + padding * 2));
+                    rect.setAttribute('x', String(currentX - padding));
+                    rect.setAttribute('y', String(currentY - padding));
+                    rect.setAttribute('rx', '4');
+                    rect.setAttribute('ry', '4');
+                    rect.setAttribute('fill', '#1e293b');
+                    rect.setAttribute('stroke', '#8b5cf6');
+                    rect.setAttribute('stroke-width', '1');
+                }
+            });
+        } catch (error) {
+            console.error('Mermaid failed to load:', error);
+        }
+    }
+
+    // Initialize on initial page load
+    document.addEventListener('DOMContentLoaded', initializeMermaid);
+
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initializeMermaid);
+
+    // Re-render diagrams on theme change
+    document.addEventListener('theme-changed', async () => {
+        const mermaid = window.__mermaidInstance;
+        if (!mermaid) return;
+
+        const mermaidContainers = document.querySelectorAll('.mermaid-container');
+        if (mermaidContainers.length === 0) return;
+
+        // Re-initialize with new theme
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: getMermaidTheme(),
+            themeVariables: getMermaidThemeVariables(),
+            flowchart: {
+                curve: 'basis',
+                lineWidth: 3,
+                padding: 20,
+                diagramPadding: 8,
+                htmlLabels: true,
+                rankSpacing: 50,
+                nodeSpacing: 50
+            },
+            securityLevel: 'loose'
+        });
+
+        // Re-run mermaid on existing diagrams
+        try {
+            await mermaid.run();
+        } catch (err) {
+            console.error('Mermaid re-render failed:', err);
+        }
+    });
+</script>

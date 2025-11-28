@@ -1,4 +1,4 @@
-import { Command } from 'lucide-react';
+import commandIcon from '@/icons/ui/command.svg?raw';
 
 interface CommandButtonProps {
     ariaLabel?: string;
@@ -22,7 +22,8 @@ export function CommandButton({ ariaLabel = 'Open command palette', className = 
             aria-label={ariaLabel}
             title="⌘K"
         >
-            <Command className="w-5 h-5" />
+            {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
+            <span dangerouslySetInnerHTML={{ __html: commandIcon }} />
         </button>
     );
 }

@@ -29,6 +29,7 @@ interface Props {
         mail: string;
         buymeacoffee: string;
     };
+    heroAvatarAlt?: string;
 }
 
 const {
@@ -60,7 +61,8 @@ const {
         whatsapp: 'WhatsApp',
         mail: 'Email',
         buymeacoffee: 'Buy Me a Coffee'
-    }
+    },
+    heroAvatarAlt
 } = Astro.props;
 ---
 
@@ -123,12 +125,12 @@ const {
             </div>
 
             <!-- Hero Avatar for Desktop -->
-            <HeroAvatar name={name} roles={roles} className="desktop-avatar" />
+            <HeroAvatar name={name} roles={roles} className="desktop-avatar" altText={heroAvatarAlt} />
         </div>
 
         <!-- Hero Avatar for Mobile (positioned absolutely at bottom right) -->
         <div class="lg:hidden absolute bottom-0 right-0 z-20">
-            <HeroAvatar name={name} roles={roles} className="mobile-avatar" />
+            <HeroAvatar name={name} roles={roles} className="mobile-avatar" altText={heroAvatarAlt} />
         </div>
 
         <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->

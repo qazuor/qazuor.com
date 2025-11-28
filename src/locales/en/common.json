@@ -296,12 +296,22 @@
         "buymeacoffee": "Buy me a coffee",
         "toggleTheme": "Toggle theme",
         "scrollToTop": "Scroll to top",
-        "toggleMenu": "Toggle menu",
+        "toggleMenu": "Toggle navigation menu",
+        "toggleActionsMenu": "Toggle actions menu",
+        "menuExpanded": "Menu expanded",
+        "menuCollapsed": "Menu collapsed",
         "openCommandPalette": "Open command palette",
         "closeCommandPalette": "Close command palette",
         "noArticles": "No articles",
         "commandPalettePlaceholder": "Type a command or search...",
-        "skipToContent": "Skip to main content"
+        "skipToContent": "Skip to main content",
+        "featuredProjectsSection": "Featured projects showcase",
+        "closeTestimonialModal": "Close testimonial"
+    },
+    "imageAlt": {
+        "avatarProfile": "Qazuor profile picture",
+        "footerPhoto": "Leandro Asrilevich, Full-Stack Developer",
+        "heroAvatar": "Leandro Asrilevich - Full-Stack Developer with expertise in React, TypeScript and modern web technologies"
     },
     "social": {
         "github": "GitHub",

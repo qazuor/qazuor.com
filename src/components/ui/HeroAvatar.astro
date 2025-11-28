@@ -8,9 +8,11 @@ interface Props {
     name: string;
     roles: string[];
     className?: string;
+    altText?: string;
 }
 
-const { name, roles, className = '' } = Astro.props;
+const { name, roles, className = '', altText } = Astro.props;
+const imageAlt = altText || `${name} - Full-Stack Developer`;
 ---
 
 <div class={`hero-element relative ${className}`}>
@@ -35,7 +37,7 @@ const { name, roles, className = '' } = Astro.props;
                 widths={[640, 1024, 1920]}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 formats={['avif', 'webp', 'png']}
-                alt={`${name} - Full-Stack Developer`}
+                alt={imageAlt}
                 class="w-full h-auto top-0 transition-all duration-100 left-0 photo-default"
                 loading="eager"
                 decoding="async"
@@ -45,7 +47,8 @@ const { name, roles, className = '' } = Astro.props;
                 widths={[640, 1024, 1920]}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 formats={['avif', 'webp', 'png']}
-                alt={`${name} - Full-Stack Developer`}
+                alt=""
+                aria-hidden="true"
                 class="w-full h-auto absolute transition-all duration-100 top-0 left-0 opacity-0 photo-hover"
                 loading="eager"
                 decoding="async"

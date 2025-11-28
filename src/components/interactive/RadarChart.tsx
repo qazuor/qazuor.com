@@ -256,12 +256,13 @@ export function RadarChart({
                             const isHighlighted = isHovered || isSelected;
 
                             return (
-                                // biome-ignore lint/a11y/useSemanticElements: SVG doesn't support semantic button element
+                                // biome-ignore lint/a11y/useSemanticElements: SVG elements cannot use <button>, role="button" is the correct approach for interactive SVG groups
                                 <g
                                     // biome-ignore lint/suspicious/noArrayIndexKey: Skills array order is stable
                                     key={i}
                                     role="button"
                                     tabIndex={0}
+                                    aria-label={skill.name}
                                     className={`skill-point ${isVisible ? 'animate-in' : ''}`}
                                     style={{
                                         animationDelay: `${i * 0.05}s`,

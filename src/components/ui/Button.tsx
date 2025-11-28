@@ -57,7 +57,13 @@ export function Button({
     }
 
     return (
-        <button type={type} className={classes} onClick={onClick} disabled={disabled}>
+        <button
+            type={type}
+            className={classes}
+            onClick={onClick}
+            disabled={disabled}
+            aria-disabled={disabled || undefined}
+        >
             {children}
         </button>
     );

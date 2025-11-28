@@ -296,12 +296,22 @@
         "buymeacoffee": "Invítame un café",
         "toggleTheme": "Cambiar tema",
         "scrollToTop": "Volver arriba",
-        "toggleMenu": "Alternar menú",
+        "toggleMenu": "Alternar menú de navegación",
+        "toggleActionsMenu": "Alternar menú de acciones",
+        "menuExpanded": "Menú expandido",
+        "menuCollapsed": "Menú colapsado",
         "openCommandPalette": "Abrir paleta de comandos",
         "closeCommandPalette": "Cerrar paleta de comandos",
         "noArticles": "Sin artículos",
         "commandPalettePlaceholder": "Escribe un comando o busca...",
-        "skipToContent": "Saltar al contenido principal"
+        "skipToContent": "Saltar al contenido principal",
+        "featuredProjectsSection": "Muestra de proyectos destacados",
+        "closeTestimonialModal": "Cerrar testimonio"
+    },
+    "imageAlt": {
+        "avatarProfile": "Foto de perfil de Qazuor",
+        "footerPhoto": "Leandro Asrilevich, Desarrollador Full-Stack",
+        "heroAvatar": "Leandro Asrilevich - Desarrollador Full-Stack especializado en React, TypeScript y tecnologías web modernas"
     },
     "social": {
         "github": "GitHub",

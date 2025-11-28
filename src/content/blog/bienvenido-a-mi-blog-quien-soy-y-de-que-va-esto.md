@@ -4,7 +4,7 @@ slug: 'bienvenido'
 excerpt:
   'Una intro a este espacio: quién soy, qué hago, y qué tipo de contenido vas a
   encontrar acá. Sin humo, con código y opiniones honestas.'
-publishDate: 2025-11-26
+publishDate: 2025-11-01
 tags: [intro, sobre-mi, blog]
 readTime: 5 min read
 draft: false

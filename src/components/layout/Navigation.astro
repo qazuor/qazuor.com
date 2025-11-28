@@ -181,7 +181,7 @@ const isActive = (href: string) => {
                 <div
                     class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors"
                 >
-                    <Image src={avatarImage} alt="qazuor avatar" class="w-full h-full object-cover" loading="eager" width={32} height={32} />
+                    <Image src={avatarImage} alt={t('imageAlt.avatarProfile')} class="w-full h-full object-cover" loading="eager" width={32} height={32} />
                 </div>
                 <span class="text-lg font-bold gradient-text font-mono whitespace-nowrap">~/qazuor</span>
             </a>
@@ -257,10 +257,13 @@ const isActive = (href: string) => {
             <!-- Actions: Medium (768-1199px) - Only links visible, actions in hamburger -->
             <button
                 id="actions-menu-button"
+                type="button"
                 class="hidden md:flex min-[1200px]:hidden p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
                 aria-label={t('aria.toggleActionsMenu')}
+                aria-expanded="false"
+                aria-controls="actions-menu"
             >
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"
                     ></path>
                 </svg>
@@ -269,14 +272,17 @@ const isActive = (href: string) => {
             <!-- Mobile menu button (< 768px) - Everything in hamburger -->
             <button
                 id="mobile-menu-button"
+                type="button"
                 class="md:hidden p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
                 aria-label={t('aria.toggleMenu')}
+                aria-expanded="false"
+                aria-controls="mobile-menu"
             >
-                <svg id="menu-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg id="menu-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"
                     ></path>
                 </svg>
-                <svg id="close-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg id="close-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
                     ></path>
                 </svg>
@@ -356,11 +362,13 @@ const isActive = (href: string) => {
         const menuIcon = document.getElementById('menu-icon');
         const closeIcon = document.getElementById('close-icon');
         const backdrop = document.getElementById('menu-backdrop');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
 
         mobileMenu?.classList.add('hidden');
         menuIcon?.classList.remove('hidden');
         closeIcon?.classList.add('hidden');
         backdrop?.classList.add('hidden');
+        mobileMenuButton?.setAttribute('aria-expanded', 'false');
     }
 
     function openMobileMenu() {
@@ -368,22 +376,85 @@ const isActive = (href: string) => {
         const menuIcon = document.getElementById('menu-icon');
         const closeIcon = document.getElementById('close-icon');
         const backdrop = document.getElementById('menu-backdrop');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
 
         mobileMenu?.classList.remove('hidden');
         menuIcon?.classList.add('hidden');
         closeIcon?.classList.remove('hidden');
         backdrop?.classList.remove('hidden');
+        mobileMenuButton?.setAttribute('aria-expanded', 'true');
     }
 
     function closeActionsMenu() {
         const actionsMenu = document.getElementById('actions-menu');
+        const actionsMenuButton = document.getElementById('actions-menu-button');
         actionsMenu?.classList.add('hidden');
+        actionsMenuButton?.setAttribute('aria-expanded', 'false');
     }
 
     function openActionsMenu() {
         const actionsMenu = document.getElementById('actions-menu');
+        const actionsMenuButton = document.getElementById('actions-menu-button');
         actionsMenu?.classList.remove('hidden');
+        actionsMenuButton?.setAttribute('aria-expanded', 'true');
     }
+
+    // Focus trap for mobile menu
+    function handleMobileMenuFocusTrap(e: KeyboardEvent) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+        if (!mobileMenu || mobileMenu.classList.contains('hidden')) return;
+        if (e.key !== 'Tab') return;
+
+        // Get all focusable elements in the mobile menu AND the menu button
+        const focusableElements = [
+            mobileMenuButton,
+            ...Array.from(mobileMenu.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            ))
+        ].filter(Boolean) as HTMLElement[];
+
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+            // Shift + Tab: if on first element, go to last
+            if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            }
+        } else {
+            // Tab: if on last element, go to first
+            if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
+    }
+
+    // Close mobile menu on Escape key
+    function handleEscapeKey(e: KeyboardEvent) {
+        if (e.key === 'Escape') {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const actionsMenu = document.getElementById('actions-menu');
+
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                closeMobileMenu();
+                document.getElementById('mobile-menu-button')?.focus();
+            }
+            if (actionsMenu && !actionsMenu.classList.contains('hidden')) {
+                closeActionsMenu();
+                document.getElementById('actions-menu-button')?.focus();
+            }
+        }
+    }
+
+    // Attach keyboard listeners
+    document.addEventListener('keydown', handleMobileMenuFocusTrap);
+    document.addEventListener('keydown', handleEscapeKey);
 
     // Event delegation - single listener for ALL menu interactions
     // This persists across View Transitions without needing to re-register

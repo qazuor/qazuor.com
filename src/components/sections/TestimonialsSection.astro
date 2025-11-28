@@ -889,6 +889,9 @@ const testimonials = allTestimonials.map((t, i) => ({
         // Store scroll position globally for modal
         let savedScrollY = 0;
 
+        // Store the element that triggered the modal (for focus return)
+        let triggerElement: HTMLElement | null = null;
+
         // Store visible count for "View More" functionality
         let visibleCount = 3;
 
@@ -1040,6 +1043,12 @@ const testimonials = allTestimonials.map((t, i) => ({
         document.body.classList.remove('modal-open');
         document.body.style.top = '';
         window.scrollTo(0, savedScrollY);
+
+        // Return focus to the trigger element
+        if (triggerElement) {
+            triggerElement.focus({ preventScroll: true });
+            triggerElement = null;
+        }
     }
 
     // ============================================
@@ -1062,9 +1071,11 @@ const testimonials = allTestimonials.map((t, i) => ({
         if (!(target instanceof Element)) return;
 
         // Handle testimonial card click (open modal)
-        const trigger = target.closest('[data-testimonial-trigger]');
+        const trigger = target.closest('[data-testimonial-trigger]') as HTMLElement | null;
         if (trigger) {
             e.preventDefault();
+            // Store the trigger element for focus return
+            triggerElement = trigger;
             const index = parseInt(trigger.getAttribute('data-testimonial-trigger') || '0', 10);
             openTestimonialModal(index);
             return;

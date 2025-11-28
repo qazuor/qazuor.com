@@ -274,6 +274,24 @@ for (const project of projects) {
         margin-bottom: 0;
     }
 
+    /* Dynamic font sizing - adapts to viewport and text length */
+    .page-transition-title :global(h1) {
+        /* Override fixed size with responsive clamp */
+        /* Min: 1.5rem (24px), Preferred: 8vw, Max: 4.5rem (72px) */
+        font-size: clamp(1.5rem, 8vw, 4.5rem) !important;
+        line-height: 1.1;
+        text-wrap: balance;
+        word-break: break-word;
+        hyphens: auto;
+    }
+
+    /* Even smaller on very small screens */
+    @media (max-width: 480px) {
+        .page-transition-title :global(h1) {
+            font-size: clamp(1.25rem, 7vw, 2.5rem) !important;
+        }
+    }
+
     .page-transition-title :global(.gradient-text-section) {
         background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
         -webkit-background-clip: text;

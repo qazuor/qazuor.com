@@ -543,86 +543,105 @@ const isActive = (href: string) => {
         requestAnimationFrame(animation);
     }
 
-    // Navigation hide/show on scroll (all breakpoints)
-    function setupNavigation() {
+    // Navigation hide/show on scroll (all breakpoints including mobile)
+    // Use a global flag to prevent duplicate listeners
+    let navScrollListenerAttached = false;
+    let lastScrollY = 0;
+    let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+    const SCROLL_THRESHOLD = 50;
+    const BOTTOM_THRESHOLD_PERCENT = 95;
+
+    function getScrollPercent(): number {
+        const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) return 0;
+        return (scrollTop / docHeight) * 100;
+    }
+
+    function showNav() {
         const nav = document.getElementById('main-nav');
-        let lastScrollY = 0;
-        let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
-        const SCROLL_THRESHOLD = 50;
-        const BOTTOM_THRESHOLD_PERCENT = 95; // Show nav when scrolled past this percentage
+        if (!nav) return;
+        nav.classList.remove('nav-hidden', 'nav-slide-up');
+        nav.classList.add('nav-visible', 'nav-slide-down');
+    }
 
-        function getScrollPercent(): number {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            if (docHeight <= 0) return 0;
-            return (scrollTop / docHeight) * 100;
-        }
+    function hideNav() {
+        const nav = document.getElementById('main-nav');
+        if (!nav) return;
+        // Don't hide if we're near the bottom
+        if (getScrollPercent() >= BOTTOM_THRESHOLD_PERCENT) return;
+        // Don't hide if mobile menu is open
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) return;
 
-        function showNav() {
-            if (!nav) return;
-            nav.classList.remove('nav-hidden', 'nav-slide-up');
-            nav.classList.add('nav-visible', 'nav-slide-down');
-        }
-
-        function hideNav() {
-            if (!nav) return;
-            // Don't hide if we're near the bottom
-            if (getScrollPercent() >= BOTTOM_THRESHOLD_PERCENT) return;
-
-            nav.classList.remove('nav-visible', 'nav-slide-down');
-            nav.classList.add('nav-slide-up');
-            // After animation completes, add hidden class
-            setTimeout(() => {
-                if (getScrollPercent() < BOTTOM_THRESHOLD_PERCENT && window.scrollY > SCROLL_THRESHOLD) {
-                    nav.classList.add('nav-hidden');
-                }
-            }, 300);
-        }
-
-        function updateNavVisibility() {
-            const currentScrollY = window.scrollY;
-            const scrollPercent = getScrollPercent();
-            const isScrollingDown = currentScrollY > lastScrollY;
-            const isScrollingUp = currentScrollY < lastScrollY;
-
-            // Always show when near bottom of page
-            if (scrollPercent >= BOTTOM_THRESHOLD_PERCENT) {
-                showNav();
-                lastScrollY = currentScrollY;
-                return;
+        nav.classList.remove('nav-visible', 'nav-slide-down');
+        nav.classList.add('nav-slide-up');
+        // After animation completes, add hidden class
+        setTimeout(() => {
+            const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+            if (getScrollPercent() < BOTTOM_THRESHOLD_PERCENT && currentScroll > SCROLL_THRESHOLD) {
+                const navEl = document.getElementById('main-nav');
+                navEl?.classList.add('nav-hidden');
             }
+        }, 300);
+    }
 
-            // Show at top of page
-            if (currentScrollY <= SCROLL_THRESHOLD) {
-                showNav();
-                lastScrollY = currentScrollY;
-                return;
-            }
+    function updateNavVisibility() {
+        const currentScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        const scrollPercent = getScrollPercent();
+        const isScrollingDown = currentScrollY > lastScrollY;
+        const isScrollingUp = currentScrollY < lastScrollY;
 
-            // Scrolling down - hide
-            if (isScrollingDown && currentScrollY > SCROLL_THRESHOLD) {
-                hideNav();
-            }
-
-            // Scrolling up - show
-            if (isScrollingUp) {
-                showNav();
-            }
-
+        // Always show when near bottom of page
+        if (scrollPercent >= BOTTOM_THRESHOLD_PERCENT) {
+            showNav();
             lastScrollY = currentScrollY;
+            return;
         }
 
-        // Handle scroll with throttling
-        function handleScroll() {
-            if (scrollTimeout) clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(updateNavVisibility, 10);
+        // Show at top of page
+        if (currentScrollY <= SCROLL_THRESHOLD) {
+            showNav();
+            lastScrollY = currentScrollY;
+            return;
+        }
+
+        // Scrolling down - hide (need significant movement to trigger)
+        if (isScrollingDown && currentScrollY > SCROLL_THRESHOLD && (currentScrollY - lastScrollY) > 5) {
+            hideNav();
+        }
+
+        // Scrolling up - show (need significant movement to trigger)
+        if (isScrollingUp && (lastScrollY - currentScrollY) > 5) {
+            showNav();
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    // Handle scroll with throttling
+    function handleNavScroll() {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateNavVisibility, 10);
+    }
+
+    function setupNavigation() {
+        // Only attach listener once
+        if (navScrollListenerAttached) {
+            // Just reset state and update visibility
+            lastScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+            updateNavVisibility();
+            return;
         }
 
         // Initial setup
+        lastScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
         updateNavVisibility();
 
-        // Event listeners
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        // Event listeners - use both scroll and touchmove for better mobile support
+        window.addEventListener('scroll', handleNavScroll, { passive: true });
+
+        navScrollListenerAttached = true;
     }
 
     // Handle scroll-based navigation highlighting
@@ -773,11 +792,18 @@ const isActive = (href: string) => {
         setupScrollNavigation();
     }
 
-    // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', initNavigation);
-
-    // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initNavigation);
+    // Use lifecycle manager if available, otherwise fallback to direct events
+    import('@/lib/lifecycle').then(({ onPageLoad }) => {
+        onPageLoad('navigation', initNavigation);
+    }).catch(() => {
+        // Fallback if lifecycle manager not available
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initNavigation);
+        } else {
+            initNavigation();
+        }
+        document.addEventListener('astro:page-load', initNavigation);
+    });
 </script>
 
 <style>

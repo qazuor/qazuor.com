@@ -22,10 +22,11 @@ export type PopoverPosition = 'center' | 'left' | 'right';
 /**
  * Configuration constants
  */
-const TIMELINE_SPACING_DESKTOP = 180;
+const TIMELINE_SPACING_DESKTOP = 150;
 const TIMELINE_SPACING_MOBILE = 100;
 const POPOVER_WIDTH_DESKTOP = 500;
 const POPOVER_WIDTH_MOBILE = 280;
+const HOVER_DEBOUNCE_MS = 100;
 
 /**
  * Hook parameters
@@ -103,6 +104,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const timelineRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const scrollTimeoutRef = useRef<number | null>(null);
+    const hoverTimeoutRef = useRef<number | null>(null);
     const touchStartX = useRef<number>(0);
     const touchEndX = useRef<number>(0);
 
@@ -302,18 +304,29 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             if (scrollTimeoutRef.current) {
                 clearTimeout(scrollTimeoutRef.current);
             }
+            if (hoverTimeoutRef.current) {
+                clearTimeout(hoverTimeoutRef.current);
+            }
         };
     }, []);
 
     /**
-     * Handle mouse over timeline item
+     * Handle mouse over timeline item with debounce
      */
     const handleMouseOver = useCallback(
         (_item: TimelineItem, index: number) => {
             if (isScrolling) return;
 
-            setIsAutoPlaying(false);
-            navigateToItem(index);
+            // Clear any pending hover timeout
+            if (hoverTimeoutRef.current) {
+                clearTimeout(hoverTimeoutRef.current);
+            }
+
+            // Debounce the navigation to prevent accidental switches
+            hoverTimeoutRef.current = setTimeout(() => {
+                setIsAutoPlaying(false);
+                navigateToItem(index);
+            }, HOVER_DEBOUNCE_MS) as unknown as number;
         },
         [isScrolling, navigateToItem]
     );
@@ -336,6 +349,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         setIsScrolling(false);
         if (scrollTimeoutRef.current) {
             clearTimeout(scrollTimeoutRef.current);
+        }
+
+        // Cancel any pending hover navigation
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current);
         }
 
         document.documentElement.style.overflowY = 'auto';

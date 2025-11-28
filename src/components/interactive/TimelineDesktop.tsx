@@ -87,45 +87,81 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
 
                         {/* Timeline items - each one self-contained */}
                         {timelineItems.map((item, index) => (
-                            // biome-ignore lint/a11y/useSemanticElements: Using div instead of button to maintain complex flex layout and custom styling
                             <div
                                 key={item.id}
-                                className="flex flex-col items-center relative group cursor-pointer"
-                                onMouseOver={() => timeline.handleMouseOver(item, index)}
-                                onFocus={() => timeline.handleMouseOver(item, index)}
-                                role="button"
-                                tabIndex={0}
+                                className="flex flex-col items-center relative group"
                                 style={{
                                     width: `${timeline.TIMELINE_SPACING}px`,
                                     flexShrink: 0,
                                     minHeight: '120px'
                                 }}
                             >
-                                {/* Year */}
+                                {/* Interactive hover area - smaller than full width */}
+                                {/* biome-ignore lint/a11y/useSemanticElements: Using div instead of button to maintain complex flex layout and custom styling */}
                                 <div
-                                    className={`text-sm mb-4 font-mono tracking-wider font-semibold transition-all duration-300 ${
-                                        timeline.selectedItem?.id === item.id
-                                            ? 'opacity-100 scale-110'
-                                            : 'opacity-50 hover:opacity-90'
-                                    }`}
-                                    style={{
-                                        color:
-                                            timeline.selectedItem?.id === item.id
-                                                ? item.colorHex
-                                                : 'hsl(var(--text-secondary))'
-                                    }}
+                                    className="flex flex-col items-center cursor-pointer px-2"
+                                    onMouseOver={() => timeline.handleMouseOver(item, index)}
+                                    onFocus={() => timeline.handleMouseOver(item, index)}
+                                    role="button"
+                                    tabIndex={0}
                                 >
-                                    {item.year}
-                                </div>
+                                    {/* Year */}
+                                    <div
+                                        className={`text-sm mb-4 font-mono tracking-wider font-semibold transition-all duration-300 ${
+                                            timeline.selectedItem?.id === item.id
+                                                ? 'opacity-100 scale-110'
+                                                : 'opacity-50 hover:opacity-90'
+                                        }`}
+                                        style={{
+                                            color:
+                                                timeline.selectedItem?.id === item.id
+                                                    ? item.colorHex
+                                                    : 'hsl(var(--text-secondary))'
+                                        }}
+                                    >
+                                        {item.year}
+                                    </div>
 
-                                {/* Main dividing line - exactly below the year */}
-                                <div
-                                    className="w-0.5 h-6 relative z-10 translate-y-1/2 transition-opacity duration-300"
-                                    style={{
-                                        backgroundColor: 'hsl(var(--muted))',
-                                        opacity: timeline.selectedItem?.id === item.id ? '0' : '0.8'
-                                    }}
-                                />
+                                    {/* Main dividing line - exactly below the year */}
+                                    <div
+                                        className="w-0.5 h-6 relative z-10 translate-y-1/2 transition-opacity duration-300"
+                                        style={{
+                                            backgroundColor: 'hsl(var(--muted))',
+                                            opacity: timeline.selectedItem?.id === item.id ? '0' : '0.8'
+                                        }}
+                                    />
+
+                                    {/* Timeline point - moves down with gap after the line */}
+                                    <div
+                                        className={`w-10 h-10 flex items-center justify-center relative z-10 transition-all duration-300 ease-out ${
+                                            timeline.selectedItem?.id === item.id
+                                                ? 'transform translate-y-16'
+                                                : 'translate-y-2'
+                                        }`}
+                                    >
+                                        {/* Icon from data with larger sizes and enhanced effects */}
+                                        <div
+                                            className={`transition-all duration-300 ${
+                                                timeline.selectedItem?.id === item.id
+                                                    ? 'grayscale-0 transform scale-150 drop-shadow-2xl brightness-110'
+                                                    : 'grayscale opacity-60 hover:opacity-80 hover:scale-110'
+                                            }`}
+                                            style={{
+                                                color:
+                                                    timeline.selectedItem?.id === item.id
+                                                        ? item.colorHex
+                                                        : 'hsl(var(--text-muted))'
+                                            }}
+                                        >
+                                            <TimelineIcon
+                                                iconName={item.icon}
+                                                className={
+                                                    timeline.selectedItem?.id === item.id ? 'w-7 h-7' : 'w-5 h-5'
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
 
                                 {/* Extended vertical line from timeline mark - animated with absolute positioning */}
                                 <div
@@ -142,35 +178,6 @@ export default function TimelineDesktop({ timelineItems }: TimelineDesktopProps)
                                                 : 'transparent'
                                     }}
                                 />
-
-                                {/* Timeline point - moves down with gap after the line */}
-                                <div
-                                    className={`w-10 h-10 flex items-center justify-center relative z-10 transition-all duration-300 ease-out ${
-                                        timeline.selectedItem?.id === item.id
-                                            ? 'transform translate-y-16'
-                                            : 'translate-y-2'
-                                    }`}
-                                >
-                                    {/* Icon from data with larger sizes and enhanced effects */}
-                                    <div
-                                        className={`transition-all duration-300 ${
-                                            timeline.selectedItem?.id === item.id
-                                                ? 'grayscale-0 transform scale-150 drop-shadow-2xl brightness-110'
-                                                : 'grayscale opacity-60 hover:opacity-80 hover:scale-110'
-                                        }`}
-                                        style={{
-                                            color:
-                                                timeline.selectedItem?.id === item.id
-                                                    ? item.colorHex
-                                                    : 'hsl(var(--text-muted))'
-                                        }}
-                                    >
-                                        <TimelineIcon
-                                            iconName={item.icon}
-                                            className={timeline.selectedItem?.id === item.id ? 'w-7 h-7' : 'w-5 h-5'}
-                                        />
-                                    </div>
-                                </div>
 
                                 {/* Intermediate lines - only for elements that are not the last */}
                                 {index < timelineItems.length - 1 && (

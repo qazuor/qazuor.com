@@ -1,6 +1,8 @@
 import Lenis from '@studio-freight/lenis';
 
 let lenisInstance: Lenis | null = null;
+// MF-012: Store RAF ID for visibility optimization
+let rafId: number | null = null;
 
 /**
  * Initialize Lenis smooth scroll
@@ -18,13 +20,28 @@ export function initLenis() {
         touchMultiplier: 1.0
     });
 
-    // Request animation frame loop
+    // MF-012: Request animation frame loop with visibility check
     function raf(time: number) {
+        // Skip RAF when tab is hidden to save battery
+        if (document.hidden) {
+            rafId = requestAnimationFrame(raf);
+            return;
+        }
         lenisInstance?.raf(time);
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
+
+    // MF-012: Pause/resume RAF on visibility change
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        } else if (!document.hidden && !rafId) {
+            rafId = requestAnimationFrame(raf);
+        }
+    });
 
     return lenisInstance;
 }

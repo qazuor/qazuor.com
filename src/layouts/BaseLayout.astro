@@ -401,6 +401,51 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Mermaid Diagram Renderer (Lazy Load) -->
         <script type="module" is:inline>
+            // MF-010: Theme detection for Mermaid diagrams
+            function getMermaidTheme() {
+                return document.documentElement.classList.contains('dark') ? 'dark' : 'default';
+            }
+
+            function getMermaidThemeVariables() {
+                const isDark = document.documentElement.classList.contains('dark');
+                if (isDark) {
+                    return {
+                        primaryColor: '#8b5cf6',
+                        primaryTextColor: '#f3f4f6',
+                        primaryBorderColor: '#8b5cf6',
+                        lineColor: '#22d3ee',
+                        secondaryColor: '#1e293b',
+                        tertiaryColor: '#334155',
+                        background: '#1e293b',
+                        mainBkg: '#1e293b',
+                        secondaryBkg: '#334155',
+                        textColor: '#f3f4f6',
+                        fontSize: '16px',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        edgeLabelBackground: '#1e293b',
+                        labelBackground: '#1e293b',
+                        labelColor: '#f3f4f6'
+                    };
+                }
+                return {
+                    primaryColor: '#3b82f6',
+                    primaryTextColor: '#1f2937',
+                    primaryBorderColor: '#3b82f6',
+                    lineColor: '#0891b2',
+                    secondaryColor: '#f1f5f9',
+                    tertiaryColor: '#e2e8f0',
+                    background: '#ffffff',
+                    mainBkg: '#f8fafc',
+                    secondaryBkg: '#f1f5f9',
+                    textColor: '#1f2937',
+                    fontSize: '16px',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    edgeLabelBackground: '#ffffff',
+                    labelBackground: '#ffffff',
+                    labelColor: '#1f2937'
+                };
+            }
+
             // Mermaid initialization function
             async function initializeMermaid() {
                 // Check for mermaid blocks FIRST (before loading library)
@@ -416,27 +461,14 @@ const alternateLinks = locales.map((locale) => {
                     );
                     const mermaid = mermaidModule.default || mermaidModule;
 
-                    // Initialize Mermaid
+                    // Store mermaid reference for theme change re-render
+                    window.__mermaidInstance = mermaid;
+
+                    // Initialize Mermaid with current theme
                     mermaid.initialize({
                         startOnLoad: false,
-                        theme: 'dark',
-                        themeVariables: {
-                            primaryColor: '#8b5cf6',
-                            primaryTextColor: '#f3f4f6',
-                            primaryBorderColor: '#8b5cf6',
-                            lineColor: '#22d3ee',
-                            secondaryColor: '#1e293b',
-                            tertiaryColor: '#334155',
-                            background: '#1e293b',
-                            mainBkg: '#1e293b',
-                            secondaryBkg: '#334155',
-                            textColor: '#f3f4f6',
-                            fontSize: '16px',
-                            fontFamily: 'Inter, system-ui, sans-serif',
-                            edgeLabelBackground: '#1e293b',
-                            labelBackground: '#1e293b',
-                            labelColor: '#f3f4f6'
-                        },
+                        theme: getMermaidTheme(),
+                        themeVariables: getMermaidThemeVariables(),
                         flowchart: {
                             curve: 'basis',
                             lineWidth: 3,
@@ -542,6 +574,39 @@ const alternateLinks = locales.map((locale) => {
 
             // Re-initialize after View Transitions navigation
             document.addEventListener('astro:page-load', initializeMermaid);
+
+            // MF-010: Re-render diagrams on theme change
+            document.addEventListener('theme-changed', async () => {
+                const mermaid = window.__mermaidInstance;
+                if (!mermaid) return;
+
+                const mermaidContainers = document.querySelectorAll('.mermaid-container');
+                if (mermaidContainers.length === 0) return;
+
+                // Re-initialize with new theme
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme: getMermaidTheme(),
+                    themeVariables: getMermaidThemeVariables(),
+                    flowchart: {
+                        curve: 'basis',
+                        lineWidth: 3,
+                        padding: 20,
+                        diagramPadding: 8,
+                        htmlLabels: true,
+                        rankSpacing: 50,
+                        nodeSpacing: 50
+                    },
+                    securityLevel: 'loose'
+                });
+
+                // Re-run mermaid on existing diagrams
+                try {
+                    await mermaid.run();
+                } catch (err) {
+                    console.error('Mermaid re-render failed:', err);
+                }
+            });
         </script>
 
         {/* Analytics and scripts can be added here */}

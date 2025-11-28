@@ -239,11 +239,16 @@ const colorsLightString = colorsLight.join(',');
                 this._parent?.addEventListener('focusout', this);
             }
 
-            // Observe theme changes
+            // MF-011: Observe theme changes with debounce
+            let debounceTimer: ReturnType<typeof setTimeout> | null = null;
             this.themeObserver = new MutationObserver((mutations) => {
                 for (const mutation of mutations) {
                     if (mutation.attributeName === 'class') {
-                        this.init(); // Reinitialize with new colors
+                        // Debounce to avoid multiple rapid reinitializations
+                        if (debounceTimer) clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(() => {
+                            this.init(); // Reinitialize with new colors
+                        }, 50);
                     }
                 }
             });

@@ -866,20 +866,41 @@ const testimonials = allTestimonials.map((t, i) => ({
 
 <script>
     // ============================================
-    // All event handlers use EVENT DELEGATION
-    // This ensures compatibility with View Transitions
+    // Guard flag to prevent duplicate event listeners
     // ============================================
+    declare global {
+        interface Window {
+            __testimonialsInitialized?: boolean;
+        }
+    }
 
-    // Store scroll position globally for modal
-    let savedScrollY = 0;
+    // Check if already initialized (prevents duplicate listeners on View Transitions)
+    if (window.__testimonialsInitialized) {
+        // Already initialized - the astro:page-load listener will handle state reset
+        // No need to re-add event listeners
+    } else {
+        window.__testimonialsInitialized = true;
 
-    // Store visible count for "View More" functionality
-    let visibleCount = 3;
+        // ============================================
+        // All event handlers use EVENT DELEGATION
+        // This ensures compatibility with View Transitions
+        // ============================================
 
-    // ============================================
-    // EVENT DELEGATION: Mouse move for 3D tilt effect
-    // ============================================
-    document.addEventListener('mousemove', (e: MouseEvent) => {
+        // Store scroll position globally for modal
+        let savedScrollY = 0;
+
+        // Store visible count for "View More" functionality
+        let visibleCount = 3;
+
+        // Cleanup handler for View Transitions
+        document.addEventListener('astro:before-swap', () => {
+            window.__testimonialsInitialized = false;
+        }, { once: true });
+
+        // ============================================
+        // EVENT DELEGATION: Mouse move for 3D tilt effect
+        // ============================================
+        document.addEventListener('mousemove', (e: MouseEvent) => {
         const target = e.target;
         if (!(target instanceof Element)) return;
 
@@ -1146,4 +1167,6 @@ const testimonials = allTestimonials.map((t, i) => ({
     // Initialize on page load and after View Transitions
     initTestimonials();
     document.addEventListener('astro:page-load', initTestimonials);
+
+    } // End of else block (guard flag check)
 </script>

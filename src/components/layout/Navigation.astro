@@ -551,6 +551,11 @@ const isActive = (href: string) => {
     const SCROLL_THRESHOLD = 50;
     const BOTTOM_THRESHOLD_PERCENT = 95;
 
+    // MF-003: Store IntersectionObserver reference for cleanup
+    let sectionObserver: IntersectionObserver | null = null;
+    // MF-002: Flag to prevent duplicate scroll-to-top listener
+    let scrollNavListenerAttached = false;
+
     function getScrollPercent(): number {
         const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -602,6 +607,11 @@ const isActive = (href: string) => {
         // Show at top of page
         if (currentScrollY <= SCROLL_THRESHOLD) {
             showNav();
+            // MF-002: Clear nav active states when at top (replaces duplicate scroll listener)
+            const clearFn = (window as unknown as { __clearNavActiveStates?: () => void }).__clearNavActiveStates;
+            if (currentScrollY < 100 && clearFn) {
+                clearFn();
+            }
             lastScrollY = currentScrollY;
             return;
         }
@@ -690,6 +700,27 @@ const isActive = (href: string) => {
             });
         }
 
+        // Function to clear active states (used when at top of page)
+        function clearActiveStates(): void {
+            navLinks.forEach((link) => {
+                link.classList.remove('text-primary');
+                link.classList.add('text-foreground-secondary');
+                const underline = link.querySelector('span');
+                underline?.classList.remove('w-full');
+                underline?.classList.add('w-0');
+            });
+            mobileNavLinks.forEach((link) => {
+                link.classList.remove('text-primary', 'bg-primary/10');
+                link.classList.add('text-foreground-secondary');
+            });
+        }
+
+        // MF-003: Disconnect existing observer before creating new one
+        if (sectionObserver) {
+            sectionObserver.disconnect();
+            sectionObserver = null;
+        }
+
         // Intersection Observer for scroll detection
         const observerOptions = {
             root: null,
@@ -697,7 +728,7 @@ const isActive = (href: string) => {
             threshold: 0
         };
 
-        const observer = new IntersectionObserver((entries) => {
+        sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     updateActiveLink(entry.target.id);
@@ -706,25 +737,17 @@ const isActive = (href: string) => {
         }, observerOptions);
 
         sections.forEach((section) => {
-            observer.observe(section);
+            sectionObserver?.observe(section);
         });
 
-        // Handle scroll to top (clear active states)
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset < 100) {
-                navLinks.forEach((link) => {
-                    link.classList.remove('text-primary');
-                    link.classList.add('text-foreground-secondary');
-                    const underline = link.querySelector('span');
-                    underline?.classList.remove('w-full');
-                    underline?.classList.add('w-0');
-                });
-                mobileNavLinks.forEach((link) => {
-                    link.classList.remove('text-primary', 'bg-primary/10');
-                    link.classList.add('text-foreground-secondary');
-                });
-            }
-        });
+        // MF-002: Only add scroll listener once - integrate with handleNavScroll
+        // The clear active states logic is now handled in updateNavVisibility
+        // when scrollY < 100, so we don't need a separate listener
+        if (!scrollNavListenerAttached) {
+            scrollNavListenerAttached = true;
+            // Store reference to clearActiveStates for use in scroll handler
+            (window as unknown as { __clearNavActiveStates?: () => void }).__clearNavActiveStates = clearActiveStates;
+        }
     }
 
     // Smooth scroll click handler using event delegation
@@ -786,8 +809,27 @@ const isActive = (href: string) => {
         }
     }, true); // CAPTURE PHASE - intercepts event before it bubbles
 
+    // MF-003 & MF-004: Cleanup handler for View Transitions
+    document.addEventListener('astro:before-swap', () => {
+        // Disconnect IntersectionObserver
+        if (sectionObserver) {
+            sectionObserver.disconnect();
+            sectionObserver = null;
+        }
+        // Reset module state
+        lastScrollY = 0;
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = undefined;
+        }
+        // Reset flags for next page
+        scrollNavListenerAttached = false;
+    }, { once: true });
+
     // Initialize navigation functions
     function initNavigation(): undefined {
+        // MF-004: Reset lastScrollY on init
+        lastScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
         setupNavigation();
         setupScrollNavigation();
         return undefined;

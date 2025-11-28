@@ -192,32 +192,53 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
 </section>
 
 <script define:vars={{ filterAll: translations?.filterAll || 'All' }} is:inline>
-    // Ensure filterAll is available (injected by Astro define:vars)
-    const filterAllValue = filterAll;
+    // MF-005: Guard flag to prevent duplicate event listeners
+    if (window.__projectsFilterInitialized) {
+        // Already initialized - just reinit the cards data
+        const initCards = () => {
+            const initialCards = document.querySelectorAll('.project-card');
+            window.__allProjectCards = Array.from(initialCards).map(card => ({
+                element: card.cloneNode(true),
+                tags: JSON.parse(card.getAttribute('data-tags') || '[]')
+            }));
+        };
+        initCards();
+    } else {
+        window.__projectsFilterInitialized = true;
 
-    // Store all project cards data for filtering
-    let allProjectCards = [];
+        // Ensure filterAll is available (injected by Astro define:vars)
+        const filterAllValue = filterAll;
 
-    // Initialize: capture all project cards
-    function initProjectCards() {
-        const initialCards = document.querySelectorAll('.project-card');
-        allProjectCards = Array.from(initialCards).map(card => ({
-            element: card.cloneNode(true),
-            tags: JSON.parse(card.getAttribute('data-tags') || '[]')
-        }));
-    }
+        // Store all project cards data for filtering (on window for persistence)
+        window.__allProjectCards = [];
 
-    // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', initProjectCards);
+        // Initialize: capture all project cards
+        function initProjectCards() {
+            const initialCards = document.querySelectorAll('.project-card');
+            window.__allProjectCards = Array.from(initialCards).map(card => ({
+                element: card.cloneNode(true),
+                tags: JSON.parse(card.getAttribute('data-tags') || '[]')
+            }));
+        }
 
-    // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initProjectCards);
+        // Initialize on initial page load
+        document.addEventListener('DOMContentLoaded', initProjectCards);
 
-    // Event delegation for filter buttons
-    // This persists across View Transitions without needing to re-register
-    document.addEventListener('click', (e) => {
-        const target = e.target;
-        const button = target.closest('.filter-button');
+        // Re-initialize after View Transitions navigation
+        document.addEventListener('astro:page-load', initProjectCards);
+
+        // Cleanup handler for View Transitions
+        document.addEventListener('astro:before-swap', () => {
+            window.__projectsFilterInitialized = false;
+        }, { once: true });
+
+        // Event delegation for filter buttons
+        // This persists across View Transitions without needing to re-register
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            // MF-005: Add instanceof Element check before using closest()
+            if (!(target instanceof Element)) return;
+            const button = target.closest('.filter-button');
 
         if (!button) return;
 
@@ -239,7 +260,7 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
         currentCards.forEach(card => card.remove());
 
         // Filter and add matching cards
-        const matchingCards = allProjectCards.filter(({ tags }) =>
+        const matchingCards = (window.__allProjectCards || []).filter(({ tags }) =>
             filter === filterAllValue || tags.includes(filter)
         );
 
@@ -256,4 +277,6 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
             emptyState?.classList.add('hidden');
         }
     });
+
+    } // End of else block (guard flag check)
 </script>

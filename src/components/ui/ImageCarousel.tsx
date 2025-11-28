@@ -62,7 +62,7 @@ export function ImageCarousel({
                 <img
                     src={images[0]}
                     alt={alt}
-                    className={`w-full object-cover rounded-lg ${fullHeight ? 'h-full' : 'h-full'}`}
+                    className={`w-full h-full object-cover ${fullHeight ? '' : 'rounded-lg'}`}
                     loading="lazy"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg flex items-center justify-center">
@@ -101,7 +101,7 @@ export function ImageCarousel({
                                 <img
                                     src={image}
                                     alt={`${alt} ${index + 1}`}
-                                    className={`w-full object-cover ${fullHeight ? 'h-full' : 'aspect-video'}`}
+                                    className={`w-full h-full object-cover ${fullHeight ? '' : 'aspect-video'}`}
                                     loading="lazy"
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">

@@ -115,7 +115,9 @@ export function ProjectCard({
                     }`}
                 >
                     {/* Image Section */}
-                    <div className={`${isReversed ? 'md:order-2' : 'md:order-1'} h-full relative group`}>
+                    <div
+                        className={`${isReversed ? 'md:order-2' : 'md:order-1'} h-full relative group overflow-hidden`}
+                    >
                         <ImageCarousel images={images} onImageClick={handleImageClick} alt={title} fullHeight />
                         {/* Gradient overlay */}
                         <div

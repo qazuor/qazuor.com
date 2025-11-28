@@ -111,7 +111,7 @@ const goodiesCategories = [
 ];
 
 // Helper function to format nav labels as HTML tags
-const formatAsTag = (label: string) => `<${label.toLowerCase()} />`;
+const formatAsTag = (label: string) => `<${label.toLowerCase()}/>`;
 
 // Services dropdown translations (clean markdown syntax)
 const servicesDropdownTranslations = {
@@ -138,7 +138,10 @@ const isHomePage =
 const navItems = [
     { href: `${translatePath('/', lang)}#about`, label: formatAsTag(t('nav.about')) },
     { href: `${translatePath('/', lang)}#skills`, label: formatAsTag(t('nav.skills')) },
-    { href: `${translatePath('/', lang)}#projects`, label: formatAsTag(t('nav.projects')) },
+    {
+        href: isHomePage ? `${translatePath('/', lang)}#projects` : translatePath('/projects', lang),
+        label: formatAsTag(t('nav.projects'))
+    },
     {
         href: isHomePage ? `${translatePath('/', lang)}#blog` : translatePath('/blog', lang),
         label: formatAsTag(t('nav.blog'))
@@ -217,7 +220,7 @@ const isActive = (href: string) => {
                             <a
                                 href={item.href.includes('#') ? item.href : normalizeTrailingSlash(item.href)}
                                 class={`nav-link text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base relative group ${
-                                    isActive(item.href) ? 'text-primary' : 'text-foreground-secondary hover:text-foreground'
+                                    isActive(item.href) ? 'text-primary' : 'text-foreground/80 hover:text-foreground'
                                 }`}
                                 data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
                                 data-is-home-page={isHomePage ? 'true' : 'false'}
@@ -298,52 +301,19 @@ const isActive = (href: string) => {
             <div class="py-2 space-y-1">
                 {
                     navItems.map((item) => {
-                        // Services with collapsible submenu
+                        // Services - direct link to all services page
                         if (item.href.includes('/services')) {
                             return (
-                                <div>
-                                    {/* Main Services Toggle Button */}
-                                    <button
-                                        type="button"
-                                        id="services-toggle"
-                                        class={`nav-link-mobile w-full flex items-center justify-between px-4 py-3 text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base ${
-                                            isActive(item.href)
-                                                ? 'bg-primary/10 text-primary'
-                                                : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
-                                        }`}
-                                    >
-                                        <span>{item.label}</span>
-                                        <svg
-                                            id="services-arrow"
-                                            class="w-4 h-4 transition-transform duration-200"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </button>
-                                    {/* Services Submenu - Hidden by default */}
-                                    <div id="services-submenu" class="hidden pl-4 space-y-1 overflow-hidden">
-                                        {services.map((service) => {
-                                            const serviceLabel = servicesDropdownTranslations[
-                                                service.id === 'web-apps' ? 'webApps' :
-                                                service.id === 'landing-pages' ? 'landingPages' :
-                                                service.id === 'automation-integration' ? 'automation' :
-                                                'socialDesign'
-                                            ];
-                                            return (
-                                                <a
-                                                    href={`/${lang}/services/${service.slug}`}
-                                                    class="nav-link-mobile block px-4 py-2 text-[0.65rem] text-foreground-secondary hover:bg-foreground/5 hover:text-foreground transition-all duration-base rounded-lg"
-                                                >
-                                                    <ServiceIcon name={service.iconId} size={14} class="mr-2 inline" />
-                                                    {serviceLabel}
-                                                </a>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
+                                <a
+                                    href={normalizeTrailingSlash(item.href)}
+                                    class={`nav-link-mobile block px-4 py-3 text-sm font-medium font-mono whitespace-nowrap transition-all duration-base ${
+                                        isActive(item.href)
+                                            ? 'bg-primary/10 text-primary'
+                                            : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground'
+                                    }`}
+                                >
+                                    {item.label}
+                                </a>
                             );
                         }
 
@@ -351,10 +321,10 @@ const isActive = (href: string) => {
                         return (
                             <a
                                 href={normalizeTrailingSlash(item.href)}
-                                class={`nav-link-mobile block px-4 py-3 text-[0.65rem] font-medium font-mono whitespace-nowrap transition-all duration-base ${
+                                class={`nav-link-mobile block px-4 py-3 text-sm font-medium font-mono whitespace-nowrap transition-all duration-base ${
                                     isActive(item.href)
                                         ? 'bg-primary/10 text-primary'
-                                        : 'text-foreground-secondary hover:bg-foreground/5 hover:text-foreground'
+                                        : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground'
                                 }`}
                                 data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
                                 data-is-home-page={isHomePage ? 'true' : 'false'}
@@ -445,21 +415,6 @@ const isActive = (href: string) => {
         // Backdrop click - close mobile menu
         if (target.closest('#menu-backdrop')) {
             closeMobileMenu();
-            return;
-        }
-
-        // Services submenu toggle in mobile menu
-        if (target.closest('#services-toggle')) {
-            const servicesSubmenu = document.getElementById('services-submenu');
-            const servicesArrow = document.getElementById('services-arrow');
-            const isHidden = servicesSubmenu?.classList.contains('hidden');
-            if (isHidden) {
-                servicesSubmenu?.classList.remove('hidden');
-                servicesArrow?.classList.add('rotate-90');
-            } else {
-                servicesSubmenu?.classList.add('hidden');
-                servicesArrow?.classList.remove('rotate-90');
-            }
             return;
         }
 

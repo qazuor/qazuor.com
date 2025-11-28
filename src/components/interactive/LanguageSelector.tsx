@@ -120,7 +120,7 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
         );
     }
 
-    // Default mode: Both flags visible
+    // Default mode: Both flags visible (no text labels)
     return (
         <div className="language-selector flex gap-1 p-1 rounded-lg bg-muted">
             {languages.map((lang) => (
@@ -128,15 +128,14 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
                     key={lang.code}
                     type="button"
                     onClick={() => changeLanguage(lang.code)}
-                    className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    className={`px-2 py-1 rounded text-base transition-all ${
                         currentLocale === lang.code
-                            ? 'bg-card text-foreground shadow-sm'
-                            : 'text-muted-foreground hover:text-foreground'
+                            ? 'bg-primary/20 ring-2 ring-primary/50 scale-110'
+                            : 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0'
                     }`}
-                    aria-label={`Switch to ${lang.label}`}
+                    aria-label={`Switch to ${lang.name}`}
                 >
-                    <span className="mr-1">{lang.flag}</span>
-                    {lang.label}
+                    {lang.flag}
                 </button>
             ))}
         </div>

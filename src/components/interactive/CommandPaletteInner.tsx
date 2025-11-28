@@ -127,11 +127,10 @@ export function CommandPaletteInner({
     // Helper function to handle search result selection
     const handleSearchResultSelect = useCallback(
         (item: ContentSearchResult) => {
-            const fullUrl = `/${lang}${item.url}`;
-            navigate(fullUrl);
+            navigate(item.url);
             setOpen(false);
         },
-        [navigate, lang, setOpen]
+        [navigate, setOpen]
     );
 
     // Helper function to get content icons

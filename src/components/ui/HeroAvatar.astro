@@ -47,7 +47,7 @@ const { name, roles, className = '' } = Astro.props;
                 formats={['avif', 'webp', 'png']}
                 alt={`${name} - Full-Stack Developer`}
                 class="w-full h-auto absolute transition-all duration-100 top-0 left-0 opacity-0 photo-hover"
-                loading="lazy"
+                loading="eager"
                 decoding="async"
             />
         </div>

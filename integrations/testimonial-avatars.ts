@@ -38,14 +38,14 @@ export default function testimonialAvatarsIntegration(options: TestimonialAvatar
 
 async function downloadAvatars(verbose: boolean) {
     const testimonialsDir = join(__dirname, '../src/content/testimonials');
-    // Store avatars in public folder for direct URL access
-    const avatarsDir = join(__dirname, '../public/testimonials/avatars');
+    // Store avatars in src/content for Astro Image optimization
+    const avatarsDir = join(__dirname, '../src/content/testimonials/_avatars');
 
     // Ensure avatars directory exists
     if (!existsSync(avatarsDir)) {
         mkdirSync(avatarsDir, { recursive: true });
         if (verbose) {
-            console.log('   📁 Created public/testimonials/avatars directory');
+            console.log('   📁 Created src/content/testimonials/_avatars directory');
         }
     }
 
@@ -81,8 +81,8 @@ async function downloadAvatars(verbose: boolean) {
         const urlExt = getExtensionFromUrl(avatarUrl) || '.jpg';
         const avatarFileName = `${baseName}${urlExt}`;
         const avatarPath = join(avatarsDir, avatarFileName);
-        // Use absolute URL path for public folder
-        const avatarRelativePath = `/testimonials/avatars/${avatarFileName}`;
+        // Use relative path for Astro content collection image optimization
+        const avatarRelativePath = `./_avatars/${avatarFileName}`;
 
         // Check if already has correct avatar path
         const existingAvatarMatch = frontmatter.match(/avatar:\s*['"]?([^'"\n]+)['"]?/);

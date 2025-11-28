@@ -115,24 +115,48 @@ const sortedBlogPosts = allBlogPosts
         slug: `/${lang}/blog/${post.slug}`
     }));
 
-// Sort testimonials by order and date
-const sortedTestimonials = allTestimonials
-    .sort((a: CollectionEntry<'testimonials'>, b: CollectionEntry<'testimonials'>) => {
+// Sort testimonials by order and date, and optimize avatar images
+const sortedTestimonialsRaw = allTestimonials.sort(
+    (a: CollectionEntry<'testimonials'>, b: CollectionEntry<'testimonials'>) => {
         if (a.data.order !== b.data.order) {
             return a.data.order - b.data.order;
         }
         return b.data.date.getTime() - a.data.date.getTime();
+    }
+);
+
+// Process testimonials with optimized avatar images
+const sortedTestimonials = await Promise.all(
+    sortedTestimonialsRaw.map(async (testimonial: CollectionEntry<'testimonials'>) => {
+        let optimizedAvatar: string | undefined;
+
+        // Optimize avatar image if available (ImageMetadata from content collection)
+        if (testimonial.data.avatar) {
+            try {
+                const img = await getImage({
+                    src: testimonial.data.avatar as ImageMetadata,
+                    width: 96,
+                    height: 96,
+                    format: 'webp'
+                });
+                optimizedAvatar = img.src;
+            } catch (error) {
+                console.warn(`Failed to optimize avatar for ${testimonial.data.name}:`, error);
+            }
+        }
+
+        return {
+            name: testimonial.data.name,
+            role: testimonial.data.role,
+            company: testimonial.data.company,
+            content: testimonial.data.content,
+            avatar: optimizedAvatar,
+            avatarUrl: testimonial.data.avatarUrl,
+            linkedinUrl: testimonial.data.linkedinUrl,
+            source: testimonial.data.source
+        };
     })
-    .map((testimonial: CollectionEntry<'testimonials'>) => ({
-        name: testimonial.data.name,
-        role: testimonial.data.role,
-        company: testimonial.data.company,
-        content: testimonial.data.content,
-        avatar: testimonial.data.avatar,
-        avatarUrl: testimonial.data.avatarUrl,
-        linkedinUrl: testimonial.data.linkedinUrl,
-        source: testimonial.data.source
-    }));
+);
 
 // Translations for components
 const heroTranslations = {

@@ -53,19 +53,20 @@ const blogCollection = defineCollection({
 // Testimonials collection schema
 const testimonialsCollection = defineCollection({
     type: 'content',
-    schema: z.object({
-        name: z.string(),
-        role: z.string(),
-        company: z.string(),
-        content: z.string(),
-        avatar: z.string().optional(), // Local path (auto-generated from avatarUrl during build)
-        avatarUrl: z.string().url().optional(), // External URL - will be downloaded during build
-        linkedinUrl: z.string().url().optional(),
-        featured: z.boolean().default(false),
-        source: z.enum(['linkedin', 'email', 'other']).default('other'),
-        date: z.date(),
-        order: z.number().default(999)
-    })
+    schema: ({ image }) =>
+        z.object({
+            name: z.string(),
+            role: z.string(),
+            company: z.string(),
+            content: z.string(),
+            avatar: image().optional(), // Local image (auto-generated from avatarUrl during build)
+            avatarUrl: z.string().url().optional(), // External URL - will be downloaded during build
+            linkedinUrl: z.string().url().optional(),
+            featured: z.boolean().default(false),
+            source: z.enum(['linkedin', 'email', 'other']).default('other'),
+            date: z.date(),
+            order: z.number().default(999)
+        })
 });
 
 // Tools collection schema

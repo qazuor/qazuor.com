@@ -21,7 +21,7 @@ content:
   resumen, es alguien con alto nivel técnico, impacto real a nivel compañía y,
   al mismo tiempo, muy valioso en lo humano y en lo colaborativo.'
 avatarUrl: 'https://media.licdn.com/dms/image/v2/D4D03AQHuGvxRSV-31A/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1704036613038?e=1766016000&v=beta&t=mLvo1nkJcd_s0aMIFKzTSL8UXQjPkHXr_zbswYtbsG4'
-avatar: '/testimonials/avatars/jorge-luis-capoduri.jpg'
+avatar: './_avatars/jorge-luis-capoduri.jpg'
 linkedinUrl: 'https://www.linkedin.com/in/jorge-luis-capoduri-85834a30/'
 featured: true
 source: 'linkedin'

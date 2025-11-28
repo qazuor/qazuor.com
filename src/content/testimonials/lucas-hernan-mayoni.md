@@ -16,7 +16,7 @@ content:
   técnico. Recomiendo 100% a Leandro para cualquier posición o desafío que elija
   emprender.'
 avatarUrl: 'https://media.licdn.com/dms/image/v2/C4E03AQGMyzzugHsMTw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1588903751722?e=1766016000&v=beta&t=W4O3kb8sV9QqGsDXi9qRInvHu-lMwKvEFflMvumW0cY'
-avatar: '/testimonials/avatars/lucas-hernan-mayoni.jpg'
+avatar: './_avatars/lucas-hernan-mayoni.jpg'
 linkedinUrl: 'https://www.linkedin.com/in/lucasmayoni/'
 featured: true
 source: 'linkedin'

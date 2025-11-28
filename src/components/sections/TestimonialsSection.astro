@@ -880,9 +880,10 @@ const testimonials = allTestimonials.map((t, i) => ({
     // EVENT DELEGATION: Mouse move for 3D tilt effect
     // ============================================
     document.addEventListener('mousemove', (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
-        const card = target.closest('[data-tilt]') as HTMLElement | null;
+        const target = e.target;
+        if (!(target instanceof Element)) return;
 
+        const card = target.closest('[data-tilt]') as HTMLElement | null;
         if (!card) return;
 
         // Skip if reduced motion preference
@@ -915,7 +916,9 @@ const testimonials = allTestimonials.map((t, i) => ({
     // EVENT DELEGATION: Mouse leave for 3D tilt reset
     // ============================================
     document.addEventListener('mouseleave', (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+
         const card = target.closest('[data-tilt]') as HTMLElement | null;
 
         if (card) {
@@ -927,7 +930,9 @@ const testimonials = allTestimonials.map((t, i) => ({
     // EVENT DELEGATION: Mouseout for 3D tilt reset (backup)
     // ============================================
     document.addEventListener('mouseout', (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+
         const relatedTarget = e.relatedTarget as HTMLElement | null;
 
         // Check if we're leaving a tilt card
@@ -1020,7 +1025,8 @@ const testimonials = allTestimonials.map((t, i) => ({
     // EVENT DELEGATION: Mousedown to capture scroll position
     // ============================================
     document.addEventListener('mousedown', (e) => {
-        const target = e.target as HTMLElement;
+        const target = e.target;
+        if (!(target instanceof Element)) return;
         const trigger = target.closest('[data-testimonial-trigger]');
         if (trigger) {
             savedScrollY = window.scrollY;
@@ -1031,7 +1037,8 @@ const testimonials = allTestimonials.map((t, i) => ({
     // EVENT DELEGATION: Click for all interactions
     // ============================================
     document.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
+        const target = e.target;
+        if (!(target instanceof Element)) return;
 
         // Handle testimonial card click (open modal)
         const trigger = target.closest('[data-testimonial-trigger]');

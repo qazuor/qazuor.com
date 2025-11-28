@@ -7,7 +7,7 @@ import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
@@ -60,11 +60,13 @@ const featuredLinks: CollectionEntry<'useful-links'>[] = allUsefulLinks
 
 const title = t('goodies.title', { markdown: false });
 const description = t('goodies.subtitle', { markdown: false });
+const goodiesPageDescription = processMarkdown(t('goodies.pageDescription'));
 
 const categories = [
     {
         id: 'tools' as const,
         title: t('goodies.categories.tools'),
+        description: processMarkdown(t('tools.pageDescription')),
         items: featuredTools,
         total: allTools.length,
         href: translatePath('/goodies/tools', lang),
@@ -73,6 +75,7 @@ const categories = [
     {
         id: 'snippets' as const,
         title: t('goodies.categories.snippets'),
+        description: processMarkdown(t('snippets.pageDescription')),
         items: featuredSnippets,
         total: allSnippets.length,
         href: translatePath('/goodies/snippets', lang),
@@ -81,6 +84,7 @@ const categories = [
     {
         id: 'css-tricks' as const,
         title: t('goodies.categories.cssTricks'),
+        description: processMarkdown(t('cssTricks.pageDescription')),
         items: featuredCssTricks,
         total: allCssTricks.length,
         href: translatePath('/goodies/css-tricks', lang),
@@ -89,6 +93,7 @@ const categories = [
     {
         id: 'useful-links' as const,
         title: t('goodies.categories.usefulLinks'),
+        description: processMarkdown(t('usefulLinks.pageDescription')),
         items: featuredLinks,
         total: allUsefulLinks.length,
         href: translatePath('/goodies/useful-links', lang),
@@ -105,6 +110,9 @@ const categories = [
             <!-- Header -->
             <div class="mb-16">
                 <SectionTitle title={t('goodies.title', { markdown: true })} subtitle={t('goodies.subtitle', { markdown: true })} />
+
+                <!-- Page Description -->
+                <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={goodiesPageDescription} />
             </div>
 
             <!-- Categories Grid -->
@@ -112,23 +120,26 @@ const categories = [
                 {categories.map((category) => (
                     <section>
                         <!-- Category Header -->
-                        <div class="flex items-center justify-between mb-8">
-                            <div class="flex items-center gap-3">
-                                <CategoryIcon name={category.id} size={28} class="text-primary" />
-                                <div>
-                                    <h2 class="text-xl font-bold">{category.title}</h2>
-                                    <p class="text-sm text-foreground-secondary">{category.total} items</p>
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <CategoryIcon name={category.id} size={28} class="text-primary" />
+                                    <div>
+                                        <h2 class="text-xl font-bold">{category.title}</h2>
+                                        <p class="text-sm text-foreground-secondary">{category.total} items</p>
+                                    </div>
                                 </div>
+                                <a
+                                    href={category.href}
+                                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
+                                >
+                                    {category.viewAllLabel}
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
                             </div>
-                            <a
-                                href={category.href}
-                                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
-                            >
-                                {category.viewAllLabel}
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                            <p class="text-sm text-foreground-secondary max-w-3xl leading-relaxed ml-10" set:html={category.description} />
                         </div>
 
                         <!-- Items Preview -->

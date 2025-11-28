@@ -19,6 +19,7 @@ interface Props {
     translations?: {
         title: string;
         subtitle: string;
+        description?: string;
         viewAll: string;
     };
     lang?: string;
@@ -52,7 +53,12 @@ const featuredProjects = projects
 	<!-- Header Section -->
 	<div class="pb-16 md:pb-24 relative z-10">
 		<div class="container-custom">
-			<SectionTitle title={translations.title} subtitle={translations.subtitle} />
+			<SectionTitle
+				title={translations.title}
+				subtitle={translations.subtitle}
+				description={translations.description}
+				descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
+			/>
 		</div>
 	</div>
 

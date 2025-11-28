@@ -29,6 +29,7 @@ interface Props {
     translations: {
         title: string;
         subtitle: string;
+        description?: string;
         viewAll: string;
         noArticles: string;
         readMore: string;
@@ -119,7 +120,12 @@ const postsWithImages = await Promise.all(
 
     <div class="container-custom">
         <!-- Section Title -->
-        <SectionTitle title={translations.title} subtitle={translations.subtitle} />
+        <SectionTitle
+            title={translations.title}
+            subtitle={translations.subtitle}
+            description={translations.description}
+            descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
+        />
 
         <!-- Blog Cards Container -->
         <div class="blog-cards-container flex flex-col md:flex-row justify-between items-stretch gap-4 mb-12 min-h-[500px] md:min-h-[600px]" data-post-count={postsWithImages.length}>

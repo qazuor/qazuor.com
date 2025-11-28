@@ -78,6 +78,7 @@ const pageTitle = `${t('projects.title')} - qazuor.com`;
 const translations = {
     title: t('projects.title', { markdown: true }),
     subtitle: t('projects.subtitle', { markdown: true }),
+    description: t('projects.description', { markdown: true }),
     noResults: t('projects.noResults')
 };
 
@@ -99,6 +100,12 @@ const categoryTitles = {
     client: t('projects.categoryTitles.client')
 };
 
+const categoryDescriptions = {
+    'open-source': t('projects.categoryDescriptions.openSource', { markdown: true }),
+    commercial: t('projects.categoryDescriptions.commercial', { markdown: true }),
+    client: t('projects.categoryDescriptions.client', { markdown: true })
+};
+
 const cardTranslations = {
     viewProject: t('projects.card.viewProject'),
     categories: {
@@ -117,7 +124,12 @@ const cardTranslations = {
 
 		<div class="container-custom py-16 relative z-10">
 			<!-- Section Title -->
-			<SectionTitle title={translations.title} subtitle={translations.subtitle} />
+			<SectionTitle
+				title={translations.title}
+				subtitle={translations.subtitle}
+				description={translations.description}
+				descriptionClassName="!text-sm !max-w-3xl mx-auto mt-4 leading-relaxed"
+			/>
 
 			<!-- Filter Section with React Component -->
 			<ProjectFiltersManager
@@ -133,17 +145,23 @@ const cardTranslations = {
 
 					return (
 						<div class="mb-16 category-section" data-category={category}>
-							<div class="mb-8 flex items-center gap-3">
-								<span class="w-2 h-8 bg-primary rounded-full" />
-								<SecondaryTitle
-									text={categoryTitles[category as keyof typeof categoryTitles]}
-									element="h2"
-									size="xl"
-									showHtml={false}
+							<div class="mb-8">
+								<div class="flex items-center gap-3 mb-3">
+									<span class="w-2 h-8 bg-primary rounded-full" />
+									<SecondaryTitle
+										text={categoryTitles[category as keyof typeof categoryTitles]}
+										element="h2"
+										size="xl"
+										showHtml={false}
+									/>
+									<span class="category-count text-lg font-normal text-foreground-secondary">
+										({projects.length})
+									</span>
+								</div>
+								<p
+									class="text-foreground-secondary text-sm max-w-3xl leading-relaxed ml-5"
+									set:html={categoryDescriptions[category as keyof typeof categoryDescriptions]}
 								/>
-								<span class="category-count text-lg font-normal text-foreground-secondary">
-									({projects.length})
-								</span>
 							</div>
 
 							<div class="projects-grid flex flex-wrap -mx-3">

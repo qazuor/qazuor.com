@@ -26,6 +26,7 @@ interface ContactProps {
     translations?: {
         title: string;
         subtitle: string;
+        description?: string;
         info: {
             title: string;
             description: string;
@@ -97,6 +98,7 @@ export function Contact({
     translations = {
         title: 'Get In Touch',
         subtitle: "Have a project in mind? Let's work together!",
+        description: '',
         info: {
             title: "Let's Talk",
             description: "I'm open to any job opportunity: freelance, remote, full-time or collaborations.",
@@ -184,6 +186,13 @@ export function Contact({
                             {translations.subtitle}
                         </p>
                     </div>
+                    {translations.description && (
+                        <p
+                            className="text-foreground-secondary text-sm text-center max-w-3xl mx-auto mt-4 leading-relaxed"
+                            // biome-ignore lint/security/noDangerouslySetInnerHtml: Safe - content comes from i18n translations, not user input
+                            dangerouslySetInnerHTML={{ __html: translations.description }}
+                        />
+                    )}
                 </div>
 
                 {/* Split Layout: Info + Form Card */}

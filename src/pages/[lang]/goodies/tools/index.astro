@@ -8,7 +8,7 @@ import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
@@ -40,6 +40,7 @@ const categories = [
 
 const title = t('tools.title', { markdown: false });
 const description = t('tools.subtitle', { markdown: false });
+const toolsPageDescription = processMarkdown(t('tools.pageDescription'));
 const goodiesUrl = translatePath('/goodies', lang);
 ---
 
@@ -64,6 +65,9 @@ const goodiesUrl = translatePath('/goodies', lang);
             <!-- Header -->
             <div class="mb-16">
                 <SectionTitle title={t('tools.title', { markdown: true })} subtitle={t('tools.subtitle', { markdown: true })} />
+
+                <!-- Page Description -->
+                <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={toolsPageDescription} />
             </div>
 
             <!-- Category Filter -->

@@ -17,14 +17,15 @@ export function getLangFromUrl(url: URL): Locale {
 
 /**
  * Procesa marcadores Markdown en el texto
- * Soporta: **negrita**, *cursiva**, `código`
+ * Soporta: **negrita**, *cursiva*, `código`, [links](url), \n (saltos de línea)
  */
-function processMarkdown(text: string): string {
+export function processMarkdown(text: string): string {
     return text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **negrita**
         .replace(/\*(.*?)\*/g, '<em>$1</em>') // *cursiva*
         .replace(/`(.*?)`/g, '<code>$1</code>') // `código`
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>'); // [texto](url)
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>') // [texto](url)
+        .replace(/\n/g, '<br>'); // \n → <br>
 }
 
 /**

@@ -6,7 +6,7 @@ import CategoryIcon from '@/components/ui/CategoryIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
@@ -30,6 +30,7 @@ const sortedTricks: CollectionEntry<'css-tricks'>[] = allTricks.sort(
 
 const title = t('cssTricks.title', { markdown: false });
 const description = t('cssTricks.subtitle', { markdown: false });
+const cssTricksPageDescription = processMarkdown(t('cssTricks.pageDescription'));
 const goodiesUrl = translatePath('/goodies', lang);
 ---
 
@@ -54,6 +55,9 @@ const goodiesUrl = translatePath('/goodies', lang);
             <!-- Header -->
             <div class="mb-16">
                 <SectionTitle title={t('cssTricks.title', { markdown: true })} subtitle={t('cssTricks.subtitle', { markdown: true })} />
+
+                <!-- Page Description -->
+                <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={cssTricksPageDescription} />
             </div>
 
             <!-- CSS Tricks Grid -->

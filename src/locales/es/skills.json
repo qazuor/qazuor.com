@@ -1,7 +1,7 @@
 {
     "title": "**Habilidades**",
     "subtitle": "Tecnologías con las que *trabajo*",
-    "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.",
+    "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.\n\nMi zona de confort: el **Frontend**. Trabajo con React, Astro, TypeScript y Tailwind, cuidando cada detalle visual y técnico. Cuando hace falta, también meto mano en el Backend con Hono, Drizzle y PostgreSQL. Vengo del mundo del *diseño*, así que las interfaces no solo funcionan… también tienen onda.",
     "categories": {
         "technicalSkills": "Habilidades **Técnicas**",
         "humanCreativeSkills": "Habilidades **Humanas** y Creativas"

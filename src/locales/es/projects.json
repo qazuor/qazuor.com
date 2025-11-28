@@ -1,7 +1,7 @@
 {
     "title": "Proyectos **Destacados**",
     "subtitle": "Una colección de proyectos que he *construido* y en los que he **contribuido**",
-    "description": "Una colección de **aplicaciones web** y herramientas que he construido",
+    "description": "Acá vas a encontrar una mezcla de **productos propios**, **proyectos comerciales**, trabajos para **clientes** y algunos **experimentos** que fui convirtiendo en herramientas reales. Cada proyecto refleja cómo pienso el **frontend**, la arquitectura de **code**, el diseño y la experiencia de usuario, siempre con foco en cosas que se puedan usar, mantener y escalar.",
     "viewDemo": "**Demo**",
     "viewCode": "**Código**",
     "viewAll": "**Ver Todos los Proyectos** →",
@@ -32,6 +32,11 @@
         "openSource": "Proyectos Open Source",
         "commercial": "Proyectos Comerciales",
         "client": "Proyectos de Cliente"
+    },
+    "categoryDescriptions": {
+        "openSource": "Herramientas, librerías y pequeños productos que libero como **open source**. Son cosas que uso en mi propio día a día: si me ahorran tiempo o me ordenan el **code**, las documento y las publico para que otros también puedan construir más rápido.",
+        "commercial": "Productos digitales que construyo y mantengo como parte de mi propio ecosistema. Proyectos como **Hospeda** nacen de una necesidad real y están pensados desde el día uno para tener buen **diseño**, buena arquitectura de **code** y un modelo de negocio que pueda crecer sin romperse.",
+        "client": "Trabajos hechos a medida para **marcas**, **emprendimientos** y **organizaciones** que necesitaban algo más que una landing genérica. Desde sitios institucionales hasta paneles de gestión y pequeñas apps web, siempre con foco en claridad, performance y una base de **code** fácil de mantener."
     },
     "card": {
         "viewProject": "Ver Proyecto",

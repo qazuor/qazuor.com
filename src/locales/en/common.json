@@ -66,7 +66,8 @@
     "blog": {
         "title": "**Latest** Articles",
         "subtitle": "*Thoughts*, tutorials, and insights about **web development**",
-        "description": "Articles about **modern web development**, *best practices*, and lessons learned",
+        "description": "Articles and guides on **frontend**, **design**, **UX** and workflow. Blog posts you can read today and use today: less textbook theory, more real-world examples, architecture decisions and small hacks that make your daily **code** life easier.",
+        "pageDescription": "This blog is where I unpack what I use every day: **frontend**, **TypeScript**, **Astro**, **React**, **UX**, **code** architecture and workflows. You won't find textbook theory here, but real examples, design decisions and lessons learned from both personal products and client projects.\n\nThe idea is simple: share the kind of content I wish I had before running into certain problems. Less fluff, more context, practical best practices and enough detail so you can walk away from each post with something you can actually apply.",
         "readMore": "**Read more**",
         "readTime": "min read",
         "viewAll": "View **all** articles",
@@ -144,6 +145,7 @@
     "testimonials": {
         "title": "What People Say",
         "subtitle": "Kind words from colleagues, clients, and collaborators",
+        "description": "Feedback from **clients**, **peers** and people I've actually worked with. No invented quotes: real comments about how I approach projects, the quality of the **code**, day-to-day communication and the way I take an idea from first sketch all the way to production.",
         "noTestimonials": "No testimonials yet. Check back soon!",
         "readMore": "Read more",
         "readLess": "Read less",
@@ -153,6 +155,7 @@
     "contact": {
         "title": "Get In Touch",
         "subtitle": "Have a project in mind? Let's work together!",
+        "description": "Got a project in mind, need help with your **website**, or want a second opinion on your current **code**?\nReach out and we'll figure out what makes sense, priorities, scope and next steps — no pressure, no fluff.",
         "info": {
             "title": "Let's Talk",
             "description": "I'm open to any job opportunity: freelance, remote, full-time or collaborations.",
@@ -222,6 +225,7 @@
     "goodies": {
         "title": "Goodies",
         "subtitle": "Resources, utilities and snippets for devs",
+        "pageDescription": "This section brings together things I use every day: **tools**, **snippets**, small **CSS** ideas and a list of **links** worth keeping nearby. It's not theory or long courses, but practical resources to solve **frontend** problems faster and with better **code**.",
         "categories": {
             "all": "All Goodies",
             "tools": "Tools",
@@ -252,6 +256,7 @@
     "tools": {
         "title": "Tools",
         "subtitle": "Interactive tools and utilities",
+        "pageDescription": "Small **tools** built for everyday development: generators, helpers and utilities that simplify repetitive tasks. If something saves me time or reduces mistakes when writing **code**, it usually becomes a tool and ends up documented here.",
         "featured": "Featured Tools",
         "allTools": "All Tools",
         "noTools": "No tools found",
@@ -266,16 +271,19 @@
     "snippets": {
         "title": "Snippets",
         "subtitle": "Ready-to-use code snippets",
+        "pageDescription": "Ready-to-use **code** fragments you can copy, adapt and paste: **React** patterns, **TypeScript** helpers, **frontend** logic and functions I reuse constantly. The goal is to have an organized place to find quick solutions without reinventing the wheel every time.",
         "noSnippets": "No snippets found"
     },
     "cssTricks": {
         "title": "CSS Tricks",
         "subtitle": "Quick CSS tips and techniques",
+        "pageDescription": "Small **CSS** tricks to handle interface details: layouts, subtle effects, simple animations and micro-interactions. These examples are meant to make it easy to grasp the pattern, adapt it to your design and keep your visual **code** clean and consistent.",
         "noTricks": "No CSS tricks found"
     },
     "usefulLinks": {
         "title": "Useful Links",
         "subtitle": "Curated resources for developers",
+        "pageDescription": "A curated selection of **links** I actually use: solid documentation, design references, **frontend** resources and online tools that make daily work easier. Less noise, more sites that add real value when you're building something serious.",
         "noLinks": "No links found"
     },
     "aria": {

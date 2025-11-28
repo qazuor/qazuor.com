@@ -6,7 +6,7 @@ import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import { getInterestsForService, sectionsColors } from '@/data';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
@@ -139,6 +139,9 @@ const ctaTranslations = {
     button: t('services.cta.button', { markdown: true }),
     consultation: t('services.cta.consultation', { markdown: true })
 };
+
+// Page Description (processed for markdown and line breaks)
+const servicesPageDescription = processMarkdown(t('services.pageDescription'));
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -158,6 +161,9 @@ const ctaTranslations = {
                 subtitle={t('services.subtitle', { markdown: true })}
                 customElement="h1"
             />
+
+            <!-- Page Description -->
+            <div class="mt-8 mb-12 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={servicesPageDescription} />
 
             <!-- Services Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">

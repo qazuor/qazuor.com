@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import photoFooter from '@/assets/images/photo-footer.png';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { contact } from '@/data/contact';
-import { getTranslations } from '@/i18n/utils';
+import { getTranslations, processMarkdown } from '@/i18n/utils';
 
 interface Props {
     lang?: 'en' | 'es';
@@ -30,7 +30,7 @@ const footerData = {
         branding: {
             title: 'Qazuor',
             description:
-                "I'm a full-stack developer passionate about creating modern web experiences. I help businesses and entrepreneurs bring their ideas to life through clean code and thoughtful design."
+                "I'm a **full-stack** developer with a strong **frontend** focus, dedicated to building modern, fast and accessible web experiences.\n\nI help companies and entrepreneurs turn ideas into **clear digital products**, combining clean **code**, solid **design** and decisions made with scaling in mind."
         },
         explore: {
             title: 'Explore',
@@ -56,7 +56,7 @@ const footerData = {
         branding: {
             title: 'Qazuor',
             description:
-                'Soy un desarrollador full-stack apasionado por crear experiencias web modernas. Ayudo a empresas y emprendedores a dar vida a sus ideas a través de código limpio y diseño cuidado.'
+                'Soy un desarrollador **full-stack** con foco en **frontend**, enfocado en crear experiencias web modernas, rápidas y accesibles.\n\nAyudo a empresas y emprendedores a convertir ideas en **productos digitales claros**, combinando **code** limpio, buen **diseño** y decisiones pensadas para escalar.'
         },
         explore: {
             title: 'Explorar',
@@ -94,9 +94,7 @@ const data = footerData[lang];
                     {data.branding.title}
                     <span class="text-foreground-muted">—</span>
                 </h3>
-                <p class="text-xs text-foreground-muted leading-relaxed lg:pl-64">
-                    {data.branding.description}
-                </p>
+                <p class="text-xs text-foreground-muted leading-relaxed lg:pl-64" set:html={processMarkdown(data.branding.description)} />
                 <!-- Image positioned to extend to the bottom divider -->
                 <Image
                     src={photoFooter}

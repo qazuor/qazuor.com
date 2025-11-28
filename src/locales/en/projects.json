@@ -1,7 +1,7 @@
 {
     "title": "**Featured** Projects",
     "subtitle": "A collection of projects I've *built* and **contributed** to",
-    "description": "A collection of **web applications** and tools I've built",
+    "description": "Here you'll find a mix of **own products**, **commercial projects**, **client work** and a few **experiments** that turned into real tools. Each project shows how I approach **frontend**, **code** architecture, design and user experience, always focusing on things that can actually be used, maintained and scaled.",
     "viewDemo": "**Demo**",
     "viewCode": "**Code**",
     "viewAll": "**View All Projects** →",
@@ -32,6 +32,11 @@
         "openSource": "Open Source Projects",
         "commercial": "Commercial Projects",
         "client": "Client Projects"
+    },
+    "categoryDescriptions": {
+        "openSource": "Tools, libraries and small products I release as **open source**. These are things I actually use in my own workflow: if they save me time or make my **code** cleaner, I document them and share them so others can build faster too.",
+        "commercial": "Digital products I design, build and maintain as part of my own ecosystem. Projects like **Hospeda** are born from real needs and are planned from day one with solid **design**, **code** architecture and a business model that can grow without falling apart.",
+        "client": "Custom work for **brands**, **founders** and **organizations** that needed more than a generic landing page. From business websites to admin panels and small web apps, always with a focus on clarity, performance and a maintainable **code** base."
     },
     "card": {
         "viewProject": "View Project",

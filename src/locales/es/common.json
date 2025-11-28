@@ -66,7 +66,8 @@
     "blog": {
         "title": "**Últimos** Artículos",
         "subtitle": "*Reflexiones*, tutoriales y conocimientos sobre **desarrollo web**",
-        "description": "Artículos sobre **desarrollo web moderno**, *mejores prácticas* y lecciones aprendidas",
+        "description": "Notas y guías sobre **frontend**, **diseño**, **UX** y forma de trabajar. Blog posts pensados para leer hoy y aplicar hoy: menos teoría de libro, más ejemplos reales, decisiones de arquitectura y pequeños hacks que mejoran tu día a día con **code**.",
+        "pageDescription": "Este blog es el lugar donde bajo a tierra lo que uso todos los días: **frontend**, **TypeScript**, **Astro**, **React**, **UX**, **arquitectura de code** y forma de trabajar. No vas a encontrar teoría de manual, sino ejemplos reales, decisiones de diseño y pequeñas lecciones que salen de proyectos propios y de clientes.\n\nLa idea es simple: compartir lo que me hubiera gustado leer antes de enfrentarme a ciertos problemas. Menos humo, más contexto, buenas prácticas explicadas en castellano y suficiente detalle como para que puedas aplicar algo concreto después de cada post.",
         "readMore": "**Leer más**",
         "readTime": "min de lectura",
         "viewAll": "Ver **todos** los artículos",
@@ -144,6 +145,7 @@
     "testimonials": {
         "title": "Lo Que Dicen",
         "subtitle": "Palabras amables de colegas, clientes y colaboradores",
+        "description": "Opiniones de **clientes**, **colegas** y personas con las que realmente trabajé. Nada de frases inventadas: feedback directo sobre cómo encaro los proyectos, la calidad del **code**, la comunicación en el día a día y la forma de llevar una idea desde el primer boceto hasta el deploy.",
         "noTestimonials": "Aún no hay testimonios. ¡Vuelve pronto!",
         "readMore": "Leer más",
         "readLess": "Leer menos",
@@ -153,6 +155,7 @@
     "contact": {
         "title": "Ponte en Contacto",
         "subtitle": "¿Tienes un proyecto en mente? ¡Trabajemos juntos!",
+        "description": "¿Tenés un proyecto en mente, necesitás una mano con tu **web**, o querés revisar la arquitectura de tu **code** actual?\nEscribime y vemos juntos qué tiene sentido hacer, prioridades, alcance y próximos pasos — sin compromiso y sin humo.",
         "info": {
             "title": "Hablemos",
             "description": "Estoy abierto a cualquier oportunidad: freelance, remoto, tiempo completo o colaboraciones.",
@@ -222,6 +225,7 @@
     "goodies": {
         "title": "Goodies",
         "subtitle": "Recursos, utilidades y snippets para devs",
+        "pageDescription": "En esta sección junto cosas que uso todos los días: **tools**, **snippets**, pequeñas ideas de **CSS** y una lista de **links** que vale la pena tener a mano. No es teoría ni cursos largos, sino recursos concretos para resolver problemas de **frontend** más rápido y con mejor **code**.",
         "categories": {
             "all": "Todos los Goodies",
             "tools": "Herramientas",
@@ -252,6 +256,7 @@
     "tools": {
         "title": "Herramientas",
         "subtitle": "Herramientas interactivas y utilidades",
+        "pageDescription": "Pequeñas **tools** pensadas para el día a día de desarrollo: generadores, helpers y utilidades que simplifican tareas repetitivas. Si algo me ahorra tiempo o reduce errores al escribir **code**, termina convertido en una herramienta y lo dejo publicado acá.",
         "featured": "Herramientas Destacadas",
         "allTools": "Todas las Herramientas",
         "noTools": "No se encontraron herramientas",
@@ -266,16 +271,19 @@
     "snippets": {
         "title": "Snippets",
         "subtitle": "Fragmentos de código listos para usar",
+        "pageDescription": "Fragmentos de **code** listos para copiar, adaptar y pegar: patrones de **React**, utilidades de **TypeScript**, lógica de **frontend** y funciones que uso una y otra vez. La idea es tener un lugar ordenado donde encontrar soluciones rápidas sin reinventar la rueda cada vez.",
         "noSnippets": "No se encontraron snippets"
     },
     "cssTricks": {
         "title": "Trucos CSS",
         "subtitle": "Tips y técnicas rápidas de CSS",
+        "pageDescription": "Pequeños trucos de **CSS** para resolver detalles de interfaz: layouts, efectos sutiles, animaciones simples y microinteracciones. Son ejemplos pensados para entender rápido el patrón, adaptarlo a tu diseño y mantener el **code** visual limpio y consistente.",
         "noTricks": "No se encontraron trucos CSS"
     },
     "usefulLinks": {
         "title": "Links Útiles",
         "subtitle": "Recursos seleccionados para desarrolladores",
+        "pageDescription": "Una selección curada de **links** que realmente uso: documentación clara, referencias de diseño, recursos de **frontend** y herramientas online que facilitan el trabajo diario. Menos ruido, más sitios que aportan valor cuando estás construyendo algo en serio.",
         "noLinks": "No se encontraron links"
     },
     "aria": {

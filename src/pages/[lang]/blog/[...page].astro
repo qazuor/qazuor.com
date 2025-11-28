@@ -6,7 +6,7 @@ import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackgrou
 import { getCategoryColor } from '@/data/categoryColors';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getEffectiveSlug } from '@/utils/blog';
 
@@ -60,6 +60,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
 const title = `${t('blog.title', { markdown: false })} - qazuor.com`;
+
+// Process pageDescription: markdown + line breaks
+const pageDescription = processMarkdown(t('blog.pageDescription'));
 ---
 
 <BaseLayout title={title}>
@@ -79,6 +82,9 @@ const title = `${t('blog.title', { markdown: false })} - qazuor.com`;
                 </h1>
 
                 <p class="text-lg md:text-xl text-foreground-secondary max-w-2xl mx-auto leading-relaxed" set:html={t('blog.subtitle', { markdown: true })} />
+
+                <!-- Page Description -->
+                <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-left" set:html={pageDescription} />
 
                 <!-- Page indicator -->
                 {

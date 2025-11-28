@@ -6,7 +6,7 @@ import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
@@ -32,6 +32,7 @@ const languages_filter = ['all', ...new Set(allSnippets.map((s: CollectionEntry<
 
 const title = t('snippets.title', { markdown: false });
 const description = t('snippets.subtitle', { markdown: false });
+const snippetsPageDescription = processMarkdown(t('snippets.pageDescription'));
 const goodiesUrl = translatePath('/goodies', lang);
 ---
 
@@ -56,6 +57,9 @@ const goodiesUrl = translatePath('/goodies', lang);
             <!-- Header -->
             <div class="mb-16">
                 <SectionTitle title={t('snippets.title', { markdown: true })} subtitle={t('snippets.subtitle', { markdown: true })} />
+
+                <!-- Page Description -->
+                <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={snippetsPageDescription} />
             </div>
 
             <!-- Language Filter -->

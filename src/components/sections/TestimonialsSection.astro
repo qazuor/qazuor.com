@@ -18,6 +18,7 @@ interface Props {
     translations: {
         title: string;
         subtitle: string;
+        description?: string;
         noTestimonials: string;
         readMore: string;
         readLess: string;
@@ -55,9 +56,11 @@ const testimonials = allTestimonials.map((t, i) => ({
         <SectionTitle
             title={translations.title}
             subtitle={translations.subtitle}
+            description={translations.description}
             size="lg"
             titleClassName="mb-6"
             className="max-w-3xl mx-auto"
+            descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
         />
 
         {

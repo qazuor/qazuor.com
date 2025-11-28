@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { scrollTo as lenisScrollTo } from '@/lib/lenis';
 
 export interface TocHeading {
     depth: number;
@@ -120,18 +121,18 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
     }, [tocHeadings]);
 
     // Handle click on TOC item
+    // MF-008: Use Lenis scrollTo to avoid conflict with smooth scroll
     const handleClick = useCallback((slug: string) => {
         setActiveId(slug);
         setIsDrawerOpen(false);
 
-        // Smooth scroll to the heading
+        // Smooth scroll to the heading using Lenis
         const element = document.getElementById(slug);
         if (element) {
             const navHeight = document.querySelector('header')?.getBoundingClientRect().height || 80;
-            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-            window.scrollTo({
-                top: elementPosition - navHeight - 24,
-                behavior: 'smooth'
+            lenisScrollTo(element, {
+                offset: -(navHeight + 24),
+                duration: 0.8
             });
         }
     }, []);

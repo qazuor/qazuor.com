@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import arrowUpIcon from '@/icons/ui/arrow-up.svg?raw';
+import { scrollTo } from '@/lib/lenis';
 
 interface ScrollToTopProps {
     ariaLabel?: string;
@@ -25,11 +26,9 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
         };
     }, []);
 
+    // MF-007: Use Lenis scrollTo to avoid conflict with smooth scroll
     const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        scrollTo(0, { duration: 1.2 });
     };
 
     return (

@@ -9,12 +9,13 @@ export function initLenis() {
     if (typeof window === 'undefined') return null;
 
     // Create Lenis instance
+    // MF-006: Reduced touchMultiplier from 2 to 1.0 for better mobile scroll behavior
     lenisInstance = new Lenis({
         duration: 1.2,
         easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
         smoothWheel: true,
         wheelMultiplier: 1,
-        touchMultiplier: 2
+        touchMultiplier: 1.0
     });
 
     // Request animation frame loop

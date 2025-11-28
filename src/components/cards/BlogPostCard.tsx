@@ -2,11 +2,17 @@ import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import './BlogPostCard.css';
 
+export interface OptimizedBlogImage {
+    src: string;
+    width: number;
+    height: number;
+}
+
 export interface BlogPostCardProps {
     title: string;
     excerpt: string;
     category: string;
-    imageUrl: string;
+    image: OptimizedBlogImage;
     slug: string;
     isActive?: boolean;
     onHover?: () => void;
@@ -17,7 +23,7 @@ export function BlogPostCard({
     title,
     excerpt,
     category,
-    imageUrl,
+    image,
     slug,
     isActive = false,
     onHover,
@@ -73,7 +79,15 @@ export function BlogPostCard({
             {/* Full card clickable link */}
             <a href={slug} className="blog-post-card__link" aria-label={`Read ${title}`}>
                 {/* Background Image */}
-                <img src={imageUrl} alt="" className="blog-post-card__bg-image" loading="lazy" />
+                <img
+                    src={image.src}
+                    alt=""
+                    width={image.width}
+                    height={image.height}
+                    decoding="async"
+                    className="blog-post-card__bg-image"
+                    loading="lazy"
+                />
 
                 {/* Dark Overlay */}
                 <div className="blog-post-card__overlay" />

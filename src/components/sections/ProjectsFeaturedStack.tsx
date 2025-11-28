@@ -2,6 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef, useState } from 'react';
 import { ProjectCard } from '@/components/cards/ProjectCard';
+import type { OptimizedImage } from '@/components/ui/ImageCarousel';
 
 // Register ScrollTrigger plugin
 if (typeof window !== 'undefined') {
@@ -13,7 +14,7 @@ interface Project {
     description: string;
     slug: string;
     technologies: string[];
-    images: string[];
+    images: OptimizedImage[];
     featured: boolean;
     order: number;
 }

@@ -48,14 +48,22 @@ const t = getTranslations(lang);
 
 const { Content } = await project.render();
 
-// Convert ImageMetadata to optimized URLs for React component
+// Convert ImageMetadata to optimized images for React component (larger for gallery)
 const processedImages = await Promise.all(
     project.data.images.map(async (img: ImageMetadata) => {
-        const optimizedImg = await getImage({ src: img });
-        return optimizedImg.src;
+        const optimizedImg = await getImage({
+            src: img,
+            width: 1200,
+            height: 800,
+            format: 'webp'
+        });
+        return {
+            src: optimizedImg.src,
+            width: 1200,
+            height: 800
+        };
     })
 );
-const imageSrcs = processedImages;
 
 // Get translations
 const categoryLabels: Record<string, string> = {
@@ -138,11 +146,11 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
 
 			<!-- Gallery at top -->
 			{
-				imageSrcs && imageSrcs.length > 0 && (
+				processedImages && processedImages.length > 0 && (
 					<div class="mb-16">
 						<ProjectGallery
 							client:load
-							images={imageSrcs}
+							images={processedImages}
 							alt={project.data.title}
 						/>
 					</div>

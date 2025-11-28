@@ -1,8 +1,14 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from 'react';
 
+export interface OptimizedImage {
+    src: string;
+    width: number;
+    height: number;
+}
+
 export interface ImageCarouselProps {
-    images: string[];
+    images: OptimizedImage[];
     onImageClick?: (index: number) => void;
     showDots?: boolean;
     alt?: string;
@@ -60,8 +66,11 @@ export function ImageCarousel({
                 aria-label={`View ${alt}`}
             >
                 <img
-                    src={images[0]}
+                    src={images[0].src}
                     alt={alt}
+                    width={images[0].width}
+                    height={images[0].height}
+                    decoding="async"
                     className={`w-full h-full object-cover ${fullHeight ? '' : 'rounded-lg'}`}
                     loading="lazy"
                 />
@@ -91,7 +100,7 @@ export function ImageCarousel({
             <div className={`overflow-hidden rounded-lg ${fullHeight ? 'h-full' : ''}`} ref={emblaRef}>
                 <div className={`flex ${fullHeight ? 'h-full' : ''}`}>
                     {images.map((image, index) => (
-                        <div key={image} className={`flex-[0_0_100%] min-w-0 ${fullHeight ? 'h-full' : ''}`}>
+                        <div key={image.src} className={`flex-[0_0_100%] min-w-0 ${fullHeight ? 'h-full' : ''}`}>
                             <button
                                 type="button"
                                 onClick={() => onImageClick?.(index)}
@@ -99,8 +108,11 @@ export function ImageCarousel({
                                 aria-label={`View image ${index + 1} of ${images.length}`}
                             >
                                 <img
-                                    src={image}
+                                    src={image.src}
                                     alt={`${alt} ${index + 1}`}
+                                    width={image.width}
+                                    height={image.height}
+                                    decoding="async"
                                     className={`w-full h-full object-cover ${fullHeight ? '' : 'aspect-video'}`}
                                     loading="lazy"
                                 />
@@ -135,7 +147,7 @@ export function ImageCarousel({
                 >
                     {images.map((image, index) => (
                         <button
-                            key={image}
+                            key={image.src}
                             type="button"
                             onClick={() => scrollTo(index)}
                             className={`w-2 h-2 rounded-full transition-all ${

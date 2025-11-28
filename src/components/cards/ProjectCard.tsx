@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { ImageCarousel } from '../ui/ImageCarousel';
+import { ImageCarousel, type OptimizedImage } from '../ui/ImageCarousel';
 import { ImageLightbox } from '../ui/Lightbox';
 
 export interface ProjectCardProps {
     title: string;
     description: string;
     technologies: string[];
-    images: string[];
+    images: OptimizedImage[];
     slug: string;
     layout?: 'default' | 'reversed';
     variant?: 'home' | 'list';

@@ -48,8 +48,18 @@ const sortedProjects = await Promise.all(
         .map(async (project: CollectionEntry<'projects'>) => {
             const processedImages = await Promise.all(
                 project.data.images.map(async (img: ImageMetadata) => {
-                    const optimizedImg = await getImage({ src: img });
-                    return optimizedImg.src;
+                    // Optimize with specific dimensions for project cards (16:9 aspect ratio)
+                    const optimizedImg = await getImage({
+                        src: img,
+                        width: 800,
+                        height: 450,
+                        format: 'webp'
+                    });
+                    return {
+                        src: optimizedImg.src,
+                        width: 800,
+                        height: 450
+                    };
                 })
             );
             const cleanSlug = getProjectSlug(project);

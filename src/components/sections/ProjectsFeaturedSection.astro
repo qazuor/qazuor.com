@@ -3,12 +3,18 @@ import { ProjectsFeaturedStack } from '@/components/sections/ProjectsFeaturedSta
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 
+interface OptimizedImage {
+    src: string;
+    width: number;
+    height: number;
+}
+
 interface Project {
     title: string;
     description: string;
     slug: string;
     technologies: string[];
-    images: string[];
+    images: OptimizedImage[];
     featured: boolean;
     order: number;
 }
@@ -63,7 +69,7 @@ const featuredProjects = projects
 	</div>
 
 	<!-- Stacking Cards Section -->
-	<main class="relative z-[200]">
+	<div class="relative z-[200]" role="region" aria-label="Featured projects showcase">
 		<ProjectsFeaturedStack client:load projects={featuredProjects} lang={lang} />
 
 		<!-- View All Button -->
@@ -79,5 +85,5 @@ const featuredProjects = projects
 				</div>
 			)
 		}
-	</main>
+	</div>
 </div>

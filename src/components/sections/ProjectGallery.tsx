@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Masonry from 'react-masonry-css';
+import type { OptimizedImage } from '@/components/ui/ImageCarousel';
 import { ImageLightbox } from '@/components/ui/Lightbox';
 
 interface ProjectGalleryProps {
-    images: string[];
+    images: OptimizedImage[];
     alt?: string;
 }
 
@@ -32,7 +33,7 @@ export function ProjectGallery({ images, alt = 'Project image' }: ProjectGallery
             <Masonry breakpointCols={breakpointColumns} className="masonry-grid" columnClassName="masonry-grid-column">
                 {images.map((image, index) => (
                     <button
-                        key={image}
+                        key={image.src}
                         type="button"
                         className="masonry-item group relative cursor-pointer overflow-hidden rounded-lg border-0 bg-transparent p-0 w-full text-left"
                         onClick={() => handleImageClick(index)}
@@ -45,8 +46,11 @@ export function ProjectGallery({ images, alt = 'Project image' }: ProjectGallery
                         aria-label={`View image ${index + 1}`}
                     >
                         <img
-                            src={image}
+                            src={image.src}
                             alt={`${alt} - ${index + 1}`}
+                            width={image.width}
+                            height={image.height}
+                            decoding="async"
                             className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
                             loading="lazy"
                         />

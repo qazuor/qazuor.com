@@ -1,8 +1,9 @@
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import type { OptimizedImage } from './ImageCarousel';
 
 export interface LightboxProps {
-    images: string[];
+    images: OptimizedImage[];
     initialIndex: number;
     isOpen: boolean;
     onClose: () => void;
@@ -10,9 +11,11 @@ export interface LightboxProps {
 }
 
 export function ImageLightbox({ images, initialIndex, isOpen, onClose, alt = 'Project image' }: LightboxProps) {
-    // Transform string array to lightbox format
-    const slides = images.map((src, index) => ({
-        src,
+    // Transform OptimizedImage array to lightbox format
+    const slides = images.map((image, index) => ({
+        src: image.src,
+        width: image.width,
+        height: image.height,
         alt: `${alt} ${index + 1}`
     }));
 

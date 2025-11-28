@@ -1,0 +1,20 @@
+---
+/**
+ * LifecycleInit - Initializes the centralized lifecycle manager
+ *
+ * This component should be included once in the BaseLayout, before any other
+ * scripts that need to use the lifecycle system.
+ *
+ * It sets up the event listeners for:
+ * - DOMContentLoaded (initial page load)
+ * - astro:page-load (View Transitions navigation)
+ * - astro:before-swap (cleanup before navigation)
+ */
+---
+
+<script>
+    import { initLifecycle } from '@/lib/lifecycle';
+
+    // Initialize immediately
+    initLifecycle();
+</script>

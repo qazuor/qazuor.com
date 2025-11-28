@@ -16,6 +16,7 @@ import { SmoothScroll } from '@/components/animations/SmoothScroll';
 import BuildSearchIndex from '@/components/BuildSearchIndex.astro';
 import { CommandPalette } from '@/components/interactive/CommandPalette';
 import { ScrollToTop } from '@/components/interactive/ScrollToTop';
+import LifecycleInit from '@/components/LifecycleInit.astro';
 import Footer from '@/components/layout/Footer.astro';
 import Navigation from '@/components/layout/Navigation.astro';
 import SEO from '@/components/layout/SEO.astro';
@@ -311,14 +312,40 @@ const alternateLinks = locales.map((locale) => {
         </script>
 
         <!-- Prevent flash of unstyled content (FOUC) for dark mode -->
+        <!-- Also handles View Transitions theme persistence -->
         <script is:inline>
-            const theme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (theme === 'dark' || (!theme && prefersDark)) {
-                document.documentElement.classList.add('dark');
-            } else if (theme === 'light') {
-                document.documentElement.classList.remove('dark');
-            }
+            (function() {
+                function applyTheme() {
+                    const theme = localStorage.getItem('theme');
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (theme === 'dark' || (!theme && prefersDark)) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+
+                // Apply on initial load
+                applyTheme();
+
+                // Apply after View Transitions swap (new document)
+                document.addEventListener('astro:after-swap', applyTheme);
+
+                // Also apply before swap to prevent flash during transition
+                document.addEventListener('astro:before-swap', function(e) {
+                    const theme = localStorage.getItem('theme');
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    const isDark = theme === 'dark' || (!theme && prefersDark);
+                    // Apply to the new document before it's swapped in
+                    if (e.newDocument && e.newDocument.documentElement) {
+                        if (isDark) {
+                            e.newDocument.documentElement.classList.add('dark');
+                        } else {
+                            e.newDocument.documentElement.classList.remove('dark');
+                        }
+                    }
+                });
+            })();
         </script>
     </head>
     <body>
@@ -326,6 +353,9 @@ const alternateLinks = locales.map((locale) => {
         <a href="#main-content" class="skip-link">
             {t('aria.skipToContent')}
         </a>
+
+        <!-- Lifecycle Manager (must be first to handle View Transitions) -->
+        <LifecycleInit />
 
         <!-- AutoAnimate Global -->
         <AutoAnimateGlobal />

@@ -30,8 +30,34 @@ export function CommandPaletteInner({
 }: CommandPaletteInnerProps) {
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewportHeight, setViewportHeight] = useState<number | null>(null);
+    const [viewportOffset, setViewportOffset] = useState(0);
     const commandRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Track visual viewport changes (for mobile keyboard)
+    useEffect(() => {
+        if (!open) return;
+
+        const viewport = window.visualViewport;
+        if (!viewport) return;
+
+        const updateViewport = () => {
+            setViewportHeight(viewport.height);
+            setViewportOffset(viewport.offsetTop);
+        };
+
+        // Initial update
+        updateViewport();
+
+        viewport.addEventListener('resize', updateViewport);
+        viewport.addEventListener('scroll', updateViewport);
+
+        return () => {
+            viewport.removeEventListener('resize', updateViewport);
+            viewport.removeEventListener('scroll', updateViewport);
+        };
+    }, [open]);
 
     // Initialize content search
     const { search: searchContent, results: contentResults, groupedResults } = useContentSearch();
@@ -338,11 +364,20 @@ export function CommandPaletteInner({
             {open && (
                 // biome-ignore lint/a11y/useKeyWithClickEvents: div needs click handler for closing modal on backdrop click
                 <div
-                    className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+                    className="fixed inset-0 z-[9999] flex items-start justify-center p-4 pt-[10vh]"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="command-palette-title"
                     onClick={() => setOpen(false)}
+                    style={
+                        viewportHeight
+                            ? {
+                                  height: viewportHeight,
+                                  top: viewportOffset,
+                                  paddingTop: Math.min(viewportHeight * 0.1, 60)
+                              }
+                            : undefined
+                    }
                 >
                     {/* Enhanced Backdrop with better blur */}
                     <div
@@ -414,7 +449,14 @@ export function CommandPaletteInner({
                                 Use arrow keys to navigate, Enter to select, Escape to close
                             </div>
 
-                            <Command.List className="max-h-[500px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-foreground/20 scrollbar-track-transparent relative">
+                            <Command.List
+                                className="overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-foreground/20 scrollbar-track-transparent relative"
+                                style={{
+                                    maxHeight: viewportHeight
+                                        ? Math.max(viewportHeight * 0.5, 200) // At least 200px, up to 50% of viewport
+                                        : 500
+                                }}
+                            >
                                 {/* Elegant scroll indicator for when there's content */}
                                 {(searchQuery.trim().length === 0
                                     ? commandPaletteData.length > 0

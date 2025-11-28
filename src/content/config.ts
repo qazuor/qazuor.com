@@ -9,6 +9,7 @@ const projectsCollection = defineCollection({
             description: z.string(), // Short description for cards
             longDescription: z.string().optional(), // Long description for individual page (markdown)
             slug: z.string().optional(), // Auto-generated from title if not provided
+            lang: z.enum(['en', 'es']), // Language of the content
             category: z.enum(['open-source', 'commercial', 'client']),
             tags: z.array(z.string()), // Used for tags/labels
             technologies: z.array(z.string()), // Used for filtering

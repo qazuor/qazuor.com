@@ -386,22 +386,27 @@ const colorsLightString = colorsLight.join(',');
     // Register the custom element if not already registered
     if (!customElements.get('pixel-canvas')) {
         customElements.define('pixel-canvas', PixelCanvas as unknown as CustomElementConstructor);
+    }
 
-        // Re-initialize pixel-canvas elements after View Transitions
-        // This is needed because View Transitions may not properly trigger connectedCallback
-        // Only register once when the custom element is first defined
-        document.addEventListener('astro:page-load', () => {
-            // Small delay to ensure DOM is fully ready
-            requestAnimationFrame(() => {
-                const pixelCanvases = document.querySelectorAll('pixel-canvas');
-                pixelCanvases.forEach((el) => {
-                    const canvas = el as InstanceType<typeof PixelCanvas>;
-                    // Force re-initialization by calling init if the canvas exists
-                    if (canvas.canvas && canvas.ctx) {
-                        canvas.init();
-                    }
-                });
+    // Re-initialize pixel-canvas elements after View Transitions
+    // This MUST be outside the conditional because:
+    // 1. With View Transitions, scripts re-execute but custom element is already registered
+    // 2. The listener needs to be added on every page that uses PixelCanvas
+    // 3. Using a named function allows us to check if already registered
+    function initPixelCanvases() {
+        // Small delay to ensure DOM is fully ready
+        requestAnimationFrame(() => {
+            const pixelCanvases = document.querySelectorAll('pixel-canvas');
+            pixelCanvases.forEach((el) => {
+                const canvas = el as InstanceType<typeof PixelCanvas>;
+                // Force re-initialization by calling init if the canvas exists
+                if (canvas.canvas && canvas.ctx) {
+                    canvas.init();
+                }
             });
         });
     }
+
+    // Initialize on page load (for View Transitions navigation)
+    document.addEventListener('astro:page-load', initPixelCanvases);
 </script>

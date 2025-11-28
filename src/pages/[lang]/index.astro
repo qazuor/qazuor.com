@@ -17,6 +17,7 @@ import { contact, sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjectSlug } from '@/utils/projects';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -62,8 +63,10 @@ const seoKeywords =
               'Portfolio'
           ];
 
-// Load Content Collections
-const allProjects = await getCollection('projects');
+// Load Content Collections - filter projects by language
+const allProjects = await getCollection('projects', (entry: CollectionEntry<'projects'>) => {
+    return entry.data.lang === lang;
+});
 const allBlogPosts = await getCollection('blog');
 const allTestimonials = await getCollection('testimonials');
 
@@ -83,10 +86,11 @@ const sortedProjects = await Promise.all(
                     return optimizedImg.src;
                 })
             );
+            const cleanSlug = getProjectSlug(project);
             return {
                 title: project.data.title,
                 description: project.data.description,
-                slug: project.data.slug || project.slug,
+                slug: cleanSlug,
                 technologies: project.data.technologies,
                 images: processedImages,
                 featured: project.data.featured,

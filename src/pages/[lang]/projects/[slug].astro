@@ -15,17 +15,20 @@ import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import GithubIcon from '@/icons/social/github.svg?raw';
 import ExternalLinkIcon from '@/icons/ui/external-link.svg?raw';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjectSlug } from '@/utils/projects';
 
 export async function getStaticPaths() {
     const allProjects = await getCollection('projects');
 
     const paths = [];
     for (const lang of Object.keys(languages)) {
-        for (const project of allProjects) {
+        // Filter projects by language field
+        const langProjects = allProjects.filter((p: CollectionEntry<'projects'>) => p.data.lang === lang);
+        for (const project of langProjects) {
             paths.push({
                 params: {
                     lang,
-                    slug: project.data.slug || project.slug
+                    slug: getProjectSlug(project)
                 },
                 props: { project }
             });

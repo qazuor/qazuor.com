@@ -139,19 +139,29 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Critical CSS (inlined for fastest LCP) -->
         <!-- Contains ONLY styles needed for above-the-fold hero section -->
+        <!-- IMPORTANT: Must include BOTH light and dark themes to prevent flash during View Transitions -->
         <style is:inline>
-            /* CSS Variables (dark mode only - default theme) */
+            /* CSS Variables - Light Mode (base) */
             :root {
-                --bg-primary-dark: 256 45% 6%;
-                --bg-secondary-dark: 250 30% 10%;
-                --text-primary-dark: 240 15% 96%;
-                --text-secondary-dark: 240 10% 72%;
-                --background: 256 45% 8%;
-                --foreground: 240 15% 96%;
-                --primary: 215 60% 50%;
+                --bg-primary: 219 21% 96%;
+                --bg-secondary: 219 21% 94%;
+                --text-primary: 215 25% 15%;
+                --text-secondary: 215 20% 25%;
+                --background: 219 21% 94%;
+                --foreground: 215 25% 15%;
+                --primary: 215 60% 40%;
+                color-scheme: light;
             }
 
+            /* CSS Variables - Dark Mode (override when .dark class present) */
             html.dark {
+                --bg-primary: 256 45% 6%;
+                --bg-secondary: 250 30% 10%;
+                --text-primary: 240 15% 96%;
+                --text-secondary: 240 10% 72%;
+                --background: 256 45% 8%;
+                --foreground: 240 15% 95%;
+                --primary: 250 60% 65%;
                 color-scheme: dark;
             }
 
@@ -233,7 +243,7 @@ const alternateLinks = locales.map((locale) => {
             }
 
             .text-foreground-secondary {
-                color: hsl(var(--text-secondary-dark));
+                color: hsl(var(--text-secondary));
             }
 
             .text-primary {

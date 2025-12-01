@@ -9,12 +9,11 @@ interface TimelineItem {
         en: string;
         es: string;
     };
-    icon: string; // Emoji icon for the timeline
+    icon: string; // Icon name for the timeline
+    iconUseItemColor: boolean; // If true, icon uses item color; if false, uses its own colors
     category: 'education' | 'work' | 'project' | 'achievement' | 'skill';
     colorLightTheme: string; // Color for light theme
     colorDarkTheme: string; // Color for dark theme
-    viewInDesktop: boolean; // Show in desktop timeline
-    viewInMobile: boolean; // Show in mobile timeline
 }
 
 export const timelineData: TimelineItem[] = [
@@ -29,12 +28,11 @@ export const timelineData: TimelineItem[] = [
             en: 'Born with curiosity for technology already wired in. 👶',
             es: 'Nací y, sin saberlo, ya traía la curiosidad por la tecnología 💻 en el ADN.'
         },
-        icon: 'user-circle',
+        icon: 'sparkles',
+        iconUseItemColor: true,
         category: 'achievement',
         colorLightTheme: '#d97706',
-        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#fbbf24' // lighter variant for dark theme
     },
     {
         id: 'msx2',
@@ -48,11 +46,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Mi primer acercamiento a la informática con una Talent MSX2 Turbo 🖥️. Empecé a programar en BASIC.'
         },
         icon: 'computer-desktop',
+        iconUseItemColor: true,
         category: 'education',
         colorLightTheme: '#2563eb',
-        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#60a5fa' // lighter variant for dark theme
     },
     {
         id: 'first-pc',
@@ -66,11 +63,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Una 386 con DOS y Windows 3.1. Programé mis primeros experimentos en QBasic 💾.'
         },
         icon: 'device-desktop',
+        iconUseItemColor: true,
         category: 'education',
         colorLightTheme: '#059669',
-        colorDarkTheme: '#34d399', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: false
+        colorDarkTheme: '#34d399' // lighter variant for dark theme
     },
     {
         id: 'graduation',
@@ -84,29 +80,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Termino la escuela técnica 🎓, ya decidido a vivir entre cables y código.'
         },
         icon: 'academic-cap',
+        iconUseItemColor: true,
         category: 'education',
         colorLightTheme: '#0891b2',
-        colorDarkTheme: '#22d3ee', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
-    },
-    {
-        id: 'internet',
-        year: '1999',
-        title: {
-            en: 'Internet Arrives',
-            es: 'Internet'
-        },
-        description: {
-            en: 'First dial-up connection - the modem sound 📞 still feels nostalgic.',
-            es: 'Primer conexión dial-up. Aquello de escuchar el módem 📞 conectar era pura magia.'
-        },
-        icon: 'dialup',
-        category: 'skill',
-        colorLightTheme: '#dc2626',
-        colorDarkTheme: '#f87171', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: false
+        colorDarkTheme: '#22d3ee' // lighter variant for dark theme
     },
     {
         id: 'html-family',
@@ -119,12 +96,11 @@ export const timelineData: TimelineItem[] = [
             en: 'Discovered HTML, built my first client website 🌐 while studying graphic design at UNLP. My first son was born. 👶',
             es: 'Descubro el HTML, hago mi primera web 🌐 para un cliente mientras estudio diseño gráfico en la UNLP. Nace mi primer hijo. 👶'
         },
-        icon: 'html5',
+        icon: 'globe',
+        iconUseItemColor: true,
         category: 'skill',
         colorLightTheme: '#d97706',
-        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#fbbf24' // lighter variant for dark theme
     },
     {
         id: 'backend-classic',
@@ -138,29 +114,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Entro al mundo del backend con ASP y bases de datos Access de Microsoft.'
         },
         icon: 'access',
+        iconUseItemColor: true,
         category: 'skill',
         colorLightTheme: '#2563eb',
-        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
-    },
-    {
-        id: 'broadband',
-        year: '2002',
-        title: {
-            en: 'Broadband',
-            es: 'Banda ancha'
-        },
-        description: {
-            en: 'First high-speed connection ⚡. The web felt infinite 🌐.',
-            es: 'Primera conexión rápida ⚡. Se abre un universo nuevo de posibilidades 🌐.'
-        },
-        icon: 'broadband',
-        category: 'skill',
-        colorLightTheme: '#059669',
-        colorDarkTheme: '#34d399', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: false
+        colorDarkTheme: '#60a5fa' // lighter variant for dark theme
     },
     {
         id: 'freelance-start',
@@ -174,11 +131,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Comienzo formalmente mi camino freelance 💼. Primeros clientes, primeros desafíos reales.'
         },
         icon: 'briefcase',
+        iconUseItemColor: true,
         category: 'work',
         colorLightTheme: '#7c3aed',
-        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#a78bfa' // lighter variant for dark theme
     },
     {
         id: 'first-crm',
@@ -191,12 +147,11 @@ export const timelineData: TimelineItem[] = [
             en: 'Built a complete CRM in HTML, JS and PHP so my website clients could manage their own content. My daughter was born 👶 and I began teaching design and programming.',
             es: 'Desarrollo mi primer CRM completo en HTML, JS y PHP para que los clientes de mis sitios pudieran gestionar su propio contenido. Nace mi segunda hija 👶 y empiezo a dar clases de diseño y programación.'
         },
-        icon: 'php',
+        icon: 'cog',
+        iconUseItemColor: true,
         category: 'project',
         colorLightTheme: '#0891b2',
-        colorDarkTheme: '#22d3ee', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#22d3ee' // lighter variant for dark theme
     },
     {
         id: 'international',
@@ -209,12 +164,11 @@ export const timelineData: TimelineItem[] = [
             en: 'Delivered a major freelance project for a Spanish software company. 🌍',
             es: 'Proyecto freelance grande para una empresa de software española. 🌍'
         },
-        icon: 'paper-airplane',
+        icon: 'globe-alt',
+        iconUseItemColor: true,
         category: 'achievement',
         colorLightTheme: '#dc2626',
-        colorDarkTheme: '#f87171', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#f87171' // lighter variant for dark theme
     },
     {
         id: 'avature-start',
@@ -228,11 +182,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Me sumo como Web Master, manteniendo su sitio y una ATS app desarrollada en PHP.'
         },
         icon: 'avature',
+        iconUseItemColor: false,
         category: 'work',
         colorLightTheme: '#d97706',
-        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#fbbf24' // lighter variant for dark theme
     },
     {
         id: 'js-framework',
@@ -246,11 +199,10 @@ export const timelineData: TimelineItem[] = [
             es: 'En un equipo de dos personas, desarrollamos un framework JavaScript empresarial desde cero ⚙️ que aún se usa hoy. Incluía HMR, manejo y reporte de errores, sistema propio de empaquetado JS, comunicación cliente-servidor, CSS e i18n modularizado.'
         },
         icon: 'javascript',
+        iconUseItemColor: false,
         category: 'project',
         colorLightTheme: '#2563eb',
-        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#60a5fa' // lighter variant for dark theme
     },
     {
         id: 'frontend-focus',
@@ -264,11 +216,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Me especializo en desarrollo frontend 🎨 y formo el equipo UI-Core en Avature.'
         },
         icon: 'paint-brush',
+        iconUseItemColor: true,
         category: 'skill',
         colorLightTheme: '#059669',
-        colorDarkTheme: '#34d399', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#34d399' // lighter variant for dark theme
     },
     {
         id: 'tech-leadership',
@@ -282,11 +233,10 @@ export const timelineData: TimelineItem[] = [
             es: 'El equipo crece y quedo como líder técnico 👨‍💻 del equipo UI-Core, consolidando procesos y estilo de desarrollo.'
         },
         icon: 'user-group',
+        iconUseItemColor: true,
         category: 'achievement',
         colorLightTheme: '#7c3aed',
-        colorDarkTheme: '#a78bfa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#a78bfa' // lighter variant for dark theme
     },
     {
         id: 'new-challenges',
@@ -300,11 +250,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Formo un nuevo equipo para desarrollar features y sub-apps iniciales ⚡ antes de entregarlas a otros teams.'
         },
         icon: 'rocket',
+        iconUseItemColor: true,
         category: 'work',
         colorLightTheme: '#0891b2',
-        colorDarkTheme: '#22d3ee', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#22d3ee' // lighter variant for dark theme
     },
     {
         id: 'visual-builder',
@@ -317,12 +266,11 @@ export const timelineData: TimelineItem[] = [
             en: "Led the development of Avature's visual template builder 🎯 system.",
             es: 'Lidero el desarrollo de un sistema visual 🎯 de creación de templates para Avature.'
         },
-        icon: 'eye',
+        icon: 'squares',
+        iconUseItemColor: true,
         category: 'project',
         colorLightTheme: '#dc2626',
-        colorDarkTheme: '#f87171', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#f87171' // lighter variant for dark theme
     },
     {
         id: 'love-life',
@@ -336,11 +284,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Conozco a mi actual compañera de vida y aventuras. 💕'
         },
         icon: 'heart',
+        iconUseItemColor: true,
         category: 'achievement',
         colorLightTheme: '#d97706',
-        colorDarkTheme: '#fbbf24', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#fbbf24' // lighter variant for dark theme
     },
     {
         id: 'nocode-automation',
@@ -354,11 +301,10 @@ export const timelineData: TimelineItem[] = [
             es: 'Conocí herramientas NO CODE 🤖 y realicé algunos proyectos personales de automatización de cosas.'
         },
         icon: 'make',
+        iconUseItemColor: false,
         category: 'skill',
         colorLightTheme: '#0d9488',
-        colorDarkTheme: '#2dd4bf', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#2dd4bf' // lighter variant for dark theme
     },
     {
         id: 'new-beginnings',
@@ -371,12 +317,11 @@ export const timelineData: TimelineItem[] = [
             en: 'Closed my Avature chapter, relaunched myself as a freelance developer 🚀 and released my personal portfolio.',
             es: 'Cierro mi etapa en Avature, me relanzo como freelance 🚀 y lanzo mi portfolio personal.'
         },
-        icon: 'star',
+        icon: 'flag',
+        iconUseItemColor: true,
         category: 'achievement',
         colorLightTheme: '#2563eb',
-        colorDarkTheme: '#60a5fa', // lighter variant for dark theme
-        viewInDesktop: true,
-        viewInMobile: true
+        colorDarkTheme: '#60a5fa' // lighter variant for dark theme
     }
 ];
 

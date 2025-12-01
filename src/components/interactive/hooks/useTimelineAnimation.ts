@@ -12,6 +12,7 @@ export interface TimelineItem {
     color: string;
     colorHex: string;
     icon: string;
+    iconUseItemColor: boolean;
 }
 
 /**
@@ -22,11 +23,11 @@ export type PopoverPosition = 'center' | 'left' | 'right';
 /**
  * Configuration constants
  */
-const TIMELINE_SPACING_DESKTOP = 150;
+const TIMELINE_SPACING_DESKTOP = 120;
 const TIMELINE_SPACING_MOBILE = 100;
 const POPOVER_WIDTH_DESKTOP = 500;
 const POPOVER_WIDTH_MOBILE = 280;
-const HOVER_DEBOUNCE_MS = 100;
+const AUTO_PLAY_INTERVAL_MS = 4000;
 
 /**
  * Hook parameters
@@ -47,9 +48,8 @@ interface UseTimelineAnimationReturn {
     currentIndex: number;
     isAutoPlaying: boolean;
     popoverPosition: PopoverPosition;
-    isTimelineHovered: boolean;
-    isScrolling: boolean;
     isMobile: boolean;
+    totalItems: number;
 
     // Refs
     timelineRef: React.RefObject<HTMLDivElement | null>;
@@ -62,18 +62,20 @@ interface UseTimelineAnimationReturn {
     POPOVER_WIDTH: number;
 
     // Handlers
-    handleMouseOver: (item: TimelineItem, index: number) => void;
-    handleTimelineMouseEnter: () => void;
-    handleTimelineMouseLeave: () => void;
+    handleItemClick: (item: TimelineItem, index: number) => void;
     handleTouchStart: (e: React.TouchEvent) => void;
     handleTouchMove: (e: React.TouchEvent) => void;
     handleTouchEnd: () => void;
+    goToNext: () => void;
+    goToPrev: () => void;
+    goToIndex: (index: number) => void;
+    toggleAutoPlay: () => void;
 }
 
 /**
  * Custom hook for timeline animation and navigation logic
  *
- * @description Manages timeline navigation, scroll behavior, touch gestures, and auto-play
+ * @description Manages timeline navigation, touch gestures, keyboard navigation, and auto-play
  * @param params - Hook configuration parameters
  * @returns Timeline state and handlers
  *
@@ -96,15 +98,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [popoverPosition, setPopoverPosition] = useState<PopoverPosition>('center');
-    const [isTimelineHovered, setIsTimelineHovered] = useState(false);
-    const [isScrolling, setIsScrolling] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
     // Refs
     const timelineRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const scrollTimeoutRef = useRef<number | null>(null);
-    const hoverTimeoutRef = useRef<number | null>(null);
     const touchStartX = useRef<number>(0);
     const touchEndX = useRef<number>(0);
 
@@ -114,6 +112,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
     // Memoized items
     const mainTimelineItems = useMemo(() => items, [items]);
+    const totalItems = mainTimelineItems.length;
 
     /**
      * Calculate popover position based on item index
@@ -123,12 +122,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             // Always center on mobile
             if (isMobile) return 'center';
 
-            const totalItems = mainTimelineItems.length;
             if (index < 2) return 'left';
             if (index > totalItems - 4) return 'right';
             return 'center';
         },
-        [isMobile, mainTimelineItems.length]
+        [isMobile, totalItems]
     );
 
     /**
@@ -141,20 +139,19 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
             const itemWidth = TIMELINE_SPACING;
             const containerWidth = container.clientWidth;
-            const totalWidth = mainTimelineItems.length * itemWidth;
+            // Timeline has px-16 padding (64px on each side)
+            const timelinePadding = 64;
 
-            const itemPosition = index * itemWidth;
-            let scrollPosition = itemPosition - containerWidth / 2 + itemWidth / 2;
+            // Calculate the center position of the item
+            // Item center = padding + (index * itemWidth) + (itemWidth / 2)
+            const itemCenter = timelinePadding + index * itemWidth + itemWidth / 2;
 
-            const popoverPosition = calculatePopoverPosition(index);
-            let maxScroll = totalWidth - containerWidth;
-
-            if (popoverPosition === 'right') {
-                scrollPosition += POPOVER_WIDTH / 2;
-                maxScroll += POPOVER_WIDTH / 2;
-            }
+            // Scroll position to center the item in the viewport
+            const scrollPosition = itemCenter - containerWidth / 2;
 
             // Ensure we don't scroll beyond the boundaries
+            const totalWidth = timelinePadding * 2 + totalItems * itemWidth;
+            const maxScroll = Math.max(0, totalWidth - containerWidth);
             const clampedScrollPosition = Math.max(0, Math.min(scrollPosition, maxScroll));
 
             container.scrollTo({
@@ -162,7 +159,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 behavior: 'smooth'
             });
         },
-        [TIMELINE_SPACING, POPOVER_WIDTH, mainTimelineItems.length, calculatePopoverPosition]
+        [TIMELINE_SPACING, totalItems]
     );
 
     /**
@@ -170,13 +167,48 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
      */
     const navigateToItem = useCallback(
         (index: number) => {
+            if (index < 0 || index >= totalItems) return;
             setCurrentIndex(index);
             setSelectedItem(mainTimelineItems[index]);
             setPopoverPosition(calculatePopoverPosition(index));
             scrollToItem(index);
         },
-        [mainTimelineItems, calculatePopoverPosition, scrollToItem]
+        [mainTimelineItems, totalItems, calculatePopoverPosition, scrollToItem]
     );
+
+    /**
+     * Go to next item
+     */
+    const goToNext = useCallback(() => {
+        const nextIndex = currentIndex < totalItems - 1 ? currentIndex + 1 : 0;
+        navigateToItem(nextIndex);
+    }, [currentIndex, totalItems, navigateToItem]);
+
+    /**
+     * Go to previous item
+     */
+    const goToPrev = useCallback(() => {
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : totalItems - 1;
+        navigateToItem(prevIndex);
+    }, [currentIndex, totalItems, navigateToItem]);
+
+    /**
+     * Go to specific index
+     */
+    const goToIndex = useCallback(
+        (index: number) => {
+            setIsAutoPlaying(false);
+            navigateToItem(index);
+        },
+        [navigateToItem]
+    );
+
+    /**
+     * Toggle auto-play
+     */
+    const toggleAutoPlay = useCallback(() => {
+        setIsAutoPlaying((prev) => !prev);
+    }, []);
 
     // Detect mobile screen size
     useEffect(() => {
@@ -199,89 +231,53 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         }
     }, [mainTimelineItems, calculatePopoverPosition, scrollToItem]);
 
-    // Wheel navigation (desktop only)
+    // Keyboard navigation
     useEffect(() => {
-        // Skip wheel navigation on mobile - use touch instead
-        if (isMobile) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Only handle if timeline container is focused or contains focus
+            if (
+                !containerRef.current?.contains(document.activeElement) &&
+                document.activeElement !== containerRef.current
+            )
+                return;
 
-        const handleWheel = (e: WheelEvent) => {
-            if (isTimelineHovered) {
-                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                    const scrollDown = e.deltaY > 0;
-                    const newIndex = scrollDown
-                        ? Math.min(currentIndex + 1, mainTimelineItems.length - 1)
-                        : Math.max(currentIndex - 1, 0);
-
-                    // Check if we can move to a new item
-                    const canMoveToNewItem = newIndex !== currentIndex;
-
-                    // Check if we're at boundaries and trying to scroll beyond
-                    const atFirstAndScrollingUp = currentIndex === 0 && !scrollDown;
-                    const atLastAndScrollingDown = currentIndex === mainTimelineItems.length - 1 && scrollDown;
-
-                    // Only prevent scroll if we can move to a new item
-                    // Allow page scroll when at boundaries
-                    if (canMoveToNewItem) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        // Set scrolling state to disable other functionalities
-                        setIsScrolling(true);
-
-                        if (scrollTimeoutRef.current) {
-                            clearTimeout(scrollTimeoutRef.current);
-                        }
-
-                        // Set timeout to re-enable functionalities after scrolling stops
-                        scrollTimeoutRef.current = setTimeout(() => {
-                            setIsScrolling(false);
-                        }, 500) as unknown as number;
-
-                        navigateToItem(newIndex);
-
-                        return false;
-                    }
-                    if (atFirstAndScrollingUp || atLastAndScrollingDown) {
-                        // At boundaries - allow page scroll to continue naturally
-                        return true;
-                    }
-                    // Same item but not at boundaries - block scroll
+            switch (e.key) {
+                case 'ArrowRight':
+                case 'ArrowDown':
                     e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
+                    setIsAutoPlaying(false);
+                    goToNext();
+                    break;
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    setIsAutoPlaying(false);
+                    goToPrev();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    setIsAutoPlaying(false);
+                    navigateToItem(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    setIsAutoPlaying(false);
+                    navigateToItem(totalItems - 1);
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    toggleAutoPlay();
+                    break;
             }
         };
 
-        // Only disable page overflow if we're NOT at boundaries
-        const atBoundary = currentIndex === 0 || currentIndex === mainTimelineItems.length - 1;
-
-        if (isTimelineHovered) {
-            document.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-
-            // Only block page scroll if not at boundaries
-            if (!atBoundary) {
-                document.documentElement.style.overflowY = 'hidden';
-                document.body.style.overflowY = 'hidden';
-            }
-
-            return () => {
-                document.removeEventListener('wheel', handleWheel, { capture: true });
-
-                // Re-enable page scroll
-                document.documentElement.style.overflowY = 'auto';
-                document.body.style.overflowY = 'auto';
-
-                if (scrollTimeoutRef.current) {
-                    clearTimeout(scrollTimeoutRef.current);
-                }
-            };
-        }
-    }, [isTimelineHovered, currentIndex, mainTimelineItems.length, isMobile, navigateToItem]);
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [goToNext, goToPrev, navigateToItem, totalItems, toggleAutoPlay]);
 
     // Auto-play
     useEffect(() => {
-        if (!isAutoPlaying || mainTimelineItems.length === 0 || isScrolling) return;
+        if (!isAutoPlaying || mainTimelineItems.length === 0) return;
 
         const interval: number = setInterval(() => {
             setCurrentIndex((prevIndex) => {
@@ -291,127 +287,59 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 setTimeout(() => scrollToItem(nextIndex), 100);
                 return nextIndex;
             });
-        }, 3000) as unknown as number;
+        }, AUTO_PLAY_INTERVAL_MS) as unknown as number;
 
         return () => {
             clearInterval(interval);
         };
-    }, [isAutoPlaying, mainTimelineItems, isScrolling, calculatePopoverPosition, scrollToItem]);
-
-    // Cleanup
-    useEffect(() => {
-        return () => {
-            if (scrollTimeoutRef.current) {
-                clearTimeout(scrollTimeoutRef.current);
-            }
-            if (hoverTimeoutRef.current) {
-                clearTimeout(hoverTimeoutRef.current);
-            }
-        };
-    }, []);
+    }, [isAutoPlaying, mainTimelineItems, calculatePopoverPosition, scrollToItem]);
 
     /**
-     * Handle mouse over timeline item with debounce
+     * Handle click on timeline item
      */
-    const handleMouseOver = useCallback(
+    const handleItemClick = useCallback(
         (_item: TimelineItem, index: number) => {
-            if (isScrolling) return;
-
-            // Clear any pending hover timeout
-            if (hoverTimeoutRef.current) {
-                clearTimeout(hoverTimeoutRef.current);
-            }
-
-            // Debounce the navigation to prevent accidental switches
-            hoverTimeoutRef.current = setTimeout(() => {
-                setIsAutoPlaying(false);
-                navigateToItem(index);
-            }, HOVER_DEBOUNCE_MS) as unknown as number;
+            setIsAutoPlaying(false);
+            navigateToItem(index);
         },
-        [isScrolling, navigateToItem]
+        [navigateToItem]
     );
-
-    /**
-     * Handle timeline hover enter
-     */
-    const handleTimelineMouseEnter = useCallback(() => {
-        setIsTimelineHovered(true);
-    }, []);
-
-    /**
-     * Handle timeline hover leave
-     */
-    const handleTimelineMouseLeave = useCallback(() => {
-        setIsTimelineHovered(false);
-        setIsAutoPlaying(true);
-
-        // Reset scrolling state when leaving timeline
-        setIsScrolling(false);
-        if (scrollTimeoutRef.current) {
-            clearTimeout(scrollTimeoutRef.current);
-        }
-
-        // Cancel any pending hover navigation
-        if (hoverTimeoutRef.current) {
-            clearTimeout(hoverTimeoutRef.current);
-        }
-
-        document.documentElement.style.overflowY = 'auto';
-        document.body.style.overflowY = 'auto';
-    }, []);
 
     /**
      * Handle touch start (mobile swipe)
      */
-    const handleTouchStart = useCallback(
-        (e: React.TouchEvent) => {
-            if (!isMobile) return;
-            touchStartX.current = e.targetTouches[0].clientX;
-        },
-        [isMobile]
-    );
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
+        touchStartX.current = e.targetTouches[0].clientX;
+    }, []);
 
     /**
      * Handle touch move (mobile swipe)
      */
-    const handleTouchMove = useCallback(
-        (e: React.TouchEvent) => {
-            if (!isMobile) return;
-            touchEndX.current = e.targetTouches[0].clientX;
-        },
-        [isMobile]
-    );
+    const handleTouchMove = useCallback((e: React.TouchEvent) => {
+        touchEndX.current = e.targetTouches[0].clientX;
+    }, []);
 
     /**
      * Handle touch end (mobile swipe)
      */
     const handleTouchEnd = useCallback(() => {
-        if (!isMobile) return;
-
         const swipeDistance = touchStartX.current - touchEndX.current;
         const minSwipeDistance = 50;
 
         if (Math.abs(swipeDistance) > minSwipeDistance) {
+            setIsAutoPlaying(false);
             if (swipeDistance > 0) {
                 // Swipe left - next item
-                const nextIndex = Math.min(currentIndex + 1, mainTimelineItems.length - 1);
-                if (nextIndex !== currentIndex) {
-                    navigateToItem(nextIndex);
-                    setIsAutoPlaying(false);
-                }
+                goToNext();
             } else {
                 // Swipe right - previous item
-                const prevIndex = Math.max(currentIndex - 1, 0);
-                if (prevIndex !== currentIndex) {
-                    navigateToItem(prevIndex);
-                    setIsAutoPlaying(false);
-                }
+                goToPrev();
             }
         }
 
         touchStartX.current = 0;
         touchEndX.current = 0;
-    }, [isMobile, currentIndex, mainTimelineItems.length, navigateToItem]);
+    }, [goToNext, goToPrev]);
 
     return {
         // State
@@ -419,9 +347,8 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         currentIndex,
         isAutoPlaying,
         popoverPosition,
-        isTimelineHovered,
-        isScrolling,
         isMobile,
+        totalItems,
 
         // Refs
         timelineRef,
@@ -434,11 +361,13 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         POPOVER_WIDTH,
 
         // Handlers
-        handleMouseOver,
-        handleTimelineMouseEnter,
-        handleTimelineMouseLeave,
+        handleItemClick,
         handleTouchStart,
         handleTouchMove,
-        handleTouchEnd
+        handleTouchEnd,
+        goToNext,
+        goToPrev,
+        goToIndex,
+        toggleAutoPlay
     };
 }

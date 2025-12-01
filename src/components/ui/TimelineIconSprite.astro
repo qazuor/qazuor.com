@@ -18,22 +18,31 @@ interface IconSymbol {
     name: string;
     viewBox: string;
     content: string;
+    fill: string;
+    stroke: string;
 }
 
 /**
- * Extracts viewBox and inner content from an SVG string
+ * Extracts viewBox, fill, stroke and inner content from an SVG string
  *
  * @param svgString - Raw SVG file content
- * @returns Object containing viewBox attribute and inner SVG content
+ * @returns Object containing SVG attributes and inner content
  */
-function extractSVGContent(svgString: string): { viewBox: string; content: string } {
+function extractSVGContent(svgString: string): { viewBox: string; content: string; fill: string; stroke: string } {
     const viewBoxMatch = svgString.match(/viewBox="([^"]+)"/);
     const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 24 24';
+
+    const fillMatch = svgString.match(/<svg[^>]*\sfill="([^"]+)"/);
+    const fill = fillMatch ? fillMatch[1] : 'none';
+
+    const strokeMatch = svgString.match(/<svg[^>]*\sstroke="([^"]+)"/);
+    // Only set stroke if explicitly defined in SVG, otherwise don't set (avoids currentColor inheritance issues)
+    const stroke = strokeMatch ? strokeMatch[1] : 'none';
 
     const contentMatch = svgString.match(/<svg[^>]*>([\s\S]*)<\/svg>/);
     const content = contentMatch ? contentMatch[1].trim() : '';
 
-    return { viewBox, content };
+    return { viewBox, content, fill, stroke };
 }
 
 /**
@@ -57,9 +66,9 @@ function generateSymbols(): IconSymbol[] {
             // Extract filename without extension from path
             const name = path.split('/').pop()?.replace('.svg', '') || '';
             const svgContent = content as string;
-            const { viewBox, content: innerContent } = extractSVGContent(svgContent);
+            const { viewBox, content: innerContent, fill, stroke } = extractSVGContent(svgContent);
 
-            return { name, viewBox, content: innerContent };
+            return { name, viewBox, content: innerContent, fill, stroke };
         });
     } catch (error) {
         console.error('Failed to generate timeline icon sprite:', error);
@@ -78,8 +87,8 @@ const symbols = generateSymbols();
 >
     <defs>
         {
-            symbols.map(({ name, viewBox, content }) => (
-                <symbol id={`timeline-${name}`} viewBox={viewBox} set:html={content} />
+            symbols.map(({ name, viewBox, content, fill, stroke }) => (
+                <symbol id={`timeline-${name}`} viewBox={viewBox} fill={fill} stroke={stroke} set:html={content} />
             ))
         }
     </defs>

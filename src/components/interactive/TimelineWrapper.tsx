@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { timelineData } from '@/data/timeline';
-import TimelineDesktop from './TimelineDesktop';
+import TimelineContent from './TimelineContent';
 
 // Adapter type for component compatibility
 interface TimelineItemForComponent {
@@ -12,6 +12,7 @@ interface TimelineItemForComponent {
     color: string;
     colorHex: string;
     icon: string;
+    iconUseItemColor: boolean;
     isSpecial?: boolean;
     specialType?: 'beginning' | 'end';
 }
@@ -42,24 +43,21 @@ function useTheme() {
 
 // Function to adapt timeline data for components
 function getTimelineItems(lang: 'en' | 'es', isDark: boolean): TimelineItemForComponent[] {
-    return timelineData
-        .filter((item) => {
-            return item.viewInDesktop && item.viewInMobile;
-        })
-        .map((item, index) => {
-            const currentColor = isDark ? item.colorDarkTheme : item.colorLightTheme;
-            return {
-                id: index + 1,
-                year: item.year,
-                title: item.title[lang],
-                subtitle: item.category.charAt(0).toUpperCase() + item.category.slice(1),
-                content: item.description[lang],
-                color: hexToTailwindGradient(currentColor),
-                colorHex: currentColor,
-                icon: item.icon,
-                isSpecial: false
-            };
-        });
+    return timelineData.map((item, index) => {
+        const currentColor = isDark ? item.colorDarkTheme : item.colorLightTheme;
+        return {
+            id: index + 1,
+            year: item.year,
+            title: item.title[lang],
+            subtitle: item.category.charAt(0).toUpperCase() + item.category.slice(1),
+            content: item.description[lang],
+            color: hexToTailwindGradient(currentColor),
+            colorHex: currentColor,
+            icon: item.icon,
+            iconUseItemColor: item.iconUseItemColor,
+            isSpecial: false
+        };
+    });
 }
 
 // Helper function to convert hex to Tailwind gradient
@@ -107,7 +105,7 @@ function hexToTailwindGradient(hexColor: string): string {
     return colorMap[hexColor] || 'from-blue-500 to-purple-500';
 }
 
-interface TimelineProps {
+interface TimelineWrapperProps {
     lang: 'en' | 'es';
     translations?: {
         timeline: {
@@ -123,7 +121,7 @@ interface TimelineProps {
     };
 }
 
-export default function Timeline({ lang }: TimelineProps) {
+export default function TimelineWrapper({ lang }: TimelineWrapperProps) {
     const isDark = useTheme();
 
     // Get timeline items based on language and theme
@@ -131,7 +129,7 @@ export default function Timeline({ lang }: TimelineProps) {
 
     return (
         <div>
-            <TimelineDesktop lang={lang} timelineItems={timelineItems} />
+            <TimelineContent lang={lang} timelineItems={timelineItems} />
         </div>
     );
 }

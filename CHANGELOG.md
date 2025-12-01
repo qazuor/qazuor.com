@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-12-01
+
+### Changed
+
+- **Timeline UX overhaul**: Click-based navigation instead of hover interaction
+- **Timeline components renamed**: `Timeline.tsx` → `TimelineWrapper.tsx`,
+  `TimelineDesktop.tsx` → `TimelineContent.tsx`
+- **Timeline icons**: Grayscale when not selected, colored when selected
+- **Play/Pause icons**: Improved with filled style for better visibility
+
+### Added
+
+- Navigation controls: Previous/Next buttons, Play/Pause toggle, progress dots
+- Keyboard navigation: Arrow keys, Home, End, Space for timeline control
+- Touch/swipe support for mobile timeline navigation
+- `iconUseItemColor` field for configurable icon coloring per timeline item
+- New timeline icons: flag, globe-alt, squares
+
+### Removed
+
+- `viewInDesktop` and `viewInMobile` fields from timeline data
+- Dialup timeline item (1999)
+- 12 unused timeline icons
+
+### Fixed
+
+- SVG sprite stroke inheritance for multi-color icons (avature, make,
+  javascript)
+- Scroll centering calculation with proper padding offset
+
 ## [1.0.0] - 2025-12-01
 
 ### Added

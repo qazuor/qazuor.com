@@ -20,10 +20,14 @@ import LifecycleInit from '@/components/LifecycleInit.astro';
 import Footer from '@/components/layout/Footer.astro';
 import Navigation from '@/components/layout/Navigation.astro';
 import SEO from '@/components/layout/SEO.astro';
+import BreadcrumbJsonLd from '@/components/seo/BreadcrumbJsonLd.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
 import ViewTransitionGSAP from '@/components/transitions/ViewTransitionGSAP.astro';
 // import PageTransition from '@/components/transitions/PageTransition.astro';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '@/i18n/utils';
+import type { PersonSchema, WebSiteSchema } from '@/types/jsonld';
+import { generateBreadcrumbs } from '@/utils/breadcrumbs';
 
 interface Props {
     title: string;
@@ -44,6 +48,10 @@ interface Props {
         fiverr?: string;
         upwork?: string;
     };
+    /** Custom page name for breadcrumbs (optional) */
+    breadcrumbName?: string;
+    /** Disable breadcrumbs on this page */
+    noBreadcrumbs?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -68,11 +76,43 @@ const {
     noindex = false,
     author,
     jobTitle,
-    socialLinks
+    socialLinks,
+    breadcrumbName,
+    noBreadcrumbs = false
 } = Astro.props;
 
 // Get current route without locale
 const route = getRouteFromUrl(Astro.url);
+
+// Site configuration
+const siteUrl = 'https://qazuor.com';
+const siteName = 'Qazuor';
+const authorName = 'Julián Cataldo';
+
+// Generate WebSite schema (for all pages)
+const websiteSchema: WebSiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteName,
+    url: siteUrl,
+    description: t('home.description'),
+    author: {
+        '@type': 'Person',
+        name: authorName
+    },
+    inLanguage: ['en', 'es'],
+    potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${siteUrl}/{lang}?search={search_term_string}`
+        },
+        'query-input': 'required name=search_term_string'
+    }
+};
+
+// Generate breadcrumb items for this page
+const breadcrumbItems = noBreadcrumbs ? [] : generateBreadcrumbs(Astro.url.pathname, siteUrl, breadcrumbName || title);
 
 // Generate alternate language links
 const locales = Object.keys(languages);
@@ -311,6 +351,10 @@ const alternateLinks = locales.map((locale) => {
                 <link rel="alternate" hreflang={locale} href={`${Astro.site || ''}${path}`} />
             ))
         }
+
+        <!-- JSON-LD Structured Data -->
+        <JsonLd schema={websiteSchema} />
+        {breadcrumbItems.length > 1 && <BreadcrumbJsonLd items={breadcrumbItems} />}
 
         <!-- Additional head content from pages -->
         <slot name="head" />

@@ -1,0 +1,42 @@
+---
+/**
+ * JsonLd Component
+ * Renders JSON-LD structured data in a script tag
+ *
+ * @example
+ * <JsonLd schema={{
+ *   '@context': 'https://schema.org',
+ *   '@type': 'Person',
+ *   name: 'John Doe'
+ * }} />
+ */
+import type { JsonLdSchema } from '@/types/jsonld';
+
+interface Props {
+    schema: JsonLdSchema | JsonLdSchema[];
+}
+
+const { schema } = Astro.props;
+
+/**
+ * Serialize the schema to JSON, handling arrays of schemas
+ */
+function serializeSchema(data: JsonLdSchema | JsonLdSchema[]): string {
+    if (Array.isArray(data)) {
+        // Multiple schemas - wrap in @graph
+        return JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': data.map((item) => {
+                // Remove @context from individual items as it's at the root
+                const { '@context': _, ...rest } = item;
+                return rest;
+            })
+        });
+    }
+    return JSON.stringify(data);
+}
+
+const jsonString = serializeSchema(schema);
+---
+
+<script type="application/ld+json" set:html={jsonString} />

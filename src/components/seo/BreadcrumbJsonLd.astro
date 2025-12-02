@@ -1,0 +1,39 @@
+---
+/**
+ * BreadcrumbJsonLd Component
+ * Renders breadcrumb structured data for navigation
+ *
+ * @example
+ * <BreadcrumbJsonLd items={[
+ *   { name: 'Home', url: '/' },
+ *   { name: 'Blog', url: '/blog' },
+ *   { name: 'Current Post' }
+ * ]} />
+ */
+import type { BreadcrumbItemSchema, BreadcrumbListSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+    items: Array<{
+        name: string;
+        url?: string;
+    }>;
+}
+
+const { items } = Astro.props;
+
+const itemListElement: BreadcrumbItemSchema[] = items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    ...(item.url && { item: item.url })
+}));
+
+const schema: BreadcrumbListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement
+};
+---
+
+<JsonLd schema={schema} />

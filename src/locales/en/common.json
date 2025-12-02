@@ -61,6 +61,31 @@
             "title": "Ready to work together?",
             "description": "Let's build something amazing",
             "button": "Get in touch"
+        },
+        "trustBadges": {
+            "ariaLabel": "Trust indicators",
+            "experience": "20+ Years Experience",
+            "remote": "Remote Worldwide",
+            "performance": "Lighthouse 95+",
+            "bilingual": "EN/ES Bilingual"
+        },
+        "stats": {
+            "years": {
+                "label": "Years Experience",
+                "description": "Building web solutions since the early days of the industry"
+            },
+            "projects": {
+                "label": "Projects Delivered",
+                "description": "Websites, apps, and digital products shipped worldwide"
+            },
+            "clients": {
+                "label": "Happy Clients",
+                "description": "From startups to established businesses across industries"
+            },
+            "lighthouse": {
+                "label": "Lighthouse Score",
+                "description": "Performance-focused development with measurable results"
+            }
         }
     },
     "blog": {
@@ -208,7 +233,17 @@
     "footer": {
         "rights": "All rights reserved",
         "builtWith": "Built with",
-        "and": "and"
+        "and": "and",
+        "performance": {
+            "title": "Performance",
+            "desktop": "Desktop",
+            "mobile": "Mobile",
+            "lcp": "LCP",
+            "cls": "CLS",
+            "fcp": "FCP",
+            "score": "Score",
+            "measuredOn": "Last measured"
+        }
     },
     "common": {
         "loading": "Loading...",
@@ -344,5 +379,93 @@
         "name": "Leandro Asrilevich",
         "role": "Full-Stack Developer",
         "experience": "5+ years"
+    },
+    "servicesPreview": {
+        "title": "**What I** Can Do For You",
+        "subtitle": "Professional services to *bring your vision* to **life**",
+        "description": "From custom web applications to landing pages and automation, I offer comprehensive solutions tailored to your business needs.",
+        "viewAll": "Explore **All Services**",
+        "learnMore": "Learn more",
+        "whyWorkWithMe": {
+            "title": "Why **Work** With Me",
+            "items": [
+                "Direct communication, no middlemen",
+                "Transparent pricing and timelines",
+                "Code quality and best practices",
+                "Ongoing support after delivery"
+            ]
+        },
+        "services": {
+            "webApps": {
+                "title": "**Full-Stack** Web Apps",
+                "description": "Complete web applications with modern technologies, from frontend to backend.",
+                "features": ["Custom development", "Database integration", "API development", "Scalable architecture"]
+            },
+            "landingPages": {
+                "title": "**Landing Pages** & Sites",
+                "description": "High-converting landing pages and blazing-fast static websites.",
+                "features": ["SEO optimization", "Mobile-first design", "Fast performance", "CMS integration"]
+            },
+            "automation": {
+                "title": "**Automation** & APIs",
+                "description": "Streamline workflows with custom automations and integrations.",
+                "features": [
+                    "Workflow automation",
+                    "Third-party integrations",
+                    "Data synchronization",
+                    "Custom webhooks"
+                ]
+            },
+            "socialDesign": {
+                "title": "**Social Media** Design",
+                "description": "Visual content and brand assets for social platforms.",
+                "features": ["Social templates", "Brand identity", "Platform-optimized", "Editable formats"]
+            }
+        }
+    },
+    "faqs": {
+        "title": "**Frequently** Asked Questions",
+        "subtitle": "Answers to common questions about working with me",
+        "description": "Whether you're a potential client looking to build a project or an employer exploring collaboration options, here are answers to questions I get asked most often.",
+        "clientsHeading": "For **Clients**",
+        "employersHeading": "For **Employers**",
+        "faqs": {
+            "clients": [
+                {
+                    "question": "How long does a typical project take?",
+                    "answer": "Timelines vary based on project scope. A landing page typically takes <strong>1-2 weeks</strong>, while a full web application can take <strong>4-12 weeks</strong>. I'll provide a detailed timeline during our initial consultation after understanding your specific requirements."
+                },
+                {
+                    "question": "What technologies do you work with?",
+                    "answer": "I specialize in modern web technologies: <strong>React, TypeScript, Astro, and Tailwind CSS</strong> for frontend, with <strong>Node.js, Hono, and PostgreSQL</strong> for backend needs. I choose the best stack for each project based on requirements, scalability needs, and long-term maintainability."
+                },
+                {
+                    "question": "What types of clients do you work with?",
+                    "answer": "I work with <strong>startups, small businesses, agencies, and individual entrepreneurs</strong>. Whether you need a portfolio site, a SaaS dashboard, or an e-commerce platform, I adapt my approach to fit your business size and budget while maintaining quality standards."
+                },
+                {
+                    "question": "What's your work process like?",
+                    "answer": "I follow a structured process: <strong>1) Discovery call</strong> to understand your needs, <strong>2) Proposal with scope and timeline</strong>, <strong>3) Design/wireframes approval</strong>, <strong>4) Development with regular updates</strong>, and <strong>5) Testing and deployment</strong>. You'll always know exactly where we stand."
+                },
+                {
+                    "question": "Do you provide ongoing support after launch?",
+                    "answer": "Yes! I offer <strong>maintenance packages</strong> that include bug fixes, security updates, performance monitoring, and minor feature additions. Many clients continue working with me long after launch for continuous improvements and new features."
+                }
+            ],
+            "employers": [
+                {
+                    "question": "Are you available for full-time positions?",
+                    "answer": "Yes, I'm open to the right <strong>full-time remote opportunity</strong>. I'm particularly interested in roles where I can contribute to product development, work with modern technologies, and be part of a team that values code quality and user experience."
+                },
+                {
+                    "question": "Are you open to part-time or contract work?",
+                    "answer": "Absolutely! I'm available for <strong>part-time arrangements, fixed-term contracts, or project-based work</strong>. This flexibility allows me to contribute meaningfully to your team while managing other commitments. Let's discuss what arrangement works best for both of us."
+                },
+                {
+                    "question": "What's your remote work setup?",
+                    "answer": "I have a <strong>fully equipped home office</strong> in Argentina (UTC-3) with reliable high-speed internet, professional audio/video equipment for meetings, and experience working asynchronously with teams across different time zones. I'm comfortable with tools like Slack, GitHub, Linear, and Notion."
+                }
+            ]
+        }
     }
 }

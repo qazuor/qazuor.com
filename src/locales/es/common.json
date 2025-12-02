@@ -61,6 +61,31 @@
             "title": "¿Listo para trabajar juntos?",
             "description": "Construyamos algo increíble",
             "button": "Contactar"
+        },
+        "trustBadges": {
+            "ariaLabel": "Indicadores de confianza",
+            "experience": "+20 Años Experiencia",
+            "remote": "Remoto Mundial",
+            "performance": "Lighthouse 95+",
+            "bilingual": "Bilingüe EN/ES"
+        },
+        "stats": {
+            "years": {
+                "label": "Años de Experiencia",
+                "description": "Construyendo soluciones web desde los inicios de la industria"
+            },
+            "projects": {
+                "label": "Proyectos Entregados",
+                "description": "Sitios web, apps y productos digitales entregados globalmente"
+            },
+            "clients": {
+                "label": "Clientes Satisfechos",
+                "description": "Desde startups hasta empresas establecidas de diversas industrias"
+            },
+            "lighthouse": {
+                "label": "Score Lighthouse",
+                "description": "Desarrollo enfocado en performance con resultados medibles"
+            }
         }
     },
     "blog": {
@@ -208,7 +233,17 @@
     "footer": {
         "rights": "Todos los derechos reservados",
         "builtWith": "Construido con",
-        "and": "y"
+        "and": "y",
+        "performance": {
+            "title": "Rendimiento",
+            "desktop": "Escritorio",
+            "mobile": "Móvil",
+            "lcp": "LCP",
+            "cls": "CLS",
+            "fcp": "FCP",
+            "score": "Score",
+            "measuredOn": "Última medición"
+        }
     },
     "common": {
         "loading": "Cargando...",
@@ -344,5 +379,103 @@
         "name": "Leandro Asrilevich",
         "role": "Desarrollador Full-Stack",
         "experience": "5+ años"
+    },
+    "servicesPreview": {
+        "title": "**Lo Que** Puedo Hacer Por Ti",
+        "subtitle": "Servicios profesionales para *hacer realidad* tu **visión**",
+        "description": "Desde aplicaciones web personalizadas hasta landing pages y automatizaciones, ofrezco soluciones integrales adaptadas a las necesidades de tu negocio.",
+        "viewAll": "Explorar **Todos los Servicios**",
+        "learnMore": "Saber más",
+        "whyWorkWithMe": {
+            "title": "Por Qué **Trabajar** Conmigo",
+            "items": [
+                "Comunicación directa, sin intermediarios",
+                "Precios y plazos transparentes",
+                "Calidad de código y mejores prácticas",
+                "Soporte continuo después de la entrega"
+            ]
+        },
+        "services": {
+            "webApps": {
+                "title": "**Aplicaciones** Web Full-Stack",
+                "description": "Aplicaciones web completas con tecnologías modernas, desde frontend hasta backend.",
+                "features": [
+                    "Desarrollo a medida",
+                    "Integración de bases de datos",
+                    "Desarrollo de APIs",
+                    "Arquitectura escalable"
+                ]
+            },
+            "landingPages": {
+                "title": "**Landing Pages** y Sitios",
+                "description": "Landing pages de alta conversión y sitios web estáticos ultrarrápidos.",
+                "features": ["Optimización SEO", "Diseño mobile-first", "Alto rendimiento", "Integración con CMS"]
+            },
+            "automation": {
+                "title": "**Automatización** y APIs",
+                "description": "Optimiza flujos de trabajo con automatizaciones e integraciones personalizadas.",
+                "features": [
+                    "Automatización de flujos",
+                    "Integraciones de terceros",
+                    "Sincronización de datos",
+                    "Webhooks personalizados"
+                ]
+            },
+            "socialDesign": {
+                "title": "**Diseño** para Redes Sociales",
+                "description": "Contenido visual y recursos de marca para plataformas sociales.",
+                "features": [
+                    "Plantillas sociales",
+                    "Identidad de marca",
+                    "Optimizado por plataforma",
+                    "Formatos editables"
+                ]
+            }
+        }
+    },
+    "faqs": {
+        "title": "Preguntas **Frecuentes**",
+        "subtitle": "Respuestas a dudas comunes sobre trabajar conmigo",
+        "description": "Ya sea que busques construir un proyecto o explorar opciones de colaboración, acá encontrás las respuestas a las preguntas más habituales.",
+        "clientsHeading": "Para **Clientes**",
+        "employersHeading": "Para **Empleadores**",
+        "faqs": {
+            "clients": [
+                {
+                    "question": "¿Cuánto tiempo toma un proyecto típico?",
+                    "answer": "Los tiempos varían según el alcance del proyecto. Una landing page puede estar lista en 1-2 semanas, mientras que una aplicación web completa puede tomar 4-8 semanas. Siempre doy una estimación detallada después de entender bien tus requerimientos."
+                },
+                {
+                    "question": "¿Con qué tecnologías trabajás?",
+                    "answer": "Me especializo en tecnologías web modernas: <strong>React</strong>, <strong>TypeScript</strong>, <strong>Astro</strong>, <strong>Node.js</strong> y <strong>TailwindCSS</strong>. También trabajo con bases de datos (PostgreSQL, MongoDB), APIs REST/GraphQL y plataformas cloud como Vercel y AWS."
+                },
+                {
+                    "question": "¿Con qué tipos de clientes trabajás?",
+                    "answer": "Trabajo con startups, pequeñas empresas, emprendedores y equipos de producto que necesitan experiencia técnica de alta calidad. Mis clientes suelen buscar alguien que pueda manejar tanto el desarrollo como las decisiones de arquitectura de forma independiente."
+                },
+                {
+                    "question": "¿Cómo es tu proceso de trabajo?",
+                    "answer": "Sigo un proceso estructurado: <strong>1)</strong> Descubrimiento y planificación, <strong>2)</strong> Diseño y prototipado, <strong>3)</strong> Desarrollo en sprints con entregas iterativas, <strong>4)</strong> Testing y optimización, <strong>5)</strong> Deploy y handoff. Mantengo comunicación constante durante todo el proceso."
+                },
+                {
+                    "question": "¿Ofrecés soporte después del lanzamiento?",
+                    "answer": "¡Sí! Ofrezco paquetes de mantenimiento que incluyen corrección de bugs, actualizaciones de seguridad, mejoras de rendimiento y desarrollo de nuevas funcionalidades. Podemos acordar un plan mensual o trabajar por demanda según tus necesidades."
+                }
+            ],
+            "employers": [
+                {
+                    "question": "¿Estás disponible para posiciones full-time?",
+                    "answer": "Sí, estoy abierto a la oportunidad remota full-time correcta. Busco equipos con proyectos interesantes donde pueda contribuir en arquitectura frontend, calidad de código y experiencia de usuario. Mi zona horaria es UTC-3 (Argentina) con flexibilidad para overlap con equipos de USA/Europa."
+                },
+                {
+                    "question": "¿Estás abierto a trabajo part-time o por contrato?",
+                    "answer": "¡Absolutamente! Estoy disponible para arreglos part-time, contratos a largo plazo y colaboraciones basadas en proyectos. Esta flexibilidad me permite contribuir valor significativo mientras mantengo calidad en múltiples compromisos."
+                },
+                {
+                    "question": "¿Cómo es tu setup de trabajo remoto?",
+                    "answer": "Tengo una oficina en casa completamente equipada en Argentina (UTC-3) con internet de alta velocidad y setup dual-monitor. Tengo experiencia trabajando con equipos distribuidos, usando herramientas como Slack, Linear, GitHub, Notion y demás plataformas de colaboración. Soy organizado con comunicación async y proactivo con updates."
+                }
+            ]
+        }
     }
 }

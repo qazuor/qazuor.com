@@ -9,8 +9,10 @@ interface Props {
         | 'hero-to-about'
         | 'about-to-skills'
         | 'skills-to-projects'
+        | 'projects-to-services-preview'
         | 'projects-to-blog'
         | 'blog-to-testimonials'
+        | 'testimonials-to-faqs'
         | 'testimonials-to-contact'
         | 'contact-to-footer';
 }
@@ -120,6 +122,13 @@ const { transition = 'testimonials-to-contact' } = Astro.props;
         --divider-transition-4: var(--skills-to-projects-5);
     }
 
+    .zigzag-divider[data-transition='projects-to-services-preview'] {
+        --divider-transition-1: var(--projects-to-services-preview-2);
+        --divider-transition-2: var(--projects-to-services-preview-3);
+        --divider-transition-3: var(--projects-to-services-preview-4);
+        --divider-transition-4: var(--projects-to-services-preview-5);
+    }
+
     .zigzag-divider[data-transition='projects-to-blog'] {
         --divider-transition-1: var(--projects-to-blog-2);
         --divider-transition-2: var(--projects-to-blog-3);
@@ -132,6 +141,13 @@ const { transition = 'testimonials-to-contact' } = Astro.props;
         --divider-transition-2: var(--blog-to-testimonials-3);
         --divider-transition-3: var(--blog-to-testimonials-4);
         --divider-transition-4: var(--blog-to-testimonials-5);
+    }
+
+    .zigzag-divider[data-transition='testimonials-to-faqs'] {
+        --divider-transition-1: var(--testimonials-to-faqs-2);
+        --divider-transition-2: var(--testimonials-to-faqs-3);
+        --divider-transition-3: var(--testimonials-to-faqs-4);
+        --divider-transition-4: var(--testimonials-to-faqs-5);
     }
 
     .zigzag-divider[data-transition='testimonials-to-contact'] {

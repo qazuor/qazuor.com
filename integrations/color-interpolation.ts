@@ -20,11 +20,13 @@ interface SectionColors {
     about: string;
     skills: string;
     projects: string;
+    servicesPreview: string;
     blog: string;
     services: string;
     goodies: string;
     testimonials: string;
     contact: string;
+    faqs: string;
     footer: string;
 }
 
@@ -72,11 +74,17 @@ function generateTransitionCSS(colors: SectionColors, steps: number): string {
         { name: 'hero-to-about', from: colors.hero, to: colors.about },
         { name: 'about-to-skills', from: colors.about, to: colors.skills },
         { name: 'skills-to-projects', from: colors.skills, to: colors.projects },
+        { name: 'projects-to-services-preview', from: colors.projects, to: colors.servicesPreview },
+        { name: 'services-preview-to-blog', from: colors.servicesPreview, to: colors.blog },
         { name: 'projects-to-blog', from: colors.projects, to: colors.blog },
         { name: 'blog-to-services', from: colors.blog, to: colors.services },
         { name: 'blog-to-testimonials', from: colors.blog, to: colors.testimonials },
         { name: 'services-to-testimonials', from: colors.services, to: colors.testimonials },
+        { name: 'testimonials-to-faqs', from: colors.testimonials, to: colors.faqs },
         { name: 'testimonials-to-contact', from: colors.testimonials, to: colors.contact },
+        { name: 'faqs-to-contact', from: colors.faqs, to: colors.contact },
+        { name: 'contact-to-faqs', from: colors.contact, to: colors.faqs },
+        { name: 'faqs-to-footer', from: colors.faqs, to: colors.footer },
         { name: 'contact-to-footer', from: colors.contact, to: colors.footer }
     ];
 
@@ -131,11 +139,13 @@ function loadColorsFromSource(sourceFile: string): { dark: SectionColors; light:
                 about: colors.about || '#000000',
                 skills: colors.skills || '#000000',
                 projects: colors.projects || '#000000',
+                servicesPreview: colors.servicesPreview || '#000000',
                 blog: colors.blog || '#000000',
                 services: colors.services || '#000000',
                 goodies: colors.goodies || '#000000',
                 testimonials: colors.testimonials || '#000000',
                 contact: colors.contact || '#000000',
+                faqs: colors.faqs || '#000000',
                 footer: colors.footer || '#000000'
             };
         };
@@ -171,11 +181,13 @@ function generateCompleteCSS(darkColors: SectionColors, lightColors: SectionColo
   --section-about-bg: ${lightColors.about.toLowerCase()};
   --section-skills-bg: ${lightColors.skills.toLowerCase()};
   --section-projects-bg: ${lightColors.projects.toLowerCase()};
+  --section-services-preview-bg: ${lightColors.servicesPreview.toLowerCase()};
   --section-blog-bg: ${lightColors.blog.toLowerCase()};
   --section-services-bg: ${lightColors.services.toLowerCase()};
   --section-goodies-bg: ${lightColors.goodies.toLowerCase()};
   --section-testimonials-bg: ${lightColors.testimonials.toLowerCase()};
   --section-contact-bg: ${lightColors.contact.toLowerCase()};
+  --section-faqs-bg: ${lightColors.faqs.toLowerCase()};
   --section-footer-bg: ${lightColors.footer.toLowerCase()};
 
 ${generateTransitionCSS(lightColors, steps).trimEnd()}
@@ -187,11 +199,13 @@ ${generateTransitionCSS(lightColors, steps).trimEnd()}
   --section-about-bg: ${darkColors.about.toLowerCase()};
   --section-skills-bg: ${darkColors.skills.toLowerCase()};
   --section-projects-bg: ${darkColors.projects.toLowerCase()};
+  --section-services-preview-bg: ${darkColors.servicesPreview.toLowerCase()};
   --section-blog-bg: ${darkColors.blog.toLowerCase()};
   --section-services-bg: ${darkColors.services.toLowerCase()};
   --section-goodies-bg: ${darkColors.goodies.toLowerCase()};
   --section-testimonials-bg: ${darkColors.testimonials.toLowerCase()};
   --section-contact-bg: ${darkColors.contact.toLowerCase()};
+  --section-faqs-bg: ${darkColors.faqs.toLowerCase()};
   --section-footer-bg: ${darkColors.footer.toLowerCase()};
 
 ${generateTransitionCSS(darkColors, steps).trimEnd()}

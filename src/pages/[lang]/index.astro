@@ -6,8 +6,10 @@ import type { ImageMetadata } from 'astro';
 import { Contact } from '@/components/forms/Contact';
 import AboutSection from '@/components/sections/AboutSection.astro';
 import BlogSection from '@/components/sections/BlogSection.astro';
+import FAQsSection from '@/components/sections/FAQsSection.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
 import ProjectsFeaturedSection from '@/components/sections/ProjectsFeaturedSection.astro';
+import ServicesPreviewSection from '@/components/sections/ServicesPreviewSection.astro';
 import SkillsSection from '@/components/sections/SkillsSection.astro';
 import TestimonialsSection from '@/components/sections/TestimonialsSection.astro';
 import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
@@ -297,6 +299,65 @@ const blogTranslations = {
     readTime: t('blog.readTime', { markdown: true })
 };
 
+const servicesPreviewTranslations = {
+    title: t('servicesPreview.title', { markdown: true }),
+    subtitle: t('servicesPreview.subtitle', { markdown: true }),
+    description: t('servicesPreview.description', { markdown: true }),
+    viewAll: t('servicesPreview.viewAll', { markdown: true }),
+    learnMore: t('servicesPreview.learnMore'),
+    whyWorkWithMe: {
+        title: t('servicesPreview.whyWorkWithMe.title', { markdown: true }),
+        items: [
+            t('servicesPreview.whyWorkWithMe.items.0'),
+            t('servicesPreview.whyWorkWithMe.items.1'),
+            t('servicesPreview.whyWorkWithMe.items.2'),
+            t('servicesPreview.whyWorkWithMe.items.3')
+        ]
+    },
+    services: {
+        webApps: {
+            title: t('servicesPreview.services.webApps.title', { markdown: true }),
+            description: t('servicesPreview.services.webApps.description'),
+            features: [
+                t('servicesPreview.services.webApps.features.0'),
+                t('servicesPreview.services.webApps.features.1'),
+                t('servicesPreview.services.webApps.features.2'),
+                t('servicesPreview.services.webApps.features.3')
+            ]
+        },
+        landingPages: {
+            title: t('servicesPreview.services.landingPages.title', { markdown: true }),
+            description: t('servicesPreview.services.landingPages.description'),
+            features: [
+                t('servicesPreview.services.landingPages.features.0'),
+                t('servicesPreview.services.landingPages.features.1'),
+                t('servicesPreview.services.landingPages.features.2'),
+                t('servicesPreview.services.landingPages.features.3')
+            ]
+        },
+        automation: {
+            title: t('servicesPreview.services.automation.title', { markdown: true }),
+            description: t('servicesPreview.services.automation.description'),
+            features: [
+                t('servicesPreview.services.automation.features.0'),
+                t('servicesPreview.services.automation.features.1'),
+                t('servicesPreview.services.automation.features.2'),
+                t('servicesPreview.services.automation.features.3')
+            ]
+        },
+        socialDesign: {
+            title: t('servicesPreview.services.socialDesign.title', { markdown: true }),
+            description: t('servicesPreview.services.socialDesign.description'),
+            features: [
+                t('servicesPreview.services.socialDesign.features.0'),
+                t('servicesPreview.services.socialDesign.features.1'),
+                t('servicesPreview.services.socialDesign.features.2'),
+                t('servicesPreview.services.socialDesign.features.3')
+            ]
+        }
+    }
+};
+
 const contactTranslations = {
     title: t('contact.title', { markdown: true }),
     subtitle: t('contact.subtitle', { markdown: true }),
@@ -366,6 +427,28 @@ const testimonialsTranslations = {
     readLess: t('testimonials.readLess', { markdown: true }),
     viewProfile: t('testimonials.viewProfile', { markdown: true }),
     viewMore: t('testimonials.viewMore', { markdown: true })
+};
+
+const faqsTranslations = {
+    title: t('faqs.title', { markdown: true }),
+    subtitle: t('faqs.subtitle', { markdown: true }),
+    description: t('faqs.description', { markdown: true }),
+    clientsHeading: t('faqs.clientsHeading', { markdown: true }),
+    employersHeading: t('faqs.employersHeading', { markdown: true }),
+    faqs: {
+        clients: [
+            { question: t('faqs.faqs.clients.0.question'), answer: t('faqs.faqs.clients.0.answer') },
+            { question: t('faqs.faqs.clients.1.question'), answer: t('faqs.faqs.clients.1.answer') },
+            { question: t('faqs.faqs.clients.2.question'), answer: t('faqs.faqs.clients.2.answer') },
+            { question: t('faqs.faqs.clients.3.question'), answer: t('faqs.faqs.clients.3.answer') },
+            { question: t('faqs.faqs.clients.4.question'), answer: t('faqs.faqs.clients.4.answer') }
+        ],
+        employers: [
+            { question: t('faqs.faqs.employers.0.question'), answer: t('faqs.faqs.employers.0.answer') },
+            { question: t('faqs.faqs.employers.1.question'), answer: t('faqs.faqs.employers.1.answer') },
+            { question: t('faqs.faqs.employers.2.question'), answer: t('faqs.faqs.employers.2.answer') }
+        ]
+    }
 };
 
 // Profile translations
@@ -453,7 +536,17 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
             translations={projectsTranslations}
             lang={lang}
         />
-        <DiagonalDivider direction="right" transition="projects-to-blog" />
+        <ZigzagDivider transition="projects-to-services-preview" />
+    </div>
+
+    <!-- Services Preview Section (between Projects and Blog) -->
+    <div class="relative">
+        <ServicesPreviewSection
+            primaryColor={sectionsColors.servicesPreview}
+            lang={lang}
+            translations={servicesPreviewTranslations}
+        />
+        <DiagonalDivider direction="right" transition="services-preview-to-blog" />
     </div>
 
     <!-- Blog Section with cyan gradient background -->
@@ -474,7 +567,17 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
             testimonials={sortedTestimonials}
             translations={testimonialsTranslations}
         />
-        <ZigzagDivider transition="testimonials-to-contact" />
+        <ZigzagDivider transition="testimonials-to-faqs" />
+    </div>
+
+    <!-- FAQs Section - 8 FAQs: 5 for clients + 3 for employers -->
+    <div class="relative">
+        <FAQsSection
+            primaryColor={sectionsColors.faqs}
+            lang={lang}
+            translations={faqsTranslations}
+        />
+        <WaveDivider transition="faqs-to-contact" />
     </div>
 
     <!-- Contact Section with gradient background -->

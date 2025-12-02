@@ -1,0 +1,111 @@
+---
+/**
+ * FAQsSection - General FAQs section for homepage
+ * 8 FAQs: 5 for clients + 3 for employers
+ * All collapsed by default
+ * Includes FAQ JSON-LD schema for SEO
+ */
+
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import FAQItem from '@/components/ui/FAQItem.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+
+interface FAQ {
+    question: string;
+    answer: string;
+}
+
+interface Props {
+    primaryColor?: string;
+    lang: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        description?: string;
+        clientsHeading: string;
+        employersHeading: string;
+        faqs: {
+            clients: FAQ[];
+            employers: FAQ[];
+        };
+    };
+}
+
+const { primaryColor = '#8b5cf6', lang, translations } = Astro.props;
+
+// Combine all FAQs for JSON-LD schema
+const allFaqs = [...translations.faqs.clients, ...translations.faqs.employers];
+
+// Generate FAQ JSON-LD schema
+const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allFaqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question.replace(/<[^>]*>/g, ''), // Strip HTML tags
+        acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer.replace(/<[^>]*>/g, '') // Strip HTML tags
+        }
+    }))
+};
+---
+
+<section
+    class="relative section section-faqs overflow-hidden py-20 md:py-28"
+    id="faqs"
+    style={`background-color: ${primaryColor}`}
+>
+    <!-- Animated Gradient Background -->
+    <AnimatedGradientBackground />
+
+    <div class="container-custom relative z-10">
+        <!-- Section Title -->
+        <SectionTitle
+            title={translations.title}
+            subtitle={translations.subtitle}
+            description={translations.description}
+            descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
+        />
+
+        <!-- FAQs Grid - Two columns on desktop -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            <!-- Client FAQs -->
+            <div class="faq-group">
+                <h3 class="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </span>
+                    <span set:html={translations.clientsHeading} />
+                </h3>
+                <div class="bg-background/30 backdrop-blur-sm rounded-2xl border border-primary/20 overflow-hidden">
+                    {translations.faqs.clients.map((faq) => (
+                        <FAQItem question={faq.question} answer={faq.answer} />
+                    ))}
+                </div>
+            </div>
+
+            <!-- Employer FAQs -->
+            <div class="faq-group">
+                <h3 class="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+                        </svg>
+                    </span>
+                    <span set:html={translations.employersHeading} />
+                </h3>
+                <div class="bg-background/30 backdrop-blur-sm rounded-2xl border border-primary/20 overflow-hidden">
+                    {translations.faqs.employers.map((faq) => (
+                        <FAQItem question={faq.question} answer={faq.answer} />
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ JSON-LD Schema -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+</section>

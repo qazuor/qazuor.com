@@ -14,6 +14,7 @@ interface Props {
         | 'blog-to-testimonials'
         | 'services-to-testimonials'
         | 'testimonials-to-contact'
+        | 'faqs-to-contact'
         | 'contact-to-footer';
 }
 
@@ -187,6 +188,14 @@ const { transition = 'hero-to-about' } = Astro.props;
         --divider-transition-3: var(--testimonials-to-contact-3);
         --divider-transition-4: var(--testimonials-to-contact-4);
         --divider-transition-5: var(--testimonials-to-contact-5);
+    }
+
+    .wave-divider[data-transition='faqs-to-contact'] {
+        --divider-transition-1: var(--faqs-to-contact-1);
+        --divider-transition-2: var(--faqs-to-contact-2);
+        --divider-transition-3: var(--faqs-to-contact-3);
+        --divider-transition-4: var(--faqs-to-contact-4);
+        --divider-transition-5: var(--faqs-to-contact-5);
     }
 
     .wave-divider[data-transition='contact-to-footer'] {

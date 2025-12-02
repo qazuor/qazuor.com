@@ -2,7 +2,7 @@
 import SkillsRadarGrid from '@/components/interactive/SkillsRadarGrid.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import { skillsData } from '@/data';
+import { languageSkills, skillsData } from '@/data';
 // Import tech icons
 import AstroIcon from '@/icons/tech/astro.svg?raw';
 import CanvaIcon from '@/icons/tech/canva.svg?raw';
@@ -16,7 +16,9 @@ import GithubIcon from '@/icons/tech/github.svg?raw';
 import HonoIcon from '@/icons/tech/hono.svg?raw';
 import Html5Icon from '@/icons/tech/html5.svg?raw';
 import JavascriptIcon from '@/icons/tech/javascript.svg?raw';
+import MakeIcon from '@/icons/tech/make.svg?raw';
 import NodejsIcon from '@/icons/tech/nodejs.svg?raw';
+import PaletteIcon from '@/icons/tech/palette.svg?raw';
 import PhotoshopIcon from '@/icons/tech/photoshop.svg?raw';
 import PostgresqlIcon from '@/icons/tech/postgresql.svg?raw';
 import ReactIcon from '@/icons/tech/react.svg?raw';
@@ -28,14 +30,19 @@ import TypescriptIcon from '@/icons/tech/typescript.svg?raw';
 import UsaIcon from '@/icons/tech/usa.svg?raw';
 import WordpressIcon from '@/icons/tech/wordpress.svg?raw';
 import ZodIcon from '@/icons/tech/zod.svg?raw';
+// Import timeline icons (for soft skills)
+import SparklesIcon from '@/icons/timeline/sparkles.svg?raw';
+import UserGroupIcon from '@/icons/timeline/user-group.svg?raw';
 // Import UI icons (for soft skills and placeholders)
 import ArrowRightIcon from '@/icons/ui/arrow-right.svg?raw';
 import ArrowUpIcon from '@/icons/ui/arrow-up.svg?raw';
+import BoltIcon from '@/icons/ui/bolt.svg?raw';
 import ChatBubbleIcon from '@/icons/ui/chat-bubble.svg?raw';
 import CheckCircleIcon from '@/icons/ui/check-circle.svg?raw';
 import ClockIcon from '@/icons/ui/clock.svg?raw';
 import DocumentEmptyIcon from '@/icons/ui/document-empty.svg?raw';
 import HomeIcon from '@/icons/ui/home.svg?raw';
+import LightbulbIcon from '@/icons/ui/lightbulb.svg?raw';
 import SearchIcon from '@/icons/ui/search.svg?raw';
 import SunIcon from '@/icons/ui/sun.svg?raw';
 import XCircleIcon from '@/icons/ui/x-circle.svg?raw';
@@ -56,6 +63,9 @@ interface Props {
             title: string;
             native: string;
             writtenOnly: string;
+            fluent: string;
+            intermediate: string;
+            basic: string;
         };
     };
 }
@@ -100,17 +110,24 @@ const iconMap: Record<string, string> = {
     photoshop: PhotoshopIcon,
     canva: CanvaIcon,
     wordpress: WordpressIcon,
+    make: MakeIcon,
+    palette: PaletteIcon,
     // UI icons (soft skills placeholders)
     'arrow-right': ArrowRightIcon,
     'arrow-up': ArrowUpIcon,
+    bolt: BoltIcon,
     'chat-bubble': ChatBubbleIcon,
     'check-circle': CheckCircleIcon,
     clock: ClockIcon,
     'document-empty': DocumentEmptyIcon,
     home: HomeIcon,
+    lightbulb: LightbulbIcon,
     search: SearchIcon,
     sun: SunIcon,
-    'x-circle': XCircleIcon
+    'x-circle': XCircleIcon,
+    // Timeline icons (for soft skills)
+    sparkles: SparklesIcon,
+    'user-group': UserGroupIcon
 };
 
 // Map data with translated titles and icons
@@ -118,11 +135,9 @@ const categories = skillsData.map((category) => ({
     id: category.id,
     title: translations.categoryTitles?.[category.id] || category.id,
     skills: category.skills.map((skill) => ({
-        // Use translation for humanCreativeSkills, keep original name for technicalSkills
-        name:
-            category.id === 'humanCreativeSkills' && translations.skillItems?.[skill.name]
-                ? translations.skillItems[skill.name]
-                : skill.name,
+        // Use translation if available (for soft skills and i18n keys like webPerformance, seo, etc.)
+        // Keep original name for hard skills like JavaScript, TypeScript, etc.
+        name: translations.skillItems?.[skill.name] ?? skill.name,
         value: skill.value,
         color: skill.color,
         icon: iconMap[skill.icon] || '',
@@ -157,8 +172,12 @@ const categories = skillsData.map((category) => ({
             <SkillsRadarGrid
                 categories={categories}
                 description={translations.description}
-                languageIcons={{ spanish: SpanishIcon, english: UsaIcon }}
-                languageTranslations={translations.languages}
+                languages={languageSkills.map((lang) => ({
+                    ...lang,
+                    icon: lang.icon === 'spanish' ? SpanishIcon : UsaIcon,
+                    note: translations.languages?.[lang.noteKey] || lang.noteKey
+                }))}
+                languageTitle={translations.languages?.title}
             />
         </div>
     </div>

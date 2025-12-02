@@ -54,6 +54,18 @@
             {
                 "question": "¿Qué incluye el costo del proyecto?",
                 "answer": "El costo del proyecto incluye planificación, diseño, desarrollo, pruebas, despliegue y capacitación inicial. El hosting continuo, registro de dominio y tarifas de servicios de terceros son aparte."
+            },
+            {
+                "question": "¿Cómo manejas la seguridad de la aplicación?",
+                "answer": "La seguridad es una prioridad desde el diseño. Implemento **autenticación segura**, **encriptación de datos**, protección contra **SQL injection** y **XSS**, y sigo las mejores prácticas de **OWASP**. También configuro certificados SSL y headers de seguridad apropiados."
+            },
+            {
+                "question": "¿Puedo ver el progreso durante el desarrollo?",
+                "answer": "¡Por supuesto! Utilizo un proceso iterativo con **demos semanales** donde podés ver el avance y dar feedback. Además, tendrás acceso a un ambiente de staging donde podés probar la aplicación en tiempo real mientras se desarrolla."
+            },
+            {
+                "question": "¿Qué pasa si necesito cambios después del lanzamiento?",
+                "answer": "Los cambios son normales y esperados. Ofrezco **planes de mantenimiento** flexibles que cubren actualizaciones menores. Para cambios más grandes, podemos definir un nuevo alcance y presupuesto. El código siempre queda documentado para facilitar modificaciones futuras."
             }
         ],
         "meta": {
@@ -111,6 +123,18 @@
             {
                 "question": "¿Ofreces hosting?",
                 "answer": "Recomiendo y puedo configurar hosting en plataformas como **Vercel** o **Netlify**, que ofrecen planes gratuitos, despliegues automáticos y excelente rendimiento. La configuración de hosting y costos del primer año están incluidos en el proyecto."
+            },
+            {
+                "question": "¿Cómo optimizas el SEO de las landing pages?",
+                "answer": "Implemento **SEO técnico completo**: meta tags, schema markup, sitemap, robots.txt, URLs amigables, y optimización de imágenes. También configuro **Core Web Vitals** óptimos (LCP, CLS, FID) que Google usa como factor de ranking. El resultado son páginas que rankean mejor orgánicamente."
+            },
+            {
+                "question": "¿Puedo ver métricas de conversión?",
+                "answer": "¡Sí! Integro **Google Analytics 4**, **Tag Manager** y opcionalmente herramientas como **Hotjar** o **Microsoft Clarity** para mapas de calor. Configuramos los eventos de conversión que te importan (formularios, clics, scrolls) para que puedas tomar decisiones basadas en datos."
+            },
+            {
+                "question": "¿Qué pasa si necesito más páginas en el futuro?",
+                "answer": "Las landing pages se construyen con arquitectura escalable. Agregar nuevas páginas es simple y económico porque reutilizamos componentes y estilos existentes. También puedo configurar un **CMS** desde el inicio si anticipás crecimiento de contenido."
             }
         ],
         "meta": {
@@ -168,6 +192,18 @@
             {
                 "question": "¿Cuánto tiempo toma configurar una integración?",
                 "answer": "Integraciones simples pueden configurarse en 1-2 semanas. Flujos de trabajo complejos multi-sistema pueden tomar 3-6 semanas dependiendo de requerimientos, necesidades de testing y migración de datos."
+            },
+            {
+                "question": "¿Puedo empezar con una automatización pequeña y expandir después?",
+                "answer": "¡Es la forma recomendada! Empezamos con un **MVP de automatización** que resuelve tu problema más urgente. Una vez funcionando, podemos agregar más sistemas, lógica de negocio y reportes. Este enfoque iterativo minimiza riesgos y te da resultados rápidos."
+            },
+            {
+                "question": "¿Cómo manejás los datos sensibles en las automatizaciones?",
+                "answer": "La seguridad de datos es prioritaria. Uso **encriptación en tránsito y reposo**, credenciales almacenadas de forma segura, y principio de **mínimo privilegio** en permisos de API. También puedo implementar logs de auditoría si tu industria lo requiere."
+            },
+            {
+                "question": "¿Qué herramientas de automatización usás?",
+                "answer": "Depende del caso. Para automatizaciones no-code uso **Make** (ex-Integromat) o **n8n**. Para integraciones más complejas, desarrollo soluciones custom con **Node.js** y **webhooks**. Siempre elijo la herramienta que mejor balancea costo, mantenibilidad y escalabilidad."
             }
         ],
         "meta": {
@@ -225,6 +261,18 @@
             {
                 "question": "¿Puedes adaptar mi marca existente?",
                 "answer": "¡Absolutamente! Trabajaré con tus guías de marca existentes, colores, fuentes y estilo. Si no tienes guías formales, puedo crearlas basadas en tus materiales actuales y preferencias."
+            },
+            {
+                "question": "¿Los diseños incluyen versiones para stories y reels?",
+                "answer": "¡Sí! Todos los paquetes incluyen formatos **verticales (9:16)** para stories y reels, además de formatos cuadrados y horizontales para feed y ads. Las plantillas están optimizadas para cada tipo de contenido y plataforma."
+            },
+            {
+                "question": "¿Puedo usar las plantillas para anuncios pagos?",
+                "answer": "Por supuesto. Las plantillas están diseñadas para funcionar tanto en contenido orgánico como en **anuncios pagos** de Meta, LinkedIn, TikTok y otras plataformas. Incluyo versiones con y sin texto para cumplir con límites de texto en ads."
+            },
+            {
+                "question": "¿Ofrecés servicios de community management o posteo?",
+                "answer": "Mi servicio se enfoca en **diseño y templates**, no en gestión de comunidades. Sin embargo, puedo recomendar community managers de confianza y las plantillas están diseñadas para que cualquier persona pueda usarlas fácilmente con **Canva** o herramientas similares."
             }
         ],
         "meta": {

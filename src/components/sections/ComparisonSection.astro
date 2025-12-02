@@ -1,0 +1,187 @@
+---
+/**
+ * ComparisonSection - Service comparison table
+ * Shows a responsive comparison of all 4 services
+ * Desktop: horizontal table, Mobile: stacked cards
+ */
+
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { services } from '@/data/services';
+
+interface ComparisonRow {
+    label: string;
+    webApps: string;
+    landingPages: string;
+    automation: string;
+    socialDesign: string;
+}
+
+interface Props {
+    lang: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        headers: {
+            feature: string;
+            webApps: string;
+            landingPages: string;
+            automation: string;
+            socialDesign: string;
+        };
+        rows: {
+            timeline: ComparisonRow;
+            priceRange: ComparisonRow;
+            maintenance: ComparisonRow;
+            complexity: ComparisonRow;
+            bestFor: ComparisonRow;
+        };
+        cta: {
+            notSure: string;
+            contact: string;
+        };
+    };
+}
+
+const { lang, translations } = Astro.props;
+
+// Service column colors matching the service cards
+const serviceColors = {
+    webApps: { bg: 'bg-sky-500/10', border: 'border-sky-500/30', text: 'text-sky-400', header: 'bg-sky-500/20' },
+    landingPages: {
+        bg: 'bg-emerald-500/10',
+        border: 'border-emerald-500/30',
+        text: 'text-emerald-400',
+        header: 'bg-emerald-500/20'
+    },
+    automation: {
+        bg: 'bg-yellow-500/10',
+        border: 'border-yellow-500/30',
+        text: 'text-yellow-400',
+        header: 'bg-yellow-500/20'
+    },
+    socialDesign: {
+        bg: 'bg-rose-500/10',
+        border: 'border-rose-500/30',
+        text: 'text-rose-400',
+        header: 'bg-rose-500/20'
+    }
+};
+
+const rows = [
+    translations.rows.timeline,
+    translations.rows.priceRange,
+    translations.rows.maintenance,
+    translations.rows.complexity,
+    translations.rows.bestFor
+];
+
+const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign'] as const;
+---
+
+<div class="comparison-section py-16">
+    <div class="container-custom">
+        <!-- Section Title -->
+        <SectionTitle title={translations.title} subtitle={translations.subtitle} />
+
+        <!-- Desktop Table (hidden on mobile) -->
+        <div class="hidden lg:block mt-12 overflow-x-auto">
+            <table class="w-full border-collapse">
+                <!-- Header Row -->
+                <thead>
+                    <tr>
+                        <th class="p-4 text-left text-foreground-secondary font-medium bg-foreground/5 rounded-tl-xl border-b border-foreground/10">
+                            {translations.headers.feature}
+                        </th>
+                        {serviceKeys.map((key, index) => {
+                            const colors = serviceColors[key];
+                            const isLast = index === serviceKeys.length - 1;
+                            return (
+                                <th class={`p-4 text-center font-bold ${colors.header} ${colors.text} border-b ${colors.border} ${isLast ? 'rounded-tr-xl' : ''}`}>
+                                    <a href={`/${lang}/services/${services[index].slug}`} class="hover:underline">
+                                        {translations.headers[key]}
+                                    </a>
+                                </th>
+                            );
+                        })}
+                    </tr>
+                </thead>
+
+                <!-- Body Rows -->
+                <tbody>
+                    {rows.map((row, rowIndex) => {
+                        const isLast = rowIndex === rows.length - 1;
+                        return (
+                            <tr class="border-b border-foreground/10 last:border-0">
+                                <td class={`p-4 text-foreground font-medium bg-foreground/5 ${isLast ? 'rounded-bl-xl' : ''}`}>
+                                    {row.label}
+                                </td>
+                                {serviceKeys.map((key, colIndex) => {
+                                    const colors = serviceColors[key];
+                                    const isLastCol = colIndex === serviceKeys.length - 1;
+                                    return (
+                                        <td class={`p-4 text-center text-foreground-secondary ${colors.bg} border-l ${colors.border} ${isLast && isLastCol ? 'rounded-br-xl' : ''}`}>
+                                            {row[key]}
+                                        </td>
+                                    );
+                                })}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Cards (hidden on desktop) -->
+        <div class="lg:hidden mt-8 space-y-6">
+            {serviceKeys.map((key, index) => {
+                const colors = serviceColors[key];
+                const service = services[index];
+                return (
+                    <div class={`rounded-xl border ${colors.border} overflow-hidden`}>
+                        <!-- Card Header -->
+                        <div class={`p-4 ${colors.header}`}>
+                            <a href={`/${lang}/services/${service.slug}`} class={`text-lg font-bold ${colors.text} hover:underline`}>
+                                {translations.headers[key]}
+                            </a>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class={`${colors.bg} divide-y divide-foreground/10`}>
+                            {rows.map((row) => (
+                                <div class="flex justify-between items-center p-4">
+                                    <span class="text-foreground-secondary text-sm">{row.label}</span>
+                                    <span class="text-foreground font-medium">{row[key]}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-12 text-center p-6 rounded-xl bg-foreground/5 border border-foreground/10">
+            <p class="text-foreground-secondary mb-4">{translations.cta.notSure}</p>
+            <a
+                href={`/${lang}/#contact`}
+                class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors duration-200"
+            >
+                {translations.cta.contact}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .comparison-section {
+        background: linear-gradient(
+            180deg,
+            transparent 0%,
+            hsl(var(--color-primary) / 0.02) 50%,
+            transparent 100%
+        );
+    }
+</style>

@@ -1,0 +1,143 @@
+---
+/**
+ * FreelancerVsAgencySection - Comparison between freelancer and agency
+ * Shows benefits of working directly with a developer vs an agency
+ * Side-by-side layout on desktop, stacked on mobile
+ */
+
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+
+interface Point {
+    icon: string;
+    title: string;
+    description: string;
+}
+
+interface Props {
+    lang: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        freelancer: {
+            title: string;
+            points: Point[];
+        };
+        agency: {
+            title: string;
+            points: Point[];
+        };
+        cta: {
+            text: string;
+            button: string;
+        };
+    };
+}
+
+const { lang, translations } = Astro.props;
+
+// Dynamic icon imports
+const iconImports: Record<string, string> = {
+    'chat-bubble': (await import('@/icons/ui/chat-bubble.svg?raw')).default,
+    bolt: (await import('@/icons/ui/bolt.svg?raw')).default,
+    'currency-dollar': (await import('@/icons/ui/currency-dollar.svg?raw')).default,
+    lightbulb: (await import('@/icons/ui/lightbulb.svg?raw')).default,
+    users: (await import('@/icons/ui/users.svg?raw')).default,
+    clock: (await import('@/icons/ui/clock.svg?raw')).default,
+    'building-office': (await import('@/icons/ui/building-office.svg?raw')).default,
+    'document-text': (await import('@/icons/ui/document-text.svg?raw')).default
+};
+---
+
+<div class="freelancer-vs-agency-section py-16">
+    <div class="container-custom">
+        <!-- Section Title -->
+        <SectionTitle title={translations.title} subtitle={translations.subtitle} />
+
+        <!-- Two Column Comparison -->
+        <div class="grid md:grid-cols-2 gap-8 mt-12">
+            <!-- Freelancer Column (Highlighted) -->
+            <div class="relative rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 p-6 md:p-8">
+                <!-- Recommended Badge -->
+                <div class="absolute -top-3 left-6 px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full uppercase tracking-wider">
+                    Recommended
+                </div>
+
+                <h3 class="text-xl font-bold text-emerald-400 mb-6 flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    {translations.freelancer.title}
+                </h3>
+
+                <div class="space-y-6">
+                    {translations.freelancer.points.map((point) => {
+                        const iconSvg = iconImports[point.icon];
+                        return (
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                                    <div class="w-5 h-5 text-emerald-400" set:html={iconSvg} />
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-foreground mb-1">{point.title}</h4>
+                                    <p class="text-sm text-foreground-secondary leading-relaxed">{point.description}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            <!-- Agency Column (Dimmed) -->
+            <div class="rounded-2xl border border-foreground/10 bg-foreground/5 p-6 md:p-8 opacity-80">
+                <h3 class="text-xl font-bold text-foreground-secondary mb-6 flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                    </svg>
+                    {translations.agency.title}
+                </h3>
+
+                <div class="space-y-6">
+                    {translations.agency.points.map((point) => {
+                        const iconSvg = iconImports[point.icon];
+                        return (
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-foreground/10 flex items-center justify-center">
+                                    <div class="w-5 h-5 text-foreground-secondary" set:html={iconSvg} />
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-foreground-secondary mb-1">{point.title}</h4>
+                                    <p class="text-sm text-foreground-muted leading-relaxed">{point.description}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-12 text-center">
+            <p class="text-foreground-secondary mb-4">{translations.cta.text}</p>
+            <a
+                href={`/${lang}/#contact`}
+                class="inline-flex items-center px-8 py-4 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors duration-200 shadow-lg shadow-emerald-500/20"
+            >
+                {translations.cta.button}
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .freelancer-vs-agency-section {
+        background: linear-gradient(
+            180deg,
+            transparent 0%,
+            hsl(var(--color-primary) / 0.02) 50%,
+            transparent 100%
+        );
+    }
+</style>

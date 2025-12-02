@@ -54,6 +54,18 @@
             {
                 "question": "What's included in the project cost?",
                 "answer": "Project cost includes planning, design, development, testing, deployment, and initial training. Ongoing hosting, domain registration, and third-party service fees are separate."
+            },
+            {
+                "question": "How do you handle application security?",
+                "answer": "Security is a priority from the design phase. I implement **secure authentication**, **data encryption**, protection against **SQL injection** and **XSS**, and follow **OWASP** best practices. I also configure SSL certificates and appropriate security headers."
+            },
+            {
+                "question": "Can I see progress during development?",
+                "answer": "Absolutely! I use an iterative process with **weekly demos** where you can see progress and provide feedback. You'll also have access to a staging environment where you can test the application in real-time as it's being developed."
+            },
+            {
+                "question": "What if I need changes after launch?",
+                "answer": "Changes are normal and expected. I offer flexible **maintenance plans** that cover minor updates. For larger changes, we can define a new scope and budget. The code is always documented to facilitate future modifications."
             }
         ],
         "meta": {
@@ -111,6 +123,18 @@
             {
                 "question": "Do you provide hosting?",
                 "answer": "I recommend and can set up hosting on platforms like **Vercel** or **Netlify**, which offer free tiers, automatic deployments, and excellent performance. Hosting setup and first-year costs are included in the project."
+            },
+            {
+                "question": "How do you optimize landing page SEO?",
+                "answer": "I implement **complete technical SEO**: meta tags, schema markup, sitemap, robots.txt, friendly URLs, and image optimization. I also configure optimal **Core Web Vitals** (LCP, CLS, FID) that Google uses as a ranking factor. The result is pages that rank better organically."
+            },
+            {
+                "question": "Can I see conversion metrics?",
+                "answer": "Yes! I integrate **Google Analytics 4**, **Tag Manager** and optionally tools like **Hotjar** or **Microsoft Clarity** for heatmaps. We configure the conversion events that matter to you (forms, clicks, scrolls) so you can make data-driven decisions."
+            },
+            {
+                "question": "What if I need more pages in the future?",
+                "answer": "Landing pages are built with scalable architecture. Adding new pages is simple and cost-effective because we reuse existing components and styles. I can also set up a **CMS** from the start if you anticipate content growth."
             }
         ],
         "meta": {
@@ -168,6 +192,18 @@
             {
                 "question": "How long does it take to set up an integration?",
                 "answer": "Simple integrations can be set up in 1-2 weeks. Complex multi-system workflows may take 3-6 weeks depending on requirements, testing needs, and data migration."
+            },
+            {
+                "question": "Can I start with a small automation and expand later?",
+                "answer": "That's the recommended approach! We start with an **automation MVP** that solves your most urgent problem. Once it's working, we can add more systems, business logic, and reports. This iterative approach minimizes risk and gives you quick results."
+            },
+            {
+                "question": "How do you handle sensitive data in automations?",
+                "answer": "Data security is a priority. I use **encryption in transit and at rest**, securely stored credentials, and the **principle of least privilege** for API permissions. I can also implement audit logs if your industry requires it."
+            },
+            {
+                "question": "What automation tools do you use?",
+                "answer": "It depends on the case. For no-code automations I use **Make** (formerly Integromat) or **n8n**. For more complex integrations, I develop custom solutions with **Node.js** and **webhooks**. I always choose the tool that best balances cost, maintainability, and scalability."
             }
         ],
         "meta": {
@@ -225,6 +261,18 @@
             {
                 "question": "Can you match my existing brand?",
                 "answer": "Absolutely! I'll work with your existing brand guidelines, colors, fonts, and style. If you don't have formal guidelines, I can create them based on your current materials and preferences."
+            },
+            {
+                "question": "Do designs include story and reel versions?",
+                "answer": "Yes! All packages include **vertical formats (9:16)** for stories and reels, plus square and horizontal formats for feed and ads. Templates are optimized for each content type and platform."
+            },
+            {
+                "question": "Can I use the templates for paid ads?",
+                "answer": "Of course. Templates are designed to work for both organic content and **paid ads** on Meta, LinkedIn, TikTok, and other platforms. I include versions with and without text to comply with ad text limits."
+            },
+            {
+                "question": "Do you offer community management or posting services?",
+                "answer": "My service focuses on **design and templates**, not community management. However, I can recommend trusted community managers and the templates are designed so anyone can easily use them with **Canva** or similar tools."
             }
         ],
         "meta": {

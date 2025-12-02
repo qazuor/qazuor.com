@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2025-12-02
+
+### Added - LLM-First Optimization Phase 3 (Services Page Enhancements)
+
+- **ProcessSection component**: 6-step process timeline (Discovery → Planning →
+  Design → Development → Testing → Launch) with horizontal desktop and vertical
+  mobile layouts
+- **ComparisonSection component**: Service comparison table showing timeline,
+  investment, maintenance, complexity, and best-use for all 4 services
+- **FreelancerVsAgencySection component**: Two-column comparison highlighting
+  freelancer benefits vs agency trade-offs
+- **Enhanced Service FAQs**: Added 3 new FAQs per service (12 total) covering
+  security, metrics, tools, and scope expansion topics in both EN and ES
+
+### Technical
+
+- All 3 sections integrated into `/services` page with full i18n support
+- Process data structure in `src/data/process.ts`
+- Complete translations in `src/locales/{en,es}/services.json`
+- Each service now has 8 comprehensive FAQs (up from 5)
+
+---
+
 ## [1.2.0] - 2025-12-02
 
 ### Added - LLM-First Optimization Phase 4 (JSON-LD & Content)

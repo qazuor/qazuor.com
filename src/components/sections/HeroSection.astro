@@ -4,6 +4,7 @@ import GetInTouchLink from '@/components/ui/GetInTouchLink.astro';
 import HeroAvatar from '@/components/ui/HeroAvatar.astro';
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
+import TrustBadges, { type TrustBadge } from '@/components/ui/TrustBadges.astro';
 import { TypeItText } from '@/components/ui/TypeItText';
 import ViewProjectsLink from '@/components/ui/ViewProjectsLink.astro';
 
@@ -30,6 +31,8 @@ interface Props {
         buymeacoffee: string;
     };
     heroAvatarAlt?: string;
+    /** Trust badges to display below social links */
+    trustBadges?: TrustBadge[];
 }
 
 const {
@@ -62,7 +65,8 @@ const {
         mail: 'Email',
         buymeacoffee: 'Buy Me a Coffee'
     },
-    heroAvatarAlt
+    heroAvatarAlt,
+    trustBadges = []
 } = Astro.props;
 ---
 
@@ -118,6 +122,11 @@ const {
 
                 <!-- Social Links -->
                 <SocialLinks ariaLabels={ariaLabels} className="hero-element" />
+
+                <!-- Trust Badges -->
+                {trustBadges.length > 0 && (
+                    <TrustBadges badges={trustBadges} className="hero-element pt-2" />
+                )}
 
                 <!-- Scroll Indicator (only visible on desktop in flow) -->
                 <ScrollIndicator text={translations.scroll} variant="desktop" className="hero-element hidden lg:block" />

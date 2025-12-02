@@ -318,7 +318,23 @@
         "linkedin": "LinkedIn",
         "fiverr": "Fiverr",
         "upwork": "Upwork",
-        "followMe": "Follow me on"
+        "followMe": "Follow me on",
+        "share": {
+            "button": "Share",
+            "copyLink": "Copy link",
+            "copied": "Copied!",
+            "copyFailed": "Copy failed",
+            "via": "Share via",
+            "twitter": "Twitter",
+            "linkedin": "LinkedIn",
+            "whatsapp": "WhatsApp",
+            "telegram": "Telegram",
+            "reddit": "Reddit"
+        },
+        "comments": {
+            "title": "Comments",
+            "loading": "Loading comments..."
+        }
     },
     "profile": {
         "name": "Leandro Asrilevich",

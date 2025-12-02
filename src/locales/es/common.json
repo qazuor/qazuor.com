@@ -165,6 +165,17 @@
                 "title": "¿Qué sigue?",
                 "description": "El viaje continúa. Siempre buscando nuevos desafíos y oportunidades para crecer."
             }
+        },
+        "summaryCard": {
+            "title": "Perfil **Rápido**",
+            "items": [
+                { "icon": "location", "label": "Ubicación", "value": "Argentina (UTC-3)" },
+                { "icon": "experience", "label": "Experiencia", "value": "**+20 años** en desarrollo web" },
+                { "icon": "specialty", "label": "Especialidad", "value": "Frontend & **Full-Stack**" },
+                { "icon": "languages", "label": "Idiomas", "value": "Español (nativo), Inglés (fluido)" },
+                { "icon": "availability", "label": "Disponibilidad", "value": "Abierto a trabajo **remoto**" },
+                { "icon": "timezone", "label": "Zona Horaria", "value": "UTC-3 (superposición flexible)" }
+            ]
         }
     },
     "testimonials": {

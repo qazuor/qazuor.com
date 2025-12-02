@@ -17,7 +17,7 @@ import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import { contact, sectionsColors } from '@/data';
 import { trustBadges as trustBadgesConfig } from '@/data/trustBadges';
-import { languages } from '@/i18n/ui';
+import { languages, ui } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getProjectSlug } from '@/utils/projects';
@@ -190,6 +190,19 @@ const heroAriaLabels = {
     buymeacoffee: t('aria.buymeacoffee')
 };
 
+// Get raw summaryCard data and process markdown for items
+const rawSummaryCard = ui[lang].about.summaryCard;
+const summaryCardTranslations = rawSummaryCard
+    ? {
+          title: t('about.summaryCard.title', { markdown: true }),
+          items: rawSummaryCard.items.map((item) => ({
+              icon: item.icon,
+              label: item.label,
+              value: item.value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>')
+          }))
+      }
+    : undefined;
+
 const aboutTranslations = {
     title: t('about.title', { markdown: true }),
     subtitle: t('about.subtitle', { markdown: true }),
@@ -209,7 +222,8 @@ const aboutTranslations = {
         present: {
             description: t('about.timeline.present.description', { markdown: true })
         }
-    }
+    },
+    summaryCard: summaryCardTranslations
 };
 
 const statsTranslations = {

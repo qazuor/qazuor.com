@@ -128,6 +128,40 @@ export default defineConfig({
                     en: 'en',
                     es: 'es'
                 }
+            },
+            // Custom priority and changefreq based on page type
+            serialize(item) {
+                // Homepage - highest priority
+                if (item.url.match(/\/(en|es)\/?$/)) {
+                    item.priority = 1.0;
+                    item.changefreq = 'weekly';
+                }
+                // Services pages - high priority
+                else if (item.url.includes('/services')) {
+                    item.priority = 0.9;
+                    item.changefreq = 'monthly';
+                }
+                // Projects pages - high priority
+                else if (item.url.includes('/projects')) {
+                    item.priority = 0.8;
+                    item.changefreq = 'monthly';
+                }
+                // Blog pages - medium-high priority (fresh content)
+                else if (item.url.includes('/blog')) {
+                    item.priority = 0.7;
+                    item.changefreq = 'weekly';
+                }
+                // Goodies pages - medium priority
+                else if (item.url.includes('/goodies')) {
+                    item.priority = 0.6;
+                    item.changefreq = 'monthly';
+                }
+                // Default for other pages
+                else {
+                    item.priority = 0.5;
+                    item.changefreq = 'monthly';
+                }
+                return item;
             }
         }),
         subsites(),

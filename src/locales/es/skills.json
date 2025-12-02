@@ -23,7 +23,8 @@
         "webPerformance": "Rendimiento Web",
         "webAccessibility": "Accesibilidad Web",
         "automation": "Automatización",
-        "seo": "SEO"
+        "seo": "SEO",
+        "socialMediaAndFlyers": "Redes Sociales y Flyers"
     },
     "descriptions": {
         "graphicDesignDescription": "Diseño de piezas para redes sociales (banners, flyers, posts, stories)",
@@ -32,11 +33,15 @@
         "webPerformanceDescription": "Performance y optimización básica de páginas (imágenes, lazy loading, etc.)",
         "webAccessibilityDescription": "Accesibilidad web básica (buen contraste, estructura semántica, labels, etc.)",
         "automationDescription": "Automatizaciones con Make / Zapier (ej: formulario → email → hoja de cálculo)",
-        "seoDescription": "Optimización para motores de búsqueda"
+        "seoDescription": "Optimización para motores de búsqueda",
+        "socialMediaAndFlyersDescription": "Diseño de gráficos para redes sociales y flyers de marketing"
     },
     "languages": {
         "title": "Idiomas",
         "native": "nativo",
-        "writtenOnly": "técnico/escrito"
+        "writtenOnly": "técnico/escrito",
+        "fluent": "fluido",
+        "intermediate": "intermedio",
+        "basic": "básico"
     }
 }

@@ -23,7 +23,8 @@
         "webPerformance": "Web Performance",
         "webAccessibility": "Web Accessibility",
         "automation": "Automation",
-        "seo": "SEO"
+        "seo": "SEO",
+        "socialMediaAndFlyers": "Social Media & Flyers"
     },
     "descriptions": {
         "graphicDesignDescription": "Design pieces for social media (banners, flyers, posts, stories)",
@@ -32,11 +33,15 @@
         "webPerformanceDescription": "Basic page performance and optimization (images, lazy loading, etc.)",
         "webAccessibilityDescription": "Basic web accessibility (good contrast, semantic structure, labels, etc.)",
         "automationDescription": "Automations with Make / Zapier (e.g.: form → email → spreadsheet)",
-        "seoDescription": "Search engine optimization"
+        "seoDescription": "Search engine optimization",
+        "socialMediaAndFlyersDescription": "Social media graphics and flyers for marketing campaigns"
     },
     "languages": {
         "title": "Languages",
         "native": "native",
-        "writtenOnly": "technical/written"
+        "writtenOnly": "technical/written",
+        "fluent": "fluent",
+        "intermediate": "intermediate",
+        "basic": "basic"
     }
 }

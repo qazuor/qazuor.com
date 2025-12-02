@@ -11,15 +11,14 @@ import {
 
 /**
  * Get the appropriate icon color based on whether the SVG uses currentColor
- * Icons that use currentColor (UI icons) get white/dark color depending on theme
- * Icons with embedded colors (tech brand icons) keep the original skill color (won't affect them)
+ * Icons that use currentColor (UI icons) get the skill's color
+ * Icons with embedded colors (tech brand icons) keep their original colors
  */
-function getIconColor(iconSvg: string, skillColor: string, isDarkMode: boolean): string {
+function getIconColor(iconSvg: string, skillColor: string, _isDarkMode: boolean): string {
     // Check if the SVG uses currentColor (UI icons do, tech brand icons don't)
     if (iconSvg.includes('currentColor')) {
-        // Dark mode: white text on dark background
-        // Light mode: dark text on light background
-        return isDarkMode ? '#ffffff' : '#ffffff';
+        // Use the skill's color for UI icons
+        return skillColor;
     }
     // For tech icons with embedded colors, the color style won't affect them
     // but we return the skill color anyway for consistency

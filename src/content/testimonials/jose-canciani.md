@@ -11,8 +11,8 @@ avatar: './_avatars/jose-canciani.jpg'
 linkedinUrl: 'https://www.linkedin.com/in/josecanciani/'
 featured: true
 source: 'linkedin'
-date: 2024-07-18
-order: 4
+date: 2025-11-21
+order: 3
 ---
 
 Leandro single-handed bootstrapped the Avature UI, helping to shape a reactive

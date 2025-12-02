@@ -25,8 +25,8 @@ avatar: './_avatars/jorge-luis-capoduri.jpg'
 linkedinUrl: 'https://www.linkedin.com/in/jorge-luis-capoduri-85834a30/'
 featured: true
 source: 'linkedin'
-date: 2024-08-10
-order: 3
+date: 2025-11-19
+order: 1
 ---
 
 Durante más de 8 años tuve la oportunidad de trabajar con Lean. Desde el primer

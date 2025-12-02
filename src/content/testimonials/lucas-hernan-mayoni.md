@@ -20,7 +20,7 @@ avatar: './_avatars/lucas-hernan-mayoni.jpg'
 linkedinUrl: 'https://www.linkedin.com/in/lucasmayoni/'
 featured: true
 source: 'linkedin'
-date: 2024-09-22
+date: 2025-11-19
 order: 2
 ---
 

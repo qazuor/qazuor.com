@@ -6,6 +6,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-12-02
+
+### Added - LLM-First Optimization (Phase 1 & 2 Complete)
+
+- **FAQs Section**: New homepage section with 8 FAQs (5 for clients, 3 for
+  employers) in a two-column layout with FAQ schema for rich snippets
+- **AboutSummaryCard component**: Quick-reference card with key profile
+  highlights (location, experience, specialty, languages, availability,
+  timezone) for LLM and human scanning
+- **Enhanced llms.txt**: Updated with production performance metrics (LCP:
+  184ms, CLS: 0.00, TTFB: 48ms), AI citation guidelines, and comprehensive
+  professional profile
+- **Social share buttons for Goodies**: Extended share functionality to
+  CSS-tricks and Snippets pages (same 8 platforms as blog)
+- **Comments for Goodies**: Giscus comments integration for CSS-tricks and
+  Snippets pages
+
+### Changed
+
+- **About section restructuring**: Added summary card with translations for
+  EN/ES, improved visual hierarchy for LLM parsing
+
+### Fixed
+
+- **Hydration errors**: Resolved React hydration mismatches in hero and footer
+  components
+- **Biome lint**: Fixed formatting issues across codebase
+
+### Technical
+
+- Trust badges in hero section (fast delivery, global reach, performance,
+  satisfaction)
+- Stats counter with scroll-triggered animation and contextual descriptions
+- Performance badge in footer with Desktop/Mobile metrics tabs
+- JSON-LD infrastructure (JsonLd.astro, BreadcrumbJsonLd.astro, comprehensive
+  type definitions)
+- Breadcrumb generation utilities for all page types
+- Section colors configuration for servicesPreview and faqs
+- Sitemap with i18n alternates and custom priorities
+
+---
+
 ## [1.0.6] - 2025-12-02
 
 ### Added

@@ -60,7 +60,7 @@ export const GET: APIRoute<Props> = async ({ params, props }) => {
         const feature = t(`services.${serviceKey}.features.${i}`, { markdown: false });
         if (feature && !feature.includes(`services.${serviceKey}.features.${i}`)) {
             // Truncate long features
-            tags.push(feature.length > 30 ? feature.slice(0, 27) + '...' : feature);
+            tags.push(feature.length > 30 ? `${feature.slice(0, 27)}...` : feature);
         }
     }
 

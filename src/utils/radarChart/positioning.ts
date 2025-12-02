@@ -186,7 +186,7 @@ export function calculateTooltipPosition(
     labelX: number,
     labelY: number,
     angleRadians: number,
-    center: number,
+    _center: number,
     svgSize: number,
     tooltipWidth: number = 220,
     tooltipHeight: number = 100

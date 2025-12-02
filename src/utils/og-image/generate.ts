@@ -357,7 +357,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<ArrayBuf
     const fonts = await loadFonts();
 
     // Generate SVG with Satori
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: Satori's JSX types don't match React 19 types
     const svg = await satori(template as any, {
         width: OG_WIDTH,
         height: OG_HEIGHT,

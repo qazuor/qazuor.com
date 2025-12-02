@@ -1,0 +1,168 @@
+---
+/**
+ * PerformanceBadge Component
+ *
+ * Displays Lighthouse performance metrics in the footer.
+ * Shows both Desktop and Mobile metrics with a toggle.
+ * Metrics are manually maintained based on production measurements.
+ *
+ * @example
+ * <PerformanceBadge translations={translations} />
+ */
+
+interface PerformanceMetrics {
+    lcp: string;
+    cls: string;
+    fcp: string;
+    score: string;
+}
+
+interface Props {
+    /** Performance metrics for desktop */
+    desktop?: PerformanceMetrics;
+    /** Performance metrics for mobile */
+    mobile?: PerformanceMetrics;
+    /** Translations */
+    translations?: {
+        title: string;
+        desktop: string;
+        mobile: string;
+        lcp: string;
+        cls: string;
+        fcp: string;
+        score: string;
+        measuredOn: string;
+    };
+    /** Last measurement date */
+    lastUpdated?: string;
+}
+
+const {
+    desktop = {
+        lcp: '184ms',
+        cls: '0.00',
+        fcp: '271ms',
+        score: '95+'
+    },
+    mobile = {
+        lcp: '1.2s',
+        cls: '0.00',
+        fcp: '1.4s',
+        score: '90+'
+    },
+    translations = {
+        title: 'Performance',
+        desktop: 'Desktop',
+        mobile: 'Mobile',
+        lcp: 'LCP',
+        cls: 'CLS',
+        fcp: 'FCP',
+        score: 'Score',
+        measuredOn: 'Last measured'
+    },
+    lastUpdated = '2025-11'
+} = Astro.props;
+---
+
+<div class="performance-badge text-xs">
+    <!-- Header with icon and tabs -->
+    <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 text-foreground-muted">
+            <svg
+                class="w-3.5 h-3.5 text-green-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="font-medium">{translations.title}</span>
+            <span class="text-green-500 font-semibold">{desktop.score}</span>
+        </div>
+
+        <!-- Tabs inline -->
+        <div class="flex gap-1" role="tablist">
+            <button
+                type="button"
+                role="tab"
+                aria-selected="true"
+                data-tab="desktop"
+                class="perf-tab px-1.5 py-0.5 rounded text-[10px] text-foreground-muted bg-background/30 data-[active]:bg-primary data-[active]:text-background transition-colors"
+                data-active
+            >
+                {translations.desktop}
+            </button>
+            <button
+                type="button"
+                role="tab"
+                aria-selected="false"
+                data-tab="mobile"
+                class="perf-tab px-1.5 py-0.5 rounded text-[10px] text-foreground-muted bg-background/30 data-[active]:bg-primary data-[active]:text-background transition-colors"
+            >
+                {translations.mobile}
+            </button>
+        </div>
+    </div>
+
+    <!-- Metrics row -->
+    <div class="flex items-center gap-3 mt-1.5 text-[10px]">
+        <!-- Desktop Metrics -->
+        <div data-panel="desktop" class="perf-panel flex items-center gap-3">
+            <span class="text-foreground-muted">{translations.lcp} <span class="text-green-500 font-mono">{desktop.lcp}</span></span>
+            <span class="text-foreground-muted">{translations.fcp} <span class="text-green-500 font-mono">{desktop.fcp}</span></span>
+            <span class="text-foreground-muted">{translations.cls} <span class="text-green-500 font-mono">{desktop.cls}</span></span>
+            <span class="text-foreground-muted">{translations.score} <span class="text-green-500 font-mono font-semibold">{desktop.score}</span></span>
+        </div>
+
+        <!-- Mobile Metrics -->
+        <div data-panel="mobile" class="perf-panel flex items-center gap-3 hidden">
+            <span class="text-foreground-muted">{translations.lcp} <span class="text-green-500 font-mono">{mobile.lcp}</span></span>
+            <span class="text-foreground-muted">{translations.fcp} <span class="text-green-500 font-mono">{mobile.fcp}</span></span>
+            <span class="text-foreground-muted">{translations.cls} <span class="text-green-500 font-mono">{mobile.cls}</span></span>
+            <span class="text-foreground-muted">{translations.score} <span class="text-green-500 font-mono font-semibold">{mobile.score}</span></span>
+        </div>
+
+        <span class="text-foreground-muted/50 text-[9px]">{lastUpdated}</span>
+    </div>
+</div>
+
+<script>
+    function initPerformanceBadge() {
+        const badges = document.querySelectorAll('.performance-badge');
+
+        badges.forEach((badge) => {
+            const tabs = badge.querySelectorAll<HTMLButtonElement>('.perf-tab');
+            const panels = badge.querySelectorAll<HTMLElement>('.perf-panel');
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    const targetPanel = tab.dataset.tab;
+
+                    // Update tabs
+                    tabs.forEach((t) => {
+                        t.removeAttribute('data-active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    tab.setAttribute('data-active', '');
+                    tab.setAttribute('aria-selected', 'true');
+
+                    // Update panels
+                    panels.forEach((panel) => {
+                        if (panel.dataset.panel === targetPanel) {
+                            panel.classList.remove('hidden');
+                        } else {
+                            panel.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
+    }
+
+    // Initialize on DOM ready
+    initPerformanceBadge();
+
+    // Re-initialize after View Transitions
+    document.addEventListener('astro:after-swap', initPerformanceBadge);
+</script>

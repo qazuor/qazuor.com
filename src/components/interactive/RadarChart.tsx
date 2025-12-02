@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import {
     type CalculationParams,
     calculateAngle,
@@ -87,7 +87,9 @@ export function RadarChart({
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Generate unique ID for this chart instance to avoid gradient ID conflicts
-    const chartId = useMemo(() => `radar-${Math.random().toString(36).substring(2, 11)}`, []);
+    // useId generates stable IDs between server and client to prevent hydration mismatches
+    const reactId = useId();
+    const chartId = useMemo(() => `radar${reactId.replace(/:/g, '')}`, [reactId]);
 
     // Detect mobile screen size
     useEffect(() => {

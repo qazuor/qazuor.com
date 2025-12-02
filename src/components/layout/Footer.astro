@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import photoFooter from '@/assets/images/photo-footer.png';
+import PerformanceBadge from '@/components/ui/PerformanceBadge.astro';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { contact } from '@/data/contact';
 import { getTranslations, processMarkdown } from '@/i18n/utils';
@@ -207,13 +208,27 @@ const data = footerData[lang];
 
         <!-- Bottom Footer -->
         <div class="pt-8 border-t border-foreground/10">
-            <div class="flex items-center justify-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
-                    <span class="text-sm font-medium text-foreground">Q</span>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
+                        <span class="text-sm font-medium text-foreground">Q</span>
+                    </div>
+                    <span class="text-xs text-foreground-muted">
+                        © {currentYear} Qazuor. {data.madeWith}
+                    </span>
                 </div>
-                <span class="text-xs text-foreground-muted">
-                    © {currentYear} Qazuor. {data.madeWith}
-                </span>
+                <PerformanceBadge
+                    translations={{
+                        title: t('footer.performance.title'),
+                        desktop: t('footer.performance.desktop'),
+                        mobile: t('footer.performance.mobile'),
+                        lcp: t('footer.performance.lcp'),
+                        cls: t('footer.performance.cls'),
+                        fcp: t('footer.performance.fcp'),
+                        score: t('footer.performance.score'),
+                        measuredOn: t('footer.performance.measuredOn')
+                    }}
+                />
             </div>
         </div>
     </div>

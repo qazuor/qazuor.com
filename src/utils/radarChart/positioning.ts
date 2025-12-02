@@ -146,9 +146,10 @@ export function calculateLabelPosition(
     const baseY = center + labelDistance * Math.sin(angle);
 
     // Add sector-based directional offset
+    // Round to 2 decimal places to prevent hydration mismatches from floating point precision differences
     return {
-        x: baseX + offset.x,
-        y: baseY + offset.y
+        x: Math.round((baseX + offset.x) * 100) / 100,
+        y: Math.round((baseY + offset.y) * 100) / 100
     };
 }
 

@@ -14,6 +14,7 @@ import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
 import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import { contact, sectionsColors } from '@/data';
+import { trustBadges as trustBadgesConfig } from '@/data/trustBadges';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -209,6 +210,25 @@ const aboutTranslations = {
     }
 };
 
+const statsTranslations = {
+    years: {
+        label: t('home.stats.years.label'),
+        description: t('home.stats.years.description')
+    },
+    projects: {
+        label: t('home.stats.projects.label'),
+        description: t('home.stats.projects.description')
+    },
+    clients: {
+        label: t('home.stats.clients.label'),
+        description: t('home.stats.clients.description')
+    },
+    lighthouse: {
+        label: t('home.stats.lighthouse.label'),
+        description: t('home.stats.lighthouse.description')
+    }
+};
+
 const skillsTranslations = {
     title: t('skills.title', { markdown: true }),
     subtitle: t('skills.subtitle', { markdown: true }),
@@ -372,6 +392,13 @@ const heroContentTranslations = {
     subtitle: t('home.hero.subtitle', { markdown: true })
 };
 
+// Trust badges for hero section - key differentiators for LLM citations
+// Configuration comes from src/data/trustBadges.ts, translations from i18n
+const trustBadges = trustBadgesConfig.map((badge) => ({
+    icon: badge.icon,
+    text: t(`home.trustBadges.${badge.translationKey}`)
+}));
+
 // Colors are now imported from data module
 ---
 
@@ -401,13 +428,14 @@ const heroContentTranslations = {
             translations={heroTranslations}
             ariaLabels={heroAriaLabels}
             heroAvatarAlt={t('imageAlt.heroAvatar')}
+            trustBadges={trustBadges}
         />
         <WaveDivider transition="hero-to-about" />
     </div>
 
     <!-- About Section with purple gradient background -->
     <div class="relative">
-        <AboutSection primaryColor={sectionsColors.about} lang={lang} translations={aboutTranslations} />
+        <AboutSection primaryColor={sectionsColors.about} lang={lang} translations={aboutTranslations} statsTranslations={statsTranslations} />
         <DiagonalDivider direction="mixed" transition="about-to-skills" />
     </div>
 

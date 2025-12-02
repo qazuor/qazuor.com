@@ -139,8 +139,8 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
             const itemWidth = TIMELINE_SPACING;
             const containerWidth = container.clientWidth;
-            // Timeline has px-16 padding (64px on each side)
-            const timelinePadding = 64;
+            // Timeline has px-16 (64px) on desktop, px-8 (32px) on mobile
+            const timelinePadding = isMobile ? 32 : 64;
 
             // Calculate the center position of the item
             // Item center = padding + (index * itemWidth) + (itemWidth / 2)
@@ -159,7 +159,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 behavior: 'smooth'
             });
         },
-        [TIMELINE_SPACING, totalItems]
+        [TIMELINE_SPACING, totalItems, isMobile]
     );
 
     /**

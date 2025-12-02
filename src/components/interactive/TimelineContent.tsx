@@ -65,99 +65,118 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
             tabIndex={0}
             aria-label="Timeline"
         >
-            {/* Navigation Controls - Top */}
-            <div className="flex items-center justify-center gap-4 mb-6 w-full">
-                {/* Previous Button */}
-                <button
-                    type="button"
-                    onClick={timeline.goToPrev}
-                    className="p-2 rounded-full bg-bg-secondary/80 hover:bg-bg-tertiary transition-colors duration-200 text-text-secondary hover:text-text-primary"
-                    aria-label={t.previous}
-                >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                {/* Play/Pause Button */}
-                <button
-                    type="button"
-                    onClick={timeline.toggleAutoPlay}
-                    className={`p-2 rounded-full transition-colors duration-200 ${
-                        timeline.isAutoPlaying
-                            ? 'bg-primary/20 text-primary hover:bg-primary/30'
-                            : 'bg-bg-secondary/80 text-text-secondary hover:bg-bg-tertiary hover:text-text-primary'
-                    }`}
-                    aria-label={timeline.isAutoPlaying ? t.pause : t.play}
-                    aria-pressed={timeline.isAutoPlaying}
-                >
-                    {timeline.isAutoPlaying ? (
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+            {/* Navigation Controls + Progress Dots - Top */}
+            <div className="flex flex-col items-center gap-3 mb-6 w-full">
+                {/* Navigation Controls */}
+                <div className="flex items-center justify-center gap-4">
+                    {/* Previous Button */}
+                    <button
+                        type="button"
+                        onClick={timeline.goToPrev}
+                        className="p-2 rounded-full bg-bg-secondary/80 hover:bg-bg-tertiary transition-colors duration-200 text-text-secondary hover:text-text-primary"
+                        aria-label={t.previous}
+                    >
+                        <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
-                    ) : (
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M8 5v14l11-7L8 5z" />
+                    </button>
+
+                    {/* Play/Pause Button */}
+                    <button
+                        type="button"
+                        onClick={timeline.toggleAutoPlay}
+                        className={`p-2 rounded-full transition-colors duration-200 ${
+                            timeline.isAutoPlaying
+                                ? 'bg-primary/20 text-primary hover:bg-primary/30'
+                                : 'bg-bg-secondary/80 text-text-secondary hover:bg-bg-tertiary hover:text-text-primary'
+                        }`}
+                        aria-label={timeline.isAutoPlaying ? t.pause : t.play}
+                        aria-pressed={timeline.isAutoPlaying}
+                    >
+                        {timeline.isAutoPlaying ? (
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                            </svg>
+                        ) : (
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M8 5v14l11-7L8 5z" />
+                            </svg>
+                        )}
+                    </button>
+
+                    {/* Next Button */}
+                    <button
+                        type="button"
+                        onClick={timeline.goToNext}
+                        className="p-2 rounded-full bg-bg-secondary/80 hover:bg-bg-tertiary transition-colors duration-200 text-text-secondary hover:text-text-primary"
+                        aria-label={t.next}
+                    >
+                        <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                    )}
-                </button>
+                    </button>
 
-                {/* Next Button */}
-                <button
-                    type="button"
-                    onClick={timeline.goToNext}
-                    className="p-2 rounded-full bg-bg-secondary/80 hover:bg-bg-tertiary transition-colors duration-200 text-text-secondary hover:text-text-primary"
-                    aria-label={t.next}
+                    {/* Item Counter */}
+                    <span className="text-sm text-text-muted font-mono ml-2">
+                        {timeline.currentIndex + 1} / {timeline.totalItems}
+                    </span>
+                </div>
+
+                {/* Progress Dots */}
+                <div
+                    className="flex items-center justify-center gap-1.5 flex-wrap max-w-md px-4"
+                    role="tablist"
+                    aria-label="Timeline progress"
                 >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-
-                {/* Item Counter */}
-                <span className="text-sm text-text-muted font-mono ml-2">
-                    {timeline.currentIndex + 1} / {timeline.totalItems}
-                </span>
+                    {timelineItems.map((item, index) => (
+                        <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => timeline.goToIndex(index)}
+                            className={`transition-all duration-300 rounded-full ${
+                                timeline.currentIndex === index
+                                    ? 'w-3 h-3 scale-125'
+                                    : 'w-2 h-2 bg-muted/40 hover:bg-muted/60'
+                            }`}
+                            style={{
+                                backgroundColor: timeline.currentIndex === index ? item.colorHex : undefined
+                            }}
+                            role="tab"
+                            aria-selected={timeline.currentIndex === index}
+                            aria-label={`${t.goToItem} ${index + 1}: ${item.year}`}
+                            tabIndex={timeline.currentIndex === index ? 0 : -1}
+                        />
+                    ))}
+                </div>
             </div>
 
-            {/* Mobile Swipe Hint */}
-            {timeline.isMobile && (
-                <div className="flex items-center justify-center gap-2 mb-4 text-text-muted text-sm animate-pulse">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 7h12m-12 6h12m-12 6h12M4 7h.01M4 13h.01M4 19h.01"
-                        />
-                    </svg>
-                    <span>{t.swipeHint}</span>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                    </svg>
-                </div>
-            )}
-
             <div className="w-full mx-auto">
-                {/* Horizontal scroll container - grows with content */}
+                {/* Horizontal scroll container - hidden scrollbar */}
                 <div
                     id="timeline-scroll-container"
-                    className="overflow-x-auto overflow-y-visible"
+                    className="overflow-x-auto overflow-y-visible scrollbar-hide"
                     style={{
-                        scrollbarWidth: 'thin',
-                        scrollbarColor: 'hsl(var(--primary)) hsl(var(--bg-tertiary))'
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none'
                     }}
                 >
                     {/* Timeline container - flexbox autocontained */}
                     {/* biome-ignore lint/a11y/useSemanticElements: role="group" is semantically correct for timeline navigation */}
                     <div
                         ref={timeline.timelineRef}
-                        className="relative mb-8 flex items-start px-16"
+                        className={`relative mb-8 flex items-start ${timeline.isMobile ? 'px-8' : 'px-16'}`}
                         onTouchStart={timeline.handleTouchStart}
                         onTouchMove={timeline.handleTouchMove}
                         onTouchEnd={timeline.handleTouchEnd}
@@ -166,7 +185,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                         style={{
                             width: `${timelineItems.length * timeline.TIMELINE_SPACING}px`,
                             minWidth: '100%',
-                            paddingBottom: '200px'
+                            paddingBottom: timeline.isMobile ? '120px' : '200px'
                         }}
                     >
                         {/* Horizontal base line with gradients */}
@@ -314,32 +333,28 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                 </div>
             </div>
 
-            {/* Progress Dots */}
-            <div
-                className="flex items-center justify-center gap-1.5 mt-4 flex-wrap max-w-md px-4"
-                role="tablist"
-                aria-label="Timeline progress"
-            >
-                {timelineItems.map((item, index) => (
-                    <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => timeline.goToIndex(index)}
-                        className={`transition-all duration-300 rounded-full ${
-                            timeline.currentIndex === index
-                                ? 'w-3 h-3 scale-125'
-                                : 'w-2 h-2 bg-muted/40 hover:bg-muted/60'
-                        }`}
-                        style={{
-                            backgroundColor: timeline.currentIndex === index ? item.colorHex : undefined
-                        }}
-                        role="tab"
-                        aria-selected={timeline.currentIndex === index}
-                        aria-label={`${t.goToItem} ${index + 1}: ${item.year}`}
-                        tabIndex={timeline.currentIndex === index ? 0 : -1}
-                    />
-                ))}
-            </div>
+            {/* Mobile Swipe Hint - Below Timeline */}
+            {timeline.isMobile && (
+                <div className="flex items-center justify-center gap-2 mt-4 text-text-muted text-sm animate-pulse">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8 7h12m-12 6h12m-12 6h12M4 7h.01M4 13h.01M4 19h.01"
+                        />
+                    </svg>
+                    <span>{t.swipeHint}</span>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                    </svg>
+                </div>
+            )}
         </section>
     );
 }

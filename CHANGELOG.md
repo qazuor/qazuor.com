@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2025-12-02
+
+### Changed
+
+- **Timeline navigation redesign**: Moved progress dots and controls above the
+  timeline for better UX
+- **Mobile timeline optimizations**: Reduced card positioning (140px vs 200px),
+  smaller padding (32px vs 64px), compact text sizes for better fit
+- **Hidden horizontal scrollbar**: Timeline scrollbar hidden while maintaining
+  scroll functionality via swipe/buttons
+
+### Fixed
+
+- **Mobile vertical overflow**: Reduced paddingBottom (120px vs 200px) to
+  prevent unnecessary vertical scrollbar on mobile devices
+
+## [1.0.4] - 2025-12-02
+
+### Added
+
+- **Resend email integration**: Production email sending for contact form via
+  Resend API with verified custom domain (contact@qazuor.com)
+- **DNS email records**: DKIM, SPF, and DMARC records configured for email
+  deliverability
+
+### Technical
+
+- Resend API integration with environment variables (RESEND_API_KEY,
+  RESEND_FROM_EMAIL, CONTACT_EMAIL)
+- Email verification for qazuor.com domain with proper DNS records
+
 ## [1.0.3] - 2025-12-02
 
 ### Added

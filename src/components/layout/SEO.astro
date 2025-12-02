@@ -19,6 +19,8 @@ export interface SEOProps {
     canonical?: string;
     image?: string;
     imageAlt?: string;
+    imageWidth?: number;
+    imageHeight?: number;
     type?: 'website' | 'article' | 'profile';
     keywords?: string[];
     author?: string;
@@ -30,6 +32,7 @@ export interface SEOProps {
     nofollow?: boolean;
     breadcrumbs?: Array<{ name: string; url: string }>;
     jobTitle?: string;
+    twitterHandle?: string;
     socialLinks?: {
         github?: string;
         linkedin?: string;
@@ -42,8 +45,10 @@ const {
     title,
     description,
     canonical,
-    image = '/og-image.png',
+    image,
     imageAlt = 'qazuor - Full-Stack Developer',
+    imageWidth = 1200,
+    imageHeight = 630,
     type = 'website',
     keywords = [],
     author = 'qazuor',
@@ -55,6 +60,7 @@ const {
     nofollow = false,
     breadcrumbs,
     jobTitle = 'Full-Stack Developer',
+    twitterHandle,
     socialLinks = {
         github: contact.social.github,
         linkedin: contact.social.linkedin,
@@ -63,15 +69,50 @@ const {
     }
 } = Astro.props;
 
+// Generate dynamic OG image path based on current URL
+// For /en/ -> /en/og.png, for /en/blog/my-post -> /en/blog/my-post/og.png
+function getDefaultOgImagePath(pathname: string): string {
+    // Remove trailing slash if present
+    const cleanPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+
+    // If it's the root of a language (e.g., /en, /es), use /[lang]/og.png
+    if (/^\/[a-z]{2}$/.test(cleanPath)) {
+        return `${cleanPath}/og.png`;
+    }
+
+    // For other pages, append /og.png to the path
+    return `${cleanPath}/og.png`;
+}
+
+// Use provided image or generate path dynamically
+const ogImagePath = image || getDefaultOgImagePath(Astro.url.pathname);
+
+// Determine image type from extension
+const imageExtension = ogImagePath.split('.').pop()?.toLowerCase();
+const imageType =
+    imageExtension === 'png'
+        ? 'image/png'
+        : imageExtension === 'jpg' || imageExtension === 'jpeg'
+          ? 'image/jpeg'
+          : 'image/png';
+
 // Get the full URL for the current page
 const currentURL = new URL(Astro.url.pathname, Astro.site);
 const canonicalURL = canonical ? new URL(canonical, Astro.site) : currentURL;
 
 // Full image URL for social media
-const imageURL = new URL(image, Astro.site);
+const imageURL = new URL(ogImagePath, Astro.site);
 
 // Site configuration
 const siteName = 'qazuor.com';
+
+// Map locale to OpenGraph format (e.g., 'en' -> 'en_US', 'es' -> 'es_ES')
+const ogLocaleMap: Record<string, string> = {
+    en: 'en_US',
+    es: 'es_ES'
+};
+const ogLocale = ogLocaleMap[locale] || `${locale}_${locale.toUpperCase()}`;
+const ogLocaleAlternates = Object.values(ogLocaleMap).filter((l) => l !== ogLocale);
 
 // Robots meta
 const robotsContent = `${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`;
@@ -141,9 +182,26 @@ const breadcrumbsJsonLd =
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageURL.href} />
+<meta property="og:image:secure_url" content={imageURL.href} />
+<meta property="og:image:type" content={imageType} />
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
 <meta property="og:image:alt" content={imageAlt} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content={locale} />
+<meta property="og:locale" content={ogLocale} />
+{ogLocaleAlternates.map((altLocale) => (
+    <meta property="og:locale:alternate" content={altLocale} />
+))}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.href} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL.href} />
+<meta name="twitter:image:alt" content={imageAlt} />
+{twitterHandle && <meta name="twitter:site" content={twitterHandle} />}
+{twitterHandle && <meta name="twitter:creator" content={twitterHandle} />}
 
 <!-- Article specific tags -->
 {

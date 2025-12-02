@@ -7,24 +7,41 @@ interface CommentsProps {
     lang: Locale;
 }
 
+// Custom theme URLs - uses our custom CSS files for both light and dark modes
+// In production: https://qazuor.com/styles/giscus-custom.css (dark) or giscus-custom-light.css (light)
+// In development: uses local URLs
+const getCustomThemeUrl = (isDark: boolean) => {
+    const fileName = isDark ? 'giscus-custom.css' : 'giscus-custom-light.css';
+    if (typeof window !== 'undefined') {
+        const { hostname } = window.location;
+        if (hostname === 'qazuor.com' || hostname === 'www.qazuor.com') {
+            return `https://qazuor.com/styles/${fileName}`;
+        }
+        // For localhost/dev, use the local URL
+        return `${window.location.origin}/styles/${fileName}`;
+    }
+    return `https://qazuor.com/styles/${fileName}`;
+};
+
 /**
  * Comments component using Giscus
- * Supports dynamic language and theme sync with site toggle
+ * Supports dynamic language and custom theme matching site design
  */
 export function Comments({ lang }: CommentsProps) {
-    const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+    const [theme, setTheme] = useState<string>('dark');
 
     useEffect(() => {
         // Get initial theme from document
         const isDark = document.documentElement.classList.contains('dark');
-        setTheme(isDark ? 'dark' : 'light');
+        setTheme(getCustomThemeUrl(isDark));
 
         // Create observer to watch for theme changes
         const observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 if (mutation.attributeName === 'class') {
                     const isDark = document.documentElement.classList.contains('dark');
-                    setTheme(isDark ? 'dark' : 'light');
+                    const newTheme = getCustomThemeUrl(isDark);
+                    setTheme(newTheme);
 
                     // Also send message to Giscus iframe to update theme
                     const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
@@ -33,7 +50,7 @@ export function Comments({ lang }: CommentsProps) {
                             {
                                 giscus: {
                                     setConfig: {
-                                        theme: isDark ? 'dark' : 'light'
+                                        theme: newTheme
                                     }
                                 }
                             },

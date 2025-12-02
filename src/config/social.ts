@@ -16,7 +16,7 @@ export const GISCUS_CONFIG = {
     strict: '0' as const,
     reactionsEnabled: '1' as const,
     emitMetadata: '0' as const,
-    inputPosition: 'top' as const
+    inputPosition: 'bottom' as const
 } as const;
 
 /**

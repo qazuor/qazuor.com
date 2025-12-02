@@ -1,0 +1,256 @@
+/*
+ * Custom Giscus Theme for qazuor.com - Light Mode
+ * Based on the site's purple/blue color scheme
+ */
+
+/* Main container */
+main {
+  --color-prettylights-syntax-comment: #6e7781;
+  --color-prettylights-syntax-constant: #0550ae;
+  --color-prettylights-syntax-entity: #8250df;
+  --color-prettylights-syntax-storage-modifier-import: #24292f;
+  --color-prettylights-syntax-entity-tag: #116329;
+  --color-prettylights-syntax-keyword: #cf222e;
+  --color-prettylights-syntax-string: #0a3069;
+  --color-prettylights-syntax-variable: #953800;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
+  --color-prettylights-syntax-invalid-illegal-text: #f6f8fa;
+  --color-prettylights-syntax-invalid-illegal-bg: #82071e;
+  --color-prettylights-syntax-carriage-return-text: #f6f8fa;
+  --color-prettylights-syntax-carriage-return-bg: #cf222e;
+  --color-prettylights-syntax-string-regexp: #116329;
+  --color-prettylights-syntax-markup-list: #3b2300;
+  --color-prettylights-syntax-markup-heading: #0550ae;
+  --color-prettylights-syntax-markup-italic: #24292f;
+  --color-prettylights-syntax-markup-bold: #24292f;
+  --color-prettylights-syntax-markup-deleted-text: #82071e;
+  --color-prettylights-syntax-markup-deleted-bg: #ffebe9;
+  --color-prettylights-syntax-markup-inserted-text: #116329;
+  --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
+  --color-prettylights-syntax-markup-changed-text: #953800;
+  --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
+  --color-prettylights-syntax-markup-ignored-text: #eaeef2;
+  --color-prettylights-syntax-markup-ignored-bg: #0550ae;
+  --color-prettylights-syntax-meta-diff-range: #8250df;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
+
+  /* Custom colors matching qazuor.com - Light Mode */
+  --color-canvas-default: transparent;
+  --color-canvas-overlay: rgba(139, 92, 246, 0.03);
+  --color-canvas-inset: rgba(139, 92, 246, 0.02);
+  --color-canvas-subtle: rgba(139, 92, 246, 0.05);
+
+  /* Borders */
+  --color-border-default: rgba(139, 92, 246, 0.25);
+  --color-border-muted: rgba(139, 92, 246, 0.2);
+  --color-border-subtle: rgba(139, 92, 246, 0.15);
+
+  /* Text colors */
+  --color-fg-default: #1e293b;
+  --color-fg-muted: #475569;
+  --color-fg-subtle: #64748b;
+
+  /* Accent colors - Purple theme */
+  --color-accent-fg: #7c3aed;
+  --color-accent-emphasis: #8b5cf6;
+  --color-accent-muted: rgba(139, 92, 246, 0.3);
+  --color-accent-subtle: rgba(139, 92, 246, 0.1);
+
+  /* Success colors */
+  --color-success-fg: #059669;
+  --color-success-emphasis: #10b981;
+
+  /* Attention colors */
+  --color-attention-fg: #d97706;
+  --color-attention-emphasis: #f59e0b;
+
+  /* Danger colors */
+  --color-danger-fg: #dc2626;
+  --color-danger-emphasis: #ef4444;
+
+  /* Neutral colors */
+  --color-neutral-muted: rgba(139, 92, 246, 0.15);
+  --color-neutral-subtle: rgba(139, 92, 246, 0.08);
+
+  /* Button styles */
+  --color-btn-text: #1e293b;
+  --color-btn-bg: rgba(139, 92, 246, 0.1);
+  --color-btn-border: rgba(139, 92, 246, 0.25);
+  --color-btn-hover-bg: rgba(139, 92, 246, 0.15);
+  --color-btn-hover-border: rgba(139, 92, 246, 0.35);
+  --color-btn-active-bg: rgba(139, 92, 246, 0.2);
+  --color-btn-active-border: rgba(139, 92, 246, 0.4);
+
+  /* Primary button */
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #8b5cf6;
+  --color-btn-primary-border: #8b5cf6;
+  --color-btn-primary-hover-bg: #7c3aed;
+  --color-btn-primary-hover-border: #7c3aed;
+  --color-btn-primary-selected-bg: #6d28d9;
+  --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
+  --color-btn-primary-disabled-bg: rgba(139, 92, 246, 0.3);
+  --color-btn-primary-disabled-border: transparent;
+}
+
+/* Make background transparent */
+.gsc-main {
+  background: transparent !important;
+}
+
+/* Comment box styling */
+.gsc-comment-box {
+  background: rgba(139, 92, 246, 0.03) !important;
+  border: 1px solid rgba(139, 92, 246, 0.2) !important;
+  border-radius: 1rem !important;
+  backdrop-filter: blur(8px);
+}
+
+.gsc-comment-box-textarea {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(139, 92, 246, 0.2) !important;
+  border-radius: 0.75rem !important;
+  color: #1e293b !important;
+}
+
+.gsc-comment-box-textarea:focus {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15) !important;
+}
+
+/* Tabs styling */
+.gsc-comment-box-tabs {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15) !important;
+}
+
+.gsc-comment-box-tab {
+  color: #475569 !important;
+}
+
+.gsc-comment-box-tab:hover {
+  color: #7c3aed !important;
+}
+
+.gsc-comment-box-tab[aria-selected="true"] {
+  color: #7c3aed !important;
+  border-bottom-color: #8b5cf6 !important;
+}
+
+/* Comments list */
+.gsc-comment {
+  background: rgba(139, 92, 246, 0.02) !important;
+  border: 1px solid rgba(139, 92, 246, 0.15) !important;
+  border-radius: 1rem !important;
+  backdrop-filter: blur(4px);
+}
+
+.gsc-comment:hover {
+  border-color: rgba(139, 92, 246, 0.25) !important;
+}
+
+/* Reactions */
+.gsc-reactions {
+  background: transparent !important;
+}
+
+.gsc-reactions-button {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border: 1px solid rgba(139, 92, 246, 0.2) !important;
+  border-radius: 2rem !important;
+  color: #475569 !important;
+}
+
+.gsc-reactions-button:hover {
+  background: rgba(139, 92, 246, 0.15) !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+  color: #7c3aed !important;
+}
+
+.gsc-social-reaction-summary-item {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border: 1px solid rgba(139, 92, 246, 0.2) !important;
+  border-radius: 2rem !important;
+}
+
+.gsc-social-reaction-summary-item:hover {
+  background: rgba(139, 92, 246, 0.15) !important;
+}
+
+.gsc-social-reaction-summary-item-count {
+  color: #7c3aed !important;
+}
+
+/* Reply section */
+.gsc-reply {
+  border-left: 2px solid rgba(139, 92, 246, 0.25) !important;
+}
+
+/* Header and timestamps */
+.gsc-comment-header {
+  color: #475569 !important;
+}
+
+.gsc-comment-author-avatar {
+  border-radius: 50% !important;
+  border: 2px solid rgba(139, 92, 246, 0.25) !important;
+}
+
+/* Links */
+.gsc-comment a {
+  color: #7c3aed !important;
+}
+
+.gsc-comment a:hover {
+  color: #6d28d9 !important;
+}
+
+/* Login button */
+.gsc-comment-box-bottom {
+  border-top: 1px solid rgba(139, 92, 246, 0.15) !important;
+}
+
+/* Timeline connector */
+.gsc-timeline {
+  border-left-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+/* Loading spinner */
+.gsc-loading {
+  color: #8b5cf6 !important;
+}
+
+/* Empty state */
+.gsc-comments > .gsc-header {
+  color: #475569 !important;
+}
+
+/* Emoji picker */
+.gsc-emoji-button {
+  background: rgba(139, 92, 246, 0.08) !important;
+  border-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+.gsc-emoji-button:hover {
+  background: rgba(139, 92, 246, 0.15) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(139, 92, 246, 0.03);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.35);
+}

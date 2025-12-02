@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2025-12-02
+
+### Added
+
+- **Giscus comments system**: GitHub Discussions-based comments on blog posts
+  with automatic theme synchronization (dark/light mode)
+- **Custom Giscus theme**: Purple-themed CSS matching site design for both light
+  and dark modes (`giscus-custom.css`, `giscus-custom-light.css`)
+- **Social share buttons**: Share blog posts to 8 platforms (X, LinkedIn,
+  WhatsApp, Reddit, Telegram, Discord, Mastodon, Hacker News)
+- **Web Share API integration**: Native share dialog on mobile devices with
+  fallback to platform buttons on desktop
+- **Copy link button**: One-click URL copying with visual feedback
+- **Centralized share config**: `src/data/shareButtons.ts` for easy platform
+  management (add/remove platforms, configure visibility)
+
+### Changed
+
+- **Share buttons layout**: Moved share buttons below tags in blog post header
+  (was beside tags)
+- **Comments input position**: Comment box now appears at bottom (after existing
+  comments) instead of top
+
+### Technical
+
+- Share button component with compact/full variants
+- MutationObserver for dynamic Giscus theme switching
+- Environment-aware theme URLs (localhost vs production)
+
 ## [1.0.5] - 2025-12-02
 
 ### Changed

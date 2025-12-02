@@ -1,16 +1,8 @@
 import { useCallback, useState } from 'react';
-import {
-    CheckIcon,
-    LinkedInIcon,
-    LinkIcon,
-    RedditIcon,
-    ShareIcon,
-    TelegramIcon,
-    TwitterIcon,
-    WhatsAppIcon
-} from '@/components/icons/SocialIcons';
+import { CheckIcon, LinkIcon, ShareIcon } from '@/components/icons/SocialIcons';
+import { getCompactPlatforms, getFullPlatforms, getShareUrl } from '@/data/shareButtons';
 import type { Locale } from '@/i18n/ui';
-import { canShare, copyToClipboard, getShareUrl, sharePost } from '@/utils/share';
+import { canShare, copyToClipboard, sharePost } from '@/utils/share';
 
 interface ShareButtonProps {
     title: string;
@@ -45,20 +37,17 @@ const translations: Record<Locale, Translations> = {
     }
 };
 
-const platforms = [
-    { id: 'twitter', Icon: TwitterIcon, label: 'Twitter' },
-    { id: 'linkedin', Icon: LinkedInIcon, label: 'LinkedIn' },
-    { id: 'whatsapp', Icon: WhatsAppIcon, label: 'WhatsApp' },
-    { id: 'telegram', Icon: TelegramIcon, label: 'Telegram' },
-    { id: 'reddit', Icon: RedditIcon, label: 'Reddit' }
-] as const;
-
 /**
  * Share button component with Web Share API support and fallback
+ * Platform configuration is managed in src/data/shareButtons.ts
  */
 export function ShareButton({ title, description, url, lang, variant = 'full' }: ShareButtonProps) {
     const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
     const t = translations[lang];
+
+    // Get platforms from centralized config
+    const compactPlatforms = getCompactPlatforms();
+    const fullPlatforms = getFullPlatforms();
 
     const handleNativeShare = useCallback(async () => {
         await sharePost({ title, text: description, url });
@@ -89,45 +78,100 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
             <button
                 type="button"
                 onClick={handleNativeShare}
-                className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground-secondary hover:text-primary bg-foreground/5 hover:bg-primary/10 rounded-lg transition-colors"
+                className="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300 hover:shadow-lg hover:shadow-white/5"
                 aria-label={t.button}
             >
-                <ShareIcon className="w-4 h-4" />
+                <ShareIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
                 <span>{t.button}</span>
             </button>
         );
     }
 
-    // Full variant or compact without native share: show platform buttons
+    // Compact variant without native share: show platforms configured for compact
+    if (isCompact) {
+        return (
+            <div className="flex items-center gap-1">
+                {compactPlatforms.map(({ id, Icon, label, brandColor }) => (
+                    <button
+                        key={id}
+                        type="button"
+                        onClick={() => handlePlatformShare(id)}
+                        className="p-2 text-white/70 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300"
+                        style={
+                            {
+                                '--brand-color': brandColor
+                            } as React.CSSProperties
+                        }
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.color = brandColor;
+                            e.currentTarget.style.backgroundColor = `${brandColor}1a`;
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.color = '';
+                            e.currentTarget.style.backgroundColor = '';
+                        }}
+                        aria-label={`${t.via} ${label}`}
+                        title={label}
+                    >
+                        <Icon className="w-4 h-4" />
+                    </button>
+                ))}
+                <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className={`p-2 rounded-lg backdrop-blur-sm border transition-all duration-300 ${
+                        copyStatus === 'copied'
+                            ? 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30'
+                            : copyStatus === 'failed'
+                              ? 'text-red-400 bg-red-500/20 border-red-500/30'
+                              : 'text-white/70 border-white/10 hover:border-white/20 hover:text-primary hover:bg-primary/10'
+                    }`}
+                    aria-label={copyStatus === 'copied' ? t.copied : t.copyLink}
+                    title={copyStatus === 'copied' ? t.copied : t.copyLink}
+                    aria-live="polite"
+                >
+                    {copyStatus === 'copied' ? <CheckIcon className="w-4 h-4" /> : <LinkIcon className="w-4 h-4" />}
+                </button>
+            </div>
+        );
+    }
+
+    // Full variant: show all platforms configured for full mode
     return (
-        <div className={`flex flex-wrap items-center gap-2 ${isCompact ? '' : 'justify-center'}`}>
+        <div className="flex flex-wrap items-center justify-center gap-3">
             {/* Native share button (mobile) */}
             {showNativeShare && (
                 <button
                     type="button"
                     onClick={handleNativeShare}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-600 rounded-lg transition-colors shadow-sm"
+                    className="group inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-600 hover:from-primary-600 hover:to-primary rounded-xl transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
                     aria-label={t.button}
                 >
-                    <ShareIcon className="w-4 h-4" />
+                    <ShareIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span>{t.button}</span>
                 </button>
             )}
 
             {/* Platform buttons */}
-            <div className="flex items-center gap-1">
-                {!showNativeShare && <span className="text-sm text-foreground-secondary mr-2">{t.via}:</span>}
-
-                {platforms.map(({ id, Icon, label }) => (
+            <div className="flex items-center gap-2">
+                {fullPlatforms.map(({ id, Icon, label, brandColor }) => (
                     <button
                         key={id}
                         type="button"
                         onClick={() => handlePlatformShare(id)}
-                        className="p-2 text-foreground-secondary hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                        className="group p-3 text-foreground-secondary rounded-xl border border-foreground/10 hover:border-transparent bg-surface/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.color = brandColor;
+                            e.currentTarget.style.backgroundColor = `${brandColor}1a`;
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.color = '';
+                            e.currentTarget.style.backgroundColor = '';
+                        }}
                         aria-label={`${t.via} ${label}`}
                         title={label}
                     >
-                        <Icon className="w-5 h-5" />
+                        <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
                     </button>
                 ))}
 
@@ -135,18 +179,22 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                 <button
                     type="button"
                     onClick={handleCopyLink}
-                    className={`p-2 rounded-lg transition-colors ${
+                    className={`group p-3 rounded-xl border transition-all duration-300 hover:-translate-y-0.5 ${
                         copyStatus === 'copied'
-                            ? 'text-green-500 bg-green-500/10'
+                            ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30 shadow-lg shadow-emerald-500/20'
                             : copyStatus === 'failed'
-                              ? 'text-red-500 bg-red-500/10'
-                              : 'text-foreground-secondary hover:text-primary hover:bg-primary/10'
+                              ? 'text-red-500 bg-red-500/10 border-red-500/30 shadow-lg shadow-red-500/20'
+                              : 'text-foreground-secondary border-foreground/10 bg-surface/50 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-lg'
                     }`}
                     aria-label={copyStatus === 'copied' ? t.copied : t.copyLink}
                     title={copyStatus === 'copied' ? t.copied : t.copyLink}
                     aria-live="polite"
                 >
-                    {copyStatus === 'copied' ? <CheckIcon className="w-5 h-5" /> : <LinkIcon className="w-5 h-5" />}
+                    {copyStatus === 'copied' ? (
+                        <CheckIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    ) : (
+                        <LinkIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    )}
                 </button>
             </div>
         </div>

@@ -1,5 +1,7 @@
 /**
- * Share utilities for Web Share API and fallback methods
+ * Share utilities for Web Share API and clipboard
+ *
+ * Platform configuration is in src/data/shareButtons.ts
  */
 
 /**
@@ -51,23 +53,4 @@ export async function copyToClipboard(text: string): Promise<boolean> {
             return false;
         }
     }
-}
-
-/**
- * Generate share URL for a specific platform
- */
-export function getShareUrl(platform: string, url: string, title: string, text?: string): string {
-    const encodedUrl = encodeURIComponent(url);
-    const encodedTitle = encodeURIComponent(title);
-    const encodedText = encodeURIComponent(text || title);
-
-    const urls: Record<string, string> = {
-        twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
-        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-        whatsapp: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
-        telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
-        reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`
-    };
-
-    return urls[platform] || '';
 }

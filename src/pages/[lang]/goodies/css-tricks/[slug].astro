@@ -1,10 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import { Comments } from '@/components/blog/Comments';
+import { ShareButton } from '@/components/blog/ShareButton';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import CategoryIcon from '@/components/ui/CategoryIcon.astro';
 import { sectionsColors } from '@/data/colors';
-import { languages } from '@/i18n/ui';
+import { type Locale, languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
@@ -40,6 +42,7 @@ const { Content } = await trick.render();
 const title = trick.data.title;
 const description = trick.data.description;
 const cssTricksUrl = translatePath('/goodies/css-tricks', lang);
+const canonicalUrl = Astro.url.href;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -92,6 +95,18 @@ const cssTricksUrl = translatePath('/goodies/css-tricks', lang);
                     }
                 </div>
 
+                <!-- Share buttons -->
+                <div class="mt-6">
+                    <ShareButton
+                        title={title}
+                        description={description}
+                        url={canonicalUrl}
+                        lang={lang as Locale}
+                        variant="compact"
+                        client:load
+                    />
+                </div>
+
                 <!-- Browser Support -->
                 {trick.data.browserSupport && trick.data.browserSupport.length > 0 && (
                     <div class="mt-6 p-4 rounded-lg bg-card border border-foreground/10">
@@ -110,6 +125,25 @@ const cssTricksUrl = translatePath('/goodies/css-tricks', lang);
             <!-- Content -->
             <div class="content-prose">
                 <Content />
+            </div>
+
+            <!-- Share section -->
+            <div class="mt-16 pt-8 border-t border-foreground/10">
+                <h3 class="text-lg font-semibold mb-6 text-center">{t('blog.sharePost')}</h3>
+                <ShareButton
+                    title={title}
+                    description={description}
+                    url={canonicalUrl}
+                    lang={lang as Locale}
+                    variant="full"
+                    client:load
+                />
+            </div>
+
+            <!-- Comments section -->
+            <div class="mt-16 pt-8 border-t border-foreground/10">
+                <h3 class="text-lg font-semibold mb-6">{t('blog.comments')}</h3>
+                <Comments lang={lang as Locale} client:idle />
             </div>
         </article>
     </div>

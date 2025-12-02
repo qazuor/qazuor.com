@@ -1,10 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
+import { Comments } from '@/components/blog/Comments';
+import { ShareButton } from '@/components/blog/ShareButton';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import { sectionsColors } from '@/data/colors';
-import { languages } from '@/i18n/ui';
+import { type Locale, languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
@@ -40,6 +42,7 @@ const { Content } = await snippet.render();
 const title = snippet.data.title;
 const description = snippet.data.description;
 const snippetsUrl = translatePath('/goodies/snippets', lang);
+const canonicalUrl = Astro.url.href;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -91,6 +94,18 @@ const snippetsUrl = translatePath('/goodies/snippets', lang);
                         ))
                     }
                 </div>
+
+                <!-- Share buttons -->
+                <div class="mt-6">
+                    <ShareButton
+                        title={title}
+                        description={description}
+                        url={canonicalUrl}
+                        lang={lang as Locale}
+                        variant="compact"
+                        client:load
+                    />
+                </div>
             </header>
 
             <!-- Code Block -->
@@ -111,6 +126,25 @@ const snippetsUrl = translatePath('/goodies/snippets', lang);
             <!-- Documentation -->
             <div class="content-prose">
                 <Content />
+            </div>
+
+            <!-- Share section -->
+            <div class="mt-16 pt-8 border-t border-foreground/10">
+                <h3 class="text-lg font-semibold mb-6 text-center">{t('blog.sharePost')}</h3>
+                <ShareButton
+                    title={title}
+                    description={description}
+                    url={canonicalUrl}
+                    lang={lang as Locale}
+                    variant="full"
+                    client:load
+                />
+            </div>
+
+            <!-- Comments section -->
+            <div class="mt-16 pt-8 border-t border-foreground/10">
+                <h3 class="text-lg font-semibold mb-6">{t('blog.comments')}</h3>
+                <Comments lang={lang as Locale} client:idle />
             </div>
         </article>
     </div>

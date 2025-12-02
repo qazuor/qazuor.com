@@ -50,11 +50,11 @@ export function calculatePoint(
 
 /**
  * Calculate icon position at outer edge of radar
- * All icons are positioned at the same distance (105% of radius)
+ * All icons are positioned at the same distance (118% of radius)
  */
 export function calculateIconPoint(index: number, { center, radius, numSkills }: CalculationParams): Point {
     const angle = calculateAngle(index, numSkills);
-    const distance = radius * 1.05; // Fixed distance at outer edge
+    const distance = radius * 1.12; // Fixed distance - balanced position
     return {
         x: roundTo(center + distance * Math.cos(angle)),
         y: roundTo(center + distance * Math.sin(angle))

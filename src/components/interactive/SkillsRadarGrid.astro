@@ -12,21 +12,22 @@ export interface RadarCategory {
     }>;
 }
 
+export interface LanguageData {
+    id: string;
+    name: string;
+    icon: string;
+    value: number;
+    note: string;
+}
+
 interface Props {
     categories: RadarCategory[];
     description?: string;
-    languageIcons?: {
-        spanish: string;
-        english: string;
-    };
-    languageTranslations?: {
-        title: string;
-        native: string;
-        writtenOnly: string;
-    };
+    languages?: LanguageData[];
+    languageTitle?: string;
 }
 
-const { categories, description, languageIcons, languageTranslations } = Astro.props;
+const { categories, description, languages = [], languageTitle = 'Languages' } = Astro.props;
 ---
 
 <div class="skills-radar-grid">
@@ -36,71 +37,34 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
             {description && <div class="description-text" set:html={description} />}
 
             <!-- Language Skills -->
-            <div class="language-skills" data-animate>
-                <h4 class="language-title"
-                    >{languageTranslations?.title || 'Languages'}</h4
-                >
-                <div class="language-item" data-animate-bar>
-                    <div class="language-label">
-                        <div class="language-name-wrapper">
-                            {
-                                languageIcons?.spanish && (
-                                    <span
-                                        class="language-flag"
-                                        set:html={languageIcons.spanish}
+            {languages.length > 0 && (
+                <div class="language-skills" data-animate>
+                    <h4 class="language-title">{languageTitle}</h4>
+                    {languages.map((lang) => (
+                        <div class="language-item" data-animate-bar>
+                            <div class="language-label">
+                                <div class="language-name-wrapper">
+                                    <span class="language-flag" set:html={lang.icon} />
+                                    <span class="language-name">
+                                        {lang.name}
+                                        <span class="language-note">({lang.note})</span>
+                                    </span>
+                                </div>
+                                <span class="language-value">{lang.value}%</span>
+                            </div>
+                            <div class="language-bar-wrapper">
+                                <div class="language-bar">
+                                    <div class="language-bar-bg" />
+                                    <div
+                                        class={`language-progress ${lang.id}-progress`}
+                                        data-value={lang.value}
                                     />
-                                )
-                            }
-                            <span class="language-name"
-                                >Spanish <span class="language-note"
-                                    >({languageTranslations?.native ||
-                                        'native'})</span
-                                ></span
-                            >
+                                </div>
+                            </div>
                         </div>
-                        <span class="language-value">100%</span>
-                    </div>
-                    <div class="language-bar-wrapper">
-                        <div class="language-bar">
-                            <div class="language-bar-bg"></div>
-                            <div
-                                class="language-progress spanish-progress"
-                                data-value="100"
-                            ></div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
-                <div class="language-item" data-animate-bar>
-                    <div class="language-label">
-                        <div class="language-name-wrapper">
-                            {
-                                languageIcons?.english && (
-                                    <span
-                                        class="language-flag"
-                                        set:html={languageIcons.english}
-                                    />
-                                )
-                            }
-                            <span class="language-name"
-                                >English <span class="language-note"
-                                    >({languageTranslations?.writtenOnly ||
-                                        'written only'})</span
-                                ></span
-                            >
-                        </div>
-                        <span class="language-value">85%</span>
-                    </div>
-                    <div class="language-bar-wrapper">
-                        <div class="language-bar">
-                            <div class="language-bar-bg"></div>
-                            <div
-                                class="language-progress english-progress"
-                                data-value="85"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            )}
         </div>
     </div>
 
@@ -165,6 +129,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         grid-template-columns: 1fr;
         gap: 2rem;
         width: 100%;
+        overflow: visible;
     }
 
     @media (min-width: 1024px) {
@@ -183,16 +148,8 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         background: var(--color-background-secondary);
         border: 1px solid var(--color-border);
         border-radius: 1.25rem;
-        transition: all 0.3s ease;
         min-height: 100%;
-    }
-
-    .radar-chart-wrapper:hover {
-        transform: translateY(-4px);
-        box-shadow:
-            0 12px 30px -5px rgba(0, 0, 0, 0.15),
-            0 10px 15px -6px rgba(0, 0, 0, 0.1);
-        border-color: var(--color-primary);
+        overflow: visible;
     }
 
     .description-text {
@@ -221,7 +178,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
     }
 
     .language-item {
-        margin-bottom: 1.75rem;
+        margin-bottom: 1.25rem;
     }
 
     .language-item:last-child {
@@ -232,7 +189,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
     }
 
     .language-name-wrapper {
@@ -280,89 +237,40 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
 
     .language-bar {
         position: relative;
-        height: 32px;
-        border-radius: 16px;
+        height: 16px;
+        border-radius: 8px;
         overflow: hidden;
-        background: var(--color-background-secondary);
-        border: 2px solid var(--color-border);
+        background: var(--color-border);
     }
 
-    /* Animated diagonal stripes background */
+    /* Clean track background - no animated stripes */
     .language-bar-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 10px,
-            var(--color-border) 10px,
-            var(--color-border) 10.5px,
-            transparent 10.5px,
-            transparent 20px
-        );
-        opacity: 0.3;
-        animation: slide-stripes 40s linear infinite;
-        z-index: 0;
-    }
-
-    @keyframes slide-stripes {
-        0% {
-            background-position: 0 0;
-        }
-        100% {
-            background-position: 40px 40px;
-        }
+        display: none;
     }
 
     .language-progress {
         position: relative;
         height: 100%;
         width: 0;
-        background: var(--color-primary);
-        border-radius: 10px;
-        transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border-radius: 8px;
+        transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         z-index: 1;
         overflow: hidden;
     }
 
-    /* Specific colors for each language */
-    .spanish-progress {
-        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-    }
-
-    .english-progress {
-        background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
-    }
-
-    .language-progress::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 300%;
-        height: 100%;
-        background: repeating-linear-gradient(
-            -45deg,
-            transparent,
-            transparent 10px,
-            rgba(255, 255, 255, 0.15) 10px,
-            rgba(255, 255, 255, 0.15) 20px
+    /* Gradient matching SectionTitle colors - sized to 100% of full bar */
+    .language-progress {
+        background: linear-gradient(
+            90deg,
+            #4f46e5 0%,
+            #a855f7 50%,
+            #ec4899 100%
         );
-        animation: slide-progress-stripes 30s linear infinite;
+        background-size: var(--gradient-size, 100%) 100%;
+        background-position: left;
     }
 
-    @keyframes slide-progress-stripes {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(100px);
-        }
-    }
-
+    /* Subtle top shine effect */
     .language-progress::after {
         content: '';
         position: absolute;
@@ -375,6 +283,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
             rgba(255, 255, 255, 0.3) 0%,
             transparent 100%
         );
+        border-radius: 8px 8px 0 0;
     }
 
     /* Animation states */
@@ -397,7 +306,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         }
 
         .radar-chart-wrapper {
-            padding: 1.5rem;
+            padding: 0.75rem 1rem;
         }
 
         .description-text {
@@ -421,7 +330,7 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         }
 
         .radar-chart-wrapper {
-            padding: 1.25rem;
+            padding: 0.5rem 0.75rem;
         }
 
         .description-text {
@@ -448,16 +357,12 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         background: rgba(0, 0, 0, 0.02);
     }
 
-    .radar-chart-wrapper:hover {
-        background: rgba(0, 0, 0, 0.04);
-    }
-
     .description-text {
         color: rgba(0, 0, 0, 0.9);
     }
 
     .language-bar {
-        background: rgba(0, 0, 0, 0.15);
+        background: rgba(0, 0, 0, 0.08);
     }
 
     /* Dark mode - When .dark class is present on html */
@@ -465,16 +370,12 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
         background: rgba(255, 255, 255, 0.05);
     }
 
-    :global(.dark) .radar-chart-wrapper:hover {
-        background: rgba(255, 255, 255, 0.08);
-    }
-
     :global(.dark) .description-text {
         color: rgba(255, 255, 255, 0.9);
     }
 
     :global(.dark) .language-bar {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.15);
     }
 </style>
 
@@ -494,7 +395,12 @@ const { categories, description, languageIcons, languageTranslations } = Astro.p
                         const progressBar = item.querySelector('.language-progress') as HTMLElement;
                         const value = progressBar?.getAttribute('data-value');
                         if (progressBar && value) {
+                            const numValue = parseFloat(value);
                             progressBar.style.setProperty('--progress-width', `${value}%`);
+                            // Calculate gradient size so it's relative to 100% of the bar
+                            // This makes the gradient appear as if it spans the full bar width
+                            const gradientSize = (10000 / numValue).toFixed(2);
+                            progressBar.style.setProperty('--gradient-size', `${gradientSize}%`);
                             setTimeout(() => {
                                 item.classList.add('animate-in');
                             }, index * 150);

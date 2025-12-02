@@ -8,13 +8,39 @@ import {
     generateSkillPolygon,
     roundTo
 } from '@/utils/radarChart/calculations';
+
+/**
+ * Get the appropriate icon color based on whether the SVG uses currentColor
+ * Icons that use currentColor (UI icons) get white/dark color depending on theme
+ * Icons with embedded colors (tech brand icons) keep the original skill color (won't affect them)
+ */
+function getIconColor(iconSvg: string, skillColor: string, isDarkMode: boolean): string {
+    // Check if the SVG uses currentColor (UI icons do, tech brand icons don't)
+    if (iconSvg.includes('currentColor')) {
+        // Dark mode: white text on dark background
+        // Light mode: dark text on light background
+        return isDarkMode ? '#ffffff' : '#ffffff';
+    }
+    // For tech icons with embedded colors, the color style won't affect them
+    // but we return the skill color anyway for consistency
+    return skillColor;
+}
+
+/**
+ * Get the background color for icon containers
+ * Dark mode: dark background for contrast with white icons
+ * Light mode: light background for contrast with dark icons
+ */
+function getIconBackground(isDarkMode: boolean): string {
+    return isDarkMode ? '#334155' : '#334155';
+}
+
 import {
-    calculateBadgeDimensions,
     calculateFontSize,
     calculateLabelPosition,
     calculateLineHeight,
     calculateMultiLineStartY,
-    calculateTooltipPosition
+    calculateTextAnchor
 } from '@/utils/radarChart/positioning';
 
 export interface RadarChartSkill {
@@ -58,7 +84,11 @@ export function RadarChart({
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Generate unique ID for this chart instance to avoid gradient ID conflicts
+    const chartId = useMemo(() => `radar-${Math.random().toString(36).substring(2, 11)}`, []);
 
     // Detect mobile screen size
     useEffect(() => {
@@ -69,6 +99,29 @@ export function RadarChart({
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Detect dark/light mode
+    useEffect(() => {
+        const checkDarkMode = () => {
+            // Check for dark class on html element (Tailwind/Astro pattern)
+            setIsDarkMode(document.documentElement.classList.contains('dark'));
+        };
+
+        checkDarkMode();
+
+        // Listen for theme changes via MutationObserver on html class
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                if (mutation.attributeName === 'class') {
+                    checkDarkMode();
+                }
+            }
+        });
+
+        observer.observe(document.documentElement, { attributes: true });
+
+        return () => observer.disconnect();
     }, []);
 
     // Intersection Observer for entrance animation
@@ -92,7 +145,7 @@ export function RadarChart({
 
     const numSkills = skills.length;
     const center = size / 2;
-    const radius = (size / 2) * 0.6; // 60% of half size for more padding
+    const radius = (size / 2) * 0.55; // 55% of half size for balanced label margin
 
     // Memoized calculation parameters
     const params: CalculationParams = useMemo(
@@ -127,31 +180,35 @@ export function RadarChart({
         <div ref={containerRef} className={`radar-chart-container ${className}`}>
             {titleHtml ? (
                 <h3
-                    className="text-2xl font-semibold text-center mb-6 text-foreground"
+                    className="text-2xl font-semibold text-center mb-2 text-foreground min-h-[3.5rem]"
                     // biome-ignore lint/security/noDangerouslySetInnerHtml: Title HTML is sanitized from translation files
                     dangerouslySetInnerHTML={{ __html: title }}
                 />
             ) : (
-                <h3 className="text-2xl font-semibold text-center mb-6 text-foreground">{title}</h3>
+                <h3 className="text-2xl font-semibold text-center mb-2 text-foreground">{title}</h3>
             )}
 
-            <div className="relative w-full" style={{ aspectRatio: '1/1', maxWidth: `${size}px`, margin: '0 auto' }}>
+            <div
+                className="relative w-full"
+                style={{ aspectRatio: '1/1', maxWidth: `${size}px`, margin: '0 auto', overflow: 'visible' }}
+            >
                 <svg
                     viewBox={`0 0 ${size} ${size}`}
                     className="w-full h-full"
+                    style={{ overflow: 'visible' }}
                     role="img"
                     aria-label={`${title} radar chart`}
                 >
                     {/* Circular shadow behind radar - very prominent */}
                     <defs>
-                        <radialGradient id="radarShadow">
+                        <radialGradient id={`${chartId}-shadow`}>
                             <stop offset="50%" stopColor="currentColor" stopOpacity="0.45" className="text-primary" />
                             <stop offset="100%" stopColor="currentColor" stopOpacity="0" className="text-primary" />
                         </radialGradient>
                         {/* Create a gradient for each axis line */}
                         {skills.map((_, i) => {
                             const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
-                            const extendedDistance = radius * 1.25;
+                            const extendedDistance = radius * 1.6; // Extend past icons to reach labels
                             const extendedPoint = {
                                 x: roundTo(center + extendedDistance * Math.cos(angle)),
                                 y: roundTo(center + extendedDistance * Math.sin(angle))
@@ -160,7 +217,7 @@ export function RadarChart({
                                 <linearGradient
                                     // biome-ignore lint/suspicious/noArrayIndexKey: Gradient keys match axis order
                                     key={i}
-                                    id={`axisGradient-${i}`}
+                                    id={`${chartId}-axis-${i}`}
                                     x1={center}
                                     y1={center}
                                     x2={extendedPoint.x}
@@ -176,9 +233,9 @@ export function RadarChart({
                     </defs>
 
                     {/* Shadow circle */}
-                    <circle cx={center} cy={center} r={radius * 1.4} fill="url(#radarShadow)" />
+                    <circle cx={center} cy={center} r={radius * 1.4} fill={`url(#${chartId}-shadow)`} />
 
-                    {/* Grid levels (concentric polygons) - subtle but visible */}
+                    {/* Grid levels (concentric polygons) - visible but subtle */}
                     <g className="grid-levels">
                         {gridPolygons.map((points, i) => (
                             <polygon
@@ -188,8 +245,8 @@ export function RadarChart({
                                 fill="none"
                                 stroke="currentColor"
                                 strokeWidth="1"
-                                className="text-foreground/30"
-                                opacity={0.15 + (i / gridLevels) * 0.15}
+                                className="text-foreground/40"
+                                opacity={0.25 + (i / gridLevels) * 0.2}
                             />
                         ))}
                     </g>
@@ -198,7 +255,7 @@ export function RadarChart({
                     <g className="axis-lines">
                         {skills.map((_, i) => {
                             const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
-                            const extendedDistance = radius * 1.25; // Extend beyond outer circle
+                            const extendedDistance = radius * 1.6; // Extend past icons to reach labels
                             const extendedPoint = {
                                 x: roundTo(center + extendedDistance * Math.cos(angle)),
                                 y: roundTo(center + extendedDistance * Math.sin(angle))
@@ -211,8 +268,8 @@ export function RadarChart({
                                     y1={center}
                                     x2={extendedPoint.x}
                                     y2={extendedPoint.y}
-                                    stroke={`url(#axisGradient-${i})`}
-                                    strokeWidth="2"
+                                    stroke={`url(#${chartId}-axis-${i})`}
+                                    strokeWidth="1"
                                     className="text-foreground"
                                 />
                             );
@@ -221,24 +278,29 @@ export function RadarChart({
 
                     {/* Skill data polygon (filled area) - with gradient/shadow effect */}
                     <g className={`skill-polygon ${isVisible ? 'animate-in' : ''}`}>
-                        {/* Define gradient for depth effect */}
+                        {/* Define gradient for depth effect - more transparent to show grid */}
                         <defs>
-                            <radialGradient id="radarGradient" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor="currentColor" stopOpacity="0.5" className="text-primary" />
+                            <radialGradient id={`${chartId}-gradient`} cx="50%" cy="50%" r="50%">
+                                <stop
+                                    offset="0%"
+                                    stopColor="currentColor"
+                                    stopOpacity="0.35"
+                                    className="text-primary"
+                                />
                                 <stop
                                     offset="100%"
                                     stopColor="currentColor"
-                                    stopOpacity="0.3"
+                                    stopOpacity="0.2"
                                     className="text-primary"
                                 />
                             </radialGradient>
                         </defs>
                         <polygon
                             points={skillPolygon}
-                            fill="url(#radarGradient)"
+                            fill={`url(#${chartId}-gradient)`}
                             stroke="currentColor"
                             className="text-primary"
-                            strokeWidth="2"
+                            strokeWidth="2.5"
                             strokeLinejoin="round"
                             style={{
                                 transition: 'all 0.3s ease-in-out',
@@ -283,20 +345,20 @@ export function RadarChart({
                                         <circle
                                             cx={point.x}
                                             cy={point.y}
-                                            r={18}
+                                            r={30}
                                             fill={skill.color}
                                             opacity={0.25}
                                             className="transition-all duration-200"
                                         />
                                     )}
 
-                                    {/* Icon as point - medium size */}
+                                    {/* Icon as point - larger size for better visibility */}
                                     {skill.icon ? (
                                         <foreignObject
-                                            x={point.x - (isHighlighted ? 16 : 14)}
-                                            y={point.y - (isHighlighted ? 16 : 14)}
-                                            width={isHighlighted ? 32 : 28}
-                                            height={isHighlighted ? 32 : 28}
+                                            x={point.x - (isHighlighted ? 19 : 17)}
+                                            y={point.y - (isHighlighted ? 19 : 17)}
+                                            width={isHighlighted ? 38 : 34}
+                                            height={isHighlighted ? 38 : 34}
                                             className="transition-all duration-200"
                                             style={{
                                                 filter: isHighlighted
@@ -307,10 +369,10 @@ export function RadarChart({
                                             <div
                                                 className="w-full h-full flex items-center justify-center"
                                                 style={{
-                                                    color: skill.color,
-                                                    backgroundColor: 'rgba(255,255,255,0.95)',
+                                                    color: getIconColor(skill.icon, skill.color, isDarkMode),
+                                                    backgroundColor: getIconBackground(isDarkMode),
                                                     borderRadius: '50%',
-                                                    padding: '4px'
+                                                    padding: '7px'
                                                 }}
                                                 // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG icons are from trusted skill data
                                                 dangerouslySetInnerHTML={{ __html: skill.icon }}
@@ -341,13 +403,13 @@ export function RadarChart({
                         {skills.map((skill, i) => {
                             const angle = calculateAngle(i, numSkills);
                             const { x: labelX, y: labelY } = calculateLabelPosition(angle, radius, center);
+                            const textAnchor = calculateTextAnchor(angle);
                             const isHighlighted = hoveredIndex === i || selectedIndex === i;
 
-                            // Split name by spaces for multi-line text (centered)
+                            // Split name by spaces for multi-line text
                             const words = skill.name.split(' ');
                             const lineHeight = calculateLineHeight(isHighlighted, isMobile);
                             const startY = calculateMultiLineStartY(labelY, words.length, lineHeight);
-                            const badgeDimensions = calculateBadgeDimensions(isMobile);
 
                             return (
                                 // biome-ignore lint/a11y/noStaticElementInteractions: SVG g element used for mouse events on labels
@@ -358,14 +420,14 @@ export function RadarChart({
                                     onMouseLeave={() => setHoveredIndex(null)}
                                     style={{ cursor: skill.description ? 'pointer' : 'default' }}
                                 >
-                                    {/* Skill name (multi-line if has spaces, centered) */}
+                                    {/* Skill name (multi-line if has spaces) */}
                                     {words.map((word, wordIndex) => (
                                         <text
                                             // biome-ignore lint/suspicious/noArrayIndexKey: Word keys are stable
                                             key={wordIndex}
                                             x={labelX}
                                             y={startY + wordIndex * lineHeight}
-                                            textAnchor="middle"
+                                            textAnchor={textAnchor}
                                             dominantBaseline="middle"
                                             className={`transition-all duration-200 ${
                                                 isHighlighted
@@ -374,111 +436,64 @@ export function RadarChart({
                                             }`}
                                             style={{
                                                 fontSize: `${calculateFontSize(isHighlighted, isMobile, {
-                                                    highlightedMobile: 20,
-                                                    highlightedDesktop: 15,
-                                                    normalMobile: 18,
-                                                    normalDesktop: 13
+                                                    highlightedMobile: 18,
+                                                    highlightedDesktop: 12,
+                                                    normalMobile: 16,
+                                                    normalDesktop: 11
                                                 })}px`,
-                                                letterSpacing: '0.3px'
+                                                letterSpacing: '0.2px'
                                             }}
                                         >
                                             {word}
                                         </text>
                                     ))}
-
-                                    {/* Percentage value with background badge - improved contrast */}
-                                    <g>
-                                        {/* Background badge - more opaque */}
-                                        <rect
-                                            x={labelX - badgeDimensions.width / 2}
-                                            y={labelY + ((words.length - 1) * lineHeight) / 2 + (isMobile ? 8 : 2)}
-                                            width={badgeDimensions.width}
-                                            height={badgeDimensions.height}
-                                            rx={badgeDimensions.rx}
-                                            fill={skill.color}
-                                            opacity={isHighlighted ? 0.9 : 0.85}
-                                            className="transition-all duration-200"
-                                        />
-                                        {/* Percentage text - white with shadow for better contrast */}
-                                        <text
-                                            x={labelX}
-                                            y={labelY + ((words.length - 1) * lineHeight) / 2 + (isMobile ? 19 : 10)}
-                                            textAnchor="middle"
-                                            dominantBaseline="middle"
-                                            className={`transition-all duration-200 ${
-                                                isHighlighted ? 'font-bold' : 'font-semibold'
-                                            }`}
-                                            style={{
-                                                fontSize: `${calculateFontSize(isHighlighted, isMobile, {
-                                                    highlightedMobile: 18,
-                                                    highlightedDesktop: 13,
-                                                    normalMobile: 16,
-                                                    normalDesktop: 12
-                                                })}px`,
-                                                fill: '#ffffff',
-                                                filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))'
-                                            }}
-                                        >
-                                            {skill.value}%
-                                        </text>
-                                    </g>
                                 </g>
                             );
                         })}
                     </g>
 
-                    {/* Tooltips rendered last to appear on top */}
-                    <g className="tooltips-layer">
-                        {skills.map((skill, i) => {
-                            const isHovered = hoveredIndex === i;
-
-                            if (!isHovered || !skill.description) {
-                                return null;
-                            }
-
-                            // Calculate label and tooltip positions
-                            const angle = calculateAngle(i, numSkills);
-                            const { x: labelX, y: labelY } = calculateLabelPosition(angle, radius, center);
-                            const { x: tooltipX, y: tooltipY } = calculateTooltipPosition(labelX, labelY, center, size);
-
-                            return (
-                                <g
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Tooltip keys match skill order
-                                    key={i}
-                                    className="tooltip"
+                    {/* Center tooltip - shows description of hovered skill */}
+                    {hoveredIndex !== null && skills[hoveredIndex]?.description && (
+                        <g className="center-tooltip">
+                            <foreignObject x={center - 85} y={center - 65} width={170} height={130}>
+                                <div
+                                    className="flex flex-col items-center justify-center text-center h-full px-3 py-3"
+                                    style={{
+                                        background: isDarkMode ? 'rgba(15, 23, 42, 0.75)' : 'rgba(255, 255, 255, 0.75)',
+                                        borderRadius: '16px',
+                                        border: isDarkMode
+                                            ? '1px solid rgba(255, 255, 255, 0.15)'
+                                            : '1px solid rgba(0, 0, 0, 0.08)',
+                                        boxShadow: isDarkMode
+                                            ? '0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+                                            : '0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+                                        pointerEvents: 'none',
+                                        fontSize: isMobile ? '0.875rem' : '0.75rem'
+                                    }}
                                 >
-                                    <foreignObject x={tooltipX} y={tooltipY} width={220} height={130}>
-                                        <div
-                                            className="flex flex-col px-3 py-2.5 rounded-lg max-h-full overflow-hidden"
-                                            style={{
-                                                backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                                                border: '2px solid rgba(79, 70, 229, 0.6)',
-                                                color: '#1f2937',
-                                                backdropFilter: 'blur(12px)',
-                                                boxShadow:
-                                                    '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
-                                                pointerEvents: 'none',
-                                                fontSize: isMobile ? '1rem' : '0.75rem'
-                                            }}
-                                        >
-                                            <div
-                                                className="font-bold mb-1.5"
-                                                style={{
-                                                    color: '#111827',
-                                                    fontSize: isMobile ? '1.125rem' : '0.8125rem'
-                                                }}
-                                            >
-                                                {skill.name}
-                                            </div>
-                                            <div className="leading-relaxed" style={{ color: '#4b5563' }}>
-                                                {skill.description}
-                                            </div>
-                                        </div>
-                                    </foreignObject>
-                                </g>
-                            );
-                        })}
-                    </g>
+                                    <div
+                                        className="font-bold mb-1.5"
+                                        style={{
+                                            color: skills[hoveredIndex].color,
+                                            fontSize: isMobile ? '1.0625rem' : '0.875rem',
+                                            textShadow: isDarkMode ? '0 1px 2px rgba(0, 0, 0, 0.3)' : 'none'
+                                        }}
+                                    >
+                                        {skills[hoveredIndex].name}
+                                    </div>
+                                    <div
+                                        className="leading-snug"
+                                        style={{
+                                            color: isDarkMode ? 'rgba(226, 232, 240, 0.9)' : 'rgba(71, 85, 105, 0.95)',
+                                            fontSize: isMobile ? '0.8125rem' : '0.6875rem'
+                                        }}
+                                    >
+                                        {skills[hoveredIndex].description}
+                                    </div>
+                                </div>
+                            </foreignObject>
+                        </g>
+                    )}
                 </svg>
             </div>
 

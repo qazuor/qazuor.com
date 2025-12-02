@@ -22,7 +22,7 @@ import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://example.com',
+    site: 'https://qazuor.com',
     output: 'static',
     adapter: vercel(),
 

@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-12-01
+
+### Added
+
+- **Center tooltip for radar charts**: Skill descriptions now appear in the
+  center of the radar when hovering over skills that have descriptions
+- **New icons**: Make.com logo for automation, palette icon for branding, bolt
+  and lightbulb icons for UI
+- **socialMediaAndFlyers translations**: Added EN/ES translations for new skill
+
+### Changed
+
+- **Tooltip design**: Translucent background (75% opacity) with dark/light mode
+  support, no backdrop-filter (not supported in SVG foreignObject)
+- **Radar axis lines**: Extended to 1.60x radius to reach past icons to labels
+- **Radar icon positions**: Adjusted to 1.12x radius for balanced placement
+- **Radar card styling**: Removed hover effects, reduced gap between title and
+  chart
+- **Skill icons**: Branding now uses palette icon, Automation uses Make logo
+
+### Fixed
+
+- **Tooltip rendering**: Moved from per-skill positioning to center to avoid
+  overlap with icons and labels
+
 ## [1.0.1] - 2025-12-01
 
 ### Changed

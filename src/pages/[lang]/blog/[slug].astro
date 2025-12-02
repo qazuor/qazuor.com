@@ -3,7 +3,9 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import CalloutEnhancer from '@/components/blog/CalloutEnhancer.astro';
+import { Comments } from '@/components/blog/Comments';
 import MermaidRenderer from '@/components/blog/MermaidRenderer.astro';
+import { ShareButton } from '@/components/blog/ShareButton';
 import { TableOfContents } from '@/components/blog/TableOfContents';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import { sectionsColors } from '@/data/colors';
@@ -57,6 +59,12 @@ const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
 const relatedPosts = getRelatedPosts(post, allPosts);
 const seriesData = getSeriesPosts(post, allPosts);
 const { prev, next } = getAdjacentPosts(post, allPosts);
+
+// Canonical URL for sharing
+const canonicalUrl = Astro.url.href;
+
+// Comments section title
+const commentsTitle = t('social.comments.title');
 ---
 
 <BaseLayout title={title} description={description}>
@@ -133,15 +141,27 @@ const { prev, next } = getAdjacentPosts(post, allPosts);
                             </span>
                         </div>
 
-                        <!-- Tags -->
-                        <div class="flex flex-wrap gap-2">
-                            {
-                                post.data.tags.map((tag: string) => (
-                                    <span class="px-3 py-1.5 text-sm font-semibold bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-sm shadow-sm">
-                                        #{tag}
-                                    </span>
-                                ))
-                            }
+                        <!-- Tags and Share -->
+                        <div class="flex flex-wrap items-center gap-4">
+                            <div class="flex flex-wrap gap-2">
+                                {
+                                    post.data.tags.map((tag: string) => (
+                                        <span class="px-3 py-1.5 text-sm font-semibold bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-sm shadow-sm">
+                                            #{tag}
+                                        </span>
+                                    ))
+                                }
+                            </div>
+                            <div class="bg-black/30 backdrop-blur-sm rounded-lg">
+                                <ShareButton
+                                    title={post.data.title}
+                                    description={post.data.excerpt}
+                                    url={canonicalUrl}
+                                    lang={lang}
+                                    variant="compact"
+                                    client:load
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -201,15 +221,25 @@ const { prev, next } = getAdjacentPosts(post, allPosts);
                         </span>
                     </div>
 
-                    <!-- Tags -->
-                    <div class="flex flex-wrap gap-2">
-                        {
-                            post.data.tags.map((tag: string) => (
-                                <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
-                                    #{tag}
-                                </span>
-                            ))
-                        }
+                    <!-- Tags and Share -->
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="flex flex-wrap gap-2">
+                            {
+                                post.data.tags.map((tag: string) => (
+                                    <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
+                                        #{tag}
+                                    </span>
+                                ))
+                            }
+                        </div>
+                        <ShareButton
+                            title={post.data.title}
+                            description={post.data.excerpt}
+                            url={canonicalUrl}
+                            lang={lang}
+                            variant="compact"
+                            client:load
+                        />
                     </div>
                 </div>
             </div>
@@ -423,6 +453,34 @@ const { prev, next } = getAdjacentPosts(post, allPosts);
                             </div>
                         </section>
                     )}
+
+                    <!-- Share Section (Bottom) -->
+                    <section class="flex flex-col items-center gap-4 py-8 px-6 rounded-2xl bg-surface/30 border border-foreground/10">
+                        <p class="text-foreground-secondary text-sm">{t('social.share.via')}</p>
+                        <ShareButton
+                            title={post.data.title}
+                            description={post.data.excerpt}
+                            url={canonicalUrl}
+                            lang={lang}
+                            variant="full"
+                            client:idle
+                        />
+                    </section>
+
+                    <!-- Comments Section -->
+                    <section class="pt-8">
+                        <div class="flex items-center gap-3 mb-8">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20">
+                                <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                            </span>
+                            <h2 class="text-xl font-bold text-foreground">
+                                {commentsTitle}
+                            </h2>
+                        </div>
+                        <Comments lang={lang} client:idle />
+                    </section>
 
                     <!-- Back to Blog -->
                     <div class="flex justify-center pt-4">

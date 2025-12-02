@@ -1,4 +1,5 @@
 ---
+import ServiceJsonLd from '@/components/seo/ServiceJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
@@ -115,9 +116,60 @@ const relatedServices = services
             description: t(`services.${relatedKey}.description`)
         };
     });
+
+// JSON-LD data
+const SITE_URL = 'https://qazuor.com';
+const serviceUrl = `${SITE_URL}/${lang}/services/${service.slug}`;
+
+// Map service ID to Schema.org serviceType
+const serviceTypeMap: Record<string, string> = {
+    'web-apps': 'Web Application Development',
+    'landing-pages': 'Web Design',
+    'automation-integration': 'IT Consulting',
+    'social-media-design': 'Graphic Design'
+};
+const serviceType = serviceTypeMap[service.id] || 'Web Development';
+
+// Format price range for JSON-LD
+const formatPriceRange = (): string | undefined => {
+    const { pricing } = service;
+    if (pricing.type === 'consultation') return undefined;
+    if (pricing.type === 'from' && pricing.min) {
+        return `$${pricing.min}+`;
+    }
+    if (pricing.type === 'range' && pricing.min && pricing.max) {
+        return `$${pricing.min}-$${pricing.max}`;
+    }
+    return undefined;
+};
+const priceRange = formatPriceRange();
+
+// Breadcrumbs for JSON-LD
+const breadcrumbs = [
+    { name: t('nav.home', { markdown: false }), url: '/' },
+    { name: t('nav.services', { markdown: false }), url: '/services' },
+    { name: pageTitle.replace(/\*\*/g, '') }
+];
+
+// Clean service name (remove markdown)
+const cleanServiceName = pageTitle.replace(/\*\*/g, '');
+const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+    <!-- Service JSON-LD Structured Data -->
+    <ServiceJsonLd
+        slot="head"
+        lang={lang}
+        serviceName={cleanServiceName}
+        serviceDescription={cleanServiceDescription}
+        serviceType={serviceType}
+        serviceUrl={serviceUrl}
+        priceRange={priceRange}
+        faqs={faqs}
+        breadcrumbs={breadcrumbs}
+    />
+
     <!-- Hero Section -->
     <section
         class="relative section overflow-hidden pt-32 pb-20"

@@ -7,6 +7,7 @@ import { Comments } from '@/components/blog/Comments';
 import MermaidRenderer from '@/components/blog/MermaidRenderer.astro';
 import { ShareButton } from '@/components/blog/ShareButton';
 import { TableOfContents } from '@/components/blog/TableOfContents';
+import BlogPostJsonLd from '@/components/seo/BlogPostJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -65,9 +66,30 @@ const canonicalUrl = Astro.url.href;
 
 // Comments section title
 const commentsTitle = t('social.comments.title');
+
+// JSON-LD data
+const SITE_URL = 'https://qazuor.com';
+const blogPostUrl = `${SITE_URL}/${lang}/blog/${getEffectiveSlug(post)}`;
+
+// Get image URL for JSON-LD (if image exists)
+const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefined;
 ---
 
 <BaseLayout title={title} description={description}>
+    <!-- Blog Post JSON-LD Structured Data -->
+    <BlogPostJsonLd
+        slot="head"
+        lang={lang}
+        title={post.data.title}
+        description={post.data.excerpt}
+        publishDate={post.data.publishDate}
+        author={post.data.author}
+        url={blogPostUrl}
+        image={imageUrl}
+        tags={post.data.tags}
+        articleSection={post.data.category}
+    />
+
     <!-- Hero Section with Background Image -->
     {post.data.image ? (
         <section class="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">

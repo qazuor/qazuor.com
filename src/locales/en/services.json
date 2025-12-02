@@ -296,5 +296,145 @@
         "headerTitle": "Services",
         "headerDescription": "Professional web development and design solutions",
         "viewAll": "View All Services"
+    },
+    "freelancerVsAgency": {
+        "title": "**Freelancer** vs Agency",
+        "subtitle": "Why choose to work directly with a developer?",
+        "freelancer": {
+            "title": "Working with Me",
+            "points": [
+                {
+                    "icon": "chat-bubble",
+                    "title": "Direct Communication",
+                    "description": "No project managers or intermediaries. Talk directly to the person building your project."
+                },
+                {
+                    "icon": "bolt",
+                    "title": "Faster Turnaround",
+                    "description": "Streamlined process without agency overhead means quicker iterations and faster delivery."
+                },
+                {
+                    "icon": "currency-dollar",
+                    "title": "Better Value",
+                    "description": "No agency markups. You pay for quality work, not office space and middle management."
+                },
+                {
+                    "icon": "lightbulb",
+                    "title": "Flexible Approach",
+                    "description": "Adaptable to your needs, timeline, and budget. We find solutions that work for you."
+                }
+            ]
+        },
+        "agency": {
+            "title": "Working with an Agency",
+            "points": [
+                {
+                    "icon": "users",
+                    "title": "Team Overhead",
+                    "description": "Multiple people involved means more coordination and potential communication gaps."
+                },
+                {
+                    "icon": "clock",
+                    "title": "Longer Timelines",
+                    "description": "Approval chains, meetings, and internal processes can slow down delivery."
+                },
+                {
+                    "icon": "building-office",
+                    "title": "Higher Costs",
+                    "description": "Agency overhead (rent, salaries, marketing) is passed on to clients."
+                },
+                {
+                    "icon": "document-text",
+                    "title": "Rigid Contracts",
+                    "description": "Standardized packages that may not fit your specific needs or budget."
+                }
+            ]
+        },
+        "cta": {
+            "text": "Ready for a better experience?",
+            "button": "Let's Talk"
+        }
+    },
+    "comparison": {
+        "title": "**Compare** Services",
+        "subtitle": "Find the right solution for your needs",
+        "headers": {
+            "feature": "Feature",
+            "webApps": "Web Apps",
+            "landingPages": "Landing Pages",
+            "automation": "Automation",
+            "socialDesign": "Social Design"
+        },
+        "rows": {
+            "timeline": {
+                "label": "Timeline",
+                "webApps": "4-16 weeks",
+                "landingPages": "1-4 weeks",
+                "automation": "1-6 weeks",
+                "socialDesign": "1-4 weeks"
+            },
+            "priceRange": {
+                "label": "Investment",
+                "webApps": "$2,000 - $8,000+",
+                "landingPages": "$800 - $3,000+",
+                "automation": "Consultation",
+                "socialDesign": "$300 - $1,200+"
+            },
+            "maintenance": {
+                "label": "Ongoing Maintenance",
+                "webApps": "Recommended",
+                "landingPages": "Optional",
+                "automation": "Recommended",
+                "socialDesign": "Not needed"
+            },
+            "complexity": {
+                "label": "Complexity",
+                "webApps": "High",
+                "landingPages": "Low-Medium",
+                "automation": "Medium-High",
+                "socialDesign": "Low"
+            },
+            "bestFor": {
+                "label": "Best For",
+                "webApps": "Custom solutions",
+                "landingPages": "Marketing & SEO",
+                "automation": "Efficiency",
+                "socialDesign": "Brand presence"
+            }
+        },
+        "cta": {
+            "notSure": "Not sure which service you need?",
+            "contact": "Let's discuss your project"
+        }
+    },
+    "process": {
+        "title": "**How I** Work",
+        "subtitle": "A structured approach to deliver quality results",
+        "steps": {
+            "discovery": {
+                "title": "Discovery",
+                "description": "Understanding your goals, audience, and requirements through in-depth consultation."
+            },
+            "planning": {
+                "title": "Planning",
+                "description": "Creating a detailed roadmap with milestones, deliverables, and timelines."
+            },
+            "design": {
+                "title": "Design",
+                "description": "Crafting wireframes and visual designs that align with your brand identity."
+            },
+            "development": {
+                "title": "Development",
+                "description": "Building your solution with clean, efficient, and well-documented code."
+            },
+            "testing": {
+                "title": "Testing",
+                "description": "Rigorous quality assurance across devices, browsers, and performance metrics."
+            },
+            "launch": {
+                "title": "Launch",
+                "description": "Deploying your project and providing training for a smooth handoff."
+            }
+        }
     }
 }

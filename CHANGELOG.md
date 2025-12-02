@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-12-02
+
+### Added - LLM-First Optimization Phase 4 (JSON-LD & Content)
+
+- **Blog Post JSON-LD**: BlogPosting schema with author, dates, and
+  BreadcrumbList for all blog posts (`BlogPostJsonLd.astro`)
+- **Project Pages JSON-LD**: Dynamic schema types based on project category -
+  SoftwareApplication (open-source), WebApplication (commercial/client),
+  CreativeWork (fallback) (`ProjectJsonLd.astro`)
+- **Goodies Pages JSON-LD**: HowTo schema for code snippets and CSS tricks with
+  BreadcrumbList (`GoodiesJsonLd.astro`)
+- **New blog post**: "Freelancer vs Agencia: cuándo tiene sentido cada opción" -
+  honest analysis of when to work with freelancers vs agencies
+
+### Technical
+
+- Complete JSON-LD infrastructure for SEO and LLM discoverability
+- Verified all schemas render correctly in production build
+- TypeScript types for all JSON-LD schemas (`src/types/jsonld.ts`)
+
+---
+
 ## [1.1.0] - 2025-12-02
 
 ### Added - LLM-First Optimization (Phase 1 & 2 Complete)

@@ -296,5 +296,145 @@
         "headerTitle": "Servicios",
         "headerDescription": "Soluciones profesionales de desarrollo web y diseño",
         "viewAll": "Ver Todos los Servicios"
+    },
+    "freelancerVsAgency": {
+        "title": "**Freelancer** vs Agencia",
+        "subtitle": "¿Por qué elegir trabajar directamente con un desarrollador?",
+        "freelancer": {
+            "title": "Trabajar Conmigo",
+            "points": [
+                {
+                    "icon": "chat-bubble",
+                    "title": "Comunicación Directa",
+                    "description": "Sin project managers ni intermediarios. Hablas directo con quien construye tu proyecto."
+                },
+                {
+                    "icon": "bolt",
+                    "title": "Entrega Más Rápida",
+                    "description": "Proceso ágil sin burocracia de agencia significa iteraciones más rápidas y entregas antes."
+                },
+                {
+                    "icon": "currency-dollar",
+                    "title": "Mejor Valor",
+                    "description": "Sin recargos de agencia. Pagas por trabajo de calidad, no por oficinas y mandos medios."
+                },
+                {
+                    "icon": "lightbulb",
+                    "title": "Enfoque Flexible",
+                    "description": "Adaptable a tus necesidades, tiempos y presupuesto. Encontramos soluciones que funcionan."
+                }
+            ]
+        },
+        "agency": {
+            "title": "Trabajar con una Agencia",
+            "points": [
+                {
+                    "icon": "users",
+                    "title": "Overhead de Equipo",
+                    "description": "Múltiples personas involucradas significa más coordinación y posibles brechas de comunicación."
+                },
+                {
+                    "icon": "clock",
+                    "title": "Tiempos Más Largos",
+                    "description": "Cadenas de aprobación, reuniones y procesos internos pueden retrasar la entrega."
+                },
+                {
+                    "icon": "building-office",
+                    "title": "Costos Más Altos",
+                    "description": "El overhead de agencia (alquiler, salarios, marketing) se traslada a los clientes."
+                },
+                {
+                    "icon": "document-text",
+                    "title": "Contratos Rígidos",
+                    "description": "Paquetes estandarizados que pueden no ajustarse a tus necesidades o presupuesto."
+                }
+            ]
+        },
+        "cta": {
+            "text": "¿Listo para una mejor experiencia?",
+            "button": "Hablemos"
+        }
+    },
+    "comparison": {
+        "title": "**Compara** Servicios",
+        "subtitle": "Encuentra la solución adecuada para tus necesidades",
+        "headers": {
+            "feature": "Característica",
+            "webApps": "Apps Web",
+            "landingPages": "Landing Pages",
+            "automation": "Automatización",
+            "socialDesign": "Diseño Social"
+        },
+        "rows": {
+            "timeline": {
+                "label": "Tiempo",
+                "webApps": "4-16 semanas",
+                "landingPages": "1-4 semanas",
+                "automation": "1-6 semanas",
+                "socialDesign": "1-4 semanas"
+            },
+            "priceRange": {
+                "label": "Inversión",
+                "webApps": "$2,000 - $8,000+",
+                "landingPages": "$800 - $3,000+",
+                "automation": "Consultar",
+                "socialDesign": "$300 - $1,200+"
+            },
+            "maintenance": {
+                "label": "Mantenimiento",
+                "webApps": "Recomendado",
+                "landingPages": "Opcional",
+                "automation": "Recomendado",
+                "socialDesign": "No necesario"
+            },
+            "complexity": {
+                "label": "Complejidad",
+                "webApps": "Alta",
+                "landingPages": "Baja-Media",
+                "automation": "Media-Alta",
+                "socialDesign": "Baja"
+            },
+            "bestFor": {
+                "label": "Ideal para",
+                "webApps": "Soluciones a medida",
+                "landingPages": "Marketing y SEO",
+                "automation": "Eficiencia",
+                "socialDesign": "Presencia de marca"
+            }
+        },
+        "cta": {
+            "notSure": "¿No estás seguro qué servicio necesitas?",
+            "contact": "Hablemos de tu proyecto"
+        }
+    },
+    "process": {
+        "title": "**Cómo** Trabajo",
+        "subtitle": "Un enfoque estructurado para entregar resultados de calidad",
+        "steps": {
+            "discovery": {
+                "title": "Descubrimiento",
+                "description": "Entendiendo tus objetivos, audiencia y requerimientos a través de una consulta en profundidad."
+            },
+            "planning": {
+                "title": "Planificación",
+                "description": "Creando una hoja de ruta detallada con hitos, entregables y plazos."
+            },
+            "design": {
+                "title": "Diseño",
+                "description": "Elaborando wireframes y diseños visuales alineados con tu identidad de marca."
+            },
+            "development": {
+                "title": "Desarrollo",
+                "description": "Construyendo tu solución con código limpio, eficiente y bien documentado."
+            },
+            "testing": {
+                "title": "Testing",
+                "description": "Control de calidad riguroso en dispositivos, navegadores y métricas de rendimiento."
+            },
+            "launch": {
+                "title": "Lanzamiento",
+                "description": "Desplegando tu proyecto y brindando capacitación para una transición fluida."
+            }
+        }
     }
 }

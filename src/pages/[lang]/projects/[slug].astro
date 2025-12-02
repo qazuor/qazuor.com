@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import type { ImageMetadata } from 'astro';
 import { ProjectGallery } from '@/components/sections/ProjectGallery';
+import ProjectJsonLd from '@/components/seo/ProjectJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import Badge from '@/components/ui/Badge.astro';
 import IconLink from '@/components/ui/IconLink.astro';
@@ -82,11 +83,39 @@ const formattedDate = new Intl.DateTimeFormat(lang, {
     month: 'long',
     day: 'numeric'
 }).format(project.data.publishDate);
+
+// JSON-LD data
+const SITE_URL = 'https://qazuor.com';
+const projectUrl = `${SITE_URL}/${lang}/projects/${getProjectSlug(project)}`;
+
+// Get first image URL for JSON-LD
+const projectImageUrl =
+    processedImages && processedImages.length > 0
+        ? processedImages[0].src.startsWith('http')
+            ? processedImages[0].src
+            : `${SITE_URL}${processedImages[0].src}`
+        : undefined;
 ---
 
 <BaseLayout title={pageTitle} description={project.data.description}>
 	<!-- Meta tag for page transition title -->
 	<meta slot="head" name="transition-title" content={transitionTitle} />
+
+	<!-- Project JSON-LD Structured Data -->
+	<ProjectJsonLd
+		slot="head"
+		lang={lang}
+		name={project.data.title}
+		description={project.data.description}
+		url={projectUrl}
+		image={projectImageUrl}
+		datePublished={project.data.publishDate}
+		technologies={project.data.technologies}
+		githubUrl={project.data.githubUrl}
+		demoUrl={project.data.demoUrl}
+		publicUrl={project.data.publicUrl}
+		category={project.data.category}
+	/>
 
 	<section
 		class="relative min-h-screen overflow-hidden"

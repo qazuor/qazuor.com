@@ -1,0 +1,119 @@
+---
+/**
+ * ServiceJsonLd Component
+ * Renders structured data for individual service pages
+ *
+ * Includes:
+ * - Service schema with provider info
+ * - FAQPage schema if FAQs are provided
+ * - BreadcrumbList for navigation
+ *
+ * @example
+ * <ServiceJsonLd
+ *   lang="en"
+ *   serviceName="Web Application Development"
+ *   serviceDescription="Custom web applications built with modern technologies"
+ *   serviceType="Web Development"
+ *   serviceUrl="https://qazuor.com/en/services/web-apps"
+ *   priceRange="$2000-$8000"
+ *   faqs={[{ question: "How long...", answer: "Typically 4-8 weeks..." }]}
+ *   breadcrumbs={[{ name: "Home", url: "/" }, { name: "Services", url: "/services" }]}
+ * />
+ */
+import type { BreadcrumbListSchema, FAQPageSchema, ServiceSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface FAQ {
+    question: string;
+    answer: string;
+}
+
+interface BreadcrumbItem {
+    name: string;
+    url?: string;
+}
+
+interface Props {
+    lang: string;
+    serviceName: string;
+    serviceDescription: string;
+    serviceType: string;
+    serviceUrl: string;
+    priceRange?: string;
+    faqs?: FAQ[];
+    breadcrumbs?: BreadcrumbItem[];
+}
+
+const {
+    lang,
+    serviceName,
+    serviceDescription,
+    serviceType,
+    serviceUrl,
+    priceRange,
+    faqs = [],
+    breadcrumbs = []
+} = Astro.props;
+
+const SITE_URL = 'https://qazuor.com';
+
+// Build Service schema
+const serviceSchema: ServiceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: serviceName,
+    description: serviceDescription,
+    serviceType: serviceType,
+    url: serviceUrl,
+    provider: {
+        '@type': 'Person',
+        name: 'Julian Cataldo'
+    },
+    areaServed: ['Worldwide', 'Remote'],
+    ...(priceRange && {
+        offers: {
+            '@type': 'Offer',
+            priceRange: priceRange,
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock'
+        }
+    })
+};
+
+// Build FAQ schema if FAQs provided
+const faqSchema: FAQPageSchema | null =
+    faqs.length > 0
+        ? {
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqs.map((faq) => ({
+                  '@type': 'Question',
+                  name: faq.question,
+                  acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: faq.answer
+                  }
+              }))
+          }
+        : null;
+
+// Build Breadcrumb schema if provided
+const breadcrumbSchema: BreadcrumbListSchema | null =
+    breadcrumbs.length > 0
+        ? {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: breadcrumbs.map((item, index) => ({
+                  '@type': 'ListItem',
+                  position: index + 1,
+                  name: item.name,
+                  ...(item.url && { item: `${SITE_URL}/${lang}${item.url}` })
+              }))
+          }
+        : null;
+
+// Combine all schemas
+const schemas = [serviceSchema, ...(faqSchema ? [faqSchema] : []), ...(breadcrumbSchema ? [breadcrumbSchema] : [])];
+---
+
+<JsonLd schema={schemas} />

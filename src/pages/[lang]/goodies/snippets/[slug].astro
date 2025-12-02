@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import { Comments } from '@/components/blog/Comments';
 import { ShareButton } from '@/components/blog/ShareButton';
+import GoodiesJsonLd from '@/components/seo/GoodiesJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import { sectionsColors } from '@/data/colors';
@@ -43,9 +44,23 @@ const title = snippet.data.title;
 const description = snippet.data.description;
 const snippetsUrl = translatePath('/goodies/snippets', lang);
 const canonicalUrl = Astro.url.href;
+
+// JSON-LD data
+const SITE_URL = 'https://qazuor.com';
+const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${snippet.slug}`;
 ---
 
 <BaseLayout title={title} description={description}>
+    <!-- Snippet JSON-LD Structured Data -->
+    <GoodiesJsonLd
+        slot="head"
+        lang={lang}
+        name={title}
+        description={description}
+        url={snippetUrl}
+        category="snippets"
+        language={snippet.data.language}
+    />
     <div class="relative section overflow-hidden pt-32 pb-20" style={`background-color: ${sectionsColors.goodies}`}>
         <AnimatedGradientBackground />
 

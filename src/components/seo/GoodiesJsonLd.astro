@@ -1,0 +1,95 @@
+---
+/**
+ * GoodiesJsonLd Component
+ * Renders structured data for goodies pages (snippets, css-tricks)
+ *
+ * Uses HowTo schema which is ideal for code snippets and tutorials
+ *
+ * @example
+ * <GoodiesJsonLd
+ *   lang="en"
+ *   name="Debounce Function"
+ *   description="A reusable debounce utility"
+ *   url="https://qazuor.com/en/goodies/snippets/debounce"
+ *   category="snippets"
+ *   language="TypeScript"
+ * />
+ */
+import type { BreadcrumbListSchema, HowToSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+    lang: string;
+    name: string;
+    description: string;
+    url: string;
+    category: 'snippets' | 'css-tricks';
+    language?: string;
+}
+
+const { lang, name, description, url, category, language } = Astro.props;
+
+const SITE_URL = 'https://qazuor.com';
+
+// Category translations for breadcrumbs
+const categoryTranslations: Record<string, Record<string, string>> = {
+    snippets: { en: 'Snippets', es: 'Snippets' },
+    'css-tricks': { en: 'CSS Tricks', es: 'Trucos CSS' }
+};
+
+const categoryLabel = categoryTranslations[category]?.[lang] || category;
+const goodiesLabel = lang === 'es' ? 'Goodies' : 'Goodies';
+
+// Build HowTo schema (suitable for code snippets and tutorials)
+const howToSchema: HowToSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: name,
+    description: description,
+    step: [
+        {
+            '@type': 'HowToStep',
+            position: 1,
+            name: language ? `Copy the ${language} code` : 'Copy the code',
+            text: description,
+            url: url
+        }
+    ]
+};
+
+// Build Breadcrumb schema
+const breadcrumbSchema: BreadcrumbListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        {
+            '@type': 'ListItem',
+            position: 1,
+            name: lang === 'es' ? 'Inicio' : 'Home',
+            item: `${SITE_URL}/${lang}`
+        },
+        {
+            '@type': 'ListItem',
+            position: 2,
+            name: goodiesLabel,
+            item: `${SITE_URL}/${lang}/goodies`
+        },
+        {
+            '@type': 'ListItem',
+            position: 3,
+            name: categoryLabel,
+            item: `${SITE_URL}/${lang}/goodies/${category}`
+        },
+        {
+            '@type': 'ListItem',
+            position: 4,
+            name: name
+        }
+    ]
+};
+
+// Combine all schemas
+const schemas = [howToSchema, breadcrumbSchema];
+---
+
+<JsonLd schema={schemas} />

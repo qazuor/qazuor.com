@@ -1,4 +1,7 @@
 ---
+import ComparisonSection from '@/components/sections/ComparisonSection.astro';
+import FreelancerVsAgencySection from '@/components/sections/FreelancerVsAgencySection.astro';
+import ProcessSection from '@/components/sections/ProcessSection.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import PixelCanvas from '@/components/ui/PixelCanvas.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
@@ -140,6 +143,152 @@ const ctaTranslations = {
     consultation: t('services.cta.consultation', { markdown: true })
 };
 
+// Freelancer vs Agency Section Translations
+const freelancerVsAgencyTranslations = {
+    title: t('services.freelancerVsAgency.title', { markdown: true }),
+    subtitle: t('services.freelancerVsAgency.subtitle', { markdown: true }),
+    freelancer: {
+        title: t('services.freelancerVsAgency.freelancer.title'),
+        points: [
+            {
+                icon: 'chat-bubble',
+                title: t('services.freelancerVsAgency.freelancer.points.0.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.0.description')
+            },
+            {
+                icon: 'bolt',
+                title: t('services.freelancerVsAgency.freelancer.points.1.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.1.description')
+            },
+            {
+                icon: 'currency-dollar',
+                title: t('services.freelancerVsAgency.freelancer.points.2.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.2.description')
+            },
+            {
+                icon: 'lightbulb',
+                title: t('services.freelancerVsAgency.freelancer.points.3.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.3.description')
+            }
+        ]
+    },
+    agency: {
+        title: t('services.freelancerVsAgency.agency.title'),
+        points: [
+            {
+                icon: 'users',
+                title: t('services.freelancerVsAgency.agency.points.0.title'),
+                description: t('services.freelancerVsAgency.agency.points.0.description')
+            },
+            {
+                icon: 'clock',
+                title: t('services.freelancerVsAgency.agency.points.1.title'),
+                description: t('services.freelancerVsAgency.agency.points.1.description')
+            },
+            {
+                icon: 'building-office',
+                title: t('services.freelancerVsAgency.agency.points.2.title'),
+                description: t('services.freelancerVsAgency.agency.points.2.description')
+            },
+            {
+                icon: 'document-text',
+                title: t('services.freelancerVsAgency.agency.points.3.title'),
+                description: t('services.freelancerVsAgency.agency.points.3.description')
+            }
+        ]
+    },
+    cta: {
+        text: t('services.freelancerVsAgency.cta.text'),
+        button: t('services.freelancerVsAgency.cta.button')
+    }
+};
+
+// Comparison Section Translations
+const comparisonTranslations = {
+    title: t('services.comparison.title', { markdown: true }),
+    subtitle: t('services.comparison.subtitle', { markdown: true }),
+    headers: {
+        feature: t('services.comparison.headers.feature'),
+        webApps: t('services.comparison.headers.webApps'),
+        landingPages: t('services.comparison.headers.landingPages'),
+        automation: t('services.comparison.headers.automation'),
+        socialDesign: t('services.comparison.headers.socialDesign')
+    },
+    rows: {
+        timeline: {
+            label: t('services.comparison.rows.timeline.label'),
+            webApps: t('services.comparison.rows.timeline.webApps'),
+            landingPages: t('services.comparison.rows.timeline.landingPages'),
+            automation: t('services.comparison.rows.timeline.automation'),
+            socialDesign: t('services.comparison.rows.timeline.socialDesign')
+        },
+        priceRange: {
+            label: t('services.comparison.rows.priceRange.label'),
+            webApps: t('services.comparison.rows.priceRange.webApps'),
+            landingPages: t('services.comparison.rows.priceRange.landingPages'),
+            automation: t('services.comparison.rows.priceRange.automation'),
+            socialDesign: t('services.comparison.rows.priceRange.socialDesign')
+        },
+        maintenance: {
+            label: t('services.comparison.rows.maintenance.label'),
+            webApps: t('services.comparison.rows.maintenance.webApps'),
+            landingPages: t('services.comparison.rows.maintenance.landingPages'),
+            automation: t('services.comparison.rows.maintenance.automation'),
+            socialDesign: t('services.comparison.rows.maintenance.socialDesign')
+        },
+        complexity: {
+            label: t('services.comparison.rows.complexity.label'),
+            webApps: t('services.comparison.rows.complexity.webApps'),
+            landingPages: t('services.comparison.rows.complexity.landingPages'),
+            automation: t('services.comparison.rows.complexity.automation'),
+            socialDesign: t('services.comparison.rows.complexity.socialDesign')
+        },
+        bestFor: {
+            label: t('services.comparison.rows.bestFor.label'),
+            webApps: t('services.comparison.rows.bestFor.webApps'),
+            landingPages: t('services.comparison.rows.bestFor.landingPages'),
+            automation: t('services.comparison.rows.bestFor.automation'),
+            socialDesign: t('services.comparison.rows.bestFor.socialDesign')
+        }
+    },
+    cta: {
+        notSure: t('services.comparison.cta.notSure'),
+        contact: t('services.comparison.cta.contact')
+    }
+};
+
+// Process Section Translations
+const processTranslations = {
+    title: t('services.process.title', { markdown: true }),
+    subtitle: t('services.process.subtitle', { markdown: true }),
+    steps: {
+        discovery: {
+            title: t('services.process.steps.discovery.title'),
+            description: t('services.process.steps.discovery.description')
+        },
+        planning: {
+            title: t('services.process.steps.planning.title'),
+            description: t('services.process.steps.planning.description')
+        },
+        design: {
+            title: t('services.process.steps.design.title'),
+            description: t('services.process.steps.design.description')
+        },
+        development: {
+            title: t('services.process.steps.development.title'),
+            description: t('services.process.steps.development.description')
+        },
+        testing: {
+            title: t('services.process.steps.testing.title'),
+            description: t('services.process.steps.testing.description')
+        },
+        launch: {
+            title: t('services.process.steps.launch.title'),
+            description: t('services.process.steps.launch.description')
+        }
+    }
+};
+
 // Page Description (processed for markdown and line breaks)
 const servicesPageDescription = processMarkdown(t('services.pageDescription'));
 ---
@@ -166,7 +315,7 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
             <div class="mt-8 mb-12 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={servicesPageDescription} />
 
             <!-- Services Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {services.map((service) => {
                     const serviceTranslation = serviceTranslations[service.id];
                     const pixelConfig = pixelColors[service.id];
@@ -269,6 +418,15 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
                     );
                 })}
             </div>
+
+            <!-- Process Section - How I Work -->
+            <ProcessSection translations={processTranslations} />
+
+            <!-- Comparison Section -->
+            <ComparisonSection lang={lang} translations={comparisonTranslations} />
+
+            <!-- Freelancer vs Agency Section -->
+            <FreelancerVsAgencySection lang={lang} translations={freelancerVsAgencyTranslations} />
 
             <!-- Call to Action Section -->
             <div class="text-center bg-foreground/5 backdrop-blur-sm rounded-2xl p-8 border border-foreground/10">

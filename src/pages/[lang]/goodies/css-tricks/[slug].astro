@@ -129,7 +129,7 @@ const canonicalUrl = Astro.url.href;
 
             <!-- Share section -->
             <div class="mt-16 pt-8 border-t border-foreground/10">
-                <h3 class="text-lg font-semibold mb-6 text-center">{t('blog.sharePost')}</h3>
+                <h3 class="text-lg font-semibold mb-6 text-center">{t('social.share.titleCssTrick')}</h3>
                 <ShareButton
                     title={title}
                     description={description}
@@ -142,7 +142,7 @@ const canonicalUrl = Astro.url.href;
 
             <!-- Comments section -->
             <div class="mt-16 pt-8 border-t border-foreground/10">
-                <h3 class="text-lg font-semibold mb-6">{t('blog.comments')}</h3>
+                <h3 class="text-lg font-semibold mb-6">{t('social.comments.title')}</h3>
                 <Comments lang={lang as Locale} client:idle />
             </div>
         </article>

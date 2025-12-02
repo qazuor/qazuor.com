@@ -320,6 +320,10 @@
         "upwork": "Upwork",
         "followMe": "Sígueme en",
         "share": {
+            "title": "Comparte este artículo",
+            "titleSnippet": "Comparte este snippet",
+            "titleCssTrick": "Comparte este CSS trick",
+            "description": "Si te resultó útil, compártelo con tu red",
             "button": "Compartir",
             "copyLink": "Copiar enlace",
             "copied": "¡Copiado!",

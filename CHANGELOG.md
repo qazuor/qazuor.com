@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-12-02
+
+### Added
+
+- **Dynamic OG image generation**: Auto-generated Open Graph images at build
+  time using Satori + Resvg for social media previews (WhatsApp, Twitter, etc.)
+- **OG endpoints for all pages**: Home, blog posts, projects, services, and all
+  goodies sections (css-tricks, snippets, tools, useful-links)
+- **Branded OG design**: Consistent layout with photo, bottom bar branding, type
+  badges, and tag pills
+- **Word-boundary truncation**: Text truncation respects word boundaries to
+  avoid mid-word cuts
+
+### Changed
+
+- **SEO component**: Dynamic OG image path generation based on current URL
+  pattern (`/[lang]/path/og.png`)
+- **Site URL**: Updated from example.com to qazuor.com in Astro config
+
+### Technical
+
+- Satori library for JSX-to-SVG conversion with Google Fonts (Inter woff)
+- @resvg/resvg-js for SVG-to-PNG conversion
+- Base64 photo embedding for Satori compatibility
+- Static generation via Astro endpoints with `getStaticPaths()`
+
 ## [1.0.2] - 2025-12-01
 
 ### Added

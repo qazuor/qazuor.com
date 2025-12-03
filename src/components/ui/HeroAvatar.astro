@@ -66,16 +66,96 @@ const imageAlt = altText || `${name} - Full-Stack Developer`;
         @apply hidden lg:block;
     }
 
-    /* Mobile avatar - hidden on desktop, larger and responsive */
+    /* Mobile avatar - hidden on desktop, responsive to viewport */
     .mobile-avatar {
         @apply block lg:hidden;
-        width: clamp(320px, 60vw, 420px); /* Responsive width between 320px and 420px */
-        max-width: 100%;
+        width: clamp(280px, 55vw, 400px);
+        max-width: 90vw;
+    }
+
+    /* Medium mobile screens (most phones in portrait) */
+    @media (min-width: 390px) and (max-width: 767px) {
+        .mobile-avatar {
+            width: clamp(300px, 60vw, 420px);
+        }
+    }
+
+    /* Small mobile screens (iPhone SE, small Android) */
+    @media (max-width: 389px) {
+        .mobile-avatar {
+            width: clamp(240px, 70vw, 320px);
+        }
+    }
+
+    /* Extra small screens (320px and below) */
+    @media (max-width: 359px) {
+        .mobile-avatar {
+            width: clamp(200px, 75vw, 280px);
+        }
+    }
+
+    /* Tablet portrait (sm to md breakpoint) */
+    @media (min-width: 640px) and (max-width: 1023px) {
+        .mobile-avatar {
+            width: clamp(350px, 45vw, 500px);
+        }
+    }
+
+    /* Very short screens - landscape phones */
+    @media (max-height: 500px) and (max-width: 1023px) {
+        .mobile-avatar {
+            width: clamp(180px, 35vw, 260px);
+        }
+    }
+
+    /* Short screens - landscape tablets or short phones */
+    @media (min-height: 501px) and (max-height: 650px) and (max-width: 1023px) {
+        .mobile-avatar {
+            width: clamp(220px, 40vw, 300px);
+        }
+    }
+
+    /* Medium height screens */
+    @media (min-height: 651px) and (max-height: 750px) and (max-width: 1023px) {
+        .mobile-avatar {
+            width: clamp(260px, 50vw, 360px);
+        }
+    }
+
+    /* Tall screens (modern phones) */
+    @media (min-height: 751px) and (max-width: 1023px) {
+        .mobile-avatar {
+            width: clamp(300px, 55vw, 420px);
+        }
     }
 
     .mobile-avatar .shadow-circle {
-        width: clamp(400px, 70vw, 500px) !important; /* Responsive circle */
-        height: clamp(400px, 70vw, 500px) !important;
+        width: clamp(350px, 65vw, 500px) !important;
+        height: clamp(350px, 65vw, 500px) !important;
+    }
+
+    /* Shadow circle for small screens */
+    @media (max-width: 389px) {
+        .mobile-avatar .shadow-circle {
+            width: clamp(280px, 80vw, 380px) !important;
+            height: clamp(280px, 80vw, 380px) !important;
+        }
+    }
+
+    /* Shadow circle for short screens */
+    @media (max-height: 650px) and (max-width: 1023px) {
+        .mobile-avatar .shadow-circle {
+            width: clamp(220px, 45vw, 320px) !important;
+            height: clamp(220px, 45vw, 320px) !important;
+        }
+    }
+
+    /* Shadow circle for tablets */
+    @media (min-width: 640px) and (max-width: 1023px) {
+        .mobile-avatar .shadow-circle {
+            width: clamp(420px, 50vw, 600px) !important;
+            height: clamp(420px, 50vw, 600px) !important;
+        }
     }
 
     .shadow-circle {

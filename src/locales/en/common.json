@@ -27,7 +27,7 @@
             "iBuildText": "I build",
             "viewProjects": "View Projects",
             "getInTouch": "Get in Touch",
-            "downloadResume": "Download Resume",
+            "downloadResume": "Resume",
             "scroll": "Scroll"
         },
         "iBuild": {
@@ -65,9 +65,17 @@
         "trustBadges": {
             "ariaLabel": "Trust indicators",
             "experience": "20+ Years Experience",
-            "remote": "Remote Worldwide",
-            "performance": "Lighthouse 95+",
-            "bilingual": "EN/ES Bilingual"
+            "leadership": "Technical Leadership (Principal Engineer)",
+            "performance": "Performance First: Lighthouse 90+",
+            "pixelPerfect": "Pixel-Perfect UI + Clean Architecture",
+            "modernStack": "Modern Stack: React, Astro, TypeScript",
+            "mobileFirst": "Mobile-First by Design",
+            "remote": "Remote Worldwide - GMT-3 Flexible",
+            "seoAi": "SEO, A11y & AI-Ready (SGE + LLM)",
+            "aiOptimized": "AI-Optimized Content & Integrations",
+            "codeOwnership": "Code Ownership Included",
+            "responseTime": "<24h Response Time",
+            "openForWork": "Open for Work"
         },
         "stats": {
             "years": {

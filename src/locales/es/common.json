@@ -27,7 +27,7 @@
             "iBuildText": "Construyo",
             "viewProjects": "Ver Proyectos",
             "getInTouch": "Contactar",
-            "downloadResume": "Descargar CV",
+            "downloadResume": "CV",
             "scroll": "Desplazar"
         },
         "iBuild": {
@@ -64,10 +64,18 @@
         },
         "trustBadges": {
             "ariaLabel": "Indicadores de confianza",
-            "experience": "+20 Años Experiencia",
-            "remote": "Remoto Mundial",
-            "performance": "Lighthouse 95+",
-            "bilingual": "Bilingüe EN/ES"
+            "experience": "+20 Años de Experiencia",
+            "leadership": "Liderazgo Técnico (Principal Engineer)",
+            "performance": "Performance First: Lighthouse 90+",
+            "pixelPerfect": "UI Pixel-Perfect + Arquitectura Limpia",
+            "modernStack": "Stack Moderno: React, Astro, TypeScript",
+            "mobileFirst": "Mobile-First por Diseño",
+            "remote": "Remoto Mundial - GMT-3 Flexible",
+            "seoAi": "SEO, A11y & AI-Ready (SGE + LLM)",
+            "aiOptimized": "Contenido e Integraciones AI",
+            "codeOwnership": "Código Propio Incluido",
+            "responseTime": "Respuesta <24h",
+            "openForWork": "Disponible para Proyectos"
         },
         "stats": {
             "years": {

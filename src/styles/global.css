@@ -385,6 +385,16 @@
     }
 }
 
+/* Expressive-code appearance*/
+.content-prose .expressive-code {
+    padding-bottom: 2.5em;
+}
+
+.content-prose p code {
+    margin: 0 5px;
+    color: #ffffff;
+}
+
 /* Mermaid Diagram Styles - Match expressive-code appearance */
 .mermaid-diagram {
     /* Match expressive-code container */

@@ -4,7 +4,7 @@ import GetInTouchLink from '@/components/ui/GetInTouchLink.astro';
 import HeroAvatar from '@/components/ui/HeroAvatar.astro';
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
-import TrustBadges, { type TrustBadge } from '@/components/ui/TrustBadges.astro';
+import TrustBadgesMarquee, { type TrustBadge } from '@/components/ui/TrustBadgesMarquee.astro';
 import { TypeItText } from '@/components/ui/TypeItText';
 import ViewProjectsLink from '@/components/ui/ViewProjectsLink.astro';
 
@@ -73,12 +73,12 @@ const {
 <section
     class="relative flex lg:items-center justify-center overflow-hidden hero-section pt-4 lg:pt-0"
     id="hero"
-    style={`background-color: ${primaryColor}; min-height: calc(100vh - 60px);`}
+    style={`background-color: ${primaryColor}; min-height: calc(100svh - 60px);`}
 >
     <div class="container-custom overflow-x-visible h-full">
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 lg:items-start h-full lg:pt-20">
+        <div class="grid lg:grid-cols-2 gap-4 lg:gap-12 lg:items-start h-full lg:pt-20">
             <!-- Text Content -->
-            <div class="space-y-1 lg:space-y-6 overflow-visible pt-2 pb-72 lg:pt-0 lg:pb-0 relative z-30">
+            <div class="space-y-1 lg:space-y-6 overflow-visible pt-2 pb-[45vh] sm:pb-[50vh] lg:pt-0 lg:pb-0 relative z-30">
                 <!-- Hero Title -->
                 <h1 class="hero-element text-3xl md:text-5xl lg:text-7xl font-black tracking-tight pb-0 lg:pb-5">
                     <span class="gradient-text-hero">{name}</span>
@@ -94,12 +94,17 @@ const {
 
                 <!-- Subtitle -->
                 <p
-                    class="hero-element text-sm md:text-base lg:text-lg text-foreground-secondary max-w-2xl text-balance pb-4 lg:pb-2"
+                    class="hero-element text-sm md:text-base lg:text-lg text-foreground-secondary max-w-2xl text-balance pb-3 lg:pb-2"
                     set:html={subtitle}
                 />
 
+                <!-- Trust Badges Marquee -->
+                {trustBadges.length > 0 && (
+                    <TrustBadgesMarquee badges={trustBadges} className="hero-element" duration={3} />
+                )}
+
                 <!-- CTA Buttons -->
-                <nav class="hero-element flex flex-wrap gap-2 lg:gap-4" aria-label="Primary actions">
+                <nav class="hero-element flex flex-wrap gap-2 lg:gap-4 pt-3" aria-label="Primary actions">
                     <ViewProjectsLink
                         text={translations.viewProjects}
                         size="sm"
@@ -122,11 +127,6 @@ const {
 
                 <!-- Social Links -->
                 <SocialLinks ariaLabels={ariaLabels} className="hero-element" />
-
-                <!-- Trust Badges -->
-                {trustBadges.length > 0 && (
-                    <TrustBadges badges={trustBadges} className="hero-element pt-2" />
-                )}
 
                 <!-- Scroll Indicator (only visible on desktop in flow) -->
                 <ScrollIndicator text={translations.scroll} variant="desktop" className="hero-element hidden lg:block" />

@@ -1,0 +1,187 @@
+---
+/**
+ * TrustBadgesMarquee Component
+ *
+ * Displays trust indicators with vertical slide animation.
+ * Shows one badge at a time with smooth slide-up transitions.
+ * All badges remain in DOM for SEO/LLM visibility.
+ *
+ * @example
+ * <TrustBadgesMarquee
+ *   badges={[
+ *     { icon: 'clock', text: '20+ Years Experience' },
+ *     { icon: 'globe', text: 'Remote Worldwide' }
+ *   ]}
+ * />
+ */
+
+import BriefcaseIcon from '@/icons/ui/briefcase.svg?raw';
+import CheckIcon from '@/icons/ui/check.svg?raw';
+import ClockIcon from '@/icons/ui/clock.svg?raw';
+import CodeIcon from '@/icons/ui/code.svg?raw';
+import GlobeIcon from '@/icons/ui/globe.svg?raw';
+import LayoutIcon from '@/icons/ui/layout.svg?raw';
+import MessageIcon from '@/icons/ui/message.svg?raw';
+import RocketIcon from '@/icons/ui/rocket-launch.svg?raw';
+import SearchIcon from '@/icons/ui/search.svg?raw';
+import SmartphoneIcon from '@/icons/ui/smartphone.svg?raw';
+import SparklesIcon from '@/icons/ui/sparkles.svg?raw';
+import StarIcon from '@/icons/ui/star.svg?raw';
+import UsersIcon from '@/icons/ui/users.svg?raw';
+import ZapIcon from '@/icons/ui/zap.svg?raw';
+
+// biome-ignore format: esbuild can't parse multiline union types in .astro files
+export type TrustBadgeIcon = 'clock' | 'globe' | 'zap' | 'star' | 'users' | 'code' | 'smartphone' | 'search' | 'sparkles' | 'check' | 'message' | 'layout' | 'briefcase' | 'rocket';
+
+export interface TrustBadge {
+    /** Icon name */
+    icon: TrustBadgeIcon;
+    /** Badge text */
+    text: string;
+}
+
+interface Props {
+    /** Array of badges to display */
+    badges: TrustBadge[];
+    /** Additional CSS classes */
+    className?: string;
+    /** Duration each badge is shown (in seconds) */
+    duration?: number;
+}
+
+const { badges, className = '', duration = 3 } = Astro.props;
+
+const iconMap: Record<TrustBadgeIcon, string> = {
+    clock: ClockIcon,
+    globe: GlobeIcon,
+    zap: ZapIcon,
+    star: StarIcon,
+    users: UsersIcon,
+    code: CodeIcon,
+    smartphone: SmartphoneIcon,
+    search: SearchIcon,
+    sparkles: SparklesIcon,
+    check: CheckIcon,
+    message: MessageIcon,
+    layout: LayoutIcon,
+    briefcase: BriefcaseIcon,
+    rocket: RocketIcon
+};
+
+const totalDuration = badges.length * duration;
+---
+
+<div
+    class:list={['trust-marquee-container relative overflow-hidden', className]}
+    role="list"
+    aria-label="Trust indicators"
+    data-duration={duration}
+>
+    <div class="trust-marquee-track">
+        {
+            badges.map((badge, index) => (
+                <div
+                    class:list={[
+                        'trust-marquee-item flex items-center justify-start gap-2 text-foreground-muted text-xs lg:text-sm',
+                        index === 0 ? 'active' : ''
+                    ]}
+                    role="listitem"
+                    data-index={index}
+                >
+                    <span
+                        class="trust-badge-icon w-3.5 h-3.5 lg:w-4 lg:h-4 opacity-70 flex-shrink-0 [&>svg]:w-full [&>svg]:h-full"
+                        aria-hidden="true"
+                        set:html={iconMap[badge.icon]}
+                    />
+                    <span class="whitespace-nowrap">{badge.text}</span>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<style>
+    .trust-marquee-container {
+        height: 24px;
+    }
+
+    @media (min-width: 1024px) {
+        .trust-marquee-container {
+            height: 28px;
+        }
+    }
+
+    .trust-marquee-track {
+        position: relative;
+        height: 100%;
+    }
+
+    .trust-marquee-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+
+    .trust-marquee-item.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .trust-marquee-item.exiting {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .trust-marquee-item {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    function initMarquee() {
+        const containers = document.querySelectorAll<HTMLElement>('.trust-marquee-container');
+
+        containers.forEach(container => {
+            const items = container.querySelectorAll('.trust-marquee-item');
+            if (items.length === 0) return;
+
+            const duration = parseInt(container.dataset.duration || '3', 10) * 1000;
+            let currentIndex = 0;
+
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+
+            setInterval(() => {
+                const currentItem = items[currentIndex];
+                const nextIndex = (currentIndex + 1) % items.length;
+                const nextItem = items[nextIndex];
+
+                // Exit current
+                currentItem.classList.remove('active');
+                currentItem.classList.add('exiting');
+
+                // Enter next
+                nextItem.classList.add('active');
+
+                // Clean up exiting class after animation
+                setTimeout(() => {
+                    currentItem.classList.remove('exiting');
+                }, 400);
+
+                currentIndex = nextIndex;
+            }, duration);
+        });
+    }
+
+    // Run on page load and view transitions
+    initMarquee();
+    document.addEventListener('astro:page-load', initMarquee);
+</script>

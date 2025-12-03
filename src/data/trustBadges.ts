@@ -5,7 +5,21 @@
  * These badges help establish trust and are optimized for LLM citations.
  */
 
-export type TrustBadgeIcon = 'clock' | 'globe' | 'zap' | 'star';
+export type TrustBadgeIcon =
+    | 'clock'
+    | 'globe'
+    | 'zap'
+    | 'star'
+    | 'users'
+    | 'code'
+    | 'smartphone'
+    | 'search'
+    | 'sparkles'
+    | 'check'
+    | 'message'
+    | 'layout'
+    | 'briefcase'
+    | 'rocket';
 
 export interface TrustBadgeConfig {
     /** Icon identifier */
@@ -20,7 +34,15 @@ export interface TrustBadgeConfig {
  */
 export const trustBadges: TrustBadgeConfig[] = [
     { icon: 'clock', translationKey: 'experience' },
-    { icon: 'globe', translationKey: 'remote' },
+    { icon: 'users', translationKey: 'leadership' },
     { icon: 'zap', translationKey: 'performance' },
-    { icon: 'star', translationKey: 'bilingual' }
+    { icon: 'layout', translationKey: 'pixelPerfect' },
+    { icon: 'code', translationKey: 'modernStack' },
+    { icon: 'smartphone', translationKey: 'mobileFirst' },
+    { icon: 'globe', translationKey: 'remote' },
+    { icon: 'search', translationKey: 'seoAi' },
+    { icon: 'sparkles', translationKey: 'aiOptimized' },
+    { icon: 'check', translationKey: 'codeOwnership' },
+    { icon: 'message', translationKey: 'responseTime' },
+    { icon: 'briefcase', translationKey: 'openForWork' }
 ];

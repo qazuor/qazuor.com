@@ -12,6 +12,7 @@ interface ServicesDropdownProps {
         automation: string;
         socialDesign: string;
         webOptimization: string;
+        wordpress: string;
         headerTitle?: string;
         headerDescription?: string;
         viewAllLabel?: string;
@@ -34,7 +35,8 @@ export function ServicesDropdown({
         'landing-pages': translations.landingPages,
         'automation-integration': translations.automation,
         'social-media-design': translations.socialDesign,
-        'web-optimization': translations.webOptimization
+        'web-optimization': translations.webOptimization,
+        wordpress: translations.wordpress
     };
 
     // Build dropdown items (without "All Services" - it goes in viewAllLink)

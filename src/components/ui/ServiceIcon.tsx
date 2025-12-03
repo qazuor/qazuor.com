@@ -1,13 +1,20 @@
-import { Gauge, type LucideIcon, Monitor, Palette, Rocket, Zap } from 'lucide-react';
+import { Gauge, Globe, type LucideIcon, Monitor, Palette, Rocket, Zap } from 'lucide-react';
 
-export type ServiceIconName = 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization';
+export type ServiceIconName =
+    | 'web-apps'
+    | 'landing-pages'
+    | 'automation'
+    | 'social-design'
+    | 'web-optimization'
+    | 'wordpress';
 
 const iconMap: Record<ServiceIconName, LucideIcon> = {
     'web-apps': Monitor,
     'landing-pages': Rocket,
     automation: Zap,
     'social-design': Palette,
-    'web-optimization': Gauge
+    'web-optimization': Gauge,
+    wordpress: Globe
 };
 
 interface ServiceIconProps {

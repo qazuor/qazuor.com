@@ -228,6 +228,9 @@
             "automation": "Automation & Integrations",
             "seoOptimization": "SEO Optimization",
             "performanceOptimization": "Performance Optimization",
+            "wordpressTheme": "WordPress Theme",
+            "wordpressPlugin": "WordPress Plugin",
+            "wordpressMigration": "WordPress Migration",
             "remote": "Remote Work",
             "fulltime": "Full-time Employee",
             "contractor": "Contractor"
@@ -449,6 +452,16 @@
                 "title": "**Social Media** Design",
                 "description": "Visual content and brand assets for social platforms.",
                 "features": ["Social templates", "Brand identity", "Platform-optimized", "Editable formats"]
+            },
+            "webOptimization": {
+                "title": "**Web** Optimization",
+                "description": "Speed up your website and improve search rankings.",
+                "features": ["Performance audit", "SEO optimization", "Core Web Vitals", "Image optimization"]
+            },
+            "wordpress": {
+                "title": "**WordPress** Solutions",
+                "description": "Custom WordPress sites with themes and plugins tailored to your needs.",
+                "features": ["Theme development", "Plugin creation", "WooCommerce", "Migration & support"]
             }
         }
     },

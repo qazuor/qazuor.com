@@ -62,6 +62,9 @@ interface ContactProps {
             automation: string;
             seoOptimization: string;
             performanceOptimization: string;
+            wordpressTheme: string;
+            wordpressPlugin: string;
+            wordpressMigration: string;
             remote: string;
             fulltime: string;
             contractor: string;
@@ -136,6 +139,9 @@ export function Contact({
             automation: 'Automation & Integrations',
             seoOptimization: 'SEO Optimization',
             performanceOptimization: 'Performance Optimization',
+            wordpressTheme: 'WordPress Theme',
+            wordpressPlugin: 'WordPress Plugin',
+            wordpressMigration: 'WordPress Migration',
             remote: 'Remote Work',
             fulltime: 'Full-time Employee',
             contractor: 'Contractor'

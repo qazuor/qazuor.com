@@ -349,6 +349,76 @@
             "description": "Servicios profesionales de optimización web. Mejora tu SEO para buscadores y LLMs, acelera la velocidad de carga, y haz tu sitio accesible para todos. Auditorías y optimización completa."
         }
     },
+    "wordpress": {
+        "title": "Soluciones **WordPress**",
+        "description": "Instalación profesional de WordPress, configuración y desarrollo de temas/plugins personalizados para tu negocio.",
+        "ctaButton": "Inicia tu Proyecto WordPress",
+        "descriptionExpanded": "Ya sea que necesites una **instalación fresca de WordPress**, un tema personalizado que *coincida perfectamente* con tu marca, o plugins especializados para extender la funcionalidad, entrego soluciones WordPress adaptadas a tus necesidades específicas. Desde **blogs simples** hasta **tiendas e-commerce complejas** con WooCommerce, manejo todo el proceso con atención a la **seguridad**, **rendimiento** y **mantenibilidad**.",
+        "features": {
+            "0": "Instalación y configuración profesional de WordPress",
+            "1": "Desarrollo de temas personalizados desde cero",
+            "2": "Creación y personalización de child themes",
+            "3": "Desarrollo de plugins personalizados",
+            "4": "Configuración de WooCommerce",
+            "5": "Hardening de seguridad y mejores prácticas",
+            "6": "Optimización de rendimiento (caché, CDN)",
+            "7": "Migración desde otras plataformas",
+            "8": "Mantenimiento continuo y actualizaciones"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Setup básico**: $600 - $1,200 (instalación + tema premium)",
+                "**Tema personalizado**: $1,500 - $4,000",
+                "**Plugin personalizado**: $800 - $3,000+",
+                "**E-commerce completo**: $2,500 - $6,000+"
+            ],
+            "factors": [
+                "Complejidad y alcance del proyecto",
+                "Requerimientos de diseño personalizado",
+                "Cantidad de funcionalidades custom necesarias",
+                "Funcionalidad e-commerce (WooCommerce)",
+                "Necesidades de migración e importación de datos"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "¿Por qué elegir desarrollo WordPress personalizado en lugar de una plantilla?",
+                "answer": "El desarrollo personalizado te da **diseño único**, **mejor rendimiento** y **código optimizado** para tus necesidades específicas. Las plantillas suelen incluir funcionalidades innecesarias que ralentizan tu sitio. Una solución custom significa que solo obtenés lo que necesitás, con **código más limpio** y **mantenimiento más fácil**."
+            },
+            {
+                "question": "¿Cuánto tiempo toma construir un sitio WordPress?",
+                "answer": "Un setup básico con tema premium toma **1-2 semanas**. El desarrollo de tema personalizado típicamente toma **3-6 semanas** dependiendo de la complejidad. Los plugins custom van de **1-4 semanas** según los requerimientos de funcionalidad."
+            },
+            {
+                "question": "¿Usás page builders como Elementor?",
+                "answer": "Puedo trabajar con page builders si preferís esa facilidad de edición. Sin embargo, para **rendimiento óptimo** recomiendo desarrollo custom con **bloques Gutenberg** o desarrollo WordPress tradicional. Los page builders agregan overhead que puede impactar la velocidad del sitio."
+            },
+            {
+                "question": "¿Podré actualizar el contenido yo mismo?",
+                "answer": "¡Por supuesto! WordPress está diseñado para gestión de contenido. Creo **interfaces de admin intuitivas** con **campos personalizados** y **documentación clara** para que puedas actualizar texto, imágenes y productos sin ningún conocimiento de programación."
+            },
+            {
+                "question": "¿Cómo manejás la seguridad de WordPress?",
+                "answer": "La seguridad está integrada en cada proyecto: **autenticación fuerte**, **límite de intentos de login**, **permisos de archivos**, **headers de seguridad** y monitoreo regular de **actualizaciones**. Sigo las mejores prácticas de seguridad de WordPress y puedo implementar medidas adicionales como **autenticación de dos factores** y **firewalls**."
+            },
+            {
+                "question": "¿Podés migrar mi sitio existente a WordPress?",
+                "answer": "¡Sí! Manejo migraciones desde otras plataformas como **Wix**, **Squarespace**, **Joomla** o sitios HTML estáticos. Esto incluye **transferencia de contenido**, **redirecciones de URLs** para preservar el SEO y **recreación del diseño** si es necesario."
+            },
+            {
+                "question": "¿Ofrecés recomendaciones de hosting?",
+                "answer": "Recomiendo proveedores de **hosting WordPress administrado** como **Cloudways**, **WP Engine** o **SiteGround** dependiendo de tu presupuesto y necesidades de tráfico. Puedo ayudar a configurar el hosting, configurar **certificados SSL** y optimizar la configuración del servidor."
+            },
+            {
+                "question": "¿Qué hay del mantenimiento continuo?",
+                "answer": "Ofrezco **paquetes de mantenimiento** que incluyen actualizaciones del core de WordPress, actualizaciones de plugins, monitoreo de seguridad, backups y actualizaciones menores de contenido. El mantenimiento regular es esencial para la **seguridad** y el **rendimiento**."
+            }
+        ],
+        "meta": {
+            "title": "Servicios de Desarrollo WordPress | Temas y Plugins Personalizados",
+            "description": "Servicios profesionales de desarrollo WordPress. Desarrollo de temas y plugins personalizados, configuración de WooCommerce, migración y mantenimiento continuo. Obtené un sitio WordPress rápido y seguro."
+        }
+    },
     "cta": {
         "title": "¿Listo para comenzar tu proyecto?",
         "description": "Hablemos sobre cómo puedo ayudarte a dar vida a tu visión",

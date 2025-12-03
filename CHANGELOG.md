@@ -8,6 +8,26 @@ and this project adheres to
 
 ## [1.5.2] - 2025-12-03
 
+### Added - WordPress Service & Services Grid Update
+
+- **WordPress service**: New service for WordPress installation, configuration,
+  theme and plugin development
+- **WordPress translations**: Full EN/ES content including title, description,
+  features, pricing, and FAQs
+- **WordPress interest options**: 3 new contact form interests (Theme, Plugin,
+  Migration) with service-to-interest mapping
+- **6-service grid**: Home page now displays all 6 services in a responsive
+  3x2/2x3/1x6 grid layout
+
+### Changed - WordPress Service
+
+- **Services grid layout**: Updated from 4 columns to 3 columns to accommodate 6
+  services
+- **Service description rendering**: Fixed markdown rendering on individual
+  service pages (bold/italic now display correctly)
+- **ServiceIcon**: Added Globe icon for WordPress service across React and Astro
+  components
+
 ### Added - UnifiedButton Component System
 
 - **UnifiedButton React component**: Single configurable button component for

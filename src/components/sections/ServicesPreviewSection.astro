@@ -11,6 +11,12 @@ import ServicePreviewCard from '@/components/ui/ServicePreviewCard.astro';
 import { services } from '@/data/services';
 import ArrowLongRightIcon from '@/icons/ui/arrow-long-right.svg?raw';
 
+interface ServiceTranslation {
+    title: string;
+    description: string;
+    features: string[];
+}
+
 interface Props {
     primaryColor?: string;
     lang: string;
@@ -25,67 +31,41 @@ interface Props {
             items: string[];
         };
         services: {
-            webApps: {
-                title: string;
-                description: string;
-                features: string[];
-            };
-            landingPages: {
-                title: string;
-                description: string;
-                features: string[];
-            };
-            automation: {
-                title: string;
-                description: string;
-                features: string[];
-            };
-            socialDesign: {
-                title: string;
-                description: string;
-                features: string[];
-            };
+            webApps: ServiceTranslation;
+            landingPages: ServiceTranslation;
+            automation: ServiceTranslation;
+            socialDesign: ServiceTranslation;
+            webOptimization: ServiceTranslation;
+            wordpress: ServiceTranslation;
         };
     };
 }
 
 const { primaryColor = '#8b5cf6', lang, translations } = Astro.props;
 
+// Service ID to translation key mapping
+const serviceTranslationMap: Record<string, keyof typeof translations.services> = {
+    'web-apps': 'webApps',
+    'landing-pages': 'landingPages',
+    'automation-integration': 'automation',
+    'social-media-design': 'socialDesign',
+    'web-optimization': 'webOptimization',
+    wordpress: 'wordpress'
+};
+
 // Map services data with translations
-const serviceCards = [
-    {
-        id: 'web-apps',
-        slug: services[0].slug,
-        iconId: services[0].iconId,
-        title: translations.services.webApps.title,
-        description: translations.services.webApps.description,
-        features: translations.services.webApps.features
-    },
-    {
-        id: 'landing-pages',
-        slug: services[1].slug,
-        iconId: services[1].iconId,
-        title: translations.services.landingPages.title,
-        description: translations.services.landingPages.description,
-        features: translations.services.landingPages.features
-    },
-    {
-        id: 'automation',
-        slug: services[2].slug,
-        iconId: services[2].iconId,
-        title: translations.services.automation.title,
-        description: translations.services.automation.description,
-        features: translations.services.automation.features
-    },
-    {
-        id: 'social-design',
-        slug: services[3].slug,
-        iconId: services[3].iconId,
-        title: translations.services.socialDesign.title,
-        description: translations.services.socialDesign.description,
-        features: translations.services.socialDesign.features
-    }
-];
+const serviceCards = services.map((service) => {
+    const translationKey = serviceTranslationMap[service.id];
+    const serviceTranslation = translations.services[translationKey];
+    return {
+        id: service.id,
+        slug: service.slug,
+        iconId: service.iconId,
+        title: serviceTranslation.title,
+        description: serviceTranslation.description,
+        features: serviceTranslation.features
+    };
+});
 ---
 
 <section
@@ -106,7 +86,7 @@ const serviceCards = [
         />
 
         <!-- Services Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {serviceCards.map((service) => (
                 <ServicePreviewCard
                     title={service.title}

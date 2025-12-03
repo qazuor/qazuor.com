@@ -349,6 +349,76 @@
             "description": "Professional web optimization services. Improve your SEO for search engines and LLMs, speed up load times, and make your site accessible to everyone. Audits and complete optimization."
         }
     },
+    "wordpress": {
+        "title": "**WordPress** Solutions",
+        "description": "Professional WordPress installation, configuration, and custom theme/plugin development for your business.",
+        "ctaButton": "Start Your WordPress Project",
+        "descriptionExpanded": "Whether you need a **fresh WordPress installation**, a custom theme that *perfectly matches* your brand, or specialized plugins to extend functionality, I deliver WordPress solutions tailored to your specific needs. From **simple blogs** to **complex e-commerce stores** with WooCommerce, I handle the entire process with attention to **security**, **performance**, and **maintainability**.",
+        "features": {
+            "0": "Professional WordPress installation and setup",
+            "1": "Custom theme development from scratch",
+            "2": "Child theme creation and customization",
+            "3": "Custom plugin development",
+            "4": "WooCommerce setup and configuration",
+            "5": "Security hardening and best practices",
+            "6": "Performance optimization (caching, CDN)",
+            "7": "Migration from other platforms",
+            "8": "Ongoing maintenance and updates"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Basic setup**: $600 - $1,200 (installation + premium theme)",
+                "**Custom theme**: $1,500 - $4,000",
+                "**Custom plugin**: $800 - $3,000+",
+                "**Full e-commerce**: $2,500 - $6,000+"
+            ],
+            "factors": [
+                "Project complexity and scope",
+                "Custom design requirements",
+                "Number of custom features needed",
+                "E-commerce functionality (WooCommerce)",
+                "Migration and data import needs"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "Why choose custom WordPress development over a template?",
+                "answer": "Custom development gives you **unique design**, **better performance**, and **code optimized** for your specific needs. Templates often include unnecessary features that slow down your site. A custom solution means you only get what you need, with **cleaner code** and **easier maintenance**."
+            },
+            {
+                "question": "How long does it take to build a WordPress site?",
+                "answer": "A basic setup with a premium theme takes **1-2 weeks**. Custom theme development typically takes **3-6 weeks** depending on complexity. Custom plugins range from **1-4 weeks** based on functionality requirements."
+            },
+            {
+                "question": "Do you use page builders like Elementor?",
+                "answer": "I can work with page builders if you prefer them for easy editing. However, for **optimal performance** I recommend custom development with **Gutenberg blocks** or traditional WordPress development. Page builders add overhead that can impact site speed."
+            },
+            {
+                "question": "Will I be able to update content myself?",
+                "answer": "Absolutely! WordPress is designed for content management. I create **intuitive admin interfaces** with **custom fields** and **clear documentation** so you can update text, images, and products without any coding knowledge."
+            },
+            {
+                "question": "How do you handle WordPress security?",
+                "answer": "Security is built into every project: **strong authentication**, **limited login attempts**, **file permissions**, **security headers**, and regular **updates monitoring**. I follow WordPress security best practices and can implement additional measures like **two-factor authentication** and **firewalls**."
+            },
+            {
+                "question": "Can you migrate my existing site to WordPress?",
+                "answer": "Yes! I handle migrations from other platforms like **Wix**, **Squarespace**, **Joomla**, or static HTML sites. This includes **content transfer**, **URL redirects** for SEO preservation, and **design recreation** if needed."
+            },
+            {
+                "question": "Do you provide hosting recommendations?",
+                "answer": "I recommend **managed WordPress hosting** providers like **Cloudways**, **WP Engine**, or **SiteGround** depending on your budget and traffic needs. I can help set up hosting, configure **SSL certificates**, and optimize server settings."
+            },
+            {
+                "question": "What about ongoing maintenance?",
+                "answer": "I offer **maintenance packages** that include WordPress core updates, plugin updates, security monitoring, backups, and minor content updates. Regular maintenance is essential for **security** and **performance**."
+            }
+        ],
+        "meta": {
+            "title": "WordPress Development Services | Custom Themes & Plugins",
+            "description": "Professional WordPress development services. Custom theme and plugin development, WooCommerce setup, migration, and ongoing maintenance. Get a fast, secure WordPress site."
+        }
+    },
     "cta": {
         "title": "Ready to start your project?",
         "description": "Let's discuss how I can help bring your vision to life",

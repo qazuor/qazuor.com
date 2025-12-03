@@ -35,7 +35,8 @@ const serviceKeyMap: Record<string, string> = {
     'landing-pages': 'landingPages',
     'automation-integration': 'automation',
     'social-media-design': 'socialDesign',
-    'web-optimization': 'webOptimization'
+    'web-optimization': 'webOptimization',
+    wordpress: 'wordpress'
 };
 const serviceKey = serviceKeyMap[service.id];
 
@@ -45,7 +46,7 @@ const pageDescription = t(service.meta.descriptionKey, { markdown: false });
 
 // Service translations
 const serviceTitle = t(`services.${serviceKey}.title`, { markdown: true });
-const serviceDescription = t(`services.${serviceKey}.descriptionExpanded`);
+const serviceDescription = t(`services.${serviceKey}.descriptionExpanded`, { markdown: true });
 
 // Features - dynamically determine count
 const features: string[] = [];
@@ -128,7 +129,8 @@ const serviceTypeMap: Record<string, string> = {
     'landing-pages': 'Web Design',
     'automation-integration': 'IT Consulting',
     'social-media-design': 'Graphic Design',
-    'web-optimization': 'SEO Service'
+    'web-optimization': 'SEO Service',
+    wordpress: 'Web Development'
 };
 const serviceType = serviceTypeMap[service.id] || 'Web Development';
 
@@ -183,9 +185,7 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
             <div class="max-w-4xl mx-auto text-center">
                 <ServiceIcon name={service.iconId} size={64} class="text-primary mb-6" />
                 <h1 class="text-5xl md:text-6xl font-bold text-foreground mb-6" set:html={serviceTitle} />
-                <p class="text-xl text-foreground-secondary leading-relaxed max-w-3xl mx-auto">
-                    {serviceDescription}
-                </p>
+                <p class="text-xl text-foreground-secondary leading-relaxed max-w-3xl mx-auto" set:html={serviceDescription} />
             </div>
         </div>
     </section>

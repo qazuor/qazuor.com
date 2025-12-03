@@ -16,6 +16,9 @@ export const INTEREST_IDS = [
     'automation',
     'seoOptimization',
     'performanceOptimization',
+    'wordpressTheme',
+    'wordpressPlugin',
+    'wordpressMigration',
     'remote',
     'fulltime',
     'contractor'
@@ -32,7 +35,8 @@ export const SERVICE_TO_INTERESTS: Record<string, InterestId[]> = {
     'landing-pages': ['websiteDesign', 'webDevelopment'],
     'automation-integration': ['automation'],
     'social-media-design': ['branding', 'logoDesign'],
-    'web-optimization': ['seoOptimization', 'performanceOptimization']
+    'web-optimization': ['seoOptimization', 'performanceOptimization'],
+    wordpress: ['wordpressTheme', 'wordpressPlugin', 'wordpressMigration']
 };
 
 /**

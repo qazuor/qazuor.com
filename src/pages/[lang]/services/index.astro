@@ -99,6 +99,19 @@ const serviceTranslations: Record<
             t('services.webOptimization.features.5')
         ],
         ctaButton: t('services.webOptimization.ctaButton')
+    },
+    wordpress: {
+        title: t('services.wordpress.title', { markdown: true }),
+        description: t('services.wordpress.description', { markdown: true }),
+        features: [
+            t('services.wordpress.features.0'),
+            t('services.wordpress.features.1'),
+            t('services.wordpress.features.2'),
+            t('services.wordpress.features.3'),
+            t('services.wordpress.features.4'),
+            t('services.wordpress.features.5')
+        ],
+        ctaButton: t('services.wordpress.ctaButton')
     }
 };
 
@@ -151,6 +164,14 @@ const pixelColors: Record<
         colorsLight: ['#6d28d9', '#7c3aed', '#8b5cf6'],
         activeColor: '#8b5cf6',
         activeColorLight: '#6d28d9',
+        gap: 8,
+        speed: 30
+    },
+    wordpress: {
+        colors: ['#93c5fd', '#60a5fa', '#3b82f6'],
+        colorsLight: ['#1d4ed8', '#2563eb', '#3b82f6'],
+        activeColor: '#3b82f6',
+        activeColorLight: '#1d4ed8',
         gap: 8,
         speed: 30
     }

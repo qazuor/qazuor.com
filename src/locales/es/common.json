@@ -228,6 +228,9 @@
             "automation": "Automatización e Integraciones",
             "seoOptimization": "Optimización SEO",
             "performanceOptimization": "Optimización de Rendimiento",
+            "wordpressTheme": "Theme de WordPress",
+            "wordpressPlugin": "Plugin de WordPress",
+            "wordpressMigration": "Migración WordPress",
             "remote": "Trabajo Remoto",
             "fulltime": "Empleado Full-time",
             "contractor": "Contratista"
@@ -459,6 +462,16 @@
                     "Optimizado por plataforma",
                     "Formatos editables"
                 ]
+            },
+            "webOptimization": {
+                "title": "**Optimización** Web",
+                "description": "Acelera tu sitio web y mejora tu posicionamiento en buscadores.",
+                "features": ["Auditoría de rendimiento", "Optimización SEO", "Core Web Vitals", "Optimización de imágenes"]
+            },
+            "wordpress": {
+                "title": "**Soluciones** WordPress",
+                "description": "Sitios WordPress personalizados con themes y plugins a medida.",
+                "features": ["Desarrollo de themes", "Creación de plugins", "WooCommerce", "Migración y soporte"]
             }
         }
     },

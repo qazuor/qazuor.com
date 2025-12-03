@@ -1,7 +1,7 @@
 export interface Service {
     id: string;
     slug: string;
-    iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization';
+    iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization' | 'wordpress';
     themeColor: string;
     relatedServices: string[];
     pricing: {
@@ -106,6 +106,24 @@ export const services: Service[] = [
         meta: {
             titleKey: 'services.webOptimization.meta.title',
             descriptionKey: 'services.webOptimization.meta.description'
+        }
+    },
+    {
+        id: 'wordpress',
+        slug: 'wordpress',
+        iconId: 'wordpress',
+        themeColor: 'var(--section-blog-bg)',
+        relatedServices: ['landing-pages', 'web-optimization'],
+        pricing: {
+            type: 'from',
+            min: 600,
+            currency: 'USD'
+        },
+        ctaText: 'Start Your WordPress Project',
+        ctaUrl: '/contact',
+        meta: {
+            titleKey: 'services.wordpress.meta.title',
+            descriptionKey: 'services.wordpress.meta.description'
         }
     }
 ];

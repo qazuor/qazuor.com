@@ -43,25 +43,25 @@ Este blog es mi espacio para compartir lo que aprendo mientras construyo cosas
 reales. No es un blog de tutoriales genéricos ni de "cómo hacer un todo-list en
 React". Es más bien una colección de:
 
-- **Decisiones técnicas reales** — Por qué elijo una herramienta sobre otra, qué
+- **Decisiones técnicas reales** - Por qué elijo una herramienta sobre otra, qué
   trade-offs considero, y cuándo me equivoco.
 
-- **Arquitectura y organización de código** — Cómo estructuro proyectos,
+- **Arquitectura y organización de código** - Cómo estructuro proyectos,
   monorepos, componentes, y cómo mantengo el código mantenible a largo plazo.
 
-- **Frontend moderno** — React, Zustand, TanStack Query, TanStack Router, Astro,
+- **Frontend moderno** - React, Zustand, TanStack Query, TanStack Router, Astro,
   y todo lo que uso día a día.
 
-- **Backend pragmático** — Hono, Drizzle ORM, PostgreSQL, APIs REST, y cómo
+- **Backend pragmático** - Hono, Drizzle ORM, PostgreSQL, APIs REST, y cómo
   conecto todo sin hacer un Frankenstein.
 
-- **Automatización y No-Code** — Make.com, integraciones, y cuándo tiene sentido
+- **Automatización y No-Code** - Make.com, integraciones, y cuándo tiene sentido
   usar estas herramientas (y cuándo no).
 
-- **IA para devs** — Cómo uso Claude, ChatGPT y otras herramientas de IA para
+- **IA para devs** - Cómo uso Claude, ChatGPT y otras herramientas de IA para
   acelerar mi trabajo sin perder control del código.
 
-- **Productos digitales** — Casos de estudio, diarios de desarrollo, y el
+- **Productos digitales** - Casos de estudio, diarios de desarrollo, y el
   proceso de construir algo desde cero.
 
 ---
@@ -113,4 +113,4 @@ simplemente querés decir hola, podés encontrarme en:
 
 Gracias por pasar. Espero que encuentres algo útil por acá.
 
-_— Leandro_
+_- Leandro_

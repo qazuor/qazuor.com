@@ -9,7 +9,7 @@ content:
   JavaScript and the frontend ecosystem, with a rare ability to understand
   complex problems, break them down, and build robust, efficient, and
   maintainable solutions. I consistently saw him approach challenges with strong
-  technical judgment, a focus on quality, and a long-term vision — all essential
+  technical judgment, a focus on quality, and a long-term vision, all essential
   qualities in large-scale products. Beyond his technical skills, what truly
   stands out is his attitude. He is always willing to help, share knowledge, and
   contribute in a constructive way. He naturally raises the bar of any team
@@ -34,7 +34,7 @@ Leandro has a deep command of JavaScript and the frontend ecosystem, with a rare
 ability to understand complex problems, break them down, and build robust,
 efficient, and maintainable solutions. I consistently saw him approach
 challenges with strong technical judgment, a focus on quality, and a long-term
-vision — all essential qualities in large-scale products.
+vision, all essential qualities in large-scale products.
 
 Beyond his technical skills, what truly stands out is his attitude. He is always
 willing to help, share knowledge, and contribute in a constructive way. He

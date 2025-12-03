@@ -1,6 +1,5 @@
 ---
 import Timeline from '@/components/interactive/TimelineWrapper';
-import AboutSummaryCard from '@/components/ui/AboutSummaryCard.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import GetInTouchLink from '@/components/ui/GetInTouchLink.astro';
 import ProfileCodeBlock from '@/components/ui/ProfileCodeBlock.astro';
@@ -15,15 +14,6 @@ interface StatsTranslations {
     projects: { label: string; description: string };
     clients: { label: string; description: string };
     lighthouse: { label: string; description: string };
-}
-
-interface SummaryCardTranslations {
-    title: string;
-    items: Array<{
-        icon: string;
-        label: string;
-        value: string;
-    }>;
 }
 
 interface Props {
@@ -49,7 +39,6 @@ interface Props {
                 description: string;
             };
         };
-        summaryCard?: SummaryCardTranslations;
     };
     statsTranslations?: StatsTranslations;
 }
@@ -114,11 +103,6 @@ const {
                         <p set:html={translations.storyParagraph3} />
                         <p class="text-foreground font-medium" set:html={translations.storySummary} />
                     </div>
-
-                    <!-- Quick Profile Summary Card -->
-                    {translations.summaryCard && (
-                        <AboutSummaryCard translations={translations.summaryCard} className="mt-8" />
-                    )}
                 </article>
             </div>
 

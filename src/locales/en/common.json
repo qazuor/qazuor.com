@@ -65,6 +65,7 @@
         "trustBadges": {
             "ariaLabel": "Trust indicators",
             "experience": "20+ Years Experience",
+            "specialty": "Frontend UI/UX Expert with Full-Stack Muscle",
             "leadership": "Technical Leadership (Principal Engineer)",
             "performance": "Performance First: Lighthouse 90+",
             "pixelPerfect": "Pixel-Perfect UI + Clean Architecture",
@@ -173,17 +174,6 @@
                 "title": "What's next?",
                 "description": "The journey continues. Always looking for new challenges and opportunities to grow."
             }
-        },
-        "summaryCard": {
-            "title": "Quick **Profile**",
-            "items": [
-                { "icon": "location", "label": "Location", "value": "Argentina (UTC-3)" },
-                { "icon": "experience", "label": "Experience", "value": "**20+ years** in web development" },
-                { "icon": "specialty", "label": "Specialty", "value": "Frontend & **Full-Stack**" },
-                { "icon": "languages", "label": "Languages", "value": "Spanish (native), English (fluent)" },
-                { "icon": "availability", "label": "Availability", "value": "Open to **remote** opportunities" },
-                { "icon": "timezone", "label": "Timezone", "value": "UTC-3 (flexible overlap)" }
-            ]
         }
     },
     "testimonials": {

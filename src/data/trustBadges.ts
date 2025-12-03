@@ -34,6 +34,7 @@ export interface TrustBadgeConfig {
  */
 export const trustBadges: TrustBadgeConfig[] = [
     { icon: 'clock', translationKey: 'experience' },
+    { icon: 'star', translationKey: 'specialty' },
     { icon: 'users', translationKey: 'leadership' },
     { icon: 'zap', translationKey: 'performance' },
     { icon: 'layout', translationKey: 'pixelPerfect' },

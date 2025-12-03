@@ -1,5 +1,5 @@
 ---
-type ServiceIconName = 'web-apps' | 'landing-pages' | 'automation' | 'social-design';
+type ServiceIconName = 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization';
 
 interface Props {
     name: ServiceIconName;
@@ -21,7 +21,10 @@ const icons: Record<ServiceIconName, string> = {
     automation: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
     // Palette
     'social-design':
-        '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"/>'
+        '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"/>',
+    // Gauge/Speedometer - Web Optimization
+    'web-optimization':
+        '<path d="M12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"/><path d="M12 3v2"/><path d="m18.4 5.6-1.4 1.4"/><path d="M21 12h-2"/><path d="m18.4 18.4-1.4-1.4"/><path d="M12 19v2"/><path d="m5.6 18.4 1.4-1.4"/><path d="M3 12h2"/><path d="m5.6 5.6 1.4 1.4"/><path d="m14.5 9.5-5 5"/>'
 };
 
 const iconPath = icons[name] || icons['web-apps'];

@@ -14,6 +14,7 @@ interface ComparisonRow {
     landingPages: string;
     automation: string;
     socialDesign: string;
+    webOptimization: string;
 }
 
 interface Props {
@@ -27,6 +28,7 @@ interface Props {
             landingPages: string;
             automation: string;
             socialDesign: string;
+            webOptimization: string;
         };
         rows: {
             timeline: ComparisonRow;
@@ -64,6 +66,12 @@ const serviceColors = {
         border: 'border-rose-500/30',
         text: 'text-rose-400',
         header: 'bg-rose-500/20'
+    },
+    webOptimization: {
+        bg: 'bg-violet-500/10',
+        border: 'border-violet-500/30',
+        text: 'text-violet-400',
+        header: 'bg-violet-500/20'
     }
 };
 
@@ -75,7 +83,7 @@ const rows = [
     translations.rows.bestFor
 ];
 
-const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign'] as const;
+const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'webOptimization'] as const;
 ---
 
 <div class="comparison-section py-16">

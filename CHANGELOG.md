@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-12-03
+
+### Added - Web Optimization Service
+
+- **New service: Web Optimization** (`/services/web-optimization`): Complete
+  service offering for SEO, performance, and accessibility optimization
+- **SEO for search engines and LLMs**: Optimization for traditional search
+  (Google, Bing) and AI models (ChatGPT, Perplexity, Claude)
+- **Performance optimization**: Page speed, Core Web Vitals, and runtime
+  performance improvements
+- **Accessibility optimization**: WCAG 2.1 compliance audits and implementation
+- **Full i18n support**: Complete translations for EN and ES
+- **Service page content**: 6 features, 6-step process, 6 FAQs, pricing from
+  $400
+- **Contact form integration**: New interest options for SEO and Performance
+  optimization
+- **Navigation integration**: Service appears in dropdown menu and comparison
+  table
+
+### Technical
+
+- ServiceIcon: Added Gauge icon from Lucide for web-optimization
+- services.ts: New service definition with violet theme (#8b5cf6)
+- interests.ts: Mapping for seoOptimization and performanceOptimization
+- ComparisonSection: Added webOptimization column with styling
+- ServicesDropdown: Extended translations interface
+- Contact form: Updated interests interface and translations
+
+---
+
 ## [1.4.1] - 2025-12-03
 
 ### Fixed - Timeline Mobile Autoplay

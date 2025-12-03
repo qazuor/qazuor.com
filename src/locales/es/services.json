@@ -280,6 +280,75 @@
             "description": "Servicios profesionales de diseño para redes sociales. Plantillas personalizadas, identidad de marca y contenido visual que involucra a tu audiencia en todas las plataformas."
         }
     },
+    "webOptimization": {
+        "title": "**Optimización** Web",
+        "description": "Mejora el SEO, rendimiento y accesibilidad de tu sitio para mayor visibilidad y mejor experiencia de usuario.",
+        "ctaButton": "Optimiza tu Sitio",
+        "descriptionExpanded": "Tu sitio web puede tener el mejor diseño, pero si no carga rápido, no aparece en buscadores o no es accesible para todos, estás perdiendo oportunidades. Ofrezco servicios de optimización integral: **SEO técnico y para LLMs** (que tu sitio aparezca en respuestas de ChatGPT, Perplexity, Claude), **performance** (Core Web Vitals, tiempo de carga, optimización de recursos) y **accesibilidad** (WCAG 2.1, lectores de pantalla, navegación por teclado). El resultado es un sitio que rankea mejor, carga más rápido y funciona para todos.",
+        "features": {
+            "0": "Optimización SEO técnico completo",
+            "1": "SEO para LLMs y descubrimiento AI",
+            "2": "Mejora de Core Web Vitals (LCP, CLS, INP)",
+            "3": "Optimización de velocidad de carga",
+            "4": "Auditoría y mejora de accesibilidad WCAG 2.1",
+            "5": "Schema markup y datos estructurados",
+            "6": "Optimización de imágenes y assets",
+            "7": "Lazy loading y code splitting",
+            "8": "Monitoreo continuo de métricas"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Auditoría inicial**: $500 - $800",
+                "**Optimización básica**: $800 - $1,500",
+                "**Optimización completa**: $1,500 - $3,000+"
+            ],
+            "factors": [
+                "Tamaño y complejidad del sitio",
+                "Estado actual del rendimiento",
+                "Nivel de accesibilidad requerido",
+                "Integración con CMS o framework existente",
+                "Monitoreo y mantenimiento continuo"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "¿Qué es el SEO para LLMs y por qué es importante?",
+                "answer": "Los **modelos de lenguaje** como ChatGPT, Perplexity y Claude están cambiando cómo la gente busca información. Optimizar para LLMs significa estructurar tu contenido para que estos modelos lo citen como fuente confiable. Incluye schema markup específico, contenido bien estructurado, y menciones naturales de tu marca/producto en contextos relevantes."
+            },
+            {
+                "question": "¿Cuánto puede mejorar la velocidad de mi sitio?",
+                "answer": "Depende del estado actual, pero típicamente logro mejoras del **40-70%** en tiempo de carga. Un sitio que carga en 4 segundos puede bajar a 1.5 segundos o menos. Esto impacta directamente en conversiones (cada segundo de mejora = +7% conversiones según estudios) y en **ranking de Google**."
+            },
+            {
+                "question": "¿Qué son los Core Web Vitals y por qué importan?",
+                "answer": "Son las métricas de Google para medir experiencia de usuario: **LCP** (velocidad de carga del contenido principal), **CLS** (estabilidad visual, que nada \"salte\"), e **INP** (respuesta a interacciones). Desde 2021 son factor de ranking directo. Sitios con buenos Core Web Vitals tienen hasta **24% menos abandono**."
+            },
+            {
+                "question": "¿Qué nivel de accesibilidad necesita mi sitio?",
+                "answer": "Recomiendo **WCAG 2.1 nivel AA** como mínimo. Esto cubre la mayoría de necesidades: navegación por teclado, compatibilidad con lectores de pantalla, contraste de colores adecuado, y alternativas de texto. Además de ser lo correcto, en muchos países es requisito legal para sitios comerciales."
+            },
+            {
+                "question": "¿Puedo contratar solo auditoría sin implementación?",
+                "answer": "¡Sí! Ofrezco **auditorías detalladas** que incluyen un reporte completo con problemas encontrados, priorización por impacto, y guías paso a paso para implementar cada mejora. Ideal si tienes equipo interno que puede ejecutar los cambios."
+            },
+            {
+                "question": "¿Cuánto tiempo toma ver resultados?",
+                "answer": "Los cambios de **performance son inmediatos** - verás la mejora en velocidad desde el deploy. Para **SEO tradicional**, los resultados toman 2-4 meses en reflejarse en rankings. Para **SEO en LLMs**, es más variable ya que depende de cuándo los modelos actualicen sus datos."
+            },
+            {
+                "question": "¿Ofreces monitoreo continuo?",
+                "answer": "Sí, ofrezco planes de **monitoreo mensual** que incluyen alertas si las métricas empeoran, reportes periódicos, y ajustes proactivos. Es especialmente importante para sitios que actualizan contenido frecuentemente o tienen tráfico variable."
+            },
+            {
+                "question": "¿Funciona para cualquier tipo de sitio?",
+                "answer": "Trabajo con sitios **estáticos** (Astro, Next.js SSG, Hugo), **dinámicos** (WordPress, Shopify), y **aplicaciones web** (React, Vue). Las técnicas varían según la plataforma, pero los principios de optimización aplican a todos. Algunas plataformas tienen límites en lo que se puede optimizar."
+            }
+        ],
+        "meta": {
+            "title": "Servicios de Optimización Web | SEO, Performance y Accesibilidad",
+            "description": "Servicios profesionales de optimización web. Mejora tu SEO para buscadores y LLMs, acelera la velocidad de carga, y haz tu sitio accesible para todos. Auditorías y optimización completa."
+        }
+    },
     "cta": {
         "title": "¿Listo para comenzar tu proyecto?",
         "description": "Hablemos sobre cómo puedo ayudarte a dar vida a tu visión",
@@ -411,7 +480,8 @@
             "webApps": "Apps Web",
             "landingPages": "Landing Pages",
             "automation": "Automatización",
-            "socialDesign": "Diseño Social"
+            "socialDesign": "Diseño Social",
+            "webOptimization": "Optimización"
         },
         "rows": {
             "timeline": {
@@ -419,35 +489,40 @@
                 "webApps": "4-16 semanas",
                 "landingPages": "1-4 semanas",
                 "automation": "1-6 semanas",
-                "socialDesign": "1-4 semanas"
+                "socialDesign": "1-4 semanas",
+                "webOptimization": "1-3 semanas"
             },
             "priceRange": {
                 "label": "Inversión",
                 "webApps": "$2,000 - $8,000+",
                 "landingPages": "$800 - $3,000+",
                 "automation": "Consultar",
-                "socialDesign": "$300 - $1,200+"
+                "socialDesign": "$300 - $1,200+",
+                "webOptimization": "$500 - $3,000+"
             },
             "maintenance": {
                 "label": "Mantenimiento",
                 "webApps": "Recomendado",
                 "landingPages": "Opcional",
                 "automation": "Recomendado",
-                "socialDesign": "No necesario"
+                "socialDesign": "No necesario",
+                "webOptimization": "Recomendado"
             },
             "complexity": {
                 "label": "Complejidad",
                 "webApps": "Alta",
                 "landingPages": "Baja-Media",
                 "automation": "Media-Alta",
-                "socialDesign": "Baja"
+                "socialDesign": "Baja",
+                "webOptimization": "Media"
             },
             "bestFor": {
                 "label": "Ideal para",
                 "webApps": "Soluciones a medida",
                 "landingPages": "Marketing y SEO",
                 "automation": "Eficiencia",
-                "socialDesign": "Presencia de marca"
+                "socialDesign": "Presencia de marca",
+                "webOptimization": "SEO y rendimiento"
             }
         },
         "cta": {

@@ -60,6 +60,8 @@ interface ContactProps {
             logoDesign: string;
             appDevelopment: string;
             automation: string;
+            seoOptimization: string;
+            performanceOptimization: string;
             remote: string;
             fulltime: string;
             contractor: string;
@@ -132,6 +134,8 @@ export function Contact({
             logoDesign: 'Logo Design',
             appDevelopment: 'App Development',
             automation: 'Automation & Integrations',
+            seoOptimization: 'SEO Optimization',
+            performanceOptimization: 'Performance Optimization',
             remote: 'Remote Work',
             fulltime: 'Full-time Employee',
             contractor: 'Contractor'

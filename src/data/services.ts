@@ -1,7 +1,7 @@
 export interface Service {
     id: string;
     slug: string;
-    iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design';
+    iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization';
     themeColor: string;
     relatedServices: string[];
     pricing: {
@@ -88,6 +88,24 @@ export const services: Service[] = [
         meta: {
             titleKey: 'services.socialDesign.meta.title',
             descriptionKey: 'services.socialDesign.meta.description'
+        }
+    },
+    {
+        id: 'web-optimization',
+        slug: 'web-optimization',
+        iconId: 'web-optimization',
+        themeColor: 'var(--section-hero-bg)',
+        relatedServices: ['landing-pages', 'web-apps'],
+        pricing: {
+            type: 'from',
+            min: 500,
+            currency: 'USD'
+        },
+        ctaText: 'Optimize Your Site',
+        ctaUrl: '/contact',
+        meta: {
+            titleKey: 'services.webOptimization.meta.title',
+            descriptionKey: 'services.webOptimization.meta.description'
         }
     }
 ];

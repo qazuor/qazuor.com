@@ -86,6 +86,19 @@ const serviceTranslations: Record<
             t('services.socialDesign.features.5')
         ],
         ctaButton: t('services.socialDesign.ctaButton')
+    },
+    'web-optimization': {
+        title: t('services.webOptimization.title', { markdown: true }),
+        description: t('services.webOptimization.description', { markdown: true }),
+        features: [
+            t('services.webOptimization.features.0'),
+            t('services.webOptimization.features.1'),
+            t('services.webOptimization.features.2'),
+            t('services.webOptimization.features.3'),
+            t('services.webOptimization.features.4'),
+            t('services.webOptimization.features.5')
+        ],
+        ctaButton: t('services.webOptimization.ctaButton')
     }
 };
 
@@ -130,6 +143,14 @@ const pixelColors: Record<
         colorsLight: ['#be123c', '#e11d48', '#f43f5e'],
         activeColor: '#e11d48',
         activeColorLight: '#be123c',
+        gap: 8,
+        speed: 30
+    },
+    'web-optimization': {
+        colors: ['#c4b5fd', '#a78bfa', '#8b5cf6'],
+        colorsLight: ['#6d28d9', '#7c3aed', '#8b5cf6'],
+        activeColor: '#8b5cf6',
+        activeColorLight: '#6d28d9',
         gap: 8,
         speed: 30
     }
@@ -212,7 +233,8 @@ const comparisonTranslations = {
         webApps: t('services.comparison.headers.webApps'),
         landingPages: t('services.comparison.headers.landingPages'),
         automation: t('services.comparison.headers.automation'),
-        socialDesign: t('services.comparison.headers.socialDesign')
+        socialDesign: t('services.comparison.headers.socialDesign'),
+        webOptimization: t('services.comparison.headers.webOptimization')
     },
     rows: {
         timeline: {
@@ -220,35 +242,40 @@ const comparisonTranslations = {
             webApps: t('services.comparison.rows.timeline.webApps'),
             landingPages: t('services.comparison.rows.timeline.landingPages'),
             automation: t('services.comparison.rows.timeline.automation'),
-            socialDesign: t('services.comparison.rows.timeline.socialDesign')
+            socialDesign: t('services.comparison.rows.timeline.socialDesign'),
+            webOptimization: t('services.comparison.rows.timeline.webOptimization')
         },
         priceRange: {
             label: t('services.comparison.rows.priceRange.label'),
             webApps: t('services.comparison.rows.priceRange.webApps'),
             landingPages: t('services.comparison.rows.priceRange.landingPages'),
             automation: t('services.comparison.rows.priceRange.automation'),
-            socialDesign: t('services.comparison.rows.priceRange.socialDesign')
+            socialDesign: t('services.comparison.rows.priceRange.socialDesign'),
+            webOptimization: t('services.comparison.rows.priceRange.webOptimization')
         },
         maintenance: {
             label: t('services.comparison.rows.maintenance.label'),
             webApps: t('services.comparison.rows.maintenance.webApps'),
             landingPages: t('services.comparison.rows.maintenance.landingPages'),
             automation: t('services.comparison.rows.maintenance.automation'),
-            socialDesign: t('services.comparison.rows.maintenance.socialDesign')
+            socialDesign: t('services.comparison.rows.maintenance.socialDesign'),
+            webOptimization: t('services.comparison.rows.maintenance.webOptimization')
         },
         complexity: {
             label: t('services.comparison.rows.complexity.label'),
             webApps: t('services.comparison.rows.complexity.webApps'),
             landingPages: t('services.comparison.rows.complexity.landingPages'),
             automation: t('services.comparison.rows.complexity.automation'),
-            socialDesign: t('services.comparison.rows.complexity.socialDesign')
+            socialDesign: t('services.comparison.rows.complexity.socialDesign'),
+            webOptimization: t('services.comparison.rows.complexity.webOptimization')
         },
         bestFor: {
             label: t('services.comparison.rows.bestFor.label'),
             webApps: t('services.comparison.rows.bestFor.webApps'),
             landingPages: t('services.comparison.rows.bestFor.landingPages'),
             automation: t('services.comparison.rows.bestFor.automation'),
-            socialDesign: t('services.comparison.rows.bestFor.socialDesign')
+            socialDesign: t('services.comparison.rows.bestFor.socialDesign'),
+            webOptimization: t('services.comparison.rows.bestFor.webOptimization')
         }
     },
     cta: {

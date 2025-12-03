@@ -14,6 +14,8 @@ export const INTEREST_IDS = [
     'logoDesign',
     'appDevelopment',
     'automation',
+    'seoOptimization',
+    'performanceOptimization',
     'remote',
     'fulltime',
     'contractor'
@@ -29,7 +31,8 @@ export const SERVICE_TO_INTERESTS: Record<string, InterestId[]> = {
     'web-apps': ['webDevelopment', 'appDevelopment'],
     'landing-pages': ['websiteDesign', 'webDevelopment'],
     'automation-integration': ['automation'],
-    'social-media-design': ['branding', 'logoDesign']
+    'social-media-design': ['branding', 'logoDesign'],
+    'web-optimization': ['seoOptimization', 'performanceOptimization']
 };
 
 /**

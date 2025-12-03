@@ -280,6 +280,75 @@
             "description": "Professional social media design services. Custom templates, brand identity, and visual content that engages your audience across all platforms."
         }
     },
+    "webOptimization": {
+        "title": "**Web** Optimization",
+        "description": "Improve your site's SEO, performance, and accessibility for better visibility and user experience.",
+        "ctaButton": "Optimize Your Site",
+        "descriptionExpanded": "Your website may have the best design, but if it doesn't load fast, doesn't appear in search results, or isn't accessible to everyone, you're missing opportunities. I offer comprehensive optimization services: **technical SEO and LLM optimization** (making your site appear in ChatGPT, Perplexity, Claude responses), **performance** (Core Web Vitals, load time, resource optimization), and **accessibility** (WCAG 2.1, screen readers, keyboard navigation). The result is a site that ranks better, loads faster, and works for everyone.",
+        "features": {
+            "0": "Complete technical SEO optimization",
+            "1": "SEO for LLMs and AI discovery",
+            "2": "Core Web Vitals improvement (LCP, CLS, INP)",
+            "3": "Page speed optimization",
+            "4": "WCAG 2.1 accessibility audit and fixes",
+            "5": "Schema markup and structured data",
+            "6": "Image and asset optimization",
+            "7": "Lazy loading and code splitting",
+            "8": "Continuous metrics monitoring"
+        },
+        "pricing": {
+            "breakdown": [
+                "**Initial audit**: $500 - $800",
+                "**Basic optimization**: $800 - $1,500",
+                "**Complete optimization**: $1,500 - $3,000+"
+            ],
+            "factors": [
+                "Site size and complexity",
+                "Current performance state",
+                "Required accessibility level",
+                "Integration with existing CMS or framework",
+                "Ongoing monitoring and maintenance"
+            ]
+        },
+        "faqs": [
+            {
+                "question": "What is SEO for LLMs and why does it matter?",
+                "answer": "**Language models** like ChatGPT, Perplexity, and Claude are changing how people search for information. Optimizing for LLMs means structuring your content so these models cite it as a reliable source. This includes specific schema markup, well-structured content, and natural mentions of your brand/product in relevant contexts."
+            },
+            {
+                "question": "How much can my site's speed improve?",
+                "answer": "It depends on the current state, but I typically achieve **40-70% improvements** in load time. A site that loads in 4 seconds can drop to 1.5 seconds or less. This directly impacts conversions (each second of improvement = +7% conversions according to studies) and **Google ranking**."
+            },
+            {
+                "question": "What are Core Web Vitals and why do they matter?",
+                "answer": "They're Google's metrics for measuring user experience: **LCP** (loading speed of main content), **CLS** (visual stability, nothing 'jumping'), and **INP** (response to interactions). Since 2021, they're a direct ranking factor. Sites with good Core Web Vitals have up to **24% less abandonment**."
+            },
+            {
+                "question": "What level of accessibility does my site need?",
+                "answer": "I recommend **WCAG 2.1 level AA** as a minimum. This covers most needs: keyboard navigation, screen reader compatibility, adequate color contrast, and text alternatives. Besides being the right thing to do, in many countries it's a legal requirement for commercial sites."
+            },
+            {
+                "question": "Can I hire just an audit without implementation?",
+                "answer": "Yes! I offer **detailed audits** that include a complete report with issues found, prioritization by impact, and step-by-step guides to implement each improvement. Ideal if you have an internal team that can execute the changes."
+            },
+            {
+                "question": "How long does it take to see results?",
+                "answer": "**Performance changes are immediate** - you'll see the speed improvement from deployment. For **traditional SEO**, results take 2-4 months to reflect in rankings. For **LLM SEO**, it's more variable as it depends on when models update their data."
+            },
+            {
+                "question": "Do you offer ongoing monitoring?",
+                "answer": "Yes, I offer **monthly monitoring** plans that include alerts if metrics worsen, periodic reports, and proactive adjustments. It's especially important for sites that frequently update content or have variable traffic."
+            },
+            {
+                "question": "Does it work for any type of site?",
+                "answer": "I work with **static** sites (Astro, Next.js SSG, Hugo), **dynamic** sites (WordPress, Shopify), and **web applications** (React, Vue). Techniques vary by platform, but optimization principles apply to all. Some platforms have limits on what can be optimized."
+            }
+        ],
+        "meta": {
+            "title": "Web Optimization Services | SEO, Performance & Accessibility",
+            "description": "Professional web optimization services. Improve your SEO for search engines and LLMs, speed up load times, and make your site accessible to everyone. Audits and complete optimization."
+        }
+    },
     "cta": {
         "title": "Ready to start your project?",
         "description": "Let's discuss how I can help bring your vision to life",
@@ -411,7 +480,8 @@
             "webApps": "Web Apps",
             "landingPages": "Landing Pages",
             "automation": "Automation",
-            "socialDesign": "Social Design"
+            "socialDesign": "Social Design",
+            "webOptimization": "Optimization"
         },
         "rows": {
             "timeline": {
@@ -419,35 +489,40 @@
                 "webApps": "4-16 weeks",
                 "landingPages": "1-4 weeks",
                 "automation": "1-6 weeks",
-                "socialDesign": "1-4 weeks"
+                "socialDesign": "1-4 weeks",
+                "webOptimization": "1-3 weeks"
             },
             "priceRange": {
                 "label": "Investment",
                 "webApps": "$2,000 - $8,000+",
                 "landingPages": "$800 - $3,000+",
                 "automation": "Consultation",
-                "socialDesign": "$300 - $1,200+"
+                "socialDesign": "$300 - $1,200+",
+                "webOptimization": "$500 - $3,000+"
             },
             "maintenance": {
                 "label": "Ongoing Maintenance",
                 "webApps": "Recommended",
                 "landingPages": "Optional",
                 "automation": "Recommended",
-                "socialDesign": "Not needed"
+                "socialDesign": "Not needed",
+                "webOptimization": "Recommended"
             },
             "complexity": {
                 "label": "Complexity",
                 "webApps": "High",
                 "landingPages": "Low-Medium",
                 "automation": "Medium-High",
-                "socialDesign": "Low"
+                "socialDesign": "Low",
+                "webOptimization": "Medium"
             },
             "bestFor": {
                 "label": "Best For",
                 "webApps": "Custom solutions",
                 "landingPages": "Marketing & SEO",
                 "automation": "Efficiency",
-                "socialDesign": "Brand presence"
+                "socialDesign": "Brand presence",
+                "webOptimization": "SEO & performance"
             }
         },
         "cta": {

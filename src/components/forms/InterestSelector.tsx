@@ -31,7 +31,7 @@ export function InterestSelector({ label, interests, selectedInterests, onChange
                             type="button"
                             onClick={() => toggleInterest(interest.id)}
                             className={`
-                                px-3 py-1.5 text-xs rounded-full
+                                px-2 py-1 text-[10px] rounded-full
                                 border transition-all duration-200
                                 ${
                                     isSelected

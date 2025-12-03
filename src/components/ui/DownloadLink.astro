@@ -1,4 +1,6 @@
 ---
+import UnifiedButton from './UnifiedButton.astro';
+
 interface Props {
     href?: string;
     text?: string;
@@ -6,7 +8,6 @@ interface Props {
     size?: 'sm' | 'md' | 'lg';
     className?: string;
     ariaLabel?: string;
-    downloadFilename?: string;
 }
 
 const {
@@ -15,20 +16,23 @@ const {
     variant = 'secondary',
     size = 'md',
     className = '',
-    ariaLabel = 'Download file',
-    downloadFilename
+    ariaLabel = 'Download file'
 } = Astro.props;
 
-// Add download attribute if filename is provided
-const downloadProps = downloadFilename ? { download: downloadFilename } : {};
+// Map old variant names to UnifiedButton variants
+const variantMap: Record<string, 'primary' | 'secondary' | 'ghost' | 'outline'> = {
+    primary: 'primary',
+    secondary: 'secondary',
+    ghost: 'ghost'
+};
 ---
 
-<a
+<UnifiedButton
     href={href}
-    class={`btn ${variant === 'primary' ? 'btn-primary' : variant === 'secondary' ? 'btn-secondary' : 'btn-ghost'} ${
-        size === 'sm' ? 'px-4 py-2 text-sm' : size === 'lg' ? 'px-8 py-4 text-lg' : 'px-6 py-3 text-base'
-    } ${className}`}
-    aria-label={ariaLabel}
-    {...downloadProps}
-    set:html={text}
-/>
+    variant={variantMap[variant] || 'secondary'}
+    size={size}
+    class={className}
+    ariaLabel={ariaLabel}
+>
+    <span set:html={text} />
+</UnifiedButton>

@@ -1,5 +1,5 @@
 ---
-import ActionLink from './ActionLink.astro';
+import UnifiedButton from './UnifiedButton.astro';
 
 interface Props {
     href?: string;
@@ -18,8 +18,21 @@ const {
     className = '',
     ariaLabel = 'Get in touch with me'
 } = Astro.props;
+
+// Map old variant names to UnifiedButton variants
+const variantMap: Record<string, 'primary' | 'secondary' | 'ghost' | 'outline'> = {
+    primary: 'primary',
+    secondary: 'secondary',
+    ghost: 'ghost'
+};
 ---
 
-<ActionLink href={href} variant={variant} size={size} className={className} ariaLabel={ariaLabel}>
+<UnifiedButton
+    href={href}
+    variant={variantMap[variant] || 'ghost'}
+    size={size}
+    class={className}
+    ariaLabel={ariaLabel}
+>
     <span set:html={text} />
-</ActionLink>
+</UnifiedButton>

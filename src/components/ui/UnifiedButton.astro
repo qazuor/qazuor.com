@@ -1,0 +1,201 @@
+---
+/**
+ * UnifiedButton Astro Wrapper
+ *
+ * Server-rendered version of UnifiedButton for use in Astro components.
+ * For interactive buttons requiring client-side JS, use the React component directly.
+ */
+
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+
+interface Props {
+    /** Visual style variant */
+    variant?: ButtonVariant;
+    /** Button size */
+    size?: ButtonSize;
+    /** Icon position relative to text */
+    iconPosition?: 'left' | 'right';
+    /** Render as icon-only button */
+    iconOnly?: boolean;
+    /** Disabled state */
+    disabled?: boolean;
+    /** Active/selected state */
+    active?: boolean;
+    /** Full width button */
+    fullWidth?: boolean;
+    /** Render as anchor tag */
+    href?: string;
+    /** Link target */
+    target?: '_blank' | '_self' | '_parent' | '_top';
+    /** Button type */
+    type?: 'button' | 'submit' | 'reset';
+    /** Additional CSS classes */
+    class?: string;
+    /** Accessible label */
+    ariaLabel?: string;
+}
+
+const {
+    variant = 'primary',
+    size = 'md',
+    iconPosition = 'left',
+    iconOnly = false,
+    disabled = false,
+    active = false,
+    fullWidth = false,
+    href,
+    target,
+    type = 'button',
+    class: className = '',
+    ariaLabel
+} = Astro.props;
+
+// Check if slots have content
+const hasLeftIcon = Astro.slots.has('icon-left');
+const hasRightIcon = Astro.slots.has('icon-right');
+const hasIcon = hasLeftIcon || hasRightIcon;
+
+// Base classes
+const baseClasses = [
+    // Layout
+    'group inline-flex items-center justify-center',
+    // Typography
+    'font-semibold',
+    // Shape
+    'rounded-xl',
+    // Transitions
+    'transition-all duration-300',
+    // Focus
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
+]
+    .filter(Boolean)
+    .join(' ');
+
+// Variant classes
+const variantClasses: Record<ButtonVariant, string> = {
+    primary: [
+        'relative overflow-hidden text-white shadow-lg shadow-[#667eea]/30',
+        'bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#8b7ec8_0%,#5a4fcf_100%)]',
+        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        !disabled && 'hover:before:opacity-100'
+    ]
+        .filter(Boolean)
+        .join(' '),
+    secondary: [
+        'relative overflow-hidden border text-foreground',
+        'bg-[linear-gradient(135deg,rgba(102,126,234,0.08)_0%,rgba(129,75,162,0.08)_100%)]',
+        'border-[#667eea]/20 shadow-md shadow-[#667eea]/10',
+        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        !disabled &&
+            'hover:before:opacity-100 hover:text-white hover:border-transparent hover:shadow-xl hover:shadow-[#667eea]/30 hover:-translate-y-0.5'
+    ]
+        .filter(Boolean)
+        .join(' '),
+    ghost: [
+        'relative overflow-hidden text-[#667eea]',
+        'bg-[linear-gradient(135deg,rgba(102,126,234,0.05)_0%,rgba(129,75,162,0.05)_100%)]',
+        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'before:opacity-0 before:transition-opacity before:duration-400 before:ease-in-out',
+        !disabled && 'hover:before:opacity-15 hover:text-[#5a4fcf]'
+    ]
+        .filter(Boolean)
+        .join(' '),
+    outline: [
+        'relative overflow-hidden border-2 text-[#667eea]',
+        'bg-transparent border-[#667eea]/50',
+        'shadow-md shadow-[#667eea]/15',
+        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        !disabled &&
+            'hover:before:opacity-100 hover:text-white hover:border-transparent hover:shadow-xl hover:shadow-[#667eea]/30 hover:-translate-y-0.5'
+    ]
+        .filter(Boolean)
+        .join(' ')
+};
+
+// Size classes
+const sizeClasses: Record<ButtonSize, string> = {
+    xs: iconOnly ? 'p-1.5 text-xs' : 'px-3 py-1.5 text-xs',
+    sm: iconOnly ? 'p-2 text-sm' : 'px-4 py-2 text-sm',
+    md: iconOnly ? 'p-2.5 text-base' : 'px-6 py-3 text-base',
+    lg: iconOnly ? 'p-3 text-lg' : 'px-8 py-4 text-lg'
+};
+
+// State classes
+const stateClasses = [
+    disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
+    active && 'bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)] text-white shadow-lg shadow-[#667eea]/30',
+    fullWidth && 'w-full'
+]
+    .filter(Boolean)
+    .join(' ');
+
+const classes = [baseClasses, variantClasses[variant], sizeClasses[size], stateClasses, className]
+    .filter(Boolean)
+    .join(' ');
+
+// Icon size classes
+const iconSizeClasses: Record<ButtonSize, string> = {
+    xs: 'w-3.5 h-3.5',
+    sm: 'w-4 h-4',
+    md: 'w-5 h-5',
+    lg: 'w-5 h-5'
+};
+
+const iconClasses = iconSizeClasses[size];
+const iconTransformLeft = 'group-hover:-translate-x-0.5 transition-transform';
+const iconTransformRight = 'group-hover:translate-x-0.5 transition-transform';
+
+// Content wrapper classes for z-index over pseudo-element
+const contentClasses = ['relative z-10 inline-flex items-center justify-center', hasIcon && !iconOnly ? 'gap-2' : '']
+    .filter(Boolean)
+    .join(' ');
+
+const isLink = !!href;
+---
+
+{
+    isLink ? (
+        <a
+            href={href}
+            class={classes}
+            target={target}
+            rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+            aria-label={ariaLabel}
+            aria-disabled={disabled || undefined}
+        >
+            <span class={contentClasses}>
+                {hasLeftIcon && iconPosition === 'left' && (
+                    <span class:list={[iconClasses, iconTransformLeft, '[&>svg]:w-full [&>svg]:h-full']}>
+                        <slot name="icon-left" />
+                    </span>
+                )}
+                {!iconOnly && <slot />}
+                {hasRightIcon && iconPosition === 'right' && (
+                    <span class:list={[iconClasses, iconTransformRight, '[&>svg]:w-full [&>svg]:h-full']}>
+                        <slot name="icon-right" />
+                    </span>
+                )}
+            </span>
+        </a>
+    ) : (
+        <button type={type} class={classes} disabled={disabled} aria-label={ariaLabel} aria-disabled={disabled || undefined}>
+            <span class={contentClasses}>
+                {hasLeftIcon && iconPosition === 'left' && (
+                    <span class:list={[iconClasses, iconTransformLeft, '[&>svg]:w-full [&>svg]:h-full']}>
+                        <slot name="icon-left" />
+                    </span>
+                )}
+                {!iconOnly && <slot />}
+                {hasRightIcon && iconPosition === 'right' && (
+                    <span class:list={[iconClasses, iconTransformRight, '[&>svg]:w-full [&>svg]:h-full']}>
+                        <slot name="icon-right" />
+                    </span>
+                )}
+            </span>
+        </button>
+    )
+}

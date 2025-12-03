@@ -1,5 +1,4 @@
-import sendIcon from '@/icons/ui/send.svg?raw';
-import spinnerIcon from '@/icons/ui/spinner.svg?raw';
+import { UnifiedButton } from '@/components/ui/UnifiedButton';
 
 /**
  * Props for the SubmitButton component
@@ -13,12 +12,25 @@ interface SubmitButtonProps {
     text: string;
 }
 
+// Send icon component (decorative, hidden from assistive technology)
+const SendIcon = () => (
+    <svg
+        className="w-full h-full"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        aria-hidden="true"
+    >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+    </svg>
+);
+
 /**
  * Form submit button with loading state
  *
- * Displays a spinner icon and loading text when submitting, otherwise
- * shows a send icon with the normal button text. The button is automatically
- * disabled during loading.
+ * Uses UnifiedButton internally for consistent styling across the site.
+ * Displays a spinner when submitting, otherwise shows a send icon.
  *
  * @example
  * ```tsx
@@ -32,25 +44,17 @@ interface SubmitButtonProps {
 export function SubmitButton({ isLoading, loadingText, text }: SubmitButtonProps) {
     return (
         <div className="form-field">
-            <button
+            <UnifiedButton
                 type="submit"
-                disabled={isLoading}
-                className="w-full px-5 py-3 bg-primary text-white text-sm rounded-lg font-medium hover:bg-accent transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                variant="primary"
+                size="md"
+                loading={isLoading}
+                fullWidth
+                icon={<SendIcon />}
+                iconPosition="left"
             >
-                {isLoading ? (
-                    <>
-                        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
-                        <span dangerouslySetInnerHTML={{ __html: spinnerIcon }} />
-                        {loadingText}
-                    </>
-                ) : (
-                    <>
-                        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
-                        <span dangerouslySetInnerHTML={{ __html: sendIcon }} />
-                        {text}
-                    </>
-                )}
-            </button>
+                {isLoading ? loadingText : text}
+            </UnifiedButton>
         </div>
     );
 }

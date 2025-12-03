@@ -5,6 +5,7 @@ import type { ImageMetadata } from 'astro';
 import { BlogPostCard } from '@/components/cards/BlogPostCard';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import fallbackProgramming from '@/content/blog/_images/code-typescript.jpg';
 import fallbackFrontend from '@/content/blog/_images/react-frontend.jpg';
 // Static imports for fallback images by category
@@ -162,13 +163,19 @@ const postsWithImages = await Promise.all(
         {
             posts.length > 3 && (
                 <div class="text-center">
-                    <a
+                    <UnifiedButton
                         href={`/${lang}/blog`}
-                        class="group inline-flex items-center gap-3 px-8 py-4 bg-background/50 hover:bg-background/70 backdrop-blur-sm border-2 border-primary/30 hover:border-primary/50 rounded-lg text-foreground font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20"
+                        variant="primary"
+                        size="lg"
+                        iconPosition="right"
                     >
                         <span set:html={translations.viewAll} />
-                        <div class="w-6 h-6 text-primary transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" set:html={ArrowLongRightIcon} />
-                    </a>
+                        <Fragment slot="icon-right">
+                            <svg class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </Fragment>
+                    </UnifiedButton>
                 </div>
             )
         }

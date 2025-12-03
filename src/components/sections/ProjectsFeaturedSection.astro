@@ -2,6 +2,7 @@
 import { ProjectsFeaturedStack } from '@/components/sections/ProjectsFeaturedStack';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 
 interface OptimizedImage {
     src: string;
@@ -76,12 +77,13 @@ const featuredProjects = projects
 		{
 			featuredProjects.length > 0 && (
 				<div class="h-screen flex items-center justify-center px-5 box-border relative z-[300]">
-					<a
+					<UnifiedButton
 						href={`/${lang}/projects`}
-						class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-lg font-bold text-lg transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:shadow-[0_0_50px_rgba(59,130,246,0.8),0_0_80px_rgba(168,85,247,0.4)]"
+						variant="primary"
+						size="lg"
 					>
 						<span set:html={translations.viewAll} />
-					</a>
+					</UnifiedButton>
 				</div>
 			)
 		}

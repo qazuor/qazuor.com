@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths, Page } from 'astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import { getCategoryColor } from '@/data/categoryColors';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -190,22 +191,31 @@ const pageDescription = processMarkdown(t('blog.pageDescription'));
                                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                                     {/* Previous Button */}
                                     {page.url.prev ? (
-                                        <a
+                                        <UnifiedButton
                                             href={page.url.prev}
-                                            class="group inline-flex items-center gap-3 px-6 py-3 bg-card hover:bg-primary border border-foreground/10 hover:border-primary rounded-xl transition-all duration-300 font-semibold hover:text-white hover:shadow-lg hover:shadow-primary/25"
+                                            variant="secondary"
+                                            size="md"
                                         >
-                                            <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                                            </svg>
+                                            <Fragment slot="icon-left">
+                                                <svg class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </Fragment>
                                             {t('blog.pagination.previous')}
-                                        </a>
+                                        </UnifiedButton>
                                     ) : (
-                                        <span class="inline-flex items-center gap-3 px-6 py-3 bg-card/50 border border-foreground/5 rounded-xl text-foreground-muted cursor-not-allowed font-medium">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                                            </svg>
+                                        <UnifiedButton
+                                            variant="secondary"
+                                            size="md"
+                                            disabled={true}
+                                        >
+                                            <Fragment slot="icon-left">
+                                                <svg class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </Fragment>
                                             {t('blog.pagination.previous')}
-                                        </span>
+                                        </UnifiedButton>
                                     )}
 
                                     {/* Page Numbers */}
@@ -215,39 +225,56 @@ const pageDescription = processMarkdown(t('blog.pageDescription'));
                                             const href = pageNum === 1 ? `/${lang}/blog` : `/${lang}/blog/${pageNum}`;
 
                                             return isCurrentPage ? (
-                                                <span class="relative px-5 py-3 bg-gradient-to-br from-primary to-primary-600 text-white rounded-xl font-bold shadow-lg shadow-primary/30 tabular-nums">
-                                                    {pageNum}
-                                                    <span class="absolute inset-0 rounded-xl bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-300"></span>
-                                                </span>
-                                            ) : (
-                                                <a
-                                                    href={href}
-                                                    class="px-5 py-3 bg-card hover:bg-primary hover:text-white border border-foreground/10 hover:border-primary rounded-xl transition-all duration-300 font-semibold tabular-nums hover:shadow-lg hover:shadow-primary/20"
+                                                <UnifiedButton
+                                                    variant="primary"
+                                                    size="md"
+                                                    active={true}
+                                                    class="tabular-nums"
                                                 >
                                                     {pageNum}
-                                                </a>
+                                                </UnifiedButton>
+                                            ) : (
+                                                <UnifiedButton
+                                                    href={href}
+                                                    variant="secondary"
+                                                    size="md"
+                                                    class="tabular-nums"
+                                                >
+                                                    {pageNum}
+                                                </UnifiedButton>
                                             );
                                         })}
                                     </div>
 
                                     {/* Next Button */}
                                     {page.url.next ? (
-                                        <a
+                                        <UnifiedButton
                                             href={page.url.next}
-                                            class="group inline-flex items-center gap-3 px-6 py-3 bg-card hover:bg-primary border border-foreground/10 hover:border-primary rounded-xl transition-all duration-300 font-semibold hover:text-white hover:shadow-lg hover:shadow-primary/25"
+                                            variant="secondary"
+                                            size="md"
+                                            iconPosition="right"
                                         >
                                             {t('blog.pagination.next')}
-                                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </a>
+                                            <Fragment slot="icon-right">
+                                                <svg class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </Fragment>
+                                        </UnifiedButton>
                                     ) : (
-                                        <span class="inline-flex items-center gap-3 px-6 py-3 bg-card/50 border border-foreground/5 rounded-xl text-foreground-muted cursor-not-allowed font-medium">
+                                        <UnifiedButton
+                                            variant="secondary"
+                                            size="md"
+                                            iconPosition="right"
+                                            disabled={true}
+                                        >
                                             {t('blog.pagination.next')}
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </span>
+                                            <Fragment slot="icon-right">
+                                                <svg class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </Fragment>
+                                        </UnifiedButton>
                                     )}
                                 </div>
                             </nav>

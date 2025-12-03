@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2025-12-03
+
+### Added - UnifiedButton Component System
+
+- **UnifiedButton React component**: Single configurable button component for
+  consistent styling across the site
+- **UnifiedButton Astro wrapper**: Server-rendered version for use in Astro
+  components
+- **4 button variants**: primary, secondary, ghost, and outline with cohesive
+  brand gradient theming
+- **4 button sizes**: xs, sm, md, lg with appropriate padding and typography
+- **Animated gradient hover effects**: Pseudo-element technique for smooth 500ms
+  gradient transitions (CSS gradients can't be directly animated)
+- **Icon support**: Left/right icon positioning with hover micro-animations
+- **Loading state**: Built-in spinner for async actions
+- **Accessibility**: Proper aria-hidden on decorative SVGs, disabled states
+
+### Changed
+
+- **DownloadLink**: Migrated to use UnifiedButton internally
+- **GetInTouchLink**: Migrated to use UnifiedButton internally
+- **ViewProjectsLink**: Migrated to use UnifiedButton internally
+- **SubmitButton**: Migrated to use UnifiedButton with loading state
+- **BlogSection**: Updated "View all posts" link to use UnifiedButton
+- **ProjectsFeaturedSection**: Updated "View all projects" link to use
+  UnifiedButton
+- **Blog pagination**: Updated navigation buttons to use UnifiedButton
+
+### Technical
+
+- Brand gradient: `linear-gradient(135deg, #667eea 0%, #814ba2 100%)`
+- Hover gradient: `linear-gradient(135deg, #8b7ec8 0%, #5a4fcf 100%)`
+- Pseudo-element overlay with opacity transition for smooth hover effects
+- Content wrapped in `relative z-10` span to stay above pseudo-element
+- All variants use themed colors (#667eea, #814ba2) for visual consistency
+
+---
+
 ## [1.5.1] - 2025-12-03
 
 ### Fixed - Timeline Viewport Autoplay

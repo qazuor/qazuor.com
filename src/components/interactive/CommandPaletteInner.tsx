@@ -420,7 +420,7 @@ export function CommandPaletteInner({
                                 <span
                                     // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file
                                     dangerouslySetInnerHTML={{ __html: searchIcon }}
-                                    className="text-foreground-muted"
+                                    className="w-4 h-4 flex-shrink-0 text-foreground-muted [&>svg]:w-full [&>svg]:h-full"
                                     aria-hidden="true"
                                 />
                                 <Command.Input
@@ -485,6 +485,7 @@ export function CommandPaletteInner({
                                                             // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file
                                                             dangerouslySetInnerHTML={{ __html: getIcon(item.icon) }}
                                                             aria-hidden="true"
+                                                            className="w-4 h-4 flex-shrink-0 [&>svg]:w-full [&>svg]:h-full"
                                                         />
                                                         <span>
                                                             {item.label ||
@@ -527,6 +528,7 @@ export function CommandPaletteInner({
                                                                         __html: getContentIcon(item.category)
                                                                     }}
                                                                     aria-hidden="true"
+                                                                    className="w-4 h-4 flex-shrink-0 [&>svg]:w-full [&>svg]:h-full"
                                                                 />
                                                                 <div className="flex-1 min-w-0">
                                                                     <div className="font-medium truncate">

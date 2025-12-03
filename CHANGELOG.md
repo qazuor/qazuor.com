@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [1.5.2] - 2025-12-03
 
+### Fixed
+
+- **Command palette icons**: Social/contact icons (GitHub, LinkedIn, WhatsApp,
+  etc.) now display at correct 16x16px size instead of oversized 32x32px. Added
+  explicit size constraints via Tailwind classes while preserving icon rendering
+  in other components
+
 ### Added - WordPress Service & Services Grid Update
 
 - **WordPress service**: New service for WordPress installation, configuration,

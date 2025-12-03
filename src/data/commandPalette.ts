@@ -71,10 +71,18 @@ export const commandPaletteData: CommandGroup[] = [
             {
                 id: 'services',
                 value: 'services work pricing',
-                href: '/#services',
+                href: '/services',
                 icon: 'gear',
                 keywords: ['services', 'work', 'pricing', 'servicios', 'precios'],
                 label: 'Services'
+            },
+            {
+                id: 'faqs',
+                value: 'faqs questions answers help',
+                href: '/#faqs',
+                icon: 'search',
+                keywords: ['faqs', 'questions', 'answers', 'help', 'preguntas', 'respuestas'],
+                label: 'FAQs'
             },
             {
                 id: 'testimonials',
@@ -99,6 +107,43 @@ export const commandPaletteData: CommandGroup[] = [
                 icon: 'mail',
                 keywords: ['contact', 'get in touch', 'email', 'contacto'],
                 label: 'Contact'
+            }
+        ]
+    },
+    {
+        heading: 'Goodies',
+        items: [
+            {
+                id: 'goodies-snippets',
+                value: 'snippets code examples',
+                href: '/goodies/snippets',
+                icon: 'code',
+                keywords: ['snippets', 'code', 'examples', 'codigo', 'ejemplos'],
+                label: 'Code Snippets'
+            },
+            {
+                id: 'goodies-css-tricks',
+                value: 'css tricks styles animations',
+                href: '/goodies/css-tricks',
+                icon: 'paint',
+                keywords: ['css', 'tricks', 'styles', 'animations', 'trucos', 'estilos'],
+                label: 'CSS Tricks'
+            },
+            {
+                id: 'goodies-tools',
+                value: 'tools utilities apps',
+                href: '/goodies/tools',
+                icon: 'gear',
+                keywords: ['tools', 'utilities', 'apps', 'herramientas', 'utilidades'],
+                label: 'Dev Tools'
+            },
+            {
+                id: 'goodies-links',
+                value: 'useful links resources bookmarks',
+                href: '/goodies/useful-links',
+                icon: 'link',
+                keywords: ['links', 'resources', 'bookmarks', 'enlaces', 'recursos'],
+                label: 'Useful Links'
             }
         ]
     },
@@ -189,6 +234,7 @@ export const keyboardShortcuts: Record<string, KeyboardShortcut> = {
     h: { type: 'navigation', href: '/', commandKey: true },
     p: { type: 'navigation', href: '/projects', commandKey: true },
     b: { type: 'navigation', href: '/blog', commandKey: true },
+    s: { type: 'navigation', href: '/services', commandKey: true },
     t: { type: 'navigation', href: '/goodies', commandKey: true },
     a: { type: 'navigation', href: '/#about', commandKey: true },
     '?': { type: 'action', action: 'showHelp', commandKey: true },

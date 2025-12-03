@@ -264,6 +264,22 @@
         "viewAll": "View all",
         "learnMore": "Learn more"
     },
+    "notFound": {
+        "title": "Page Not Found",
+        "code": "404",
+        "heading": "Oops! Lost in the void",
+        "description": "The page you're looking for doesn't exist or has been moved. Let's get you back on track.",
+        "backHome": "Back to Home",
+        "searchHint": "Or use the command palette (Ctrl+K) to search",
+        "suggestions": {
+            "title": "You might be looking for:",
+            "home": "Home",
+            "blog": "Blog",
+            "projects": "Projects",
+            "services": "Services",
+            "contact": "Contact"
+        }
+    },
     "seo": {
         "title": "Leandro Asrilevich - Full-Stack Developer | Modern Web Solutions",
         "imageAlt": "qazuor - Full-Stack Developer Portfolio"

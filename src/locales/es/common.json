@@ -264,6 +264,22 @@
         "viewAll": "Ver todo",
         "learnMore": "Saber más"
     },
+    "notFound": {
+        "title": "Página No Encontrada",
+        "code": "404",
+        "heading": "¡Ups! Perdido en el vacío",
+        "description": "La página que buscás no existe o fue movida. Volvamos al camino correcto.",
+        "backHome": "Volver al Inicio",
+        "searchHint": "O usá la paleta de comandos (Ctrl+K) para buscar",
+        "suggestions": {
+            "title": "Quizás buscabas:",
+            "home": "Inicio",
+            "blog": "Blog",
+            "projects": "Proyectos",
+            "services": "Servicios",
+            "contact": "Contacto"
+        }
+    },
     "seo": {
         "title": "Leandro Asrilevich - Desarrollador Full-Stack | Soluciones Web Modernas",
         "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"

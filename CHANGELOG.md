@@ -8,6 +8,17 @@ and this project adheres to
 
 ## [1.4.0] - 2025-12-03
 
+### Added - Custom 404 Page
+
+- **Custom 404 page**: Replaced Astro's default 404 with a branded error page
+- **Animated gradient background**: Three floating gradient orbs with smooth
+  animation (same style as hero section)
+- **i18n support**: Full EN/ES translations for all 404 page content
+- **Quick navigation links**: Direct links to Home, Blog, Projects, Services,
+  and Contact
+- **Command palette hint**: Reminds users they can use Ctrl+K to search
+- **Theme support**: Works correctly in both light and dark modes
+
 ### Fixed - View Transitions Compatibility
 
 - **PixelCanvas Web Component**: Fixed custom element not working after View

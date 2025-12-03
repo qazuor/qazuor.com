@@ -380,18 +380,38 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
 </style>
 
 <script>
+    // Store observer reference for cleanup
+    let languageBarObserver: IntersectionObserver | null = null;
+
     // Animate language bars on viewport entry
     function initializeLanguageBars() {
+        // Cleanup previous observer if exists
+        if (languageBarObserver) {
+            languageBarObserver.disconnect();
+            languageBarObserver = null;
+        }
+
+        // Reset animation state for re-navigation
+        const languageItems = document.querySelectorAll('[data-animate-bar]');
+        languageItems.forEach((item) => {
+            item.classList.remove('animate-in');
+            const progressBar = item.querySelector('.language-progress') as HTMLElement;
+            if (progressBar) {
+                progressBar.style.removeProperty('--progress-width');
+                progressBar.style.removeProperty('--gradient-size');
+            }
+        });
+
         const observerOptions = {
             threshold: 0.5,
             rootMargin: '0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
+        languageBarObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    const languageItems = entry.target.querySelectorAll('[data-animate-bar]');
-                    languageItems.forEach((item, index) => {
+                    const items = entry.target.querySelectorAll('[data-animate-bar]');
+                    items.forEach((item, index) => {
                         const progressBar = item.querySelector('.language-progress') as HTMLElement;
                         const value = progressBar?.getAttribute('data-value');
                         if (progressBar && value) {
@@ -406,7 +426,7 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
                             }, index * 150);
                         }
                     });
-                    observer.unobserve(entry.target);
+                    languageBarObserver?.unobserve(entry.target);
                 }
             });
         }, observerOptions);
@@ -414,13 +434,26 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
         // Observe language skills section
         const languageSkills = document.querySelector('[data-animate]');
         if (languageSkills) {
-            observer.observe(languageSkills);
+            languageBarObserver.observe(languageSkills);
         }
     }
 
+    // Cleanup on View Transition navigation
+    document.addEventListener('astro:before-swap', () => {
+        if (languageBarObserver) {
+            languageBarObserver.disconnect();
+            languageBarObserver = null;
+        }
+    });
+
     // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', initializeLanguageBars);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeLanguageBars);
+    } else {
+        initializeLanguageBars();
+    }
 
     // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initializeLanguageBars);
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', initializeLanguageBars);
 </script>

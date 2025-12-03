@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-12-03
+
+### Fixed - View Transitions Compatibility
+
+- **PixelCanvas Web Component**: Fixed custom element not working after View
+  Transitions navigation from pages without the component
+- **Global PixelCanvas registration**: Moved custom element definition to
+  BaseLayout with `is:inline` script for persistent registration
+- **Lifecycle event handling**: Updated all components to use centralized
+  `qazuor:content-ready` event for View Transitions compatibility
+
+### Changed
+
+- **Script architecture**: Converted TypeScript inline scripts to JavaScript for
+  `data-astro-rerun` compatibility
+- **Component cleanup**: Removed duplicate script from PixelCanvas.astro,
+  deleted unused `src/lib/pixel-canvas.ts`
+
+### Technical
+
+- PixelCanvas custom element now registers globally on every page load
+- Event listener for `qazuor:content-ready` re-initializes pixel-canvas elements
+  after View Transitions
+- All interactive components (AutoAnimate, CalloutEnhancer, MermaidRenderer,
+  SkillsRadarGrid, Navigation, ProjectsSection, TestimonialsSection,
+  PerformanceBadge, RotatingRoles, typeIt) updated to use lifecycle events
+
+---
+
 ## [1.3.0] - 2025-12-02
 
 ### Added - LLM-First Optimization Phase 3 (Services Page Enhancements)

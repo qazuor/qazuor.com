@@ -221,11 +221,16 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
             }));
         }
 
-        // Initialize on initial page load
-        document.addEventListener('DOMContentLoaded', initProjectCards);
+        // Initialize on initial page load (handles direct navigation)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initProjectCards);
+        } else {
+            initProjectCards();
+        }
 
         // Re-initialize after View Transitions navigation
-        document.addEventListener('astro:page-load', initProjectCards);
+        // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+        document.addEventListener('qazuor:content-ready', initProjectCards);
 
         // Cleanup handler for View Transitions
         document.addEventListener('astro:before-swap', () => {

@@ -876,7 +876,7 @@ const testimonials = allTestimonials.map((t, i) => ({
 
     // Check if already initialized (prevents duplicate listeners on View Transitions)
     if (window.__testimonialsInitialized) {
-        // Already initialized - the astro:page-load listener will handle state reset
+        // Already initialized - the qazuor:content-ready listener will handle state reset
         // No need to re-add event listeners
     } else {
         window.__testimonialsInitialized = true;
@@ -1176,8 +1176,9 @@ const testimonials = allTestimonials.map((t, i) => ({
     }
 
     // Initialize on page load and after View Transitions
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
     initTestimonials();
-    document.addEventListener('astro:page-load', initTestimonials);
+    document.addEventListener('qazuor:content-ready', initTestimonials);
 
     } // End of else block (guard flag check)
 </script>

@@ -98,11 +98,16 @@ const { roles, className = '' } = Astro.props;
         }
     }
 
-    // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', initializeRotatingRoles);
+    // Initialize on initial page load (handles direct navigation)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeRotatingRoles);
+    } else {
+        initializeRotatingRoles();
+    }
 
     // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initializeRotatingRoles);
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', initializeRotatingRoles);
 </script>
 
 <style>

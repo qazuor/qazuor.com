@@ -466,6 +466,11 @@ for (const project of projects) {
             // STEP 2: Perform DOM swap (invisible behind overlay)
             await originalSwap();
 
+            // STEP 2.5: Dispatch custom event for content enhancement scripts
+            // This fires after DOM swap but before exit animation starts
+            // Components like CalloutEnhancer can listen for this to process new content
+            document.dispatchEvent(new CustomEvent('qazuor:content-ready'));
+
             // STEP 3: Animate OUT (reveals new content)
             const tlOut = gsap.timeline();
 

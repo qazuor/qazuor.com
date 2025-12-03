@@ -870,7 +870,8 @@ const isActive = (href: string) => {
         } else {
             initNavigation();
         }
-        document.addEventListener('astro:page-load', initNavigation);
+        // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+        document.addEventListener('qazuor:content-ready', initNavigation);
     });
 </script>
 

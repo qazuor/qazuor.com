@@ -182,17 +182,22 @@
     }
 
     // Initialize on initial page load
-    document.addEventListener('DOMContentLoaded', initializeMermaid);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeMermaid);
+    } else {
+        initializeMermaid();
+    }
 
     // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initializeMermaid);
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', initializeMermaid);
 
     // Re-render diagrams on theme change
     document.addEventListener('theme-changed', async () => {
         const mermaid = window.__mermaidInstance;
         if (!mermaid) return;
 
-        const mermaidContainers = document.querySelectorAll('.mermaid-container');
+        const mermaidContainers = document.querySelectorAll('.mermaid-diagram');
         if (mermaidContainers.length === 0) return;
 
         // Re-initialize with new theme

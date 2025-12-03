@@ -184,7 +184,8 @@ export function initLifecycle(): void {
     }
 
     // Handle View Transitions navigation
-    document.addEventListener('astro:page-load', () => {
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', () => {
         runPageLoadCallbacks();
     });
 

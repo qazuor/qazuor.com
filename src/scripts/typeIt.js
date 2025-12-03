@@ -27,5 +27,6 @@ if (typeof window !== 'undefined' && window.heroRoles) {
     document.addEventListener('DOMContentLoaded', autoInit);
 
     // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', autoInit);
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', autoInit);
 }

@@ -160,9 +160,14 @@ const {
         });
     }
 
-    // Initialize on DOM ready
-    initPerformanceBadge();
+    // Initialize on DOM ready (handles direct navigation)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPerformanceBadge);
+    } else {
+        initPerformanceBadge();
+    }
 
     // Re-initialize after View Transitions
-    document.addEventListener('astro:after-swap', initPerformanceBadge);
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', initPerformanceBadge);
 </script>

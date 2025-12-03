@@ -10,52 +10,11 @@
  * > **Error:** Something went wrong
  *
  * And applies the corresponding callout-{type} class for styling.
+ *
+ * IMPORTANT: This component should be included in the BaseLayout to ensure
+ * the script is always present and can handle View Transitions navigation.
+ * The bundled script runs once and registers a persistent event listener.
  */
 ---
 
-<script>
-    function enhanceCallouts() {
-        const blockquotes = document.querySelectorAll('.content-prose blockquote');
-
-        // Patterns match the rendered HTML: <strong>Type:</strong> or <strong>Type</strong>:
-        const calloutPatterns: Record<string, RegExp> = {
-            info: /^<strong>Info:?<\/strong>:?\s*/i,
-            warning: /^<strong>Warning:?<\/strong>:?\s*/i,
-            tip: /^<strong>Tip:?<\/strong>:?\s*/i,
-            success: /^<strong>Success:?<\/strong>:?\s*/i,
-            error: /^<strong>Error:?<\/strong>:?\s*/i,
-            quote: /^<strong>Quote:?<\/strong>:?\s*/i
-        };
-
-        blockquotes.forEach((blockquote) => {
-            const firstParagraph = blockquote.querySelector('p');
-            if (!firstParagraph) return;
-
-            const html = firstParagraph.innerHTML.trim();
-
-            for (const [type, pattern] of Object.entries(calloutPatterns)) {
-                if (pattern.test(html)) {
-                    // Add callout class
-                    blockquote.classList.add(`callout-${type}`);
-
-                    // Remove the pattern from the HTML, keeping the rest
-                    const cleanedHtml = html.replace(pattern, '').trim();
-                    firstParagraph.innerHTML = cleanedHtml;
-
-                    // If the paragraph is now empty, remove it
-                    if (!cleanedHtml) {
-                        firstParagraph.remove();
-                    }
-
-                    break;
-                }
-            }
-        });
-    }
-
-    // Run on page load
-    enhanceCallouts();
-
-    // Re-run on Astro page transitions
-    document.addEventListener('astro:after-swap', enhanceCallouts);
-</script>
+<!-- Empty component - script is now in BaseLayout for proper View Transitions support -->

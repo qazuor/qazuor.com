@@ -204,5 +204,6 @@ const goodiesUrl = translatePath('/goodies', lang);
     }
 
     // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initSnippetsFiltering);
+    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    document.addEventListener('qazuor:content-ready', initSnippetsFiltering);
 </script>

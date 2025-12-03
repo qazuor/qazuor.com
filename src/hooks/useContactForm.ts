@@ -73,7 +73,8 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         // Also read after a small delay (for client:visible hydration timing)
         const timeoutId = setTimeout(readInterestsFromUrl, 100);
 
-        // Listen for Astro View Transitions navigation
+        // Listen for View Transitions navigation
+        // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
         const handlePageLoad = () => {
             // Small delay to ensure React component is ready after View Transition
             setTimeout(() => {
@@ -82,13 +83,11 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             }, 50);
         };
 
-        document.addEventListener('astro:page-load', handlePageLoad);
-        document.addEventListener('astro:after-swap', handlePageLoad);
+        document.addEventListener('qazuor:content-ready', handlePageLoad);
 
         return () => {
             clearTimeout(timeoutId);
-            document.removeEventListener('astro:page-load', handlePageLoad);
-            document.removeEventListener('astro:after-swap', handlePageLoad);
+            document.removeEventListener('qazuor:content-ready', handlePageLoad);
         };
     }, []);
     const [errors, setErrors] = useState<Record<string, string>>({});

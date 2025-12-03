@@ -17,6 +17,7 @@ interface ContactInfoProps {
     translations: {
         title: string;
         description: string;
+        sectionDescription?: string;
         emailLabel: string;
         phoneLabel: string;
         locationLabel: string;
@@ -108,6 +109,13 @@ export function ContactInfo({ email, phone, location, social, translations, aria
             <div className="contact-info-item">
                 <h3 className="text-xl font-bold text-foreground mb-2">{translations.title}</h3>
                 <p className="text-foreground-secondary text-sm leading-relaxed">{translations.description}</p>
+                {translations.sectionDescription && (
+                    <p
+                        className="text-foreground-secondary text-sm leading-relaxed mt-3"
+                        // biome-ignore lint/security/noDangerouslySetInnerHtml: Safe - content comes from i18n translations, not user input
+                        dangerouslySetInnerHTML={{ __html: translations.sectionDescription }}
+                    />
+                )}
             </div>
 
             {/* Contact Details */}

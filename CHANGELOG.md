@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2025-12-03
+
+### Fixed - Timeline Mobile Autoplay
+
+- **Mobile autoplay interruption**: Fixed autoplay pausing after each item
+  change on mobile devices
+- **Programmatic scroll detection**: Replaced boolean flag with timestamp-based
+  approach to reliably distinguish programmatic scrolls from user scrolls
+- **Desktop item centering**: Fixed selected items going off-screen on desktop
+  by adding consistent `DESKTOP_PADDING` constant
+- **Mobile card overlap**: Adjusted TimelineCard positioning to prevent text
+  overlapping with icon on mobile (200px top offset)
+
+### Technical
+
+- `useTimelineAnimation` hook now uses `programmaticScrollUntilRef` timestamp
+  instead of boolean flag for scroll origin detection
+- Scroll events within 1000ms of programmatic scroll start are ignored
+- Desktop uses fixed 64px padding, mobile uses dynamic 50vw-based padding
+
+---
+
 ## [1.4.0] - 2025-12-03
 
 ### Added - Custom 404 Page

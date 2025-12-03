@@ -28,6 +28,8 @@ const TIMELINE_SPACING_MOBILE = 100;
 const POPOVER_WIDTH_DESKTOP = 500;
 const POPOVER_WIDTH_MOBILE = 280;
 const AUTO_PLAY_INTERVAL_MS = 4000;
+const SNAP_DELAY_MS = 500;
+const DESKTOP_PADDING = 64;
 
 /**
  * Hook parameters
@@ -50,22 +52,20 @@ interface UseTimelineAnimationReturn {
     popoverPosition: PopoverPosition;
     isMobile: boolean;
     totalItems: number;
+    isUserScrolling: boolean;
 
     // Refs
     timelineRef: React.RefObject<HTMLDivElement | null>;
     containerRef: React.RefObject<HTMLDivElement | null>;
-    touchStartX: React.RefObject<number>;
-    touchEndX: React.RefObject<number>;
+    scrollContainerRef: React.RefObject<HTMLDivElement | null>;
 
     // Constants
     TIMELINE_SPACING: number;
     POPOVER_WIDTH: number;
+    DESKTOP_PADDING: number;
 
     // Handlers
     handleItemClick: (item: TimelineItem, index: number) => void;
-    handleTouchStart: (e: React.TouchEvent) => void;
-    handleTouchMove: (e: React.TouchEvent) => void;
-    handleTouchEnd: () => void;
     goToNext: () => void;
     goToPrev: () => void;
     goToIndex: (index: number) => void;
@@ -99,12 +99,16 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [popoverPosition, setPopoverPosition] = useState<PopoverPosition>('center');
     const [isMobile, setIsMobile] = useState(false);
+    const [isUserScrolling, setIsUserScrolling] = useState(false);
 
     // Refs
     const timelineRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const touchStartX = useRef<number>(0);
-    const touchEndX = useRef<number>(0);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const isScrollingRef = useRef(false);
+    // Track programmatic scroll with a timestamp to handle overlapping scrolls
+    const programmaticScrollUntilRef = useRef<number>(0);
 
     // Responsive values
     const TIMELINE_SPACING = isMobile ? TIMELINE_SPACING_MOBILE : TIMELINE_SPACING_DESKTOP;
@@ -130,37 +134,94 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     );
 
     /**
+     * Get the horizontal padding for the timeline
+     * Mobile: 50vw - half item width so items can center
+     * Desktop: Fixed padding from constant
+     */
+    const getTimelinePadding = useCallback(() => {
+        if (isMobile) {
+            if (!scrollContainerRef.current) return 32;
+            // Use half the viewport width so first/last items can center
+            return scrollContainerRef.current.clientWidth / 2 - TIMELINE_SPACING / 2;
+        }
+        // Desktop uses fixed padding
+        return DESKTOP_PADDING;
+    }, [isMobile, TIMELINE_SPACING]);
+
+    /**
      * Scroll to specific timeline item
      */
     const scrollToItem = useCallback(
-        (index: number) => {
-            const container = document.getElementById('timeline-scroll-container');
+        (index: number, smooth = true) => {
+            const container = scrollContainerRef.current;
             if (!container) return;
+
+            // Mark as programmatic scroll - use timestamp to ignore scroll events
+            // until well after the smooth animation completes (smooth scroll can take 300-800ms)
+            const scrollDuration = smooth ? 1000 : 100;
+            programmaticScrollUntilRef.current = Date.now() + scrollDuration;
 
             const itemWidth = TIMELINE_SPACING;
             const containerWidth = container.clientWidth;
-            // Timeline has px-16 (64px) on desktop, px-8 (32px) on mobile
-            const timelinePadding = isMobile ? 32 : 64;
+            const timelinePadding = getTimelinePadding();
 
-            // Calculate the center position of the item
-            // Item center = padding + (index * itemWidth) + (itemWidth / 2)
+            // Calculate the center position of the item relative to timeline start
             const itemCenter = timelinePadding + index * itemWidth + itemWidth / 2;
 
             // Scroll position to center the item in the viewport
             const scrollPosition = itemCenter - containerWidth / 2;
 
-            // Ensure we don't scroll beyond the boundaries
-            const totalWidth = timelinePadding * 2 + totalItems * itemWidth;
-            const maxScroll = Math.max(0, totalWidth - containerWidth);
-            const clampedScrollPosition = Math.max(0, Math.min(scrollPosition, maxScroll));
+            // For mobile with dynamic padding, we can scroll to any position
+            // For desktop, clamp to prevent empty space
+            if (isMobile) {
+                container.scrollTo({
+                    left: Math.max(0, scrollPosition),
+                    behavior: smooth ? 'smooth' : 'instant'
+                });
+            } else {
+                // Desktop: calculate max scroll based on content width
+                const totalContentWidth = timelinePadding * 2 + totalItems * itemWidth;
+                const maxScroll = Math.max(0, totalContentWidth - containerWidth);
+                const clampedScrollPosition = Math.max(0, Math.min(scrollPosition, maxScroll));
 
-            container.scrollTo({
-                left: clampedScrollPosition,
-                behavior: 'smooth'
-            });
+                container.scrollTo({
+                    left: clampedScrollPosition,
+                    behavior: smooth ? 'smooth' : 'instant'
+                });
+            }
         },
-        [TIMELINE_SPACING, totalItems, isMobile]
+        [TIMELINE_SPACING, totalItems, getTimelinePadding, isMobile]
     );
+
+    /**
+     * Find the closest item to the center of the viewport
+     */
+    const findClosestItemToCenter = useCallback(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return 0;
+
+        const scrollLeft = container.scrollLeft;
+        const containerWidth = container.clientWidth;
+        const timelinePadding = getTimelinePadding();
+
+        // Center of viewport in scroll coordinates
+        const viewportCenter = scrollLeft + containerWidth / 2;
+
+        // Find which item is closest to center
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        for (let i = 0; i < totalItems; i++) {
+            const itemCenter = timelinePadding + i * TIMELINE_SPACING + TIMELINE_SPACING / 2;
+            const distance = Math.abs(itemCenter - viewportCenter);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        }
+
+        return closestIndex;
+    }, [totalItems, TIMELINE_SPACING, getTimelinePadding]);
 
     /**
      * Navigate to specific item
@@ -306,40 +367,67 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     );
 
     /**
-     * Handle touch start (mobile swipe)
+     * Snap to nearest item after scroll stops
      */
-    const handleTouchStart = useCallback((e: React.TouchEvent) => {
-        touchStartX.current = e.targetTouches[0].clientX;
-    }, []);
+    const snapToNearestItem = useCallback(() => {
+        if (isScrollingRef.current) return;
+
+        const closestIndex = findClosestItemToCenter();
+        setIsUserScrolling(false);
+
+        // Update state without triggering smooth scroll if already close
+        setCurrentIndex(closestIndex);
+        setSelectedItem(mainTimelineItems[closestIndex]);
+        setPopoverPosition(calculatePopoverPosition(closestIndex));
+
+        // Smooth scroll to exactly center the item
+        scrollToItem(closestIndex, true);
+    }, [findClosestItemToCenter, mainTimelineItems, calculatePopoverPosition, scrollToItem]);
 
     /**
-     * Handle touch move (mobile swipe)
+     * Handle scroll events - detect user scrolling and schedule snap
+     * Ignores programmatic scrolls to prevent autoplay interruption
      */
-    const handleTouchMove = useCallback((e: React.TouchEvent) => {
-        touchEndX.current = e.targetTouches[0].clientX;
-    }, []);
-
-    /**
-     * Handle touch end (mobile swipe)
-     */
-    const handleTouchEnd = useCallback(() => {
-        const swipeDistance = touchStartX.current - touchEndX.current;
-        const minSwipeDistance = 50;
-
-        if (Math.abs(swipeDistance) > minSwipeDistance) {
-            setIsAutoPlaying(false);
-            if (swipeDistance > 0) {
-                // Swipe left - next item
-                goToNext();
-            } else {
-                // Swipe right - previous item
-                goToPrev();
-            }
+    const handleScroll = useCallback(() => {
+        // Ignore programmatic scrolls (from autoplay or navigation)
+        // Check if we're still within the programmatic scroll window
+        if (Date.now() < programmaticScrollUntilRef.current) {
+            return;
         }
 
-        touchStartX.current = 0;
-        touchEndX.current = 0;
-    }, [goToNext, goToPrev]);
+        // Mark as user scrolling
+        if (!isScrollingRef.current) {
+            isScrollingRef.current = true;
+            setIsUserScrolling(true);
+            setIsAutoPlaying(false);
+        }
+
+        // Clear existing timeout
+        if (scrollTimeoutRef.current) {
+            clearTimeout(scrollTimeoutRef.current);
+        }
+
+        // Schedule snap after scroll stops
+        scrollTimeoutRef.current = setTimeout(() => {
+            isScrollingRef.current = false;
+            snapToNearestItem();
+        }, SNAP_DELAY_MS);
+    }, [snapToNearestItem]);
+
+    // Attach scroll listener
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container || !isMobile) return;
+
+        container.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+            if (scrollTimeoutRef.current) {
+                clearTimeout(scrollTimeoutRef.current);
+            }
+        };
+    }, [handleScroll, isMobile]);
 
     return {
         // State
@@ -349,22 +437,20 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         popoverPosition,
         isMobile,
         totalItems,
+        isUserScrolling,
 
         // Refs
         timelineRef,
         containerRef,
-        touchStartX,
-        touchEndX,
+        scrollContainerRef,
 
         // Constants
         TIMELINE_SPACING,
         POPOVER_WIDTH,
+        DESKTOP_PADDING,
 
         // Handlers
         handleItemClick,
-        handleTouchStart,
-        handleTouchMove,
-        handleTouchEnd,
         goToNext,
         goToPrev,
         goToIndex,

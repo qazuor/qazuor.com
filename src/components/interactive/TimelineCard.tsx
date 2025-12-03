@@ -67,22 +67,28 @@ export function TimelineCard({ item, popoverPosition, popoverWidth, timelineSpac
             className="absolute z-20 backdrop-blur-sm rounded-lg shadow-2xl opacity-100 transition-all duration-300 ease-out"
             style={{
                 width: `${popoverWidth}px`,
-                top: isMobile ? '140px' : '190px',
+                // Push card below the icon with margin
+                // Icon when selected goes to ~130px + 60px (scaled size) = ~190px
+                // Adding margin for mobile
+                top: isMobile ? '200px' : '190px',
                 left: getLeftPosition(),
                 backgroundColor: 'hsl(var(--popover) / 0.95)',
                 borderColor: 'hsl(var(--border))',
-                padding: isMobile ? '12px' : '16px'
+                padding: isMobile ? '12px 14px' : '16px',
+                // Let content determine height, with max for very long text
+                maxHeight: isMobile ? '120px' : 'none',
+                overflow: isMobile ? 'hidden' : 'visible'
             }}
         >
             <div className={getTextAlignment()}>
                 <h3
-                    className={`${isMobile ? 'text-xs' : 'text-sm'} font-semibold mb-1`}
+                    className={`${isMobile ? 'text-[11px]' : 'text-sm'} font-semibold mb-1 leading-tight`}
                     style={{ color: item.colorHex }}
                 >
                     {item.title}
                 </h3>
                 <p
-                    className={`${isMobile ? 'text-[11px]' : 'text-xs'} leading-relaxed`}
+                    className={`${isMobile ? 'text-[10px] line-clamp-3' : 'text-xs'} leading-relaxed`}
                     style={{ color: 'hsl(var(--text-secondary))' }}
                 >
                     {item.content}

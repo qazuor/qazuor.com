@@ -165,27 +165,35 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
             <div className="w-full mx-auto">
                 {/* Horizontal scroll container - hidden scrollbar */}
                 <div
-                    id="timeline-scroll-container"
+                    ref={timeline.scrollContainerRef}
                     className="overflow-x-auto overflow-y-visible scrollbar-hide"
                     style={{
                         scrollbarWidth: 'none',
-                        msOverflowStyle: 'none'
+                        msOverflowStyle: 'none',
+                        WebkitOverflowScrolling: 'touch'
                     }}
                 >
                     {/* Timeline container - flexbox autocontained */}
                     {/* biome-ignore lint/a11y/useSemanticElements: role="group" is semantically correct for timeline navigation */}
                     <div
                         ref={timeline.timelineRef}
-                        className={`relative mb-8 flex items-start ${timeline.isMobile ? 'px-8' : 'px-16'}`}
-                        onTouchStart={timeline.handleTouchStart}
-                        onTouchMove={timeline.handleTouchMove}
-                        onTouchEnd={timeline.handleTouchEnd}
+                        className="relative mb-8 flex items-start"
                         role="group"
                         aria-label="Timeline navigation"
                         style={{
-                            width: `${timelineItems.length * timeline.TIMELINE_SPACING}px`,
-                            minWidth: '100%',
-                            paddingBottom: timeline.isMobile ? '120px' : '200px'
+                            // Width = padding-left + items + padding-right
+                            // Mobile: 50vw padding on each side so first/last can center
+                            // Desktop: fixed padding (DESKTOP_PADDING)
+                            width: timeline.isMobile
+                                ? `calc(100vw + ${(timelineItems.length - 1) * timeline.TIMELINE_SPACING}px)`
+                                : `${timelineItems.length * timeline.TIMELINE_SPACING + timeline.DESKTOP_PADDING * 2}px`,
+                            paddingLeft: timeline.isMobile
+                                ? `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`
+                                : `${timeline.DESKTOP_PADDING}px`,
+                            paddingRight: timeline.isMobile
+                                ? `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`
+                                : `${timeline.DESKTOP_PADDING}px`,
+                            paddingBottom: timeline.isMobile ? '160px' : '200px'
                         }}
                     >
                         {/* Horizontal base line with gradients */}
@@ -333,24 +341,24 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                 </div>
             </div>
 
-            {/* Mobile Swipe Hint - Below Timeline */}
-            {timeline.isMobile && (
-                <div className="flex items-center justify-center gap-2 mt-4 text-text-muted text-sm animate-pulse">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            {/* Mobile Scroll Hint - Below Timeline - show briefly then fade */}
+            {timeline.isMobile && !timeline.isUserScrolling && (
+                <div className="flex items-center justify-center gap-2 text-text-muted text-xs opacity-60">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M8 7h12m-12 6h12m-12 6h12M4 7h.01M4 13h.01M4 19h.01"
+                            d="M7 16l-4-4m0 0l4-4m-4 4h18"
                         />
                     </svg>
                     <span>{t.swipeHint}</span>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
                         />
                     </svg>
                 </div>

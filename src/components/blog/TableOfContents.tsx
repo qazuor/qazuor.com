@@ -28,6 +28,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
     const [isStuck, setIsStuck] = useState(false);
     const [isHiddenByFooter, setIsHiddenByFooter] = useState(false);
     const [stickyLeft, setStickyLeft] = useState<number | null>(null);
+    const [showScrollToTop, setShowScrollToTop] = useState(false);
     const observerRef = useRef<IntersectionObserver | null>(null);
     const asideRef = useRef<HTMLElement | null>(null);
     const initialTopRef = useRef<number | null>(null);
@@ -160,6 +161,16 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
             document.body.style.overflow = '';
         };
     }, [isDrawerOpen]);
+
+    // Track if ScrollToTop button is visible (shows after 300px scroll)
+    useEffect(() => {
+        const toggleScrollToTopVisibility = () => {
+            setShowScrollToTop(window.pageYOffset > 300);
+        };
+
+        window.addEventListener('scroll', toggleScrollToTopVisibility, { passive: true });
+        return () => window.removeEventListener('scroll', toggleScrollToTopVisibility);
+    }, []);
 
     // Track sticky state based on scroll position
     useEffect(() => {
@@ -302,17 +313,18 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 </nav>
             </aside>
 
-            {/* Mobile Floating Button - Visible only on mobile/tablet, z-30 */}
+            {/* Mobile Floating Button - Visible only on mobile/tablet, moves up when ScrollToTop is visible */}
             <button
                 type="button"
                 onClick={() => setIsDrawerOpen(true)}
-                className="xl:hidden fixed bottom-6 right-6 z-30
+                className={`xl:hidden fixed right-6 z-30
                     w-14 h-14 rounded-full
                     bg-primary text-white shadow-lg shadow-primary/30
                     flex items-center justify-center
                     hover:bg-primary-600 hover:scale-105
                     active:scale-95
-                    transition-all duration-200"
+                    transition-all duration-200
+                    ${showScrollToTop ? 'bottom-[5.5rem]' : 'bottom-6'}`}
                 aria-label="Open table of contents"
             >
                 <svg

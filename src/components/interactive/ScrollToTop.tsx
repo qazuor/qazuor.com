@@ -38,7 +38,7 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
                     type="button"
                     onClick={scrollToTop}
                     data-scroll-to-top="true"
-                    className="fixed bottom-8 right-8 z-50 p-3 bg-primary text-white rounded-full shadow-glow-primary hover:bg-primary-600 transition-all duration-300 hover:scale-110 active:scale-95"
+                    className="fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center bg-primary text-white rounded-full shadow-lg shadow-primary/30 hover:bg-primary-600 transition-all duration-300 hover:scale-110 active:scale-95"
                     aria-label={ariaLabel}
                 >
                     {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}

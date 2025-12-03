@@ -10,6 +10,9 @@ and this project adheres to
 
 ### Fixed
 
+- **Testimonial LinkedIn links**: Added missing LinkedIn profile link button to
+  testimonial modal. The link element was referenced in JavaScript but never
+  added to the HTML markup
 - **Command palette icons**: Social/contact icons (GitHub, LinkedIn, WhatsApp,
   etc.) now display at correct 16x16px size instead of oversized 32x32px. Added
   explicit size constraints via Tailwind classes while preserving icon rendering

@@ -128,13 +128,10 @@ const sortedBlogPosts = allBlogPosts
         slug: `/${lang}/blog/${post.slug}`
     }));
 
-// Sort testimonials by order and date, and optimize avatar images
+// Sort testimonials by filename prefix (01-, 02-, etc.)
 const sortedTestimonialsRaw = allTestimonials.sort(
     (a: CollectionEntry<'testimonials'>, b: CollectionEntry<'testimonials'>) => {
-        if (a.data.order !== b.data.order) {
-            return a.data.order - b.data.order;
-        }
-        return b.data.date.getTime() - a.data.date.getTime();
+        return a.id.localeCompare(b.id);
     }
 );
 

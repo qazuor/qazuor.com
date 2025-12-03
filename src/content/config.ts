@@ -64,8 +64,7 @@ const testimonialsCollection = defineCollection({
             linkedinUrl: z.string().url().optional(),
             featured: z.boolean().default(false),
             source: z.enum(['linkedin', 'email', 'other']).default('other'),
-            date: z.date(),
-            order: z.number().default(999)
+            date: z.date()
         })
 });
 

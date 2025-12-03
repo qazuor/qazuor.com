@@ -18,12 +18,11 @@ content:
   professional with a real and lasting impact on the teams and products he works
   with.'
 avatarUrl: 'https://media.licdn.com/dms/image/v2/C4D03AQGH9u4xWbBy0g/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1606589327438?e=1766620800&v=beta&t=uapwRjauLDGrCsW-fSAnnuqdTJY6HvyahqA2tAwbClo'
-avatar: './_avatars/juan-pablo-converso.jpg'
+avatar: './_avatars/03-juan-pablo-converso.jpg'
 linkedinUrl: 'https://www.linkedin.com/in/convers/'
 featured: true
 source: 'linkedin'
 date: 2025-12-03
-order: 2
 ---
 
 I had the pleasure of working with Leandro at Avature, and I can confidently say

@@ -96,10 +96,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     // State
     const [selectedItem, setSelectedItem] = useState<TimelineItem | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(false);
     const [popoverPosition, setPopoverPosition] = useState<PopoverPosition>('center');
     const [isMobile, setIsMobile] = useState(false);
     const [isUserScrolling, setIsUserScrolling] = useState(false);
+    const [hasBeenVisible, setHasBeenVisible] = useState(false);
 
     // Refs
     const timelineRef = useRef<HTMLDivElement>(null);
@@ -281,6 +282,32 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    // Start autoplay when timeline enters viewport (only first time)
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container || hasBeenVisible) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
+                if (entry.isIntersecting && !hasBeenVisible) {
+                    setHasBeenVisible(true);
+                    setIsAutoPlaying(true);
+                }
+            },
+            {
+                threshold: 0.3, // Trigger when 30% visible
+                rootMargin: '0px'
+            }
+        );
+
+        observer.observe(container);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [hasBeenVisible]);
 
     // Initialize with first item
     useEffect(() => {

@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2025-12-03
+
+### Fixed - Timeline Viewport Autoplay
+
+- **Viewport-triggered autoplay**: Timeline now starts autoplay only when it
+  enters the viewport, not on page load
+- **IntersectionObserver integration**: Added observer with 30% visibility
+  threshold to detect when timeline becomes visible
+- **State management**: New `hasBeenVisible` state prevents autoplay restart on
+  subsequent scroll-ins after user pause
+
+### Technical
+
+- useTimelineAnimation: Changed initial `isAutoPlaying` from `true` to `false`
+- useTimelineAnimation: Added `hasBeenVisible` state tracking
+- useTimelineAnimation: New `useEffect` with IntersectionObserver for viewport
+  detection
+
+---
+
 ## [1.5.0] - 2025-12-03
 
 ### Added - Web Optimization Service

@@ -8,6 +8,18 @@ and this project adheres to
 
 ## [1.5.2] - 2025-12-03
 
+### Added - PerformanceBadge Redesign
+
+- **Two-column layout**: Shared scores (A11y, BP, SEO) on left, Performance by
+  device on right with vertical separator
+- **Web Vitals per device**: LCP, FCP, CLS metrics displayed for both Desktop
+  and Mobile
+- **Hover tooltips**: Each metric has a tooltip explaining what it measures
+  (e.g., "Largest Contentful Paint", "Cumulative Layout Shift")
+- **Auto-generated metrics**: Script to fetch real-time data from PageSpeed
+  Insights API during build
+- **i18n tooltips**: Full EN/ES translations for all metric descriptions
+
 ### Fixed
 
 - **Testimonial LinkedIn links**: Added missing LinkedIn profile link button to

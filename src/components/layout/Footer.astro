@@ -15,7 +15,7 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const t = getTranslations(lang);
 
-// Get latest blog posts
+// Get latest blog posts (increased to 8)
 const allBlogPosts = await getCollection('blog');
 const latestPosts: CollectionEntry<'blog'>[] = allBlogPosts
     .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
@@ -23,66 +23,17 @@ const latestPosts: CollectionEntry<'blog'>[] = allBlogPosts
         (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
             b.data.publishDate.getTime() - a.data.publishDate.getTime()
     )
-    .slice(0, 4);
+    .slice(0, 8);
 
-// Footer data
-const footerData = {
-    en: {
-        branding: {
-            title: 'Qazuor',
-            description:
-                "I'm a **full-stack** developer with a strong **frontend** focus, dedicated to building modern, fast and accessible web experiences.\n\nI help companies and entrepreneurs turn ideas into **clear digital products**, combining clean **code**, solid **design** and decisions made with scaling in mind."
-        },
-        explore: {
-            title: 'Explore',
-            items: [
-                { name: 'Services', url: '/en/services' },
-                { name: 'Projects', url: '/en/projects' },
-                { name: 'Blog', url: '/en/blog' },
-                { name: 'Goodies', url: '/en/goodies' }
-            ]
-        },
-        latestPosts: {
-            title: 'Latest posts',
-            viewAll: 'View all posts'
-        },
-        contact: {
-            title: 'Contact me',
-            email: contact.email,
-            phone: contact.phone
-        },
-        madeWith: 'Made with 💙 with Astro'
-    },
-    es: {
-        branding: {
-            title: 'Qazuor',
-            description:
-                'Soy un desarrollador **full-stack** con foco en **frontend**, enfocado en crear experiencias web modernas, rápidas y accesibles.\n\nAyudo a empresas y emprendedores a convertir ideas en **productos digitales claros**, combinando **code** limpio, buen **diseño** y decisiones pensadas para escalar.'
-        },
-        explore: {
-            title: 'Explorar',
-            items: [
-                { name: 'Servicios', url: '/es/services' },
-                { name: 'Proyectos', url: '/es/projects' },
-                { name: 'Blog', url: '/es/blog' },
-                { name: 'Goodies', url: '/es/goodies' }
-            ]
-        },
-        latestPosts: {
-            title: 'Últimos posts',
-            viewAll: 'Ver todos los posts'
-        },
-        contact: {
-            title: 'Contáctame',
-            email: contact.email,
-            phone: contact.phone
-        },
-        madeWith: 'Hecho con 💙 con Astro'
-    }
-};
+// Navigation items with translated labels
+const exploreItems = [
+    { name: t('footer.explore.services'), url: `/${lang}/services` },
+    { name: t('footer.explore.projects'), url: `/${lang}/projects` },
+    { name: t('footer.explore.blog'), url: `/${lang}/blog` },
+    { name: t('footer.explore.goodies'), url: `/${lang}/goodies` }
+];
 
 const currentYear = new Date().getFullYear();
-const data = footerData[lang];
 ---
 
 <footer class="relative z-40 py-16 md:py-20" style="background-color: var(--section-footer-bg)">
@@ -92,10 +43,10 @@ const data = footerData[lang];
             <!-- Branding / About with positioned image -->
             <div class="sm:col-span-2 relative">
                 <h3 class="text-lg font-semibold text-foreground mb-4 lg:pl-64">
-                    {data.branding.title}
+                    {t('footer.branding.title')}
                     <span class="text-foreground-muted">—</span>
                 </h3>
-                <p class="text-xs text-foreground-muted leading-relaxed lg:pl-64" set:html={processMarkdown(data.branding.description)} />
+                <p class="text-xs text-foreground-muted leading-relaxed lg:pl-64" set:html={processMarkdown(t('footer.branding.description'))} />
                 <!-- Image positioned to extend to the bottom divider -->
                 <Image
                     src={photoFooter}
@@ -109,7 +60,7 @@ const data = footerData[lang];
             <!-- Latest Posts -->
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold text-foreground">
-                    {data.latestPosts.title}
+                    {t('footer.latestPosts.title')}
                     <span class="text-foreground-muted">—</span>
                 </h3>
                 <ul class="space-y-2">
@@ -130,7 +81,7 @@ const data = footerData[lang];
                             href={`/${lang}/blog`}
                             class="text-xs text-primary hover:text-primary/80 transition-colors duration-base font-medium"
                         >
-                            {data.latestPosts.viewAll} →
+                            {t('footer.latestPosts.viewAll')} →
                         </a>
                     </li>
                 </ul>
@@ -141,12 +92,12 @@ const data = footerData[lang];
                 <!-- Explore / Navigation -->
                 <div class="space-y-3">
                     <h3 class="text-lg font-semibold text-foreground">
-                        {data.explore.title}
+                        {t('footer.explore.title')}
                         <span class="text-foreground-muted">—</span>
                     </h3>
                     <ul class="space-y-1">
                         {
-                            data.explore.items.map((item) => (
+                            exploreItems.map((item) => (
                                 <li>
                                     <a
                                         href={item.url}
@@ -163,22 +114,22 @@ const data = footerData[lang];
                 <!-- Contact -->
                 <div class="space-y-3">
                     <h3 class="text-lg font-semibold text-foreground">
-                        {data.contact.title}
+                        {t('footer.contact.title')}
                         <span class="text-foreground-muted">—</span>
                     </h3>
                     <div class="space-y-1">
                         <div class="flex items-center gap-2">
                             <span class="text-xs text-foreground-muted">E:</span>
                             <a
-                                href={`mailto:${data.contact.email}`}
+                                href={`mailto:${contact.email}`}
                                 class="text-xs text-foreground hover:text-primary transition-colors duration-base"
                             >
-                                {data.contact.email}
+                                {contact.email}
                             </a>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="text-xs text-foreground-muted">P:</span>
-                            <span class="text-xs text-foreground-muted">{data.contact.phone}</span>
+                            <span class="text-xs text-foreground-muted">{contact.phone}</span>
                         </div>
                     </div>
                     <SocialLinks
@@ -208,25 +159,39 @@ const data = footerData[lang];
 
         <!-- Bottom Footer -->
         <div class="pt-8 border-t border-foreground/10">
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <!-- Made with love - Left -->
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
                         <span class="text-sm font-medium text-foreground">Q</span>
                     </div>
                     <span class="text-xs text-foreground-muted">
-                        © {currentYear} Qazuor. {data.madeWith}
+                        © {currentYear} Qazuor. {t('footer.madeWith')}
                     </span>
                 </div>
+                <!-- Performance stats - Right -->
                 <PerformanceBadge
                     translations={{
-                        title: t('footer.performance.title'),
-                        desktop: t('footer.performance.desktop'),
-                        mobile: t('footer.performance.mobile'),
-                        lcp: t('footer.performance.lcp'),
-                        cls: t('footer.performance.cls'),
-                        fcp: t('footer.performance.fcp'),
-                        score: t('footer.performance.score'),
-                        measuredOn: t('footer.performance.measuredOn')
+                        title: t('footer.lighthouse.title'),
+                        desktop: t('footer.lighthouse.desktop'),
+                        mobile: t('footer.lighthouse.mobile'),
+                        performance: t('footer.lighthouse.performance'),
+                        accessibility: t('footer.lighthouse.accessibility'),
+                        bestPractices: t('footer.lighthouse.bestPractices'),
+                        seo: t('footer.lighthouse.seo'),
+                        lcp: t('footer.lighthouse.lcp'),
+                        cls: t('footer.lighthouse.cls'),
+                        fcp: t('footer.lighthouse.fcp'),
+                        autoGenerated: t('footer.lighthouse.autoGenerated'),
+                        tooltips: {
+                            performance: t('footer.lighthouse.tooltips.performance'),
+                            accessibility: t('footer.lighthouse.tooltips.accessibility'),
+                            bestPractices: t('footer.lighthouse.tooltips.bestPractices'),
+                            seo: t('footer.lighthouse.tooltips.seo'),
+                            lcp: t('footer.lighthouse.tooltips.lcp'),
+                            cls: t('footer.lighthouse.tooltips.cls'),
+                            fcp: t('footer.lighthouse.tooltips.fcp')
+                        }
                     }}
                 />
             </div>

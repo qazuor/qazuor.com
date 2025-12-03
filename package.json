@@ -6,6 +6,8 @@
         "dev": "astro dev",
         "start": "astro dev",
         "build": "astro check && astro build",
+        "build:with-metrics": "node scripts/fetch-lighthouse-metrics.js && astro check && astro build",
+        "fetch:lighthouse": "node scripts/fetch-lighthouse-metrics.js",
         "build:analyze": "ANALYZE=true astro build",
         "preview": "astro preview",
         "astro": "astro",

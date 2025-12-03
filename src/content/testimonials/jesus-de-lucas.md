@@ -12,7 +12,7 @@ linkedinUrl: 'https://www.linkedin.com/in/jesus-d-362319ba/'
 featured: true
 source: 'linkedin'
 date: 2025-12-01
-order: 4
+order: 5
 ---
 
 Un placer haber trabajado con Leandro, sus conocimientos de Js fueron de gran

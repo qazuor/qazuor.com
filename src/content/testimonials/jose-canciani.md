@@ -12,7 +12,7 @@ linkedinUrl: 'https://www.linkedin.com/in/josecanciani/'
 featured: true
 source: 'linkedin'
 date: 2025-11-21
-order: 3
+order: 4
 ---
 
 Leandro single-handed bootstrapped the Avature UI, helping to shape a reactive

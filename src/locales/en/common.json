@@ -149,9 +149,9 @@
         "title": "About **Me**",
         "subtitle": "Get to know me through *code*",
         "storyTitle": "My **Story**",
-        "storyParagraph1": "I'm a **developer** with over *20 years* of professional experience, but the story started much earlier — I was around 8 or 9 when I wrote my first lines of code. I focus on **web development**, with a strong love for **frontend** — where code meets design and user experience. I can handle backend too, but I feel at home making interfaces that connect with people.",
-        "storyParagraph2": "I also have a background in **graphic design**, which sharpened my visual sense and communication skills. I'm **self‑taught** and *endlessly curious*, the kind of person who learns by exploring, breaking things, and fixing them better. I genuinely love *technology* — I can spend hours coding, experimenting, and building new ideas.",
-        "storyParagraph3": "Born in **1980**, I've witnessed the evolution of computing from the pre‑PC days to today's *AI‑driven* world. Off‑screen, I'm happily in a relationship and a father of two amazing young adults.",
+        "storyParagraph1": "I'm a **developer** with over *20 years* of professional experience, but the story started much earlier. I was around 8 or 9 when I wrote my first lines of code. I focus on **web development**, with a strong love for **frontend**, where code meets design and user experience. I can handle backend too, but I feel at home making interfaces that connect with people.",
+        "storyParagraph2": "I also have a background in **graphic design**, which sharpened my visual sense and communication skills. I'm **self-taught** and *endlessly curious*, the kind of person who learns by exploring, breaking things, and fixing them better. I genuinely love *technology*. I can spend hours coding, experimenting, and building new ideas.",
+        "storyParagraph3": "Born in **1980**, I've witnessed the evolution of computing from the pre PC days to today's *AI-driven* world. Off-screen, I'm happily in a relationship and a father of two amazing young adults.",
         "storySummary": "In short: a lifelong learner who codes with **purpose**, designs with *intent*, and never stops being **curious**.",
         "ctaButton": "**Let's Work Together**",
         "connect": "Let's build something **amazing** together!",
@@ -191,7 +191,7 @@
     "contact": {
         "title": "Get In Touch",
         "subtitle": "Have a project in mind? Let's work together!",
-        "description": "Got a project in mind, need help with your **website**, or want a second opinion on your current **code**?\nReach out and we'll figure out what makes sense, priorities, scope and next steps — no pressure, no fluff.",
+        "description": "Got a project in mind, need help with your **website**, or want a second opinion on your current **code**?\nReach out and we'll figure out what makes sense, priorities, scope and next steps, no pressure, no fluff.",
         "info": {
             "title": "Let's Talk",
             "description": "I'm open to any job opportunity: freelance, remote, full-time or collaborations.",

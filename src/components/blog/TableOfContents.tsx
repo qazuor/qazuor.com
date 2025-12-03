@@ -353,7 +353,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
             <div
                 className={`
                     xl:hidden fixed bottom-0 left-0 right-0 z-50
-                    bg-surface rounded-t-3xl shadow-2xl
+                    bg-card rounded-t-3xl shadow-2xl
                     transform transition-transform duration-300 ease-out
                     max-h-[70vh] overflow-hidden
                     ${isDrawerOpen ? 'translate-y-0' : 'translate-y-full'}

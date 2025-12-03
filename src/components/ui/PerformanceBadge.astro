@@ -124,29 +124,29 @@ const {
 
     <!-- Two-column layout: Shared scores | Performance by device -->
     <div class="flex gap-6 text-[10px]">
-        <!-- Left: Shared Scores (A11y, BP, SEO) -->
+        <!-- Left: Shared Scores (A11y, BP, SEO) - tooltips to the left -->
         <div class="flex flex-col gap-0.5">
-            <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.accessibility} data-tooltip-position="top">{translations.accessibility} <span class="text-primary font-mono">{desktop.accessibility.score}</span></span>
-            <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.bestPractices} data-tooltip-position="top">{translations.bestPractices} <span class="text-primary font-mono">{desktop.bestPractices.score}</span></span>
-            <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.seo} data-tooltip-position="top">{translations.seo} <span class="text-primary font-mono">{desktop.seo.score}</span></span>
+            <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.accessibility} data-tooltip-position="left">{translations.accessibility} <span class="text-primary font-mono">{desktop.accessibility.score}</span></span>
+            <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.bestPractices} data-tooltip-position="left">{translations.bestPractices} <span class="text-primary font-mono">{desktop.bestPractices.score}</span></span>
+            <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.seo} data-tooltip-position="left">{translations.seo} <span class="text-primary font-mono">{desktop.seo.score}</span></span>
         </div>
 
         <!-- Right: Performance by device with Web Vitals -->
         <div class="border-l border-foreground-muted/10 pl-4">
             <div class="grid grid-cols-[auto_1fr_1fr_1fr_1fr] gap-x-2 gap-y-0.5">
-                <!-- Desktop Row -->
+                <!-- Desktop Row - tooltips up -->
                 <span class="text-foreground-muted/70">{translations.desktop}</span>
                 <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.performance} data-tooltip-position="top">{translations.performance} <span class="text-primary font-mono font-semibold">{desktop.performance.score}</span></span>
                 <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.lcp} data-tooltip-position="top">{translations.lcp} <span class="text-primary/80 font-mono">{desktop.performance.lcp}</span></span>
                 <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.fcp} data-tooltip-position="top">{translations.fcp} <span class="text-primary/80 font-mono">{desktop.performance.fcp}</span></span>
                 <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.cls} data-tooltip-position="top">{translations.cls} <span class="text-primary/80 font-mono">{desktop.performance.cls}</span></span>
 
-                <!-- Mobile Row -->
+                <!-- Mobile Row - tooltips down -->
                 <span class="text-foreground-muted/70">{translations.mobile}</span>
-                <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.performance} data-tooltip-position="top">{translations.performance} <span class="text-primary font-mono font-semibold">{mobile.performance.score}</span></span>
-                <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.lcp} data-tooltip-position="top">{translations.lcp} <span class="text-primary/80 font-mono">{mobile.performance.lcp}</span></span>
-                <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.fcp} data-tooltip-position="top">{translations.fcp} <span class="text-primary/80 font-mono">{mobile.performance.fcp}</span></span>
-                <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.cls} data-tooltip-position="top">{translations.cls} <span class="text-primary/80 font-mono">{mobile.performance.cls}</span></span>
+                <span class="metric-item text-foreground-muted" data-tooltip={translations.tooltips.performance} data-tooltip-position="bottom">{translations.performance} <span class="text-primary font-mono font-semibold">{mobile.performance.score}</span></span>
+                <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.lcp} data-tooltip-position="bottom">{translations.lcp} <span class="text-primary/80 font-mono">{mobile.performance.lcp}</span></span>
+                <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.fcp} data-tooltip-position="bottom">{translations.fcp} <span class="text-primary/80 font-mono">{mobile.performance.fcp}</span></span>
+                <span class="metric-item text-foreground-muted/80" data-tooltip={translations.tooltips.cls} data-tooltip-position="bottom">{translations.cls} <span class="text-primary/80 font-mono">{mobile.performance.cls}</span></span>
             </div>
         </div>
     </div>
@@ -159,8 +159,8 @@ const {
         cursor: help;
     }
 
-    /* Tooltip arrow */
-    .metric-item[data-tooltip]::before {
+    /* ========== TOP TOOLTIP (default) ========== */
+    .metric-item[data-tooltip-position="top"]::before {
         content: "";
         position: absolute;
         top: -6px;
@@ -174,8 +174,7 @@ const {
         pointer-events: none;
     }
 
-    /* Tooltip text */
-    .metric-item[data-tooltip]::after {
+    .metric-item[data-tooltip-position="top"]::after {
         content: attr(data-tooltip);
         position: absolute;
         left: 50%;
@@ -194,27 +193,169 @@ const {
         font-weight: 500;
     }
 
-    /* Theme-specific tooltip colors - Dark theme */
-    :global(html.dark) .metric-item[data-tooltip]::before {
-        border-color: rgb(55 65 81) transparent transparent transparent; /* gray-700 */
+    /* ========== BOTTOM TOOLTIP ========== */
+    .metric-item[data-tooltip-position="bottom"]::before {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 0 6px 4px 6px;
+        border-style: solid;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
     }
 
+    .metric-item[data-tooltip-position="bottom"]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: 50%;
+        bottom: -6px;
+        transform: translateX(-50%) translateY(100%);
+        text-align: center;
+        padding: 6px 10px;
+        font-size: 11px;
+        min-width: 80px;
+        border-radius: 6px;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    /* ========== LEFT TOOLTIP (desktop only) ========== */
+    @media (min-width: 640px) {
+        .metric-item[data-tooltip-position="left"]::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 4px;
+            border-style: solid;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .metric-item[data-tooltip-position="left"]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-right: 6px;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 11px;
+            min-width: 80px;
+            border-radius: 6px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+    }
+
+    /* ========== LEFT becomes RIGHT on mobile ========== */
+    @media (max-width: 639px) {
+        .metric-item[data-tooltip-position="left"]::before {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 4px 6px 0;
+            border-style: solid;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .metric-item[data-tooltip-position="left"]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 6px;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 11px;
+            min-width: 80px;
+            border-radius: 6px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+    }
+
+    /* ========== THEME COLORS - Dark ========== */
+    /* Top arrow */
+    :global(html.dark) .metric-item[data-tooltip-position="top"]::before {
+        border-color: rgb(55 65 81) transparent transparent transparent;
+    }
+    /* Bottom arrow */
+    :global(html.dark) .metric-item[data-tooltip-position="bottom"]::before {
+        border-color: transparent transparent rgb(55 65 81) transparent;
+    }
+    /* Left arrow (desktop) - arrow points right toward element */
+    @media (min-width: 640px) {
+        :global(html.dark) .metric-item[data-tooltip-position="left"]::before {
+            border-color: transparent transparent transparent rgb(55 65 81);
+        }
+    }
+    /* Left arrow becomes Right on mobile - arrow points left toward element */
+    @media (max-width: 639px) {
+        :global(html.dark) .metric-item[data-tooltip-position="left"]::before {
+            border-color: transparent rgb(55 65 81) transparent transparent;
+        }
+    }
+    /* Tooltip background */
     :global(html.dark) .metric-item[data-tooltip]::after {
-        background: rgb(55 65 81); /* gray-700 */
-        color: rgb(229 231 235); /* gray-200 */
+        background: rgb(55 65 81);
+        color: rgb(229 231 235);
     }
 
-    /* Theme-specific tooltip colors - Light theme */
-    :global(html:not(.dark)) .metric-item[data-tooltip]::before {
-        border-color: rgb(31 41 55) transparent transparent transparent; /* gray-800 */
+    /* ========== THEME COLORS - Light ========== */
+    /* Top arrow */
+    :global(html:not(.dark)) .metric-item[data-tooltip-position="top"]::before {
+        border-color: rgb(31 41 55) transparent transparent transparent;
     }
-
+    /* Bottom arrow */
+    :global(html:not(.dark)) .metric-item[data-tooltip-position="bottom"]::before {
+        border-color: transparent transparent rgb(31 41 55) transparent;
+    }
+    /* Left arrow (desktop) - arrow points right toward element */
+    @media (min-width: 640px) {
+        :global(html:not(.dark)) .metric-item[data-tooltip-position="left"]::before {
+            border-color: transparent transparent transparent rgb(31 41 55);
+        }
+    }
+    /* Left arrow becomes Right on mobile - arrow points left toward element */
+    @media (max-width: 639px) {
+        :global(html:not(.dark)) .metric-item[data-tooltip-position="left"]::before {
+            border-color: transparent rgb(31 41 55) transparent transparent;
+        }
+    }
+    /* Tooltip background */
     :global(html:not(.dark)) .metric-item[data-tooltip]::after {
-        background: rgb(31 41 55); /* gray-800 */
-        color: rgb(243 244 246); /* gray-100 */
+        background: rgb(31 41 55);
+        color: rgb(243 244 246);
     }
 
-    /* Show tooltip on hover */
+    /* ========== SHOW ON HOVER ========== */
     .metric-item[data-tooltip]:hover::after,
     .metric-item[data-tooltip]:hover::before {
         opacity: 1;

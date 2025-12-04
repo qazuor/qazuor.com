@@ -1342,4 +1342,553 @@
     .dark .content-prose blockquote::before {
         color: hsl(var(--primary) / 0.4);
     }
+
+    /* ==========================================================================
+       CSS TRICKS DEMO BOX - Interactive live demos
+       ========================================================================== */
+
+    .demo-box {
+        margin: 2rem 0;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--card));
+        box-shadow: 0 4px 6px -1px hsl(var(--foreground) / 0.05);
+    }
+
+    .demo-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: hsl(var(--muted));
+        border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .demo-dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+    }
+
+    .demo-dot.red {
+        background: #ef4444;
+        opacity: 0.7;
+    }
+
+    .demo-dot.yellow {
+        background: #eab308;
+        opacity: 0.7;
+    }
+
+    .demo-dot.green {
+        background: #22c55e;
+        opacity: 0.7;
+    }
+
+    .demo-title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: hsl(var(--foreground-secondary));
+        margin-left: 0.5rem;
+    }
+
+    .demo-badge {
+        margin-left: auto;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.625rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        border-radius: 0.25rem;
+        background: hsl(var(--primary) / 0.1);
+        color: hsl(var(--primary));
+    }
+
+    .demo-content {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, hsl(var(--primary) / 0.03) 0%, hsl(var(--accent) / 0.05) 100%);
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Dark mode adjustments for demo box */
+    .dark .demo-box {
+        box-shadow: 0 4px 6px -1px hsl(0 0% 0% / 0.2);
+    }
+
+    .dark .demo-header {
+        background: hsl(var(--background));
+    }
+
+    .dark .demo-content {
+        background: linear-gradient(135deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--accent) / 0.08) 100%);
+    }
+
+    /* ==========================================================================
+       CSS PLAYGROUND - Interactive code editor for CSS tricks
+       ========================================================================== */
+
+    .css-playground {
+        margin: 2rem 0;
+        border-radius: 0.75rem;
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--card));
+        box-shadow: 0 4px 6px -1px hsl(var(--foreground) / 0.05);
+    }
+
+    .css-playground-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: hsl(var(--muted));
+        border-bottom: 1px solid hsl(var(--border));
+        border-radius: 0.75rem 0.75rem 0 0;
+    }
+
+    .css-playground-dots {
+        display: flex;
+        gap: 0.375rem;
+    }
+
+    .css-playground-dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+    }
+
+    .css-playground-dot.red {
+        background: #ef4444;
+        opacity: 0.7;
+    }
+
+    .css-playground-dot.yellow {
+        background: #eab308;
+        opacity: 0.7;
+    }
+
+    .css-playground-dot.green {
+        background: #22c55e;
+        opacity: 0.7;
+    }
+
+    .css-playground-tabs {
+        display: flex;
+        gap: 0.25rem;
+        margin-left: 1rem;
+    }
+
+    .css-playground-tab {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: hsl(var(--foreground-secondary));
+        background: transparent;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    .css-playground-tab:hover {
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+    }
+
+    .css-playground-tab.active {
+        background: hsl(var(--background));
+        color: hsl(var(--primary));
+        font-weight: 600;
+    }
+
+    .css-playground-modified {
+        color: hsl(var(--warning, 38 92% 50%));
+        font-size: 0.625rem;
+    }
+
+    .css-playground-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+    }
+
+    .css-playground-reset {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: hsl(var(--foreground-secondary));
+        background: hsl(var(--background));
+        border: 1px solid hsl(var(--border));
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    .css-playground-reset:hover {
+        background: hsl(var(--destructive) / 0.1);
+        border-color: hsl(var(--destructive) / 0.3);
+        color: hsl(var(--destructive));
+    }
+
+    .css-playground-badge {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.625rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        border-radius: 0.25rem;
+        background: hsl(var(--primary) / 0.1);
+        color: hsl(var(--primary));
+    }
+
+    .css-playground-title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: hsl(var(--foreground-secondary));
+    }
+
+    .css-playground-preview {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, hsl(var(--primary) / 0.03) 0%, hsl(var(--accent) / 0.05) 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Resizable preview */
+    .css-playground-preview--resizable {
+        resize: horizontal;
+        overflow: auto;
+        min-width: 200px;
+        max-width: 100%;
+        border: 2px dashed hsl(var(--primary) / 0.3);
+        position: relative;
+    }
+
+    .css-playground-preview--resizable:hover {
+        border-color: hsl(var(--primary) / 0.5);
+    }
+
+    .css-playground-resize-hint {
+        position: absolute;
+        bottom: 0.25rem;
+        right: 0.5rem;
+        font-size: 0.65rem;
+        color: hsl(var(--foreground) / 0.4);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* Controls section */
+    .css-playground-controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+        gap: 1rem;
+        padding: 1rem;
+        background: hsl(var(--muted) / 0.3);
+        border-top: 1px solid hsl(var(--border));
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .css-playground-control {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .css-playground-control label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: hsl(var(--foreground-secondary));
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .css-playground-color-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .css-playground-control input[type="color"] {
+        width: 40px;
+        height: 32px;
+        padding: 0;
+        border: 2px solid hsl(var(--border));
+        border-radius: 0.375rem;
+        cursor: pointer;
+        background: transparent;
+    }
+
+    .css-playground-control input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 2px;
+    }
+
+    .css-playground-control input[type="color"]::-webkit-color-swatch {
+        border-radius: 0.25rem;
+        border: none;
+    }
+
+    .css-playground-color-value {
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+        color: hsl(var(--foreground-muted));
+    }
+
+    .css-playground-range-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .css-playground-control input[type="range"] {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: hsl(var(--border));
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    .css-playground-control input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: hsl(var(--primary));
+        cursor: pointer;
+        border: 2px solid hsl(var(--background));
+        box-shadow: 0 2px 4px hsl(0 0% 0% / 0.2);
+    }
+
+    .css-playground-control input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: hsl(var(--primary));
+        cursor: pointer;
+        border: 2px solid hsl(var(--background));
+        box-shadow: 0 2px 4px hsl(0 0% 0% / 0.2);
+    }
+
+    .css-playground-range-value {
+        min-width: 50px;
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+        color: hsl(var(--foreground));
+        text-align: right;
+    }
+
+    .css-playground-number-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .css-playground-control input[type="number"],
+    .css-playground-control input[type="text"] {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        border: 1px solid hsl(var(--border));
+        border-radius: 0.375rem;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+    }
+
+    .css-playground-control input[type="number"]:focus,
+    .css-playground-control input[type="text"]:focus {
+        outline: none;
+        border-color: hsl(var(--primary));
+        box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+    }
+
+    .css-playground-unit {
+        font-size: 0.75rem;
+        color: hsl(var(--foreground-muted));
+    }
+
+    .css-playground-control select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        border: 1px solid hsl(var(--border));
+        border-radius: 0.375rem;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        cursor: pointer;
+    }
+
+    .css-playground-control select:focus {
+        outline: none;
+        border-color: hsl(var(--primary));
+        box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+    }
+
+    /* Code section */
+    .css-playground-code {
+        border-top: 1px solid hsl(var(--border));
+    }
+
+    .css-playground-code-header {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: hsl(var(--foreground-secondary));
+        background: hsl(var(--muted) / 0.5);
+        border-bottom: 1px solid hsl(var(--border));
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .css-playground-highlight {
+        margin: 0;
+        padding: 1rem;
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 0.8rem;
+        line-height: 1.6;
+        white-space: pre;
+        overflow-x: auto;
+        color: hsl(var(--foreground));
+        background: hsl(var(--background));
+        border-radius: 0 0 0.75rem 0.75rem;
+    }
+
+    .css-playground-highlight::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .css-playground-highlight::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .css-playground-highlight::-webkit-scrollbar-thumb {
+        background: hsl(var(--primary) / 0.4);
+        border-radius: 4px;
+    }
+
+    .css-playground-highlight::-webkit-scrollbar-thumb:hover {
+        background: hsl(var(--primary) / 0.6);
+    }
+
+    .css-playground-highlight:focus {
+        outline: 2px solid hsl(var(--primary) / 0.5);
+        outline-offset: -2px;
+    }
+
+    .css-playground-highlight:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /* Dark mode adjustments */
+    .dark .css-playground {
+        box-shadow: 0 4px 6px -1px hsl(0 0% 0% / 0.2);
+    }
+
+    .dark .css-playground-header {
+        background: hsl(var(--background));
+    }
+
+    .dark .css-playground-preview {
+        background: linear-gradient(135deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--accent) / 0.08) 100%);
+    }
+
+    .dark .css-playground-editor-wrapper {
+        background: hsl(256 45% 8%);
+    }
+
+    /* CSS Playground - Syntax Highlighting Tokens */
+    .css-playground-highlight .token.comment {
+        color: #6a737d;
+        font-style: italic;
+    }
+
+    .css-playground-highlight .token.selector {
+        color: #22c55e;
+        font-weight: 600;
+    }
+
+    .css-playground-highlight .token.property {
+        color: #06b6d4;
+    }
+
+    .css-playground-highlight .token.string {
+        color: #f59e0b;
+    }
+
+    .css-playground-highlight .token.number {
+        color: #a78bfa;
+    }
+
+    .css-playground-highlight .token.unit {
+        color: #f472b6;
+    }
+
+    .css-playground-highlight .token.color {
+        color: #fb923c;
+    }
+
+    .css-playground-highlight .token.function {
+        color: #fbbf24;
+    }
+
+    .css-playground-highlight .token.pseudo {
+        color: #34d399;
+    }
+
+    .css-playground-highlight .token.punctuation {
+        color: #9ca3af;
+    }
+
+    /* Dark mode token adjustments */
+    .dark .css-playground-highlight .token.comment {
+        color: #8b949e;
+    }
+
+    .dark .css-playground-highlight .token.selector {
+        color: #7ee787;
+    }
+
+    .dark .css-playground-highlight .token.property {
+        color: #79c0ff;
+    }
+
+    .dark .css-playground-highlight .token.string {
+        color: #ffa657;
+    }
+
+    .dark .css-playground-highlight .token.number {
+        color: #d2a8ff;
+    }
+
+    .dark .css-playground-highlight .token.unit {
+        color: #ff7eb6;
+    }
+
+    .dark .css-playground-highlight .token.color {
+        color: #ffa657;
+    }
+
+    .dark .css-playground-highlight .token.function {
+        color: #ffc658;
+    }
+
+    .dark .css-playground-highlight .token.pseudo {
+        color: #56d4dd;
+    }
+
+    .dark .css-playground-highlight .token.punctuation {
+        color: #a5b4c0;
+    }
 }

@@ -187,19 +187,6 @@ const heroAriaLabels = {
     buymeacoffee: t('aria.buymeacoffee')
 };
 
-// Get raw summaryCard data and process markdown for items
-const rawSummaryCard = ui[lang].about.summaryCard;
-const summaryCardTranslations = rawSummaryCard
-    ? {
-          title: t('about.summaryCard.title', { markdown: true }),
-          items: rawSummaryCard.items.map((item) => ({
-              icon: item.icon,
-              label: item.label,
-              value: item.value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>')
-          }))
-      }
-    : undefined;
-
 const aboutTranslations = {
     title: t('about.title', { markdown: true }),
     subtitle: t('about.subtitle', { markdown: true }),
@@ -219,8 +206,7 @@ const aboutTranslations = {
         present: {
             description: t('about.timeline.present.description', { markdown: true })
         }
-    },
-    summaryCard: summaryCardTranslations
+    }
 };
 
 const statsTranslations = {

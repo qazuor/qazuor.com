@@ -1,0 +1,94 @@
+---
+title: "Step Counters with CSS"
+description: "Display 'Step X of Y' automatically using CSS counters and :has()."
+tags: ["css", "counters", "has-selector", "steppers"]
+featured: false
+browserSupport: ["Chrome 105+", "Firefox 121+", "Safari 15.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 22
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# CSS Step Counters
+
+Generate "Step 2 of 5" text automatically without JavaScript.
+
+```css
+:root {
+  counter-reset: currentStep totalSteps;
+}
+
+.step {
+  counter-increment: totalSteps;
+}
+
+.step:has(~ .step.active),
+.step.active {
+  counter-increment: totalSteps currentStep;
+}
+
+.message::after {
+  content: "Step " counter(currentStep) " of " counter(totalSteps);
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  cssTemplate={`.stepper {
+    counter-reset: currentStep totalSteps;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border-radius: 1rem;
+}
+.buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+.button {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    font-size: 0.75rem;
+    counter-increment: totalSteps;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.button:has(~ .button:focus),
+.button:focus {
+    background: #c084fc;
+    color: white;
+    border-color: #c084fc;
+    counter-increment: currentStep totalSteps;
+}
+.message {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f9a8d4;
+}
+.message::before {
+    content: "Steps: " counter(currentStep) " out of " counter(totalSteps);
+}`}
+  previewHTML={`<div class="stepper">
+  <div class="buttons">
+    <button class="button">Shop</button>
+    <button class="button">Cart</button>
+    <button class="button">Shipping</button>
+    <button class="button">Checkout</button>
+  </div>
+  <div class="message"></div>
+  <div>STEP COUNTER</div>
+</div>`}
+  title="CSS Stepper"
+  badge="COUNTERS"
+  previewMinHeight="220px"
+/>
+
+The text is generated from CSS counters - changing the active step updates automatically.

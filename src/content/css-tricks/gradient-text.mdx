@@ -1,0 +1,48 @@
+---
+title: "Gradient Text"
+description: "Colorful gradient headlines with pure CSS - no images required."
+tags: ["css", "gradients", "typography", "text-effects"]
+featured: false
+browserSupport: ["Chrome 4+", "Firefox 49+", "Safari 5+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 12
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Gradient Text
+
+Apply gradients to text using `background-clip`.
+
+```css
+h1 {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  background-clip: text;
+  color: transparent;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "color1", type: "color", label: "Color 1", default: "#8b5cf6" },
+    { id: "color2", type: "color", label: "Color 2", default: "#06b6d4" },
+    { id: "angle", type: "range", label: "Angle", min: 0, max: 360, default: 90, unit: "deg" }
+  ]}
+  cssTemplate={`.gradient-text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient({{angle}}, {{color1}}, {{color2}});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}`}
+  previewHTML={`<h2 class="gradient-text">Hello Gradient!</h2>`}
+  title="Gradient Text"
+  badge="INTERACTIVE"
+  previewMinHeight="100px"
+/>
+
+Use the controls above to adjust the gradient colors and angle in real-time.

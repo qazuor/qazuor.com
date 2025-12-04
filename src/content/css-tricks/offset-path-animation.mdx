@@ -1,0 +1,85 @@
+---
+title: "Motion Path Animation"
+description: "Animate elements along custom curves and SVG paths without JavaScript."
+tags: ["css", "animation", "svg", "motion-path"]
+featured: true
+browserSupport: ["Chrome 55+", "Firefox 72+", "Safari 15.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 3
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Motion Path Animation
+
+Move elements along custom paths using `offset-path`.
+
+```css
+.element {
+  offset-path: path("M0,50 Q150,0 300,50 T600,50");
+  offset-distance: 0%;
+  animation: move 3s linear infinite;
+}
+
+@keyframes move {
+  to { offset-distance: 100%; }
+}
+```
+
+| Property | Purpose |
+|----------|---------|
+| `offset-path` | The route (SVG path or shape) |
+| `offset-distance` | Position along path (0-100%) |
+| `offset-rotate` | Element rotation (use `auto` to follow curve) |
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "duration", type: "range", label: "Speed", min: 1, max: 6, step: 0.5, default: 2.5, unit: "s" },
+    { id: "ballSize", type: "range", label: "Ball Size", min: 8, max: 20, default: 12, unit: "px" }
+  ]}
+  cssTemplate={`@keyframes motion-path-move {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+.motion-path-container {
+  width: 100%;
+  max-width: 300px;
+  height: 80px;
+  position: relative;
+}
+.motion-path-track {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.motion-path-track path {
+  stroke: rgba(139, 92, 246, 0.3);
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 4 4;
+}
+.motion-path-ball {
+  width: {{ballSize}};
+  height: {{ballSize}};
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 50%;
+  position: absolute;
+  offset-path: path("M10,40 Q75,10 150,40 T290,40");
+  offset-rotate: 0deg;
+  animation: motion-path-move {{duration}} linear infinite;
+}`}
+  previewHTML={`<div class="motion-path-container">
+  <svg class="motion-path-track" viewBox="0 0 300 80">
+    <path d="M10,40 Q75,10 150,40 T290,40"/>
+  </svg>
+  <div class="motion-path-ball"></div>
+</div>`}
+  title="Motion Path"
+  badge="ANIMATED"
+  previewMinHeight="120px"
+/>
+
+The element follows the curved path continuously using CSS motion path properties.

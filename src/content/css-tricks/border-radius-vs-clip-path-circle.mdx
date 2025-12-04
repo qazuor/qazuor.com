@@ -1,0 +1,91 @@
+---
+title: "Circle: border-radius vs clip-path"
+description: "Two ways to make circles, but only clip-path gives you a circular click area."
+tags: ["css", "shapes", "clip-path", "border-radius"]
+featured: false
+browserSupport: ["Chrome 55+", "Firefox 54+", "Safari 9.1+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 11
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Creating Circles
+
+`border-radius: 50%` looks circular but has a square hitbox. `clip-path: circle()` clips the actual click area.
+
+```css
+/* Square hitbox */
+.avatar {
+  border-radius: 50%;
+}
+
+/* Circular hitbox */
+.avatar {
+  clip-path: circle(50%);
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "circleSize", type: "range", label: "Size", min: 60, max: 120, default: 80, unit: "px" }
+  ]}
+  cssTemplate={`.circle-demo {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+}
+.circle-item {
+  text-align: center;
+}
+.circle-box {
+  width: {{circleSize}};
+  height: {{circleSize}};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.circle-box:hover {
+  transform: scale(1.1);
+}
+.border-radius-circle {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 50%;
+}
+.border-radius-circle:hover {
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+.clip-path-circle {
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+  clip-path: circle(50%);
+}
+.circle-label {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}`}
+  previewHTML={`<div class="circle-demo">
+  <div class="circle-item">
+    <div class="circle-box border-radius-circle">border-radius</div>
+    <p class="circle-label">Square hitbox ⬜</p>
+  </div>
+  <div class="circle-item">
+    <div class="circle-box clip-path-circle">clip-path</div>
+    <p class="circle-label">Circular hitbox ⭕</p>
+  </div>
+</div>`}
+  title="Circle Hitbox"
+  badge="HOVER"
+  previewMinHeight="160px"
+/>
+
+Hover near the corners of each circle. The left one responds to the invisible square area; the right one only responds within the circle.

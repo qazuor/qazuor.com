@@ -1,0 +1,89 @@
+---
+title: "Dynamic Form Labels with :has()"
+description: "Auto-add asterisks to required fields and '(optional)' to optional ones."
+tags: ["css", "forms", "has-selector", "accessibility"]
+featured: false
+browserSupport: ["Chrome 105+", "Firefox 121+", "Safari 15.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 21
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Dynamic Form Labels
+
+Use `:has()` to automatically mark required and optional fields.
+
+```css
+label:has(+ input:required)::after {
+  content: " *";
+  color: red;
+}
+
+label:has(+ input:optional)::after {
+  content: " (optional)";
+  color: #777;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "requiredColor", type: "color", label: "Required Color", default: "#ef4444" },
+    { id: "optionalColor", type: "color", label: "Optional Color", default: "#888888" }
+  ]}
+  cssTemplate={`.form-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 260px;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.form-label {
+  font-size: 0.875rem;
+}
+.form-label:has(+ input:required)::after {
+  content: " *";
+  color: {{requiredColor}};
+}
+.form-label:has(+ input:not([required]))::after {
+  content: " (optional)";
+  color: {{optionalColor}};
+  font-size: 0.75rem;
+}
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font-size: 0.875rem;
+}
+.form-input:focus {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
+}`}
+  previewHTML={`<div class="form-demo">
+  <div class="form-field">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-input" placeholder="you@example.com" required />
+  </div>
+  <div class="form-field">
+    <label class="form-label">Phone</label>
+    <input type="tel" class="form-input" placeholder="+1 555..." />
+  </div>
+</div>`}
+  title="Auto Labels"
+  badge=":has()"
+  previewMinHeight="180px"
+/>
+
+Labels are auto-generated based on input's `required` attribute - no manual markup needed.

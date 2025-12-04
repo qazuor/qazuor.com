@@ -1,0 +1,58 @@
+---
+title: "Fluid Sizing with clamp()"
+description: "Smooth responsive sizes without media queries. One line of CSS that scales between min and max values."
+tags: ["css", "responsive", "typography", "clamp"]
+featured: true
+browserSupport: ["Chrome 79+", "Firefox 75+", "Safari 13.1+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 2
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Fluid Sizing with clamp()
+
+Use `clamp(min, preferred, max)` for smooth responsive scaling without breakpoints.
+
+```css
+font-size: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+```
+
+- **Minimum**: `1rem` - never smaller
+- **Preferred**: `0.5rem + 2vw` - scales with viewport
+- **Maximum**: `2.5rem` - never larger
+
+## Works With Any Property
+
+```css
+padding: clamp(1rem, 5vw, 3rem);
+gap: clamp(0.5rem, 2vw, 2rem);
+width: clamp(200px, 30vw, 400px);
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "minSize", type: "range", label: "Min Size", min: 12, max: 24, step: 1, default: 16, unit: "px" },
+    { id: "maxSize", type: "range", label: "Max Size", min: 24, max: 64, step: 2, default: 40, unit: "px" },
+    { id: "vwMultiplier", type: "range", label: "VW Scale", min: 1, max: 8, step: 0.5, default: 4, unit: "" }
+  ]}
+  cssTemplate={`.fluid-text {
+  font-size: clamp({{minSize}}, calc({{minSize}} + {{vwMultiplier}}vw), {{maxSize}});
+  font-weight: 700;
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+}`}
+  previewHTML={`<h2 class="fluid-text">Fluid Typography!</h2>`}
+  title="Fluid Sizing"
+  badge="INTERACTIVE"
+  previewMinHeight="120px"
+  resizable={true}
+/>
+
+Adjust the min/max sizes and viewport scaling to see how clamp() creates fluid typography.

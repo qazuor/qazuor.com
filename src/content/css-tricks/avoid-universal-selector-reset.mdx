@@ -1,0 +1,94 @@
+---
+title: "Avoid Universal Selector Resets"
+description: "Why * { margin: 0 } hurts performance and what to use instead."
+tags: ["css", "performance", "reset", "best-practices"]
+featured: false
+browserSupport: ["Chrome 1+", "Firefox 1+", "Safari 1+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 14
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Avoid Universal Selector Resets
+
+`*` applies to every DOM element including pseudo-elements, hurting performance.
+
+```css
+/* ❌ Avoid */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Better - target specific elements */
+body, h1, h2, p, ul, ol {
+  margin: 0;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "showComparison", type: "select", label: "View", options: ["Both", "Bad Only", "Good Only"], default: "Both" }
+  ]}
+  cssTemplate={`.reset-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+.reset-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+.reset-bad {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.reset-good {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+.reset-title {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.reset-bad .reset-title {
+  color: #ef4444;
+}
+.reset-good .reset-title {
+  color: #22c55e;
+}
+.reset-code {
+  font-size: 0.7rem;
+  display: block;
+  font-family: monospace;
+}
+.reset-desc {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}`}
+  previewHTML={`<div class="reset-demo">
+  <div class="reset-card reset-bad">
+    <p class="reset-title">❌ Slow</p>
+    <code class="reset-code">* { margin: 0 }</code>
+    <p class="reset-desc">Hits every element</p>
+  </div>
+  <div class="reset-card reset-good">
+    <p class="reset-title">✅ Fast</p>
+    <code class="reset-code">body, p { ... }</code>
+    <p class="reset-desc">Only what's needed</p>
+  </div>
+</div>`}
+  title="Selector Performance"
+  badge="INFO"
+  previewMinHeight="160px"
+/>
+
+Exception: `box-sizing: border-box` on `*` is acceptable since it rarely needs to be overridden.

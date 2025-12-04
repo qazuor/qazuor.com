@@ -1,0 +1,49 @@
+---
+title: "Multi-Line Truncation"
+description: "Limit text to specific number of lines with ellipsis using line-clamp."
+tags: ["css", "typography", "truncation", "layout"]
+featured: false
+browserSupport: ["Chrome 6+", "Firefox 68+", "Safari 5+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 24
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Line Clamp Truncation
+
+Truncate text to a specific number of lines.
+
+```css
+.excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "lines", type: "range", label: "Lines", min: 1, max: 5, default: 3, unit: "" },
+    { id: "fontSize", type: "range", label: "Font Size", min: 12, max: 20, default: 14, unit: "px" }
+  ]}
+  cssTemplate={`.excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: {{lines}};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: {{fontSize}};
+  line-height: 1.5;
+}`}
+  previewHTML={`<p class="excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>`}
+  title="Line Clamp"
+  badge="INTERACTIVE"
+  previewMinHeight="120px"
+  resizable={true}
+/>
+
+Despite `-webkit-` prefix, this has broad browser support and is safe for production.

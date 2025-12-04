@@ -1,0 +1,50 @@
+---
+title: "CSS Masks"
+description: "Control opacity with gradients and shapes for ink fades and soft transitions."
+tags: ["css", "masks", "effects", "gradients"]
+featured: false
+browserSupport: ["Chrome 120+", "Firefox 115+", "Safari 15.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 13
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# CSS Masks
+
+Use gradients to control element opacity for fade effects.
+
+```css
+.fade-bottom {
+  mask-image: linear-gradient(to bottom, black 60%, transparent);
+}
+
+.spotlight {
+  mask-image: radial-gradient(circle, black 40%, transparent 70%);
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "maskType", type: "select", label: "Mask Type", options: ["linear", "radial"], default: "linear" },
+    { id: "fadeStart", type: "range", label: "Fade Start", min: 0, max: 100, default: 60, unit: "%" },
+    { id: "angle", type: "range", label: "Angle", min: 0, max: 360, default: 180, unit: "deg" }
+  ]}
+  cssTemplate={`.masked-box {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 0.5rem;
+  -webkit-mask-image: linear-gradient({{angle}}, black {{fadeStart}}, transparent);
+  mask-image: linear-gradient({{angle}}, black {{fadeStart}}, transparent);
+}`}
+  previewHTML={`<div class="masked-box"></div>`}
+  title="CSS Masks"
+  badge="INTERACTIVE"
+  previewMinHeight="160px"
+/>
+
+Black areas of the mask are visible, transparent areas are hidden.

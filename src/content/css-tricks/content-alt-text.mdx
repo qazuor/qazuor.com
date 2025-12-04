@@ -1,0 +1,64 @@
+---
+title: "Alt Text for CSS Content"
+description: "Add accessible descriptions to images injected via CSS content property."
+tags: ["css", "accessibility", "a11y", "content"]
+featured: false
+browserSupport: ["Chrome 77+", "Firefox 104+", "Safari 17.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 19
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Alt Text in CSS Content
+
+Add accessible descriptions to CSS-injected images using `/` syntax.
+
+```css
+.icon::before {
+  content: url("icon.svg") / "Description";
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "altText", type: "text", label: "Alt Text", default: "External link icon", placeholder: "Enter alt text" },
+    { id: "iconSize", type: "range", label: "Icon Size", min: 16, max: 32, default: 20, unit: "px" }
+  ]}
+  cssTemplate={`.external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  color: white;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+}
+.external-link::after {
+  content: "↗" / "{{altText}}";
+  font-size: {{iconSize}};
+  line-height: 1;
+}
+.sr-hint {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  color: #22c55e;
+  text-align: center;
+}`}
+  previewHTML={`<a href="#" class="external-link">Visit Site</a>
+<div class="sr-hint">Screen reader announces: "{{altText}}"</div>`}
+  title="Content Alt Text"
+  badge="A11Y"
+  previewMinHeight="160px"
+/>
+
+The forward slash separates the image from its accessible description.

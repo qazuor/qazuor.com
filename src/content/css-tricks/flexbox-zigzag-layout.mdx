@@ -1,0 +1,109 @@
+---
+title: "Zigzag Layout with Flexbox"
+description: "Alternate card layouts without changing HTML using nth-child and flex-direction."
+tags: ["css", "flexbox", "layout", "nth-child"]
+featured: false
+browserSupport: ["Chrome 29+", "Firefox 28+", "Safari 9+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 15
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Zigzag Layout
+
+Alternate card layouts using `flex-direction: row-reverse` on even items.
+
+```css
+.card {
+  display: flex;
+}
+
+.card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "gap", type: "range", label: "Gap", min: 0.5, max: 2, step: 0.25, default: 1, unit: "rem" },
+    { id: "iconSize", type: "range", label: "Icon Size", min: 30, max: 60, default: 40, unit: "px" }
+  ]}
+  cssTemplate={`.zigzag-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 300px;
+}
+.zigzag-card {
+  display: flex;
+  gap: {{gap}};
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+.zigzag-card:nth-child(odd) {
+  background: rgba(139, 92, 246, 0.1);
+}
+.zigzag-card:nth-child(even) {
+  flex-direction: row-reverse;
+  background: rgba(6, 182, 212, 0.1);
+}
+.zigzag-card:nth-child(even) .zigzag-text {
+  text-align: right;
+}
+.zigzag-icon {
+  width: {{iconSize}};
+  height: {{iconSize}};
+  border-radius: 0.375rem;
+  flex-shrink: 0;
+}
+.zigzag-card:nth-child(odd) .zigzag-icon {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+}
+.zigzag-card:nth-child(even) .zigzag-icon {
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+}
+.zigzag-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.zigzag-desc {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}`}
+  previewHTML={`<div class="zigzag-container">
+  <div class="zigzag-card">
+    <div class="zigzag-icon"></div>
+    <div class="zigzag-text">
+      <p class="zigzag-title">Section 1</p>
+      <p class="zigzag-desc">Image left</p>
+    </div>
+  </div>
+  <div class="zigzag-card">
+    <div class="zigzag-icon"></div>
+    <div class="zigzag-text">
+      <p class="zigzag-title">Section 2</p>
+      <p class="zigzag-desc">Image right</p>
+    </div>
+  </div>
+  <div class="zigzag-card">
+    <div class="zigzag-icon"></div>
+    <div class="zigzag-text">
+      <p class="zigzag-title">Section 3</p>
+      <p class="zigzag-desc">Image left again</p>
+    </div>
+  </div>
+</div>`}
+  title="Zigzag Layout"
+  badge="FLEXBOX"
+  previewMinHeight="240px"
+/>
+
+Same HTML structure for all cards - CSS handles the visual alternation.

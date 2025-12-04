@@ -1,0 +1,91 @@
+---
+title: "Background Removal with Blend Modes"
+description: "Remove white or black backgrounds from images using mix-blend-mode."
+tags: ["css", "blend-modes", "images", "effects"]
+featured: false
+browserSupport: ["Chrome 41+", "Firefox 32+", "Safari 8+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 18
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Background Removal with Blend Modes
+
+Remove solid backgrounds from simple graphics using blend modes.
+
+```css
+/* Black image on white background */
+img {
+  mix-blend-mode: darken;
+}
+
+/* White image on black background */
+img {
+  mix-blend-mode: lighten;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "blendMode", type: "select", label: "Blend Mode", options: ["darken", "lighten", "multiply", "screen"], default: "darken" }
+  ]}
+  cssTemplate={`.blend-demo {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.blend-item {
+  text-align: center;
+}
+.blend-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.blend-original {
+  background: white;
+}
+.blend-applied {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+}
+.blend-star {
+  font-size: 2.5rem;
+  color: black;
+}
+.blend-applied .blend-star {
+  mix-blend-mode: {{blendMode}};
+}
+.blend-label {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.7rem;
+  opacity: 0.6;
+}`}
+  previewHTML={`<div class="blend-demo">
+  <div class="blend-item">
+    <div class="blend-box blend-original">
+      <span class="blend-star">★</span>
+    </div>
+    <p class="blend-label">Original</p>
+  </div>
+  <div class="blend-item">
+    <div class="blend-box blend-applied">
+      <span class="blend-star">★</span>
+    </div>
+    <p class="blend-label">mix-blend-mode: {{blendMode}}</p>
+  </div>
+</div>`}
+  title="Blend Modes"
+  badge="EFFECTS"
+  previewMinHeight="140px"
+/>
+
+Works best for icons, logos, and simple black/white graphics. Not suitable for photos.

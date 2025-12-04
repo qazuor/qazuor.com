@@ -1,0 +1,86 @@
+---
+title: "Mirror Reflection Effect"
+description: "Create glass-surface reflections using -webkit-box-reflect."
+tags: ["css", "effects", "reflection", "webkit"]
+featured: false
+browserSupport: ["Chrome 4+", "Safari 4+", "Edge 79+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 23
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Mirror Reflection
+
+Create reflections with a single CSS property (WebKit only).
+
+```css
+img {
+  -webkit-box-reflect: below 0px linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 0, 0, 0.5)
+  );
+}
+```
+
+| Part | Purpose |
+|------|---------|
+| `below/above/left/right` | Direction |
+| `0px` | Gap from original |
+| `linear-gradient` | Fade mask |
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "gap", type: "range", label: "Gap", min: 0, max: 20, default: 6, unit: "px" },
+    { id: "fadeStart", type: "range", label: "Fade Start", min: 0, max: 50, default: 0, unit: "%" }
+  ]}
+  cssTemplate={`.reflect-demo {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  padding-bottom: 80px;
+}
+.reflect-item {
+  text-align: center;
+}
+.reflect-box {
+  width: 70px;
+  height: 70px;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  -webkit-box-reflect: below {{gap}} linear-gradient(to bottom, transparent {{fadeStart}}, rgba(0, 0, 0, 0.4));
+}
+.reflect-purple {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+}
+.reflect-orange {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+}
+.reflect-label {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  margin-top: 2.5rem;
+}`}
+  previewHTML={`<div class="reflect-demo">
+  <div class="reflect-item">
+    <div class="reflect-box reflect-purple">🎨</div>
+    <span class="reflect-label">below</span>
+  </div>
+  <div class="reflect-item">
+    <div class="reflect-box reflect-orange">🚀</div>
+    <span class="reflect-label">subtle</span>
+  </div>
+</div>`}
+  title="Reflections"
+  badge="WEBKIT"
+  previewMinHeight="200px"
+/>
+
+WebKit-only. Firefox doesn't support this property.

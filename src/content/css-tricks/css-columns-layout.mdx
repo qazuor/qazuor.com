@@ -1,0 +1,58 @@
+---
+title: "CSS Multi-Column Layout"
+description: "Newspaper-style text columns that adapt without media queries."
+tags: ["css", "columns", "layout", "responsive"]
+featured: false
+browserSupport: ["Chrome 50+", "Firefox 52+", "Safari 10.1+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 25
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# CSS Columns
+
+Create responsive multi-column text layouts automatically.
+
+```css
+.article {
+  columns: 3 300px;
+  column-gap: 2rem;
+  column-rule: 1px solid #ddd;
+}
+```
+
+The browser creates up to 3 columns, each at least 300px wide - no media queries needed.
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "columns", type: "range", label: "Columns", min: 1, max: 4, default: 2, unit: "" },
+    { id: "gap", type: "range", label: "Gap", min: 0.5, max: 3, step: 0.25, default: 1.25, unit: "rem" },
+    { id: "ruleWidth", type: "range", label: "Rule Width", min: 0, max: 3, default: 1, unit: "px" }
+  ]}
+  cssTemplate={`.columns-demo {
+  columns: {{columns}} 150px;
+  column-gap: {{gap}};
+  column-rule: {{ruleWidth}} solid rgba(139, 92, 246, 0.4);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.columns-demo p {
+  margin: 0 0 0.5rem 0;
+}`}
+  previewHTML={`<div class="columns-demo">
+  <p>CSS columns create newspaper-style layouts that automatically adapt to available space.</p>
+  <p>The browser handles text distribution without any media queries needed.</p>
+  <p>Content flows naturally from one column to the next as space allows.</p>
+  <p>Try adjusting the controls to see how columns respond!</p>
+</div>`}
+  title="CSS Columns"
+  badge="INTERACTIVE"
+  previewMinHeight="140px"
+  resizable={true}
+/>
+
+Use `break-inside: avoid` on elements you don't want split across columns.

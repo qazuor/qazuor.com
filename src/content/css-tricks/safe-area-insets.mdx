@@ -1,0 +1,106 @@
+---
+title: "Safe Area Insets"
+description: "Adapt layouts for device notches and gesture bars using env()."
+tags: ["css", "mobile", "responsive", "env"]
+featured: false
+browserSupport: ["Chrome 69+", "Firefox 65+", "Safari 11.1+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 16
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Safe Area Insets
+
+Use `env()` to respect device notches and gesture areas.
+
+```css
+.sticky-footer {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.fullscreen {
+  padding-top: env(safe-area-inset-top);
+}
+```
+
+| Value | Use Case |
+|-------|----------|
+| `env(safe-area-inset-top)` | Status bar, notch |
+| `env(safe-area-inset-bottom)` | Gesture bar, home indicator |
+| `env(safe-area-inset-left/right)` | Landscape rotation |
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "notchSize", type: "range", label: "Notch Size", min: 12, max: 24, default: 18, unit: "px" }
+  ]}
+  cssTemplate={`.device-frame {
+  width: 140px;
+  height: 260px;
+  background: #1a1a2e;
+  border-radius: 1.5rem;
+  padding: 0.5rem;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+.device-notch {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: {{notchSize}};
+  background: #000;
+  border-radius: 0.75rem;
+  z-index: 10;
+}
+.device-screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #8b5cf6, #06b6d4);
+  border-radius: 1rem;
+  padding: calc({{notchSize}} + 1rem) 0.5rem 1.25rem;
+}
+.device-content {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.device-text {
+  margin: 0;
+  color: white;
+  font-size: 0.6rem;
+  text-align: center;
+}
+.device-home {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  opacity: 0.5;
+}`}
+  previewHTML={`<div class="device-frame">
+  <div class="device-notch"></div>
+  <div class="device-screen">
+    <div class="device-content">
+      <p class="device-text">Content safe<br/>from notch</p>
+    </div>
+  </div>
+  <div class="device-home"></div>
+</div>`}
+  title="Safe Areas"
+  badge="MOBILE"
+  previewMinHeight="300px"
+/>
+
+Works on devices with or without notches - returns 0 when not needed.

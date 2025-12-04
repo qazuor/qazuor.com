@@ -1,0 +1,95 @@
+---
+title: "Light Sweep with Conic Gradient"
+description: "Create a rotating light beam effect using conic gradients and CSS animation."
+tags: ["css", "animation", "gradients", "effects"]
+featured: false
+browserSupport: ["Chrome 85+", "Firefox 91+", "Safari 15.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 20
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Light Sweep Animation
+
+Create a rotating light beam using conic gradients and custom properties.
+
+```css
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.card .sweep {
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 10%,
+    transparent 20%
+  );
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  to { --angle: 360deg; }
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "duration", type: "range", label: "Speed", min: 1, max: 6, step: 0.5, default: 3, unit: "s" },
+    { id: "sweepWidth", type: "range", label: "Beam Width", min: 5, max: 30, default: 10, unit: "%" }
+  ]}
+  cssTemplate={`@property --sweep-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes sweep-rotate {
+  to { --sweep-angle: 360deg; }
+}
+.sweep-card {
+  width: 180px;
+  height: 100px;
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, #312e81, #4c1d95);
+}
+.sweep-effect {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from var(--sweep-angle, 0deg), transparent 0%, rgba(255, 255, 255, 0.5) {{sweepWidth}}, transparent calc({{sweepWidth}} * 2));
+  animation: sweep-rotate {{duration}} linear infinite;
+}
+.sweep-inner {
+  position: absolute;
+  inset: 3px;
+  background: linear-gradient(135deg, #312e81, #4c1d95);
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.sweep-inner span {
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}`}
+  previewHTML={`<div class="sweep-card">
+  <div class="sweep-effect"></div>
+  <div class="sweep-inner">
+    <span>Premium Card</span>
+  </div>
+</div>`}
+  title="Light Sweep"
+  badge="ANIMATED"
+  previewMinHeight="160px"
+/>
+
+The inner element with `inset: 3px` creates the frame that contains the sweep effect.

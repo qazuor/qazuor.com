@@ -1,6 +1,6 @@
 ---
-title: "Container Queries for Component-Level Responsiveness"
-description: "Stop using viewport media queries for components. Container queries let elements respond to their container's size, not the window."
+title: "Container Queries"
+description: "Components that respond to their container's size, not the viewport. Perfect for reusable UI."
 tags: ["css", "responsive", "container-queries", "layout"]
 featured: true
 browserSupport: ["Chrome 105+", "Firefox 110+", "Safari 16+"]
@@ -8,20 +8,15 @@ createdAt: 2025-11-27T00:00:00Z
 order: 1
 ---
 
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
 # Container Queries
 
-**The problem:** You have a card component that needs different layouts at different sizes. Media queries look at the viewport, but your card might be in a sidebar or full-width section.
-
-## The Solution
+Make components respond to their container size instead of the viewport.
 
 ```css
 .card-container {
   container-type: inline-size;
-}
-
-.card {
-  display: grid;
-  grid-template-columns: 1fr;
 }
 
 @container (min-width: 400px) {
@@ -31,10 +26,61 @@ order: 1
 }
 ```
 
-## Why Not Media Queries?
+## Live Demo
 
-Media queries respond to the **viewport**. Container queries respond to the **parent container**. This means your component adapts to where it's placed, not the screen size.
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "breakpoint", type: "range", label: "Breakpoint", min: 200, max: 400, default: 300, unit: "px" }
+  ]}
+  cssTemplate={`.cq-container {
+  container-type: inline-size;
+  width: 100%;
+}
+.cq-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 0.5rem;
+}
+.cq-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+.cq-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.cq-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+@container (min-width: {{breakpoint}}) {
+  .cq-card {
+    grid-template-columns: 60px 1fr;
+    align-items: center;
+  }
+}`}
+  previewHTML={`<div class="cq-container">
+  <div class="cq-card">
+    <div class="cq-icon"></div>
+    <div>
+      <h4 class="cq-title">Card Title</h4>
+      <p class="cq-desc">Layout changes based on container width.</p>
+    </div>
+  </div>
+</div>`}
+  title="Container Queries"
+  badge="RESIZE"
+  previewMinHeight="140px"
+  resizable={true}
+/>
 
-## Quick Tip
-
-Use `container-type: inline-size` for width-based queries. The `size` value also tracks height but has more performance overhead.
+Drag the right edge of the preview to see the card layout switch between stacked and horizontal based on the container width.

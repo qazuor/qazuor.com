@@ -1,0 +1,91 @@
+---
+title: "Animate Height with Grid"
+description: "Finally animate to auto height! Use grid-template-rows from 0fr to 1fr for smooth accordion animations."
+tags: ["css", "animation", "grid", "accordion"]
+featured: true
+browserSupport: ["Chrome 107+", "Firefox 110+", "Safari 16.4+"]
+createdAt: 2025-12-01T00:00:00Z
+order: 4
+---
+
+import { CSSPlayground } from '@/components/interactive/CSSPlayground';
+
+# Animate Height with Grid
+
+CSS can't animate `height: auto`, but it can animate `grid-template-rows` from `0fr` to `1fr`.
+
+```css
+.accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s;
+}
+
+.accordion > div {
+  overflow: hidden;
+}
+
+.accordion.open {
+  grid-template-rows: 1fr;
+}
+```
+
+## Live Demo
+
+<CSSPlayground
+  client:load
+  controls={[
+    { id: "duration", type: "range", label: "Duration", min: 0.1, max: 1, step: 0.1, default: 0.3, unit: "s" },
+    { id: "easing", type: "select", label: "Easing", options: ["ease", "ease-in-out", "linear", "ease-out"], default: "ease" }
+  ]}
+  cssTemplate={`.accordion-btn {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.875rem 1rem;
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.grid-accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows {{duration}} {{easing}};
+  max-width: 300px;
+}
+.grid-accordion.open {
+  grid-template-rows: 1fr;
+}
+.grid-accordion-inner {
+  overflow: hidden;
+}
+.grid-accordion-content {
+  padding: 1rem;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-top: none;
+  font-size: 0.875rem;
+}`}
+  previewHTML={`<button class="accordion-btn" onclick="this.nextElementSibling.classList.toggle('open')">
+  <span>Click to expand</span>
+  <span>▼</span>
+</button>
+<div class="grid-accordion">
+  <div class="grid-accordion-inner">
+    <div class="grid-accordion-content">
+      This content animates smoothly from 0 to auto height using grid-template-rows. No JavaScript height calculations needed!
+    </div>
+  </div>
+</div>`}
+  title="Grid Height Animation"
+  badge="CLICK"
+  previewMinHeight="180px"
+/>
+
+Click the button to see the smooth height animation. This technique works for any content length.

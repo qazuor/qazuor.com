@@ -322,13 +322,6 @@ for (const project of projects) {
 <script>
     import { gsap } from 'gsap';
 
-    // Type declaration for the global page titles map
-    declare global {
-        interface Window {
-            __PAGE_TITLES__: Record<string, string>;
-        }
-    }
-
     // Animation configuration (identical to original)
     const TRANSITION_DURATION = 1; // Overlay slide duration
     const TITLE_DELAY = 0; // Title appears early while overlay slides

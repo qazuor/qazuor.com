@@ -46,6 +46,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
             textarea.style.pointerEvents = 'none';
             document.body.appendChild(textarea);
             textarea.select();
+            // execCommand is deprecated but intentionally kept as fallback for older browsers
             document.execCommand('copy');
             document.body.removeChild(textarea);
             return true;

@@ -11,7 +11,6 @@ import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
-import subsites from 'astro-subsites';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
@@ -173,7 +172,6 @@ export default defineConfig({
                 return item;
             }
         }),
-        subsites(),
         normalizeTrailingSlash(),
 
         // 4. PWA - Service Worker for offline caching

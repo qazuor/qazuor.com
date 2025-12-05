@@ -26,14 +26,18 @@ export default defineConfig({
         // Timeout for expect assertions (including screenshots) - 2 minutes
         timeout: 120000,
         toHaveScreenshot: {
-            // Maximum pixel difference ratio (increased for dynamic content)
-            maxDiffPixelRatio: 0.05,
+            // Maximum pixel difference ratio (increased for pages with animations)
+            // 10% tolerance handles TypeIt, GSAP, and other dynamic content
+            maxDiffPixelRatio: 0.1,
             // Animation stabilization
             animations: 'disabled',
-            // CSS animations
+            // Hide text cursor
             caret: 'hide',
-            // Maximum number of retries for screenshot stability
-            maxDiffPixels: 100
+            // Maximum absolute number of different pixels (for small elements)
+            maxDiffPixels: 500,
+            // Threshold for color difference (0-1, where 0 is strict)
+            // 0.2 allows for anti-aliasing and font rendering differences
+            threshold: 0.2
         }
     },
     // Separate directory for visual tests

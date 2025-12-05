@@ -12,7 +12,7 @@ import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackgrou
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getAdjacentPosts, getEffectiveSlug, getRelatedPosts, getSeriesPosts } from '@/utils/blog';
 
@@ -133,9 +133,7 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                         </div>
 
                         <!-- Excerpt -->
-                        <p class="text-lg md:text-xl text-white mb-6 max-w-3xl drop-shadow-md">
-                            {post.data.excerpt}
-                        </p>
+                        <p class="text-lg md:text-xl text-white mb-6 max-w-3xl drop-shadow-md" set:html={processMarkdown(post.data.excerpt)} />
 
                         <!-- Meta information -->
                         <div class="flex flex-wrap items-center gap-4 text-white/90 mb-6 drop-shadow-sm">
@@ -213,9 +211,7 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                     </h1>
 
                     <!-- Excerpt -->
-                    <p class="text-lg md:text-xl text-foreground-secondary mb-6 max-w-3xl">
-                        {post.data.excerpt}
-                    </p>
+                    <p class="text-lg md:text-xl text-foreground-secondary mb-6 max-w-3xl" set:html={processMarkdown(post.data.excerpt)} />
 
                     <!-- Meta information -->
                     <div class="flex flex-wrap items-center gap-4 text-foreground-secondary mb-6">
@@ -456,9 +452,7 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                                                 {related.title}
                                             </h3>
 
-                                            <p class="text-sm text-foreground-secondary line-clamp-2 mb-4 leading-relaxed">
-                                                {related.excerpt}
-                                            </p>
+                                            <p class="text-sm text-foreground-secondary line-clamp-2 mb-4 leading-relaxed" set:html={processMarkdown(related.excerpt)} />
 
                                             <div class="flex items-center justify-between">
                                                 <div class="flex flex-wrap gap-1.5">

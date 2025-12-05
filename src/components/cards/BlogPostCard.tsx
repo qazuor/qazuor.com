@@ -105,7 +105,8 @@ export function BlogPostCard({
                     {/* Quote/Excerpt Wrapper (accordion) */}
                     <div className="blog-post-card__quote-wrapper">
                         <div className="blog-post-card__quote">
-                            <p>{excerpt}</p>
+                            {/* biome-ignore lint/security/noDangerouslySetInnerHtml: excerpt is pre-processed markdown from build-time content, not user input */}
+                            <p dangerouslySetInnerHTML={{ __html: excerpt }} />
                         </div>
                     </div>
                 </div>

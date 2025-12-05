@@ -12,7 +12,7 @@ import fallbackFrontend from '@/content/blog/_images/react-frontend.jpg';
 import fallbackDefault from '@/content/blog/_images/web-development.jpg';
 import fallbackWebdev from '@/content/blog/_images/web-development.jpg';
 import { getRotatingColor } from '@/data/categoryColors';
-import ArrowLongRightIcon from '@/icons/ui/arrow-long-right.svg?raw';
+import { processMarkdown } from '@/i18n/utils';
 import DocumentEmptyIcon from '@/icons/ui/document-empty.svg?raw';
 
 interface BlogPost {
@@ -149,7 +149,7 @@ const postsWithImages = await Promise.all(
                     <BlogPostCard
                         client:load
                         title={post.title}
-                        excerpt={post.excerpt}
+                        excerpt={processMarkdown(post.excerpt)}
                         category={post.category}
                         image={post.image}
                         slug={post.slug}

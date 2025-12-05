@@ -141,9 +141,7 @@ const pageDescription = processMarkdown(t('blog.pageDescription'));
                                         </h2>
 
                                         {/* Excerpt */}
-                                        <p class="text-foreground-secondary text-sm lg:text-base mb-5 line-clamp-3 leading-relaxed">
-                                            {post.excerpt}
-                                        </p>
+                                        <p class="text-foreground-secondary text-sm lg:text-base mb-5 line-clamp-3 leading-relaxed" set:html={processMarkdown(post.excerpt)} />
 
                                         {/* Footer: Date & Tags */}
                                         <div class="flex items-center justify-between pt-4 border-t border-foreground/5">

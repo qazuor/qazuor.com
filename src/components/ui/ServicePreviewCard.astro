@@ -2,10 +2,20 @@
 /**
  * ServicePreviewCard - A preview card for services on the homepage
  * Shows service title, description, key features, and CTA link
+ * Includes PixelCanvas effect and content swap on hover (like services page)
  */
 
+import PixelCanvas from '@/components/ui/PixelCanvas.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import ArrowRightIcon from '@/icons/ui/arrow-long-right.svg?raw';
+
+interface PixelConfig {
+    colors: string[];
+    colorsLight: string[];
+    activeColor: string;
+    gap: number;
+    speed: number;
+}
 
 interface Props {
     title: string;
@@ -14,43 +24,191 @@ interface Props {
     href: string;
     ctaText: string;
     iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization' | 'wordpress';
+    pixelConfig?: PixelConfig;
 }
 
-const { title, description, features, href, ctaText, iconId } = Astro.props;
+const { title, description, features, href, ctaText, iconId, pixelConfig } = Astro.props;
 ---
 
-<article class="service-preview-card group relative flex flex-col h-full p-6 rounded-2xl bg-background/30 backdrop-blur-sm border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1">
-    <!-- Icon -->
-    <div class="w-14 h-14 mb-4 p-3 rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary/20">
-        <ServiceIcon name={iconId} size={32} class="w-full h-full" />
+<article
+    class="service-preview-card group relative flex flex-col h-full rounded-2xl bg-background/30 backdrop-blur-sm border border-primary/20 transition-all duration-300 overflow-hidden isolate min-h-[320px]"
+    style={pixelConfig ? `--active-color: ${pixelConfig.activeColor}` : undefined}
+>
+    <!-- Pixel Canvas Effect -->
+    {pixelConfig && (
+        <PixelCanvas
+            gap={pixelConfig.gap}
+            speed={pixelConfig.speed}
+            colors={pixelConfig.colors}
+            colorsLight={pixelConfig.colorsLight}
+            class="absolute inset-0 z-[1] pointer-events-none"
+        />
+    )}
+
+    <!-- Card overlay for depth effect -->
+    <div class="service-card-overlay absolute inset-0 z-0 pointer-events-none" />
+
+    <!-- Card Content (visible by default, hidden on hover) -->
+    <div class="service-card-content relative z-[2] p-6 flex flex-col h-full">
+        <!-- Icon -->
+        <div class="w-14 h-14 mb-4 p-3 rounded-xl bg-primary/10 text-primary transition-colors duration-300">
+            <ServiceIcon name={iconId} size={32} class="service-icon w-full h-full transition-all duration-300" />
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-xl font-bold text-foreground mb-3">
+            <span set:html={title} />
+        </h3>
+
+        <!-- Description -->
+        <p class="text-foreground-secondary text-sm leading-relaxed mb-4 flex-grow">
+            {description}
+        </p>
+
+        <!-- Features list (bullet points) -->
+        <ul class="space-y-2 mb-6" role="list">
+            {features.slice(0, 3).map((feature) => (
+                <li class="flex items-start gap-2 text-sm text-foreground-secondary">
+                    <span class="w-1.5 h-1.5 mt-2 rounded-full bg-primary/60 flex-shrink-0" aria-hidden="true" />
+                    <span>{feature}</span>
+                </li>
+            ))}
+        </ul>
+
+        <!-- CTA Link -->
+        <a
+            href={href}
+            class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-foreground transition-colors duration-300 mt-auto"
+        >
+            <span>{ctaText}</span>
+            <div class="w-4 h-4 transition-transform duration-300" aria-hidden="true" set:html={ArrowRightIcon} />
+        </a>
     </div>
 
-    <!-- Title -->
-    <h3 class="text-xl font-bold text-foreground mb-3 transition-colors duration-300 group-hover:text-primary">
-        <span set:html={title} />
-    </h3>
-
-    <!-- Description -->
-    <p class="text-foreground-secondary text-sm leading-relaxed mb-4 flex-grow">
-        {description}
-    </p>
-
-    <!-- Features list (bullet points) -->
-    <ul class="space-y-2 mb-6" role="list">
-        {features.slice(0, 3).map((feature) => (
-            <li class="flex items-start gap-2 text-sm text-foreground-secondary">
-                <span class="w-1.5 h-1.5 mt-2 rounded-full bg-primary/60 flex-shrink-0" aria-hidden="true" />
-                <span>{feature}</span>
-            </li>
-        ))}
-    </ul>
-
-    <!-- CTA Link -->
-    <a
-        href={href}
-        class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-foreground transition-colors duration-300 mt-auto group/link"
-    >
-        <span>{ctaText}</span>
-        <div class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" aria-hidden="true" set:html={ArrowRightIcon} />
-    </a>
+    <!-- Hover Content (Icon + Title centered, appears on hover) -->
+    <div class="service-card-hover-content absolute inset-0 z-[2] flex flex-col items-center justify-center p-6 pointer-events-none">
+        <ServiceIcon name={iconId} size={56} class="service-icon-hover mb-4 transition-all duration-300" />
+        <h3 class="text-xl font-bold text-foreground text-center mb-4">
+            <span set:html={title} />
+        </h3>
+        <a
+            href={href}
+            class="stretched-link inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-all duration-200 pointer-events-auto text-sm"
+        >
+            <span>{ctaText}</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </a>
+    </div>
 </article>
+
+<style>
+    .service-preview-card {
+        --active-color: hsl(var(--color-primary));
+        user-select: none;
+    }
+
+    .service-card-overlay {
+        background: radial-gradient(
+            circle at bottom left,
+            transparent 55%,
+            hsl(var(--color-background) / 0.8)
+        );
+        box-shadow: hsl(var(--color-background)) -0.5cqi 0.5cqi 2.5cqi inset;
+        transition: opacity 900ms cubic-bezier(0.5, 1, 0.89, 1);
+    }
+
+    .service-preview-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        aspect-ratio: 1;
+        background: radial-gradient(circle, hsl(var(--color-background)), transparent 65%);
+        opacity: 0;
+        transition: opacity 800ms cubic-bezier(0.5, 1, 0.89, 1);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .service-preview-card:hover,
+    .service-preview-card:focus-within {
+        border-color: var(--active-color);
+        box-shadow: 0 10px 25px -5px var(--active-color) / 0.15;
+        transform: translateY(-4px);
+        transition: border-color 800ms cubic-bezier(0.45, 0, 0.55, 1),
+                    box-shadow 300ms ease,
+                    transform 300ms ease;
+    }
+
+    .service-preview-card:hover .service-card-overlay,
+    .service-preview-card:focus-within .service-card-overlay {
+        opacity: 0;
+    }
+
+    .service-preview-card:hover::after,
+    .service-preview-card:focus-within::after {
+        opacity: 1;
+    }
+
+    .service-preview-card:hover .service-icon,
+    .service-preview-card:focus-within .service-icon {
+        color: var(--active-color);
+        transform: scale(1.1);
+    }
+
+    .service-preview-card:focus-within {
+        outline: 2px solid var(--active-color);
+        outline-offset: 2px;
+    }
+
+    /* Content transition on hover */
+    .service-card-content {
+        transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .service-card-hover-content {
+        opacity: 0;
+        transform: scale(0.85);
+        transition:
+            opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
+            transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .service-preview-card:hover .service-card-content,
+    .service-preview-card:focus-within .service-card-content {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .service-preview-card:hover .service-card-hover-content,
+    .service-preview-card:focus-within .service-card-hover-content {
+        opacity: 1;
+        transform: scale(1);
+        transition:
+            opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms,
+            transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
+    }
+
+    /* Stretched link - makes entire card clickable */
+    .stretched-link::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        content: "";
+    }
+
+    .stretched-link {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* Hover icon uses the card's active color */
+    .service-icon-hover {
+        color: var(--active-color);
+    }
+</style>

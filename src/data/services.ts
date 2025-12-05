@@ -26,9 +26,8 @@ export const services: Service[] = [
         themeColor: 'var(--section-skills-bg)',
         relatedServices: ['landing-pages', 'automation-integration'],
         pricing: {
-            type: 'range',
-            min: 2000,
-            max: 8000,
+            type: 'from',
+            min: 1000,
             currency: 'USD'
         },
         ctaText: 'Start Your Project',
@@ -46,7 +45,7 @@ export const services: Service[] = [
         relatedServices: ['web-apps', 'social-media-design'],
         pricing: {
             type: 'from',
-            min: 800,
+            min: 600,
             currency: 'USD'
         },
         ctaText: 'Get Your Landing Page',
@@ -79,9 +78,7 @@ export const services: Service[] = [
         themeColor: 'var(--section-contact-bg)',
         relatedServices: ['landing-pages', 'web-apps'],
         pricing: {
-            type: 'from',
-            min: 300,
-            currency: 'USD'
+            type: 'consultation'
         },
         ctaText: 'Design Your Brand',
         ctaUrl: '/contact',
@@ -116,7 +113,7 @@ export const services: Service[] = [
         relatedServices: ['landing-pages', 'web-optimization'],
         pricing: {
             type: 'from',
-            min: 600,
+            min: 500,
             currency: 'USD'
         },
         ctaText: 'Start Your WordPress Project',

@@ -92,13 +92,13 @@ while (true) {
     }
 }
 
-// FAQs - dynamically determine count
+// FAQs - dynamically determine count (with markdown processing for answers)
 const faqs: Array<{ question: string; answer: string }> = [];
 let faqIndex = 0;
 while (true) {
     try {
         const question = t(`services.${serviceKey}.faqs.${faqIndex}.question`);
-        const answer = t(`services.${serviceKey}.faqs.${faqIndex}.answer`);
+        const answer = t(`services.${serviceKey}.faqs.${faqIndex}.answer`, { markdown: true });
         if (!question || !answer || question === `services.${serviceKey}.faqs.${faqIndex}.question`) break;
         faqs.push({ question, answer });
         faqIndex++;
@@ -326,9 +326,7 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
                                     />
                                 </svg>
                             </summary>
-                            <div class="px-6 pb-4 text-foreground-secondary leading-relaxed">
-                                {faq.answer}
-                            </div>
+                            <div class="px-6 pb-4 text-foreground-secondary leading-relaxed faq-answer" set:html={faq.answer} />
                         </details>
                     ))
                 }

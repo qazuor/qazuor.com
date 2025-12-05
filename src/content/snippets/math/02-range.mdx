@@ -1,0 +1,22 @@
+---
+name: "range"
+description_en: "Generate an array of numbers from start to end with optional step."
+description_es: "Genera un array de números desde inicio hasta fin con paso opcional."
+language: typescript
+tags: ["math", "utility", "array", "generator"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const range = (start: number, end: number, step = 1) =>
+  Array.from(
+    { length: Math.max(Math.ceil((end - start) / step), 0) },
+    (_, i) => start + i * step,
+  );
+
+// Usage
+range(0, 5);        // [0, 1, 2, 3, 4]
+range(1, 10, 2);    // [1, 3, 5, 7, 9]
+range(10, 0, -2);   // [10, 8, 6, 4, 2]
+```

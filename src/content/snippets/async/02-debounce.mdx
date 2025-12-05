@@ -1,0 +1,31 @@
+---
+name: "debounce"
+description_en: "Limit function execution rate by delaying until calls stop."
+description_es: "Limita la frecuencia de ejecución de una función retrasándola hasta que las llamadas se detengan."
+language: typescript
+tags: ["async", "performance", "events", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const debounce = <T extends (...args: unknown[]) => void>(
+  fn: T,
+  delay = 300,
+) => {
+  let id: ReturnType<typeof setTimeout>;
+  return (...args: Parameters<T>) => {
+    clearTimeout(id);
+    id = setTimeout(() => fn(...args), delay);
+  };
+};
+
+// Usage
+const debouncedSearch = debounce((query: string) => {
+  console.log('Searching:', query);
+}, 300);
+
+input.addEventListener('input', (e) => {
+  debouncedSearch((e.target as HTMLInputElement).value);
+});
+```

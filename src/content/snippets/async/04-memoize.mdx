@@ -1,0 +1,32 @@
+---
+name: "memoize"
+description_en: "Cache function results to avoid redundant computations."
+description_es: "Cachea resultados de funciones para evitar cálculos redundantes."
+language: typescript
+tags: ["async", "performance", "cache", "utility"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const memoize = <A extends string | number, R>(
+  fn: (arg: A) => R,
+) => {
+  const cache = new Map<A, R>();
+  return (arg: A): R => {
+    if (cache.has(arg)) return cache.get(arg)!;
+    const res = fn(arg);
+    cache.set(arg, res);
+    return res;
+  };
+};
+
+// Usage
+const expensiveCalc = memoize((n: number) => {
+  console.log('Computing...');
+  return n * n;
+});
+
+expensiveCalc(5); // Computing... 25
+expensiveCalc(5); // 25 (cached)
+```

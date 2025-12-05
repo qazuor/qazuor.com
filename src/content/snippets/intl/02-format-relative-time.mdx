@@ -1,0 +1,42 @@
+---
+name: "formatRelativeTime"
+description_en: "Display human-readable relative time like '2 days ago'."
+description_es: "Muestra tiempo relativo legible como 'hace 2 días'."
+language: typescript
+tags: ["intl", "formatting", "date", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const formatRelativeTime = (date: Date, base = new Date()) => {
+  const diffSec = Math.round((date.getTime() - base.getTime()) / 1000);
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+  const divisions: [number, Intl.RelativeTimeFormatUnit][] = [
+    [60, 'second'],
+    [60, 'minute'],
+    [24, 'hour'],
+    [7, 'day'],
+    [4.34524, 'week'],
+    [12, 'month'],
+    [Number.POSITIVE_INFINITY, 'year'],
+  ];
+  let unit: Intl.RelativeTimeFormatUnit = 'second';
+  let value = diffSec;
+  for (const [amount, u] of divisions) {
+    if (Math.abs(value) < amount) {
+      unit = u;
+      break;
+    }
+    value /= amount;
+  }
+  return rtf.format(Math.round(value), unit);
+};
+
+// Usage
+const pastDate = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
+formatRelativeTime(pastDate); // "2 days ago"
+
+const future = new Date(Date.now() + 3600000);
+formatRelativeTime(future);   // "in 1 hour"
+```

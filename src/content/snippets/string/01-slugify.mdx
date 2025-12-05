@@ -1,0 +1,25 @@
+---
+name: "slugify"
+description_en: "Convert a string to a URL-friendly slug."
+description_es: "Convierte un string a un slug amigable para URLs."
+language: typescript
+tags: ["string", "url", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const slugify = (str: string) =>
+  str
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+// Usage
+slugify("Hello World!");      // "hello-world"
+slugify("Café résumé");       // "cafe-resume"
+slugify("  Spaces  Around "); // "spaces-around"
+```

@@ -1,0 +1,29 @@
+---
+name: "copyToClipboard"
+description_en: "Copy text to clipboard with fallback for older browsers."
+description_es: "Copia texto al portapapeles con fallback para navegadores antiguos."
+language: typescript
+tags: ["browser", "clipboard", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const copyToClipboard = async (text: string) => {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+  }
+};
+
+// Usage
+await copyToClipboard('Hello, world!');
+console.log('Copied!');
+```

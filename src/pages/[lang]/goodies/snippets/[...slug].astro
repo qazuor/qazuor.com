@@ -5,16 +5,21 @@ import { Comments } from '@/components/blog/Comments';
 import { ShareButton } from '@/components/blog/ShareButton';
 import GoodiesJsonLd from '@/components/seo/GoodiesJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import { sectionsColors } from '@/data/colors';
 import { type Locale, languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, translatePath } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
+// Helper to clean numeric prefix from slug (e.g., "async/01-sleep" -> "async/sleep")
+const cleanSlug = (slug: string) => slug.replace(/\/\d+-/, '/');
+
 export async function getStaticPaths() {
+    // Local cleanSlug function for use within getStaticPaths (hoisting workaround)
+    const cleanSlugLocal = (slug: string) => slug.replace(/\/\d+-/, '/');
+
     const snippets = await getCollection('snippets');
     const paths: Array<{
-        params: { lang: string; slug: string };
+        params: { lang: string; slug: string | undefined };
         props: { snippet: CollectionEntry<'snippets'> };
     }> = [];
 
@@ -25,7 +30,7 @@ export async function getStaticPaths() {
             paths.push({
                 params: {
                     lang,
-                    slug: snippet.slug
+                    slug: cleanSlugLocal(snippet.slug)
                 },
                 props: { snippet }
             });
@@ -40,14 +45,19 @@ const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 const { Content } = await snippet.render();
 
-const title = snippet.data.title;
-const description = snippet.data.description;
+// Helper to get localized description
+const getDescription = (s: CollectionEntry<'snippets'>) => {
+    return lang === 'es' ? s.data.description_es : s.data.description_en;
+};
+
+const title = snippet.data.name;
+const description = getDescription(snippet);
 const snippetsUrl = translatePath('/goodies/snippets', lang);
 const canonicalUrl = Astro.url.href;
 
 // JSON-LD data
 const SITE_URL = 'https://qazuor.com';
-const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${snippet.slug}`;
+const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${cleanSlug(snippet.slug)}`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -80,23 +90,11 @@ const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${snippet.slug}`;
 
             <!-- Header -->
             <header class="mb-12">
-                <div class="flex items-center gap-4 mb-4">
-                    <LanguageIcon name={snippet.data.language} size={32} class="text-primary" />
-                    <span class="px-4 py-2 text-sm font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
-                        {snippet.data.language}
-                    </span>
-                    {snippet.data.featured && (
-                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
-                            ★ Featured
-                        </span>
-                    )}
-                </div>
-
                 <h1 class="text-xl md:text-2xl font-bold mb-4 leading-tight">
-                    <span class="gradient-text">{snippet.data.title}</span>
+                    <span class="gradient-text">{snippet.data.name}</span>
                 </h1>
                 <p class="text-sm md:text-base text-foreground-secondary leading-relaxed">
-                    {snippet.data.description}
+                    {getDescription(snippet)}
                 </p>
 
                 <!-- Tags -->
@@ -123,24 +121,11 @@ const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${snippet.slug}`;
                 </div>
             </header>
 
-            <!-- Code Block -->
-            <div class="mb-12">
-                <div class="relative">
-                    <div class="absolute top-3 right-3 z-10">
-                        <button
-                            id="copyCode"
-                            class="px-4 py-2 text-xs font-medium rounded-lg bg-foreground/10 text-foreground-secondary hover:bg-foreground/20 transition-colors"
-                        >
-                            Copy Code
-                        </button>
-                    </div>
-                    <pre class="rounded-lg bg-card border border-foreground/10 p-6 overflow-x-auto"><code id="codeBlock" class={`language-${snippet.data.language}`}>{snippet.data.code}</code></pre>
+            <!-- Code Block with Syntax Highlighting -->
+            <div class="mb-12 snippet-code-container">
+                <div class="content-prose">
+                    <Content />
                 </div>
-            </div>
-
-            <!-- Documentation -->
-            <div class="content-prose">
-                <Content />
             </div>
 
             <!-- Share section -->
@@ -165,28 +150,3 @@ const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${snippet.slug}`;
     </div>
 </BaseLayout>
 
-<script is:inline>
-    // Guard to prevent multiple event listener registrations
-    if (!window.__copyCodeInitialized) {
-        window.__copyCodeInitialized = true;
-
-        // Event delegation for copy code button
-        // This persists across View Transitions without needing to re-register
-        document.addEventListener('click', async (e) => {
-            const target = e.target;
-            const copyButton = target.closest('#copyCode');
-
-            if (!copyButton) return;
-
-            const codeBlock = document.getElementById('codeBlock');
-            if (!codeBlock) return;
-
-            const code = codeBlock.textContent || '';
-            await navigator.clipboard.writeText(code);
-            copyButton.textContent = 'Copied!';
-            setTimeout(() => {
-                copyButton.textContent = 'Copy Code';
-            }, 2000);
-        });
-    }
-</script>

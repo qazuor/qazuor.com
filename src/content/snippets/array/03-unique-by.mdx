@@ -1,0 +1,32 @@
+---
+name: "uniqueBy"
+description_en: "Remove duplicates from an array based on a key selector function."
+description_es: "Elimina duplicados de un array basándose en una función selectora de clave."
+language: typescript
+tags: ["array", "utility", "deduplication"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const uniqueBy = <T, K>(
+  arr: readonly T[],
+  getKey: (item: T) => K,
+): T[] => {
+  const map = new Map<K, T>();
+  for (const item of arr) {
+    map.set(getKey(item), item);
+  }
+  return [...map.values()];
+};
+
+// Usage
+const users = [
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' },
+  { id: 1, name: 'Alice (updated)' },
+];
+
+uniqueBy(users, u => u.id);
+// [{ id: 1, name: 'Alice (updated)' }, { id: 2, name: 'Bob' }]
+```

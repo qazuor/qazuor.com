@@ -1,0 +1,27 @@
+---
+name: "parseQuery"
+description_en: "Parse a URL query string into an object."
+description_es: "Parsea un query string de URL a un objeto."
+language: typescript
+tags: ["url", "query-string", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const parseQuery = (query: string): Record<string, string> => {
+  const params = new URLSearchParams(query.startsWith('?') ? query : `?${query}`);
+  const result: Record<string, string> = {};
+  params.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
+};
+
+// Usage
+parseQuery('?name=Alice&age=30');
+// { name: 'Alice', age: '30' }
+
+parseQuery('foo=bar&baz=qux');
+// { foo: 'bar', baz: 'qux' }
+```

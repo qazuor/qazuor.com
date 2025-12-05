@@ -1,0 +1,27 @@
+---
+name: "Brand"
+description_en: "Create nominal/branded types for type-safe IDs and primitives."
+description_es: "Crea tipos nominales/branded para IDs y primitivos con tipos seguros."
+language: typescript
+tags: ["types", "typescript", "utility-type", "branding"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export type Brand<T, Name extends string> = T & {
+  readonly __brand: Name;
+};
+
+// Usage
+type UserId = Brand<string, 'UserId'>;
+type OrderId = Brand<string, 'OrderId'>;
+
+function getUser(id: UserId) { /* ... */ }
+
+const userId = 'user_123' as UserId;
+const orderId = 'order_456' as OrderId;
+
+getUser(userId);   // OK
+getUser(orderId);  // Error: OrderId not assignable to UserId
+```

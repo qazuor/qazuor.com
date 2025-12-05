@@ -10,9 +10,12 @@ import { generateOgImageResponse } from '@/utils/og-image';
  */
 
 export const getStaticPaths: GetStaticPaths = async () => {
+    // Local cleanSlug function for use within getStaticPaths (hoisting workaround)
+    const cleanSlugLocal = (slug: string) => slug.replace(/\/\d+-/, '/');
+
     const snippets = await getCollection('snippets');
     const paths: Array<{
-        params: { lang: string; slug: string };
+        params: { lang: string; slug: string | undefined };
         props: { snippet: CollectionEntry<'snippets'> };
     }> = [];
 
@@ -21,7 +24,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
             paths.push({
                 params: {
                     lang,
-                    slug: snippet.slug
+                    slug: cleanSlugLocal(snippet.slug)
                 },
                 props: { snippet }
             });
@@ -39,12 +42,17 @@ export const GET: APIRoute<Props> = async ({ params, props }) => {
     const lang = (params.lang as 'en' | 'es') || 'en';
     const { snippet } = props;
 
+    // Helper to get localized description
+    const getDescription = (s: CollectionEntry<'snippets'>) => {
+        return lang === 'es' ? s.data.description_es : s.data.description_en;
+    };
+
     // Use language as first tag, then add other tags
     const tags = [snippet.data.language, ...(snippet.data.tags || [])].slice(0, 4);
 
     return generateOgImageResponse({
-        title: snippet.data.title,
-        subtitle: snippet.data.description,
+        title: snippet.data.name,
+        subtitle: getDescription(snippet),
         type: 'snippet',
         tags,
         lang

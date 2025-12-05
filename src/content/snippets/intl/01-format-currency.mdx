@@ -1,0 +1,26 @@
+---
+name: "formatCurrency"
+description_en: "Format a number as currency using Intl.NumberFormat."
+description_es: "Formatea un número como moneda usando Intl.NumberFormat."
+language: typescript
+tags: ["intl", "formatting", "currency", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const formatCurrency = (
+  value: number,
+  currency = 'USD',
+  locale = 'en-US',
+) =>
+  new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+  }).format(value);
+
+// Usage
+formatCurrency(1234.56);              // "$1,234.56"
+formatCurrency(1234.56, 'EUR', 'de'); // "1.234,56 €"
+formatCurrency(1234.56, 'JPY', 'ja'); // "￥1,235"
+```

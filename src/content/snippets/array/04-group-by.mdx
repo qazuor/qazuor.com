@@ -1,0 +1,37 @@
+---
+name: "groupBy"
+description_en: "Group array items by a key into an object of arrays."
+description_es: "Agrupa elementos de un array por una clave en un objeto de arrays."
+language: typescript
+tags: ["array", "utility", "grouping"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const groupBy = <T, K extends PropertyKey>(
+  arr: readonly T[],
+  getKey: (item: T) => K,
+): Record<K, T[]> =>
+  arr.reduce(
+    (acc, item) => {
+      const key = getKey(item);
+      (acc[key] ||= []).push(item);
+      return acc;
+    },
+    {} as Record<K, T[]>,
+  );
+
+// Usage
+const items = [
+  { type: 'fruit', name: 'apple' },
+  { type: 'vegetable', name: 'carrot' },
+  { type: 'fruit', name: 'banana' },
+];
+
+groupBy(items, i => i.type);
+// {
+//   fruit: [{ type: 'fruit', name: 'apple' }, { type: 'fruit', name: 'banana' }],
+//   vegetable: [{ type: 'vegetable', name: 'carrot' }]
+// }
+```

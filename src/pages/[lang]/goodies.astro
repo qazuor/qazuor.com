@@ -62,6 +62,14 @@ const getLinkDescription = (link: CollectionEntry<'useful-links'>) => {
     return lang === 'es' ? link.data.description_es : link.data.description_en;
 };
 
+// Helper to get localized description for snippets
+const getSnippetDescription = (snippet: CollectionEntry<'snippets'>) => {
+    return lang === 'es' ? snippet.data.description_es : snippet.data.description_en;
+};
+
+// Helper to clean numeric prefix from slug (e.g., "async/01-sleep" -> "async/sleep")
+const cleanSlug = (slug: string) => slug.replace(/\/\d+-/, '/');
+
 const title = t('goodies.title', { markdown: false });
 const description = t('goodies.subtitle', { markdown: false });
 const goodiesPageDescription = processMarkdown(t('goodies.pageDescription'));
@@ -190,7 +198,7 @@ const categories = [
 
                                 {category.id === 'snippets' && featuredSnippets.map((snippet) => (
                                     <a
-                                        href={translatePath(`/goodies/snippets/${snippet.slug}`, lang)}
+                                        href={translatePath(`/goodies/snippets/${cleanSlug(snippet.slug)}`, lang)}
                                         class="group relative overflow-hidden rounded-xl border border-foreground/10 bg-card p-5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
                                     >
                                         <div class="flex items-center gap-2 mb-3">
@@ -199,8 +207,8 @@ const categories = [
                                                 {snippet.data.language}
                                             </span>
                                         </div>
-                                        <h3 class="font-semibold mb-2 group-hover:text-primary transition-colors">{snippet.data.title}</h3>
-                                        <p class="text-sm text-foreground-secondary line-clamp-2">{snippet.data.description}</p>
+                                        <h3 class="font-semibold mb-2 group-hover:text-primary transition-colors">{snippet.data.name}</h3>
+                                        <p class="text-sm text-foreground-secondary line-clamp-2">{getSnippetDescription(snippet)}</p>
                                     </a>
                                 ))}
 

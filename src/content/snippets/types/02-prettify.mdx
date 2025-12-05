@@ -1,0 +1,24 @@
+---
+name: "Prettify"
+description_en: "Expand and flatten complex TypeScript intersection types for readability."
+description_es: "Expande y aplana tipos de intersección complejos de TypeScript para legibilidad."
+language: typescript
+tags: ["types", "typescript", "utility-type"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+// Usage
+type A = { name: string };
+type B = { age: number };
+type Ugly = A & B;
+// hover shows: A & B
+
+type Pretty = Prettify<A & B>;
+// hover shows: { name: string; age: number }
+```

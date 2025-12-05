@@ -1,0 +1,28 @@
+---
+name: "partition"
+description_en: "Split an array into two based on a predicate function."
+description_es: "Divide un array en dos basándose en una función predicado."
+language: typescript
+tags: ["array", "utility", "filtering"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const partition = <T>(
+  arr: readonly T[],
+  predicate: (item: T) => boolean,
+): [T[], T[]] => {
+  const truthy: T[] = [];
+  const falsy: T[] = [];
+  for (const item of arr) {
+    (predicate(item) ? truthy : falsy).push(item);
+  }
+  return [truthy, falsy];
+};
+
+// Usage
+const [evens, odds] = partition([1, 2, 3, 4, 5], n => n % 2 === 0);
+// evens: [2, 4]
+// odds: [1, 3, 5]
+```

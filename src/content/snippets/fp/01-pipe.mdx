@@ -1,0 +1,24 @@
+---
+name: "pipe"
+description_en: "Compose functions left-to-right for functional pipelines."
+description_es: "Compone funciones de izquierda a derecha para pipelines funcionales."
+language: typescript
+tags: ["fp", "functional", "composition", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const pipe =
+  <T>(...fns: Array<(value: T) => T>) =>
+  (initial: T): T =>
+    fns.reduce((value, fn) => fn(value), initial);
+
+// Usage
+const addOne = (x: number) => x + 1;
+const double = (x: number) => x * 2;
+const square = (x: number) => x * x;
+
+const transform = pipe(addOne, double, square);
+transform(2); // ((2 + 1) * 2)² = 36
+```

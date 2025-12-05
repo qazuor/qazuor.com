@@ -1,0 +1,32 @@
+---
+name: "once"
+description_en: "Ensure a function is only called once, returning the cached result."
+description_es: "Asegura que una función solo se llame una vez, retornando el resultado cacheado."
+language: typescript
+tags: ["async", "utility", "singleton"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const once = <T extends (...args: unknown[]) => unknown>(fn: T) => {
+  let called = false;
+  let value: ReturnType<T>;
+  return (...args: Parameters<T>): ReturnType<T> => {
+    if (!called) {
+      called = true;
+      value = fn(...args) as ReturnType<T>;
+    }
+    return value;
+  };
+};
+
+// Usage
+const initialize = once(() => {
+  console.log('Initializing...');
+  return { ready: true };
+});
+
+initialize(); // Initializing... { ready: true }
+initialize(); // { ready: true } (cached, no log)
+```

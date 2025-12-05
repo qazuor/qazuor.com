@@ -1,0 +1,18 @@
+---
+name: "ValueOf"
+description_en: "Extract the union of all value types from an object type."
+description_es: "Extrae la unión de todos los tipos de valores de un tipo objeto."
+language: typescript
+tags: ["types", "typescript", "utility-type"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export type ValueOf<T> = T[keyof T];
+
+// Usage
+type Config = { theme: 'light' | 'dark'; size: number };
+type ConfigValue = ValueOf<Config>;
+// 'light' | 'dark' | number
+```

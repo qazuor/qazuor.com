@@ -2,7 +2,6 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/colors';
 import { languages } from '@/i18n/ui';
@@ -20,15 +19,58 @@ const t = getTranslations(lang);
 
 const allSnippets = await getCollection('snippets');
 
+// Sort by filename (which has numeric prefix like "01-name" for ordering)
 const sortedSnippets: CollectionEntry<'snippets'>[] = allSnippets.sort(
     (a: CollectionEntry<'snippets'>, b: CollectionEntry<'snippets'>) => {
-        if (a.data.featured && !b.data.featured) return -1;
-        if (!a.data.featured && b.data.featured) return 1;
-        return b.data.createdAt.getTime() - a.data.createdAt.getTime();
+        return a.id.localeCompare(b.id);
     }
 );
 
-const languages_filter = ['all', ...new Set(allSnippets.map((s: CollectionEntry<'snippets'>) => s.data.language))];
+// Helper to get localized description
+const getDescription = (snippet: CollectionEntry<'snippets'>) => {
+    return lang === 'es' ? snippet.data.description_es : snippet.data.description_en;
+};
+
+// Helper to clean numeric prefix from slug (e.g., "async/01-sleep" -> "async/sleep")
+const cleanSlug = (slug: string) => slug.replace(/\/\d+-/, '/');
+
+// Helper to get category from snippet id (folder name)
+const getCategory = (snippet: CollectionEntry<'snippets'>) => {
+    return snippet.id.split('/')[0];
+};
+
+// Group by category (folder)
+const snippetsByCategory = sortedSnippets.reduce(
+    (acc, snippet) => {
+        const category = getCategory(snippet);
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(snippet);
+        return acc;
+    },
+    {} as Record<string, CollectionEntry<'snippets'>[]>
+);
+
+// Category order and labels
+const categoryOrder = ['async', 'array', 'math', 'data', 'string', 'intl', 'date', 'browser', 'url', 'fp', 'types'];
+const sortedCategories = Object.keys(snippetsByCategory).sort(
+    (a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)
+);
+
+const categoryLabels: Record<string, string> = {
+    async: 'Async & Promises',
+    array: 'Array Utilities',
+    math: 'Math & Numbers',
+    data: 'Data & Validation',
+    string: 'String Manipulation',
+    intl: 'Internationalization',
+    date: 'Date & Time',
+    browser: 'Browser APIs',
+    url: 'URL & Query Strings',
+    fp: 'Functional Programming',
+    types: 'TypeScript Types'
+};
 
 const title = t('snippets.title', { markdown: false });
 const description = t('snippets.subtitle', { markdown: false });
@@ -62,66 +104,40 @@ const goodiesUrl = translatePath('/goodies', lang);
                 <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={snippetsPageDescription} />
             </div>
 
-            <!-- Language Filter -->
-            <div class="mb-12">
-                <div class="flex flex-wrap justify-center gap-3">
-                    {
-                        languages_filter.map((language) => (
-                            <button
-                                class="language-filter-btn px-6 py-3 rounded-full border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-all duration-300 text-sm font-medium flex items-center gap-2"
-                                data-language={language}
-                            >
-                                {language !== 'all' && <LanguageIcon name={language as string} size={16} class="text-primary/80" />}
-                                {language === 'all' ? t('goodies.categories.all') : language}
-                            </button>
-                        ))
-                    }
-                </div>
-            </div>
+            <!-- Snippets by Category -->
+            {
+                sortedCategories.map((category) => (
+                    <div class="mb-12">
+                        <h2 class="text-xl font-semibold mb-6">{categoryLabels[category] || category}</h2>
 
-            <!-- Snippets Grid -->
-            <div class="snippets-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-                {
-                    sortedSnippets.map((snippet) => (
-                        <a
-                            href={translatePath(`/goodies/snippets/${snippet.slug}`, lang)}
-                            class={`snippet-card snippet-language-${snippet.data.language} group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1`}
-                        >
-                            {snippet.data.featured && (
-                                <div class="absolute top-4 right-4 z-10">
-                                    <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-foreground">
-                                        ★ Featured
-                                    </span>
-                                </div>
-                            )}
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {snippetsByCategory[category].map((snippet: CollectionEntry<'snippets'>) => (
+                                <a
+                                    href={translatePath(`/goodies/snippets/${cleanSlug(snippet.slug)}`, lang)}
+                                    class="group relative overflow-hidden rounded-xl border border-foreground/10 bg-card p-5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1"
+                                >
+                                    <h3 class="text-base font-semibold mb-1 group-hover:text-primary transition-colors">
+                                        {snippet.data.name}
+                                    </h3>
+                                    <p class="text-foreground-secondary text-sm line-clamp-2 mb-3">
+                                        {getDescription(snippet)}
+                                    </p>
 
-                            <div class="flex items-center gap-3 mb-4">
-                                <LanguageIcon name={snippet.data.language} size={24} class="text-primary" />
-                                <span class="px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
-                                    {snippet.data.language}
-                                </span>
-                            </div>
+                                    <div class="flex flex-wrap gap-1">
+                                        {snippet.data.tags.slice(0, 3).map((tag: string) => (
+                                            <span class="inline-flex items-center px-2 py-0.5 text-xs rounded bg-foreground/5 text-foreground-secondary">
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
 
-                            <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
-                                {snippet.data.title}
-                            </h3>
-                            <p class="text-foreground-secondary text-sm line-clamp-2 mb-4">
-                                {snippet.data.description}
-                            </p>
-
-                            <div class="flex flex-wrap gap-2">
-                                {snippet.data.tags.slice(0, 3).map((tag: string) => (
-                                    <span class="inline-flex items-center px-2 py-1 text-xs rounded-md bg-foreground/5 text-foreground-secondary">
-                                        #{tag}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                        </a>
-                    ))
-                }
-            </div>
+                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                ))
+            }
 
             <!-- No Snippets Message -->
             {sortedSnippets.length === 0 && (
@@ -136,14 +152,6 @@ const goodiesUrl = translatePath('/goodies', lang);
 </BaseLayout>
 
 <style>
-    .language-filter-btn.active {
-        @apply border-primary text-primary bg-primary/10;
-    }
-
-    .snippet-card.hidden {
-        display: none;
-    }
-
     .line-clamp-2 {
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -151,59 +159,3 @@ const goodiesUrl = translatePath('/goodies', lang);
         overflow: hidden;
     }
 </style>
-
-<script is:inline>
-    // Guard to prevent multiple event listener registrations
-    if (!window.__snippetsFilterInitialized) {
-        window.__snippetsFilterInitialized = true;
-
-        // Event delegation for filter buttons
-        // This persists across View Transitions without needing to re-register
-        document.addEventListener('click', (e) => {
-            const target = e.target;
-            const button = target.closest('.language-filter-btn');
-
-            if (!button) return;
-
-            const language = button.getAttribute('data-language');
-            const filterButtons = document.querySelectorAll('.language-filter-btn');
-            const snippetCards = document.querySelectorAll('.snippet-card');
-
-            // Update active button
-            filterButtons.forEach((btn) => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            // Filter cards
-            snippetCards.forEach((card) => {
-                const cardLanguage = Array.from(card.classList)
-                    .find((cls) => cls.startsWith('snippet-language-'))
-                    ?.replace('snippet-language-', '');
-
-                if (language === 'all' || cardLanguage === language) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-        });
-    }
-
-    // Initialize: set first button as active (runs on each page load)
-    function initSnippetsFiltering() {
-        const filterButtons = document.querySelectorAll('.language-filter-btn');
-        if (filterButtons.length > 0) {
-            filterButtons[0].classList.add('active');
-        }
-    }
-
-    // Initialize on page load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSnippetsFiltering);
-    } else {
-        initSnippetsFiltering();
-    }
-
-    // Re-initialize after View Transitions navigation
-    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
-    document.addEventListener('qazuor:content-ready', initSnippetsFiltering);
-</script>

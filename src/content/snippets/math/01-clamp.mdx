@@ -1,0 +1,19 @@
+---
+name: "clamp"
+description_en: "Constrain a number to a min/max range."
+description_es: "Restringe un número a un rango min/max."
+language: typescript
+tags: ["math", "utility", "number"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
+// Usage
+clamp(5, 0, 10);   // 5
+clamp(-5, 0, 10);  // 0
+clamp(15, 0, 10);  // 10
+```

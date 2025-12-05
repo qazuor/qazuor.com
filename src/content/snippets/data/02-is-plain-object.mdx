@@ -1,0 +1,21 @@
+---
+name: "isPlainObject"
+description_en: "Check if a value is a plain JavaScript object (not array, null, etc)."
+description_es: "Verifica si un valor es un objeto JavaScript simple (no array, null, etc)."
+language: typescript
+tags: ["data", "type-guard", "utility"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const isPlainObject = (value: unknown): value is Record<string, unknown> =>
+  Object.prototype.toString.call(value) === '[object Object]';
+
+// Usage
+isPlainObject({});        // true
+isPlainObject({ a: 1 });  // true
+isPlainObject([]);        // false
+isPlainObject(null);      // false
+isPlainObject(new Date);  // false
+```

@@ -1,0 +1,29 @@
+---
+name: "safeJsonParse"
+description_en: "Parse JSON safely with typed result and error handling."
+description_es: "Parsea JSON de forma segura con resultado tipado y manejo de errores."
+language: typescript
+tags: ["data", "json", "error-handling", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const safeJsonParse = <T>(
+  value: string,
+): { ok: true; data: T } | { ok: false; error: unknown } => {
+  try {
+    return { ok: true, data: JSON.parse(value) as T };
+  } catch (error) {
+    return { ok: false, error };
+  }
+};
+
+// Usage
+const result = safeJsonParse<{ name: string }>('{"name": "Alice"}');
+if (result.ok) {
+  console.log(result.data.name); // "Alice"
+} else {
+  console.error('Parse failed:', result.error);
+}
+```

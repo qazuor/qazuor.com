@@ -88,11 +88,13 @@ const toolsCollection = defineCollection({
 });
 
 // Snippets collection schema
+// Code is now in the MDX body for proper syntax highlighting
 const snippetsCollection = defineCollection({
     type: 'content',
     schema: z.object({
-        title: z.string(),
-        description: z.string(),
+        name: z.string(), // Display name in English
+        description_en: z.string(),
+        description_es: z.string(),
         language: z.enum([
             'typescript',
             'javascript',
@@ -106,12 +108,10 @@ const snippetsCollection = defineCollection({
             'markdown',
             'other'
         ]),
-        code: z.string(), // The main code snippet
         tags: z.array(z.string()),
         featured: z.boolean().default(false),
         createdAt: z.date(),
-        updatedAt: z.date().optional(),
-        order: z.number().default(999)
+        updatedAt: z.date().optional()
     })
 });
 

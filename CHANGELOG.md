@@ -6,7 +6,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.3] - 2025-12-03
+## [1.5.3] - 2025-12-04
+
+### Added - Snippets Collection Overhaul
+
+- **38 TypeScript snippets**: Comprehensive collection of utility functions
+  organized in 11 categories (async, array, math, data, string, intl, date,
+  browser, url, fp, types)
+- **Category-based organization**: Snippets grouped by folder/category on
+  listing page, similar to useful-links
+- **MDX code blocks**: Code moved from frontmatter to MDX content body for
+  proper syntax highlighting
+- **Bilingual descriptions**: Each snippet has `description_en` and
+  `description_es` for localized content
+
+### Changed - Snippets UI Simplification
+
+- **Removed language badge**: Since all snippets are TypeScript, removed
+  redundant language badge from cards and detail pages
+- **Removed featured badge**: Simplified UI by removing featured indicators
+- **Category grouping**: Snippets listing now shows categories (Async &
+  Promises, Array Utilities, TypeScript Types, etc.) instead of flat grid
+- **Cleaner snippet page**: Detail page now shows only title, description, tags,
+  and code block
+
+### Fixed - Snippets
+
+- **Snippet names in dropdown**: Fixed goodies menu showing snippet names
+  correctly (was using `title` instead of `name`)
+- **Snippet URLs**: Fixed 404 errors by implementing proper slug cleaning for
+  numeric prefixes
+- **Syntax highlighting**: Moved code from frontmatter to MDX body for proper
+  highlighting
+
+### Technical - Snippets
+
+- Removed `code` field from snippets schema (now in MDX body)
+- Updated schema to use `name` instead of `title`
+- Added `cleanSlug` helper for numeric prefix handling in URLs
+- Removed filter script (all snippets are TypeScript)
 
 ### Added - Useful Links Restructure & Expansion
 

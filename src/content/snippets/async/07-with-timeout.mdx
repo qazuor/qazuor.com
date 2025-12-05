@@ -1,0 +1,29 @@
+---
+name: "withTimeout"
+description_en: "Add a timeout to any Promise, rejecting if it takes too long."
+description_es: "Añade un timeout a cualquier Promise, rechazándola si tarda demasiado."
+language: typescript
+tags: ["async", "promise", "timeout", "utility"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const withTimeout = <T>(
+  promise: Promise<T>,
+  ms: number,
+): Promise<T> =>
+  Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error('Timeout')), ms),
+    ),
+  ]);
+
+// Usage
+try {
+  const data = await withTimeout(fetch('/api/slow'), 5000);
+} catch (e) {
+  console.error('Request timed out');
+}
+```

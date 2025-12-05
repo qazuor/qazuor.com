@@ -1,0 +1,34 @@
+---
+name: "waitForElement"
+description_en: "Wait for a DOM element to appear using MutationObserver."
+description_es: "Espera a que un elemento DOM aparezca usando MutationObserver."
+language: typescript
+tags: ["browser", "dom", "async", "utility"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const waitForElement = (selector: string): Promise<Element> =>
+  new Promise((resolve) => {
+    const existing = document.querySelector(selector);
+    if (existing) {
+      return resolve(existing);
+    }
+    const observer = new MutationObserver(() => {
+      const el = document.querySelector(selector);
+      if (el) {
+        observer.disconnect();
+        resolve(el);
+      }
+    });
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+  });
+
+// Usage
+const modal = await waitForElement('.modal');
+modal.classList.add('visible');
+```

@@ -1,0 +1,20 @@
+---
+name: "scrollToId"
+description_en: "Smoothly scroll to an element by its ID."
+description_es: "Hace scroll suave a un elemento por su ID."
+language: typescript
+tags: ["browser", "scroll", "dom", "utility"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const scrollToId = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+// Usage
+scrollToId('section-2');
+```

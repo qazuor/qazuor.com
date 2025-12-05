@@ -1,0 +1,29 @@
+---
+name: "toQueryString"
+description_en: "Convert an object to a URL query string."
+description_es: "Convierte un objeto a un query string de URL."
+language: typescript
+tags: ["url", "query-string", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const toQueryString = (
+  params: Record<string, string | number | boolean | undefined>,
+) =>
+  Object.entries(params)
+    .filter(([, v]) => v !== undefined)
+    .map(
+      ([k, v]) =>
+        `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`,
+    )
+    .join('&');
+
+// Usage
+toQueryString({ name: 'Alice', age: 30 });
+// "name=Alice&age=30"
+
+toQueryString({ page: 1, limit: undefined, active: true });
+// "page=1&active=true"
+```

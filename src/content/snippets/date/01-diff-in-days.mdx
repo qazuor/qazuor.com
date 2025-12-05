@@ -1,0 +1,22 @@
+---
+name: "diffInDays"
+description_en: "Calculate the difference between two dates in days."
+description_es: "Calcula la diferencia entre dos fechas en días."
+language: typescript
+tags: ["date", "utility", "time"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const diffInDays = (a: Date, b: Date) => {
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const diff = a.getTime() - b.getTime();
+  return Math.round(diff / msPerDay);
+};
+
+// Usage
+const today = new Date();
+const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+diffInDays(today, lastWeek); // 7
+```

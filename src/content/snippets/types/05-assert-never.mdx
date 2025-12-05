@@ -1,0 +1,31 @@
+---
+name: "assertNever"
+description_en: "Exhaustiveness checker for TypeScript discriminated unions."
+description_es: "Verificador de exhaustividad para uniones discriminadas de TypeScript."
+language: typescript
+tags: ["types", "typescript", "utility", "exhaustiveness"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const assertNever = (value: never): never => {
+  throw new Error(`Unhandled case: ${String(value)}`);
+};
+
+// Usage
+type Status = 'pending' | 'approved' | 'rejected';
+
+function handleStatus(status: Status) {
+  switch (status) {
+    case 'pending':
+      return 'Waiting...';
+    case 'approved':
+      return 'Done!';
+    case 'rejected':
+      return 'Failed';
+    default:
+      return assertNever(status); // Compile error if case is missing
+  }
+}
+```

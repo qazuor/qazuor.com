@@ -1,0 +1,23 @@
+---
+name: "chunk"
+description_en: "Split an array into smaller arrays of a specified size."
+description_es: "Divide un array en arrays más pequeños de un tamaño específico."
+language: typescript
+tags: ["array", "utility", "pagination"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const chunk = <T>(arr: readonly T[], size: number): T[][] => {
+  const res: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    res.push(arr.slice(i, i + size));
+  }
+  return res;
+};
+
+// Usage
+chunk([1, 2, 3, 4, 5], 2);
+// [[1, 2], [3, 4], [5]]
+```

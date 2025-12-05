@@ -1,0 +1,41 @@
+---
+name: "throttle"
+description_en: "Limit function execution to at most once per interval."
+description_es: "Limita la ejecución de una función a máximo una vez por intervalo."
+language: typescript
+tags: ["async", "performance", "events", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const throttle = <T extends (...args: unknown[]) => void>(
+  fn: T,
+  delay = 300,
+) => {
+  let last = 0;
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  return (...args: Parameters<T>) => {
+    const now = Date.now();
+    const remaining = delay - (now - last);
+    if (remaining <= 0) {
+      last = now;
+      fn(...args);
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        last = Date.now();
+        timeout = null;
+        fn(...args);
+      }, remaining);
+    }
+  };
+};
+
+// Usage
+const throttledScroll = throttle(() => {
+  console.log('Scrolled!');
+}, 100);
+
+window.addEventListener('scroll', throttledScroll);
+```

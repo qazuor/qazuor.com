@@ -1,0 +1,25 @@
+---
+name: "onResize"
+description_en: "Subscribe to window resize events with automatic cleanup."
+description_es: "Suscríbete a eventos de resize de window con limpieza automática."
+language: typescript
+tags: ["browser", "events", "utility"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const onResize = (fn: () => void) => {
+  window.addEventListener('resize', fn);
+  fn();
+  return () => window.removeEventListener('resize', fn);
+};
+
+// Usage
+const cleanup = onResize(() => {
+  console.log('Width:', window.innerWidth);
+});
+
+// Later, to unsubscribe:
+cleanup();
+```

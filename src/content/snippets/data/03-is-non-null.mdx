@@ -1,0 +1,21 @@
+---
+name: "isNonNull"
+description_en: "Type guard to filter out null and undefined values."
+description_es: "Type guard para filtrar valores null y undefined."
+language: typescript
+tags: ["data", "type-guard", "utility"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const isNonNull = <T>(
+  value: T,
+): value is NonNullable<T> => value != null;
+
+// Usage
+const items = [1, null, 2, undefined, 3];
+const filtered = items.filter(isNonNull);
+// type: number[]
+// value: [1, 2, 3]
+```

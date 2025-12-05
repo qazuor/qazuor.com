@@ -1,0 +1,35 @@
+---
+name: "DeepPartial"
+description_en: "Make all properties in an object optional recursively."
+description_es: "Hace todas las propiedades de un objeto opcionales recursivamente."
+language: typescript
+tags: ["types", "typescript", "utility-type"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object
+    ? DeepPartial<T[K]>
+    : T[K];
+};
+
+// Usage
+type User = {
+  name: string;
+  address: {
+    city: string;
+    zip: number;
+  };
+};
+
+type PartialUser = DeepPartial<User>;
+// {
+//   name?: string;
+//   address?: {
+//     city?: string;
+//     zip?: number;
+//   };
+// }
+```

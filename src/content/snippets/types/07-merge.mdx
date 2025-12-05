@@ -1,0 +1,26 @@
+---
+name: "Merge"
+description_en: "Merge two object types with B overriding A's properties."
+description_es: "Fusiona dos tipos objeto donde B sobrescribe las propiedades de A."
+language: typescript
+tags: ["types", "typescript", "utility-type"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+export type Merge<A, B> = Prettify<
+  Omit<A, keyof B> & B
+>;
+
+// Usage
+type Base = { name: string; age: number };
+type Override = { age: string; email: string };
+
+type Merged = Merge<Base, Override>;
+// { name: string; age: string; email: string }
+```

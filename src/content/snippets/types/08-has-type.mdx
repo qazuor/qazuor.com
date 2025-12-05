@@ -1,0 +1,32 @@
+---
+name: "hasType"
+description_en: "Type guard for discriminated unions based on type property."
+description_es: "Type guard para uniones discriminadas basado en la propiedad type."
+language: typescript
+tags: ["types", "typescript", "type-guard"]
+featured: true
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export const hasType = <
+  T extends { type: string },
+  U extends T['type'],
+>(
+  value: T,
+  type: U,
+): value is Extract<T, { type: U }> => value.type === type;
+
+// Usage
+type Event =
+  | { type: 'click'; x: number; y: number }
+  | { type: 'keydown'; key: string };
+
+function handleEvent(event: Event) {
+  if (hasType(event, 'click')) {
+    console.log(event.x, event.y); // Narrowed to click type
+  } else {
+    console.log(event.key); // Narrowed to keydown type
+  }
+}
+```

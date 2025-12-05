@@ -1,0 +1,20 @@
+---
+name: "KeysOfUnion"
+description_en: "Get all keys from a union of object types."
+description_es: "Obtiene todas las claves de una unión de tipos objeto."
+language: typescript
+tags: ["types", "typescript", "utility-type"]
+featured: false
+createdAt: 2025-12-04T00:00:00Z
+---
+
+```typescript
+export type KeysOfUnion<T> = T extends T ? keyof T : never;
+
+// Usage
+type A = { a: string; shared: number };
+type B = { b: boolean; shared: number };
+
+type AllKeys = KeysOfUnion<A | B>;
+// 'a' | 'b' | 'shared'
+```

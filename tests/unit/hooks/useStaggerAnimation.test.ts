@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useStaggerAnimation } from './useStaggerAnimation';
+import { useStaggerAnimation } from '@/hooks/useStaggerAnimation';
 
 // Mock GSAP and ScrollTrigger
-vi.mock('../lib/gsap', () => ({
+vi.mock('@/lib/gsap', () => ({
     gsap: {
         from: vi.fn()
     }

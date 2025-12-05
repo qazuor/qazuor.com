@@ -21,7 +21,7 @@ import {
     typography,
     type ZIndexKey,
     zIndex
-} from './theme';
+} from '@/config/theme';
 
 describe('Theme Configuration', () => {
     describe('Spacing', () => {

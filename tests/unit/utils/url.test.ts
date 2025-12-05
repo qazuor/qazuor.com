@@ -9,7 +9,7 @@ import {
     normalizeUrl,
     removeLocale,
     setQueryParam
-} from './url';
+} from '@/utils/url';
 
 describe('URL Utilities', () => {
     describe('normalizeUrl', () => {

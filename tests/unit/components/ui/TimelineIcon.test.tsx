@@ -53,44 +53,41 @@ describe('TimelineIcon Component', () => {
         });
     });
 
-    describe('Fallback Icon', () => {
-        it('renders fallback icon for unknown iconName', () => {
-            const { container } = render(<TimelineIcon iconName="non-existent-icon" />);
-            const icon = container.querySelector('svg');
-            expect(icon).toBeInTheDocument();
+    describe('SVG Sprite Reference', () => {
+        it('renders svg with use element for icons', () => {
+            const { container } = render(<TimelineIcon iconName="star" />);
+            const svg = container.querySelector('svg');
+            const use = container.querySelector('use');
+            expect(svg).toBeInTheDocument();
+            expect(use).toBeInTheDocument();
         });
 
-        it('fallback icon has correct title', () => {
-            const { container } = render(<TimelineIcon iconName="invalid" />);
-            const title = container.querySelector('title');
-            expect(title).toHaveTextContent('Timeline Icon');
+        it('use element has correct href', () => {
+            const { container } = render(<TimelineIcon iconName="star" />);
+            const use = container.querySelector('use');
+            expect(use).toHaveAttribute('href', '#timeline-star');
         });
 
-        it('fallback icon has star path', () => {
-            const { container } = render(<TimelineIcon iconName="unknown" />);
-            const path = container.querySelector('path');
-            expect(path).toBeInTheDocument();
-            expect(path).toHaveAttribute('d');
-        });
-
-        it('fallback icon applies className', () => {
-            const { container } = render(<TimelineIcon iconName="invalid" className="w-12 h-12" />);
-            const icon = container.querySelector('svg');
-            expect(icon).toHaveClass('w-12', 'h-12');
+        it('svg applies className', () => {
+            const { container } = render(<TimelineIcon iconName="star" className="w-12 h-12" />);
+            const svg = container.querySelector('svg');
+            expect(svg).toHaveClass('w-12', 'h-12');
         });
     });
 
     describe('Icon Rendering', () => {
-        it('renders div wrapper with dangerouslySetInnerHTML for valid icons', () => {
+        it('renders svg wrapper for icons', () => {
             const { container } = render(<TimelineIcon iconName="globe" />);
             const wrapper = container.firstChild as HTMLElement;
-            expect(wrapper.tagName).toBe('DIV');
+            expect(wrapper.tagName.toLowerCase()).toBe('svg');
         });
 
-        it('applies currentColor style to valid icons', () => {
+        it('svg has accessibility attributes', () => {
             const { container } = render(<TimelineIcon iconName="cog" />);
-            const wrapper = container.firstChild as HTMLElement;
-            expect(wrapper).toHaveStyle({ color: 'currentColor' });
+            const svg = container.querySelector('svg');
+            expect(svg).toHaveAttribute('aria-hidden', 'true');
+            expect(svg).toHaveAttribute('focusable', 'false');
+            expect(svg).toHaveAttribute('role', 'img');
         });
     });
 

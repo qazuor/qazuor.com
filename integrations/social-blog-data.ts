@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import matter from 'gray-matter';
@@ -144,14 +144,19 @@ export default function socialBlogDataIntegration(options: SocialBlogDataOptions
                         author: frontmatter.author || 'qazuor'
                     };
 
-                    // Add image if present
+                    // Add image if present - resolve to full URL
                     if (frontmatter.image) {
                         // Handle relative image paths
                         const imagePath =
                             typeof frontmatter.image === 'string'
                                 ? frontmatter.image
                                 : frontmatter.image.src || frontmatter.image;
-                        postData.image = imagePath;
+
+                        // Resolve to full URL by finding the processed image in dist
+                        const fullImageUrl = resolveImageUrl(imagePath, dir, siteUrl, log);
+                        if (fullImageUrl) {
+                            postData.image = fullImageUrl;
+                        }
                     }
 
                     // Add series info if present
@@ -226,4 +231,67 @@ function formatDate(date: Date | string): string {
         return new Date(date).toISOString().split('T')[0];
     }
     return new Date().toISOString().split('T')[0];
+}
+
+/**
+ * Resolve a relative image path to a full URL by finding the processed image in dist
+ *
+ * @param imagePath - Relative path like "./_images/portfolio-design.jpg"
+ * @param distDir - Astro's output directory URL
+ * @param siteUrl - Base site URL (e.g., "https://qazuor.com")
+ * @param log - Logging function
+ * @returns Full URL to the image or undefined if not found
+ */
+function resolveImageUrl(
+    imagePath: string,
+    distDir: URL,
+    siteUrl: string,
+    log: (message: string) => void
+): string | undefined {
+    // Extract the base filename without extension (e.g., "portfolio-design" from "./_images/portfolio-design.jpg")
+    const imageBasename = basename(imagePath);
+    const imageNameWithoutExt = imageBasename.replace(/\.[^.]+$/, '');
+
+    // Look in dist output for processed images
+    // The distDir already points to the client output folder (dist/client)
+    const astroAssetsDir = join(fileURLToPath(distDir), '_astro');
+
+    if (!existsSync(astroAssetsDir)) {
+        log(`Warning: _astro directory not found at ${astroAssetsDir}`);
+        return undefined;
+    }
+
+    // Find files that match the pattern: {imageName}.{hash}.{ext}
+    // Prefer .jpg over .webp for social media compatibility (some platforms don't support webp)
+    const files = readdirSync(astroAssetsDir);
+
+    // Pattern: portfolio-design.HASH.jpg (not webp variants)
+    const jpgPattern = new RegExp(`^${escapeRegExp(imageNameWithoutExt)}\\.[A-Za-z0-9_-]+\\.jpg$`);
+    const jpgMatch = files.find((file) => jpgPattern.test(file));
+
+    if (jpgMatch) {
+        const fullUrl = `${siteUrl}/_astro/${jpgMatch}`;
+        log(`Resolved image: ${imagePath} -> ${fullUrl}`);
+        return fullUrl;
+    }
+
+    // Fallback to webp if no jpg found
+    const webpPattern = new RegExp(`^${escapeRegExp(imageNameWithoutExt)}\\.[A-Za-z0-9_-]+\\.webp$`);
+    const webpMatch = files.find((file) => webpPattern.test(file));
+
+    if (webpMatch) {
+        const fullUrl = `${siteUrl}/_astro/${webpMatch}`;
+        log(`Resolved image (webp fallback): ${imagePath} -> ${fullUrl}`);
+        return fullUrl;
+    }
+
+    log(`Warning: Could not find processed image for ${imagePath}`);
+    return undefined;
+}
+
+/**
+ * Escape special characters in a string for use in a RegExp
+ */
+function escapeRegExp(string: string): string {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

@@ -159,8 +159,7 @@ function createOgTemplate(options: OgImageOptions & { photoBase64: string }) {
                                         flexDirection: 'column',
                                         justifyContent: 'space-between',
                                         padding: '50px 50px 30px 50px',
-                                        flex: 1,
-                                        zIndex: 2
+                                        flex: 1
                                     },
                                     children: [
                                         // Top section - Type badge
@@ -289,8 +288,7 @@ function createOgTemplate(options: OgImageOptions & { photoBase64: string }) {
                                         bottom: '0',
                                         display: 'flex',
                                         alignItems: 'flex-end',
-                                        justifyContent: 'flex-end',
-                                        zIndex: 1
+                                        justifyContent: 'flex-end'
                                     },
                                     children: [
                                         {
@@ -323,8 +321,7 @@ function createOgTemplate(options: OgImageOptions & { photoBase64: string }) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'flex-end',
-                            paddingRight: '120px',
-                            zIndex: 3
+                            paddingRight: '120px'
                         },
                         children: [
                             {

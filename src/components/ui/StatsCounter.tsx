@@ -13,9 +13,11 @@ import type { Stat } from '@/data/stats';
 
 interface StatsTranslations {
     years: { label: string; description: string };
-    projects: { label: string; description: string };
-    clients: { label: string; description: string };
-    lighthouse: { label: string; description: string };
+    technologies: { label: string; description: string };
+    coffees: { label: string; description: string };
+    linesOfCode: { label: string; description: string };
+    passion: { label: string; description: string };
+    mentored: { label: string; description: string };
 }
 
 interface StatsCounterProps {
@@ -54,6 +56,201 @@ function useCountAnimation(targetValue: number, isVisible: boolean, duration = 2
     }, [targetValue, isVisible, duration]);
 
     return count;
+}
+
+/**
+ * Custom hook for the coffee counter animation
+ * Counts from 100,000 to 999,999 then fades to infinity symbol
+ */
+function useCoffeeAnimation(isVisible: boolean) {
+    const [displayValue, setDisplayValue] = useState<string>('100,000');
+    const [phase, setPhase] = useState<'counting' | 'fadeOut' | 'fadeIn'>('counting');
+
+    useEffect(() => {
+        if (!isVisible) return;
+
+        const startValue = 100000;
+        const targetValue = 999999;
+        const countDuration = 1200; // Faster animation
+
+        let startTimestamp: number | null = null;
+        let animationId: number;
+
+        const step = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const elapsed = timestamp - startTimestamp;
+            const progress = Math.min(elapsed / countDuration, 1);
+
+            // Ease-in-out for smoother acceleration/deceleration
+            const easeInOut = progress < 0.5 ? 4 * progress * progress * progress : 1 - (-2 * progress + 2) ** 3 / 2;
+            const currentValue = Math.floor(startValue + easeInOut * (targetValue - startValue));
+
+            setDisplayValue(currentValue.toLocaleString());
+
+            if (progress < 1) {
+                animationId = window.requestAnimationFrame(step);
+            } else {
+                // Start fade transition - longer delay for smoother effect
+                setPhase('fadeOut');
+                setTimeout(() => {
+                    setPhase('fadeIn');
+                }, 400);
+            }
+        };
+
+        animationId = window.requestAnimationFrame(step);
+
+        return () => {
+            if (animationId) {
+                window.cancelAnimationFrame(animationId);
+            }
+        };
+    }, [isVisible]);
+
+    return { displayValue, phase };
+}
+
+/**
+ * Special stat item for the coffee counter with infinity animation
+ * Counts from 0 to 999,999 then fades to infinity symbol
+ */
+function CoffeeStatItem({
+    stat,
+    translation,
+    isVisible
+}: {
+    stat: Stat;
+    translation: { label: string; description: string };
+    isVisible: boolean;
+}) {
+    const { displayValue, phase } = useCoffeeAnimation(isVisible);
+
+    return (
+        <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:bg-background/50 hover:border-primary/30">
+            <div className="stat-value text-3xl lg:text-4xl font-bold text-primary mb-2 relative h-[1.2em]">
+                {/* Infinity symbol - shows after fadeIn */}
+                <span
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ease-in-out ${
+                        phase === 'fadeIn' ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                >
+                    {stat.prefix}
+                </span>
+                {/* Counter - shows during counting, fades out */}
+                <span
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ease-in-out ${
+                        phase === 'counting' ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                >
+                    {displayValue}
+                </span>
+            </div>
+            <div className="stat-label text-sm lg:text-base font-semibold text-foreground mb-1">
+                {translation.label}
+            </div>
+            <div className="stat-description text-xs lg:text-sm text-foreground-secondary leading-relaxed">
+                {translation.description}
+            </div>
+        </li>
+    );
+}
+
+/**
+ * Custom hook for lines of code animation
+ * Counts from 100K to 999,999 then fades to "1M+"
+ */
+function useLinesOfCodeAnimation(isVisible: boolean) {
+    const [displayValue, setDisplayValue] = useState<string>('100,000');
+    const [phase, setPhase] = useState<'counting' | 'fadeOut' | 'fadeIn'>('counting');
+
+    useEffect(() => {
+        if (!isVisible) return;
+
+        const startValue = 100000; // 100K
+        const endValue = 999999; // Stop at 999,999, never show 1,000,000
+        const countDuration = 1200; // Faster animation
+
+        let startTimestamp: number | null = null;
+        let animationId: number;
+
+        const step = (timestamp: number) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const elapsed = timestamp - startTimestamp;
+            const progress = Math.min(elapsed / countDuration, 1);
+
+            // Ease-in-out for smoother acceleration/deceleration
+            const easeInOut = progress < 0.5 ? 4 * progress * progress * progress : 1 - (-2 * progress + 2) ** 3 / 2;
+            const currentValue = Math.floor(startValue + easeInOut * (endValue - startValue));
+
+            setDisplayValue(currentValue.toLocaleString());
+
+            if (progress < 1) {
+                animationId = window.requestAnimationFrame(step);
+            } else {
+                // Start fade transition - longer delay for smoother effect
+                setPhase('fadeOut');
+                setTimeout(() => {
+                    setPhase('fadeIn');
+                }, 400);
+            }
+        };
+
+        animationId = window.requestAnimationFrame(step);
+
+        return () => {
+            if (animationId) {
+                window.cancelAnimationFrame(animationId);
+            }
+        };
+    }, [isVisible]);
+
+    return { displayValue, phase };
+}
+
+/**
+ * Special stat item for lines of code with M+ suffix animation
+ * Counts from 1K to 999,999 then fades to "1M+"
+ */
+function LinesOfCodeStatItem({
+    stat,
+    translation,
+    isVisible
+}: {
+    stat: Stat;
+    translation: { label: string; description: string };
+    isVisible: boolean;
+}) {
+    const { displayValue, phase } = useLinesOfCodeAnimation(isVisible);
+
+    return (
+        <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:bg-background/50 hover:border-primary/30">
+            <div className="stat-value text-3xl lg:text-4xl font-bold text-primary mb-2 relative h-[1.2em]">
+                {/* Final value (1M+) - shows after fadeIn */}
+                <span
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ease-in-out ${
+                        phase === 'fadeIn' ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                >
+                    {stat.value}
+                    {stat.suffix}
+                </span>
+                {/* Counter - shows during counting, fades out */}
+                <span
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ease-in-out ${
+                        phase === 'counting' ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                >
+                    {displayValue}
+                </span>
+            </div>
+            <div className="stat-label text-sm lg:text-base font-semibold text-foreground mb-1">
+                {translation.label}
+            </div>
+            <div className="stat-description text-xs lg:text-sm text-foreground-secondary leading-relaxed">
+                {translation.description}
+            </div>
+        </li>
+    );
 }
 
 function StatItem({
@@ -113,26 +310,43 @@ export function StatsCounter({ stats, translations, className = '' }: StatsCount
         switch (statId) {
             case 'years':
                 return translations.years;
-            case 'projects':
-                return translations.projects;
-            case 'clients':
-                return translations.clients;
-            case 'lighthouse':
-                return translations.lighthouse;
+            case 'technologies':
+                return translations.technologies;
+            case 'coffees':
+                return translations.coffees;
+            case 'linesOfCode':
+                return translations.linesOfCode;
+            case 'passion':
+                return translations.passion;
+            case 'mentored':
+                return translations.mentored;
             default:
                 return { label: '', description: '' };
         }
     };
 
+    const renderStatItem = (stat: Stat) => {
+        const translation = getTranslation(stat.id);
+
+        // Use special components for coffee and lines of code
+        if (stat.id === 'coffees') {
+            return <CoffeeStatItem key={stat.id} stat={stat} translation={translation} isVisible={isVisible} />;
+        }
+
+        if (stat.id === 'linesOfCode') {
+            return <LinesOfCodeStatItem key={stat.id} stat={stat} translation={translation} isVisible={isVisible} />;
+        }
+
+        return <StatItem key={stat.id} stat={stat} translation={translation} isVisible={isVisible} />;
+    };
+
     return (
         <ul
             ref={containerRef}
-            className={`stats-counter grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 list-none p-0 m-0 ${className}`}
+            className={`stats-counter grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6 list-none p-0 m-0 ${className}`}
             aria-label="Key statistics"
         >
-            {stats.map((stat) => (
-                <StatItem key={stat.id} stat={stat} translation={getTranslation(stat.id)} isVisible={isVisible} />
-            ))}
+            {stats.map(renderStatItem)}
         </ul>
     );
 }

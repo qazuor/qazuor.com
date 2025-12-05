@@ -83,17 +83,25 @@
                 "label": "Years Experience",
                 "description": "Building web solutions since the early days of the industry"
             },
-            "projects": {
-                "label": "Projects Delivered",
-                "description": "Websites, apps, and digital products shipped worldwide"
+            "technologies": {
+                "label": "Technologies",
+                "description": "React, Astro, Node, TypeScript and many more"
             },
-            "clients": {
-                "label": "Happy Clients",
-                "description": "From startups to established businesses across industries"
+            "coffees": {
+                "label": "Coffees",
+                "description": "Fuel for late-night coding sessions"
             },
-            "lighthouse": {
-                "label": "Lighthouse Score",
-                "description": "Performance-focused development with measurable results"
+            "linesOfCode": {
+                "label": "Lines of Code",
+                "description": "Written throughout my career"
+            },
+            "passion": {
+                "label": "Passion",
+                "description": "Constantly learning and building"
+            },
+            "mentored": {
+                "label": "Mentored Devs",
+                "description": "Helping others grow in their careers"
             }
         }
     },

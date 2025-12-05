@@ -83,17 +83,25 @@
                 "label": "Años de Experiencia",
                 "description": "Construyendo soluciones web desde los inicios de la industria"
             },
-            "projects": {
-                "label": "Proyectos Entregados",
-                "description": "Sitios web, apps y productos digitales entregados globalmente"
+            "technologies": {
+                "label": "Tecnologías",
+                "description": "React, Astro, Node, TypeScript y muchas más"
             },
-            "clients": {
-                "label": "Clientes Satisfechos",
-                "description": "Desde startups hasta empresas establecidas de diversas industrias"
+            "coffees": {
+                "label": "Cafés",
+                "description": "Combustible para sesiones de código nocturnas"
             },
-            "lighthouse": {
-                "label": "Score Lighthouse",
-                "description": "Desarrollo enfocado en performance con resultados medibles"
+            "linesOfCode": {
+                "label": "Líneas de Código",
+                "description": "Escritas a lo largo de mi carrera"
+            },
+            "passion": {
+                "label": "Pasión",
+                "description": "Aprendiendo y construyendo constantemente"
+            },
+            "mentored": {
+                "label": "Devs Mentoreados",
+                "description": "Ayudando a otros a crecer en sus carreras"
             }
         }
     },
@@ -495,7 +503,12 @@
             "webOptimization": {
                 "title": "**Optimización** Web",
                 "description": "Acelera tu sitio web y mejora tu posicionamiento en buscadores.",
-                "features": ["Auditoría de rendimiento", "Optimización SEO", "Core Web Vitals", "Optimización de imágenes"]
+                "features": [
+                    "Auditoría de rendimiento",
+                    "Optimización SEO",
+                    "Core Web Vitals",
+                    "Optimización de imágenes"
+                ]
             },
             "wordpress": {
                 "title": "**Soluciones** WordPress",

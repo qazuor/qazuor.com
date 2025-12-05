@@ -31,24 +31,38 @@ export const stats: Stat[] = [
         descriptionKey: 'stats.years.description'
     },
     {
-        id: 'projects',
-        value: 100,
+        id: 'technologies',
+        value: 15,
         suffix: '+',
-        labelKey: 'stats.projects.label',
-        descriptionKey: 'stats.projects.description'
+        labelKey: 'stats.technologies.label',
+        descriptionKey: 'stats.technologies.description'
     },
     {
-        id: 'clients',
-        value: 50,
-        suffix: '+',
-        labelKey: 'stats.clients.label',
-        descriptionKey: 'stats.clients.description'
+        id: 'coffees',
+        value: 0,
+        prefix: '∞',
+        labelKey: 'stats.coffees.label',
+        descriptionKey: 'stats.coffees.description'
     },
     {
-        id: 'lighthouse',
-        value: 95,
+        id: 'linesOfCode',
+        value: 1,
+        suffix: 'M+',
+        labelKey: 'stats.linesOfCode.label',
+        descriptionKey: 'stats.linesOfCode.description'
+    },
+    {
+        id: 'passion',
+        value: 24,
+        suffix: '/7',
+        labelKey: 'stats.passion.label',
+        descriptionKey: 'stats.passion.description'
+    },
+    {
+        id: 'mentored',
+        value: 30,
         suffix: '+',
-        labelKey: 'stats.lighthouse.label',
-        descriptionKey: 'stats.lighthouse.description'
+        labelKey: 'stats.mentored.label',
+        descriptionKey: 'stats.mentored.description'
     }
 ];

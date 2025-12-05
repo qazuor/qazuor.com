@@ -2,6 +2,7 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import node from '@astrojs/node';
 import vercel from '@astrojs/vercel';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
 import AstroPWA from '@vite-pwa/astro';
@@ -25,7 +26,8 @@ import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.
 export default defineConfig({
     site: 'https://qazuor.com',
     output: 'static',
-    adapter: vercel(),
+    // Vercel adapter for production, Node adapter for local preview
+    adapter: process.env.VERCEL ? vercel() : node({ mode: 'standalone' }),
 
     // Prefetch optimization for faster navigation
     prefetch: {
@@ -72,6 +74,7 @@ export default defineConfig({
 
         // Social Blog Data Generator (generates JSON for social network publishing)
         socialBlogData({
+            outputFile: 'public/socialNetworksBlogData.json',
             verbose: true
         }),
 

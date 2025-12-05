@@ -9,8 +9,12 @@ export default defineConfig({
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
+    workers: process.env.CI ? 1 : 4,
     reporter: 'html',
+    // Global test timeout - 3 minutes for visual tests with full-page screenshots
+    timeout: 180000,
+    // Global timeout for the entire test run (10 minutes)
+    globalTimeout: process.env.CI ? 600000 : 0,
     use: {
         baseURL: 'http://localhost:4321',
         trace: 'on-first-retry',
@@ -19,8 +23,8 @@ export default defineConfig({
     },
     // Visual regression testing configuration
     expect: {
-        // Timeout for expect assertions (including screenshots)
-        timeout: 60000,
+        // Timeout for expect assertions (including screenshots) - 2 minutes
+        timeout: 120000,
         toHaveScreenshot: {
             // Maximum pixel difference ratio (increased for dynamic content)
             maxDiffPixelRatio: 0.05,
@@ -36,7 +40,8 @@ export default defineConfig({
     testMatch: ['**/*.spec.ts'],
     testIgnore: ['**/node_modules/**'],
     webServer: {
-        command: 'npm run dev',
+        // Use preview (production build) for faster, more stable tests
+        command: process.env.USE_DEV_SERVER ? 'npm run dev' : 'npm run preview',
         url: 'http://localhost:4321',
         reuseExistingServer: !process.env.CI,
         timeout: 120000

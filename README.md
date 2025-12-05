@@ -26,9 +26,6 @@ scores:
 - Lazy loading with `client:visible` for below-fold components
 - Brotli/Gzip/Zstd compression
 
-For detailed performance documentation, see
-[docs/PERFORMANCE.md](docs/PERFORMANCE.md).
-
 ## Tech Stack
 
 - **Framework:** Astro (SSG)
@@ -78,6 +75,16 @@ qazuor.com/
 - Accessible (WCAG 2.1 Level AA)
 - SEO optimized with structured data
 - PWA ready with web manifest
+
+## Documentation
+
+- [Changelog](CHANGELOG.md) - Version history and release notes
+
+For detailed technical documentation, see the [docs](docs/) folder:
+
+- [Performance Optimization](docs/PERFORMANCE.md) - Core Web Vitals optimization
+  guide
+- [Color System](docs/COLOR-SYSTEM.md) - Automated color interpolation system
 
 ## License
 

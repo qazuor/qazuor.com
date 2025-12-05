@@ -1,0 +1,8 @@
+{
+    "name": "Vite Docs",
+    "description_en": "Official Vite bundler guide: fast dev server and optimized builds.",
+    "description_es": "Guía oficial del bundler Vite: dev server rápido y build optimizado.",
+    "url": "https://vite.dev/guide/",
+    "category": "docs",
+    "tags": ["docs", "vite", "bundler", "devserver"]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "MUI",
+    "description_en": "Material UI implementation with many production-ready components.",
+    "description_es": "Implementación de Material UI con muchos componentes listos para producción.",
+    "url": "https://mui.com/",
+    "category": "react-components",
+    "tags": ["react", "ui", "material", "components"]
+}

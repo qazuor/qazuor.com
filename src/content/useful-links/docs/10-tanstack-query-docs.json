@@ -1,0 +1,8 @@
+{
+    "name": "TanStack Query Docs",
+    "description_en": "Handle server state properly: caching, sync and declarative fetching.",
+    "description_es": "Maneja server state como un adulto: caching, sync y fetching declarativo.",
+    "url": "https://tanstack.com/query/latest/docs",
+    "category": "docs",
+    "tags": ["docs", "tanstack", "query", "data"]
+}

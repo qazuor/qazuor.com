@@ -1,0 +1,8 @@
+{
+    "name": "Zod",
+    "description_en": "Type-safe schemas to validate data, forms and API contracts.",
+    "description_es": "Schemas type-safe para validar datos, formularios y contratos de APIs.",
+    "url": "https://zod.dev/",
+    "category": "libraries",
+    "tags": ["typescript", "validation", "schemas"]
+}

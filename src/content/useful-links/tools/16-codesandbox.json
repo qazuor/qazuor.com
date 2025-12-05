@@ -1,0 +1,8 @@
+{
+    "name": "CodeSandbox",
+    "description_en": "Online environment to prototype React, Vite and more projects in minutes.",
+    "description_es": "Entorno online para prototipar proyectos React, Vite y más en minutos.",
+    "url": "https://codesandbox.io/",
+    "category": "tools",
+    "tags": ["tool", "sandbox", "prototyping"]
+}

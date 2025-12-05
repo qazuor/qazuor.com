@@ -1,0 +1,8 @@
+{
+    "name": "TanStack Form Docs",
+    "description_en": "Headless forms library focused on DX and type safety.",
+    "description_es": "Librería de formularios headless, centrada en DX y type safety.",
+    "url": "https://tanstack.com/form/latest/docs",
+    "category": "docs",
+    "tags": ["docs", "tanstack", "form", "forms"]
+}

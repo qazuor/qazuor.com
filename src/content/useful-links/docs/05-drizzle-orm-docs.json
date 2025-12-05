@@ -1,0 +1,8 @@
+{
+    "name": "Drizzle ORM Docs",
+    "description_en": "Type-safe ORM for SQL; clear guides for schemas, queries and migrations.",
+    "description_es": "ORM type-safe para SQL; guías claras para schemas, queries y migraciones.",
+    "url": "https://orm.drizzle.team/docs/overview",
+    "category": "docs",
+    "tags": ["docs", "drizzle", "orm", "db"]
+}

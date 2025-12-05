@@ -1,0 +1,8 @@
+{
+    "name": "TanStack Router Docs",
+    "description_en": "Type-safe router for React with file-routing and declarative search params.",
+    "description_es": "Router type-safe para React con file-routing y search params declarativos.",
+    "url": "https://tanstack.com/router/latest/docs/framework/react",
+    "category": "docs",
+    "tags": ["docs", "tanstack", "router"]
+}

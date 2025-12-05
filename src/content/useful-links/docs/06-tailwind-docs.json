@@ -1,0 +1,8 @@
+{
+    "name": "Tailwind CSS Docs",
+    "description_en": "References and examples for building UI with utility classes.",
+    "description_es": "Referencias y ejemplos para construir UI con clases utilitarias.",
+    "url": "https://tailwindcss.com/docs",
+    "category": "docs",
+    "tags": ["docs", "tailwind", "css", "utility"]
+}

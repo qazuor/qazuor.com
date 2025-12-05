@@ -1,9 +1,0 @@
-{
-    "name": "Dribbble",
-    "description": "Discover the world's top designers & creatives. Get design inspiration for your projects.",
-    "url": "https://dribbble.com",
-    "category": "inspiration",
-    "tags": ["design", "ui", "inspiration", "portfolio"],
-    "featured": true,
-    "order": 40
-}

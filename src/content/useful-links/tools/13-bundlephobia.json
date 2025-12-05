@@ -1,0 +1,8 @@
+{
+    "name": "Bundlephobia",
+    "description_en": "Check package size and install cost before adding an npm dependency.",
+    "description_es": "Mira peso y coste de instalar un paquete npm antes de agregarlo.",
+    "url": "https://bundlephobia.com/",
+    "category": "tools",
+    "tags": ["tool", "bundlesize", "npm"]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Heroicons",
+    "description_en": "SVG icons from the Tailwind creators, with outline and solid versions.",
+    "description_es": "Iconos SVG de los creadores de Tailwind, con versiones outline y solid.",
+    "url": "https://heroicons.com/",
+    "category": "icons",
+    "tags": ["icons", "tailwind", "svg"]
+}

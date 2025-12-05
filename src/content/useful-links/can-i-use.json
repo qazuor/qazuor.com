@@ -1,9 +1,0 @@
-{
-    "name": "Can I Use",
-    "description": "Browser support tables for modern web technologies. Check compatibility across different browsers.",
-    "url": "https://caniuse.com",
-    "category": "tool",
-    "tags": ["browser", "compatibility", "css", "javascript"],
-    "featured": true,
-    "order": 10
-}

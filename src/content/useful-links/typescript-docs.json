@@ -1,9 +1,0 @@
-{
-    "name": "TypeScript Documentation",
-    "description": "Official TypeScript documentation with guides, handbook, and playground for learning and experimenting.",
-    "url": "https://www.typescriptlang.org/docs/",
-    "category": "documentation",
-    "tags": ["typescript", "javascript", "types", "reference"],
-    "featured": true,
-    "order": 2
-}

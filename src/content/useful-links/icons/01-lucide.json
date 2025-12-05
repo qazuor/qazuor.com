@@ -1,0 +1,8 @@
+{
+    "name": "Lucide",
+    "description_en": "Consistent, tree-shakeable open source SVG icons for your UIs.",
+    "description_es": "Iconos SVG open source, consistentes y tree-shakeables para tus UIs.",
+    "url": "https://lucide.dev/",
+    "category": "icons",
+    "tags": ["icons", "svg", "react"]
+}

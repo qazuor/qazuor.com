@@ -1,0 +1,8 @@
+{
+    "name": "Hono Docs",
+    "description_en": "Ultra-fast framework for APIs and full-stack apps on modern runtimes.",
+    "description_es": "Framework ultrarrápido para APIs y apps full-stack sobre runtimes modernos.",
+    "url": "https://hono.dev/docs/",
+    "category": "docs",
+    "tags": ["docs", "hono", "api", "edge"]
+}

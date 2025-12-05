@@ -1,0 +1,8 @@
+{
+    "name": "GSAP",
+    "description_en": "JS animation engine with powerful timelines and SVG/scroll support.",
+    "description_es": "Motor de animación JS con timelines potentes y soporte para SVG y scroll.",
+    "url": "https://gsap.com/",
+    "category": "animations",
+    "tags": ["js", "animations", "timeline"]
+}

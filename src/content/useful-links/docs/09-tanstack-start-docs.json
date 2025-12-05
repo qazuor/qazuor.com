@@ -1,0 +1,8 @@
+{
+    "name": "TanStack Start Docs",
+    "description_en": "Full-stack React framework with SSR, streaming and type-safe routes.",
+    "description_es": "Framework full-stack React con SSR, streaming y rutas type-safe.",
+    "url": "https://tanstack.com/start/latest/docs",
+    "category": "docs",
+    "tags": ["docs", "tanstack", "start", "fullstack"]
+}

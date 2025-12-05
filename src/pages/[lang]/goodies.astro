@@ -50,13 +50,17 @@ const featuredCssTricks: CollectionEntry<'css-tricks'>[] = allCssTricks
     })
     .slice(0, 3);
 
+// Sort by filename (which has numeric prefix like "01-name")
 const featuredLinks: CollectionEntry<'useful-links'>[] = allUsefulLinks
     .sort((a: CollectionEntry<'useful-links'>, b: CollectionEntry<'useful-links'>) => {
-        if (a.data.featured && !b.data.featured) return -1;
-        if (!a.data.featured && b.data.featured) return 1;
-        return a.data.order - b.data.order;
+        return a.id.localeCompare(b.id);
     })
     .slice(0, 4);
+
+// Helper to get localized description for useful-links
+const getLinkDescription = (link: CollectionEntry<'useful-links'>) => {
+    return lang === 'es' ? link.data.description_es : link.data.description_en;
+};
 
 const title = t('goodies.title', { markdown: false });
 const description = t('goodies.subtitle', { markdown: false });
@@ -229,7 +233,7 @@ const categories = [
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                             </svg>
                                         </h3>
-                                        <p class="text-xs text-foreground-secondary line-clamp-2">{link.data.description}</p>
+                                        <p class="text-xs text-foreground-secondary line-clamp-2">{getLinkDescription(link)}</p>
                                     </a>
                                 ))}
                             </div>

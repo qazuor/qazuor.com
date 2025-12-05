@@ -135,12 +135,22 @@ const usefulLinksCollection = defineCollection({
     type: 'data',
     schema: z.object({
         name: z.string(),
-        description: z.string(),
+        description_en: z.string(),
+        description_es: z.string(),
         url: z.string().url(),
-        category: z.enum(['documentation', 'library', 'tool', 'learning', 'inspiration', 'community', 'other']),
-        tags: z.array(z.string()).optional(),
-        featured: z.boolean().default(false),
-        order: z.number().default(999)
+        category: z.enum([
+            'ai',
+            'docs',
+            'react-components',
+            'animations',
+            'libraries',
+            'icons',
+            'illustrations',
+            'inspiration',
+            'tools',
+            'youtube'
+        ]),
+        tags: z.array(z.string()).optional()
     })
 });
 

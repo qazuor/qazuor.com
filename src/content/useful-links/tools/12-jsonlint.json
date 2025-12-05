@@ -1,0 +1,8 @@
+{
+    "name": "JSON Formatter & Validator",
+    "description_en": "Validate and format JSON to quickly detect syntax errors.",
+    "description_es": "Valida y formatea JSON para detectar errores de sintaxis rápido.",
+    "url": "https://jsonlint.com/",
+    "category": "tools",
+    "tags": ["tool", "json", "validator"]
+}

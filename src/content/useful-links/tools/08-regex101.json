@@ -1,0 +1,8 @@
+{
+    "name": "Regex101",
+    "description_en": "Regular expression tester with explanation, flags and quick reference.",
+    "description_es": "Tester de expresiones regulares con explicación, flags y quick reference.",
+    "url": "https://regex101.com/",
+    "category": "tools",
+    "tags": ["tool", "regex", "testing"]
+}

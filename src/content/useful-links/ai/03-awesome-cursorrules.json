@@ -1,0 +1,8 @@
+{
+    "name": "Awesome Cursor Rules",
+    "description_en": "Collection of .cursorrules to tune Cursor as your code copilot.",
+    "description_es": "Colección de .cursorrules para tunear Cursor como copiloto de código.",
+    "url": "https://github.com/PatrickJS/awesome-cursorrules",
+    "category": "ai",
+    "tags": ["ai", "cursor", "config"]
+}

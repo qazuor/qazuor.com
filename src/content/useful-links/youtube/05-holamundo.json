@@ -1,0 +1,8 @@
+{
+    "name": "HolaMundo",
+    "description_en": "Complete Spanish courses on programming and web fundamentals.",
+    "description_es": "Cursos completos en español de programación y fundamentos web.",
+    "url": "https://www.youtube.com/@HolaMundoDev",
+    "category": "youtube",
+    "tags": ["youtube", "spanish", "courses"]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Biome Docs",
+    "description_en": "Modern toolchain that replaces ESLint + Prettier with a single binary.",
+    "description_es": "Toolchain moderna que reemplaza ESLint + Prettier con un solo binario.",
+    "url": "https://biomejs.dev/",
+    "category": "docs",
+    "tags": ["docs", "biome", "lint", "format"]
+}

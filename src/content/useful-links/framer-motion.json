@@ -1,9 +1,0 @@
-{
-    "name": "Framer Motion",
-    "description": "Production-ready animation library for React. Create fluid animations with simple declarative syntax.",
-    "url": "https://www.framer.com/motion/",
-    "category": "library",
-    "tags": ["react", "animation", "motion", "gestures"],
-    "featured": true,
-    "order": 21
-}

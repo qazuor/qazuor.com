@@ -1,0 +1,8 @@
+{
+    "name": "SVGL",
+    "description_en": "SVG logo library with CLI and packages for React and other integrations.",
+    "description_es": "Librería de logos SVG con CLI y paquetes para React y otras integraciones.",
+    "url": "https://svgl.app",
+    "category": "icons",
+    "tags": ["icons", "logos", "svg"]
+}

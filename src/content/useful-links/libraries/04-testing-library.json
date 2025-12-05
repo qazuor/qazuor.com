@@ -1,0 +1,8 @@
+{
+    "name": "Testing Library",
+    "description_en": "Testing focused on end users, not implementation details.",
+    "description_es": "Testing centrado en el usuario final, no en los detalles de implementación.",
+    "url": "https://testing-library.com/docs/react-testing-library/intro/",
+    "category": "libraries",
+    "tags": ["testing", "react", "rtl"]
+}

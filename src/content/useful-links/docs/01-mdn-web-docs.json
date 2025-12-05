@@ -1,0 +1,8 @@
+{
+    "name": "MDN Web Docs",
+    "description_en": "Central reference for HTML, CSS, JavaScript and modern web APIs.",
+    "description_es": "Referencia central para HTML, CSS, JavaScript y APIs web modernas.",
+    "url": "https://developer.mozilla.org/",
+    "category": "docs",
+    "tags": ["docs", "web", "html", "css", "js"]
+}

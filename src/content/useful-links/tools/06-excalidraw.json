@@ -1,0 +1,8 @@
+{
+    "name": "Excalidraw",
+    "description_en": "Online whiteboard for diagrams with hand-drawn style and collaboration.",
+    "description_es": "Pizarra online para diagramas con estilo hand-drawn y colaboración.",
+    "url": "https://excalidraw.com/",
+    "category": "tools",
+    "tags": ["tool", "diagrams", "whiteboard"]
+}

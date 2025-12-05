@@ -1,9 +1,0 @@
-{
-    "name": "CodePen",
-    "description": "Social development environment for front-end designers and developers. Build, test, and share code.",
-    "url": "https://codepen.io",
-    "category": "inspiration",
-    "tags": ["code", "demos", "css", "javascript"],
-    "featured": false,
-    "order": 42
-}

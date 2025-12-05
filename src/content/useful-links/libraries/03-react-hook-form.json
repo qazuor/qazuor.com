@@ -1,0 +1,8 @@
+{
+    "name": "React Hook Form",
+    "description_en": "Handle performant forms with minimal re-renders and great DX.",
+    "description_es": "Maneja formularios performantes con mínima rerender y buen DX.",
+    "url": "https://react-hook-form.com/",
+    "category": "libraries",
+    "tags": ["react", "forms", "validation"]
+}

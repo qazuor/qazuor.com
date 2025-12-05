@@ -1,0 +1,8 @@
+{
+    "name": "Vitest",
+    "description_en": "Fast test runner designed for Vite and modern JS/TS projects.",
+    "description_es": "Test runner rápido pensado para Vite y proyectos modernos de JS/TS.",
+    "url": "https://vitest.dev/",
+    "category": "libraries",
+    "tags": ["testing", "vite", "unit-tests"]
+}

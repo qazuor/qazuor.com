@@ -1,9 +1,0 @@
-{
-    "name": "CSS-Tricks",
-    "description": "Daily articles about CSS, HTML, JavaScript, and all things related to web design and development.",
-    "url": "https://css-tricks.com",
-    "category": "learning",
-    "tags": ["css", "html", "tutorials", "articles"],
-    "featured": true,
-    "order": 31
-}

@@ -1,0 +1,8 @@
+{
+    "name": "Cursor Rules Repo",
+    "description_en": "Advanced Cursor rules focused on agents, TypeScript and AI workflows.",
+    "description_es": "Reglas avanzadas para Cursor centradas en agentes, TypeScript y flujos IA.",
+    "url": "https://github.com/sparesparrow/cursor-rules",
+    "category": "ai",
+    "tags": ["ai", "cursor", "prompts"]
+}

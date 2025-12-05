@@ -1,0 +1,8 @@
+{
+    "name": "StackEdit",
+    "description_en": "Online Markdown editor with live preview and Google Drive sync.",
+    "description_es": "Editor Markdown online con preview en vivo y sync con Google Drive.",
+    "url": "https://stackedit.io/",
+    "category": "tools",
+    "tags": ["tool", "markdown", "editor"]
+}

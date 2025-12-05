@@ -1,0 +1,8 @@
+{
+    "name": "Chakra UI",
+    "description_en": "Component kit with configurable theming and focus on accessibility.",
+    "description_es": "Kit de componentes con tema configurable y enfoque en accesibilidad.",
+    "url": "https://chakra-ui.com/",
+    "category": "react-components",
+    "tags": ["react", "ui", "components", "design-system"]
+}

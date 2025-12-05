@@ -1,0 +1,8 @@
+{
+    "name": "Radix UI",
+    "description_en": "Accessible and unstyled primitives, ideal base for your own components.",
+    "description_es": "Primitives accesibles y sin estilos, base ideal para tus propios componentes.",
+    "url": "https://www.radix-ui.com/",
+    "category": "react-components",
+    "tags": ["react", "ui", "primitives", "a11y"]
+}

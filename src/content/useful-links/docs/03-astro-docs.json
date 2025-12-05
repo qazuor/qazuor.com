@@ -1,0 +1,8 @@
+{
+    "name": "Astro Docs",
+    "description_en": "Official guide for building fast, content-driven sites with Astro.",
+    "description_es": "Guía oficial para crear sitios rápidos y content-driven con Astro.",
+    "url": "https://docs.astro.build/",
+    "category": "docs",
+    "tags": ["docs", "astro", "ssr", "islands"]
+}

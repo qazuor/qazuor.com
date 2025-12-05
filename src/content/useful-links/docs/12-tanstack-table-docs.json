@@ -1,0 +1,8 @@
+{
+    "name": "TanStack Table Docs",
+    "description_en": "Hyper-configurable headless tables and datagrids for any framework.",
+    "description_es": "Tablas y datagrids headless hiper configurables para cualquier framework.",
+    "url": "https://tanstack.com/table/latest/docs",
+    "category": "docs",
+    "tags": ["docs", "tanstack", "table", "datagrid"]
+}

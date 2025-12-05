@@ -1,0 +1,8 @@
+{
+    "name": "Framer Motion",
+    "description_en": "Declarative animations for React with integrated gestures, layout and drag.",
+    "description_es": "Animaciones declarativas para React con gestos, layout y drag integrados.",
+    "url": "https://www.framer.com/motion/",
+    "category": "animations",
+    "tags": ["react", "animations", "motion"]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Mantine",
+    "description_en": "React components and hooks suite with advanced theming and great DX.",
+    "description_es": "Suite de componentes y hooks React con theming avanzado y buen DX.",
+    "url": "https://mantine.dev/",
+    "category": "react-components",
+    "tags": ["react", "ui", "components", "hooks"]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Dillinger",
+    "description_en": "Minimal Markdown editor with export to HTML, PDF and more formats.",
+    "description_es": "Editor Markdown minimal con export a HTML, PDF y más formatos.",
+    "url": "https://dillinger.io/",
+    "category": "tools",
+    "tags": ["tool", "markdown", "preview"]
+}

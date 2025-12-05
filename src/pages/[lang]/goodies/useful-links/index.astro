@@ -21,13 +21,17 @@ const t = getTranslations(lang);
 
 const allLinks = await getCollection('useful-links');
 
+// Sort by filename (which has numeric prefix like "01-name")
 const sortedLinks: CollectionEntry<'useful-links'>[] = allLinks.sort(
     (a: CollectionEntry<'useful-links'>, b: CollectionEntry<'useful-links'>) => {
-        if (a.data.featured && !b.data.featured) return -1;
-        if (!a.data.featured && b.data.featured) return 1;
-        return a.data.order - b.data.order;
+        return a.id.localeCompare(b.id);
     }
 );
+
+// Helper to get localized description
+const getDescription = (link: CollectionEntry<'useful-links'>) => {
+    return lang === 'es' ? link.data.description_es : link.data.description_en;
+};
 
 // Group by category
 const linksByCategory = sortedLinks.reduce(
@@ -42,7 +46,18 @@ const linksByCategory = sortedLinks.reduce(
     {} as Record<string, CollectionEntry<'useful-links'>[]>
 );
 
-const categoryOrder = ['documentation', 'library', 'tool', 'learning', 'inspiration', 'community', 'other'];
+const categoryOrder = [
+    'ai',
+    'docs',
+    'react-components',
+    'animations',
+    'libraries',
+    'icons',
+    'illustrations',
+    'inspiration',
+    'tools',
+    'youtube'
+];
 const sortedCategories = Object.keys(linksByCategory).sort(
     (a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)
 );
@@ -53,13 +68,16 @@ const usefulLinksPageDescription = processMarkdown(t('usefulLinks.pageDescriptio
 const goodiesUrl = translatePath('/goodies', lang);
 
 const categoryLabels: Record<string, string> = {
-    documentation: 'Documentation',
-    library: 'Libraries',
-    tool: 'Tools',
-    learning: 'Learning',
-    inspiration: 'Inspiration',
-    community: 'Community',
-    other: 'Other'
+    ai: 'AI & Machine Learning',
+    docs: 'Documentation & Guides',
+    'react-components': 'React Components',
+    animations: 'Animations & Motion',
+    libraries: 'Libraries & Frameworks',
+    icons: 'Icons & Assets',
+    illustrations: 'Illustrations & Graphics',
+    inspiration: 'Inspiration & Design',
+    tools: 'Developer Tools',
+    youtube: 'YouTube Channels'
 };
 ---
 
@@ -106,14 +124,6 @@ const categoryLabels: Record<string, string> = {
                                     rel="noopener noreferrer"
                                     class="group relative overflow-hidden rounded-xl border border-foreground/10 bg-card p-5 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1"
                                 >
-                                    {link.data.featured && (
-                                        <div class="absolute top-3 right-3 z-10">
-                                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-primary text-primary-foreground">
-                                                ★
-                                            </span>
-                                        </div>
-                                    )}
-
                                     <div class="flex items-start gap-3">
                                         <div class="flex-1 min-w-0">
                                             <h3 class="text-base font-semibold mb-1 group-hover:text-primary transition-colors flex items-center gap-2">
@@ -123,7 +133,7 @@ const categoryLabels: Record<string, string> = {
                                                 </svg>
                                             </h3>
                                             <p class="text-foreground-secondary text-sm line-clamp-2">
-                                                {link.data.description}
+                                                {getDescription(link)}
                                             </p>
                                         </div>
                                     </div>

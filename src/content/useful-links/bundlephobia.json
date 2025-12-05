@@ -1,9 +1,0 @@
-{
-    "name": "Bundlephobia",
-    "description": "Find the cost of adding a npm package to your bundle. Analyze package size and dependencies.",
-    "url": "https://bundlephobia.com",
-    "category": "tool",
-    "tags": ["npm", "bundle", "performance", "size"],
-    "featured": false,
-    "order": 11
-}

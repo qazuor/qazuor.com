@@ -1,9 +1,0 @@
-{
-    "name": "MDN Web Docs",
-    "description": "The essential reference for web technologies. HTML, CSS, JavaScript, and Web APIs documentation.",
-    "url": "https://developer.mozilla.org",
-    "category": "documentation",
-    "tags": ["html", "css", "javascript", "reference"],
-    "featured": true,
-    "order": 1
-}

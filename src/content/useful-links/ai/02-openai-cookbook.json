@@ -1,0 +1,8 @@
+{
+    "name": "OpenAI Cookbook",
+    "description_en": "Practical examples for integrating OpenAI models into your projects.",
+    "description_es": "Ejemplos prácticos para integrar modelos de OpenAI en tus proyectos.",
+    "url": "https://github.com/openai/openai-cookbook",
+    "category": "ai",
+    "tags": ["ai", "openai", "examples"]
+}

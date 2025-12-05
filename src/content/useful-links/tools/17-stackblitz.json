@@ -1,0 +1,8 @@
+{
+    "name": "StackBlitz",
+    "description_en": "Browser-based dev environment with support for fullstack projects.",
+    "description_es": "Dev environment en el navegador con soporte para proyectos fullstack.",
+    "url": "https://stackblitz.com/",
+    "category": "tools",
+    "tags": ["tool", "sandbox", "webcontainers"]
+}

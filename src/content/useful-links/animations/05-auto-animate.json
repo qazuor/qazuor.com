@@ -1,0 +1,8 @@
+{
+    "name": "AutoAnimate",
+    "description_en": "Add automatic animations to DOM changes with a single line of code.",
+    "description_es": "Añade animaciones automáticas a cambios en el DOM con una sola línea.",
+    "url": "https://auto-animate.formkit.com/",
+    "category": "animations",
+    "tags": ["js", "animations", "auto", "dom"]
+}

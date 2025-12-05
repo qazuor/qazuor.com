@@ -1,0 +1,8 @@
+{
+    "name": "Zustand",
+    "description_en": "Minimalist state manager for React without boilerplate or endless reducers.",
+    "description_es": "State manager minimalista para React sin boilerplate ni reducers eternos.",
+    "url": "https://zustand-demo.pmnd.rs/",
+    "category": "libraries",
+    "tags": ["react", "state", "store"]
+}

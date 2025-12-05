@@ -1,9 +1,0 @@
-{
-    "name": "Awwwards",
-    "description": "Website awards recognizing the best web design, development, and innovation on the internet.",
-    "url": "https://www.awwwards.com",
-    "category": "inspiration",
-    "tags": ["design", "awards", "inspiration", "showcase"],
-    "featured": true,
-    "order": 41
-}

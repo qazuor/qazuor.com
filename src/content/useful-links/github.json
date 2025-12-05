@@ -1,9 +1,0 @@
-{
-    "name": "GitHub",
-    "description": "Where the world builds software. Collaborative version control and source code management.",
-    "url": "https://github.com",
-    "category": "tool",
-    "tags": ["git", "version-control", "collaboration", "open-source"],
-    "featured": true,
-    "order": 15
-}

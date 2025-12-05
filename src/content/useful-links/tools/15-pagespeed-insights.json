@@ -1,0 +1,8 @@
+{
+    "name": "PageSpeed Insights",
+    "description_en": "Analyze performance and best practices with Lighthouse-type metrics.",
+    "description_es": "Analiza performance y buenas prácticas con métricas tipo Lighthouse.",
+    "url": "https://pagespeed.web.dev/",
+    "category": "tools",
+    "tags": ["tool", "performance", "lighthouse"]
+}

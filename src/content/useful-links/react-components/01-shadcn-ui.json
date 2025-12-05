@@ -1,0 +1,8 @@
+{
+    "name": "shadcn/ui",
+    "description_en": "Headless components based on Radix + Tailwind to build your design system.",
+    "description_es": "Componentes headless basados en Radix + Tailwind para armar tu design system.",
+    "url": "https://ui.shadcn.com/",
+    "category": "react-components",
+    "tags": ["react", "ui", "tailwind", "components"]
+}

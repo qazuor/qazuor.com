@@ -1,9 +1,0 @@
-{
-    "name": "JavaScript.info",
-    "description": "The Modern JavaScript Tutorial. From basics to advanced topics with simple explanations.",
-    "url": "https://javascript.info",
-    "category": "learning",
-    "tags": ["javascript", "tutorial", "learning", "fundamentals"],
-    "featured": true,
-    "order": 30
-}

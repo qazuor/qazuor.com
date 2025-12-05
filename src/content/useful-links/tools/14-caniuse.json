@@ -1,0 +1,8 @@
+{
+    "name": "Can I use",
+    "description_en": "Web feature browser compatibility with clear tables.",
+    "description_es": "Compatibilidad de features web en navegadores, con tablas claras.",
+    "url": "https://caniuse.com/",
+    "category": "tools",
+    "tags": ["tool", "compatibility", "browsers"]
+}

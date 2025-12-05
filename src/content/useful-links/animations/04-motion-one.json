@@ -1,0 +1,8 @@
+{
+    "name": "Motion One",
+    "description_en": "Lightweight library based on Web Animations API with modern syntax.",
+    "description_es": "Librería ligera basada en Web Animations API con sintaxis moderna.",
+    "url": "https://motion.dev/",
+    "category": "animations",
+    "tags": ["js", "animations", "web-animations"]
+}

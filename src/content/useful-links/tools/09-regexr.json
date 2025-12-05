@@ -1,0 +1,8 @@
+{
+    "name": "RegExr",
+    "description_en": "Visual regex editor with examples, cheatsheet and live testing.",
+    "description_es": "Editor visual de regex con ejemplos, cheatsheet y testing en vivo.",
+    "url": "https://regexr.com/",
+    "category": "tools",
+    "tags": ["tool", "regex", "cheatsheet"]
+}

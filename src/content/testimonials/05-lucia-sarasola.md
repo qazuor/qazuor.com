@@ -16,7 +16,7 @@ content: 'Tuve la oportunidad de colaborar con Lean en Avature y siempre admiré
   Es un profesional sólido, confiable y con impacto real, tanto en el producto
   como en el equipo.'
 avatarUrl: 'https://media.licdn.com/dms/image/v2/D4D03AQHTYLybg9ONww/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1710085708076?e=1766620800&v=beta&t=47NKTSRz1pyCr0_c7npcavtYKLWq4TMtZcsZdw2dKCI'
-avatar: './_avatars/05-jesus-de-lucas.jpg'
+avatar: './_avatars/05-lucia-sarasola.jpg'
 
 linkedinUrl: 'https://www.linkedin.com/in/luciasarasola/'
 featured: true

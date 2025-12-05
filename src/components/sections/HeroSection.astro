@@ -89,7 +89,7 @@ const {
                     class="hero-element text-lg md:text-xl lg:text-lg font-semibold text-foreground min-h-[3.5rem] md:min-h-[6rem] lg:min-h-[3rem] pt-2 mb-1 lg:mb-0"
                 >
                     <span class="text-foreground-secondary">{translations.iBuildText}</span>
-                    <TypeItText texts={iBuild} className="text-primary font-sometype" html={true} client:load />
+                    <TypeItText texts={iBuild} className="text-primary font-sometype" html={true} client:only="react" />
                 </div>
 
                 <!-- Subtitle -->

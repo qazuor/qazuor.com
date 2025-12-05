@@ -9,6 +9,9 @@ import '../styles/generated-colors.css';
 // Astro image optimization
 import { getImage } from 'astro:assets';
 import { ViewTransitions } from 'astro:transitions';
+// Vercel Analytics and Speed Insights
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import photo1 from '@/assets/images/photo1.png';
 // Other imports
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
@@ -503,7 +506,9 @@ const alternateLinks = locales.map((locale) => {
             })();
         </script>
 
-        {/* Analytics and scripts can be added here */}
+        <!-- Vercel Analytics and Speed Insights -->
+        <Analytics />
+        <SpeedInsights />
 
         <!-- Global PixelCanvas Custom Element Registration -->
         <!-- Must be is:inline to work with View Transitions and always be available -->

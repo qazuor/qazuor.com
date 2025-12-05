@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.4] - 2025-12-04
+
+### Added - Vercel Analytics & Speed Insights
+
+- **Vercel Analytics**: Web analytics integration via `@vercel/analytics`
+  package for tracking page views and visitor data
+- **Vercel Speed Insights**: Real User Monitoring (RUM) via
+  `@vercel/speed-insights` package for Core Web Vitals tracking
+- **Auto-injected scripts**: Analytics and Speed Insights components added to
+  BaseLayout, automatically included in all pages
+
+### Technical
+
+- New dependencies: `@vercel/analytics@1.6.1`, `@vercel/speed-insights@1.3.1`
+- Components imported from `/astro` subpath for Astro-specific integration
+- Scripts injected before closing `</body>` tag for optimal performance
+
+---
+
 ## [1.5.3] - 2025-12-04
 
 ### Added - Snippets Collection Overhaul

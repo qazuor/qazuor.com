@@ -91,15 +91,20 @@ export default function socialBlogDataIntegration(options: SocialBlogDataOptions
     return {
         name: 'social-blog-data',
         hooks: {
-            'astro:build:done': async () => {
+            'astro:build:done': async ({ dir }) => {
                 log('Generating social blog data...');
 
                 const projectRoot = join(__dirname, '..');
                 const blogDir = join(projectRoot, 'src/content/blog');
-                const outputPath = join(projectRoot, outputFile);
 
                 // Get site URL from Astro config or options
                 const siteUrl = options.siteUrl || 'https://qazuor.com';
+
+                // Determine output paths:
+                // 1. public/ for local dev server
+                // 2. dist output (dir) for production build
+                const publicPath = join(projectRoot, outputFile);
+                const distPath = join(fileURLToPath(dir), outputFile.replace('public/', ''));
 
                 if (!existsSync(blogDir)) {
                     console.warn('⚠️ [social-blog-data] Blog directory not found:', blogDir);
@@ -193,10 +198,18 @@ export default function socialBlogDataIntegration(options: SocialBlogDataOptions
                     posts
                 };
 
-                // Write output file
-                writeFileSync(outputPath, JSON.stringify(output, null, 2), 'utf-8');
+                // Write output files
+                const jsonOutput = JSON.stringify(output, null, 2);
 
-                console.log(`✅ [social-blog-data] Generated ${outputFile} with ${posts.length} posts`);
+                // Write to public/ (for dev server and future builds)
+                writeFileSync(publicPath, jsonOutput, 'utf-8');
+                log(`Written to ${publicPath}`);
+
+                // Write to dist output (for current production build)
+                writeFileSync(distPath, jsonOutput, 'utf-8');
+                log(`Written to ${distPath}`);
+
+                console.log(`✅ [social-blog-data] Generated ${outputFile} with ${posts.length} posts (public + dist)`);
             }
         }
     };

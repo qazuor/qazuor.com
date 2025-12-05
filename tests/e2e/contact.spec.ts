@@ -230,7 +230,7 @@ test.describe('Contact Form', () => {
         test('should be keyboard navigable', async ({ page }) => {
             await page.goto('/en');
 
-            const { contactSection, nameField, emailField, messageField } = await getContactFormFields(page);
+            const { contactSection, nameField } = await getContactFormFields(page);
 
             // Focus name field first
             await nameField.focus();
@@ -283,7 +283,7 @@ test.describe('Contact Form', () => {
             // Wait for page to fully load
             await page.waitForLoadState('networkidle');
 
-            const { contactSection, nameField, emailField, messageField } = await getContactFormFields(page);
+            const { nameField, emailField, messageField } = await getContactFormFields(page);
 
             await expect(nameField).toBeVisible();
 

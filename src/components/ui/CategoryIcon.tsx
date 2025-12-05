@@ -9,10 +9,10 @@ import {
     type LucideIcon,
     Package,
     Palette,
+    Play,
     Sparkles,
     Wand2,
-    Wrench,
-    Youtube
+    Wrench
 } from 'lucide-react';
 
 export type CategoryIconName =
@@ -43,7 +43,7 @@ const iconMap: Record<CategoryIconName, LucideIcon> = {
     icons: Sparkles,
     illustrations: Image,
     inspiration: Palette,
-    youtube: Youtube
+    youtube: Play
 };
 
 interface CategoryIconProps {

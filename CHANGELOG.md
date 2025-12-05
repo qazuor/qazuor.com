@@ -8,6 +8,29 @@ and this project adheres to
 
 ## [1.5.3] - 2025-12-03
 
+### Added - Useful Links Restructure & Expansion
+
+- **Category-based organization**: Reorganized useful-links from flat structure
+  to 10 categories (ai, animations, docs, icons, illustrations, inspiration,
+  libraries, react-components, tools, youtube)
+- **80 curated links**: Expanded from 24 to 80 useful resources across all
+  categories
+- **i18n descriptions**: Each link now has `description_en` and `description_es`
+  for localized content
+- **New categories**: AI & Machine Learning, Animations, Illustrations, Icons,
+  React Components, YouTube channels
+- **CategoryIcon component**: New icons for all useful-links categories
+  (YouTube, Docs, Tools, AI, Animations, Icons, Illustrations, Libraries, React)
+
+### Changed - Useful Links
+
+- **Useful-links schema**: Updated Zod schema with `description_en`,
+  `description_es`, removed `featured` and `order` fields
+- **Goodies page**: Fixed to display localized descriptions for useful-links
+  preview cards
+- **Useful-links index**: Updated sorting to use filename prefix ordering
+  instead of deprecated `order` field
+
 ### Changed - Hero Section Responsive Improvements
 
 - **Mobile avatar breakpoints**: Extended responsive sizing with 8+ breakpoints
@@ -25,6 +48,15 @@ and this project adheres to
 
 - **TrustBadgesMarquee TypeScript**: Added HTMLElement generic to
   querySelectorAll to fix dataset property type error
+
+### Technical - Useful Links
+
+- Content collection schema in `src/content/config.ts` updated for new
+  useful-links structure
+- `getLinkDescription()` helper function for i18n description retrieval
+- Filename-based ordering using numeric prefixes (e.g., `01-resource.json`)
+
+---
 
 ## [1.5.2] - 2025-12-03
 

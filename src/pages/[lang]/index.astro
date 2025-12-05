@@ -529,6 +529,7 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
         fiverr: contact.social.fiverr,
         upwork: contact.social.upwork
     }}
+    preloadHeroImage={true}
 >
     <!-- Hero Section (background with gradients) -->
     <div class="relative">
@@ -604,7 +605,6 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
     <div class="relative">
         <FAQsSection
             primaryColor={sectionsColors.faqs}
-            lang={lang}
             translations={faqsTranslations}
         />
         <WaveDivider transition="faqs-to-contact" />

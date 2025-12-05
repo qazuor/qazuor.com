@@ -29,7 +29,7 @@ import ViewTransitionGSAP from '@/components/transitions/ViewTransitionGSAP.astr
 // import PageTransition from '@/components/transitions/PageTransition.astro';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '@/i18n/utils';
-import type { PersonSchema, WebSiteSchema } from '@/types/jsonld';
+import type { WebSiteSchema } from '@/types/jsonld';
 import { generateBreadcrumbs } from '@/utils/breadcrumbs';
 
 // Note: PixelCanvas custom element is registered via inline script below
@@ -58,6 +58,8 @@ interface Props {
     breadcrumbName?: string;
     /** Disable breadcrumbs on this page */
     noBreadcrumbs?: boolean;
+    /** Preload hero image (only enable on homepage where hero is visible) */
+    preloadHeroImage?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -84,7 +86,8 @@ const {
     jobTitle,
     socialLinks,
     breadcrumbName,
-    noBreadcrumbs = false
+    noBreadcrumbs = false,
+    preloadHeroImage = false
 } = Astro.props;
 
 // Get current route without locale
@@ -135,31 +138,13 @@ const alternateLinks = locales.map((locale) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- Performance: Preload Critical Resources -->
-        <!-- Only preload fonts used above-the-fold (hero section) -->
+        <!-- Only preload fonts actually used above-the-fold (hero section) -->
         <!-- Using crossorigin="anonymous" is required for font preloading -->
 
         <!-- Inter 400 - Body text (used throughout hero section) -->
         <link
             rel="preload"
             href="/fonts/inter-latin-400-normal.woff2"
-            as="font"
-            type="font/woff2"
-            crossorigin="anonymous"
-        />
-
-        <!-- Inter 600 - Subheadings (h2, h3) -->
-        <link
-            rel="preload"
-            href="/fonts/inter-latin-600-normal.woff2"
-            as="font"
-            type="font/woff2"
-            crossorigin="anonymous"
-        />
-
-        <!-- Inter 700 - Bold emphasis (CTAs and strong text) -->
-        <link
-            rel="preload"
-            href="/fonts/inter-latin-700-normal.woff2"
             as="font"
             type="font/woff2"
             crossorigin="anonymous"
@@ -174,14 +159,18 @@ const alternateLinks = locales.map((locale) => {
             crossorigin="anonymous"
         />
 
-        <!-- Preload LCP image (hero image) with high priority -->
-        <!-- Optimized with Astro's getImage() for WebP format -->
-        <link
-            rel="preload"
-            href={optimizedPhoto.src}
-            as="image"
-            fetchpriority="high"
-        />
+        <!-- Note: Inter 500/600/700 and JetBrains Mono are loaded on-demand via CSS -->
+        <!-- They are not preloaded because they're used below the fold or in code blocks -->
+
+        <!-- Preload LCP image (hero image) - only on pages with hero section -->
+        {preloadHeroImage && (
+            <link
+                rel="preload"
+                href={optimizedPhoto.src}
+                as="image"
+                fetchpriority="high"
+            />
+        )}
 
         <!-- Critical CSS (inlined for fastest LCP) -->
         <!-- Contains ONLY styles needed for above-the-fold hero section -->
@@ -507,8 +496,9 @@ const alternateLinks = locales.map((locale) => {
         </script>
 
         <!-- Vercel Analytics and Speed Insights -->
-        <Analytics />
-        <SpeedInsights />
+        <!-- Only loads in production when properly configured in Vercel Dashboard -->
+        <Analytics debug={false} />
+        <SpeedInsights debug={false} />
 
         <!-- Global PixelCanvas Custom Element Registration -->
         <!-- Must be is:inline to work with View Transitions and always be available -->

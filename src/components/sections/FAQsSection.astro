@@ -17,7 +17,6 @@ interface FAQ {
 
 interface Props {
     primaryColor?: string;
-    lang: string;
     translations: {
         title: string;
         subtitle: string;
@@ -31,7 +30,7 @@ interface Props {
     };
 }
 
-const { primaryColor = '#8b5cf6', lang, translations } = Astro.props;
+const { primaryColor = '#8b5cf6', translations } = Astro.props;
 
 // Combine all FAQs for JSON-LD schema
 const allFaqs = [...translations.faqs.clients, ...translations.faqs.employers];

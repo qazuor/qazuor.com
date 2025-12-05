@@ -24,6 +24,30 @@ const projectsCollection = defineCollection({
         })
 });
 
+// Social platforms schema for blog posts
+const socialPlatformsSchema = z.object({
+    linkedin: z.boolean().default(true),
+    twitter: z.boolean().default(true),
+    facebook: z.boolean().default(true),
+    instagram: z.boolean().default(true),
+    bluesky: z.boolean().default(true),
+    mastodon: z.boolean().default(false),
+    threads: z.boolean().default(false),
+    reddit: z.boolean().default(false),
+    hackernews: z.boolean().default(false),
+    devto: z.boolean().default(false)
+});
+
+// Social metadata schema for blog posts
+const socialSchema = z.object({
+    suggestedTitle: z.string().optional(), // Alternative title for social networks
+    suggestedExcerpt: z.string().optional(), // Alternative description for social networks
+    image: z.string().optional(), // Alternative image path for social networks
+    hashtags: z.array(z.string()).optional(), // Suggested hashtags
+    publishOnDate: z.date().optional(), // Suggested publish date for social networks
+    platforms: socialPlatformsSchema.optional()
+});
+
 // Blog collection schema
 const blogCollection = defineCollection({
     type: 'content',
@@ -46,7 +70,9 @@ const blogCollection = defineCollection({
                     name: z.string(), // Display name: "Hospeda: Building a tourism portal"
                     part: z.number() // Part number: 1, 2, 3...
                 })
-                .optional()
+                .optional(),
+            // Social network metadata for sharing
+            social: socialSchema.optional()
         })
 });
 

@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.5] - 2025-12-05
+
+### Added - Social Blog Data Integration
+
+- **Social metadata schema**: New optional `social` field in blog post
+  frontmatter for social network publishing customization
+- **Platform configuration**: 10 social platforms supported (LinkedIn, Twitter,
+  Facebook, Instagram, Bluesky, Mastodon, Threads, Reddit, HackerNews, Dev.to)
+- **Social customization fields**: Optional alternative title, excerpt, image,
+  hashtags, and publish date for social networks
+- **Astro integration**: `social-blog-data` integration generates
+  `socialNetworksBlogData.json` during build with all non-draft blog posts
+- **Automation-ready output**: JSON file includes slug, title, excerpt, URL,
+  publishDate, category, tags, readTime, author, series info, and social
+  metadata
+
+### Technical
+
+- New schema in `src/content/config.ts`: `socialPlatformsSchema`, `socialSchema`
+- New integration: `integrations/social-blog-data.ts`
+- New dependency: `gray-matter` for frontmatter parsing
+- Output file added to `.gitignore`
+- Default platforms: LinkedIn, Twitter, Bluesky enabled; others disabled
+
+---
+
 ## [1.5.4] - 2025-12-04
 
 ### Added - Vercel Analytics & Speed Insights

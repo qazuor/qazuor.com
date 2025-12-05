@@ -17,6 +17,7 @@ import viteCompression from 'vite-plugin-compression';
 import fontPreloader from './integrations/astro-font-preloader/index.ts';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
+import socialBlogData from './integrations/social-blog-data.ts';
 import testimonialAvatars from './integrations/testimonial-avatars.ts';
 import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.ts';
 
@@ -66,6 +67,11 @@ export default defineConfig({
 
         // Testimonial Avatars Downloader (downloads avatarUrl images locally)
         testimonialAvatars({
+            verbose: true
+        }),
+
+        // Social Blog Data Generator (generates JSON for social network publishing)
+        socialBlogData({
             verbose: true
         }),
 

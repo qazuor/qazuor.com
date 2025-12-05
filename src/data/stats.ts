@@ -31,6 +31,13 @@ export const stats: Stat[] = [
         descriptionKey: 'stats.years.description'
     },
     {
+        id: 'linesOfCode',
+        value: 1,
+        suffix: 'M+',
+        labelKey: 'stats.linesOfCode.label',
+        descriptionKey: 'stats.linesOfCode.description'
+    },
+    {
         id: 'technologies',
         value: 15,
         suffix: '+',
@@ -38,18 +45,11 @@ export const stats: Stat[] = [
         descriptionKey: 'stats.technologies.description'
     },
     {
-        id: 'coffees',
-        value: 0,
-        prefix: '∞',
-        labelKey: 'stats.coffees.label',
-        descriptionKey: 'stats.coffees.description'
-    },
-    {
-        id: 'linesOfCode',
-        value: 1,
-        suffix: 'M+',
-        labelKey: 'stats.linesOfCode.label',
-        descriptionKey: 'stats.linesOfCode.description'
+        id: 'mentored',
+        value: 30,
+        suffix: '+',
+        labelKey: 'stats.mentored.label',
+        descriptionKey: 'stats.mentored.description'
     },
     {
         id: 'passion',
@@ -59,10 +59,10 @@ export const stats: Stat[] = [
         descriptionKey: 'stats.passion.description'
     },
     {
-        id: 'mentored',
-        value: 30,
-        suffix: '+',
-        labelKey: 'stats.mentored.label',
-        descriptionKey: 'stats.mentored.description'
+        id: 'coffees',
+        value: 0,
+        prefix: '∞',
+        labelKey: 'stats.coffees.label',
+        descriptionKey: 'stats.coffees.description'
     }
 ];

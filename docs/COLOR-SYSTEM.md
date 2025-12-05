@@ -12,25 +12,33 @@ All colors are defined in this file:
 
 ```typescript
 export const darkModeColors: SectionColors = {
-  hero: '#473472',
-  about: '#53629E',
-  skills: '#473472',
-  projects: '#87BAC3',
-  blog: '#473472',
-  testimonials: '#53629E',
-  contact: '#87BAC3',
-  footer: '#000000',
+  hero: '#0F1A2B', // Deep blue
+  about: '#1A2A3D', // Dark blue
+  skills: '#1E3552', // Medium dark blue
+  projects: '#253853', // Blue
+  servicesPreview: '#1A2A3D', // Dark blue
+  blog: '#0F1A2B', // Deep blue
+  services: '#1A2A3D', // Dark blue
+  goodies: '#1A2A3D', // Dark blue
+  testimonials: '#253853', // Blue
+  contact: '#1E3552', // Medium dark blue
+  faqs: '#1A2A3D', // Dark blue
+  footer: '#0A1420', // Very dark blue
 };
 
 export const lightModeColors: SectionColors = {
-  hero: '#E6E0F0',
-  about: '#E1E7F5',
-  skills: '#E6E0F0',
-  projects: '#F0F8FA',
-  blog: '#E6E0F0',
-  testimonials: '#E1E7F5',
-  contact: '#F0F8FA',
-  footer: '#F5F5F5',
+  hero: '#9AA6B2', // Blue-gray
+  about: '#BCCCDC', // Light blue-gray
+  skills: '#96B6C5', // Muted blue
+  projects: '#ADC4CE', // Soft blue-gray
+  servicesPreview: '#BCCCDC', // Light blue-gray
+  blog: '#9AA6B2', // Blue-gray
+  services: '#BCCCDC', // Light blue-gray
+  goodies: '#BCCCDC', // Light blue-gray
+  testimonials: '#BCCCDC', // Light blue-gray
+  contact: '#ADC4CE', // Soft blue-gray
+  faqs: '#BCCCDC', // Light blue-gray
+  footer: '#E8EBF0', // Light blue-gray
 };
 ```
 
@@ -99,7 +107,7 @@ The system automatically:
 No manual work needed. The system handles:
 
 - ✅ Section background colors (light & dark)
-- ✅ All 7 divider transitions with 5-step interpolations
+- ✅ All divider transitions with 5-step interpolations
 - ✅ Smooth theme switching
 - ✅ CSS custom properties for all components
 

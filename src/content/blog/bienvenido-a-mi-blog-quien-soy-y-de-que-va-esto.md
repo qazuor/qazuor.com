@@ -14,34 +14,37 @@ image: ./_images/portfolio-design.jpg
 
 # Bienvenido a mi blog: quién soy y de qué va esto
 
-> **Quote:** No vengo a venderte el framework del momento. Vengo a compartir
-> cómo trabajo, qué problemas resuelvo, y qué aprendí rompiéndome la cabeza.
+No vengo a venderte el framework del momento. Vengo a compartir cómo trabajo,
+qué problemas resuelvo, y qué aprendí rompiéndome la cabeza.
 
 ---
 
 ## Quién soy
 
-Soy **Leandro**, desarrollador full-stack con más de 15 años de experiencia en
-el mundo del desarrollo web. Trabajo principalmente con **TypeScript**,
-**React**, **Astro**, **Node.js** y herramientas modernas del ecosistema
-JavaScript/TypeScript.
+Soy **Leandro Asrilevich**, a.k.a. **qazuor** desarrollador full-stack con más
+de 20 años de experiencia en el mundo del desarrollo web. Trabajo principalmente
+con **TypeScript**, **React**, **Astro**, **Node.js** y herramientas modernas
+del ecosistema JavaScript/TypeScript.
 
-A lo largo de mi carrera pasé por agencias, startups, proyectos propios y
-trabajo freelance. Hoy me dedico a construir productos digitales completos:
-desde la idea hasta el deploy, pasando por arquitectura, frontend, backend,
-automatizaciones y todo lo que haga falta para que algo funcione de verdad.
+A lo largo de mi carrera pasé por agencias, proyectos propios, y trabajo
+freelance, pero la etapa mas marcada fue en Avature, donde estuve desde que era
+una especie de startup y pase alli 18 anios en lo que fui parte de su conversion
+a una multinacional actualmente, Hoy me dedico a construir productos digitales
+completos: desde la idea hasta el deploy, pasando por arquitectura, frontend,
+backend, automatizaciones y todo lo que haga falta para que algo funcione de
+verdad.
 
-También trabajo bastante con **automatizaciones No-Code/Low-Code**
-(principalmente Make.com) para orquestar flujos operativos sin escribir código
-para cada cosa.
+También trabajo con **automatizaciones No-Code/Low-Code** (principalmente
+Make.com) para orquestar flujos operativos sin escribir código para cada cosa. Y
+trabajos de branding y publicidad offline y online.
 
 ---
 
 ## De qué va este blog
 
-Este blog es mi espacio para compartir lo que aprendo mientras construyo cosas
-reales. No es un blog de tutoriales genéricos ni de "cómo hacer un todo-list en
-React". Es más bien una colección de:
+Este blog es mi espacio para compartir lo que aprendi y aprendo mientras
+construyo cosas reales. No es un blog de tutoriales genéricos ni de "cómo hacer
+un todo-list en React". Es más bien una colección de:
 
 - **Decisiones técnicas reales** - Por qué elijo una herramienta sobre otra, qué
   trade-offs considero, y cuándo me equivoco.
@@ -73,8 +76,8 @@ React". Es más bien una colección de:
 - Hype vacío sobre tecnologías que no uso.
 - Promesas de "dominar X en 5 minutos".
 
-Todo lo que escribo acá viene de experiencia real. Si algo no lo probé, no lo
-recomiendo. Si algo me salió mal, también lo cuento.
+> **Quote:** Todo lo que escribo acá viene de experiencia real. Si algo no lo
+> probé, no lo recomiendo. Si algo me salió mal, también lo cuento.
 
 ---
 
@@ -90,13 +93,13 @@ Prefiero un post corto que diga algo útil a uno largo que no diga nada.
 
 ## Cómo navegar el blog
 
-Los posts están organizados por categorías y tags. Podés filtrar por tema o
-simplemente scrollear. Algunos posts son parte de series (como el diario de
+Los posts estaran organizados por categorías y tags. Podras filtrar por tema o
+simplemente scrollear. Algunos posts seran parte de series (como el diario de
 construcción de **Hospeda**, un portal turístico que estoy armando), y otros son
 ideas sueltas sobre algo que aprendí.
 
-También tenés una sección de [Goodies](/goodies) donde voy subiendo
-herramientas, snippets y recursos útiles.
+> **Info:** También tenés una sección de [Goodies](/goodies) donde voy subiendo-
+> herramientas, snippets, tricks y recursos útiles.
 
 ---
 
@@ -113,4 +116,4 @@ simplemente querés decir hola, podés encontrarme en:
 
 Gracias por pasar. Espero que encuentres algo útil por acá.
 
-_- Leandro_
+\_- qazuor

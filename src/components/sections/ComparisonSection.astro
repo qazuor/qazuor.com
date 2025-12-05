@@ -15,6 +15,7 @@ interface ComparisonRow {
     automation: string;
     socialDesign: string;
     webOptimization: string;
+    wordpress: string;
 }
 
 interface Props {
@@ -29,6 +30,7 @@ interface Props {
             automation: string;
             socialDesign: string;
             webOptimization: string;
+            wordpress: string;
         };
         rows: {
             timeline: ComparisonRow;
@@ -72,6 +74,12 @@ const serviceColors = {
         border: 'border-violet-500/30',
         text: 'text-violet-400',
         header: 'bg-violet-500/20'
+    },
+    wordpress: {
+        bg: 'bg-blue-500/10',
+        border: 'border-blue-500/30',
+        text: 'text-blue-400',
+        header: 'bg-blue-500/20'
     }
 };
 
@@ -83,7 +91,7 @@ const rows = [
     translations.rows.bestFor
 ];
 
-const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'webOptimization'] as const;
+const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'webOptimization', 'wordpress'] as const;
 ---
 
 <div class="comparison-section py-16">

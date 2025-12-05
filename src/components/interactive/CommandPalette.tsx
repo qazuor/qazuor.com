@@ -61,10 +61,10 @@ export function CommandPalette({
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [open, setOpen]);
 
-    // Only render the heavy component when it should be open
-    // This ensures the bundle is only loaded when needed
+    // Always render a marker so tests can detect when component is hydrated
+    // Only render the heavy inner component when open
     if (!open) {
-        return null;
+        return <div data-testid="command-palette-ready" style={{ display: 'none' }} />;
     }
 
     return (

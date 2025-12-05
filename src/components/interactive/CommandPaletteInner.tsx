@@ -368,6 +368,7 @@ export function CommandPaletteInner({
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="command-palette-title"
+                    data-testid="command-palette"
                     onClick={() => setOpen(false)}
                     style={
                         viewportHeight
@@ -451,6 +452,8 @@ export function CommandPaletteInner({
 
                             <Command.List
                                 className="overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-foreground/20 scrollbar-track-transparent relative"
+                                aria-live="polite"
+                                aria-label="Search results"
                                 style={{
                                     maxHeight: viewportHeight
                                         ? Math.max(viewportHeight * 0.5, 200) // At least 200px, up to 50% of viewport

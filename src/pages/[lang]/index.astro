@@ -17,7 +17,7 @@ import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import { contact, sectionsColors } from '@/data';
 import { trustBadges as trustBadgesConfig } from '@/data/trustBadges';
-import { languages, ui } from '@/i18n/ui';
+import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getProjectSlug } from '@/utils/projects';
@@ -612,7 +612,7 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
 
     <!-- Contact Section with gradient background -->
     <div
-        class="relative section section-contact overflow-hidden"
+        class="relative section section-contact overflow-hidden pt-0"
         style={`background-color: ${sectionsColors.contact}`}
     >
         <!-- Animated Gradient Background (rendered from Astro) -->

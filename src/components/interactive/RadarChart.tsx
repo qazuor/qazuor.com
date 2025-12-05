@@ -198,8 +198,9 @@ export function RadarChart({
                     className="w-full h-full"
                     style={{ overflow: 'visible' }}
                     role="img"
-                    aria-label={`${title} radar chart`}
+                    aria-labelledby={`${chartId}-title`}
                 >
+                    <title id={`${chartId}-title`}>{title} radar chart</title>
                     {/* Circular shadow behind radar - very prominent */}
                     <defs>
                         <radialGradient id={`${chartId}-shadow`}>

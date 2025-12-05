@@ -233,7 +233,12 @@ export function Contact({
                                 mb-[-80px] md:mb-[-100px]
                             "
                         >
-                            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                            <form
+                                ref={formRef}
+                                onSubmit={handleSubmit}
+                                className="space-y-4"
+                                data-testid="contact-form"
+                            >
                                 {/* Name & Email in 2 columns */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <FloatingFormField

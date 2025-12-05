@@ -1,15 +1,18 @@
 import {
     BookOpen,
+    Bot,
+    Boxes,
     Code,
     ExternalLink,
-    GraduationCap,
+    Image,
     Link,
     type LucideIcon,
     Package,
     Palette,
     Sparkles,
-    Users,
-    Wrench
+    Wand2,
+    Wrench,
+    Youtube
 } from 'lucide-react';
 
 export type CategoryIconName =
@@ -17,26 +20,30 @@ export type CategoryIconName =
     | 'snippets'
     | 'css-tricks'
     | 'useful-links'
-    | 'documentation'
-    | 'library'
-    | 'tool'
-    | 'learning'
+    | 'ai'
+    | 'docs'
+    | 'react-components'
+    | 'animations'
+    | 'libraries'
+    | 'icons'
+    | 'illustrations'
     | 'inspiration'
-    | 'community'
-    | 'other';
+    | 'youtube';
 
 const iconMap: Record<CategoryIconName, LucideIcon> = {
     tools: Wrench,
     snippets: Code,
     'css-tricks': Palette,
     'useful-links': Link,
-    documentation: BookOpen,
-    library: Package,
-    tool: Wrench,
-    learning: GraduationCap,
-    inspiration: Sparkles,
-    community: Users,
-    other: ExternalLink
+    ai: Bot,
+    docs: BookOpen,
+    'react-components': Boxes,
+    animations: Wand2,
+    libraries: Package,
+    icons: Sparkles,
+    illustrations: Image,
+    inspiration: Palette,
+    youtube: Youtube
 };
 
 interface CategoryIconProps {

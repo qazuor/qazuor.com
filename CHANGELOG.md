@@ -8,6 +8,45 @@ and this project adheres to
 
 ## [1.5.5] - 2025-12-05
 
+### Added - Blog Excerpt Markdown Support
+
+- **Markdown in excerpts**: Blog post excerpts now render markdown formatting
+  (bold, italic, code, links) instead of plain text
+- **Consistent rendering**: Applied to all excerpt locations (hero sections,
+  listing cards, related posts, homepage BlogPostCard)
+
+### Fixed - Build Warnings Cleanup
+
+- **Unused imports removed**: Cleaned up unused imports in Navigation.astro,
+  BlogSection.astro, BaseLayout.astro
+- **Unused variables removed**: Removed unused `lang` prop in FAQsSection,
+  `totalDuration` in TrustBadgesMarquee
+- **Deprecated icon replaced**: Replaced deprecated `Youtube` icon with `Play`
+  from lucide-react (brand icons deprecated)
+- **OG image z-index warnings**: Removed unsupported `z-index` properties from
+  Satori OG image generator
+- **JsonLd script directive**: Added explicit `is:inline` to silence Astro hint
+- **Test file fixes**: Fixed unused variable destructuring in contact.spec.ts
+- **Window type definitions**: Added global Window interface extensions for
+  custom properties (`__SEARCH_INDEX__`, `__initToolCards`, etc.)
+
+### Removed - Unused Integration
+
+- **astro-subsites**: Removed unused subsites integration and configuration
+  (domains.config.js) - was causing build warnings
+
+### Changed - Visual Test Snapshots
+
+- Updated visual regression test snapshots for multiple pages and viewports
+
+### Technical
+
+- Extended `src/types/auto-animate.d.ts` with Window interface for all custom
+  global properties
+- Added biome-ignore comment for intentional `execCommand` fallback in share.ts
+
+---
+
 ### Added - Social Blog Data Integration
 
 - **Social metadata schema**: New optional `social` field in blog post

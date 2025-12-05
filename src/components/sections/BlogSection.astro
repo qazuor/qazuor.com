@@ -147,7 +147,7 @@ const postsWithImages = await Promise.all(
             {
                 postsWithImages.map((post, index) => (
                     <BlogPostCard
-                        client:load
+                        client:visible
                         title={post.title}
                         excerpt={processMarkdown(post.excerpt)}
                         category={post.category}

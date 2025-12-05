@@ -71,7 +71,7 @@ const featuredProjects = projects
 
 	<!-- Stacking Cards Section -->
 	<div class="relative z-[200]" role="region" aria-label="Featured projects showcase">
-		<ProjectsFeaturedStack client:load projects={featuredProjects} lang={lang} />
+		<ProjectsFeaturedStack client:visible projects={featuredProjects} lang={lang} />
 
 		<!-- View All Button -->
 		{

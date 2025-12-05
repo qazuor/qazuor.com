@@ -280,7 +280,11 @@ export default defineConfig({
                             if (id.includes('@studio-freight/lenis')) {
                                 return 'vendor-lenis';
                             }
-                            if (id.includes('yet-another-react-lightbox') || id.includes('embla-carousel')) {
+                            // Lightbox lite in separate chunk - lazy loaded only when user clicks image (4.7KB)
+                            if (id.includes('yet-another-react-lightbox-lite')) {
+                                return 'vendor-lightbox';
+                            }
+                            if (id.includes('embla-carousel')) {
                                 return 'vendor-ui';
                             }
                             if (id.includes('fuse.js') || id.includes('typeit')) {

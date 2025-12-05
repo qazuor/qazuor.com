@@ -85,29 +85,21 @@ Unstyled Content).
 - Lazy-loaded non-critical fonts via CSS `@layer`
 - Removed font import duplication (BaseLayout + fonts.css)
 
-**Before:**
+**Strategy:**
 
-```javascript
-// 10 blocking font imports
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-// ... 8 more
-```
-
-**After:**
+Self-hosted fonts in `public/fonts/` with `@font-face` declarations in
+`src/styles/fonts.css`. Only critical fonts are preloaded.
 
 ```css
-/* Critical fonts - loaded synchronously */
-@import '@fontsource/inter/400.css'; /* Body text */
-@import '@fontsource/inter/600.css'; /* Headings */
-@import '@fontsource/inter/700.css'; /* Bold */
-
-/* Non-critical fonts - lazy loaded */
-@layer non-critical-fonts {
-  @import '@fontsource/inter/500.css' layer(non-critical-fonts);
-  @import '@fontsource/jetbrains-mono/400.css' layer(non-critical-fonts);
-  /* ... */
+/* src/styles/fonts.css - Self-hosted @font-face declarations */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/inter-latin-400-normal.woff2') format('woff2');
 }
+/* ... additional weights */
 ```
 
 **Preload hints:**

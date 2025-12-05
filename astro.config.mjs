@@ -14,7 +14,6 @@ import lighthouse from 'astro-lighthouse';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
-import fontPreloader from './integrations/astro-font-preloader/index.ts';
 import colorInterpolation from './integrations/color-interpolation.ts';
 import searchIndex from './integrations/search-index.ts';
 import socialBlogData from './integrations/social-blog-data.ts';
@@ -44,13 +43,6 @@ export default defineConfig({
     integrations: [
         // Search Index Generator (early to setup infrastructure)
         searchIndex(),
-
-        // Font Preloader (copy fonts to public/fonts before build)
-        fontPreloader({
-            autoDetect: true,
-            subsets: ['latin'],
-            verbose: true
-        }),
 
         // Color Interpolation Generator (first to run early)
         colorInterpolation({

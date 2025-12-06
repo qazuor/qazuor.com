@@ -131,7 +131,11 @@ export function ProjectCard({
                             isReversed ? 'md:order-1' : 'md:order-2'
                         } h-full bg-background px-8 py-8`}
                     >
-                        <a href={projectUrl} className="text-left space-y-4 group cursor-pointer">
+                        <a
+                            href={projectUrl}
+                            className="text-left space-y-4 group cursor-pointer"
+                            aria-label={`${translations.viewProject}: ${title}`}
+                        >
                             <h3 className="text-2xl md:text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
                                 {title}
                             </h3>

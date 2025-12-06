@@ -265,6 +265,7 @@
         @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
         background-size: 200% 100%;
         animation: gradient-shift 8s ease infinite;
+        will-change: background-position;
     }
 
     /* Enhanced gradient for section titles - even more vibrant */
@@ -273,12 +274,14 @@
         background-size: 150% 100%;
         animation: gradient-shift 10s ease infinite;
         filter: saturate(1.2);
+        will-change: background-position;
     }
 
     .gradient-text-accent {
         @apply bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 dark:from-purple-200 dark:via-pink-200 dark:to-indigo-300 bg-clip-text text-transparent;
         background-size: 200% 100%;
         animation: gradient-shift 6s ease infinite;
+        will-change: background-position;
     }
 
     /* Alternative gradient with better light mode contrast */
@@ -286,6 +289,7 @@
         @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 dark:from-purple-300 dark:via-blue-300 dark:to-indigo-300 bg-clip-text text-transparent;
         background-size: 200% 100%;
         animation: gradient-shift 10s ease infinite;
+        will-change: background-position;
     }
 
     /* Extra vibrant gradient for hero sections */
@@ -293,6 +297,19 @@
         @apply bg-gradient-to-r from-blue-600 via-purple-500 to-violet-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
         background-size: 300% 100%;
         animation: gradient-shift 12s ease infinite;
+        will-change: background-position;
+    }
+
+    /* Respect user preference for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        .gradient-text,
+        .gradient-text-section,
+        .gradient-text-accent,
+        .gradient-text-blue,
+        .gradient-text-hero {
+            animation: none;
+            will-change: auto;
+        }
     }
 
     /* Gradient animation keyframes */

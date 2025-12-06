@@ -284,6 +284,10 @@ export default defineConfig({
                             if (id.includes('yet-another-react-lightbox-lite')) {
                                 return 'vendor-lightbox';
                             }
+                            // Giscus comments - only used in blog pages
+                            if (id.includes('@giscus/react') || id.includes('giscus')) {
+                                return 'vendor-giscus';
+                            }
                             if (id.includes('embla-carousel')) {
                                 return 'vendor-ui';
                             }

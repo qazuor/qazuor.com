@@ -79,6 +79,7 @@ const { title, description, features, href, ctaText, iconId, pixelConfig } = Ast
         <a
             href={href}
             class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-foreground transition-colors duration-300 mt-auto"
+            aria-label={`${ctaText}: ${title.replace(/<[^>]*>/g, '')}`}
         >
             <span>{ctaText}</span>
             <div class="w-4 h-4 transition-transform duration-300" aria-hidden="true" set:html={ArrowRightIcon} />
@@ -94,9 +95,10 @@ const { title, description, features, href, ctaText, iconId, pixelConfig } = Ast
         <a
             href={href}
             class="stretched-link inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-all duration-200 pointer-events-auto text-sm"
+            aria-label={`${ctaText}: ${title.replace(/<[^>]*>/g, '')}`}
         >
             <span>{ctaText}</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
         </a>

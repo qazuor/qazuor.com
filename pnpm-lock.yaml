@@ -35,9 +35,6 @@ importers:
       '@studio-freight/lenis':
         specifier: ^1.0.42
         version: 1.0.42
-      '@vercel/analytics':
-        specifier: ^1.6.1
-        version: 1.6.1(react@19.2.1)
       '@vercel/speed-insights':
         specifier: ^1.3.1
         version: 1.3.1(react@19.2.1)

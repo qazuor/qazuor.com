@@ -112,17 +112,31 @@ async function preparePageForScreenshot(page: Page) {
 
     // Stop all JavaScript animations (GSAP, Framer Motion, requestAnimationFrame, TypeIt)
     await page.evaluate(() => {
+        // Type definitions for window extensions
+        interface WindowWithGsap extends Window {
+            gsap?: {
+                globalTimeline?: { pause: () => void };
+                killTweensOf: (target: string) => void;
+            };
+            TypeIt?: unknown;
+        }
+        interface ElementWithTypeIt extends Element {
+            __typeit__?: { freeze: () => void };
+        }
+
+        const win = window as WindowWithGsap;
+
         // Stop GSAP animations if present
-        if (typeof window !== 'undefined' && (window as any).gsap) {
-            (window as any).gsap.globalTimeline?.pause();
-            (window as any).gsap.killTweensOf('*');
+        if (typeof window !== 'undefined' && win.gsap) {
+            win.gsap.globalTimeline?.pause();
+            win.gsap.killTweensOf('*');
         }
 
         // Stop TypeIt instances if present
-        if (typeof window !== 'undefined' && (window as any).TypeIt) {
+        if (typeof window !== 'undefined' && win.TypeIt) {
             // TypeIt stores instances on elements
             document.querySelectorAll('[data-typeit-id], .ti-wrapper').forEach((el) => {
-                const instance = (el as any).__typeit__;
+                const instance = (el as ElementWithTypeIt).__typeit__;
                 if (instance && typeof instance.freeze === 'function') {
                     instance.freeze();
                 }

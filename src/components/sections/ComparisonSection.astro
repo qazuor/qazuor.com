@@ -1,22 +1,13 @@
 ---
 /**
  * ComparisonSection - Service comparison table
- * Shows a responsive comparison of all 4 services
+ * Shows a responsive comparison of all 6 services
  * Desktop: horizontal table, Mobile: stacked cards
+ * Data comes from services.ts, only labels from translations
  */
 
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import { services } from '@/data/services';
-
-interface ComparisonRow {
-    label: string;
-    webApps: string;
-    landingPages: string;
-    automation: string;
-    socialDesign: string;
-    webOptimization: string;
-    wordpress: string;
-}
+import { type ServiceComparison, services } from '@/data/services';
 
 interface Props {
     lang: string;
@@ -32,12 +23,36 @@ interface Props {
             webOptimization: string;
             wordpress: string;
         };
-        rows: {
-            timeline: ComparisonRow;
-            priceRange: ComparisonRow;
-            maintenance: ComparisonRow;
-            complexity: ComparisonRow;
-            bestFor: ComparisonRow;
+        labels: {
+            timeline: string;
+            priceRange: string;
+            maintenance: string;
+            complexity: string;
+            bestFor: string;
+            weeks: string;
+            consultation: string;
+            from: string;
+        };
+        maintenance: {
+            recommended: string;
+            optional: string;
+            'not-needed': string;
+        };
+        complexity: {
+            low: string;
+            'low-medium': string;
+            medium: string;
+            'medium-high': string;
+            high: string;
+            'low-high': string;
+        };
+        bestFor: {
+            customSolutions: string;
+            marketingSeo: string;
+            efficiency: string;
+            brandPresence: string;
+            seoPerformance: string;
+            blogsEcommerce: string;
         };
         cta: {
             notSure: string;
@@ -49,27 +64,27 @@ interface Props {
 const { lang, translations } = Astro.props;
 
 // Service column colors matching the service cards
-const serviceColors = {
-    webApps: { bg: 'bg-sky-500/10', border: 'border-sky-500/30', text: 'text-sky-400', header: 'bg-sky-500/20' },
-    landingPages: {
+const serviceColors: Record<string, { bg: string; border: string; text: string; header: string }> = {
+    'web-apps': { bg: 'bg-sky-500/10', border: 'border-sky-500/30', text: 'text-sky-400', header: 'bg-sky-500/20' },
+    'landing-pages': {
         bg: 'bg-emerald-500/10',
         border: 'border-emerald-500/30',
         text: 'text-emerald-400',
         header: 'bg-emerald-500/20'
     },
-    automation: {
+    'automation-integration': {
         bg: 'bg-yellow-500/10',
         border: 'border-yellow-500/30',
         text: 'text-yellow-400',
         header: 'bg-yellow-500/20'
     },
-    socialDesign: {
+    'social-media-design': {
         bg: 'bg-rose-500/10',
         border: 'border-rose-500/30',
         text: 'text-rose-400',
         header: 'bg-rose-500/20'
     },
-    webOptimization: {
+    'web-optimization': {
         bg: 'bg-violet-500/10',
         border: 'border-violet-500/30',
         text: 'text-violet-400',
@@ -83,15 +98,61 @@ const serviceColors = {
     }
 };
 
-const rows = [
-    translations.rows.timeline,
-    translations.rows.priceRange,
-    translations.rows.maintenance,
-    translations.rows.complexity,
-    translations.rows.bestFor
-];
+// Map service id to header translation key
+const serviceHeaderKeys: Record<string, keyof typeof translations.headers> = {
+    'web-apps': 'webApps',
+    'landing-pages': 'landingPages',
+    'automation-integration': 'automation',
+    'social-media-design': 'socialDesign',
+    'web-optimization': 'webOptimization',
+    wordpress: 'wordpress'
+};
 
-const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'webOptimization', 'wordpress'] as const;
+// Format timeline from data
+function formatTimeline(comparison: ServiceComparison): string {
+    const { minWeeks, maxWeeks } = comparison.timeline;
+    if (maxWeeks) {
+        return `${minWeeks}-${maxWeeks} ${translations.labels.weeks}`;
+    }
+    return `${translations.labels.from} ${minWeeks} ${translations.labels.weeks}`;
+}
+
+// Format price range from data
+function formatPriceRange(comparison: ServiceComparison): string {
+    const { type, min, max, currency } = comparison.priceRange;
+    if (type === 'consultation') {
+        return translations.labels.consultation;
+    }
+    if (type === 'from') {
+        return `${translations.labels.from} ${currency} ${min?.toLocaleString()}`;
+    }
+    // type === 'range'
+    return `${currency} ${min?.toLocaleString()} - ${max?.toLocaleString()}+`;
+}
+
+// Get maintenance label
+function getMaintenanceLabel(comparison: ServiceComparison): string {
+    return translations.maintenance[comparison.maintenance];
+}
+
+// Get complexity label
+function getComplexityLabel(comparison: ServiceComparison): string {
+    return translations.complexity[comparison.complexity];
+}
+
+// Get best for label
+function getBestForLabel(comparison: ServiceComparison): string {
+    return translations.bestFor[comparison.bestForKey as keyof typeof translations.bestFor];
+}
+
+// Build rows from services data
+const rows = [
+    { label: translations.labels.timeline, getValue: formatTimeline },
+    { label: translations.labels.priceRange, getValue: formatPriceRange },
+    { label: translations.labels.maintenance, getValue: getMaintenanceLabel },
+    { label: translations.labels.complexity, getValue: getComplexityLabel },
+    { label: translations.labels.bestFor, getValue: getBestForLabel }
+];
 ---
 
 <div class="comparison-section py-16">
@@ -108,13 +169,14 @@ const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'w
                         <th class="p-4 text-left text-foreground-secondary font-medium bg-foreground/5 rounded-tl-xl border-b border-foreground/10">
                             {translations.headers.feature}
                         </th>
-                        {serviceKeys.map((key, index) => {
-                            const colors = serviceColors[key];
-                            const isLast = index === serviceKeys.length - 1;
+                        {services.map((service, index) => {
+                            const colors = serviceColors[service.id];
+                            const headerKey = serviceHeaderKeys[service.id];
+                            const isLast = index === services.length - 1;
                             return (
                                 <th class={`p-4 text-center font-bold ${colors.header} ${colors.text} border-b ${colors.border} ${isLast ? 'rounded-tr-xl' : ''}`}>
-                                    <a href={`/${lang}/services/${services[index].slug}`} class="hover:underline">
-                                        {translations.headers[key]}
+                                    <a href={`/${lang}/services/${service.slug}`} class="hover:underline">
+                                        {translations.headers[headerKey]}
                                     </a>
                                 </th>
                             );
@@ -131,12 +193,12 @@ const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'w
                                 <td class={`p-4 text-foreground font-medium bg-foreground/5 ${isLast ? 'rounded-bl-xl' : ''}`}>
                                     {row.label}
                                 </td>
-                                {serviceKeys.map((key, colIndex) => {
-                                    const colors = serviceColors[key];
-                                    const isLastCol = colIndex === serviceKeys.length - 1;
+                                {services.map((service, colIndex) => {
+                                    const colors = serviceColors[service.id];
+                                    const isLastCol = colIndex === services.length - 1;
                                     return (
                                         <td class={`p-4 text-center text-foreground-secondary ${colors.bg} border-l ${colors.border} ${isLast && isLastCol ? 'rounded-br-xl' : ''}`}>
-                                            {row[key]}
+                                            {row.getValue(service.comparison)}
                                         </td>
                                     );
                                 })}
@@ -149,15 +211,15 @@ const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'w
 
         <!-- Mobile Cards (hidden on desktop) -->
         <div class="lg:hidden mt-8 space-y-6">
-            {serviceKeys.map((key, index) => {
-                const colors = serviceColors[key];
-                const service = services[index];
+            {services.map((service) => {
+                const colors = serviceColors[service.id];
+                const headerKey = serviceHeaderKeys[service.id];
                 return (
                     <div class={`rounded-xl border ${colors.border} overflow-hidden`}>
                         <!-- Card Header -->
                         <div class={`p-4 ${colors.header}`}>
                             <a href={`/${lang}/services/${service.slug}`} class={`text-lg font-bold ${colors.text} hover:underline`}>
-                                {translations.headers[key]}
+                                {translations.headers[headerKey]}
                             </a>
                         </div>
 
@@ -166,7 +228,7 @@ const serviceKeys = ['webApps', 'landingPages', 'automation', 'socialDesign', 'w
                             {rows.map((row) => (
                                 <div class="flex justify-between items-center p-4">
                                     <span class="text-foreground-secondary text-sm">{row.label}</span>
-                                    <span class="text-foreground font-medium">{row[key]}</span>
+                                    <span class="text-foreground font-medium">{row.getValue(service.comparison)}</span>
                                 </div>
                             ))}
                         </div>

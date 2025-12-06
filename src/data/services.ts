@@ -1,3 +1,19 @@
+export interface ServiceComparison {
+    timeline: {
+        minWeeks: number;
+        maxWeeks?: number;
+    };
+    priceRange: {
+        type: 'range' | 'from' | 'consultation';
+        min?: number;
+        max?: number;
+        currency?: string;
+    };
+    maintenance: 'recommended' | 'optional' | 'not-needed';
+    complexity: 'low' | 'low-medium' | 'medium' | 'medium-high' | 'high' | 'low-high';
+    bestForKey: string;
+}
+
 export interface Service {
     id: string;
     slug: string;
@@ -10,6 +26,7 @@ export interface Service {
         max?: number;
         currency?: string;
     };
+    comparison: ServiceComparison;
     ctaText: string;
     ctaUrl: string;
     meta: {
@@ -27,8 +44,15 @@ export const services: Service[] = [
         relatedServices: ['landing-pages', 'automation-integration'],
         pricing: {
             type: 'from',
-            min: 1000,
+            min: 800,
             currency: 'USD'
+        },
+        comparison: {
+            timeline: { minWeeks: 4 },
+            priceRange: { type: 'from', min: 800, currency: 'USD' },
+            maintenance: 'recommended',
+            complexity: 'high',
+            bestForKey: 'customSolutions'
         },
         ctaText: 'Start Your Project',
         ctaUrl: '/contact',
@@ -45,8 +69,15 @@ export const services: Service[] = [
         relatedServices: ['web-apps', 'social-media-design'],
         pricing: {
             type: 'from',
-            min: 600,
+            min: 300,
             currency: 'USD'
+        },
+        comparison: {
+            timeline: { minWeeks: 1 },
+            priceRange: { type: 'from', min: 300, currency: 'USD' },
+            maintenance: 'optional',
+            complexity: 'low-medium',
+            bestForKey: 'marketingSeo'
         },
         ctaText: 'Get Your Landing Page',
         ctaUrl: '/contact',
@@ -64,6 +95,13 @@ export const services: Service[] = [
         pricing: {
             type: 'consultation'
         },
+        comparison: {
+            timeline: { minWeeks: 1, maxWeeks: 4 },
+            priceRange: { type: 'consultation' },
+            maintenance: 'recommended',
+            complexity: 'medium-high',
+            bestForKey: 'efficiency'
+        },
         ctaText: 'Automate Your Workflow',
         ctaUrl: '/contact',
         meta: {
@@ -80,6 +118,13 @@ export const services: Service[] = [
         pricing: {
             type: 'consultation'
         },
+        comparison: {
+            timeline: { minWeeks: 1 },
+            priceRange: { type: 'consultation' },
+            maintenance: 'not-needed',
+            complexity: 'low',
+            bestForKey: 'brandPresence'
+        },
         ctaText: 'Design Your Brand',
         ctaUrl: '/contact',
         meta: {
@@ -95,8 +140,15 @@ export const services: Service[] = [
         relatedServices: ['landing-pages', 'web-apps'],
         pricing: {
             type: 'from',
-            min: 500,
+            min: 200,
             currency: 'USD'
+        },
+        comparison: {
+            timeline: { minWeeks: 1 },
+            priceRange: { type: 'from', min: 200, currency: 'USD' },
+            maintenance: 'recommended',
+            complexity: 'medium',
+            bestForKey: 'seoPerformance'
         },
         ctaText: 'Optimize Your Site',
         ctaUrl: '/contact',
@@ -113,8 +165,15 @@ export const services: Service[] = [
         relatedServices: ['landing-pages', 'web-optimization'],
         pricing: {
             type: 'from',
-            min: 500,
+            min: 400,
             currency: 'USD'
+        },
+        comparison: {
+            timeline: { minWeeks: 2 },
+            priceRange: { type: 'from', min: 400, currency: 'USD' },
+            maintenance: 'recommended',
+            complexity: 'low-high',
+            bestForKey: 'blogsEcommerce'
         },
         ctaText: 'Start Your WordPress Project',
         ctaUrl: '/contact',

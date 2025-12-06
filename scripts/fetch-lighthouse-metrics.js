@@ -2,10 +2,14 @@
  * Fetch Lighthouse metrics from PageSpeed Insights API
  *
  * This script fetches real Lighthouse metrics from Google's PageSpeed Insights API
- * and saves them to a JSON file that can be used during build.
+ * and saves them to a JSON file that should be committed to the repository.
  *
  * Usage:
- *   node scripts/fetch-lighthouse-metrics.js
+ *   node scripts/fetch-lighthouse-metrics.js [--report-url <url>]
+ *
+ * Options:
+ *   --report-url <url>  - Optional URL to the PageSpeed report (for linking)
+ *                         Example: https://pagespeed.web.dev/analysis/https-qazuor-com-es/nmbhmjjg0u
  *
  * Environment variables:
  *   PAGESPEED_API_KEY - Optional API key for higher rate limits
@@ -13,6 +17,9 @@
  *
  * The API is free to use without a key, but has rate limits.
  * With an API key, you get higher limits.
+ *
+ * IMPORTANT: Run this script manually in local environment, NOT during Vercel builds.
+ * The generated lighthouse-metrics.json should be committed to the repository.
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -42,12 +49,38 @@ function loadEnvFile() {
 
 loadEnvFile();
 
+// Parse command line arguments
+function parseArgs() {
+    const args = process.argv.slice(2);
+    const result = { reportUrl: null };
+
+    for (let i = 0; i < args.length; i++) {
+        if (args[i] === '--report-url' && args[i + 1]) {
+            result.reportUrl = args[i + 1];
+            i++;
+        }
+    }
+
+    return result;
+}
+
+const cliArgs = parseArgs();
+
 // Configuration
 const SITE_URL = process.env.SITE_URL || 'https://qazuor.com';
 const API_KEY = process.env.PAGESPEED_API_KEY || '';
 
 // PageSpeed Insights API endpoint
 const PSI_API_URL = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+
+/**
+ * Generate a generic PageSpeed analysis URL
+ * This URL will trigger a new analysis when visited
+ */
+function generatePageSpeedUrl(siteUrl, strategy = 'mobile') {
+    const encodedUrl = encodeURIComponent(siteUrl);
+    return `https://pagespeed.web.dev/analysis?url=${encodedUrl}&form_factor=${strategy}`;
+}
 
 /**
  * Format milliseconds to human-readable string
@@ -185,12 +218,17 @@ async function main() {
             fetchMetrics(SITE_URL, 'mobile')
         ]);
 
+        // Determine the report URL to use
+        // Priority: CLI argument > generate generic URL
+        const reportUrl = cliArgs.reportUrl || generatePageSpeedUrl(SITE_URL, 'mobile');
+
         metrics = {
             desktop,
             mobile,
             lastUpdated: new Date().toISOString(),
-            source: 'pagespeed-insights',
-            url: SITE_URL
+            source: 'manual', // Changed from 'pagespeed-insights' to indicate manual execution
+            url: SITE_URL,
+            reportUrl
         };
 
         console.log('\n✅ Metrics fetched successfully!\n');
@@ -223,6 +261,13 @@ async function main() {
     // Write metrics to JSON file
     writeFileSync(OUTPUT_FILE, JSON.stringify(metrics, null, 2));
     console.log(`\n📁 Metrics saved to: ${OUTPUT_FILE}`);
+
+    if (metrics.reportUrl) {
+        console.log(`🔗 Report URL: ${metrics.reportUrl}`);
+    }
+
+    console.log('\n💡 Remember to commit the updated lighthouse-metrics.json file!');
+    console.log('   git add src/data/lighthouse-metrics.json && git commit -m "chore: update lighthouse metrics"');
 }
 
 main().catch(console.error);

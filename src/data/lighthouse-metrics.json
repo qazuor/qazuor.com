@@ -1,43 +1,44 @@
 {
     "desktop": {
         "performance": {
-            "score": "90",
-            "lcp": "1.5s",
-            "fcp": "1.2s",
-            "cls": "0.00",
-            "tbt": "20ms",
-            "si": "1.8s"
+            "score": "97",
+            "lcp": "0.9s",
+            "fcp": "0.7s",
+            "cls": "0.041",
+            "tbt": "60ms",
+            "si": "1.4s"
         },
         "accessibility": {
-            "score": "96"
+            "score": "97"
         },
         "bestPractices": {
-            "score": "96"
+            "score": "100"
         },
         "seo": {
-            "score": "92"
+            "score": "100"
         }
     },
     "mobile": {
         "performance": {
-            "score": "60",
-            "lcp": "7.2s",
-            "fcp": "5.5s",
+            "score": "87",
+            "lcp": "3.3s",
+            "fcp": "2.7s",
             "cls": "0.00",
             "tbt": "54ms",
-            "si": "7.0s"
+            "si": "3.3s"
         },
         "accessibility": {
-            "score": "95"
+            "score": "97"
         },
         "bestPractices": {
-            "score": "96"
+            "score": "100"
         },
         "seo": {
-            "score": "92"
+            "score": "100"
         }
     },
-    "lastUpdated": "2025-12-03T16:55:03.249Z",
-    "source": "pagespeed-insights",
-    "url": "https://qazuor.com"
+    "lastUpdated": "2025-12-05T10:15:14.249Z",
+    "source": "manual",
+    "url": "https://qazuor.com/es",
+    "reportUrl": "https://pagespeed.web.dev/analysis/https-qazuor-com-es/nmbhmjjg0u?form_factor=mobile"
 }

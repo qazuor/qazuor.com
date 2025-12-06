@@ -4,11 +4,6 @@ import { TimelineIcon } from '@/components/ui/TimelineIcon';
 
 describe('TimelineIcon Component', () => {
     describe('Valid Icons', () => {
-        it('renders academic-cap icon', () => {
-            const { container } = render(<TimelineIcon iconName="academic-cap" />);
-            expect(container.firstChild).toBeInTheDocument();
-        });
-
         it('renders briefcase icon', () => {
             const { container } = render(<TimelineIcon iconName="briefcase" />);
             expect(container.firstChild).toBeInTheDocument();
@@ -93,32 +88,22 @@ describe('TimelineIcon Component', () => {
 
     describe('All Available Icons', () => {
         const icons = [
-            'academic-cap',
             'access',
-            'arrow-trending-up',
             'avature',
-            'bolt',
+            'brain',
             'briefcase',
-            'broadband',
             'cog',
-            'computer-desktop',
             'device-desktop',
-            'dialup',
-            'eye',
+            'flag',
             'globe',
             'heart',
-            'html5',
             'javascript',
             'make',
             'paint-brush',
-            'paper-airplane',
-            'php',
             'rocket',
             'sparkles',
-            'star',
-            'user-circle',
-            'user-group',
-            'visual-basic'
+            'squares',
+            'user-group'
         ];
 
         icons.forEach((iconName) => {

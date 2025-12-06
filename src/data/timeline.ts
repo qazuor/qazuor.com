@@ -35,23 +35,6 @@ export const timelineData: TimelineItem[] = [
         colorDarkTheme: '#fbbf24' // lighter variant for dark theme
     },
     {
-        id: 'msx2',
-        year: '1987',
-        title: {
-            en: 'First Steps',
-            es: 'Primer acercamiento'
-        },
-        description: {
-            en: 'My first contact with computing: a Talent MSX2 Turbo 🖥️ where I started coding in BASIC.',
-            es: 'Mi primer acercamiento a la informática con una Talent MSX2 Turbo 🖥️. Empecé a programar en BASIC.'
-        },
-        icon: 'computer-desktop',
-        iconUseItemColor: true,
-        category: 'education',
-        colorLightTheme: '#2563eb',
-        colorDarkTheme: '#60a5fa' // lighter variant for dark theme
-    },
-    {
         id: 'first-pc',
         year: '1993',
         title: {
@@ -67,23 +50,6 @@ export const timelineData: TimelineItem[] = [
         category: 'education',
         colorLightTheme: '#059669',
         colorDarkTheme: '#34d399' // lighter variant for dark theme
-    },
-    {
-        id: 'graduation',
-        year: '1998',
-        title: {
-            en: 'Graduation',
-            es: 'Egresado'
-        },
-        description: {
-            en: 'Finished technical school, already decided to live surrounded by code. 🎓',
-            es: 'Termino la escuela técnica 🎓, ya decidido a vivir entre cables y código.'
-        },
-        icon: 'academic-cap',
-        iconUseItemColor: true,
-        category: 'education',
-        colorLightTheme: '#0891b2',
-        colorDarkTheme: '#22d3ee' // lighter variant for dark theme
     },
     {
         id: 'html-family',
@@ -152,23 +118,6 @@ export const timelineData: TimelineItem[] = [
         category: 'project',
         colorLightTheme: '#0891b2',
         colorDarkTheme: '#22d3ee' // lighter variant for dark theme
-    },
-    {
-        id: 'international',
-        year: '2005',
-        title: {
-            en: 'International Client',
-            es: 'Primer cliente internacional'
-        },
-        description: {
-            en: 'Delivered a major freelance project for a Spanish software company. 🌍',
-            es: 'Proyecto freelance grande para una empresa de software española. 🌍'
-        },
-        icon: 'globe-alt',
-        iconUseItemColor: true,
-        category: 'achievement',
-        colorLightTheme: '#dc2626',
-        colorDarkTheme: '#f87171' // lighter variant for dark theme
     },
     {
         id: 'avature-start',
@@ -291,7 +240,7 @@ export const timelineData: TimelineItem[] = [
     },
     {
         id: 'nocode-automation',
-        year: '2023',
+        year: '2022',
         title: {
             en: 'NO CODE Era',
             es: 'Era NO CODE'
@@ -305,6 +254,23 @@ export const timelineData: TimelineItem[] = [
         category: 'skill',
         colorLightTheme: '#0d9488',
         colorDarkTheme: '#2dd4bf' // lighter variant for dark theme
+    },
+    {
+        id: 'ai-development',
+        year: '2024',
+        title: {
+            en: 'AI-Powered Development',
+            es: 'Desarrollo con IA'
+        },
+        description: {
+            en: 'Started integrating AI tools into my development workflow 🧠, boosting productivity and exploring new possibilities.',
+            es: 'Comencé a integrar herramientas de IA en mi flujo de desarrollo 🧠, potenciando mi productividad y explorando nuevas posibilidades.'
+        },
+        icon: 'brain',
+        iconUseItemColor: true,
+        category: 'skill',
+        colorLightTheme: '#8b5cf6',
+        colorDarkTheme: '#a78bfa' // lighter variant for dark theme
     },
     {
         id: 'new-beginnings',

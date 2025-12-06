@@ -73,7 +73,7 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
         <!-- Technical Skills Chart -->
         <div class="radar-chart-wrapper">
             <RadarChart
-                client:idle
+                client:only="react"
                 title={categories[0].title}
                 titleHtml={true}
                 skills={categories[0].skills}
@@ -87,7 +87,7 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
         <!-- Human & Creative Skills Chart -->
         <div class="radar-chart-wrapper">
             <RadarChart
-                client:idle
+                client:only="react"
                 title={categories[1].title}
                 titleHtml={true}
                 skills={categories[1].skills}

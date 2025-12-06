@@ -6,9 +6,17 @@ interface LanguageSelectorProps {
     compact?: boolean;
 }
 
+const languages = [
+    { code: 'en', label: 'EN', flag: '🇺🇸', name: 'English' },
+    { code: 'es', label: 'ES', flag: '🇪🇸', name: 'Español' }
+];
+
 /**
  * Language selector component
  * Switches between available languages
+ *
+ * Optimized for hydration: SSR and client render identical HTML,
+ * allowing use of client:idle without hydration mismatch errors.
  *
  * @param currentLocale - Current selected language
  * @param compact - When true, shows a globe icon with dropdown instead of both flags
@@ -24,7 +32,7 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
 
     // Close dropdown when clicking outside
     useEffect(() => {
-        if (!compact) return;
+        if (!compact || !mounted) return;
 
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -34,14 +42,11 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [compact]);
-
-    const languages = [
-        { code: 'en', label: 'EN', flag: '🇺🇸', name: 'English' },
-        { code: 'es', label: 'ES', flag: '🇪🇸', name: 'Español' }
-    ];
+    }, [compact, mounted]);
 
     const changeLanguage = (locale: string) => {
+        if (!mounted) return; // Guard for SSR safety
+
         const currentPath = window.location.pathname;
         const currentHash = window.location.hash;
 
@@ -56,13 +61,16 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
         navigate(newPath);
     };
 
-    if (!mounted) {
-        return (
-            <div className="language-selector p-2 rounded-lg bg-muted">
-                <div className="w-12 h-5" />
-            </div>
-        );
-    }
+    const handleToggleDropdown = () => {
+        if (!mounted) return;
+        setIsOpen(!isOpen);
+    };
+
+    const handleLanguageSelect = (locale: string) => {
+        if (!mounted) return;
+        changeLanguage(locale);
+        setIsOpen(false);
+    };
 
     // Compact mode: Globe icon with dropdown
     if (compact) {
@@ -70,7 +78,7 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
             <div className="language-selector relative" ref={dropdownRef}>
                 <button
                     type="button"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={handleToggleDropdown}
                     className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
                     aria-label="Select language"
                     aria-expanded={isOpen}
@@ -99,10 +107,7 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
                             <button
                                 key={lang.code}
                                 type="button"
-                                onClick={() => {
-                                    changeLanguage(lang.code);
-                                    setIsOpen(false);
-                                }}
+                                onClick={() => handleLanguageSelect(lang.code)}
                                 className={`w-full px-3 py-2 text-left text-sm font-medium transition-colors flex items-center gap-2 ${
                                     currentLocale === lang.code
                                         ? 'bg-primary/10 text-primary'
@@ -121,6 +126,7 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
     }
 
     // Default mode: Both flags visible (no text labels)
+    // SSR and client render identical HTML - only onClick behavior changes
     return (
         <div className="language-selector flex gap-1 p-1 rounded-lg bg-muted">
             {languages.map((lang) => (

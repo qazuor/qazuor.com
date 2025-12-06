@@ -9,38 +9,39 @@ interface ThemeToggleProps {
 /**
  * Theme toggle component
  * Persists theme preference to localStorage and applies to document
+ *
+ * Optimized for hydration: SSR and client render identical HTML,
+ * allowing use of client:idle without hydration mismatch errors.
+ * Icons visibility is controlled via CSS (dark: class) to avoid JS-dependent rendering.
+ *
+ * @param ariaLabel - Accessible label for the button
  */
 export function ThemeToggle({ ariaLabel = 'Toggle theme' }: ThemeToggleProps) {
-    const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const [mounted, setMounted] = useState(false);
 
-    // Hydration fix - only render after mount
     useEffect(() => {
         setMounted(true);
+        // Initialize theme from localStorage or system preference
         const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
 
-        setTheme(initialTheme);
         document.documentElement.classList.toggle('dark', initialTheme === 'dark');
     }, []);
 
     const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
+        if (!mounted) return; // Guard for SSR safety
+
+        const isDark = document.documentElement.classList.contains('dark');
+        const newTheme = isDark ? 'light' : 'dark';
+
         localStorage.setItem('theme', newTheme);
         document.documentElement.classList.toggle('dark', newTheme === 'dark');
     };
 
-    // Prevent flash of unstyled content
-    if (!mounted) {
-        return (
-            <button type="button" className="p-2 rounded-lg bg-muted" aria-label={ariaLabel}>
-                <div className="w-5 h-5" />
-            </button>
-        );
-    }
-
+    // SSR and client render identical HTML - icons visibility controlled by CSS
+    // Moon icon shown in light mode (to switch to dark)
+    // Sun icon shown in dark mode (to switch to light)
     return (
         <button
             type="button"
@@ -48,13 +49,16 @@ export function ThemeToggle({ ariaLabel = 'Toggle theme' }: ThemeToggleProps) {
             className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
             aria-label={ariaLabel}
         >
-            {theme === 'light' ? (
-                // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file
+            {/* Moon icon - visible in light mode, hidden in dark mode */}
+            <span className="block dark:hidden">
+                {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
                 <span dangerouslySetInnerHTML={{ __html: moonIcon }} />
-            ) : (
-                // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file
+            </span>
+            {/* Sun icon - hidden in light mode, visible in dark mode */}
+            <span className="hidden dark:block">
+                {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
                 <span dangerouslySetInnerHTML={{ __html: sunIcon }} />
-            )}
+            </span>
         </button>
     );
 }

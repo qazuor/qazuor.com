@@ -200,7 +200,9 @@ export function RadarChart({
                     role="img"
                     aria-labelledby={`${chartId}-title`}
                 >
-                    <title id={`${chartId}-title`}>{title} radar chart</title>
+                    <title id={`${chartId}-title`}>
+                        {titleHtml ? title.replace(/<[^>]*>/g, '') : title} radar chart
+                    </title>
                     {/* Circular shadow behind radar - very prominent */}
                     <defs>
                         <radialGradient id={`${chartId}-shadow`}>

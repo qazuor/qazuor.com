@@ -91,14 +91,6 @@
                 "label": "Coffees",
                 "description": "Fuel for late-night coding sessions"
             },
-            "linesOfCode": {
-                "label": "Lines of Code",
-                "description": "Written throughout my career"
-            },
-            "passion": {
-                "label": "Passion",
-                "description": "Constantly learning and building"
-            },
             "mentored": {
                 "label": "Mentored Devs",
                 "description": "Helping others grow in their careers"

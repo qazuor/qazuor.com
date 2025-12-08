@@ -1,8 +1,11 @@
 ---
-// Root index page - redirects to default locale
+// Root index page - SSR to enable language detection
 // Required by Astro i18n with prefixDefaultLocale: true
-// Note: In Vercel, this is handled by vercel.json for instant redirect
-// This page serves as fallback for other hosting platforms
+// This page is server-rendered to allow middleware to detect browser language
+export const prerender = false;
+
+// The middleware handles the redirect, this page should never render
+// But we keep a fallback just in case
 ---
 
 <!doctype html>

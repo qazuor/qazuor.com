@@ -23,6 +23,8 @@ import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.
 // https://astro.build/config
 export default defineConfig({
     site: 'https://qazuor.com',
+    // Static output with selective SSR via prerender = false on specific pages
+    // Root / uses SSR for language detection, all other pages are static
     output: 'static',
     // Vercel adapter for production, Node adapter for local preview
     adapter: process.env.VERCEL ? vercel() : node({ mode: 'standalone' }),

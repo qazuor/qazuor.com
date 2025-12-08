@@ -47,6 +47,10 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
     const changeLanguage = (locale: string) => {
         if (!mounted) return; // Guard for SSR safety
 
+        // Save language preference in cookie (1 year expiry)
+        // This will be used by the middleware for automatic redirection on /
+        document.cookie = `preferred-locale=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+
         const currentPath = window.location.pathname;
         const currentHash = window.location.hash;
 

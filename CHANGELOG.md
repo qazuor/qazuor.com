@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.6] - 2025-12-08
+
+### Added - New Testimonial
+
+- **Joan Massana Pulido**: Added testimonial from Senior Engineering Manager at
+  Avature
+
+### Changed - Mobile Navigation UX Improvements
+
+- **Mobile actions always visible**: Command palette, language selector, and
+  theme toggle now visible outside hamburger menu on mobile (< 768px)
+- **Responsive logo sizing**: Smaller logo/avatar on mobile for better space
+  utilization
+- **Improved LanguageSelector compact mode**: Now shows current language code
+  with flag instead of globe icon, displays only alternate language in dropdown
+
+### Fixed - Code Formatting
+
+- **searchIndex.ts**: Fixed indentation to use 2 spaces consistently
+
+---
+
 ## [1.5.5] - 2025-12-05
 
 ### Added - Blog Excerpt Markdown Support

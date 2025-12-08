@@ -177,14 +177,14 @@ const isActive = (href: string) => {
             <!-- Logo with Avatar -->
             <a
                 href={translatePath('/#hero', lang)}
-                class="logo flex items-center gap-3 hover:scale-105 transition-transform duration-base"
+                class="logo flex items-center gap-2 sm:gap-3 hover:scale-105 transition-transform duration-base min-w-0 flex-shrink-0"
             >
                 <div
-                    class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors"
+                    class="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary/50 transition-colors flex-shrink-0"
                 >
                     <Image src={avatarImage} alt={t('imageAlt.avatarProfile')} class="w-full h-full object-cover" loading="eager" width={32} height={32} />
                 </div>
-                <span class="text-lg font-bold gradient-text font-mono whitespace-nowrap">~/qazuor</span>
+                <span class="text-base sm:text-lg font-bold gradient-text font-mono whitespace-nowrap">~/qazuor</span>
             </a>
 
             <!-- Desktop Navigation Links (hidden below 768px) -->
@@ -241,6 +241,31 @@ const isActive = (href: string) => {
                 }
             </div>
 
+            <!-- Mobile Actions (< 768px) - Always visible outside menu -->
+            <div class="flex md:hidden items-center gap-1">
+                <CommandButton ariaLabel={t('aria.openCommandPalette')} client:idle />
+                <LanguageSelector currentLocale={lang} compact client:idle />
+                <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:idle />
+                <!-- Mobile menu button -->
+                <button
+                    id="mobile-menu-button"
+                    type="button"
+                    class="p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base ml-1"
+                    aria-label={t('aria.toggleMenu')}
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
+                >
+                    <svg id="menu-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"
+                        ></path>
+                    </svg>
+                    <svg id="close-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
+                        ></path>
+                    </svg>
+                </button>
+            </div>
+
             <!-- Actions: Desktop (1400px+) - All visible, separate -->
             <div class="hidden min-[1400px]:flex items-center gap-2">
                 <CommandButton ariaLabel={t('aria.openCommandPalette')} client:idle />
@@ -266,25 +291,6 @@ const isActive = (href: string) => {
             >
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"
-                    ></path>
-                </svg>
-            </button>
-
-            <!-- Mobile menu button (< 768px) - Everything in hamburger -->
-            <button
-                id="mobile-menu-button"
-                type="button"
-                class="md:hidden p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
-                aria-label={t('aria.toggleMenu')}
-                aria-expanded="false"
-                aria-controls="mobile-menu"
-            >
-                <svg id="menu-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"
-                    ></path>
-                </svg>
-                <svg id="close-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
                     ></path>
                 </svg>
             </button>
@@ -343,11 +349,6 @@ const isActive = (href: string) => {
                         );
                     })
                 }
-            </div>
-            <div class="flex items-center gap-2 p-4 border-t border-foreground/10">
-                <CommandButton ariaLabel={t('aria.openCommandPalette')} client:idle />
-                <LanguageSelector currentLocale={lang} client:idle />
-                <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:idle />
             </div>
         </div>
     </div>

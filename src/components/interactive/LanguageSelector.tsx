@@ -72,76 +72,69 @@ export function LanguageSelector({ currentLocale, compact = false }: LanguageSel
         setIsOpen(false);
     };
 
-    // Compact mode: Globe icon with dropdown
+    // Compact mode: Current language code with dropdown
     if (compact) {
+        const currentLang = languages.find((l) => l.code === currentLocale) || languages[0];
+        const otherLang = languages.find((l) => l.code !== currentLocale) || languages[1];
+
         return (
             <div className="language-selector relative" ref={dropdownRef}>
                 <button
                     type="button"
                     onClick={handleToggleDropdown}
-                    className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors"
+                    className="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-muted hover:bg-muted/80 transition-colors text-sm font-medium"
                     aria-label="Select language"
                     aria-expanded={isOpen}
                 >
+                    <span className="text-xs">{currentLang.flag}</span>
+                    <span className="uppercase">{currentLang.label}</span>
                     <svg
-                        className="w-5 h-5"
+                        className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        role="img"
-                        aria-label="Language icon"
+                        aria-hidden="true"
                     >
-                        <title>Language</title>
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-                        />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
 
                 {isOpen && (
-                    <div className="absolute right-0 mt-2 w-32 rounded-lg bg-card border border-border shadow-lg z-50 overflow-hidden">
-                        {languages.map((lang) => (
-                            <button
-                                key={lang.code}
-                                type="button"
-                                onClick={() => handleLanguageSelect(lang.code)}
-                                className={`w-full px-3 py-2 text-left text-sm font-medium transition-colors flex items-center gap-2 ${
-                                    currentLocale === lang.code
-                                        ? 'bg-primary/10 text-primary'
-                                        : 'text-foreground-secondary hover:bg-muted'
-                                }`}
-                                aria-label={`Switch to ${lang.name}`}
-                            >
-                                <span>{lang.flag}</span>
-                                <span>{lang.name}</span>
-                            </button>
-                        ))}
+                    <div className="absolute right-0 mt-2 min-w-max rounded-lg bg-card border border-border shadow-lg z-50 overflow-hidden">
+                        <button
+                            type="button"
+                            onClick={() => handleLanguageSelect(otherLang.code)}
+                            className="w-full px-3 py-2 text-left text-sm font-medium transition-colors flex items-center gap-2 text-foreground-secondary hover:bg-muted whitespace-nowrap"
+                            aria-label={`Switch to ${otherLang.name}`}
+                        >
+                            <span className="text-xs">{otherLang.flag}</span>
+                            <span className="uppercase font-semibold">{otherLang.label}</span>
+                            <span className="text-foreground-secondary/60 text-xs">({otherLang.name})</span>
+                        </button>
                     </div>
                 )}
             </div>
         );
     }
 
-    // Default mode: Both flags visible (no text labels)
+    // Default mode: Both languages visible with flag + code
     // SSR and client render identical HTML - only onClick behavior changes
     return (
-        <div className="language-selector flex gap-1 p-1 rounded-lg bg-muted">
+        <div className="language-selector flex gap-0.5 p-1 rounded-lg bg-muted">
             {languages.map((lang) => (
                 <button
                     key={lang.code}
                     type="button"
                     onClick={() => changeLanguage(lang.code)}
-                    className={`px-2 py-1 rounded text-base transition-all ${
+                    className={`flex items-center gap-1 px-2 py-1 rounded text-sm font-medium transition-all ${
                         currentLocale === lang.code
-                            ? 'bg-primary/20 ring-2 ring-primary/50 scale-110'
-                            : 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0'
+                            ? 'bg-primary/20 ring-2 ring-primary/50'
+                            : 'opacity-50 hover:opacity-80'
                     }`}
                     aria-label={`Switch to ${lang.name}`}
                 >
-                    {lang.flag}
+                    <span className="text-xs">{lang.flag}</span>
+                    <span className="uppercase">{lang.label}</span>
                 </button>
             ))}
         </div>

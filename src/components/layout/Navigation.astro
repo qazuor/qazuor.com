@@ -172,7 +172,7 @@ const isActive = (href: string) => {
 ---
 
 <nav class="glass fixed top-0 left-0 right-0 z-[500] border-b nav-visible" id="main-nav">
-    <div class="container-custom relative">
+    <div class="container-custom">
         <div class="flex justify-between items-center h-14">
             <!-- Logo with Avatar -->
             <a
@@ -242,7 +242,7 @@ const isActive = (href: string) => {
             </div>
 
             <!-- Mobile Actions (< 768px) - Always visible outside menu -->
-            <div class="flex md:hidden items-center gap-1">
+            <div class="flex md:hidden items-center gap-0.5 sm:gap-1 flex-shrink-0 mr-2">
                 <CommandButton ariaLabel={t('aria.openCommandPalette')} client:idle />
                 <LanguageSelector currentLocale={lang} compact client:idle />
                 <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:idle />
@@ -250,7 +250,7 @@ const isActive = (href: string) => {
                 <button
                     id="mobile-menu-button"
                     type="button"
-                    class="p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base ml-1"
+                    class="p-1 sm:p-1.5 rounded-lg text-foreground-secondary hover:bg-foreground/5 transition-colors duration-base"
                     aria-label={t('aria.toggleMenu')}
                     aria-expanded="false"
                     aria-controls="mobile-menu"
@@ -296,43 +296,30 @@ const isActive = (href: string) => {
             </button>
         </div>
 
-        <!-- Actions Menu (768-1199px: only actions, no links) - Floating Overlay -->
-        <div
-            id="actions-menu"
-            class="hidden absolute top-full right-0 mt-2 w-64 rounded-lg bg-card border border-border shadow-lg z-50"
-        >
-            <div class="flex items-center gap-2 p-4">
-                <CommandButton ariaLabel={t('aria.openCommandPalette')} client:idle />
-                <LanguageSelector currentLocale={lang} client:idle />
-                <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:idle />
-            </div>
+    </div>
+
+    <!-- Actions Menu (768-1199px: only actions, no links) - Floating Overlay -->
+    <div
+        id="actions-menu"
+        class="hidden absolute right-9 top-20 mt-2 w-64 rounded-lg bg-card border border-border shadow-lg z-50"
+    >
+        <div class="flex items-center gap-3 p-4">
+            <CommandButton ariaLabel={t('aria.openCommandPalette')} client:idle />
+            <LanguageSelector currentLocale={lang} client:idle />
+            <ThemeToggle ariaLabel={t('aria.toggleTheme')} client:idle />
         </div>
+    </div>
 
-        <!-- Mobile Menu (< 768px: links + actions) - Floating Overlay -->
-        <div
-            id="mobile-menu"
-            class="hidden md:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-lg bg-card border border-border shadow-lg z-50 max-h-[calc(100vh-5rem)] overflow-y-auto"
-        >
-            <div class="py-2 space-y-1">
-                {
-                    navItems.map((item) => {
-                        // Services - direct link to all services page
-                        if (item.href.includes('/services')) {
-                            return (
-                                <a
-                                    href={normalizeTrailingSlash(item.href)}
-                                    class={`nav-link-mobile block px-4 py-3 text-sm font-medium font-mono whitespace-nowrap transition-all duration-base ${
-                                        isActive(item.href)
-                                            ? 'bg-primary/10 text-primary'
-                                            : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground'
-                                    }`}
-                                >
-                                    {item.label}
-                                </a>
-                            );
-                        }
-
-                        // Regular links for other items
+    <!-- Mobile Menu (< 768px: links + actions) - Floating Overlay -->
+    <div
+        id="mobile-menu"
+        class="hidden md:hidden fixed inset-x-4 top-[60px] rounded-lg bg-card border border-border shadow-lg z-50 max-h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden"
+    >
+        <div class="py-2 space-y-1">
+            {
+                navItems.map((item) => {
+                    // Services - direct link to all services page
+                    if (item.href.includes('/services')) {
                         return (
                             <a
                                 href={normalizeTrailingSlash(item.href)}
@@ -341,15 +328,29 @@ const isActive = (href: string) => {
                                         ? 'bg-primary/10 text-primary'
                                         : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground'
                                 }`}
-                                data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
-                                data-is-home-page={isHomePage ? 'true' : 'false'}
                             >
                                 {item.label}
                             </a>
                         );
-                    })
-                }
-            </div>
+                    }
+
+                    // Regular links for other items
+                    return (
+                        <a
+                            href={normalizeTrailingSlash(item.href)}
+                            class={`nav-link-mobile block px-4 py-3 text-sm font-medium font-mono whitespace-nowrap transition-all duration-base ${
+                                isActive(item.href)
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground'
+                            }`}
+                            data-is-anchor={item.href.includes('#') ? 'true' : 'false'}
+                            data-is-home-page={isHomePage ? 'true' : 'false'}
+                        >
+                            {item.label}
+                        </a>
+                    );
+                })
+            }
         </div>
     </div>
 </nav>

@@ -184,6 +184,7 @@
         @apply bg-background text-foreground font-sans;
         @apply min-h-screen;
         font-variant-ligatures: common-ligatures;
+        overflow-x: hidden; /* Prevent horizontal scroll from overflowing elements */
     }
 
     /* Headings */

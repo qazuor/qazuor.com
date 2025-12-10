@@ -32,7 +32,7 @@ export function processMarkdown(text: string): string {
  * Elimina marcadores Markdown del texto dejando solo el contenido
  * Soporta: **negrita**, *cursiva*, `código`, [links](url)
  */
-function stripMarkdown(text: string): string {
+export function stripMarkdown(text: string): string {
     return text
         .replace(/\*\*(.*?)\*\*/g, '$1') // **negrita** → negrita
         .replace(/\*(.*?)\*/g, '$1') // *cursiva* → cursiva

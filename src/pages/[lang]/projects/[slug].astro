@@ -12,7 +12,7 @@ import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations, stripMarkdown } from '@/i18n/utils';
 import GithubIcon from '@/icons/social/github.svg?raw';
 import ExternalLinkIcon from '@/icons/ui/external-link.svg?raw';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -73,7 +73,8 @@ const categoryLabels: Record<string, string> = {
     client: t('projects.detail.categories.client')
 };
 
-const pageTitle = `${project.data.title} - ${t('projects.title')} - qazuor.com`;
+const pageTitle = `${project.data.title} - ${t('projects.title')}`;
+const seoDescription = stripMarkdown(project.data.description);
 const categoryLabel: string = categoryLabels[project.data.category] || project.data.category;
 const transitionTitle = project.data.title; // Title to show in page transition
 
@@ -97,7 +98,7 @@ const projectImageUrl =
         : undefined;
 ---
 
-<BaseLayout title={pageTitle} description={project.data.description}>
+<BaseLayout title={pageTitle} description={seoDescription}>
 	<!-- Meta tag for page transition title -->
 	<meta slot="head" name="transition-title" content={transitionTitle} />
 

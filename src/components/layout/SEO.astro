@@ -105,6 +105,10 @@ const imageURL = new URL(ogImagePath, Astro.site);
 
 // Site configuration
 const siteName = 'qazuor.com';
+const siteTagline = 'Full Stack Developer';
+
+// Build full page title with site branding
+const fullTitle = `${title} | ${siteName} - ${siteTagline}`;
 
 // Map locale to OpenGraph format (e.g., 'en' -> 'en_US', 'es' -> 'es_ES')
 const ogLocaleMap: Record<string, string> = {
@@ -166,10 +170,10 @@ const breadcrumbsJsonLd =
 ---
 
 <!-- Document Title -->
-<title>{title}</title>
+<title>{fullTitle}</title>
 
 <!-- Primary Meta Tags -->
-<meta name="title" content={title} />
+<meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
 {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
 <meta name="author" content={author} />
@@ -179,7 +183,7 @@ const breadcrumbsJsonLd =
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonicalURL.href} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageURL.href} />
 <meta property="og:image:secure_url" content={imageURL.href} />
@@ -196,7 +200,7 @@ const breadcrumbsJsonLd =
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL.href} />
-<meta name="twitter:title" content={title} />
+<meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageURL.href} />
 <meta name="twitter:image:alt" content={imageAlt} />

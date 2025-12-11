@@ -18,23 +18,6 @@ interface TimelineItem {
 
 export const timelineData: TimelineItem[] = [
     {
-        id: 'birth',
-        year: '1980',
-        title: {
-            en: 'The Beginning',
-            es: 'Comienzo'
-        },
-        description: {
-            en: 'Born with curiosity for technology already wired in. 👶',
-            es: 'Nací y, sin saberlo, ya traía la curiosidad por la tecnología 💻 en el ADN.'
-        },
-        icon: 'sparkles',
-        iconUseItemColor: true,
-        category: 'achievement',
-        colorLightTheme: '#d97706',
-        colorDarkTheme: '#fbbf24' // lighter variant for dark theme
-    },
-    {
         id: 'first-pc',
         year: '1993',
         title: {
@@ -67,23 +50,6 @@ export const timelineData: TimelineItem[] = [
         category: 'skill',
         colorLightTheme: '#d97706',
         colorDarkTheme: '#fbbf24' // lighter variant for dark theme
-    },
-    {
-        id: 'backend-classic',
-        year: '2001',
-        title: {
-            en: 'Backend World',
-            es: 'Backend clásico'
-        },
-        description: {
-            en: 'Entered backend development with ASP and Microsoft Access databases.',
-            es: 'Entro al mundo del backend con ASP y bases de datos Access de Microsoft.'
-        },
-        icon: 'access',
-        iconUseItemColor: true,
-        category: 'skill',
-        colorLightTheme: '#2563eb',
-        colorDarkTheme: '#60a5fa' // lighter variant for dark theme
     },
     {
         id: 'freelance-start',
@@ -186,23 +152,6 @@ export const timelineData: TimelineItem[] = [
         category: 'achievement',
         colorLightTheme: '#7c3aed',
         colorDarkTheme: '#a78bfa' // lighter variant for dark theme
-    },
-    {
-        id: 'new-challenges',
-        year: '2017',
-        title: {
-            en: 'New Challenges',
-            es: 'Nuevos retos'
-        },
-        description: {
-            en: 'Created a solo team to prototype ⚡ new sub-apps and features before handing them off.',
-            es: 'Formo un nuevo equipo para desarrollar features y sub-apps iniciales ⚡ antes de entregarlas a otros teams.'
-        },
-        icon: 'rocket',
-        iconUseItemColor: true,
-        category: 'work',
-        colorLightTheme: '#0891b2',
-        colorDarkTheme: '#22d3ee' // lighter variant for dark theme
     },
     {
         id: 'visual-builder',

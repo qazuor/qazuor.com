@@ -241,7 +241,7 @@ const statsTranslations = {
 const skillsTranslations = {
     title: t('skills.title', { markdown: true }),
     subtitle: t('skills.subtitle', { markdown: true }),
-    description: t('skills.description', { markdown: true }),
+    // description removed from homepage - kept in dedicated skills page
     categoryTitles: {
         technicalSkills: t('skills.categories.technicalSkills', { markdown: true }),
         humanCreativeSkills: t('skills.categories.humanCreativeSkills', { markdown: true })
@@ -299,7 +299,7 @@ const projectsTranslations = {
 const blogTranslations = {
     title: t('blog.title', { markdown: true }),
     subtitle: t('blog.subtitle', { markdown: true }),
-    description: t('blog.description', { markdown: true }),
+    // description removed from homepage - kept in dedicated blog page
     viewAll: t('blog.viewAll', { markdown: true }),
     noArticles: t('blog.noArticles', { markdown: true }),
     readMore: t('blog.readMore', { markdown: true }),
@@ -309,7 +309,7 @@ const blogTranslations = {
 const servicesPreviewTranslations = {
     title: t('servicesPreview.title', { markdown: true }),
     subtitle: t('servicesPreview.subtitle', { markdown: true }),
-    description: t('servicesPreview.description', { markdown: true }),
+    // description removed from homepage - kept in dedicated services page
     viewAll: t('servicesPreview.viewAll', { markdown: true }),
     learnMore: t('servicesPreview.learnMore'),
     whyWorkWithMe: {
@@ -453,7 +453,7 @@ const contactAriaLabels = {
 const testimonialsTranslations = {
     title: t('testimonials.title', { markdown: true }),
     subtitle: t('testimonials.subtitle', { markdown: true }),
-    description: t('testimonials.description', { markdown: true }),
+    // description removed from homepage - kept in dedicated testimonials page
     noTestimonials: t('testimonials.noTestimonials', { markdown: true }),
     readMore: t('testimonials.readMore', { markdown: true }),
     readLess: t('testimonials.readLess', { markdown: true }),
@@ -464,16 +464,16 @@ const testimonialsTranslations = {
 const faqsTranslations = {
     title: t('faqs.title', { markdown: true }),
     subtitle: t('faqs.subtitle', { markdown: true }),
-    description: t('faqs.description', { markdown: true }),
+    // description removed from homepage - kept in dedicated FAQs page
     clientsHeading: t('faqs.clientsHeading', { markdown: true }),
     employersHeading: t('faqs.employersHeading', { markdown: true }),
     faqs: {
+        // Only 4 client FAQs on homepage (last one removed - "¿Ofrecés soporte después del lanzamiento?")
         clients: [
             { question: t('faqs.faqs.clients.0.question'), answer: t('faqs.faqs.clients.0.answer') },
             { question: t('faqs.faqs.clients.1.question'), answer: t('faqs.faqs.clients.1.answer') },
             { question: t('faqs.faqs.clients.2.question'), answer: t('faqs.faqs.clients.2.answer') },
-            { question: t('faqs.faqs.clients.3.question'), answer: t('faqs.faqs.clients.3.answer') },
-            { question: t('faqs.faqs.clients.4.question'), answer: t('faqs.faqs.clients.4.answer') }
+            { question: t('faqs.faqs.clients.3.question'), answer: t('faqs.faqs.clients.3.answer') }
         ],
         employers: [
             { question: t('faqs.faqs.employers.0.question'), answer: t('faqs.faqs.employers.0.answer') },

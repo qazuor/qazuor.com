@@ -270,6 +270,17 @@ export function FloatingNav({
                 setActiveSectionAnimating(null);
             }, 500);
 
+            // Update URL hash when scrolling (only on home page)
+            const path = window.location.pathname;
+            const onHomePage = /^\/(es|en)?\/?$/.test(path);
+            if (onHomePage && window.history?.replaceState) {
+                const section = NAV_SECTIONS.find((s) => s.id === activeSection);
+                if (section) {
+                    const newUrl = `${window.location.pathname}${section.hash}`;
+                    window.history.replaceState(null, '', newUrl);
+                }
+            }
+
             prevActiveSection.current = activeSection;
             return () => clearTimeout(timer);
         }

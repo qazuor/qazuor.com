@@ -1,14 +1,6 @@
+import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
-// Import animate-ui icon
-import { ArrowUp } from '@/components/animate-ui/icons/arrow-up';
 import { scrollTo } from '@/lib/lenis';
-
-// Animation props for scroll-to-top icon (hover/tap with loop)
-const scrollIconProps = {
-    animateOnTap: true,
-    loop: true,
-    loopDelay: 300
-};
 
 interface ScrollToTopProps {
     ariaLabel?: string;
@@ -118,7 +110,7 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
                     className="fixed z-[401] flex h-[54px] w-[54px] items-center justify-center rounded-full border border-border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary active:scale-95 text-muted-foreground dark:bg-card/95 dark:border-white/10 dark:shadow-black/20"
                     aria-label={ariaLabel}
                 >
-                    <ArrowUp size={20} animateOnHover {...scrollIconProps} />
+                    <ArrowUp size={20} className="transition-transform group-hover:scale-110" />
                 </button>
             )}
         </>

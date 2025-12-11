@@ -1,39 +1,34 @@
 import { navigate } from 'astro:transitions/client';
+import {
+    ArrowUp,
+    BadgeCheck,
+    BriefcaseBusiness,
+    CircleHelp,
+    FileText,
+    FolderGit2,
+    Gift,
+    Home,
+    Languages,
+    type LucideIcon,
+    Mail,
+    MessageSquareQuote,
+    Moon,
+    SquareTerminal,
+    Sun,
+    UserRound
+} from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUp } from '@/components/animate-ui/icons/arrow-up';
-import { BadgeCheck } from '@/components/animate-ui/icons/badge-check';
-import { Blocks } from '@/components/animate-ui/icons/blocks';
-// Import animate-ui icons
-import { HouseWifi } from '@/components/animate-ui/icons/house-wifi';
-import { List } from '@/components/animate-ui/icons/list';
-import { MessageSquareQuote } from '@/components/animate-ui/icons/message-square-quote';
-import { Moon } from '@/components/animate-ui/icons/moon';
-import { PhoneCall } from '@/components/animate-ui/icons/phone-call';
-import { Sparkles } from '@/components/animate-ui/icons/sparkles';
-import { Star } from '@/components/animate-ui/icons/star';
-import { SunMedium } from '@/components/animate-ui/icons/sun-medium';
-import { Terminal } from '@/components/animate-ui/icons/terminal';
-import { ThumbsUp } from '@/components/animate-ui/icons/thumbs-up';
-import { UserRound } from '@/components/animate-ui/icons/user-round';
 import { scrollTo } from '@/lib/lenis';
 import { MobileUtilitiesPopover } from './MobileUtilitiesPopover';
 
 type LabelKey = 'hero' | 'about' | 'skills' | 'projects' | 'services' | 'blog' | 'testimonials' | 'faqs' | 'contact';
 
-// Hover/tap animation props
-type IconBehaviorProps = {
-    loop?: boolean;
-    loopDelay?: number;
-    animateOnTap?: boolean;
-};
-
 interface NavSection {
     id: string;
     hash: string; // Hash for home page (e.g., '#about')
     pageUrl?: string; // Optional page URL for non-home navigation (e.g., '/projects')
-    icon: React.ComponentType<IconBehaviorProps & { size?: number; animateOnHover?: boolean; animate?: boolean }>;
+    icon: LucideIcon;
     labelKey: LabelKey;
-    iconProps?: IconBehaviorProps; // Optional animation behavior props for the icon
 }
 
 const defaultLabels: Record<LabelKey, string> = {
@@ -48,98 +43,22 @@ const defaultLabels: Record<LabelKey, string> = {
     contact: 'Contact'
 };
 
-// Animation delay increment for sequential animations (ms)
-const ANIMATION_DELAY_INCREMENT = 100;
-
-// Base icon animation props for hover/tap behavior (no animateOnView - handled manually)
-const createHoverTapProps = () => ({
-    // Hover/tap animation: loop with 300ms between cycles
-    animateOnTap: true as const,
-    loop: true as const,
-    loopDelay: 100
-});
-
-// Hook to trigger sequential entry animations once when nav enters viewport
-function useSequentialEntryAnimation(totalIcons: number, delayIncrement: number = ANIMATION_DELAY_INCREMENT) {
-    const [animatingIndices, setAnimatingIndices] = useState<Set<number>>(new Set());
-    const hasAnimated = useRef(false);
-    const navRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const navElement = navRef.current;
-        if (!navElement || hasAnimated.current) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const entry = entries[0];
-                if (entry?.isIntersecting && !hasAnimated.current) {
-                    hasAnimated.current = true;
-
-                    // Trigger sequential animations
-                    for (let i = 0; i < totalIcons; i++) {
-                        setTimeout(() => {
-                            setAnimatingIndices((prev) => new Set(prev).add(i));
-
-                            // Clear the animation trigger after animation completes (~500ms)
-                            setTimeout(() => {
-                                setAnimatingIndices((prev) => {
-                                    const next = new Set(prev);
-                                    next.delete(i);
-                                    return next;
-                                });
-                            }, 500);
-                        }, i * delayIncrement);
-                    }
-
-                    // Disconnect observer after triggering
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        observer.observe(navElement);
-
-        return () => observer.disconnect();
-    }, [totalIcons, delayIncrement]);
-
-    return { navRef, animatingIndices };
-}
-
-// Shared hover/tap props for all icons
-const hoverTapProps = createHoverTapProps();
-
 const NAV_SECTIONS: NavSection[] = [
-    { id: 'hero', hash: '#hero', icon: HouseWifi, labelKey: 'hero', iconProps: hoverTapProps },
-    { id: 'about', hash: '#about', icon: UserRound, labelKey: 'about', iconProps: hoverTapProps },
-    { id: 'skills', hash: '#skills', icon: Star, labelKey: 'skills', iconProps: hoverTapProps },
-    {
-        id: 'projects',
-        hash: '#projects',
-        pageUrl: '/projects',
-        icon: Blocks,
-        labelKey: 'projects',
-        iconProps: hoverTapProps
-    },
+    { id: 'hero', hash: '#hero', icon: Home, labelKey: 'hero' },
+    { id: 'about', hash: '#about', icon: UserRound, labelKey: 'about' },
+    { id: 'skills', hash: '#skills', icon: BadgeCheck, labelKey: 'skills' },
+    { id: 'projects', hash: '#projects', pageUrl: '/projects', icon: FolderGit2, labelKey: 'projects' },
     {
         id: 'services-preview',
         hash: '#services-preview',
         pageUrl: '/services',
-        icon: BadgeCheck,
-        labelKey: 'services',
-        iconProps: hoverTapProps
+        icon: BriefcaseBusiness,
+        labelKey: 'services'
     },
-    {
-        id: 'blog',
-        hash: '#blog',
-        pageUrl: '/blog',
-        icon: MessageSquareQuote,
-        labelKey: 'blog',
-        iconProps: hoverTapProps
-    },
-    { id: 'testimonials', hash: '#testimonials', icon: ThumbsUp, labelKey: 'testimonials', iconProps: hoverTapProps },
-    { id: 'faqs', hash: '#faqs', icon: List, labelKey: 'faqs', iconProps: hoverTapProps },
-    { id: 'contact', hash: '#contact', icon: PhoneCall, labelKey: 'contact', iconProps: hoverTapProps }
+    { id: 'blog', hash: '#blog', pageUrl: '/blog', icon: FileText, labelKey: 'blog' },
+    { id: 'testimonials', hash: '#testimonials', icon: MessageSquareQuote, labelKey: 'testimonials' },
+    { id: 'faqs', hash: '#faqs', icon: CircleHelp, labelKey: 'faqs' },
+    { id: 'contact', hash: '#contact', icon: Mail, labelKey: 'contact' }
 ];
 
 interface FloatingNavProps {
@@ -250,27 +169,11 @@ export function FloatingNav({
     const [isDark, setIsDark] = useState(false);
     const [showScrollToTop, setShowScrollToTop] = useState(false);
     const [isHomePage, setIsHomePage] = useState(true);
-
-    // Total icons: nav icons (9) + utility icons (4: theme, goodies, command, scroll-to-top)
-    const totalIcons = NAV_SECTIONS.length + 4;
-    const { navRef: desktopNavRef, animatingIndices: desktopAnimating } = useSequentialEntryAnimation(totalIcons);
-    const { navRef: mobileNavRef, animatingIndices: mobileAnimating } = useSequentialEntryAnimation(totalIcons);
-
-    // Track active section changes to trigger animation
-    const [activeSectionAnimating, setActiveSectionAnimating] = useState<string | null>(null);
     const prevActiveSection = useRef<string | null>(null);
 
+    // Update URL hash when active section changes (only on home page)
     useEffect(() => {
-        // When active section changes, animate the new active icon once
         if (activeSection && activeSection !== prevActiveSection.current) {
-            setActiveSectionAnimating(activeSection);
-
-            // Clear animation after it completes (~500ms)
-            const timer = setTimeout(() => {
-                setActiveSectionAnimating(null);
-            }, 500);
-
-            // Update URL hash when scrolling (only on home page)
             const path = window.location.pathname;
             const onHomePage = /^\/(es|en)?\/?$/.test(path);
             if (onHomePage && window.history?.replaceState) {
@@ -280,9 +183,7 @@ export function FloatingNav({
                     window.history.replaceState(null, '', newUrl);
                 }
             }
-
             prevActiveSection.current = activeSection;
-            return () => clearTimeout(timer);
         }
     }, [activeSection]);
 
@@ -462,7 +363,6 @@ export function FloatingNav({
     if (isMobile) {
         return (
             <nav
-                ref={mobileNavRef as React.RefObject<HTMLElement>}
                 aria-label="Quick navigation"
                 className={`fixed bottom-4 left-1/2 z-[400] flex -translate-x-1/2 items-center gap-1 rounded-full border border-border bg-card/80 px-2 py-2 shadow-lg backdrop-blur-sm transition-all duration-300 md:hidden dark:bg-card/95 dark:border-white/10 dark:shadow-black/20 ${
                     isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
@@ -472,10 +372,6 @@ export function FloatingNav({
                     const Icon = section.icon;
                     const isActive = activeSection === section.id;
                     const label = mergedLabels[section.labelKey];
-                    // Get the original index in NAV_SECTIONS for animation timing
-                    const originalIndex = NAV_SECTIONS.findIndex((s) => s.id === section.id);
-                    // Animate on entry OR when section becomes active
-                    const shouldAnimate = mobileAnimating.has(originalIndex) || activeSectionAnimating === section.id;
 
                     return (
                         <button
@@ -485,10 +381,12 @@ export function FloatingNav({
                             aria-label={label}
                             aria-current={isActive ? 'true' : undefined}
                             className={`relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 ${
-                                isActive ? 'bg-primary/20 text-primary' : 'text-muted-foreground active:bg-primary/10'
+                                isActive
+                                    ? 'bg-primary/20 text-primary scale-110'
+                                    : 'text-muted-foreground active:bg-primary/10 hover:scale-105'
                             }`}
                         >
-                            <Icon size={16} animateOnHover animate={shouldAnimate} {...section.iconProps} />
+                            <Icon size={16} />
                         </button>
                     );
                 })}
@@ -500,17 +398,8 @@ export function FloatingNav({
         );
     }
 
-    // Calculate utility icon indices (after nav icons)
-    const themeIconIndex = NAV_SECTIONS.length;
-    const goodiesIconIndex = NAV_SECTIONS.length + 1;
-    const commandIconIndex = NAV_SECTIONS.length + 2;
-    const scrollTopIconIndex = NAV_SECTIONS.length + 3;
-
     return (
-        <div
-            ref={desktopNavRef as React.RefObject<HTMLDivElement>}
-            className="fixed right-4 top-1/2 z-[400] hidden -translate-y-1/2 flex-col gap-3 md:flex"
-        >
+        <div className="fixed right-4 top-1/2 z-[400] hidden -translate-y-1/2 flex-col gap-3 md:flex">
             {/* Main Navigation */}
             <nav
                 aria-label="Quick navigation"
@@ -520,10 +409,6 @@ export function FloatingNav({
                     const Icon = section.icon;
                     const isActive = activeSection === section.id;
                     const label = mergedLabels[section.labelKey];
-                    // Get the original index in NAV_SECTIONS for animation timing
-                    const originalIndex = NAV_SECTIONS.findIndex((s) => s.id === section.id);
-                    // Animate on entry OR when section becomes active
-                    const shouldAnimate = desktopAnimating.has(originalIndex) || activeSectionAnimating === section.id;
 
                     return (
                         <button
@@ -534,11 +419,11 @@ export function FloatingNav({
                             aria-current={isActive ? 'true' : undefined}
                             className={`group relative flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
                                 isActive
-                                    ? 'bg-primary/20 text-primary ring-2 ring-primary/50'
+                                    ? 'bg-primary/20 text-primary ring-2 ring-primary/50 scale-110'
                                     : 'text-muted-foreground hover:scale-110 hover:bg-primary/10 hover:text-primary'
                             }`}
                         >
-                            <Icon size={20} animateOnHover animate={shouldAnimate} {...section.iconProps} />
+                            <Icon size={20} />
                             <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                                 {label}
                             </span>
@@ -555,21 +440,7 @@ export function FloatingNav({
                     aria-label={mergedUtilityLabels.theme}
                     className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
                 >
-                    {isDark ? (
-                        <SunMedium
-                            size={20}
-                            animateOnHover
-                            animate={desktopAnimating.has(themeIconIndex)}
-                            {...hoverTapProps}
-                        />
-                    ) : (
-                        <Moon
-                            size={20}
-                            animateOnHover
-                            animate={desktopAnimating.has(themeIconIndex)}
-                            {...hoverTapProps}
-                        />
-                    )}
+                    {isDark ? <Sun size={20} /> : <Moon size={20} />}
                     <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.theme}
                     </span>
@@ -581,7 +452,7 @@ export function FloatingNav({
                     aria-label={mergedUtilityLabels.language}
                     className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
                 >
-                    <span className="text-lg">{currentLocale === 'es' ? '🇪🇸' : '🇺🇸'}</span>
+                    <Languages size={20} />
                     <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.language}
                     </span>
@@ -592,12 +463,7 @@ export function FloatingNav({
                     aria-label={mergedUtilityLabels.goodies}
                     className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
                 >
-                    <Sparkles
-                        size={20}
-                        animateOnHover
-                        animate={desktopAnimating.has(goodiesIconIndex)}
-                        {...hoverTapProps}
-                    />
+                    <Gift size={20} />
                     <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.goodies}
                     </span>
@@ -609,12 +475,7 @@ export function FloatingNav({
                     aria-label={mergedUtilityLabels.command}
                     className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
                 >
-                    <Terminal
-                        size={20}
-                        animateOnHover
-                        animate={desktopAnimating.has(commandIconIndex)}
-                        {...hoverTapProps}
-                    />
+                    <SquareTerminal size={20} />
                     <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.command}
                     </span>
@@ -636,12 +497,7 @@ export function FloatingNav({
                     tabIndex={showScrollToTop ? 0 : -1}
                     className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
                 >
-                    <ArrowUp
-                        size={20}
-                        animateOnHover
-                        animate={desktopAnimating.has(scrollTopIconIndex)}
-                        {...hoverTapProps}
-                    />
+                    <ArrowUp size={20} />
                     <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.scrollToTop}
                     </span>

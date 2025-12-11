@@ -1,19 +1,7 @@
 import { navigate } from 'astro:transitions/client';
+import { Gift, Languages, Moon, Plus, SquareTerminal, Sun } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Moon } from '@/components/animate-ui/icons/moon';
-// Import animate-ui icons
-import { Plus } from '@/components/animate-ui/icons/plus';
-import { Sparkles } from '@/components/animate-ui/icons/sparkles';
-import { SunMedium } from '@/components/animate-ui/icons/sun-medium';
-import { Terminal } from '@/components/animate-ui/icons/terminal';
-
-// Animation props for popover icons (hover/tap with loop)
-const popoverIconProps = {
-    animateOnTap: true,
-    loop: true,
-    loopDelay: 300
-};
 
 interface MobileUtilitiesPopoverProps {
     currentLocale: string;
@@ -145,7 +133,7 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                     isOpen ? 'bg-primary/20 text-primary' : 'text-muted-foreground active:bg-primary/10'
                 }`}
             >
-                <Plus size={16} animateOnHover {...popoverIconProps} />
+                <Plus size={16} />
             </button>
 
             {/* Popover - Rendered via Portal to escape nav's transform */}
@@ -170,11 +158,7 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                                 aria-label={translations.theme}
                                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
                             >
-                                {isDark ? (
-                                    <SunMedium size={20} animateOnHover {...popoverIconProps} />
-                                ) : (
-                                    <Moon size={20} animateOnHover {...popoverIconProps} />
-                                )}
+                                {isDark ? <Sun size={20} /> : <Moon size={20} />}
                             </button>
 
                             {/* Language Selector */}
@@ -184,7 +168,7 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                                 aria-label={translations.language}
                                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
                             >
-                                <span className="text-lg">{currentLocale === 'es' ? '🇪🇸' : '🇺🇸'}</span>
+                                <Languages size={20} />
                             </button>
 
                             {/* Command Palette */}
@@ -194,7 +178,7 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                                 aria-label={translations.command}
                                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
                             >
-                                <Terminal size={20} animateOnHover {...popoverIconProps} />
+                                <SquareTerminal size={20} />
                             </button>
 
                             {/* Goodies Link */}
@@ -204,7 +188,7 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
                                 onClick={() => setIsOpen(false)}
                             >
-                                <Sparkles size={20} animateOnHover {...popoverIconProps} />
+                                <Gift size={20} />
                             </a>
                         </div>
                     </div>,

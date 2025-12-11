@@ -455,12 +455,13 @@ const alternateLinks = locales.map((locale) => {
             placeholder={t('aria.commandPalettePlaceholder')}
         />
 
-        <!-- Scroll to Top Button - client:idle since button only shows after 300px scroll -->
-        <ScrollToTop client:idle ariaLabel={t('aria.scrollToTop')} />
+        <!-- Scroll to Top Button - client:only to avoid SSR hooks issue with animate-ui icons -->
+        <ScrollToTop client:only="react" ariaLabel={t('aria.scrollToTop')} />
 
         <!-- Floating Navigation - visible on all pages -->
+        <!-- Using client:only to avoid SSR hooks issue with animate-ui icons -->
         <FloatingNav
-            client:load
+            client:only="react"
             labels={floatingNavLabels}
             currentLocale={lang}
             utilityLabels={floatingNavUtilityLabels}

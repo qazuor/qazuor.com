@@ -196,6 +196,12 @@ const alternateLinks = locales.map((locale) => {
             />
         )}
 
+        <!-- Prefetch common navigation routes for faster navigation -->
+        <link rel="prefetch" href="/en/projects/" />
+        <link rel="prefetch" href="/en/blog/" />
+        <link rel="prefetch" href="/es/projects/" />
+        <link rel="prefetch" href="/es/blog/" />
+
         <!-- Critical CSS (inlined for fastest LCP) -->
         <!-- Contains ONLY styles needed for above-the-fold hero section -->
         <!-- IMPORTANT: Must include BOTH light and dark themes to prevent flash during View Transitions -->

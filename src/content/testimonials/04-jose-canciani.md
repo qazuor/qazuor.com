@@ -1,6 +1,6 @@
 ---
 name: 'Jose Canciani'
-role: 'Principal Engineer at Avature'
+role: 'Principal Engineer'
 company: 'Avature'
 content:
   'Leandro single-handed bootstrapped the Avature UI, helping to shape a

@@ -1,7 +1,6 @@
 ---
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import ChatBubbleIcon from '@/icons/ui/chat-bubble.svg?raw';
 
 interface Props {
@@ -30,16 +29,9 @@ interface Props {
 
 const { testimonials: allTestimonials, primaryColor = '#9333ea', translations } = Astro.props;
 
-// Show all testimonials, initially display first 3, then load more in batches of 6
-const initialCount = 3;
-const batchSize = 6;
-const hasMoreTestimonials = allTestimonials.length > initialCount;
-const count = Math.min(allTestimonials.length, initialCount); // For initial grid layout
-
-// Prepare testimonials with visibility class
+// All testimonials visible in carousel
 const testimonials = allTestimonials.map((t, i) => ({
     ...t,
-    isHidden: i >= initialCount,
     index: i
 }));
 ---
@@ -75,22 +67,43 @@ const testimonials = allTestimonials.map((t, i) => ({
                 </div>
             ) : (
                 <>
-                {/* Testimonials Grid - Dynamic layout based on count */}
-                <div
-                    id="testimonials-grid"
-                    class="grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                    data-testimonial-count={count}
-                    data-initial-count={initialCount}
-                    data-batch-size={batchSize}
-                    data-total-count={testimonials.length}
-                >
-                    {testimonials.map((testimonial) => {
-                        const cardClass = `group testimonial-wrapper ${testimonial.isHidden ? 'hidden' : ''}`;
-                        return (
-                        <article
-                            class={cardClass}
-                            data-testimonial-index={testimonial.index}
-                        >
+                {/* Testimonials Carousel */}
+                <div class="testimonials-carousel-container relative">
+                    {/* Navigation Buttons */}
+                    <button
+                        type="button"
+                        class="carousel-nav carousel-nav-prev"
+                        aria-label="Previous testimonial"
+                        data-carousel-prev
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button
+                        type="button"
+                        class="carousel-nav carousel-nav-next"
+                        aria-label="Next testimonial"
+                        data-carousel-next
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    {/* Carousel Track */}
+                    <div
+                        id="testimonials-carousel"
+                        class="testimonials-carousel"
+                        role="region"
+                        aria-label="Testimonials carousel"
+                        data-total-count={testimonials.length}
+                    >
+                        {testimonials.map((testimonial) => (
+                            <article
+                                class="group testimonial-slide"
+                                data-testimonial-index={testimonial.index}
+                            >
                             {/* Card with 3D tilt effect - Clickable to open modal */}
                             <button
                                 type="button"
@@ -128,7 +141,7 @@ const testimonials = allTestimonials.map((t, i) => ({
                                     </blockquote>
 
                                     {/* Read more indicator */}
-                                    <div class="flex items-center gap-1 text-primary/80 text-sm mt-2 group-hover:text-primary transition-colors">
+                                    <div class="flex items-center justify-end gap-1 text-white/80 text-sm font-semibold mt-2 group-hover:text-white transition-colors">
                                         <span>{translations.readMore}</span>
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -163,37 +176,51 @@ const testimonials = allTestimonials.map((t, i) => ({
                                                     {testimonial.name}
                                                 </span>
                                             </div>
-                                            <p class="text-sm text-white/70">{testimonial.role}</p>
-                                            <p class="text-sm text-white/50 font-medium">{testimonial.company}</p>
+                                            <p class="text-[0.65rem] text-white/70">{testimonial.role}</p>
+                                            <p class="text-[0.65rem] text-white/50 font-medium">{testimonial.company}</p>
                                         </div>
                                     </footer>
                                 </div>
                             </button>
                         </article>
-                    ); })}
+                        ))}
+                    </div>
                 </div>
 
-                {/* View More Button */}
-                {hasMoreTestimonials && (
-                    <div class="flex justify-center mt-10" id="view-more-container">
-                        <UnifiedButton
-                            variant="primary"
-                            size="md"
-                            class="view-more-testimonials-btn"
-                            iconPosition="right"
-                        >
-                            <span id="view-more-text">{translations.viewMore || 'View More'}</span>
-                            <span id="view-more-count" class="opacity-70 ml-1">
-                                (+{Math.min(batchSize, testimonials.length - initialCount)})
-                            </span>
-                            <Fragment slot="icon-right">
-                                <svg class="w-full h-full transform group-hover:translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </Fragment>
-                        </UnifiedButton>
+                {/* Carousel Controls: Play/Pause + Indicators */}
+                <div class="carousel-controls">
+                    {/* Play/Pause Button */}
+                    <button
+                        type="button"
+                        class="carousel-autoplay-btn playing"
+                        aria-label="Pause autoplay"
+                        data-carousel-autoplay
+                    >
+                        {/* Pause icon (shown when playing) */}
+                        <svg class="autoplay-pause-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16" rx="1" />
+                            <rect x="14" y="4" width="4" height="16" rx="1" />
+                        </svg>
+                        {/* Play icon (shown when paused) */}
+                        <svg class="autoplay-play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5.14v14l11-7-11-7z" />
+                        </svg>
+                    </button>
+
+                    {/* Indicators (Dots) */}
+                    <div class="carousel-indicators" role="tablist" aria-label="Testimonial slides">
+                        {testimonials.map((_, i) => (
+                            <button
+                                type="button"
+                                class={`carousel-dot ${i === 0 ? 'active' : ''}`}
+                                role="tab"
+                                aria-selected={i === 0 ? 'true' : 'false'}
+                                aria-label={`Go to testimonial ${i + 1}`}
+                                data-carousel-dot={i}
+                            />
+                        ))}
                     </div>
-                )}
+                </div>
                 </>
             )
         }
@@ -277,41 +304,240 @@ const testimonials = allTestimonials.map((t, i) => ({
 </section>
 
 <style>
-    /* === DYNAMIC GRID LAYOUTS === */
+    /* === CAROUSEL CONTAINER === */
 
-    /* Grid for 5 testimonials: 3 on first row, 2 centered on second row */
-    .testimonials-grid-5 {
-        display: grid;
-        grid-template-columns: 1fr;
+    .testimonials-carousel-container {
+        position: relative;
+        width: 100%;
+        padding: 0 3rem;
     }
 
-    @media (min-width: 768px) {
-        .testimonials-grid-5 {
-            grid-template-columns: repeat(6, 1fr);
+    @media (max-width: 768px) {
+        .testimonials-carousel-container {
+            padding: 0 0.5rem;
         }
+    }
 
-        /* First 3 items: each takes 2 columns (spans 2 of 6) */
-        .testimonials-grid-5 .testimonial-wrapper:nth-child(1),
-        .testimonials-grid-5 .testimonial-wrapper:nth-child(2),
-        .testimonials-grid-5 .testimonial-wrapper:nth-child(3) {
-            grid-column: span 2;
-        }
+    /* === CAROUSEL TRACK === */
 
-        /* Items 4 and 5: centered - each takes 2 columns with offset */
-        .testimonials-grid-5 .testimonial-wrapper:nth-child(4) {
-            grid-column: 2 / span 2;
-        }
+    .testimonials-carousel {
+        display: flex;
+        gap: 1.5rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        /* scroll-behavior controlled by JS for seamless infinite loop */
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+        padding: 1rem 0.5rem 2rem;
+    }
 
-        .testimonials-grid-5 .testimonial-wrapper:nth-child(5) {
-            grid-column: 4 / span 2;
+    /* Disable ALL transitions during seamless jump */
+    .testimonials-carousel.jumping,
+    .testimonials-carousel.jumping * {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .testimonials-carousel::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    /* === CAROUSEL SLIDE === */
+
+    .testimonial-slide {
+        flex: 0 0 calc(100% - 1rem);
+        scroll-snap-align: center;
+        perspective: 1000px;
+        opacity: 0.4;
+        transform: scale(0.92);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .testimonial-slide.active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    @media (min-width: 640px) {
+        .testimonial-slide {
+            flex: 0 0 calc(50% - 1rem);
         }
+    }
+
+    @media (min-width: 1024px) {
+        .testimonial-slide {
+            flex: 0 0 calc(33.333% - 1rem);
+        }
+    }
+
+    /* === NAVIGATION BUTTONS === */
+
+    .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0.7;
+    }
+
+    .carousel-nav:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-nav:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .carousel-nav:disabled:hover {
+        transform: translateY(-50%) scale(1);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .carousel-nav-prev {
+        left: 0;
+    }
+
+    .carousel-nav-next {
+        right: 0;
+    }
+
+    @media (max-width: 768px) {
+        .carousel-nav {
+            display: none;
+        }
+    }
+
+    /* === CAROUSEL CONTROLS === */
+
+    .carousel-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    /* === AUTOPLAY BUTTON === */
+
+    .carousel-autoplay-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .carousel-autoplay-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+    }
+
+    /* Show/hide icons based on state */
+    .carousel-autoplay-btn.playing .autoplay-pause-icon {
+        display: block;
+    }
+
+    .carousel-autoplay-btn.playing .autoplay-play-icon {
+        display: none;
+    }
+
+    .carousel-autoplay-btn:not(.playing) .autoplay-pause-icon {
+        display: none;
+    }
+
+    .carousel-autoplay-btn:not(.playing) .autoplay-play-icon {
+        display: block;
+    }
+
+    /* Light mode autoplay button */
+    :global(html:not(.dark)) .carousel-autoplay-btn {
+        background: rgba(6, 182, 212, 0.15);
+        border-color: rgba(6, 182, 212, 0.3);
+        color: rgba(15, 23, 42, 0.8);
+    }
+
+    :global(html:not(.dark)) .carousel-autoplay-btn:hover {
+        background: rgba(6, 182, 212, 0.25);
+    }
+
+    /* === CAROUSEL INDICATORS (DOTS) === */
+
+    .carousel-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .carousel-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .carousel-dot:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .carousel-dot.active {
+        background: rgba(255, 255, 255, 0.9);
+        transform: scale(1.3);
+    }
+
+    /* Light mode nav buttons */
+    :global(html:not(.dark)) .carousel-nav {
+        background: rgba(6, 182, 212, 0.15);
+        border-color: rgba(6, 182, 212, 0.3);
+        color: rgba(15, 23, 42, 0.8);
+    }
+
+    :global(html:not(.dark)) .carousel-nav:hover {
+        background: rgba(6, 182, 212, 0.25);
+    }
+
+    /* Light mode indicators */
+    :global(html:not(.dark)) .carousel-dot {
+        background: rgba(6, 182, 212, 0.3);
+    }
+
+    :global(html:not(.dark)) .carousel-dot:hover {
+        background: rgba(6, 182, 212, 0.5);
+    }
+
+    :global(html:not(.dark)) .carousel-dot.active {
+        background: rgba(6, 182, 212, 0.9);
     }
 
     /* === TESTIMONIAL CARD 3D + GLASSMORPHISM === */
-
-    .testimonial-wrapper {
-        perspective: 1000px;
-    }
 
     .testimonial-card-3d {
         position: relative;
@@ -609,44 +835,12 @@ const testimonials = allTestimonials.map((t, i) => ({
         color: #0891b2;
     }
 
-    .testimonial-quote::before {
-        content: '"';
-    }
-
-    .testimonial-quote::after {
-        content: '"';
-    }
-
     /* Avatar wrapper */
     .avatar-wrapper {
         position: relative;
     }
 
-    /* Entry animations */
-    @media (prefers-reduced-motion: no-preference) {
-        .testimonial-wrapper {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .testimonial-wrapper:nth-child(1) { animation-delay: 0.1s; }
-        .testimonial-wrapper:nth-child(2) { animation-delay: 0.2s; }
-        .testimonial-wrapper:nth-child(3) { animation-delay: 0.3s; }
-        .testimonial-wrapper:nth-child(4) { animation-delay: 0.4s; }
-        .testimonial-wrapper:nth-child(5) { animation-delay: 0.5s; }
-        .testimonial-wrapper:nth-child(6) { animation-delay: 0.6s; }
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+    /* Entry animations removed - they interfere with infinite loop clones */
 
     /* Focus styles for accessibility */
     a:focus-visible,
@@ -835,14 +1029,6 @@ const testimonials = allTestimonials.map((t, i) => ({
         z-index: 1;
     }
 
-    .modal-quote::before {
-        content: '"';
-    }
-
-    .modal-quote::after {
-        content: '"';
-    }
-
     .modal-source {
         display: flex;
         align-items: center;
@@ -903,9 +1089,6 @@ const testimonials = allTestimonials.map((t, i) => ({
 
         // Store the element that triggered the modal (for focus return)
         let triggerElement: HTMLElement | null = null;
-
-        // Store visible count for "View More" functionality
-        let visibleCount = 3;
 
         // Cleanup handler for View Transitions
         document.addEventListener('astro:before-swap', () => {
@@ -1105,10 +1288,36 @@ const testimonials = allTestimonials.map((t, i) => ({
             return;
         }
 
-        // Handle "View More" button click
-        const viewMoreBtn = target.closest('.view-more-testimonials-btn');
-        if (viewMoreBtn) {
-            handleViewMore();
+        // Handle carousel prev button
+        if (target.closest('[data-carousel-prev]')) {
+            navigateCarousel('prev');
+            resetAutoplayTimer(); // Reset timer on manual navigation
+            return;
+        }
+
+        // Handle carousel next button
+        if (target.closest('[data-carousel-next]')) {
+            navigateCarousel('next');
+            resetAutoplayTimer(); // Reset timer on manual navigation
+            return;
+        }
+
+        // Handle carousel dot click
+        const dot = target.closest('[data-carousel-dot]') as HTMLElement | null;
+        if (dot) {
+            const index = parseInt(dot.dataset.carouselDot || '0', 10);
+            if (totalRealSlides > 0) {
+                scrollToRealSlide(index);
+            } else {
+                scrollToSlide(index);
+            }
+            resetAutoplayTimer(); // Reset timer on manual navigation
+            return;
+        }
+
+        // Handle autoplay button click
+        if (target.closest('[data-carousel-autoplay]')) {
+            toggleAutoplay();
             return;
         }
     });
@@ -1126,71 +1335,509 @@ const testimonials = allTestimonials.map((t, i) => ({
     });
 
     // ============================================
-    // VIEW MORE: Handle showing more testimonials
+    // CAROUSEL: Navigation functions
     // ============================================
-    function handleViewMore() {
-        const grid = document.getElementById('testimonials-grid');
-        const viewMoreContainer = document.getElementById('view-more-container');
-        const viewMoreCount = document.getElementById('view-more-count');
+    function getCarouselElements() {
+        const carousel = document.getElementById('testimonials-carousel');
+        const slides = carousel?.querySelectorAll<HTMLElement>('.testimonial-slide') || [];
+        const dots = document.querySelectorAll<HTMLElement>('[data-carousel-dot]');
+        const prevBtn = document.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+        const nextBtn = document.querySelector<HTMLButtonElement>('[data-carousel-next]');
+        return { carousel, slides: Array.from(slides), dots: Array.from(dots), prevBtn, nextBtn };
+    }
 
-        if (!grid || !viewMoreContainer) return;
+    function getCurrentSlideIndex(): number {
+        const { carousel, slides } = getCarouselElements();
+        if (!carousel || slides.length === 0) return 0;
 
-        const initialCount = parseInt(grid.dataset.initialCount || '3', 10);
-        const batchSize = parseInt(grid.dataset.batchSize || '6', 10);
-        const totalCount = parseInt(grid.dataset.totalCount || '0', 10);
+        // Find the slide whose center is closest to the viewport center
+        const carouselRect = carousel.getBoundingClientRect();
+        const viewportCenter = carouselRect.left + carouselRect.width / 2;
 
-        // Get current visible count from stored value or initial
-        if (visibleCount < initialCount) {
-            visibleCount = initialCount;
-        }
+        let closestIndex = 0;
+        let closestDistance = Infinity;
 
-        const newVisibleCount = Math.min(visibleCount + batchSize, totalCount);
+        slides.forEach((slide, index) => {
+            const slideRect = slide.getBoundingClientRect();
+            const slideCenter = slideRect.left + slideRect.width / 2;
+            const distance = Math.abs(slideCenter - viewportCenter);
 
-        // Show next batch of testimonials with animation
-        const testimonialWrappers = grid.querySelectorAll<HTMLElement>('[data-testimonial-index]');
-        testimonialWrappers.forEach((wrapper) => {
-            const index = parseInt(wrapper.dataset.testimonialIndex || '0', 10);
-            if (index >= visibleCount && index < newVisibleCount) {
-                wrapper.classList.remove('hidden');
-                wrapper.style.opacity = '0';
-                wrapper.style.transform = 'translateY(20px)';
-
-                // Trigger animation
-                requestAnimationFrame(() => {
-                    wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                    wrapper.style.opacity = '1';
-                    wrapper.style.transform = 'translateY(0)';
-                });
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
             }
         });
 
-        visibleCount = newVisibleCount;
+        return closestIndex;
+    }
 
-        // Update or hide button
-        if (visibleCount >= totalCount) {
-            viewMoreContainer.classList.add('hidden');
+    function scrollToSlide(index: number) {
+        const { carousel, slides } = getCarouselElements();
+        if (!carousel || slides.length === 0) return;
+
+        const targetSlide = slides[Math.max(0, Math.min(index, slides.length - 1))];
+        if (targetSlide) {
+            // Calculate scroll position to center the target slide
+            const slideLeft = targetSlide.offsetLeft;
+            const slideWidth = targetSlide.offsetWidth;
+            const carouselWidth = carousel.offsetWidth;
+
+            // Scroll so the slide is centered in the viewport
+            const scrollPosition = slideLeft - (carouselWidth / 2) + (slideWidth / 2);
+
+            carousel.scrollTo({
+                left: Math.max(0, scrollPosition),
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    function navigateCarousel(direction: 'prev' | 'next') {
+        if (totalRealSlides > 0) {
+            // Infinite loop mode - navigate through all slides including clones
+            const carousel = document.getElementById('testimonials-carousel');
+            if (!carousel) return;
+
+            const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
+            const carouselRect = carousel.getBoundingClientRect();
+            const viewportCenter = carouselRect.left + carouselRect.width / 2;
+
+            // Find current centered slide
+            let centeredIndex = 0;
+            let closestDistance = Infinity;
+
+            allSlides.forEach((slide, index) => {
+                const slideRect = slide.getBoundingClientRect();
+                const slideCenter = slideRect.left + slideRect.width / 2;
+                const distance = Math.abs(slideCenter - viewportCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    centeredIndex = index;
+                }
+            });
+
+            // Navigate to adjacent slide
+            const newIndex = direction === 'prev' ? centeredIndex - 1 : centeredIndex + 1;
+
+            // Bounds check (with clones, we have extra slides)
+            if (newIndex >= 0 && newIndex < allSlides.length) {
+                const targetSlide = allSlides[newIndex];
+                const slideLeft = targetSlide.offsetLeft;
+                const slideWidth = targetSlide.offsetWidth;
+                const carouselWidth = carousel.offsetWidth;
+                const scrollPosition = slideLeft - (carouselWidth / 2) + (slideWidth / 2);
+
+                carousel.scrollTo({
+                    left: Math.max(0, scrollPosition),
+                    behavior: 'smooth'
+                });
+            }
         } else {
-            const remaining = Math.min(batchSize, totalCount - visibleCount);
-            if (viewMoreCount) {
-                viewMoreCount.textContent = `(+${remaining})`;
+            // Fallback: non-infinite mode
+            const currentIndex = getCurrentSlideIndex();
+            const { slides } = getCarouselElements();
+            const maxIndex = slides.length - 1;
+
+            let newIndex: number;
+            if (direction === 'prev') {
+                newIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
+            } else {
+                newIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+            }
+
+            scrollToSlide(newIndex);
+        }
+    }
+
+    function updateCarouselIndicators() {
+        const realIndex = totalRealSlides > 0 ? getRealSlideIndex() : getCurrentSlideIndex();
+        const { dots, prevBtn, nextBtn } = getCarouselElements();
+        const carousel = document.getElementById('testimonials-carousel');
+
+        // Update dots (based on real slide index)
+        dots.forEach((dot, i) => {
+            const isActive = i === realIndex;
+            dot.classList.toggle('active', isActive);
+            dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        // Update slides active state (for opacity effect)
+        // Mark the centered slide as active
+        if (carousel) {
+            const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
+            const carouselRect = carousel.getBoundingClientRect();
+            const viewportCenter = carouselRect.left + carouselRect.width / 2;
+
+            let closestIndex = 0;
+            let closestDistance = Infinity;
+
+            allSlides.forEach((slide, index) => {
+                const slideRect = slide.getBoundingClientRect();
+                const slideCenter = slideRect.left + slideRect.width / 2;
+                const distance = Math.abs(slideCenter - viewportCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestIndex = index;
+                }
+            });
+
+            allSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === closestIndex);
+            });
+        }
+
+        // Update button states - for infinite loop, buttons are always enabled
+        if (prevBtn) prevBtn.disabled = false;
+        if (nextBtn) nextBtn.disabled = false;
+    }
+
+    // ============================================
+    // CAROUSEL: Scroll listener for indicator sync
+    // ============================================
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    let scrollEndTimeout: ReturnType<typeof setTimeout>;
+
+    document.addEventListener('scroll', (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+
+        if (target.id === 'testimonials-carousel') {
+            // Debounce the indicator update
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateCarouselIndicators, 50);
+
+            // Check infinite loop bounds QUICKLY after scroll pauses
+            // Using shorter delay for faster response
+            clearTimeout(scrollEndTimeout);
+            scrollEndTimeout = setTimeout(() => {
+                checkInfiniteLoopBounds();
+            }, 80); // Reduced from 150ms to 80ms for faster jump
+        }
+    }, true);
+
+    // ============================================
+    // CAROUSEL: Keyboard navigation
+    // ============================================
+    document.addEventListener('keydown', (e) => {
+        const carousel = document.getElementById('testimonials-carousel');
+        if (!carousel) return;
+
+        // Check if carousel or its children are focused
+        const isCarouselFocused = carousel.contains(document.activeElement);
+        if (!isCarouselFocused) return;
+
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            navigateCarousel('prev');
+            resetAutoplayTimer();
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            navigateCarousel('next');
+            resetAutoplayTimer();
+        }
+    });
+
+    // ============================================
+    // CAROUSEL: Autoplay functionality
+    // ============================================
+    const AUTOPLAY_INTERVAL = 4000; // 4 seconds per slide
+    let autoplayTimer: ReturnType<typeof setInterval> | null = null;
+    let isAutoplayEnabled = true; // Start with autoplay enabled
+
+    function startAutoplay() {
+        if (autoplayTimer) return; // Already running
+
+        autoplayTimer = setInterval(() => {
+            navigateCarousel('next');
+        }, AUTOPLAY_INTERVAL);
+
+        isAutoplayEnabled = true;
+        updateAutoplayButton();
+    }
+
+    function stopAutoplay() {
+        if (autoplayTimer !== null) {
+            clearInterval(autoplayTimer as unknown as number);
+            autoplayTimer = null;
+        }
+        isAutoplayEnabled = false;
+        updateAutoplayButton();
+    }
+
+    function toggleAutoplay() {
+        if (isAutoplayEnabled) {
+            stopAutoplay();
+        } else {
+            startAutoplay();
+        }
+    }
+
+    function resetAutoplayTimer() {
+        // Reset the timer if autoplay is enabled
+        if (isAutoplayEnabled && autoplayTimer !== null) {
+            clearInterval(autoplayTimer as unknown as number);
+            autoplayTimer = setInterval(() => {
+                navigateCarousel('next');
+            }, AUTOPLAY_INTERVAL);
+        }
+    }
+
+    function updateAutoplayButton() {
+        const btn = document.querySelector('[data-carousel-autoplay]');
+        if (btn) {
+            btn.classList.toggle('playing', isAutoplayEnabled);
+            btn.setAttribute('aria-label', isAutoplayEnabled ? 'Pausar carrusel' : 'Reproducir carrusel');
+        }
+    }
+
+    // Pause autoplay on hover
+    document.addEventListener('mouseenter', (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+
+        if (target.closest('#testimonials-carousel')) {
+            if (isAutoplayEnabled && autoplayTimer !== null) {
+                clearInterval(autoplayTimer as unknown as number);
+                autoplayTimer = null;
+            }
+        }
+    }, true);
+
+    // Resume autoplay on mouse leave
+    document.addEventListener('mouseleave', (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+
+        if (target.closest('#testimonials-carousel')) {
+            if (isAutoplayEnabled && !autoplayTimer) {
+                autoplayTimer = setInterval(() => {
+                    navigateCarousel('next');
+                }, AUTOPLAY_INTERVAL);
+            }
+        }
+    }, true);
+
+    // ============================================
+    // INFINITE LOOP: Clone slides for seamless scrolling
+    // ============================================
+    const CLONES_PER_SIDE = 3; // Number of clones on each side for seamless loop
+    let totalRealSlides = 0;
+    let isJumping = false; // Flag to prevent scroll handler during instant jumps
+
+    function setupInfiniteLoop() {
+        const carousel = document.getElementById('testimonials-carousel');
+        if (!carousel) return;
+
+        const slides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide:not(.clone)');
+        totalRealSlides = slides.length;
+
+        if (totalRealSlides === 0) return;
+
+        // Remove existing clones (for View Transitions re-init)
+        carousel.querySelectorAll('.clone').forEach(clone => clone.remove());
+
+        // Clone slides: add enough clones for seamless infinite loop
+        const clonesNeeded = Math.min(totalRealSlides, CLONES_PER_SIDE);
+
+        // Clone last slides and prepend (in reverse order so they appear correctly)
+        for (let i = 0; i < clonesNeeded; i++) {
+            const sourceIndex = totalRealSlides - 1 - i;
+            const clone = slides[sourceIndex].cloneNode(true) as HTMLElement;
+            clone.classList.add('clone');
+            clone.removeAttribute('data-testimonial-index');
+            clone.setAttribute('data-clone-of', String(sourceIndex));
+            carousel.insertBefore(clone, carousel.firstChild);
+        }
+
+        // Clone first slides and append
+        for (let i = 0; i < clonesNeeded; i++) {
+            const clone = slides[i].cloneNode(true) as HTMLElement;
+            clone.classList.add('clone');
+            clone.removeAttribute('data-testimonial-index');
+            clone.setAttribute('data-clone-of', String(i));
+            carousel.appendChild(clone);
+        }
+
+        // Set initial scroll position to center the first real slide
+        requestAnimationFrame(() => {
+            scrollToRealSlide(0, false);
+        });
+    }
+
+    function scrollToRealSlide(realIndex: number, smooth = true) {
+        const carousel = document.getElementById('testimonials-carousel');
+        if (!carousel) return;
+
+        const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
+        // Real slides start after the prepended clones
+        const targetIndex = realIndex + CLONES_PER_SIDE;
+        const targetSlide = allSlides[targetIndex];
+
+        if (targetSlide) {
+            if (smooth) {
+                // Use scrollIntoView for smooth scrolling
+                targetSlide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            } else {
+                // For instant jump, use the seamless jump technique
+                performSeamlessJump(carousel, allSlides, realIndex);
             }
         }
     }
 
+    function getRealSlideIndex(): number {
+        const { carousel } = getCarouselElements();
+        if (!carousel || totalRealSlides === 0) return 0;
+
+        const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
+        const carouselRect = carousel.getBoundingClientRect();
+        const viewportCenter = carouselRect.left + carouselRect.width / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        allSlides.forEach((slide, index) => {
+            const slideRect = slide.getBoundingClientRect();
+            const slideCenter = slideRect.left + slideRect.width / 2;
+            const distance = Math.abs(slideCenter - viewportCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        // Convert to real slide index (accounting for prepended clones)
+        // Example with 8 slides and 3 clones: [5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2]
+        // Index:                                0  1  2  3  4  5  6  7  8  9 10 11 12 13
+        const adjustedIndex = closestIndex - CLONES_PER_SIDE;
+
+        if (adjustedIndex < 0) {
+            return totalRealSlides + adjustedIndex; // Wrap to end
+        } else if (adjustedIndex >= totalRealSlides) {
+            return adjustedIndex - totalRealSlides; // Wrap to beginning
+        }
+        return adjustedIndex;
+    }
+
+    function checkInfiniteLoopBounds() {
+        if (isJumping) return;
+
+        const carousel = document.getElementById('testimonials-carousel');
+        if (!carousel || totalRealSlides === 0) return;
+
+        const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
+        const carouselRect = carousel.getBoundingClientRect();
+        const viewportCenter = carouselRect.left + carouselRect.width / 2;
+
+        // Find which slide is centered
+        let centeredIndex = 0;
+        let closestDistance = Infinity;
+
+        allSlides.forEach((slide, index) => {
+            const slideRect = slide.getBoundingClientRect();
+            const slideCenter = slideRect.left + slideRect.width / 2;
+            const distance = Math.abs(slideCenter - viewportCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                centeredIndex = index;
+            }
+        });
+
+        // Layout with 8 slides and 3 clones per side:
+        // Index:  0   1   2   3   4   5   6   7   8   9  10  11  12  13
+        // Slide: [5] [6] [7] [0] [1] [2] [3] [4] [5] [6] [7] [0] [1] [2]
+        //        └─ prepend ─┘   └───── real slides ─────┘   └─ append ─┘
+        //
+        // Real slides are at indices: CLONES_PER_SIDE to (CLONES_PER_SIDE + totalRealSlides - 1)
+        // i.e., indices 3 to 10 for real slides 0-7
+
+        const firstRealIndex = CLONES_PER_SIDE; // 3
+        const lastRealIndex = CLONES_PER_SIDE + totalRealSlides - 1; // 10
+
+        // Only jump when we're on an ACTUAL CLONE (outside real slides range)
+        // Jump happens AFTER scroll ends, when clone is centered and stable
+        if (centeredIndex < firstRealIndex) {
+            // On a prepended clone - jump to corresponding real slide
+            const cloneOfSlide = allSlides[centeredIndex].getAttribute('data-clone-of');
+            if (cloneOfSlide !== null) {
+                const realSlideIndex = parseInt(cloneOfSlide, 10);
+                performSeamlessJump(carousel, allSlides, realSlideIndex);
+            }
+        } else if (centeredIndex > lastRealIndex) {
+            // On an appended clone - jump to corresponding real slide
+            const cloneOfSlide = allSlides[centeredIndex].getAttribute('data-clone-of');
+            if (cloneOfSlide !== null) {
+                const realSlideIndex = parseInt(cloneOfSlide, 10);
+                performSeamlessJump(carousel, allSlides, realSlideIndex);
+            }
+        }
+    }
+
+    function performSeamlessJump(carousel: HTMLElement, allSlides: NodeListOf<HTMLElement>, realSlideIndex: number) {
+        isJumping = true;
+
+        // Target is the real slide at position CLONES_PER_SIDE + realSlideIndex
+        const targetIndex = realSlideIndex + CLONES_PER_SIDE;
+        const targetSlide = allSlides[targetIndex];
+
+        if (!targetSlide) {
+            isJumping = false;
+            return;
+        }
+
+        // Calculate target scroll position
+        const slideLeft = targetSlide.offsetLeft;
+        const slideWidth = targetSlide.offsetWidth;
+        const carouselWidth = carousel.offsetWidth;
+        const scrollPosition = slideLeft - (carouselWidth / 2) + (slideWidth / 2);
+
+        // TECHNIQUE 1: Add CSS class to disable all transitions/animations
+        carousel.classList.add('jumping');
+
+        // TECHNIQUE 2: Disable scroll-snap during jump
+        const originalSnapType = carousel.style.scrollSnapType;
+        carousel.style.scrollSnapType = 'none';
+
+        // Perform the instant jump synchronously
+        carousel.scrollLeft = Math.max(0, scrollPosition);
+
+        // Force browser to commit immediately
+        void carousel.scrollLeft;
+
+        // Re-enable everything in next animation frame
+        requestAnimationFrame(() => {
+            carousel.style.scrollSnapType = originalSnapType || '';
+
+            // Remove jumping class after a tiny delay to ensure stability
+            requestAnimationFrame(() => {
+                carousel.classList.remove('jumping');
+
+                // Allow next jump detection
+                setTimeout(() => {
+                    isJumping = false;
+                }, 20);
+            });
+        });
+    }
+
     // ============================================
-    // INITIALIZATION: Reset visible count on page load
+    // INITIALIZATION: Setup carousel
     // ============================================
-    function initTestimonials() {
-        const grid = document.getElementById('testimonials-grid');
-        if (grid) {
-            visibleCount = parseInt(grid.dataset.initialCount || '3', 10);
+    function initCarousel() {
+        setupInfiniteLoop();
+        updateCarouselIndicators();
+        // Start autoplay on initialization
+        if (isAutoplayEnabled) {
+            startAutoplay();
         }
     }
 
     // Initialize on page load and after View Transitions
-    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
-    initTestimonials();
-    document.addEventListener('qazuor:content-ready', initTestimonials);
+    initCarousel();
+    document.addEventListener('qazuor:content-ready', initCarousel);
 
     } // End of else block (guard flag check)
 </script>

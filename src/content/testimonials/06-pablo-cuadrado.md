@@ -1,6 +1,6 @@
 ---
 name: 'Pablo Cuadrado'
-role: 'Coder & designer.'
+role: 'Coder & designer'
 company: 'EveryPixelHurts'
 content:
   'Leandro is a Javascript pioneer and architect, which is super important in

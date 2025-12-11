@@ -27,16 +27,6 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
     const [isHomePage, setIsHomePage] = useState(false);
     const [canFitOnSide, setCanFitOnSide] = useState(false);
 
-    // Check if we're on mobile (< 768px) - only show on mobile since desktop has it in FloatingNav
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
     // Check if we're on the home page (affects alignment since home has fewer nav icons)
     useEffect(() => {
         const checkHomePage = () => {
@@ -48,19 +38,20 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
         return () => window.removeEventListener('popstate', checkHomePage);
     }, []);
 
-    // Check if button can fit on the side of the nav
+    // Combined resize handler: check mobile viewport and button fit space
     useEffect(() => {
-        const checkSpace = () => {
-            const navWidth = isHomePage ? NAV_WIDTH_HOME : NAV_WIDTH_OTHER;
+        const handleResize = () => {
             const viewportWidth = window.innerWidth;
-            // Space available on each side of centered nav
+            // Check if mobile (< 768px) - only show on mobile since desktop has it in FloatingNav
+            setIsMobile(viewportWidth < 768);
+            // Check if button can fit on the side of the nav
+            const navWidth = isHomePage ? NAV_WIDTH_HOME : NAV_WIDTH_OTHER;
             const sideSpace = (viewportWidth - navWidth) / 2;
-            // Button needs BUTTON_SIZE + GAP to fit on side
             setCanFitOnSide(sideSpace >= BUTTON_SIZE + GAP);
         };
-        checkSpace();
-        window.addEventListener('resize', checkSpace);
-        return () => window.removeEventListener('resize', checkSpace);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, [isHomePage]);
 
     // Listen for scroll to toggle visibility

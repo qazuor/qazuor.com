@@ -249,15 +249,15 @@
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-background-secondary;
+        @apply bg-muted;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-foreground-muted rounded-full;
+        @apply bg-muted-foreground rounded-full;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-foreground-secondary;
+        @apply bg-muted-foreground/80;
     }
 }
 

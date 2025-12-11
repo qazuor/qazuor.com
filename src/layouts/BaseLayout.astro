@@ -20,8 +20,8 @@ import { CommandPalette } from '@/components/interactive/CommandPalette';
 import { ScrollToTop } from '@/components/interactive/ScrollToTop';
 import LifecycleInit from '@/components/LifecycleInit.astro';
 import Footer from '@/components/layout/Footer.astro';
-import Navigation from '@/components/layout/Navigation.astro';
 import SEO from '@/components/layout/SEO.astro';
+import { FloatingNav } from '@/components/navigation/FloatingNav';
 import BreadcrumbJsonLd from '@/components/seo/BreadcrumbJsonLd.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
 import ViewTransitionGSAP from '@/components/transitions/ViewTransitionGSAP.astro';
@@ -91,6 +91,31 @@ const {
 
 // Get current route without locale
 const route = getRouteFromUrl(Astro.url);
+
+// Check if we're on the home page (for floating nav)
+const isHomePage = route === '' || route === '/';
+
+// Floating nav labels for i18n
+const floatingNavLabels = {
+    hero: t('nav.home'),
+    about: t('nav.about'),
+    skills: t('nav.skills'),
+    projects: t('nav.projects'),
+    services: t('nav.services'),
+    blog: t('nav.blog'),
+    testimonials: t('nav.testimonials'),
+    faqs: t('nav.faqs'),
+    contact: t('nav.contact')
+};
+
+// Utility labels for mobile FloatingNav popover
+const floatingNavUtilityLabels = {
+    goodies: t('nav.tools'),
+    command: t('aria.openCommandPalette'),
+    theme: t('aria.toggleTheme'),
+    language: t('aria.changeLanguage'),
+    scrollToTop: t('aria.scrollToTop')
+};
 
 // Site configuration
 const siteUrl = 'https://qazuor.com';
@@ -225,6 +250,13 @@ const alternateLinks = locales.map((locale) => {
                 .container-custom {
                     padding-left: 2rem;
                     padding-right: 2rem;
+                }
+            }
+
+            /* Extra padding for floating nav on homepage (desktop only) */
+            @media (min-width: 768px) {
+                .has-floating-nav .container-custom {
+                    padding-right: 6rem;
                 }
             }
 
@@ -397,7 +429,7 @@ const alternateLinks = locales.map((locale) => {
             })();
         </script>
     </head>
-    <body>
+    <body class="has-floating-nav">
         <!-- Skip to main content link for accessibility -->
         <a href="#main-content" class="skip-link">
             {t('aria.skipToContent')}
@@ -426,12 +458,18 @@ const alternateLinks = locales.map((locale) => {
         <!-- Scroll to Top Button - client:idle since button only shows after 300px scroll -->
         <ScrollToTop client:idle ariaLabel={t('aria.scrollToTop')} />
 
+        <!-- Floating Navigation - visible on all pages -->
+        <FloatingNav
+            client:load
+            labels={floatingNavLabels}
+            currentLocale={lang}
+            utilityLabels={floatingNavUtilityLabels}
+        />
+
         <!-- View Transitions with Custom GSAP Animation -->
         <ViewTransitionGSAP />
 
-        <Navigation />
-
-        <main id="main-content" class="min-h-screen pt-14">
+        <main id="main-content" class="min-h-screen">
             <slot />
         </main>
 

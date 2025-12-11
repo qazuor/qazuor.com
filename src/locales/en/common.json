@@ -8,6 +8,7 @@
         "about": "About",
         "skills": "Skills",
         "testimonials": "Testimonials",
+        "faqs": "FAQ",
         "contact": "Contact"
     },
     "theme": {
@@ -404,7 +405,8 @@
         "commandPalettePlaceholder": "Type a command or search...",
         "skipToContent": "Skip to main content",
         "featuredProjectsSection": "Featured projects showcase",
-        "closeTestimonialModal": "Close testimonial"
+        "closeTestimonialModal": "Close testimonial",
+        "changeLanguage": "Change language"
     },
     "imageAlt": {
         "avatarProfile": "Qazuor profile picture",

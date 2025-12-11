@@ -73,6 +73,19 @@
     },
     "overrides": [
         {
+            "includes": ["**/animate-ui/**"],
+            "linter": {
+                "rules": {
+                    "a11y": {
+                        "noSvgWithoutTitle": "off"
+                    },
+                    "suspicious": {
+                        "noExplicitAny": "off"
+                    }
+                }
+            }
+        },
+        {
             "includes": ["**/*.astro"],
             "formatter": {
                 "enabled": true,

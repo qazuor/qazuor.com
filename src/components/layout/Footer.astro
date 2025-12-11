@@ -10,9 +10,10 @@ import { getTranslations, processMarkdown } from '@/i18n/utils';
 
 interface Props {
     lang?: 'en' | 'es';
+    class?: string;
 }
 
-const { lang = 'en' } = Astro.props;
+const { lang = 'en', class: className } = Astro.props;
 const t = getTranslations(lang);
 
 // Get latest blog posts (increased to 8)
@@ -36,7 +37,7 @@ const exploreItems = [
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="relative z-40 py-16 md:py-20" style="background-color: var(--section-footer-bg)">
+<footer class:list={["relative z-40 py-16 md:py-20", className]} style="background-color: var(--section-footer-bg)">
     <div class="container-custom">
         <!-- Main Footer Content -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-6 lg:mb-12">

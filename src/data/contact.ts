@@ -16,6 +16,8 @@ export interface ContactData {
         whatsapp: string;
         mail: string;
         buymeacoffee: string;
+        discord: string;
+        x: string;
     };
 }
 
@@ -31,6 +33,8 @@ export const contact: ContactData = {
         upwork: 'https://www.upwork.com/freelancers/~01881c38344e9431d7',
         whatsapp: 'https://wa.me/543442453797',
         mail: 'mailto:hello@qazuor.com',
-        buymeacoffee: 'https://buymeacoffee.com/qazuor'
+        buymeacoffee: 'https://buymeacoffee.com/qazuor',
+        discord: 'https://discord.com/users/799697279854051369',
+        x: 'https://x.com/qazuor'
     }
 };

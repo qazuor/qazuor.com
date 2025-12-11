@@ -1,12 +1,14 @@
 ---
 import { contact } from '@/data';
 import BuyMeACoffeeLink from './social/BuyMeACoffeeLink.astro';
+import DiscordLink from './social/DiscordLink.astro';
 import FiverrLink from './social/FiverrLink.astro';
 import GitHubLink from './social/GitHubLink.astro';
 import LinkedInLink from './social/LinkedInLink.astro';
 import MailLink from './social/MailLink.astro';
 import UpworkLink from './social/UpworkLink.astro';
 import WhatsAppLink from './social/WhatsAppLink.astro';
+import XLink from './social/XLink.astro';
 
 interface Props {
     ariaLabels?: {
@@ -17,10 +19,12 @@ interface Props {
         whatsapp: string;
         mail: string;
         buymeacoffee: string;
+        discord: string;
+        x: string;
     };
     size?: 'sm' | 'md' | 'lg';
     className?: string;
-    networks?: ('github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail' | 'buymeacoffee')[];
+    networks?: ('github' | 'linkedin' | 'fiverr' | 'upwork' | 'whatsapp' | 'mail' | 'buymeacoffee' | 'discord' | 'x')[];
 }
 
 const {
@@ -31,11 +35,13 @@ const {
         upwork: 'Upwork',
         whatsapp: 'WhatsApp',
         mail: 'Email',
-        buymeacoffee: 'Buy Me a Coffee'
+        buymeacoffee: 'Buy Me a Coffee',
+        discord: 'Discord',
+        x: 'X (Twitter)'
     },
     size = 'md',
     className = '',
-    networks = ['linkedin', 'fiverr', 'upwork', 'github', 'buymeacoffee', 'whatsapp', 'mail']
+    networks = ['linkedin', 'fiverr', 'upwork', 'github', 'discord', 'x', 'buymeacoffee', 'whatsapp', 'mail']
 } = Astro.props;
 
 // Map of component types
@@ -46,7 +52,9 @@ const componentMap = {
     upwork: UpworkLink,
     whatsapp: WhatsAppLink,
     mail: MailLink,
-    buymeacoffee: BuyMeACoffeeLink
+    buymeacoffee: BuyMeACoffeeLink,
+    discord: DiscordLink,
+    x: XLink
 };
 
 // Map of social networks configuration
@@ -78,6 +86,14 @@ const socialConfig = {
     buymeacoffee: {
         href: contact.social.buymeacoffee,
         ariaLabel: ariaLabels.buymeacoffee
+    },
+    discord: {
+        href: contact.social.discord,
+        ariaLabel: ariaLabels.discord
+    },
+    x: {
+        href: contact.social.x,
+        ariaLabel: ariaLabels.x
     }
 };
 ---

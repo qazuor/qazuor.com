@@ -12,59 +12,19 @@ export interface RadarCategory {
     }>;
 }
 
-export interface LanguageData {
-    id: string;
-    name: string;
-    icon: string;
-    value: number;
-    note: string;
-}
-
 interface Props {
     categories: RadarCategory[];
     description?: string;
-    languages?: LanguageData[];
-    languageTitle?: string;
 }
 
-const { categories, description, languages = [], languageTitle = 'Languages' } = Astro.props;
+const { categories, description } = Astro.props;
 ---
 
 <div class="skills-radar-grid">
-    <!-- First Row: Description Text + Language Skills (Full Width) -->
-    <div class="description-languages-wrapper">
+    <!-- First Row: Description Text (Full Width) -->
+    <div class="description-wrapper">
         <div class="description-content">
             {description && <div class="description-text" set:html={description} />}
-
-            <!-- Language Skills -->
-            {languages.length > 0 && (
-                <div class="language-skills" data-animate>
-                    <h2 class="language-title">{languageTitle}</h2>
-                    {languages.map((lang) => (
-                        <div class="language-item" data-animate-bar>
-                            <div class="language-label">
-                                <div class="language-name-wrapper">
-                                    <span class="language-flag" set:html={lang.icon} />
-                                    <span class="language-name">
-                                        {lang.name}
-                                        <span class="language-note">({lang.note})</span>
-                                    </span>
-                                </div>
-                                <span class="language-value">{lang.value}%</span>
-                            </div>
-                            <div class="language-bar-wrapper">
-                                <div class="language-bar">
-                                    <div class="language-bar-bg" />
-                                    <div
-                                        class={`language-progress ${lang.id}-progress`}
-                                        data-value={lang.value}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     </div>
 
@@ -110,8 +70,8 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
         gap: 3rem;
     }
 
-    /* First Row: Description + Languages (Full Width) */
-    .description-languages-wrapper {
+    /* First Row: Description (Full Width) */
+    .description-wrapper {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -165,136 +125,6 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
         font-weight: 600;
     }
 
-    /* Language Skills */
-    .language-skills {
-        margin-top: 2rem;
-    }
-
-    .language-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--color-foreground);
-        margin: 0 0 1.5rem 0;
-    }
-
-    .language-item {
-        margin-bottom: 1.25rem;
-    }
-
-    .language-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .language-label {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-    }
-
-    .language-name-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .language-flag {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
-    }
-
-    .language-flag :global(svg) {
-        width: 100%;
-        height: 100%;
-    }
-
-    .language-name {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: var(--color-foreground);
-    }
-
-    .language-note {
-        font-size: 0.875rem;
-        font-weight: 400;
-        color: var(--color-foreground-secondary);
-        opacity: 0.8;
-        font-style: italic;
-    }
-
-    .language-value {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--color-primary);
-    }
-
-    .language-bar-wrapper {
-        position: relative;
-    }
-
-    .language-bar {
-        position: relative;
-        height: 16px;
-        border-radius: 8px;
-        overflow: hidden;
-        background: var(--color-border);
-    }
-
-    /* Clean track background - no animated stripes */
-    .language-bar-bg {
-        display: none;
-    }
-
-    .language-progress {
-        position: relative;
-        height: 100%;
-        width: 0;
-        border-radius: 8px;
-        transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        z-index: 1;
-        overflow: hidden;
-    }
-
-    /* Gradient matching SectionTitle colors - sized to 100% of full bar */
-    .language-progress {
-        background: linear-gradient(
-            90deg,
-            #4f46e5 0%,
-            #a855f7 50%,
-            #ec4899 100%
-        );
-        background-size: var(--gradient-size, 100%) 100%;
-        background-position: left;
-    }
-
-    /* Subtle top shine effect */
-    .language-progress::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.3) 0%,
-            transparent 100%
-        );
-        border-radius: 8px 8px 0 0;
-    }
-
-    /* Animation states */
-    .language-item[data-animate-bar] .language-progress {
-        width: 0 !important;
-    }
-
-    .language-item[data-animate-bar].animate-in .language-progress {
-        width: var(--progress-width) !important;
-    }
-
     /* Mobile optimizations */
     @media (max-width: 1024px) {
         .skills-radar-grid {
@@ -313,10 +143,6 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
             font-size: 1rem;
             line-height: 1.7;
             margin-bottom: 2rem;
-        }
-
-        .language-title {
-            font-size: 1.125rem;
         }
     }
 
@@ -338,18 +164,6 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
-
-        .language-title {
-            font-size: 1rem;
-        }
-
-        .language-name {
-            font-size: 0.9rem;
-        }
-
-        .language-value {
-            font-size: 0.8rem;
-        }
     }
 
     /* Light mode - Default styles */
@@ -361,10 +175,6 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
         color: rgba(0, 0, 0, 0.9);
     }
 
-    .language-bar {
-        background: rgba(0, 0, 0, 0.08);
-    }
-
     /* Dark mode - When .dark class is present on html */
     :global(.dark) .radar-chart-wrapper {
         background: rgba(255, 255, 255, 0.05);
@@ -373,87 +183,4 @@ const { categories, description, languages = [], languageTitle = 'Languages' } =
     :global(.dark) .description-text {
         color: rgba(255, 255, 255, 0.9);
     }
-
-    :global(.dark) .language-bar {
-        background: rgba(255, 255, 255, 0.15);
-    }
 </style>
-
-<script>
-    // Store observer reference for cleanup
-    let languageBarObserver: IntersectionObserver | null = null;
-
-    // Animate language bars on viewport entry
-    function initializeLanguageBars() {
-        // Cleanup previous observer if exists
-        if (languageBarObserver) {
-            languageBarObserver.disconnect();
-            languageBarObserver = null;
-        }
-
-        // Reset animation state for re-navigation
-        const languageItems = document.querySelectorAll('[data-animate-bar]');
-        languageItems.forEach((item) => {
-            item.classList.remove('animate-in');
-            const progressBar = item.querySelector('.language-progress') as HTMLElement;
-            if (progressBar) {
-                progressBar.style.removeProperty('--progress-width');
-                progressBar.style.removeProperty('--gradient-size');
-            }
-        });
-
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px'
-        };
-
-        languageBarObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const items = entry.target.querySelectorAll('[data-animate-bar]');
-                    items.forEach((item, index) => {
-                        const progressBar = item.querySelector('.language-progress') as HTMLElement;
-                        const value = progressBar?.getAttribute('data-value');
-                        if (progressBar && value) {
-                            const numValue = parseFloat(value);
-                            progressBar.style.setProperty('--progress-width', `${value}%`);
-                            // Calculate gradient size so it's relative to 100% of the bar
-                            // This makes the gradient appear as if it spans the full bar width
-                            const gradientSize = (10000 / numValue).toFixed(2);
-                            progressBar.style.setProperty('--gradient-size', `${gradientSize}%`);
-                            setTimeout(() => {
-                                item.classList.add('animate-in');
-                            }, index * 150);
-                        }
-                    });
-                    languageBarObserver?.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observe language skills section
-        const languageSkills = document.querySelector('[data-animate]');
-        if (languageSkills) {
-            languageBarObserver.observe(languageSkills);
-        }
-    }
-
-    // Cleanup on View Transition navigation
-    document.addEventListener('astro:before-swap', () => {
-        if (languageBarObserver) {
-            languageBarObserver.disconnect();
-            languageBarObserver = null;
-        }
-    });
-
-    // Initialize on initial page load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeLanguageBars);
-    } else {
-        initializeLanguageBars();
-    }
-
-    // Re-initialize after View Transitions navigation
-    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
-    document.addEventListener('qazuor:content-ready', initializeLanguageBars);
-</script>

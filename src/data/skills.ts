@@ -11,14 +11,6 @@ export interface Skill {
     description?: string; // Optional description key for i18n (for other skills)
 }
 
-export interface LanguageSkill {
-    id: string;
-    name: string;
-    icon: string;
-    value: number;
-    noteKey: 'native' | 'writtenOnly' | 'fluent' | 'intermediate' | 'basic';
-}
-
 export interface SkillCategory {
     id: 'technicalSkills' | 'humanCreativeSkills';
     skills: Skill[];
@@ -118,22 +110,5 @@ export const skillsData: SkillCategory[] = [
                 description: 'automationDescription'
             }
         ]
-    }
-];
-
-export const languageSkills: LanguageSkill[] = [
-    {
-        id: 'spanish',
-        name: 'Spanish',
-        icon: 'spanish',
-        value: 100,
-        noteKey: 'native'
-    },
-    {
-        id: 'english',
-        name: 'English',
-        icon: 'usa',
-        value: 55,
-        noteKey: 'writtenOnly'
     }
 ];

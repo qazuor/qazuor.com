@@ -2,7 +2,7 @@
 import SkillsRadarGrid from '@/components/interactive/SkillsRadarGrid.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import { languageSkills, skillsData } from '@/data';
+import { skillsData } from '@/data';
 import GithubIcon from '@/icons/social/github.svg?raw';
 // Import tech icons
 import AstroIcon from '@/icons/tech/astro.svg?raw';
@@ -11,7 +11,6 @@ import ClaudeCodeIcon from '@/icons/tech/claudecode.svg?raw';
 import CoreldrawIcon from '@/icons/tech/coreldraw.svg?raw';
 import Css3Icon from '@/icons/tech/css3.svg?raw';
 import DrizzleIcon from '@/icons/tech/drizzle.svg?raw';
-import EnglishIcon from '@/icons/tech/english.svg?raw';
 import GitIcon from '@/icons/tech/git.svg?raw';
 import HonoIcon from '@/icons/tech/hono.svg?raw';
 import Html5Icon from '@/icons/tech/html5.svg?raw';
@@ -23,11 +22,9 @@ import PhotoshopIcon from '@/icons/tech/photoshop.svg?raw';
 import PostgresqlIcon from '@/icons/tech/postgresql.svg?raw';
 import ReactIcon from '@/icons/tech/react.svg?raw';
 import RestApiIcon from '@/icons/tech/restapi.svg?raw';
-import SpanishIcon from '@/icons/tech/spanish.svg?raw';
 import TailwindIcon from '@/icons/tech/tailwind.svg?raw';
 import TanstackIcon from '@/icons/tech/tanstack.svg?raw';
 import TypescriptIcon from '@/icons/tech/typescript.svg?raw';
-import UsaIcon from '@/icons/tech/usa.svg?raw';
 import WordpressIcon from '@/icons/tech/wordpress.svg?raw';
 import ZodIcon from '@/icons/tech/zod.svg?raw';
 // Import timeline icons (for soft skills)
@@ -59,14 +56,6 @@ interface Props {
         };
         skillItems?: Record<string, string>; // For soft skills translations
         skillDescriptions?: Record<string, string>; // For skill descriptions translations
-        languages?: {
-            title: string;
-            native: string;
-            writtenOnly: string;
-            fluent: string;
-            intermediate: string;
-            basic: string;
-        };
     };
 }
 
@@ -104,8 +93,6 @@ const iconMap: Record<string, string> = {
     git: GitIcon,
     github: GithubIcon,
     claudecode: ClaudeCodeIcon,
-    english: EnglishIcon,
-    spanish: SpanishIcon,
     coreldraw: CoreldrawIcon,
     photoshop: PhotoshopIcon,
     canva: CanvaIcon,
@@ -172,12 +159,6 @@ const categories = skillsData.map((category) => ({
             <SkillsRadarGrid
                 categories={categories}
                 description={translations.description}
-                languages={languageSkills.map((lang) => ({
-                    ...lang,
-                    icon: lang.icon === 'spanish' ? SpanishIcon : UsaIcon,
-                    note: translations.languages?.[lang.noteKey] || lang.noteKey
-                }))}
-                languageTitle={translations.languages?.title}
             />
         </div>
     </div>

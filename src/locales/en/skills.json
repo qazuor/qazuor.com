@@ -1,9 +1,9 @@
 {
     "title": "**Skills**",
     "subtitle": "Technologies I *work with*",
-    "description": "Here's a look at my skill set. The **tech world** changes every moment and that's what makes it *exciting*! I constantly keep my knowledge up to date and love exploring **new technologies** to keep growing.\n\n**Frontend** is where I shine: React, Astro, TypeScript, Tailwind. I handle backend when needed: Hono, Drizzle, PostgreSQL. With a *designer's* background, every interface has intention and balance.",
+    "description": "Here's a look at my skill set. The **tech world** changes every moment and that's what makes it *exciting*! I constantly keep my knowledge up to date and love exploring **new technologies** to keep growing.\n\n**Frontend** is where I shine: React, Astro, TypeScript, Tailwind. I handle backend when needed: Hono, Drizzle, PostgreSQL. With a *designer's* background, every interface has intention and balance.\n\n**Languages**: Spanish (native, 100%) and technical/written English (55%).",
     "categories": {
-        "technicalSkills": "**Technical** Skills",
+        "technicalSkills": "**Technical** & Dev Skills",
         "humanCreativeSkills": "**Human** & Creative Skills"
     },
     "items": {
@@ -35,13 +35,5 @@
         "automationDescription": "Automations with Make / Zapier (e.g.: form → email → spreadsheet)",
         "seoDescription": "Search engine optimization",
         "socialMediaAndFlyersDescription": "Social media graphics and flyers for marketing campaigns"
-    },
-    "languages": {
-        "title": "Languages",
-        "native": "native",
-        "writtenOnly": "technical/written",
-        "fluent": "fluent",
-        "intermediate": "intermediate",
-        "basic": "basic"
     }
 }

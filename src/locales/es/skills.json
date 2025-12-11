@@ -1,9 +1,9 @@
 {
     "title": "**Habilidades**",
     "subtitle": "Tecnologías con las que *trabajo*",
-    "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.\n\nMi zona de confort: el **Frontend**. Trabajo con React, Astro, TypeScript y Tailwind, cuidando cada detalle visual y técnico. Cuando hace falta, también meto mano en el Backend con Hono, Drizzle y PostgreSQL. Vengo del mundo del *diseño*, así que las interfaces no solo funcionan… también tienen onda.",
+    "description": "Aquí puedes ver mi conjunto de habilidades. El mundo de la **tecnología** cambia constantemente y eso es lo que lo hace *emocionante*! Mantengo constantemente mis conocimientos actualizados y me encanta explorar **nuevas tecnologías** para seguir creciendo.\n\nMi zona de confort: el **Frontend**. Trabajo con React, Astro, TypeScript y Tailwind, cuidando cada detalle visual y técnico. Cuando hace falta, también meto mano en el Backend con Hono, Drizzle y PostgreSQL. Vengo del mundo del *diseño*, así que las interfaces no solo funcionan… también tienen onda.\n\n**Idiomas**: Español (nativo, 100%) e Inglés técnico/escrito (55%).",
     "categories": {
-        "technicalSkills": "Habilidades **Técnicas**",
+        "technicalSkills": "Habilidades **Técnicas** y Dev",
         "humanCreativeSkills": "Habilidades **Humanas** y Creativas"
     },
     "items": {
@@ -35,13 +35,5 @@
         "automationDescription": "Automatizaciones con Make / Zapier (ej: formulario → email → hoja de cálculo)",
         "seoDescription": "Optimización para motores de búsqueda",
         "socialMediaAndFlyersDescription": "Diseño de gráficos para redes sociales y flyers de marketing"
-    },
-    "languages": {
-        "title": "Idiomas",
-        "native": "nativo",
-        "writtenOnly": "técnico/escrito",
-        "fluent": "fluido",
-        "intermediate": "intermedio",
-        "basic": "básico"
     }
 }

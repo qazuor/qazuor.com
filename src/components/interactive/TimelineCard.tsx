@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import type { PopoverPosition, TimelineItem } from './hooks/useTimelineAnimation';
+import type { TimelineItem } from './hooks/useTimelineAnimation';
 
 // Static style constants
 const POPOVER_BASE_COLORS = {
@@ -21,19 +21,9 @@ interface TimelineCardProps {
     item: TimelineItem;
 
     /**
-     * Popover position alignment
-     */
-    popoverPosition: PopoverPosition;
-
-    /**
      * Popover width in pixels
      */
     popoverWidth: number;
-
-    /**
-     * Timeline spacing in pixels
-     */
-    timelineSpacing: number;
 
     /**
      * Whether the device is mobile
@@ -42,66 +32,41 @@ interface TimelineCardProps {
 }
 
 /**
- * Timeline card component that displays item details in a popover
+ * Timeline card component that displays item details in a centered popover
  *
- * @description Renders a positioned card with timeline item information
+ * @description Renders a fixed, centered card with timeline item information.
+ * The card stays in place while the timeline scrolls to center the selected year.
  * @param props - Component props
  *
  * @example
  * ```tsx
  * <TimelineCard
  *   item={selectedItem}
- *   popoverPosition="center"
  *   popoverWidth={500}
- *   timelineSpacing={120}
  *   isMobile={false}
  * />
  * ```
  */
-export const TimelineCard = memo(function TimelineCard({
-    item,
-    popoverPosition,
-    popoverWidth,
-    timelineSpacing,
-    isMobile
-}: TimelineCardProps) {
-    // Calculate left position based on popover position
-    const leftPosition = useMemo(() => {
-        if (popoverPosition === 'left') return '0px';
-        if (popoverPosition === 'right') return `${timelineSpacing - popoverWidth}px`;
-        return `${(timelineSpacing - popoverWidth) / 2}px`;
-    }, [popoverPosition, timelineSpacing, popoverWidth]);
-
-    // Calculate text alignment based on popover position
-    const textAlignment = useMemo(() => {
-        if (popoverPosition === 'left') return 'text-left';
-        if (popoverPosition === 'right') return 'text-right';
-        return 'text-center';
-    }, [popoverPosition]);
-
-    // Memoized popover style to avoid object recreation
+export const TimelineCard = memo(function TimelineCard({ item, popoverWidth, isMobile }: TimelineCardProps) {
+    // Memoized popover style - always centered horizontally
+    // Fixed height prevents layout shifts between items with different text lengths
     const popoverStyle = useMemo<React.CSSProperties>(
         () => ({
             ...POPOVER_BASE_COLORS,
             width: `${popoverWidth}px`,
-            top: isMobile ? '200px' : '190px',
-            left: leftPosition,
-            padding: isMobile ? '12px 14px' : '16px',
-            maxHeight: isMobile ? '120px' : 'none',
-            overflow: isMobile ? 'hidden' : 'visible'
+            padding: isMobile ? '12px 16px' : '16px 20px',
+            height: isMobile ? '100px' : '95px',
+            overflow: 'hidden'
         }),
-        [popoverWidth, isMobile, leftPosition]
+        [popoverWidth, isMobile]
     );
 
     // Memoized title style
     const titleStyle = useMemo<React.CSSProperties>(() => ({ color: item.colorHex }), [item.colorHex]);
 
     return (
-        <div
-            className="absolute z-20 backdrop-blur-sm rounded-lg shadow-2xl opacity-100 transition-all duration-300 ease-out"
-            style={popoverStyle}
-        >
-            <div className={textAlignment}>
+        <div className="z-20 backdrop-blur-sm rounded-lg shadow-2xl" style={popoverStyle}>
+            <div className="text-center">
                 <h3
                     className={`${isMobile ? 'text-[11px]' : 'text-sm'} font-semibold mb-1 leading-tight`}
                     style={titleStyle}
@@ -109,7 +74,7 @@ export const TimelineCard = memo(function TimelineCard({
                     {item.title}
                 </h3>
                 <p
-                    className={`${isMobile ? 'text-[10px] line-clamp-3' : 'text-xs'} leading-relaxed`}
+                    className={`${isMobile ? 'text-[10px] line-clamp-3' : 'text-xs line-clamp-2'} leading-relaxed`}
                     style={CONTENT_COLOR_STYLE}
                 >
                     {item.content}

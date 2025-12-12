@@ -60,7 +60,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
     return (
         <section
             ref={timeline.containerRef}
-            className="flex flex-col items-center justify-center focus:outline-none"
+            className="relative flex flex-col items-center justify-center focus:outline-none"
             // biome-ignore lint/a11y/noNoninteractiveTabindex: tabIndex needed for keyboard navigation within timeline
             tabIndex={0}
             aria-label="Timeline"
@@ -134,9 +134,9 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                     </span>
                 </div>
 
-                {/* Progress Dots */}
+                {/* Progress Dots - Fixed height container to prevent layout shifts */}
                 <div
-                    className="flex items-center justify-center gap-1.5 flex-wrap max-w-md px-4"
+                    className="flex items-center justify-center gap-1.5 flex-wrap max-w-md px-4 h-5"
                     role="tablist"
                     aria-label="Timeline progress"
                 >
@@ -145,10 +145,10 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                             key={item.id}
                             type="button"
                             onClick={() => timeline.goToIndex(index)}
-                            className={`transition-all duration-300 rounded-full ${
+                            className={`w-2.5 h-2.5 rounded-full transition-transform duration-300 ${
                                 timeline.currentIndex === index
-                                    ? 'w-3 h-3 scale-125'
-                                    : 'w-2 h-2 bg-muted/40 hover:bg-muted/60'
+                                    ? 'scale-125'
+                                    : 'scale-100 bg-muted/40 hover:bg-muted/60 hover:scale-110'
                             }`}
                             style={{
                                 backgroundColor: timeline.currentIndex === index ? item.colorHex : undefined
@@ -162,15 +162,20 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                 </div>
             </div>
 
-            <div className="w-full mx-auto">
+            {/* Timeline wrapper with relative positioning for card placement */}
+            <div className="w-full mx-auto relative">
                 {/* Horizontal scroll container - hidden scrollbar */}
+                {/* Uses negative margin trick to break out of parent container and occupy full viewport */}
                 <div
                     ref={timeline.scrollContainerRef}
                     className="overflow-x-auto overflow-y-visible scrollbar-hide"
                     style={{
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
-                        WebkitOverflowScrolling: 'touch'
+                        WebkitOverflowScrolling: 'touch',
+                        // Break out of parent container to occupy full viewport width
+                        width: '100vw',
+                        marginLeft: 'calc(-50vw + 50%)'
                     }}
                 >
                     {/* Timeline container - flexbox autocontained */}
@@ -182,36 +187,29 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                         aria-label="Timeline navigation"
                         style={{
                             // Width = padding-left + items + padding-right
-                            // Mobile: 50vw padding on each side so first/last can center
-                            // Desktop: fixed padding (DESKTOP_PADDING)
-                            width: timeline.isMobile
-                                ? `calc(100vw + ${(timelineItems.length - 1) * timeline.TIMELINE_SPACING}px)`
-                                : `${timelineItems.length * timeline.TIMELINE_SPACING + timeline.DESKTOP_PADDING * 2}px`,
-                            paddingLeft: timeline.isMobile
-                                ? `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`
-                                : `${timeline.DESKTOP_PADDING}px`,
-                            paddingRight: timeline.isMobile
-                                ? `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`
-                                : `${timeline.DESKTOP_PADDING}px`,
-                            paddingBottom: timeline.isMobile ? '160px' : '200px'
+                            // Both mobile and desktop use 50vw padding so first/last items can center
+                            width: `calc(100vw + ${(timelineItems.length - 1) * timeline.TIMELINE_SPACING}px)`,
+                            paddingLeft: `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`,
+                            paddingRight: `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`,
+                            paddingBottom: timeline.isMobile ? '120px' : '140px'
                         }}
                     >
-                        {/* Horizontal base line with gradients */}
+                        {/* Horizontal base line with gradients - fades at visual edges */}
                         <div
-                            className="absolute h-1"
+                            className="absolute h-0.5"
                             style={{
                                 top: '62px',
-                                left: '-100px',
-                                right: '-300px',
+                                left: '0',
+                                right: '0',
                                 background: `linear-gradient(
-                  to right,
-                  transparent,
-                  hsl(var(--muted) / 0.1) 5%,
-                  hsl(var(--muted) / 1) 10%,
-                  hsl(var(--muted) / 1) 90%,
-                  hsl(var(--muted) / 0.1) 95%,
-                  transparent
-                )`
+                                    to right,
+                                    transparent 0%,
+                                    hsl(var(--muted) / 0.4) 5%,
+                                    hsl(var(--muted) / 0.8) 15%,
+                                    hsl(var(--muted) / 0.8) 85%,
+                                    hsl(var(--muted) / 0.4) 95%,
+                                    transparent 100%
+                                )`
                             }}
                         />
 
@@ -239,7 +237,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                     >
                                         {/* Year */}
                                         <div
-                                            className={`text-sm mb-4 font-mono tracking-wider font-semibold transition-all duration-300 ${
+                                            className={`text-sm mb-4 font-mono tracking-wider font-semibold transition-all duration-500 ease-out ${
                                                 isSelected ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-90'
                                             }`}
                                             style={{
@@ -251,7 +249,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
 
                                         {/* Main dividing line - exactly below the year */}
                                         <div
-                                            className="w-0.5 h-6 relative z-10 translate-y-1/2 transition-opacity duration-300"
+                                            className="w-0.5 h-6 relative z-10 translate-y-1/2 transition-opacity duration-500 ease-out"
                                             style={{
                                                 backgroundColor: 'hsl(var(--muted))',
                                                 opacity: isSelected ? '0' : '0.8'
@@ -260,13 +258,13 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
 
                                         {/* Timeline point - moves down with gap after the line */}
                                         <div
-                                            className={`w-10 h-10 flex items-center justify-center relative z-10 transition-all duration-300 ease-out ${
+                                            className={`w-10 h-10 flex items-center justify-center relative z-10 transition-all duration-500 ease-out ${
                                                 isSelected ? 'transform translate-y-16' : 'translate-y-2'
                                             }`}
                                         >
                                             {/* Icon from data - grayscale when not selected, colored when selected */}
                                             <div
-                                                className={`transition-all duration-300 ${
+                                                className={`transition-all duration-500 ease-out ${
                                                     isSelected
                                                         ? `transform scale-150 ${item.iconUseItemColor ? 'drop-shadow-lg' : ''}`
                                                         : 'opacity-70 hover:opacity-100 hover:scale-110 grayscale'
@@ -285,17 +283,15 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                     </button>
 
                                     {/* Extended vertical line from timeline mark - animated with absolute positioning */}
+                                    {/* Uses scaleY instead of height to avoid layout reflow */}
                                     <div
-                                        className={`absolute w-0.5 transition-all duration-300 ease-out z-10 ${
-                                            isSelected ? 'h-20 opacity-100' : 'h-0 opacity-0'
-                                        }`}
+                                        className="absolute w-0.5 h-20 z-10 origin-top transition-all duration-500 ease-out"
                                         style={{
                                             top: '45px',
                                             left: '50%',
-                                            transform: 'translateX(-50%)',
-                                            background: isSelected
-                                                ? `linear-gradient(to bottom, ${item.colorHex}, ${item.colorHex}10)`
-                                                : 'transparent'
+                                            transform: `translateX(-50%) scaleY(${isSelected ? 1 : 0})`,
+                                            opacity: isSelected ? 1 : 0,
+                                            background: `linear-gradient(to bottom, ${item.colorHex}, ${item.colorHex}10)`
                                         }}
                                     />
 
@@ -323,23 +319,31 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                             ))}
                                         </div>
                                     )}
-
-                                    {/* Popover content - positioned absolutely to avoid layout shifts */}
-                                    {isSelected && (
-                                        <TimelineCard
-                                            item={item}
-                                            popoverPosition={timeline.popoverPosition}
-                                            popoverWidth={timeline.POPOVER_WIDTH}
-                                            timelineSpacing={timeline.TIMELINE_SPACING}
-                                            isMobile={timeline.isMobile}
-                                        />
-                                    )}
                                 </div>
                             );
                         })}
                     </div>
                 </div>
             </div>
+
+            {/* TimelineCard - Positioned with CSS containment to isolate from scroll-induced layout changes */}
+            {/* Uses absolute positioning within the section and CSS transition to smooth any micro-movements */}
+            {timeline.selectedItem && (
+                <div
+                    className="absolute left-1/2 -translate-x-1/2 pointer-events-none z-30 transition-[top] duration-200 ease-out"
+                    style={{
+                        top: timeline.isMobile ? '280px' : '300px',
+                        willChange: 'transform',
+                        contain: 'layout style'
+                    }}
+                >
+                    <TimelineCard
+                        item={timeline.selectedItem}
+                        popoverWidth={timeline.POPOVER_WIDTH}
+                        isMobile={timeline.isMobile}
+                    />
+                </div>
+            )}
 
             {/* Mobile Scroll Hint - Below Timeline - show briefly then fade */}
             {timeline.isMobile && !timeline.isUserScrolling && (

@@ -16,17 +16,11 @@ export interface TimelineItem {
 }
 
 /**
- * Popover position type
- */
-export type PopoverPosition = 'center' | 'left' | 'right';
-
-/**
  * Timeline navigation state (managed by reducer)
  */
 interface TimelineNavState {
     currentIndex: number;
     selectedItem: TimelineItem | null;
-    popoverPosition: PopoverPosition;
     isAutoPlaying: boolean;
 }
 
@@ -34,11 +28,11 @@ interface TimelineNavState {
  * Timeline navigation actions
  */
 type TimelineNavAction =
-    | { type: 'NAVIGATE_TO'; index: number; item: TimelineItem; position: PopoverPosition }
-    | { type: 'NAVIGATE_TO_STOP_AUTOPLAY'; index: number; item: TimelineItem; position: PopoverPosition }
+    | { type: 'NAVIGATE_TO'; index: number; item: TimelineItem }
+    | { type: 'NAVIGATE_TO_STOP_AUTOPLAY'; index: number; item: TimelineItem }
     | { type: 'TOGGLE_AUTOPLAY' }
     | { type: 'SET_AUTOPLAY'; value: boolean }
-    | { type: 'INIT'; item: TimelineItem; position: PopoverPosition };
+    | { type: 'INIT'; item: TimelineItem };
 
 /**
  * Initial state for navigation reducer
@@ -46,7 +40,6 @@ type TimelineNavAction =
 const initialNavState: TimelineNavState = {
     currentIndex: 0,
     selectedItem: null,
-    popoverPosition: 'center',
     isAutoPlaying: false
 };
 
@@ -59,15 +52,13 @@ function timelineNavReducer(state: TimelineNavState, action: TimelineNavAction):
             return {
                 ...state,
                 currentIndex: action.index,
-                selectedItem: action.item,
-                popoverPosition: action.position
+                selectedItem: action.item
             };
         case 'NAVIGATE_TO_STOP_AUTOPLAY':
             return {
                 ...state,
                 currentIndex: action.index,
                 selectedItem: action.item,
-                popoverPosition: action.position,
                 isAutoPlaying: false
             };
         case 'TOGGLE_AUTOPLAY':
@@ -84,8 +75,7 @@ function timelineNavReducer(state: TimelineNavState, action: TimelineNavAction):
             return {
                 ...state,
                 currentIndex: 0,
-                selectedItem: action.item,
-                popoverPosition: action.position
+                selectedItem: action.item
             };
         default:
             return state;
@@ -121,7 +111,6 @@ interface UseTimelineAnimationReturn {
     selectedItem: TimelineItem | null;
     currentIndex: number;
     isAutoPlaying: boolean;
-    popoverPosition: PopoverPosition;
     isMobile: boolean;
     totalItems: number;
     isUserScrolling: boolean;
@@ -167,7 +156,7 @@ interface UseTimelineAnimationReturn {
 export function useTimelineAnimation({ items }: UseTimelineAnimationParams): UseTimelineAnimationReturn {
     // Navigation state (consolidated via reducer)
     const [navState, dispatch] = useReducer(timelineNavReducer, initialNavState);
-    const { currentIndex, selectedItem, isAutoPlaying, popoverPosition } = navState;
+    const { currentIndex, selectedItem, isAutoPlaying } = navState;
 
     // Independent state (not part of navigation flow)
     const [isMobile, setIsMobile] = useState(false);
@@ -196,34 +185,15 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const totalItems = mainTimelineItems.length;
 
     /**
-     * Calculate popover position based on item index
-     */
-    const calculatePopoverPosition = useCallback(
-        (index: number): PopoverPosition => {
-            // Always center on mobile
-            if (isMobile) return 'center';
-
-            if (index < 2) return 'left';
-            if (index > totalItems - 4) return 'right';
-            return 'center';
-        },
-        [isMobile, totalItems]
-    );
-
-    /**
      * Get the horizontal padding for the timeline
-     * Mobile: 50vw - half item width so items can center
-     * Desktop: Fixed padding from constant
+     * Both mobile and desktop: 50vw - half item width so first/last items can center
+     * Uses window.innerWidth to match CSS vw units
      */
     const getTimelinePadding = useCallback(() => {
-        if (isMobile) {
-            if (!scrollContainerRef.current) return 32;
-            // Use half the viewport width so first/last items can center
-            return scrollContainerRef.current.clientWidth / 2 - TIMELINE_SPACING / 2;
-        }
-        // Desktop uses fixed padding
-        return DESKTOP_PADDING;
-    }, [isMobile, TIMELINE_SPACING]);
+        // Use window.innerWidth to match CSS 50vw calculation
+        const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1024;
+        return viewportWidth / 2 - TIMELINE_SPACING / 2;
+    }, [TIMELINE_SPACING]);
 
     /**
      * Scroll to specific timeline item
@@ -239,35 +209,23 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             programmaticScrollUntilRef.current = Date.now() + scrollDuration;
 
             const itemWidth = TIMELINE_SPACING;
-            const containerWidth = container.clientWidth;
             const timelinePadding = getTimelinePadding();
+            // Use window.innerWidth / 2 for centering to match CSS 50vw
+            const viewportHalfWidth = typeof window !== 'undefined' ? window.innerWidth / 2 : container.clientWidth / 2;
 
             // Calculate the center position of the item relative to timeline start
             const itemCenter = timelinePadding + index * itemWidth + itemWidth / 2;
 
-            // Scroll position to center the item in the viewport
-            const scrollPosition = itemCenter - containerWidth / 2;
+            // Scroll position to center the item in the viewport (matching CSS 50vw centering)
+            const scrollPosition = itemCenter - viewportHalfWidth;
 
-            // For mobile with dynamic padding, we can scroll to any position
-            // For desktop, clamp to prevent empty space
-            if (isMobile) {
-                container.scrollTo({
-                    left: Math.max(0, scrollPosition),
-                    behavior: smooth ? 'smooth' : 'instant'
-                });
-            } else {
-                // Desktop: calculate max scroll based on content width
-                const totalContentWidth = timelinePadding * 2 + totalItems * itemWidth;
-                const maxScroll = Math.max(0, totalContentWidth - containerWidth);
-                const clampedScrollPosition = Math.max(0, Math.min(scrollPosition, maxScroll));
-
-                container.scrollTo({
-                    left: clampedScrollPosition,
-                    behavior: smooth ? 'smooth' : 'instant'
-                });
-            }
+            // Both mobile and desktop use dynamic padding, allowing any item to center
+            container.scrollTo({
+                left: Math.max(0, scrollPosition),
+                behavior: smooth ? 'smooth' : 'instant'
+            });
         },
-        [TIMELINE_SPACING, totalItems, getTimelinePadding, isMobile]
+        [TIMELINE_SPACING, getTimelinePadding]
     );
 
     /**
@@ -278,11 +236,12 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         if (!container) return 0;
 
         const scrollLeft = container.scrollLeft;
-        const containerWidth = container.clientWidth;
         const timelinePadding = getTimelinePadding();
+        // Use window.innerWidth / 2 to match CSS 50vw
+        const viewportHalfWidth = typeof window !== 'undefined' ? window.innerWidth / 2 : container.clientWidth / 2;
 
         // Center of viewport in scroll coordinates
-        const viewportCenter = scrollLeft + containerWidth / 2;
+        const viewportCenter = scrollLeft + viewportHalfWidth;
 
         // Find which item is closest to center
         let closestIndex = 0;
@@ -309,12 +268,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             dispatch({
                 type: 'NAVIGATE_TO',
                 index,
-                item: mainTimelineItems[index],
-                position: calculatePopoverPosition(index)
+                item: mainTimelineItems[index]
             });
             scrollToItem(index);
         },
-        [mainTimelineItems, totalItems, calculatePopoverPosition, scrollToItem]
+        [mainTimelineItems, totalItems, scrollToItem]
     );
 
     /**
@@ -342,12 +300,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             dispatch({
                 type: 'NAVIGATE_TO_STOP_AUTOPLAY',
                 index,
-                item: mainTimelineItems[index],
-                position: calculatePopoverPosition(index)
+                item: mainTimelineItems[index]
             });
             scrollToItem(index);
         },
-        [mainTimelineItems, totalItems, calculatePopoverPosition, scrollToItem]
+        [mainTimelineItems, totalItems, scrollToItem]
     );
 
     /**
@@ -399,13 +356,12 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         if (mainTimelineItems.length > 0) {
             dispatch({
                 type: 'INIT',
-                item: mainTimelineItems[0],
-                position: calculatePopoverPosition(0)
+                item: mainTimelineItems[0]
             });
             const timer = setTimeout(() => scrollToItem(0), 300);
             return () => clearTimeout(timer);
         }
-    }, [mainTimelineItems, calculatePopoverPosition, scrollToItem]);
+    }, [mainTimelineItems, scrollToItem]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -458,8 +414,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             dispatch({
                 type: 'NAVIGATE_TO',
                 index: nextIndex,
-                item: mainTimelineItems[nextIndex],
-                position: calculatePopoverPosition(nextIndex)
+                item: mainTimelineItems[nextIndex]
             });
             // Clear previous scroll timeout before setting new one
             if (autoplayScrollTimeoutRef.current) {
@@ -475,7 +430,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 clearTimeout(autoplayScrollTimeoutRef.current);
             }
         };
-    }, [isAutoPlaying, mainTimelineItems, calculatePopoverPosition, scrollToItem]);
+    }, [isAutoPlaying, mainTimelineItems, scrollToItem]);
 
     /**
      * Handle click on timeline item
@@ -500,13 +455,12 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         dispatch({
             type: 'NAVIGATE_TO',
             index: closestIndex,
-            item: mainTimelineItems[closestIndex],
-            position: calculatePopoverPosition(closestIndex)
+            item: mainTimelineItems[closestIndex]
         });
 
         // Smooth scroll to exactly center the item
         scrollToItem(closestIndex, true);
-    }, [findClosestItemToCenter, mainTimelineItems, calculatePopoverPosition, scrollToItem]);
+    }, [findClosestItemToCenter, mainTimelineItems, scrollToItem]);
 
     /**
      * Handle scroll events - detect user scrolling and schedule snap
@@ -558,7 +512,6 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         selectedItem,
         currentIndex,
         isAutoPlaying,
-        popoverPosition,
         isMobile,
         totalItems,
         isUserScrolling,

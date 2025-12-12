@@ -18,6 +18,7 @@ import {
     UserRound
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@/hooks';
 import { scrollTo } from '@/lib/lenis';
 import { MobileUtilitiesPopover } from './MobileUtilitiesPopover';
 
@@ -166,7 +167,7 @@ export function FloatingNav({
     const activeSection = useActiveSection(sectionIds);
     const isMobile = useMediaQuery('(max-width: 767px)');
     const { isNavVisible: isScrolled, showScrollToTop } = useScrollThresholds(SCROLL_THRESHOLDS);
-    const [isDark, setIsDark] = useState(false);
+    const { isDark, toggleTheme } = useTheme();
     const [isHomePage, setIsHomePage] = useState(true);
     const prevActiveSection = useRef<string | null>(null);
 
@@ -197,23 +198,6 @@ export function FloatingNav({
     const visibleSections = useMemo(() => {
         return isHomePage ? NAV_SECTIONS.filter((s) => s.id !== 'hero') : NAV_SECTIONS;
     }, [isHomePage]);
-
-    // Initialize theme state from document
-    useEffect(() => {
-        const updateTheme = () => {
-            setIsDark(document.documentElement.classList.contains('dark'));
-        };
-        updateTheme();
-
-        // Listen for theme changes
-        const observer = new MutationObserver(updateTheme);
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-
-        return () => observer.disconnect();
-    }, []);
 
     // Handle browser back/forward navigation (popstate) and initial hash on load
     useEffect(() => {
@@ -252,13 +236,6 @@ export function FloatingNav({
         window.addEventListener('popstate', handlePopState);
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
-
-    const toggleTheme = useCallback(() => {
-        const newTheme = isDark ? 'light' : 'dark';
-        document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', newTheme);
-        setIsDark(!isDark);
-    }, [isDark]);
 
     const openCommandPalette = useCallback(() => {
         window.dispatchEvent(new CustomEvent('openCommandPalette'));

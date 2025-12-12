@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { ImageCarousel, type OptimizedImage } from '../ui/ImageCarousel';
 import { ImageLightbox } from '../ui/Lightbox';
 
@@ -43,7 +43,7 @@ const categoryColors = {
     }
 };
 
-export function ProjectCard({
+export const ProjectCard = memo(function ProjectCard({
     title,
     description,
     technologies,
@@ -300,4 +300,4 @@ export function ProjectCard({
             />
         </>
     );
-}
+});

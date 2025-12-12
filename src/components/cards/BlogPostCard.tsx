@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import './BlogPostCard.css';
 
 export interface OptimizedBlogImage {
@@ -19,7 +19,7 @@ export interface BlogPostCardProps {
     categoryColor?: string;
 }
 
-export function BlogPostCard({
+export const BlogPostCard = memo(function BlogPostCard({
     title,
     excerpt,
     category,
@@ -122,4 +122,4 @@ export function BlogPostCard({
             </a>
         </article>
     );
-}
+});

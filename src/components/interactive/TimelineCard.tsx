@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import type { PopoverPosition, TimelineItem } from './hooks/useTimelineAnimation';
 
 // Static style constants
@@ -58,7 +58,13 @@ interface TimelineCardProps {
  * />
  * ```
  */
-export function TimelineCard({ item, popoverPosition, popoverWidth, timelineSpacing, isMobile }: TimelineCardProps) {
+export const TimelineCard = memo(function TimelineCard({
+    item,
+    popoverPosition,
+    popoverWidth,
+    timelineSpacing,
+    isMobile
+}: TimelineCardProps) {
     // Calculate left position based on popover position
     const leftPosition = useMemo(() => {
         if (popoverPosition === 'left') return '0px';
@@ -111,4 +117,4 @@ export function TimelineCard({ item, popoverPosition, popoverWidth, timelineSpac
             </div>
         </div>
     );
-}
+});

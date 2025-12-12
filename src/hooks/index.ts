@@ -7,3 +7,5 @@ export * from './useContactForm';
 export * from './useContentSearch';
 export * from './useScrollAnimation';
 export * from './useStaggerAnimation';
+export * from './useTheme';
+export * from './useUrlSync';

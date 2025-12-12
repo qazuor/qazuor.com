@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@/hooks';
 import {
     type CalculationParams,
     calculateAngle,
@@ -93,8 +94,10 @@ export function RadarChart({
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Use shared theme hook for dark mode detection
+    const { isDark: isDarkMode } = useTheme();
 
     // Generate unique ID for this chart instance to avoid gradient ID conflicts
     // useId generates stable IDs between server and client to prevent hydration mismatches
@@ -110,29 +113,6 @@ export function RadarChart({
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    // Detect dark/light mode
-    useEffect(() => {
-        const checkDarkMode = () => {
-            // Check for dark class on html element (Tailwind/Astro pattern)
-            setIsDarkMode(document.documentElement.classList.contains('dark'));
-        };
-
-        checkDarkMode();
-
-        // Listen for theme changes via MutationObserver on html class
-        const observer = new MutationObserver((mutations) => {
-            for (const mutation of mutations) {
-                if (mutation.attributeName === 'class') {
-                    checkDarkMode();
-                }
-            }
-        });
-
-        observer.observe(document.documentElement, { attributes: true });
-
-        return () => observer.disconnect();
     }, []);
 
     // Intersection Observer for entrance animation

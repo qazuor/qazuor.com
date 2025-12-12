@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { timelineData } from '@/data/timeline';
+import { useTheme } from '@/hooks';
 import TimelineContent from './TimelineContent';
 
 // Adapter type for component compatibility
@@ -15,30 +15,6 @@ interface TimelineItemForComponent {
     iconUseItemColor: boolean;
     isSpecial?: boolean;
     specialType?: 'beginning' | 'end';
-}
-
-// Hook to detect current theme
-function useTheme() {
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.classList.contains('dark'));
-        };
-
-        checkTheme();
-
-        // Watch for theme changes
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-
-        return () => observer.disconnect();
-    }, []);
-
-    return isDark;
 }
 
 // Function to adapt timeline data for components
@@ -122,7 +98,7 @@ interface TimelineWrapperProps {
 }
 
 export default function TimelineWrapper({ lang }: TimelineWrapperProps) {
-    const isDark = useTheme();
+    const { isDark } = useTheme();
 
     // Get timeline items based on language and theme
     const timelineItems = getTimelineItems(lang, isDark);

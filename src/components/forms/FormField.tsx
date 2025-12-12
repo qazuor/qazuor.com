@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 /**
  * Props for the FormField component
  */
@@ -40,7 +42,7 @@ interface FormFieldProps {
  * />
  * ```
  */
-export function FormField({
+export const FormField = memo(function FormField({
     label,
     name,
     type = 'text',
@@ -84,4 +86,4 @@ export function FormField({
             {error && <p className="mt-1 text-sm text-error">{error}</p>}
         </div>
     );
-}
+});

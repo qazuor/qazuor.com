@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 /**
  * Timeline item interface
@@ -19,6 +19,78 @@ export interface TimelineItem {
  * Popover position type
  */
 export type PopoverPosition = 'center' | 'left' | 'right';
+
+/**
+ * Timeline navigation state (managed by reducer)
+ */
+interface TimelineNavState {
+    currentIndex: number;
+    selectedItem: TimelineItem | null;
+    popoverPosition: PopoverPosition;
+    isAutoPlaying: boolean;
+}
+
+/**
+ * Timeline navigation actions
+ */
+type TimelineNavAction =
+    | { type: 'NAVIGATE_TO'; index: number; item: TimelineItem; position: PopoverPosition }
+    | { type: 'NAVIGATE_TO_STOP_AUTOPLAY'; index: number; item: TimelineItem; position: PopoverPosition }
+    | { type: 'TOGGLE_AUTOPLAY' }
+    | { type: 'SET_AUTOPLAY'; value: boolean }
+    | { type: 'INIT'; item: TimelineItem; position: PopoverPosition };
+
+/**
+ * Initial state for navigation reducer
+ */
+const initialNavState: TimelineNavState = {
+    currentIndex: 0,
+    selectedItem: null,
+    popoverPosition: 'center',
+    isAutoPlaying: false
+};
+
+/**
+ * Reducer for timeline navigation state
+ */
+function timelineNavReducer(state: TimelineNavState, action: TimelineNavAction): TimelineNavState {
+    switch (action.type) {
+        case 'NAVIGATE_TO':
+            return {
+                ...state,
+                currentIndex: action.index,
+                selectedItem: action.item,
+                popoverPosition: action.position
+            };
+        case 'NAVIGATE_TO_STOP_AUTOPLAY':
+            return {
+                ...state,
+                currentIndex: action.index,
+                selectedItem: action.item,
+                popoverPosition: action.position,
+                isAutoPlaying: false
+            };
+        case 'TOGGLE_AUTOPLAY':
+            return {
+                ...state,
+                isAutoPlaying: !state.isAutoPlaying
+            };
+        case 'SET_AUTOPLAY':
+            return {
+                ...state,
+                isAutoPlaying: action.value
+            };
+        case 'INIT':
+            return {
+                ...state,
+                currentIndex: 0,
+                selectedItem: action.item,
+                popoverPosition: action.position
+            };
+        default:
+            return state;
+    }
+}
 
 /**
  * Configuration constants
@@ -93,11 +165,11 @@ interface UseTimelineAnimationReturn {
  * ```
  */
 export function useTimelineAnimation({ items }: UseTimelineAnimationParams): UseTimelineAnimationReturn {
-    // State
-    const [selectedItem, setSelectedItem] = useState<TimelineItem | null>(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(false);
-    const [popoverPosition, setPopoverPosition] = useState<PopoverPosition>('center');
+    // Navigation state (consolidated via reducer)
+    const [navState, dispatch] = useReducer(timelineNavReducer, initialNavState);
+    const { currentIndex, selectedItem, isAutoPlaying, popoverPosition } = navState;
+
+    // Independent state (not part of navigation flow)
     const [isMobile, setIsMobile] = useState(false);
     const [isUserScrolling, setIsUserScrolling] = useState(false);
     const [hasBeenVisible, setHasBeenVisible] = useState(false);
@@ -111,6 +183,9 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const isScrollingRef = useRef(false);
     // Track programmatic scroll with a timestamp to handle overlapping scrolls
     const programmaticScrollUntilRef = useRef<number>(0);
+    // Keep current index in ref for interval callbacks (avoids stale closure)
+    const currentIndexRef = useRef(currentIndex);
+    currentIndexRef.current = currentIndex;
 
     // Responsive values
     const TIMELINE_SPACING = isMobile ? TIMELINE_SPACING_MOBILE : TIMELINE_SPACING_DESKTOP;
@@ -231,9 +306,12 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const navigateToItem = useCallback(
         (index: number) => {
             if (index < 0 || index >= totalItems) return;
-            setCurrentIndex(index);
-            setSelectedItem(mainTimelineItems[index]);
-            setPopoverPosition(calculatePopoverPosition(index));
+            dispatch({
+                type: 'NAVIGATE_TO',
+                index,
+                item: mainTimelineItems[index],
+                position: calculatePopoverPosition(index)
+            });
             scrollToItem(index);
         },
         [mainTimelineItems, totalItems, calculatePopoverPosition, scrollToItem]
@@ -256,21 +334,27 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     }, [currentIndex, totalItems, navigateToItem]);
 
     /**
-     * Go to specific index
+     * Go to specific index (also stops autoplay)
      */
     const goToIndex = useCallback(
         (index: number) => {
-            setIsAutoPlaying(false);
-            navigateToItem(index);
+            if (index < 0 || index >= totalItems) return;
+            dispatch({
+                type: 'NAVIGATE_TO_STOP_AUTOPLAY',
+                index,
+                item: mainTimelineItems[index],
+                position: calculatePopoverPosition(index)
+            });
+            scrollToItem(index);
         },
-        [navigateToItem]
+        [mainTimelineItems, totalItems, calculatePopoverPosition, scrollToItem]
     );
 
     /**
      * Toggle auto-play
      */
     const toggleAutoPlay = useCallback(() => {
-        setIsAutoPlaying((prev) => !prev);
+        dispatch({ type: 'TOGGLE_AUTOPLAY' });
     }, []);
 
     // Detect mobile screen size
@@ -294,7 +378,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 const entry = entries[0];
                 if (entry.isIntersecting && !hasBeenVisible) {
                     setHasBeenVisible(true);
-                    setIsAutoPlaying(true);
+                    dispatch({ type: 'SET_AUTOPLAY', value: true });
                 }
             },
             {
@@ -313,9 +397,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     // Initialize with first item
     useEffect(() => {
         if (mainTimelineItems.length > 0) {
-            setSelectedItem(mainTimelineItems[0]);
-            setCurrentIndex(0);
-            setPopoverPosition(calculatePopoverPosition(0));
+            dispatch({
+                type: 'INIT',
+                item: mainTimelineItems[0],
+                position: calculatePopoverPosition(0)
+            });
             const timer = setTimeout(() => scrollToItem(0), 300);
             return () => clearTimeout(timer);
         }
@@ -335,24 +421,22 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 case 'ArrowRight':
                 case 'ArrowDown':
                     e.preventDefault();
-                    setIsAutoPlaying(false);
+                    dispatch({ type: 'SET_AUTOPLAY', value: false });
                     goToNext();
                     break;
                 case 'ArrowLeft':
                 case 'ArrowUp':
                     e.preventDefault();
-                    setIsAutoPlaying(false);
+                    dispatch({ type: 'SET_AUTOPLAY', value: false });
                     goToPrev();
                     break;
                 case 'Home':
                     e.preventDefault();
-                    setIsAutoPlaying(false);
-                    navigateToItem(0);
+                    goToIndex(0);
                     break;
                 case 'End':
                     e.preventDefault();
-                    setIsAutoPlaying(false);
-                    navigateToItem(totalItems - 1);
+                    goToIndex(totalItems - 1);
                     break;
                 case ' ':
                     e.preventDefault();
@@ -363,24 +447,25 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [goToNext, goToPrev, navigateToItem, totalItems, toggleAutoPlay]);
+    }, [goToNext, goToPrev, goToIndex, totalItems, toggleAutoPlay]);
 
     // Auto-play
     useEffect(() => {
         if (!isAutoPlaying || mainTimelineItems.length === 0) return;
 
         const interval: number = setInterval(() => {
-            setCurrentIndex((prevIndex) => {
-                const nextIndex = (prevIndex + 1) % mainTimelineItems.length;
-                setSelectedItem(mainTimelineItems[nextIndex]);
-                setPopoverPosition(calculatePopoverPosition(nextIndex));
-                // Clear previous scroll timeout before setting new one
-                if (autoplayScrollTimeoutRef.current) {
-                    clearTimeout(autoplayScrollTimeoutRef.current);
-                }
-                autoplayScrollTimeoutRef.current = setTimeout(() => scrollToItem(nextIndex), 100);
-                return nextIndex;
+            const nextIndex = (currentIndexRef.current + 1) % mainTimelineItems.length;
+            dispatch({
+                type: 'NAVIGATE_TO',
+                index: nextIndex,
+                item: mainTimelineItems[nextIndex],
+                position: calculatePopoverPosition(nextIndex)
             });
+            // Clear previous scroll timeout before setting new one
+            if (autoplayScrollTimeoutRef.current) {
+                clearTimeout(autoplayScrollTimeoutRef.current);
+            }
+            autoplayScrollTimeoutRef.current = setTimeout(() => scrollToItem(nextIndex), 100);
         }, AUTO_PLAY_INTERVAL_MS) as unknown as number;
 
         return () => {
@@ -397,10 +482,9 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
      */
     const handleItemClick = useCallback(
         (_item: TimelineItem, index: number) => {
-            setIsAutoPlaying(false);
-            navigateToItem(index);
+            goToIndex(index);
         },
-        [navigateToItem]
+        [goToIndex]
     );
 
     /**
@@ -413,9 +497,12 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         setIsUserScrolling(false);
 
         // Update state without triggering smooth scroll if already close
-        setCurrentIndex(closestIndex);
-        setSelectedItem(mainTimelineItems[closestIndex]);
-        setPopoverPosition(calculatePopoverPosition(closestIndex));
+        dispatch({
+            type: 'NAVIGATE_TO',
+            index: closestIndex,
+            item: mainTimelineItems[closestIndex],
+            position: calculatePopoverPosition(closestIndex)
+        });
 
         // Smooth scroll to exactly center the item
         scrollToItem(closestIndex, true);
@@ -436,7 +523,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         if (!isScrollingRef.current) {
             isScrollingRef.current = true;
             setIsUserScrolling(true);
-            setIsAutoPlaying(false);
+            dispatch({ type: 'SET_AUTOPLAY', value: false });
         }
 
         // Clear existing timeout

@@ -1291,14 +1291,14 @@ const testimonials = allTestimonials.map((t, i) => ({
         // Handle carousel prev button
         if (target.closest('[data-carousel-prev]')) {
             navigateCarousel('prev');
-            resetAutoplayTimer(); // Reset timer on manual navigation
+            stopAutoplay(); // Pause autoplay on manual navigation
             return;
         }
 
         // Handle carousel next button
         if (target.closest('[data-carousel-next]')) {
             navigateCarousel('next');
-            resetAutoplayTimer(); // Reset timer on manual navigation
+            stopAutoplay(); // Pause autoplay on manual navigation
             return;
         }
 
@@ -1311,7 +1311,7 @@ const testimonials = allTestimonials.map((t, i) => ({
             } else {
                 scrollToSlide(index);
             }
-            resetAutoplayTimer(); // Reset timer on manual navigation
+            stopAutoplay(); // Pause autoplay on manual navigation
             return;
         }
 
@@ -1531,11 +1531,11 @@ const testimonials = allTestimonials.map((t, i) => ({
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
             navigateCarousel('prev');
-            resetAutoplayTimer();
+            stopAutoplay(); // Pause autoplay on manual navigation
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
             navigateCarousel('next');
-            resetAutoplayTimer();
+            stopAutoplay(); // Pause autoplay on manual navigation
         }
     });
 

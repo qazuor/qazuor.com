@@ -338,8 +338,7 @@ export function RadarChart({
                             strokeWidth="2.5"
                             strokeLinejoin="round"
                             style={{
-                                transition: 'all 0.3s ease-in-out',
-                                animation: isVisible ? 'radar-draw 1s ease-out forwards' : 'none'
+                                transition: 'all 0.3s ease-in-out'
                             }}
                         />
                     </g>
@@ -515,32 +514,20 @@ export function RadarChart({
 
             {/* Animation styles */}
             <style>{`
-                @keyframes radar-draw {
-                    from {
-                        opacity: 0;
-                        transform: scale(0.8);
-                    }
-                    to {
-                        opacity: 1;
+                .skill-point.animate-in {
+                    animation: point-pulse 0.35s ease-out forwards;
+                    transform-box: fill-box;
+                    transform-origin: center;
+                }
+
+                @keyframes point-pulse {
+                    0% {
                         transform: scale(1);
                     }
-                }
-
-                .skill-point.animate-in {
-                    animation: point-pop 0.5s ease-out forwards;
-                    opacity: 0;
-                }
-
-                @keyframes point-pop {
-                    0% {
-                        opacity: 0;
-                        transform: scale(0);
-                    }
-                    70% {
-                        transform: scale(1.2);
+                    50% {
+                        transform: scale(1.15);
                     }
                     100% {
-                        opacity: 1;
                         transform: scale(1);
                     }
                 }

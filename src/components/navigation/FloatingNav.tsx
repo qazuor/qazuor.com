@@ -77,35 +77,30 @@ function useActiveSection(sectionIds: string[]) {
     const [activeSection, setActiveSection] = useState<string | null>(null);
 
     useEffect(() => {
-        const observers: IntersectionObserver[] = [];
+        // Single IntersectionObserver for all sections (more efficient than N observers)
+        const observer = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                }
+            },
+            {
+                rootMargin: '-20% 0px -60% 0px',
+                threshold: 0
+            }
+        );
 
+        // Observe all section elements
         for (const id of sectionIds) {
             const element = document.getElementById(id);
-            if (!element) continue;
-
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    for (const entry of entries) {
-                        if (entry.isIntersecting) {
-                            setActiveSection(id);
-                        }
-                    }
-                },
-                {
-                    rootMargin: '-20% 0px -60% 0px',
-                    threshold: 0
-                }
-            );
-
-            observer.observe(element);
-            observers.push(observer);
+            if (element) {
+                observer.observe(element);
+            }
         }
 
-        return () => {
-            for (const observer of observers) {
-                observer.disconnect();
-            }
-        };
+        return () => observer.disconnect();
     }, [sectionIds]);
 
     return activeSection;
@@ -129,22 +124,24 @@ function useMediaQuery(query: string) {
     return matches;
 }
 
-function useScrollVisibility(threshold = 300) {
-    const [isVisible, setIsVisible] = useState(false);
+function useScrollThresholds(thresholds: { nav: number; scrollToTop: number }) {
+    const [state, setState] = useState({ isNavVisible: false, showScrollToTop: false });
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsVisible(window.scrollY > threshold);
+            const scrollY = window.scrollY;
+            setState({
+                isNavVisible: scrollY > thresholds.nav,
+                showScrollToTop: scrollY > thresholds.scrollToTop
+            });
         };
 
-        // Check initial state
-        handleScroll();
-
+        handleScroll(); // Check initial state
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [threshold]);
+    }, [thresholds.nav, thresholds.scrollToTop]);
 
-    return isVisible;
+    return state;
 }
 
 const defaultUtilityLabels = {
@@ -154,6 +151,9 @@ const defaultUtilityLabels = {
     language: 'Language',
     scrollToTop: 'Scroll to top'
 };
+
+// Memoized thresholds to prevent unnecessary re-renders
+const SCROLL_THRESHOLDS = { nav: 100, scrollToTop: 300 };
 
 export function FloatingNav({
     labels = {},
@@ -165,27 +165,10 @@ export function FloatingNav({
     const sectionIds = useMemo(() => NAV_SECTIONS.map((s) => s.id), []);
     const activeSection = useActiveSection(sectionIds);
     const isMobile = useMediaQuery('(max-width: 767px)');
-    const isScrolled = useScrollVisibility(100);
+    const { isNavVisible: isScrolled, showScrollToTop } = useScrollThresholds(SCROLL_THRESHOLDS);
     const [isDark, setIsDark] = useState(false);
-    const [showScrollToTop, setShowScrollToTop] = useState(false);
     const [isHomePage, setIsHomePage] = useState(true);
     const prevActiveSection = useRef<string | null>(null);
-
-    // Update URL hash when active section changes (only on home page)
-    useEffect(() => {
-        if (activeSection && activeSection !== prevActiveSection.current) {
-            const path = window.location.pathname;
-            const onHomePage = /^\/(es|en)?\/?$/.test(path);
-            if (onHomePage && window.history?.replaceState) {
-                const section = NAV_SECTIONS.find((s) => s.id === activeSection);
-                if (section) {
-                    const newUrl = `${window.location.pathname}${section.hash}`;
-                    window.history.replaceState(null, '', newUrl);
-                }
-            }
-            prevActiveSection.current = activeSection;
-        }
-    }, [activeSection]);
 
     // Check if we're on home page
     useEffect(() => {
@@ -198,20 +181,22 @@ export function FloatingNav({
         return () => window.removeEventListener('popstate', checkHomePage);
     }, []);
 
+    // Update URL hash when active section changes (only on home page)
+    useEffect(() => {
+        if (activeSection && activeSection !== prevActiveSection.current && isHomePage) {
+            const section = NAV_SECTIONS.find((s) => s.id === activeSection);
+            if (section && window.history?.replaceState) {
+                const newUrl = `${window.location.pathname}${section.hash}`;
+                window.history.replaceState(null, '', newUrl);
+            }
+            prevActiveSection.current = activeSection;
+        }
+    }, [activeSection, isHomePage]);
+
     // Filter sections: hide home icon when on home page
     const visibleSections = useMemo(() => {
         return isHomePage ? NAV_SECTIONS.filter((s) => s.id !== 'hero') : NAV_SECTIONS;
     }, [isHomePage]);
-
-    // Track scroll position for scroll-to-top visibility (all pages)
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowScrollToTop(window.pageYOffset > 300);
-        };
-        handleScroll(); // Check initial state
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     // Initialize theme state from document
     useEffect(() => {
@@ -326,10 +311,6 @@ export function FloatingNav({
             const targetId = section.hash.replace('#', '');
             const element = document.getElementById(targetId);
 
-            // Check if we're on the home page
-            const path = window.location.pathname;
-            const isHomePage = path === '/' || path === '/en' || path === '/es' || path === '/en/' || path === '/es/';
-
             if (isHomePage) {
                 // On home page - always smooth scroll to section
                 if (element) {
@@ -347,17 +328,14 @@ export function FloatingNav({
                     });
                 }
             } else {
-                // Not on home page
-                if (section.pageUrl) {
-                    // Has dedicated page - navigate to it
-                    navigate(`/${currentLocale}${section.pageUrl}`);
-                } else {
-                    // No dedicated page - navigate to home with hash
-                    navigate(`/${currentLocale}/${section.hash}`);
-                }
+                // Not on home page - navigate to dedicated page or home with hash
+                const targetUrl = section.pageUrl
+                    ? `/${currentLocale}${section.pageUrl}`
+                    : `/${currentLocale}/${section.hash}`;
+                navigate(targetUrl);
             }
         },
-        [currentLocale, smoothScrollTo]
+        [currentLocale, isHomePage, smoothScrollTo]
     );
 
     if (isMobile) {

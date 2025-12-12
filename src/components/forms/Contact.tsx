@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { INTEREST_IDS, type InterestId } from '@/data';
 import { useContactForm, useScrollAnimation, useStaggerAnimation } from '@/hooks';
 import { ContactInfo } from './ContactInfo';
@@ -169,11 +170,29 @@ export function Contact({
             errorMessages: translations.errors
         });
 
-    // Build interests array from centralized data
-    const interests: Interest[] = INTEREST_IDS.map((id: InterestId) => ({
-        id,
-        label: translations.interests[id]
-    }));
+    // Build interests array from centralized data (memoized to avoid recreating on each render)
+    const interests = useMemo<Interest[]>(
+        () =>
+            INTEREST_IDS.map((id: InterestId) => ({
+                id,
+                label: translations.interests[id]
+            })),
+        [translations.interests]
+    );
+
+    // Memoized translations for ContactInfo to avoid prop recreation
+    const contactInfoTranslations = useMemo(
+        () => ({
+            title: translations.info.title,
+            description: translations.info.description,
+            sectionDescription: translations.description,
+            emailLabel: translations.info.email,
+            phoneLabel: translations.info.phone,
+            locationLabel: translations.info.location,
+            orConnect: translations.info.orConnect
+        }),
+        [translations.info, translations.description]
+    );
 
     // Animations
     const titleRef = useScrollAnimation('.section-title', { y: 30, duration: 0.8 });
@@ -207,15 +226,7 @@ export function Contact({
                             phone={contactData.phone}
                             location={contactData.location}
                             social={contactData.social}
-                            translations={{
-                                title: translations.info.title,
-                                description: translations.info.description,
-                                sectionDescription: translations.description,
-                                emailLabel: translations.info.email,
-                                phoneLabel: translations.info.phone,
-                                locationLabel: translations.info.location,
-                                orConnect: translations.info.orConnect
-                            }}
+                            translations={contactInfoTranslations}
                             ariaLabels={ariaLabels}
                         />
                     </div>

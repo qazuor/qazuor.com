@@ -1,5 +1,5 @@
 import { Command } from 'cmdk';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { commandPaletteData, getShortcutForItem, keyboardShortcuts } from '@/data/commandPalette';
 import { type ContentSearchResult, useContentSearch } from '@/hooks/useContentSearch';
 import fiverrIcon from '@/icons/social/fiverr.svg?raw';
@@ -43,6 +43,13 @@ const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
     tools: 'Tools'
 };
 
+// Static styles extracted to avoid recreating on each render
+const COMMAND_CONTAINER_STYLES: React.CSSProperties = {
+    backgroundColor: 'hsl(var(--background))',
+    borderColor: 'hsl(var(--border))',
+    color: 'hsl(var(--foreground))'
+};
+
 interface CommandPaletteInnerProps {
     lang: string;
     placeholder?: string;
@@ -68,6 +75,27 @@ export function CommandPaletteInner({
         nav: HTMLElement | null;
         footer: HTMLElement | null;
     } | null>(null);
+
+    // Memoized styles for viewport-dependent positioning (avoids object recreation)
+    const viewportPositionStyle = useMemo(
+        () =>
+            viewportHeight
+                ? {
+                      height: viewportHeight,
+                      top: viewportOffset,
+                      paddingTop: Math.min(viewportHeight * 0.1, 60)
+                  }
+                : undefined,
+        [viewportHeight, viewportOffset]
+    );
+
+    // Memoized style for list max height
+    const listMaxHeightStyle = useMemo(
+        () => ({
+            maxHeight: viewportHeight ? Math.max(viewportHeight * 0.5, 200) : 500
+        }),
+        [viewportHeight]
+    );
 
     // Track visual viewport changes (for mobile keyboard)
     useEffect(() => {
@@ -330,15 +358,7 @@ export function CommandPaletteInner({
                     aria-labelledby="command-palette-title"
                     data-testid="command-palette"
                     onClick={() => setOpen(false)}
-                    style={
-                        viewportHeight
-                            ? {
-                                  height: viewportHeight,
-                                  top: viewportOffset,
-                                  paddingTop: Math.min(viewportHeight * 0.1, 60)
-                              }
-                            : undefined
-                    }
+                    style={viewportPositionStyle}
                 >
                     {/* Enhanced Backdrop with better blur */}
                     <div
@@ -371,11 +391,7 @@ export function CommandPaletteInner({
 
                                 return 0;
                             }}
-                            style={{
-                                backgroundColor: 'hsl(var(--background))',
-                                borderColor: 'hsl(var(--border))',
-                                color: 'hsl(var(--foreground))'
-                            }}
+                            style={COMMAND_CONTAINER_STYLES}
                         >
                             <div className="flex items-center border-b border-foreground/10 px-4">
                                 <span
@@ -414,11 +430,7 @@ export function CommandPaletteInner({
                                 className="overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-foreground/20 scrollbar-track-transparent relative"
                                 aria-live="polite"
                                 aria-label="Search results"
-                                style={{
-                                    maxHeight: viewportHeight
-                                        ? Math.max(viewportHeight * 0.5, 200) // At least 200px, up to 50% of viewport
-                                        : 500
-                                }}
+                                style={listMaxHeightStyle}
                             >
                                 {/* Elegant scroll indicator for when there's content */}
                                 {(searchQuery.trim().length === 0

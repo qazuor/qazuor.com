@@ -42,6 +42,16 @@ import {
     calculateTextAnchor
 } from '@/utils/radarChart/positioning';
 
+// Static style constants (extracted to avoid object recreation on each render)
+const SKILL_POINT_BASE_STYLE: React.CSSProperties = {
+    cursor: 'pointer'
+};
+
+const TOOLTIP_CONTAINER_BASE_STYLE: React.CSSProperties = {
+    borderRadius: '16px',
+    pointerEvents: 'none'
+};
+
 export interface RadarChartSkill {
     name: string;
     value: number; // 0-100
@@ -210,6 +220,30 @@ export function RadarChart({
         setSelectedIndex((prev) => (prev === index ? null : index));
     }, []);
 
+    // Memoized tooltip container style (depends on isDarkMode and isMobile)
+    const tooltipContainerStyle = useMemo<React.CSSProperties>(
+        () => ({
+            ...TOOLTIP_CONTAINER_BASE_STYLE,
+            background: isDarkMode ? 'rgba(15, 23, 42, 0.75)' : 'rgba(255, 255, 255, 0.75)',
+            border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.08)',
+            boxShadow: isDarkMode
+                ? '0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+                : '0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+            fontSize: isMobile ? '0.875rem' : '0.75rem'
+        }),
+        [isDarkMode, isMobile]
+    );
+
+    // Memoized skill point animation styles (one for each skill)
+    const skillPointStyles = useMemo<React.CSSProperties[]>(
+        () =>
+            skills.map((_, i) => ({
+                ...SKILL_POINT_BASE_STYLE,
+                animationDelay: `${i * 0.05}s`
+            })),
+        [skills]
+    );
+
     return (
         <div ref={containerRef} className={`radar-chart-container ${className}`}>
             {titleHtml ? (
@@ -347,10 +381,7 @@ export function RadarChart({
                                     tabIndex={0}
                                     aria-label={skill.name}
                                     className={`skill-point ${isVisible ? 'animate-in' : ''}`}
-                                    style={{
-                                        animationDelay: `${i * 0.05}s`,
-                                        cursor: 'pointer'
-                                    }}
+                                    style={skillPointStyles[i]}
                                     onMouseEnter={() => setHoveredIndex(i)}
                                     onMouseLeave={() => setHoveredIndex(null)}
                                     onClick={() => handlePointClick(i)}
@@ -474,18 +505,7 @@ export function RadarChart({
                             <foreignObject x={center - 85} y={center - 65} width={170} height={130}>
                                 <div
                                     className="flex flex-col items-center justify-center text-center h-full px-3 py-3"
-                                    style={{
-                                        background: isDarkMode ? 'rgba(15, 23, 42, 0.75)' : 'rgba(255, 255, 255, 0.75)',
-                                        borderRadius: '16px',
-                                        border: isDarkMode
-                                            ? '1px solid rgba(255, 255, 255, 0.15)'
-                                            : '1px solid rgba(0, 0, 0, 0.08)',
-                                        boxShadow: isDarkMode
-                                            ? '0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
-                                            : '0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
-                                        pointerEvents: 'none',
-                                        fontSize: isMobile ? '0.875rem' : '0.75rem'
-                                    }}
+                                    style={tooltipContainerStyle}
                                 >
                                     <div
                                         className="font-bold mb-1.5"

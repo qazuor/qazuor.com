@@ -1,8 +1,77 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { CheckIcon, LinkIcon, ShareIcon } from '@/components/icons/SocialIcons';
 import { getCompactPlatforms, getFullPlatforms, getShareUrl } from '@/data/shareButtons';
 import type { Locale } from '@/i18n/ui';
 import { canShare, copyToClipboard, sharePost } from '@/utils/share';
+
+// Memoized platform button to avoid callback recreation for each platform
+interface PlatformButtonProps {
+    id: string;
+    Icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    brandColor: string;
+    ariaLabel: string;
+    onShare: (id: string) => void;
+    variant: 'compact' | 'full';
+}
+
+const PlatformButton = memo(function PlatformButton({
+    id,
+    Icon,
+    label,
+    brandColor,
+    ariaLabel,
+    onShare,
+    variant
+}: PlatformButtonProps) {
+    const handleClick = useCallback(() => {
+        onShare(id);
+    }, [id, onShare]);
+
+    const handleMouseEnter = useCallback(
+        (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.currentTarget.style.color = brandColor;
+            e.currentTarget.style.backgroundColor = `${brandColor}1a`;
+        },
+        [brandColor]
+    );
+
+    const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+        e.currentTarget.style.color = '';
+        e.currentTarget.style.backgroundColor = '';
+    }, []);
+
+    if (variant === 'compact') {
+        return (
+            <button
+                type="button"
+                onClick={handleClick}
+                className="p-2 text-white/70 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300"
+                style={{ '--brand-color': brandColor } as React.CSSProperties}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                aria-label={ariaLabel}
+                title={label}
+            >
+                <Icon className="w-4 h-4" />
+            </button>
+        );
+    }
+
+    return (
+        <button
+            type="button"
+            onClick={handleClick}
+            className="group p-3 text-foreground-secondary rounded-xl border border-foreground/10 hover:border-transparent bg-surface/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            aria-label={ariaLabel}
+            title={label}
+        >
+            <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+        </button>
+    );
+});
 
 interface ShareButtonProps {
     title: string;
@@ -92,29 +161,16 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
         return (
             <div className="flex items-center gap-1">
                 {compactPlatforms.map(({ id, Icon, label, brandColor }) => (
-                    <button
+                    <PlatformButton
                         key={id}
-                        type="button"
-                        onClick={() => handlePlatformShare(id)}
-                        className="p-2 text-white/70 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300"
-                        style={
-                            {
-                                '--brand-color': brandColor
-                            } as React.CSSProperties
-                        }
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.color = brandColor;
-                            e.currentTarget.style.backgroundColor = `${brandColor}1a`;
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.color = '';
-                            e.currentTarget.style.backgroundColor = '';
-                        }}
-                        aria-label={`${t.via} ${label}`}
-                        title={label}
-                    >
-                        <Icon className="w-4 h-4" />
-                    </button>
+                        id={id}
+                        Icon={Icon}
+                        label={label}
+                        brandColor={brandColor}
+                        ariaLabel={`${t.via} ${label}`}
+                        onShare={handlePlatformShare}
+                        variant="compact"
+                    />
                 ))}
                 <button
                     type="button"
@@ -155,24 +211,16 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
             {/* Platform buttons */}
             <div className="flex items-center gap-2">
                 {fullPlatforms.map(({ id, Icon, label, brandColor }) => (
-                    <button
+                    <PlatformButton
                         key={id}
-                        type="button"
-                        onClick={() => handlePlatformShare(id)}
-                        className="group p-3 text-foreground-secondary rounded-xl border border-foreground/10 hover:border-transparent bg-surface/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.color = brandColor;
-                            e.currentTarget.style.backgroundColor = `${brandColor}1a`;
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.color = '';
-                            e.currentTarget.style.backgroundColor = '';
-                        }}
-                        aria-label={`${t.via} ${label}`}
-                        title={label}
-                    >
-                        <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                    </button>
+                        id={id}
+                        Icon={Icon}
+                        label={label}
+                        brandColor={brandColor}
+                        ariaLabel={`${t.via} ${label}`}
+                        onShare={handlePlatformShare}
+                        variant="full"
+                    />
                 ))}
 
                 {/* Copy link button */}

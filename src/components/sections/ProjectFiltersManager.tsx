@@ -1,5 +1,5 @@
 import autoAnimate from '@formkit/auto-animate';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActiveFilters } from '@/components/ui/ActiveFilters';
 import { TechnologyFilter } from '@/components/ui/TechnologyFilter';
 
@@ -22,8 +22,8 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
     const [mounted, setMounted] = useState(false);
 
-    // Store all cards permanently - preserve original DOM elements
-    const allCardsCache = useState(() => new Map<string, Array<{ element: HTMLElement; technologies: string[] }>>())[0];
+    // Store all cards permanently - preserve original DOM elements (useRef since it never triggers re-renders)
+    const allCardsCache = useRef(new Map<string, Array<{ element: HTMLElement; technologies: string[] }>>()).current;
 
     // Initialize technologies and cards cache from DOM on mount
     useEffect(() => {

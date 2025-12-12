@@ -92,6 +92,7 @@ const POPOVER_WIDTH_MOBILE = 280;
 const AUTO_PLAY_INTERVAL_MS = 4000;
 const SNAP_DELAY_MS = 500;
 const DESKTOP_PADDING = 64;
+const CONTAINER_MAX_WIDTH = 1152; // max-w-6xl in pixels
 
 /**
  * Hook parameters
@@ -124,6 +125,10 @@ interface UseTimelineAnimationReturn {
     TIMELINE_SPACING: number;
     POPOVER_WIDTH: number;
     DESKTOP_PADDING: number;
+    CONTAINER_MAX_WIDTH: number;
+
+    // Computed
+    getContainerWidth: () => number;
 
     // Handlers
     handleItemClick: (item: TimelineItem, index: number) => void;
@@ -185,15 +190,28 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const totalItems = mainTimelineItems.length;
 
     /**
+     * Get the container width (constrained to max-width or viewport on mobile)
+     */
+    const getContainerWidth = useCallback(() => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            return container.clientWidth;
+        }
+        // Fallback: use max-width on desktop, viewport on mobile
+        if (typeof window !== 'undefined') {
+            return isMobile ? window.innerWidth : Math.min(window.innerWidth, CONTAINER_MAX_WIDTH);
+        }
+        return CONTAINER_MAX_WIDTH;
+    }, [isMobile]);
+
+    /**
      * Get the horizontal padding for the timeline
-     * Both mobile and desktop: 50vw - half item width so first/last items can center
-     * Uses window.innerWidth to match CSS vw units
+     * Uses container width so items can center within the constrained area
      */
     const getTimelinePadding = useCallback(() => {
-        // Use window.innerWidth to match CSS 50vw calculation
-        const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1024;
-        return viewportWidth / 2 - TIMELINE_SPACING / 2;
-    }, [TIMELINE_SPACING]);
+        const containerWidth = getContainerWidth();
+        return containerWidth / 2 - TIMELINE_SPACING / 2;
+    }, [TIMELINE_SPACING, getContainerWidth]);
 
     /**
      * Scroll to specific timeline item
@@ -210,26 +228,26 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
             const itemWidth = TIMELINE_SPACING;
             const timelinePadding = getTimelinePadding();
-            // Use window.innerWidth / 2 for centering to match CSS 50vw
-            const viewportHalfWidth = typeof window !== 'undefined' ? window.innerWidth / 2 : container.clientWidth / 2;
+            const containerWidth = getContainerWidth();
+            const containerHalfWidth = containerWidth / 2;
 
             // Calculate the center position of the item relative to timeline start
             const itemCenter = timelinePadding + index * itemWidth + itemWidth / 2;
 
-            // Scroll position to center the item in the viewport (matching CSS 50vw centering)
-            const scrollPosition = itemCenter - viewportHalfWidth;
+            // Scroll position to center the item in the container
+            const scrollPosition = itemCenter - containerHalfWidth;
 
-            // Both mobile and desktop use dynamic padding, allowing any item to center
+            // Scroll within the constrained container
             container.scrollTo({
                 left: Math.max(0, scrollPosition),
                 behavior: smooth ? 'smooth' : 'instant'
             });
         },
-        [TIMELINE_SPACING, getTimelinePadding]
+        [TIMELINE_SPACING, getTimelinePadding, getContainerWidth]
     );
 
     /**
-     * Find the closest item to the center of the viewport
+     * Find the closest item to the center of the container
      */
     const findClosestItemToCenter = useCallback(() => {
         const container = scrollContainerRef.current;
@@ -237,11 +255,11 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
         const scrollLeft = container.scrollLeft;
         const timelinePadding = getTimelinePadding();
-        // Use window.innerWidth / 2 to match CSS 50vw
-        const viewportHalfWidth = typeof window !== 'undefined' ? window.innerWidth / 2 : container.clientWidth / 2;
+        const containerWidth = getContainerWidth();
+        const containerHalfWidth = containerWidth / 2;
 
-        // Center of viewport in scroll coordinates
-        const viewportCenter = scrollLeft + viewportHalfWidth;
+        // Center of container in scroll coordinates
+        const containerCenter = scrollLeft + containerHalfWidth;
 
         // Find which item is closest to center
         let closestIndex = 0;
@@ -249,7 +267,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
 
         for (let i = 0; i < totalItems; i++) {
             const itemCenter = timelinePadding + i * TIMELINE_SPACING + TIMELINE_SPACING / 2;
-            const distance = Math.abs(itemCenter - viewportCenter);
+            const distance = Math.abs(itemCenter - containerCenter);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 closestIndex = i;
@@ -257,7 +275,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         }
 
         return closestIndex;
-    }, [totalItems, TIMELINE_SPACING, getTimelinePadding]);
+    }, [totalItems, TIMELINE_SPACING, getTimelinePadding, getContainerWidth]);
 
     /**
      * Navigate to specific item
@@ -525,6 +543,10 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
         TIMELINE_SPACING,
         POPOVER_WIDTH,
         DESKTOP_PADDING,
+        CONTAINER_MAX_WIDTH,
+
+        // Computed
+        getContainerWidth,
 
         // Handlers
         handleItemClick,

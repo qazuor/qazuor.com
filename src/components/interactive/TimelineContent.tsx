@@ -164,18 +164,16 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
 
             {/* Timeline wrapper with relative positioning for card placement */}
             <div className="w-full mx-auto relative">
-                {/* Horizontal scroll container - hidden scrollbar */}
-                {/* Uses negative margin trick to break out of parent container and occupy full viewport */}
+                {/* Horizontal scroll container - constrained to content width */}
                 <div
                     ref={timeline.scrollContainerRef}
-                    className="overflow-x-auto overflow-y-visible scrollbar-hide"
+                    className="overflow-x-auto overflow-y-visible scrollbar-hide mx-auto"
                     style={{
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
                         WebkitOverflowScrolling: 'touch',
-                        // Break out of parent container to occupy full viewport width
-                        width: '100vw',
-                        marginLeft: 'calc(-50vw + 50%)'
+                        // Constrain to content max-width (mobile uses full width)
+                        maxWidth: timeline.isMobile ? '100%' : `${timeline.CONTAINER_MAX_WIDTH}px`
                     }}
                 >
                     {/* Timeline container - flexbox autocontained */}
@@ -187,10 +185,17 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                         aria-label="Timeline navigation"
                         style={{
                             // Width = padding-left + items + padding-right
-                            // Both mobile and desktop use 50vw padding so first/last items can center
-                            width: `calc(100vw + ${(timelineItems.length - 1) * timeline.TIMELINE_SPACING}px)`,
-                            paddingLeft: `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`,
-                            paddingRight: `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`,
+                            // Mobile: uses viewport width for padding
+                            // Desktop: uses constrained container width for padding
+                            width: timeline.isMobile
+                                ? `calc(100vw + ${(timelineItems.length - 1) * timeline.TIMELINE_SPACING}px)`
+                                : `${timeline.CONTAINER_MAX_WIDTH + (timelineItems.length - 1) * timeline.TIMELINE_SPACING}px`,
+                            paddingLeft: timeline.isMobile
+                                ? `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`
+                                : `${timeline.CONTAINER_MAX_WIDTH / 2 - timeline.TIMELINE_SPACING / 2}px`,
+                            paddingRight: timeline.isMobile
+                                ? `calc(50vw - ${timeline.TIMELINE_SPACING / 2}px)`
+                                : `${timeline.CONTAINER_MAX_WIDTH / 2 - timeline.TIMELINE_SPACING / 2}px`,
                             paddingBottom: timeline.isMobile ? '120px' : '140px'
                         }}
                     >

@@ -38,7 +38,22 @@ export function SmoothScroll() {
             // Small delay to ensure DOM is ready
             setTimeout(() => {
                 scrollTriggerInstance?.refresh();
-                // Scroll to top on page change
+
+                // Check if there's a hash in the URL - if so, scroll to that element
+                const hash = window.location.hash;
+                if (hash) {
+                    const targetId = hash.replace('#', '');
+                    const element = document.getElementById(targetId);
+                    if (element) {
+                        const headerOffset = 80;
+                        const elementPosition = element.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        lenis?.scrollTo(offsetPosition, { immediate: true });
+                        return;
+                    }
+                }
+
+                // No hash or element not found - scroll to top
                 lenis?.scrollTo(0, { immediate: true });
             }, 100);
         };

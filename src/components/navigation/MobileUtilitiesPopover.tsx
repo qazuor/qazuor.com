@@ -113,11 +113,12 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
     const switchLanguage = useCallback(() => {
         const newLocale = currentLocale === 'es' ? 'en' : 'es';
         const currentPath = window.location.pathname;
+        const currentSearch = window.location.search;
         const currentHash = window.location.hash;
         // Replace current locale with new locale in path
         const newPath = currentPath.replace(new RegExp(`^/${currentLocale}`), `/${newLocale}`);
-        // Use View Transitions for language switch
-        navigate(`${newPath || `/${newLocale}`}${currentHash}`);
+        // Use View Transitions for language switch (preserve query params and hash)
+        navigate(`${newPath || `/${newLocale}`}${currentSearch}${currentHash}`);
     }, [currentLocale]);
 
     return (

@@ -187,7 +187,8 @@ export function FloatingNav({
         if (activeSection && activeSection !== prevActiveSection.current && isHomePage) {
             const section = NAV_SECTIONS.find((s) => s.id === activeSection);
             if (section && window.history?.replaceState) {
-                const newUrl = `${window.location.pathname}${section.hash}`;
+                // Preserve query params when updating hash
+                const newUrl = `${window.location.pathname}${window.location.search}${section.hash}`;
                 window.history.replaceState(null, '', newUrl);
             }
             prevActiveSection.current = activeSection;
@@ -248,10 +249,11 @@ export function FloatingNav({
     const switchLanguage = useCallback(() => {
         const newLocale = currentLocale === 'es' ? 'en' : 'es';
         const currentPath = window.location.pathname;
+        const currentSearch = window.location.search;
         const currentHash = window.location.hash;
         const newPath = currentPath.replace(new RegExp(`^/${currentLocale}`), `/${newLocale}`);
-        // Use View Transitions for language switch
-        navigate(`${newPath || `/${newLocale}`}${currentHash}`);
+        // Use View Transitions for language switch (preserve query params and hash)
+        navigate(`${newPath || `/${newLocale}`}${currentSearch}${currentHash}`);
     }, [currentLocale]);
 
     // Custom smooth scroll function with callback support
@@ -298,8 +300,9 @@ export function FloatingNav({
                     // Execute smooth scroll FIRST, then update URL when complete
                     smoothScrollTo(offsetPosition, 800, () => {
                         // Update URL without triggering scroll (after animation completes)
+                        // Preserve query params when updating hash
                         if (window.history?.replaceState) {
-                            const newUrl = `${window.location.pathname}${section.hash}`;
+                            const newUrl = `${window.location.pathname}${window.location.search}${section.hash}`;
                             window.history.replaceState(null, '', newUrl);
                         }
                     });

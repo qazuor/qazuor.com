@@ -53,9 +53,10 @@ function setupSmoothScrollDelegation() {
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
 
-                // Update URL hash (without triggering scroll)
+                // Update URL hash (without triggering scroll) - preserve pathname and query params
                 if (window.history?.pushState) {
-                    window.history.pushState(null, '', `#${targetId}`);
+                    const newUrl = `${window.location.pathname}${window.location.search}#${targetId}`;
+                    window.history.pushState(null, '', newUrl);
                 } else {
                     window.location.hash = targetId;
                 }

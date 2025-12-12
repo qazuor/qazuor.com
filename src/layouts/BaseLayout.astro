@@ -483,46 +483,44 @@ const alternateLinks = locales.map((locale) => {
         <!-- New Footer Component -->
         <Footer lang={lang} isHome={isHomePage} />
 
-        <!-- Callout Enhancer for blog posts -->
+        <!-- Callout Enhancer for prose content (blog, projects, goodies) -->
         <!-- Transforms blockquotes with patterns like **Info:** into styled callouts -->
         <!-- Uses is:inline to ensure re-execution after View Transitions -->
-        <!-- See: https://docs.astro.build/en/guides/view-transitions/#script-re-execution -->
         <script is:inline>
             (function() {
                 // Guard to prevent duplicate event listener registration
                 if (window.__calloutEnhancerInitialized) return;
                 window.__calloutEnhancerInitialized = true;
 
-                function enhanceCallouts() {
-                    var calloutPatterns = {
-                        info: /^<strong>Info:?<\/strong>:?\s*/i,
-                        warning: /^<strong>Warning:?<\/strong>:?\s*/i,
-                        tip: /^<strong>Tip:?<\/strong>:?\s*/i,
-                        success: /^<strong>Success:?<\/strong>:?\s*/i,
-                        error: /^<strong>Error:?<\/strong>:?\s*/i,
-                        quote: /^<strong>Quote:?<\/strong>:?\s*/i
-                    };
+                var calloutPatterns = {
+                    info: /^<strong>Info:?<\/strong>:?\s*/i,
+                    warning: /^<strong>Warning:?<\/strong>:?\s*/i,
+                    tip: /^<strong>Tip:?<\/strong>:?\s*/i,
+                    success: /^<strong>Success:?<\/strong>:?\s*/i,
+                    error: /^<strong>Error:?<\/strong>:?\s*/i,
+                    quote: /^<strong>Quote:?<\/strong>:?\s*/i
+                };
 
-                    var blockquotes = document.querySelectorAll('.content-prose blockquote');
+                function enhanceCallouts() {
+                    // Early bailout: skip if no prose content on page
+                    if (!document.querySelector('.content-prose')) return;
+
+                    var blockquotes = document.querySelectorAll('.content-prose blockquote:not([data-callout-enhanced])');
+                    if (!blockquotes.length) return;
 
                     blockquotes.forEach(function(blockquote) {
-                        if (blockquote.dataset.calloutEnhanced) return;
-
                         var firstParagraph = blockquote.querySelector('p');
                         if (!firstParagraph) return;
 
                         var html = firstParagraph.innerHTML.trim();
 
                         for (var type in calloutPatterns) {
-                            var pattern = calloutPatterns[type];
-                            if (pattern.test(html)) {
+                            if (calloutPatterns[type].test(html)) {
                                 blockquote.dataset.calloutEnhanced = 'true';
                                 blockquote.classList.add('callout-' + type);
-                                var cleanedHtml = html.replace(pattern, '').trim();
+                                var cleanedHtml = html.replace(calloutPatterns[type], '').trim();
                                 firstParagraph.innerHTML = cleanedHtml;
-                                if (!cleanedHtml) {
-                                    firstParagraph.remove();
-                                }
+                                if (!cleanedHtml) firstParagraph.remove();
                                 break;
                             }
                         }
@@ -532,9 +530,7 @@ const alternateLinks = locales.map((locale) => {
                 // Run on initial page load
                 enhanceCallouts();
 
-                // Run after View Transitions content is ready
-                // qazuor:content-ready is dispatched by ViewTransitionGSAP after DOM swap
-                // This is the reliable way to enhance content when using custom GSAP transitions
+                // Run after View Transitions navigation
                 document.addEventListener('qazuor:content-ready', enhanceCallouts);
             })();
         </script>

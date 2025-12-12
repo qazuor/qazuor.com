@@ -15,6 +15,34 @@ import searchIcon from '@/icons/ui/search.svg?raw';
 import type { CommandItem } from '@/types/commandPalette';
 import { HelpDialog } from './HelpDialog';
 
+// Icon maps - defined outside component to avoid recreating on each render
+const ICON_MAP: Record<string, string> = {
+    home: homeIcon,
+    folder: folderIcon,
+    newspaper: newspaperIcon,
+    search: searchIcon,
+    github: githubIcon,
+    linkedin: linkedinIcon,
+    fiverr: fiverrIcon,
+    upwork: upworkIcon,
+    whatsapp: whatsappIcon,
+    mail: mailIcon
+};
+
+const CONTENT_ICON_MAP: Record<string, string> = {
+    command: searchIcon,
+    projects: folderIcon,
+    blog: newspaperIcon,
+    tools: searchIcon
+};
+
+const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
+    command: 'Commands',
+    projects: 'Projects',
+    blog: 'Blog Posts',
+    tools: 'Tools'
+};
+
 interface CommandPaletteInnerProps {
     lang: string;
     placeholder?: string;
@@ -34,6 +62,12 @@ export function CommandPaletteInner({
     const [viewportOffset, setViewportOffset] = useState(0);
     const commandRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    // Cache DOM elements to avoid repeated querySelector calls
+    const elementsRef = useRef<{
+        main: HTMLElement | null;
+        nav: HTMLElement | null;
+        footer: HTMLElement | null;
+    } | null>(null);
 
     // Track visual viewport changes (for mobile keyboard)
     useEffect(() => {
@@ -106,33 +140,8 @@ export function CommandPaletteInner({
         [setOpen]
     );
 
-    // Helper function to get the correct icon
-    const getIcon = useCallback((iconName: string) => {
-        switch (iconName) {
-            case 'home':
-                return homeIcon;
-            case 'folder':
-                return folderIcon;
-            case 'newspaper':
-                return newspaperIcon;
-            case 'search':
-                return searchIcon;
-            case 'github':
-                return githubIcon;
-            case 'linkedin':
-                return linkedinIcon;
-            case 'fiverr':
-                return fiverrIcon;
-            case 'upwork':
-                return upworkIcon;
-            case 'whatsapp':
-                return whatsappIcon;
-            case 'mail':
-                return mailIcon;
-            default:
-                return searchIcon;
-        }
-    }, []);
+    // Simple lookup functions using constant maps (no useCallback needed)
+    const getIcon = (iconName: string) => ICON_MAP[iconName] ?? searchIcon;
 
     // Helper function to handle item selection
     const handleItemSelect = useCallback(
@@ -159,37 +168,9 @@ export function CommandPaletteInner({
         [navigate, setOpen]
     );
 
-    // Helper function to get content icons
-    const getContentIcon = useCallback((category: string) => {
-        switch (category) {
-            case 'command':
-                return searchIcon;
-            case 'projects':
-                return folderIcon;
-            case 'blog':
-                return newspaperIcon;
-            case 'tools':
-                return searchIcon;
-            default:
-                return folderIcon;
-        }
-    }, []);
-
-    // Helper function to get category display names
-    const getCategoryDisplayName = useCallback((category: string) => {
-        switch (category) {
-            case 'command':
-                return 'Commands';
-            case 'projects':
-                return 'Projects';
-            case 'blog':
-                return 'Blog Posts';
-            case 'tools':
-                return 'Tools';
-            default:
-                return category.charAt(0).toUpperCase() + category.slice(1);
-        }
-    }, []);
+    const getContentIcon = (category: string) => CONTENT_ICON_MAP[category] ?? folderIcon;
+    const getCategoryDisplayName = (category: string) =>
+        CATEGORY_DISPLAY_NAMES[category] ?? category.charAt(0).toUpperCase() + category.slice(1);
 
     // Helper functions for HelpDialog
     const handleBackToCommandPalette = useCallback(() => {
@@ -210,52 +191,31 @@ export function CommandPaletteInner({
 
     // Apply blur effect to main content when command palette is open
     useEffect(() => {
-        const mainContent = document.querySelector('main') as HTMLElement;
-        const navigation = document.querySelector('nav') as HTMLElement;
-        const footer = document.querySelector('footer') as HTMLElement;
-
-        if (open) {
-            // Add blur effect to main content, navigation, and footer
-            if (mainContent) {
-                mainContent.style.filter = 'blur(4px) brightness(0.7)';
-                mainContent.style.transition = 'filter 0.2s ease-in-out';
-            }
-            if (navigation) {
-                navigation.style.filter = 'blur(4px) brightness(0.7)';
-                navigation.style.transition = 'filter 0.2s ease-in-out';
-            }
-            if (footer) {
-                footer.style.filter = 'blur(4px) brightness(0.7)';
-                footer.style.transition = 'filter 0.2s ease-in-out';
-            }
-            // Prevent scrolling
-            document.body.style.overflow = 'hidden';
-        } else {
-            // Remove blur effect
-            if (mainContent) {
-                mainContent.style.filter = 'none';
-            }
-            if (navigation) {
-                navigation.style.filter = 'none';
-            }
-            if (footer) {
-                footer.style.filter = 'none';
-            }
-            // Restore scrolling
-            document.body.style.overflow = '';
+        // Cache DOM elements on first open (lazy initialization)
+        if (!elementsRef.current) {
+            elementsRef.current = {
+                main: document.querySelector('main'),
+                nav: document.querySelector('nav'),
+                footer: document.querySelector('footer')
+            };
         }
+        const { main, nav, footer } = elementsRef.current;
 
-        // Cleanup function
+        const applyBlur = (element: HTMLElement | null, blur: boolean) => {
+            if (!element) return;
+            element.style.filter = blur ? 'blur(4px) brightness(0.7)' : 'none';
+            if (blur) element.style.transition = 'filter 0.2s ease-in-out';
+        };
+
+        applyBlur(main, open);
+        applyBlur(nav, open);
+        applyBlur(footer, open);
+        document.body.style.overflow = open ? 'hidden' : '';
+
         return () => {
-            if (mainContent) {
-                mainContent.style.filter = 'none';
-            }
-            if (navigation) {
-                navigation.style.filter = 'none';
-            }
-            if (footer) {
-                footer.style.filter = 'none';
-            }
+            applyBlur(main, false);
+            applyBlur(nav, false);
+            applyBlur(footer, false);
             document.body.style.overflow = '';
         };
     }, [open]);

@@ -1,7 +1,7 @@
 ---
-import DownloadLink from '@/components/ui/DownloadLink.astro';
 import GetInTouchLink from '@/components/ui/GetInTouchLink.astro';
 import HeroAvatar from '@/components/ui/HeroAvatar.astro';
+import ResumeDownloadDropdown from '@/components/ui/ResumeDownloadDropdown.astro';
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
 import TrustBadgesMarquee, { type TrustBadge } from '@/components/ui/TrustBadgesMarquee.astro';
@@ -19,6 +19,8 @@ interface Props {
         viewProjects: string;
         getInTouch: string;
         downloadResume: string;
+        resumeEnglish: string;
+        resumeSpanish: string;
         scroll: string;
     };
     ariaLabels?: {
@@ -56,6 +58,8 @@ const {
         viewProjects: 'View Projects',
         getInTouch: 'Get in Touch',
         downloadResume: 'Download Resume',
+        resumeEnglish: 'English',
+        resumeSpanish: 'Español',
         scroll: 'Scroll'
     },
     ariaLabels = {
@@ -119,12 +123,11 @@ const {
                         size="sm"
                         className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
                     />
-                    <DownloadLink
-                        href="/files/qazuor_resume.pdf"
+                    <ResumeDownloadDropdown
                         text={translations.downloadResume}
-                        variant="ghost"
-                        size="sm"
-                        className="bg-background text-foreground hover:bg-background/90 !px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+                        englishLabel={translations.resumeEnglish}
+                        spanishLabel={translations.resumeSpanish}
+                        className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
                         ariaLabel={translations.downloadResume}
                     />
                 </nav>

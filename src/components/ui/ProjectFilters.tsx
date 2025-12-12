@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface ProjectFiltersProps {
     categories: { value: string; label: string }[];
@@ -19,6 +19,10 @@ export interface FilterState {
 export function ProjectFilters({ categories, technologies, onFilterChange, translations }: ProjectFiltersProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+
+    // Memoize valid values for URL initialization
+    const validCategoryValues = useMemo(() => new Set(categories.map((c) => c.value)), [categories]);
+    const validTechnologies = useMemo(() => new Set(technologies), [technologies]);
 
     // Notify parent component when filters change
     useEffect(() => {
@@ -51,20 +55,21 @@ export function ProjectFilters({ categories, technologies, onFilterChange, trans
     }, [selectedCategory, selectedTechnologies]);
 
     // Initialize filters from URL on mount
+    // Re-runs when valid values change (categories/technologies props)
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const categoryParam = params.get('category');
         const techParam = params.get('tech');
 
-        if (categoryParam && categories.some((c) => c.value === categoryParam)) {
+        if (categoryParam && validCategoryValues.has(categoryParam)) {
             setSelectedCategory(categoryParam);
         }
 
         if (techParam) {
-            const techs = techParam.split(',').filter((t) => technologies.includes(t));
+            const techs = techParam.split(',').filter((t) => validTechnologies.has(t));
             setSelectedTechnologies(techs);
         }
-    }, [categories.some, technologies.includes]);
+    }, [validCategoryValues, validTechnologies]);
 
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category);

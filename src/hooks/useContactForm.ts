@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { isValidInterest } from '@/data';
 
 interface FormData {
@@ -26,6 +26,9 @@ interface UseContactFormProps {
 }
 
 export function useContactForm({ errorMessages, onSuccess, onError }: UseContactFormProps) {
+    // AbortController ref to handle race conditions on multiple submits
+    const abortControllerRef = useRef<AbortController | null>(null);
+
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
@@ -141,6 +144,10 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             return;
         }
 
+        // Cancel any in-flight request to prevent race conditions
+        abortControllerRef.current?.abort();
+        abortControllerRef.current = new AbortController();
+
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
@@ -148,7 +155,8 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                signal: abortControllerRef.current.signal
             });
 
             const result = await response.json();
@@ -160,13 +168,24 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
             setSubmitStatus('success');
             setFormData({ name: '', email: '', company: '', subject: '', interests: [], message: '' });
             onSuccess?.();
-        } catch (_error) {
+        } catch (error) {
+            // Don't update state if the request was aborted (component unmounted or new request started)
+            if (error instanceof Error && error.name === 'AbortError') {
+                return;
+            }
             setSubmitStatus('error');
             onError?.();
         } finally {
             setIsSubmitting(false);
         }
     };
+
+    // Cleanup: abort any pending request on unmount
+    useEffect(() => {
+        return () => {
+            abortControllerRef.current?.abort();
+        };
+    }, []);
 
     return {
         formData,

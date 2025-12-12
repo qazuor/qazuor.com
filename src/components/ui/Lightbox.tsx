@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { OptimizedImage } from './ImageCarousel';
 
 export interface LightboxProps {
@@ -41,9 +41,15 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose, alt = 'Pr
     // Lite version uses index state: undefined = closed, number = open at that index
     const [lightboxIndex, setLightboxIndex] = useState<number | undefined>(undefined);
 
-    const loadLightbox = useCallback(async () => {
-        if (Lightbox || isLoading) return;
+    // Use ref to track loading state without re-creating callback
+    const loadingRef = useRef(false);
+    const loadedRef = useRef(false);
 
+    const loadLightbox = useCallback(async () => {
+        // Use refs to prevent multiple loads without re-creating callback
+        if (loadedRef.current || loadingRef.current) return;
+
+        loadingRef.current = true;
         setIsLoading(true);
         try {
             // Dynamic imports - uses the lite version (4.7KB vs 30KB)
@@ -51,13 +57,15 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose, alt = 'Pr
                 import('yet-another-react-lightbox-lite'),
                 import('yet-another-react-lightbox-lite/styles.css')
             ]);
+            loadedRef.current = true;
             setLightbox(() => lightboxModule.default as unknown as LightboxComponentType);
         } catch (error) {
             console.error('Failed to load lightbox:', error);
         } finally {
+            loadingRef.current = false;
             setIsLoading(false);
         }
-    }, [Lightbox, isLoading]);
+    }, []);
 
     // Load the library when lightbox is opened
     useEffect(() => {

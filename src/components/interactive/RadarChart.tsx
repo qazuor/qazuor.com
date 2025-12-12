@@ -172,6 +172,39 @@ export function RadarChart({
         [skills, params]
     );
 
+    // Pre-calculate icon points for all skills (expensive calculation)
+    const skillPoints = useMemo(() => skills.map((_, i) => calculateIconPoint(i, params)), [skills, params]);
+
+    // Pre-calculate axis data (gradients and lines)
+    const axisData = useMemo(
+        () =>
+            skills.map((_, i) => {
+                const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
+                const extendedDistance = radius * 1.6;
+                return {
+                    angle,
+                    extendedPoint: {
+                        x: roundTo(center + extendedDistance * Math.cos(angle)),
+                        y: roundTo(center + extendedDistance * Math.sin(angle))
+                    }
+                };
+            }),
+        [skills, numSkills, radius, center]
+    );
+
+    // Pre-calculate label positions
+    const labelPositions = useMemo(
+        () =>
+            skills.map((skill, i) => {
+                const angle = calculateAngle(i, numSkills);
+                const { x: labelX, y: labelY } = calculateLabelPosition(angle, radius, center);
+                const textAnchor = calculateTextAnchor(angle);
+                const words = skill.name.split(' ');
+                return { angle, labelX, labelY, textAnchor, words };
+            }),
+        [skills, numSkills, radius, center]
+    );
+
     // Memoized click handler
     const handlePointClick = useCallback((index: number): void => {
         setSelectedIndex((prev) => (prev === index ? null : index));
@@ -210,30 +243,22 @@ export function RadarChart({
                             <stop offset="100%" stopColor="currentColor" stopOpacity="0" className="text-primary" />
                         </radialGradient>
                         {/* Create a gradient for each axis line */}
-                        {skills.map((_, i) => {
-                            const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
-                            const extendedDistance = radius * 1.6; // Extend past icons to reach labels
-                            const extendedPoint = {
-                                x: roundTo(center + extendedDistance * Math.cos(angle)),
-                                y: roundTo(center + extendedDistance * Math.sin(angle))
-                            };
-                            return (
-                                <linearGradient
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Gradient keys match axis order
-                                    key={i}
-                                    id={`${chartId}-axis-${i}`}
-                                    x1={center}
-                                    y1={center}
-                                    x2={extendedPoint.x}
-                                    y2={extendedPoint.y}
-                                    gradientUnits="userSpaceOnUse"
-                                >
-                                    <stop offset="0%" stopColor="currentColor" stopOpacity="0.5" />
-                                    <stop offset="70%" stopColor="currentColor" stopOpacity="0.4" />
-                                    <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-                                </linearGradient>
-                            );
-                        })}
+                        {axisData.map((axis, i) => (
+                            <linearGradient
+                                // biome-ignore lint/suspicious/noArrayIndexKey: Gradient keys match axis order
+                                key={i}
+                                id={`${chartId}-axis-${i}`}
+                                x1={center}
+                                y1={center}
+                                x2={axis.extendedPoint.x}
+                                y2={axis.extendedPoint.y}
+                                gradientUnits="userSpaceOnUse"
+                            >
+                                <stop offset="0%" stopColor="currentColor" stopOpacity="0.5" />
+                                <stop offset="70%" stopColor="currentColor" stopOpacity="0.4" />
+                                <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+                            </linearGradient>
+                        ))}
                     </defs>
 
                     {/* Shadow circle */}
@@ -257,27 +282,19 @@ export function RadarChart({
 
                     {/* Axis lines - with fade gradient at the end */}
                     <g className="axis-lines">
-                        {skills.map((_, i) => {
-                            const angle = (Math.PI * 2 * i) / numSkills - Math.PI / 2;
-                            const extendedDistance = radius * 1.6; // Extend past icons to reach labels
-                            const extendedPoint = {
-                                x: roundTo(center + extendedDistance * Math.cos(angle)),
-                                y: roundTo(center + extendedDistance * Math.sin(angle))
-                            };
-                            return (
-                                <line
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Axis line keys match skill order
-                                    key={i}
-                                    x1={center}
-                                    y1={center}
-                                    x2={extendedPoint.x}
-                                    y2={extendedPoint.y}
-                                    stroke={`url(#${chartId}-axis-${i})`}
-                                    strokeWidth="1"
-                                    className="text-foreground"
-                                />
-                            );
-                        })}
+                        {axisData.map((axis, i) => (
+                            <line
+                                // biome-ignore lint/suspicious/noArrayIndexKey: Axis line keys match skill order
+                                key={i}
+                                x1={center}
+                                y1={center}
+                                x2={axis.extendedPoint.x}
+                                y2={axis.extendedPoint.y}
+                                stroke={`url(#${chartId}-axis-${i})`}
+                                strokeWidth="1"
+                                className="text-foreground"
+                            />
+                        ))}
                     </g>
 
                     {/* Skill data polygon (filled area) - with gradient/shadow effect */}
@@ -316,7 +333,7 @@ export function RadarChart({
                     {/* Skill points (icons at outer edge) */}
                     <g className="skill-points">
                         {skills.map((skill, i) => {
-                            const point = calculateIconPoint(i, params);
+                            const point = skillPoints[i];
                             const isHovered = hoveredIndex === i;
                             const isSelected = selectedIndex === i;
                             const isHighlighted = isHovered || isSelected;
@@ -405,13 +422,8 @@ export function RadarChart({
                     {/* Axis labels (skill names with percentage) */}
                     <g className="axis-labels">
                         {skills.map((skill, i) => {
-                            const angle = calculateAngle(i, numSkills);
-                            const { x: labelX, y: labelY } = calculateLabelPosition(angle, radius, center);
-                            const textAnchor = calculateTextAnchor(angle);
+                            const { labelX, labelY, textAnchor, words } = labelPositions[i];
                             const isHighlighted = hoveredIndex === i || selectedIndex === i;
-
-                            // Split name by spaces for multi-line text
-                            const words = skill.name.split(' ');
                             const lineHeight = calculateLineHeight(isHighlighted, isMobile);
                             const startY = calculateMultiLineStartY(labelY, words.length, lineHeight);
 

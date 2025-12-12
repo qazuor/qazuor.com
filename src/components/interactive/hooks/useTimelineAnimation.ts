@@ -107,6 +107,7 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
     const containerRef = useRef<HTMLDivElement>(null);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const autoplayScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isScrollingRef = useRef(false);
     // Track programmatic scroll with a timestamp to handle overlapping scrolls
     const programmaticScrollUntilRef = useRef<number>(0);
@@ -315,7 +316,8 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
             setSelectedItem(mainTimelineItems[0]);
             setCurrentIndex(0);
             setPopoverPosition(calculatePopoverPosition(0));
-            setTimeout(() => scrollToItem(0), 300);
+            const timer = setTimeout(() => scrollToItem(0), 300);
+            return () => clearTimeout(timer);
         }
     }, [mainTimelineItems, calculatePopoverPosition, scrollToItem]);
 
@@ -372,13 +374,21 @@ export function useTimelineAnimation({ items }: UseTimelineAnimationParams): Use
                 const nextIndex = (prevIndex + 1) % mainTimelineItems.length;
                 setSelectedItem(mainTimelineItems[nextIndex]);
                 setPopoverPosition(calculatePopoverPosition(nextIndex));
-                setTimeout(() => scrollToItem(nextIndex), 100);
+                // Clear previous scroll timeout before setting new one
+                if (autoplayScrollTimeoutRef.current) {
+                    clearTimeout(autoplayScrollTimeoutRef.current);
+                }
+                autoplayScrollTimeoutRef.current = setTimeout(() => scrollToItem(nextIndex), 100);
                 return nextIndex;
             });
         }, AUTO_PLAY_INTERVAL_MS) as unknown as number;
 
         return () => {
             clearInterval(interval);
+            // Clean up any pending scroll timeout
+            if (autoplayScrollTimeoutRef.current) {
+                clearTimeout(autoplayScrollTimeoutRef.current);
+            }
         };
     }, [isAutoPlaying, mainTimelineItems, calculatePopoverPosition, scrollToItem]);
 

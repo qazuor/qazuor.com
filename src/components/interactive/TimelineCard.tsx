@@ -61,8 +61,14 @@ export const TimelineCard = memo(function TimelineCard({ item, popoverWidth, isM
         [popoverWidth, isMobile]
     );
 
-    // Memoized title style
-    const titleStyle = useMemo<React.CSSProperties>(() => ({ color: item.colorHex }), [item.colorHex]);
+    // Memoized title style with smooth color transition
+    const titleStyle = useMemo<React.CSSProperties>(
+        () => ({
+            color: item.colorHex,
+            transition: 'color 400ms cubic-bezier(0.4, 0, 0.2, 1)'
+        }),
+        [item.colorHex]
+    );
 
     return (
         <div className="z-20 backdrop-blur-sm rounded-lg shadow-2xl" style={popoverStyle}>

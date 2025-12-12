@@ -240,13 +240,14 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                         aria-label={`${item.year}: ${item.title}`}
                                         aria-current={isSelected ? 'true' : undefined}
                                     >
-                                        {/* Year */}
+                                        {/* Year - smooth color and scale transition */}
                                         <div
-                                            className={`text-sm mb-4 font-mono tracking-wider font-semibold transition-all duration-500 ease-out ${
+                                            className={`text-sm mb-4 font-mono tracking-wider font-semibold ${
                                                 isSelected ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-90'
                                             }`}
                                             style={{
-                                                color: isSelected ? item.colorHex : 'hsl(var(--text-secondary))'
+                                                color: isSelected ? item.colorHex : 'hsl(var(--text-secondary))',
+                                                transition: 'all 600ms cubic-bezier(0.34, 1.56, 0.64, 1)'
                                             }}
                                         >
                                             {item.year}
@@ -254,22 +255,26 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
 
                                         {/* Main dividing line - exactly below the year */}
                                         <div
-                                            className="w-0.5 h-6 relative z-10 translate-y-1/2 transition-opacity duration-500 ease-out"
+                                            className="w-0.5 h-6 relative z-10 translate-y-1/2"
                                             style={{
                                                 backgroundColor: 'hsl(var(--muted))',
-                                                opacity: isSelected ? '0' : '0.8'
+                                                opacity: isSelected ? '0' : '0.8',
+                                                transition: 'opacity 400ms cubic-bezier(0.4, 0, 0.2, 1)'
                                             }}
                                         />
 
-                                        {/* Timeline point - moves down with gap after the line */}
+                                        {/* Timeline point - moves down with smooth spring-like motion */}
                                         <div
-                                            className={`w-10 h-10 flex items-center justify-center relative z-10 transition-all duration-500 ease-out ${
+                                            className={`w-10 h-10 flex items-center justify-center relative z-10 ${
                                                 isSelected ? 'transform translate-y-16' : 'translate-y-2'
                                             }`}
+                                            style={{
+                                                transition: 'transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                            }}
                                         >
                                             {/* Icon from data - grayscale when not selected, colored when selected */}
                                             <div
-                                                className={`transition-all duration-500 ease-out ${
+                                                className={`${
                                                     isSelected
                                                         ? `transform scale-150 ${item.iconUseItemColor ? 'drop-shadow-lg' : ''}`
                                                         : 'opacity-70 hover:opacity-100 hover:scale-110 grayscale'
@@ -279,7 +284,8 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                                         ? isSelected
                                                             ? item.colorHex
                                                             : 'hsl(var(--text-secondary))'
-                                                        : undefined
+                                                        : undefined,
+                                                    transition: 'all 500ms cubic-bezier(0.34, 1.56, 0.64, 1)'
                                                 }}
                                             >
                                                 <TimelineIcon iconName={item.icon} className="w-7 h-7" />
@@ -290,13 +296,15 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                     {/* Extended vertical line from timeline mark - animated with absolute positioning */}
                                     {/* Uses scaleY instead of height to avoid layout reflow */}
                                     <div
-                                        className="absolute w-0.5 h-20 z-10 origin-top transition-all duration-500 ease-out"
+                                        className="absolute w-0.5 h-20 z-10 origin-top"
                                         style={{
                                             top: '45px',
                                             left: '50%',
                                             transform: `translateX(-50%) scaleY(${isSelected ? 1 : 0})`,
                                             opacity: isSelected ? 1 : 0,
-                                            background: `linear-gradient(to bottom, ${item.colorHex}, ${item.colorHex}10)`
+                                            background: `linear-gradient(to bottom, ${item.colorHex}, ${item.colorHex}10)`,
+                                            transition:
+                                                'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)'
                                         }}
                                     />
 

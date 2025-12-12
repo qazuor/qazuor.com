@@ -144,7 +144,7 @@ if (!(window as unknown as { __pixelCanvasGlobalInit?: boolean }).__pixelCanvasG
         }
 
         get gap(): number {
-            const value = Number.parseInt(this.dataset.gap || '5');
+            const value = Number.parseInt(this.dataset.gap || '5', 10);
             const min = 4;
             const max = 50;
             if (value <= min) return min;
@@ -153,7 +153,7 @@ if (!(window as unknown as { __pixelCanvasGlobalInit?: boolean }).__pixelCanvasG
         }
 
         get speed(): number {
-            const value = Number.parseInt(this.dataset.speed || '35');
+            const value = Number.parseInt(this.dataset.speed || '35', 10);
             const min = 0;
             const max = 100;
             const throttle = 0.001;

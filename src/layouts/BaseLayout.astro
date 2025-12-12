@@ -461,11 +461,10 @@ const alternateLinks = locales.map((locale) => {
             placeholder={t('aria.commandPalettePlaceholder')}
         />
 
-        <!-- Scroll to Top Button - client:only to avoid SSR hooks issue with animate-ui icons -->
+        <!-- Scroll to Top Button - mobile only (desktop uses FloatingNav's scroll-to-top) -->
         <ScrollToTop client:only="react" ariaLabel={t('aria.scrollToTop')} />
 
         <!-- Floating Navigation - visible on all pages -->
-        <!-- Using client:only to avoid SSR hooks issue with animate-ui icons -->
         <FloatingNav
             client:only="react"
             labels={floatingNavLabels}

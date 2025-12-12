@@ -33,7 +33,7 @@ const { categories, description } = Astro.props;
         <!-- Technical Skills Chart -->
         <div class="radar-chart-wrapper">
             <RadarChart
-                client:only="react"
+                client:visible
                 title={categories[0].title}
                 titleHtml={true}
                 skills={categories[0].skills}
@@ -47,7 +47,7 @@ const { categories, description } = Astro.props;
         <!-- Human & Creative Skills Chart -->
         <div class="radar-chart-wrapper">
             <RadarChart
-                client:only="react"
+                client:visible
                 title={categories[1].title}
                 titleHtml={true}
                 skills={categories[1].skills}

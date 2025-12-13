@@ -73,7 +73,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                     <button
                         type="button"
                         onClick={timeline.goToPrev}
-                        className="p-2 rounded-full bg-bg-secondary/80 hover:bg-bg-tertiary transition-colors duration-200 text-text-secondary hover:text-text-primary"
+                        className="p-2 rounded-full bg-foreground/10 hover:bg-foreground/15 transition-colors duration-200 text-text-secondary hover:text-text-primary"
                         aria-label={t.previous}
                     >
                         <svg
@@ -93,8 +93,8 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                         onClick={timeline.toggleAutoPlay}
                         className={`p-2 rounded-full transition-colors duration-200 ${
                             timeline.isAutoPlaying
-                                ? 'bg-primary/20 text-primary hover:bg-primary/30'
-                                : 'bg-bg-secondary/80 text-text-secondary hover:bg-bg-tertiary hover:text-text-primary'
+                                ? 'bg-primary/25 text-primary hover:bg-primary/35'
+                                : 'bg-foreground/10 text-text-secondary hover:bg-foreground/15 hover:text-text-primary'
                         }`}
                         aria-label={timeline.isAutoPlaying ? t.pause : t.play}
                         aria-pressed={timeline.isAutoPlaying}
@@ -114,7 +114,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                     <button
                         type="button"
                         onClick={timeline.goToNext}
-                        className="p-2 rounded-full bg-bg-secondary/80 hover:bg-bg-tertiary transition-colors duration-200 text-text-secondary hover:text-text-primary"
+                        className="p-2 rounded-full bg-foreground/10 hover:bg-foreground/15 transition-colors duration-200 text-text-secondary hover:text-text-primary"
                         aria-label={t.next}
                     >
                         <svg
@@ -148,7 +148,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                             className={`w-2.5 h-2.5 rounded-full transition-transform duration-300 ${
                                 timeline.currentIndex === index
                                     ? 'scale-125'
-                                    : 'scale-100 bg-muted/40 hover:bg-muted/60 hover:scale-110'
+                                    : 'scale-100 bg-foreground/20 hover:bg-foreground/35 hover:scale-110'
                             }`}
                             style={{
                                 backgroundColor: timeline.currentIndex === index ? item.colorHex : undefined
@@ -209,10 +209,10 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                 background: `linear-gradient(
                                     to right,
                                     transparent 0%,
-                                    hsl(var(--muted) / 0.4) 5%,
-                                    hsl(var(--muted) / 0.8) 15%,
-                                    hsl(var(--muted) / 0.8) 85%,
-                                    hsl(var(--muted) / 0.4) 95%,
+                                    hsl(var(--foreground) / 0.15) 5%,
+                                    hsl(var(--foreground) / 0.25) 15%,
+                                    hsl(var(--foreground) / 0.25) 85%,
+                                    hsl(var(--foreground) / 0.15) 95%,
                                     transparent 100%
                                 )`
                             }}
@@ -257,8 +257,8 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                         <div
                                             className="w-0.5 h-6 relative z-10 translate-y-1/2"
                                             style={{
-                                                backgroundColor: 'hsl(var(--muted))',
-                                                opacity: isSelected ? '0' : '0.8',
+                                                backgroundColor: 'hsl(var(--foreground) / 0.3)',
+                                                opacity: isSelected ? '0' : '1',
                                                 transition: 'opacity 400ms cubic-bezier(0.4, 0, 0.2, 1)'
                                             }}
                                         />
@@ -316,7 +316,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                                 top: '62px',
                                                 left: `${timeline.TIMELINE_SPACING / 2}px`,
                                                 width: `${timeline.TIMELINE_SPACING / 2}px`,
-                                                backgroundColor: 'hsl(var(--muted) / 0.4)'
+                                                backgroundColor: 'hsl(var(--foreground) / 0.15)'
                                             }}
                                         >
                                             {/* 4 intermediate lines evenly distributed */}
@@ -326,7 +326,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                                     className="absolute w-0.5 h-3 -translate-y-1/2"
                                                     style={{
                                                         left: `${(timeline.TIMELINE_SPACING / 5) * num}px`,
-                                                        backgroundColor: 'hsl(var(--muted) / 0.6)'
+                                                        backgroundColor: 'hsl(var(--foreground) / 0.2)'
                                                     }}
                                                 />
                                             ))}

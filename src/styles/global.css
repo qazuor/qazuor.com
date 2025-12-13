@@ -12,8 +12,8 @@
 
         /* Text - Light Mode (blue-gray tinted for harmony) */
         --text-primary: 215 25% 15%; /* Very dark blue-gray */
-        --text-secondary: 215 20% 25%; /* Dark blue-gray */
-        --text-muted: 215 15% 35%; /* Medium blue-gray */
+        --text-secondary: 215 20% 22%; /* Dark blue-gray - improved contrast */
+        --text-muted: 215 15% 28%; /* Medium blue-gray - improved contrast */
 
         /* Backgrounds - Dark Mode - Purple-blue theme */
         --bg-primary-dark: 256 45% 6%; /* Very dark purple, almost black */
@@ -89,7 +89,7 @@
         --secondary: 215 15% 85%; /* Light blue-gray secondary */
         --secondary-foreground: 215 25% 15%; /* Dark text on secondary */
         --muted: 215 15% 88%; /* Very light blue-gray muted */
-        --muted-foreground: 215 10% 35%; /* Medium blue-gray muted text */
+        --muted-foreground: 215 15% 28%; /* Medium blue-gray muted text - improved contrast */
         --accent: 210 55% 50%; /* Vibrant blue accent */
         --accent-foreground: 0 0% 100%; /* White text on accent */
         --destructive: 0 84.2% 60.2%;
@@ -98,7 +98,7 @@
         --input: 215 15% 90%; /* Light blue-gray input backgrounds */
         --ring: 210 55% 50%; /* Blue focus ring */
         /* Form field backgrounds - slightly darker than card for contrast */
-        --input-field-bg: rgba(0, 0, 0, 0.04);
+        --input-field-bg: rgba(0, 0, 0, 0.07);
         --chart-1: 210 55% 50%; /* Blue charts */
         --chart-2: 200 60% 45%;
         --chart-3: 190 50% 55%;

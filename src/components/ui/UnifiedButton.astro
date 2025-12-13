@@ -72,45 +72,37 @@ const baseClasses = [
     .filter(Boolean)
     .join(' ');
 
-// Variant classes
+// Variant classes - using CSS custom classes for theme variables
 const variantClasses: Record<ButtonVariant, string> = {
     primary: [
-        'relative overflow-hidden text-white shadow-lg shadow-[#667eea]/30',
-        'bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
-        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#8b7ec8_0%,#5a4fcf_100%)]',
+        'relative overflow-hidden text-white btn-primary-gradient',
+        'before:absolute before:inset-0 before:btn-primary-hover-gradient',
         'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
         !disabled && 'hover:before:opacity-100'
     ]
         .filter(Boolean)
         .join(' '),
     secondary: [
-        'relative overflow-hidden border text-foreground',
-        'bg-[linear-gradient(135deg,rgba(102,126,234,0.08)_0%,rgba(129,75,162,0.08)_100%)]',
-        'border-[#667eea]/20 shadow-md shadow-[#667eea]/10',
-        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'relative overflow-hidden border text-foreground btn-secondary-bg',
+        'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
-        !disabled &&
-            'hover:before:opacity-100 hover:text-white hover:border-transparent hover:shadow-xl hover:shadow-[#667eea]/30 hover:-translate-y-0.5'
+        !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
     ]
         .filter(Boolean)
         .join(' '),
     ghost: [
-        'relative overflow-hidden text-[#5a4fcf]',
-        'bg-[linear-gradient(135deg,rgba(102,126,234,0.12)_0%,rgba(129,75,162,0.12)_100%)]',
-        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'relative overflow-hidden text-primary btn-ghost-bg',
+        'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-400 before:ease-in-out',
-        !disabled && 'hover:before:opacity-20 hover:text-[#4a3fc0]'
+        !disabled && 'hover:before:opacity-20'
     ]
         .filter(Boolean)
         .join(' '),
     outline: [
-        'relative overflow-hidden border-2 text-[#667eea]',
-        'bg-transparent border-[#667eea]/50',
-        'shadow-md shadow-[#667eea]/15',
-        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+        'relative overflow-hidden border-2 text-primary btn-outline-style',
+        'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
-        !disabled &&
-            'hover:before:opacity-100 hover:text-white hover:border-transparent hover:shadow-xl hover:shadow-[#667eea]/30 hover:-translate-y-0.5'
+        !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
     ]
         .filter(Boolean)
         .join(' ')
@@ -127,7 +119,7 @@ const sizeClasses: Record<ButtonSize, string> = {
 // State classes
 const stateClasses = [
     disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
-    active && 'bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)] text-white shadow-lg shadow-[#667eea]/30',
+    active && 'btn-primary-gradient text-white',
     fullWidth && 'w-full'
 ]
     .filter(Boolean)
@@ -199,3 +191,43 @@ const isLink = !!href;
         </button>
     )
 }
+
+<style>
+    /* Button gradient styles using theme CSS variables */
+    .btn-primary-gradient {
+        background: linear-gradient(135deg, var(--color-primary-full) 0%, var(--color-primary-dark-full) 100%);
+        box-shadow: 0 10px 15px -3px rgba(var(--color-primary), 0.3);
+    }
+
+    .btn-primary-gradient:hover {
+        box-shadow: 0 20px 25px -5px rgba(var(--color-primary), 0.3);
+    }
+
+    .btn-primary-hover-gradient {
+        background: linear-gradient(135deg, var(--color-secondary-full) 0%, var(--color-primary-full) 100%);
+    }
+
+    .btn-secondary-bg {
+        background: linear-gradient(135deg, rgba(var(--color-primary), 0.08) 0%, rgba(var(--color-secondary), 0.08) 100%);
+        border-color: rgba(var(--color-primary), 0.2);
+        box-shadow: 0 4px 6px -1px rgba(var(--color-primary), 0.1);
+    }
+
+    .btn-secondary-bg:hover {
+        box-shadow: 0 20px 25px -5px rgba(var(--color-primary), 0.3);
+    }
+
+    .btn-ghost-bg {
+        background: linear-gradient(135deg, rgba(var(--color-primary), 0.12) 0%, rgba(var(--color-secondary), 0.12) 100%);
+    }
+
+    .btn-outline-style {
+        background: transparent;
+        border-color: rgba(var(--color-primary), 0.5);
+        box-shadow: 0 4px 6px -1px rgba(var(--color-primary), 0.15);
+    }
+
+    .btn-outline-style:hover {
+        box-shadow: 0 20px 25px -5px rgba(var(--color-primary), 0.3);
+    }
+</style>

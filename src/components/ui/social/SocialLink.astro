@@ -69,13 +69,13 @@ const iconSize = sizeClasses[size];
         display: block;
     }
 
-    /* Estado normal: contraste moderado */
+    /* Estado normal: contraste mejorado para accesibilidad */
     :global(html.dark) .social-icon {
         color: rgb(156 163 175); /* gray-400 - Visible pero sutil en tema oscuro */
     }
 
     :global(html:not(.dark)) .social-icon {
-        color: rgb(107 114 128); /* gray-500 - Visible pero sutil en tema claro */
+        color: rgb(75 85 99); /* gray-600 - Mejor contraste en tema claro */
     }
 
     /* Hover: alto contraste */

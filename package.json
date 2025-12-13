@@ -22,7 +22,6 @@
         "format:md:claude": "prettier --write '.claude/**/*.md'",
         "check:budgets": "./scripts/check-budgets.sh",
         "generate-colors": "node scripts/generate-colors.js",
-        "generate-giscus-css": "node scripts/generate-giscus-css.js",
         "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules'",
         "test": "vitest",
         "test:ui": "vitest --ui",

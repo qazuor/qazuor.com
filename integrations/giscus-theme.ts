@@ -1,41 +1,98 @@
-#!/usr/bin/env node
-
 /**
- * Generate Giscus CSS theme files from centralized theme colors
+ * Astro Integration: Giscus Theme Generator
+ * Automatically generates Giscus CSS theme files from theme colors
  *
- * This script generates:
+ * Watches src/config/themeColors.ts and regenerates:
  * - public/styles/giscus-custom.css (dark mode)
  * - public/styles/giscus-custom-light.css (light mode)
- *
- * Run with: npm run generate-giscus-css
- *
- * The colors are pulled from src/config/themeColors.ts
  */
 
-import { writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, unwatchFile, watchFile, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { AstroIntegration } from 'astro';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+interface GiscusThemeOptions {
+    sourceFile?: string;
+    outputDir?: string;
+    watch?: boolean;
+}
 
-// Theme colors - Ocean Depths palette
-// These should match src/config/themeColors.ts
-const THEME_COLORS = {
-    primary: { r: 0, g: 119, b: 182 }, // #0077B6 Ocean Blue
-    primaryDark: { r: 0, g: 95, b: 146 }, // #005F92
-    secondary: { r: 0, g: 180, b: 216 } // #00B4D8 Cyan
-};
+interface RGBColor {
+    r: number;
+    g: number;
+    b: number;
+}
+
+interface ThemeColors {
+    primary: RGBColor;
+    primaryDark: RGBColor;
+    secondary: RGBColor;
+}
 
 // Helper functions
-const rgb = (color) => `${color.r}, ${color.g}, ${color.b}`;
-const rgba = (color, alpha) => `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+const rgba = (color: RGBColor, alpha: number): string => `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+
+const rgbToHex = (color: RGBColor): string => {
+    const toHex = (n: number) => n.toString(16).padStart(2, '0').toUpperCase();
+    return `#${toHex(color.r)}${toHex(color.g)}${toHex(color.b)}`;
+};
+
+/**
+ * Loads theme colors from the source file
+ */
+function loadThemeColors(sourceFile: string): ThemeColors {
+    try {
+        const filePath = join(process.cwd(), sourceFile);
+        const content = readFileSync(filePath, 'utf-8');
+
+        // Extract oceanDepthsColors using regex
+        const colorsMatch = content.match(/export const oceanDepthsColors[\s\S]*?= \{([\s\S]*?)\};/);
+
+        if (!colorsMatch) {
+            throw new Error('Could not find oceanDepthsColors export');
+        }
+
+        // Parse RGB values
+        const parseRGB = (text: string, colorName: string): RGBColor => {
+            const regex = new RegExp(`${colorName}:\\s*\\{\\s*r:\\s*(\\d+),\\s*g:\\s*(\\d+),\\s*b:\\s*(\\d+)\\s*\\}`);
+            const match = text.match(regex);
+            if (!match) {
+                throw new Error(`Could not find ${colorName} in theme colors`);
+            }
+            return {
+                r: parseInt(match[1], 10),
+                g: parseInt(match[2], 10),
+                b: parseInt(match[3], 10)
+            };
+        };
+
+        const colorsText = colorsMatch[1];
+
+        return {
+            primary: parseRGB(colorsText, 'primary'),
+            primaryDark: parseRGB(colorsText, 'primaryDark'),
+            secondary: parseRGB(colorsText, 'secondary')
+        };
+    } catch (error) {
+        console.error('❌ Error loading theme colors:', error);
+        // Return default Ocean Depths colors as fallback
+        return {
+            primary: { r: 0, g: 119, b: 182 },
+            primaryDark: { r: 0, g: 95, b: 146 },
+            secondary: { r: 0, g: 180, b: 216 }
+        };
+    }
+}
 
 /**
  * Generate dark mode Giscus CSS
  */
-function generateDarkModeCSS() {
-    const p = THEME_COLORS.primary;
+function generateDarkModeCSS(colors: ThemeColors): string {
+    const p = colors.primary;
+    const pHex = rgbToHex(p);
+    const pDarkHex = rgbToHex(colors.primaryDark);
+    const sHex = rgbToHex(colors.secondary);
 
     return `/* biome-ignore-all lint/complexity/noImportantStyles: Giscus iframe requires !important to override its styles */
 /*
@@ -44,7 +101,7 @@ function generateDarkModeCSS() {
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: src/config/themeColors.ts
- * Run: npm run generate-giscus-css
+ * Run: npm run generate-giscus-css (or automatic via Astro integration)
  * Generated at: ${new Date().toISOString()}
  */
 
@@ -95,9 +152,9 @@ main {
     --color-fg-muted: #94a3b8;
     --color-fg-subtle: #64748b;
 
-    /* Accent colors - Ocean Depths theme (Primary: #0077B6, Secondary: #00B4D8) */
-    --color-accent-fg: #00B4D8;
-    --color-accent-emphasis: #0077B6;
+    /* Accent colors - Ocean Depths theme (Primary: ${pHex}, Secondary: ${sHex}) */
+    --color-accent-fg: ${sHex};
+    --color-accent-emphasis: ${pHex};
     --color-accent-muted: ${rgba(p, 0.4)};
     --color-accent-subtle: ${rgba(p, 0.15)};
 
@@ -128,10 +185,10 @@ main {
 
     /* Primary button */
     --color-btn-primary-text: #ffffff;
-    --color-btn-primary-bg: #0077B6;
-    --color-btn-primary-border: #0077B6;
-    --color-btn-primary-hover-bg: #005F92;
-    --color-btn-primary-hover-border: #005F92;
+    --color-btn-primary-bg: ${pHex};
+    --color-btn-primary-border: ${pHex};
+    --color-btn-primary-hover-bg: ${pDarkHex};
+    --color-btn-primary-hover-border: ${pDarkHex};
     --color-btn-primary-selected-bg: #004D78;
     --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
     --color-btn-primary-disabled-bg: ${rgba(p, 0.3)};
@@ -159,7 +216,7 @@ main {
 }
 
 .gsc-comment-box-textarea:focus {
-    border-color: #0077B6 !important;
+    border-color: ${pHex} !important;
     box-shadow: 0 0 0 3px ${rgba(p, 0.2)} !important;
 }
 
@@ -174,12 +231,12 @@ main {
 }
 
 .gsc-comment-box-tab:hover {
-    color: #00B4D8 !important;
+    color: ${sHex} !important;
 }
 
 .gsc-comment-box-tab[aria-selected="true"] {
-    color: #00B4D8 !important;
-    border-bottom-color: #0077B6 !important;
+    color: ${sHex} !important;
+    border-bottom-color: ${pHex} !important;
 }
 
 /* Comments list */
@@ -209,7 +266,7 @@ main {
 .gsc-reactions-button:hover {
     background: ${rgba(p, 0.2)} !important;
     border-color: ${rgba(p, 0.3)} !important;
-    color: #00B4D8 !important;
+    color: ${sHex} !important;
 }
 
 .gsc-social-reaction-summary-item {
@@ -223,7 +280,7 @@ main {
 }
 
 .gsc-social-reaction-summary-item-count {
-    color: #00B4D8 !important;
+    color: ${sHex} !important;
 }
 
 /* Reply section */
@@ -243,7 +300,7 @@ main {
 
 /* Links */
 .gsc-comment a {
-    color: #00B4D8 !important;
+    color: ${sHex} !important;
 }
 
 .gsc-comment a:hover {
@@ -262,7 +319,7 @@ main {
 
 /* Loading spinner */
 .gsc-loading {
-    color: #0077B6 !important;
+    color: ${pHex} !important;
 }
 
 /* Empty state */
@@ -305,8 +362,11 @@ main {
 /**
  * Generate light mode Giscus CSS
  */
-function generateLightModeCSS() {
-    const p = THEME_COLORS.primary;
+function generateLightModeCSS(colors: ThemeColors): string {
+    const p = colors.primary;
+    const pHex = rgbToHex(p);
+    const pDarkHex = rgbToHex(colors.primaryDark);
+    const sHex = rgbToHex(colors.secondary);
 
     return `/* biome-ignore-all lint/complexity/noImportantStyles: Giscus iframe requires !important to override its styles */
 /*
@@ -315,7 +375,7 @@ function generateLightModeCSS() {
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: src/config/themeColors.ts
- * Run: npm run generate-giscus-css
+ * Run: npm run generate-giscus-css (or automatic via Astro integration)
  * Generated at: ${new Date().toISOString()}
  */
 
@@ -366,9 +426,9 @@ main {
     --color-fg-muted: #475569;
     --color-fg-subtle: #64748b;
 
-    /* Accent colors - Ocean Depths theme (Primary: #0077B6, Secondary: #00B4D8) */
-    --color-accent-fg: #0077B6;
-    --color-accent-emphasis: #00B4D8;
+    /* Accent colors - Ocean Depths theme (Primary: ${pHex}, Secondary: ${sHex}) */
+    --color-accent-fg: ${pHex};
+    --color-accent-emphasis: ${sHex};
     --color-accent-muted: ${rgba(p, 0.3)};
     --color-accent-subtle: ${rgba(p, 0.1)};
 
@@ -399,10 +459,10 @@ main {
 
     /* Primary button */
     --color-btn-primary-text: #ffffff;
-    --color-btn-primary-bg: #0077B6;
-    --color-btn-primary-border: #0077B6;
-    --color-btn-primary-hover-bg: #005F92;
-    --color-btn-primary-hover-border: #005F92;
+    --color-btn-primary-bg: ${pHex};
+    --color-btn-primary-border: ${pHex};
+    --color-btn-primary-hover-bg: ${pDarkHex};
+    --color-btn-primary-hover-border: ${pDarkHex};
     --color-btn-primary-selected-bg: #004D78;
     --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
     --color-btn-primary-disabled-bg: ${rgba(p, 0.3)};
@@ -430,7 +490,7 @@ main {
 }
 
 .gsc-comment-box-textarea:focus {
-    border-color: #0077B6 !important;
+    border-color: ${pHex} !important;
     box-shadow: 0 0 0 3px ${rgba(p, 0.15)} !important;
 }
 
@@ -445,12 +505,12 @@ main {
 }
 
 .gsc-comment-box-tab:hover {
-    color: #005F92 !important;
+    color: ${pDarkHex} !important;
 }
 
 .gsc-comment-box-tab[aria-selected="true"] {
-    color: #005F92 !important;
-    border-bottom-color: #0077B6 !important;
+    color: ${pDarkHex} !important;
+    border-bottom-color: ${pHex} !important;
 }
 
 /* Comments list */
@@ -480,7 +540,7 @@ main {
 .gsc-reactions-button:hover {
     background: ${rgba(p, 0.15)} !important;
     border-color: ${rgba(p, 0.3)} !important;
-    color: #005F92 !important;
+    color: ${pDarkHex} !important;
 }
 
 .gsc-social-reaction-summary-item {
@@ -494,7 +554,7 @@ main {
 }
 
 .gsc-social-reaction-summary-item-count {
-    color: #005F92 !important;
+    color: ${pDarkHex} !important;
 }
 
 /* Reply section */
@@ -514,7 +574,7 @@ main {
 
 /* Links */
 .gsc-comment a {
-    color: #005F92 !important;
+    color: ${pDarkHex} !important;
 }
 
 .gsc-comment a:hover {
@@ -533,7 +593,7 @@ main {
 
 /* Loading spinner */
 .gsc-loading {
-    color: #0077B6 !important;
+    color: ${pHex} !important;
 }
 
 /* Empty state */
@@ -574,31 +634,126 @@ main {
 }
 
 /**
- * Main function to generate all Giscus CSS files
+ * Strip header comment from CSS for comparison
  */
-function generateGiscusCSS() {
-    const publicStylesDir = join(__dirname, '../public/styles');
-
-    try {
-        // Generate dark mode CSS
-        const darkCSS = generateDarkModeCSS();
-        const darkPath = join(publicStylesDir, 'giscus-custom.css');
-        writeFileSync(darkPath, darkCSS, 'utf8');
-        console.log('✅ Generated: public/styles/giscus-custom.css (dark mode)');
-
-        // Generate light mode CSS
-        const lightCSS = generateLightModeCSS();
-        const lightPath = join(publicStylesDir, 'giscus-custom-light.css');
-        writeFileSync(lightPath, lightCSS, 'utf8');
-        console.log('✅ Generated: public/styles/giscus-custom-light.css (light mode)');
-
-        console.log('\n🎨 Giscus CSS files generated successfully!');
-        console.log('   Theme: Ocean Depths (Primary: #0077B6, Secondary: #00B4D8)');
-    } catch (error) {
-        console.error('❌ Error generating Giscus CSS:', error);
-        process.exit(1);
-    }
+function stripHeader(content: string): string {
+    return content.replace(/\/\*[\s\S]*?\*\/\n*/m, '').trim();
 }
 
-// Run the generator
-generateGiscusCSS();
+/**
+ * Main Giscus theme integration
+ */
+export default function giscusTheme(options: GiscusThemeOptions = {}): AstroIntegration {
+    const { sourceFile = 'src/config/themeColors.ts', outputDir = 'public/styles', watch = true } = options;
+
+    let projectRoot: string;
+
+    return {
+        name: 'giscus-theme',
+        hooks: {
+            'astro:config:setup': async ({ config, command }) => {
+                projectRoot = fileURLToPath(config.root);
+
+                // Generate CSS on setup
+                generateGiscusCSS();
+
+                // Watch for changes in development
+                if (command === 'dev' && watch) {
+                    const watchPath = join(projectRoot, sourceFile);
+
+                    console.log('🎨 Giscus theme integration initialized');
+                    console.log(`📁 Watching: ${sourceFile}`);
+                    console.log(`📄 Output: ${outputDir}/giscus-custom*.css`);
+
+                    // Setup file watcher
+                    let timeout: NodeJS.Timeout | null = null;
+
+                    watchFile(watchPath, { interval: 500 }, () => {
+                        // Debounce rapid file changes
+                        if (timeout) clearTimeout(timeout);
+
+                        timeout = setTimeout(() => {
+                            console.log('🔄 Theme colors changed, regenerating Giscus CSS...');
+                            try {
+                                generateGiscusCSS();
+                                console.log('✅ Giscus CSS regenerated successfully');
+                            } catch (error) {
+                                console.error('❌ Error regenerating Giscus CSS:', error);
+                            }
+                        }, 200);
+                    });
+
+                    // Cleanup on server stop
+                    process.on('SIGINT', () => {
+                        unwatchFile(watchPath);
+                    });
+                    process.on('SIGTERM', () => {
+                        unwatchFile(watchPath);
+                    });
+                }
+            },
+
+            'astro:build:start': () => {
+                // Regenerate CSS before build
+                generateGiscusCSS();
+            }
+        }
+    };
+
+    function generateGiscusCSS() {
+        try {
+            const outputDirPath = join(projectRoot, outputDir);
+
+            // Ensure output directory exists
+            if (!existsSync(outputDirPath)) {
+                mkdirSync(outputDirPath, { recursive: true });
+            }
+
+            // Load theme colors
+            const colors = loadThemeColors(sourceFile);
+
+            // Generate dark mode CSS
+            const darkCSS = generateDarkModeCSS(colors);
+            const darkPath = join(outputDirPath, 'giscus-custom.css');
+
+            // Check if dark mode content changed
+            let darkChanged = true;
+            if (existsSync(darkPath)) {
+                const existing = readFileSync(darkPath, 'utf-8');
+                darkChanged = stripHeader(existing) !== stripHeader(darkCSS);
+            }
+
+            if (darkChanged) {
+                writeFileSync(darkPath, darkCSS, 'utf-8');
+                console.log('✅ Generated: giscus-custom.css (dark mode)');
+            }
+
+            // Generate light mode CSS
+            const lightCSS = generateLightModeCSS(colors);
+            const lightPath = join(outputDirPath, 'giscus-custom-light.css');
+
+            // Check if light mode content changed
+            let lightChanged = true;
+            if (existsSync(lightPath)) {
+                const existing = readFileSync(lightPath, 'utf-8');
+                lightChanged = stripHeader(existing) !== stripHeader(lightCSS);
+            }
+
+            if (lightChanged) {
+                writeFileSync(lightPath, lightCSS, 'utf-8');
+                console.log('✅ Generated: giscus-custom-light.css (light mode)');
+            }
+
+            if (!darkChanged && !lightChanged) {
+                console.log('⏭️  Giscus CSS unchanged, skipping write');
+            } else {
+                const pHex = rgbToHex(colors.primary);
+                const sHex = rgbToHex(colors.secondary);
+                console.log(`   🎨 Theme: Ocean Depths (Primary: ${pHex}, Secondary: ${sHex})`);
+            }
+        } catch (error) {
+            console.error('❌ Failed to generate Giscus CSS:', error);
+            throw error;
+        }
+    }
+}

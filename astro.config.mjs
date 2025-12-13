@@ -15,6 +15,7 @@ import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import colorInterpolation from './integrations/color-interpolation.ts';
+import giscusTheme from './integrations/giscus-theme.ts';
 import searchIndex from './integrations/search-index.ts';
 import socialBlogData from './integrations/social-blog-data.ts';
 import testimonialAvatars from './integrations/testimonial-avatars.ts';
@@ -51,6 +52,13 @@ export default defineConfig({
             sourceFile: 'src/data/colors.ts',
             outputFile: 'src/styles/generated-colors.css',
             steps: 5,
+            watch: true
+        }),
+
+        // Giscus Theme Generator (generates CSS from theme colors)
+        giscusTheme({
+            sourceFile: 'src/config/themeColors.ts',
+            outputDir: 'public/styles',
             watch: true
         }),
 

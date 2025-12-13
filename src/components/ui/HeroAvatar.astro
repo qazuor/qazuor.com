@@ -19,14 +19,14 @@ const imageAlt = altText || `${name} - Full-Stack Developer`;
     <div class="relative w-full max-w-lg mx-auto">
         <!-- Animated gradient background circle (behind everything) -->
         <div
-            class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-full blur-3xl opacity-30 z-0"
+            class="absolute inset-0 bg-[linear-gradient(to_right_bottom,var(--section-background-glow-from),var(--section-background-glow-via),var(--section-background-glow-to))] rounded-full blur-3xl opacity-30 z-0"
             style="animation: pulse 4s ease-in-out infinite"
         >
         </div>
 
         <!-- Large gradient background circle positioned behind the photo -->
         <div
-            class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-1/4 w-[600px] h-[600px] bg-gradient-radial from-primary via-secondary to-accent border-2 border-foreground/10 rounded-full z-10 shadow-circle"
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-1/4 w-[600px] h-[600px] bg-gradient-radial from-[var(--section-background-glow-from)] via-[var(--section-background-glow-via)] to-[var(--section-background-glow-to)] border-2 border-foreground/10 rounded-full z-10 shadow-circle"
         >
         </div>
 
@@ -159,20 +159,20 @@ const imageAlt = altText || `${name} - Full-Stack Developer`;
     }
 
     .shadow-circle {
-        /* Shadow for light mode - colored shadow */
+        /* Shadow for light mode - uses palette colors (primary/secondary) */
         box-shadow:
-            0 40px 80px rgba(147, 51, 234, 0.3),
-            0 20px 40px rgba(99, 102, 241, 0.2),
-            0 10px 20px rgba(59, 130, 246, 0.1),
+            0 40px 80px rgba(var(--color-primary), 0.3),
+            0 20px 40px rgba(var(--color-secondary), 0.25),
+            0 10px 20px rgba(var(--color-primary), 0.15),
             inset 0 2px 0 rgba(255, 255, 255, 0.1);
     }
 
-    /* Dark mode shadow - white/light colored */
+    /* Dark mode shadow - uses palette colors with adjusted opacity */
     .dark .shadow-circle {
         box-shadow:
-            0 40px 80px rgba(255, 255, 255, 0.15),
-            0 20px 40px rgba(255, 255, 255, 0.1),
-            0 10px 20px rgba(255, 255, 255, 0.05),
+            0 40px 80px rgba(var(--color-primary), 0.25),
+            0 20px 40px rgba(var(--color-secondary), 0.2),
+            0 10px 20px rgba(var(--color-primary), 0.1),
             inset 0 2px 0 rgba(255, 255, 255, 0.1);
     }
 

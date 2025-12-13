@@ -5,47 +5,105 @@ export default {
     theme: {
         extend: {
             colors: {
+                // ===========================================
+                // PALETTE: Ocean Depths (Palette 1)
+                // Primary: Ocean Blue (hue 210)
+                // Secondary: Cyan (hue 190)
+                // Tertiary: Coral (hue 10)
+                // ===========================================
                 primary: {
-                    50: 'oklch(0.95 0.05 188 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 188 / <alpha-value>)',
-                    200: 'oklch(0.80 0.12 188 / <alpha-value>)',
-                    300: 'oklch(0.70 0.16 188 / <alpha-value>)',
-                    400: 'oklch(0.60 0.20 188 / <alpha-value>)',
-                    500: 'oklch(0.55 0.22 188 / <alpha-value>)',
-                    600: 'oklch(0.50 0.24 188 / <alpha-value>)',
-                    700: 'oklch(0.45 0.22 188 / <alpha-value>)',
-                    800: 'oklch(0.35 0.18 188 / <alpha-value>)',
-                    900: 'oklch(0.25 0.12 188 / <alpha-value>)',
+                    50: 'oklch(0.95 0.05 210 / <alpha-value>)',
+                    100: 'oklch(0.90 0.08 210 / <alpha-value>)',
+                    200: 'oklch(0.80 0.12 210 / <alpha-value>)',
+                    300: 'oklch(0.70 0.16 210 / <alpha-value>)',
+                    400: 'oklch(0.60 0.20 210 / <alpha-value>)',
+                    500: 'oklch(0.55 0.22 210 / <alpha-value>)',
+                    600: 'oklch(0.50 0.24 210 / <alpha-value>)',
+                    700: 'oklch(0.45 0.22 210 / <alpha-value>)',
+                    800: 'oklch(0.35 0.18 210 / <alpha-value>)',
+                    900: 'oklch(0.25 0.12 210 / <alpha-value>)',
                     DEFAULT: 'hsl(var(--primary))',
                     foreground: 'hsl(var(--primary-foreground))'
                 },
                 secondary: {
-                    50: 'oklch(0.95 0.04 200 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 200 / <alpha-value>)',
-                    200: 'oklch(0.85 0.12 200 / <alpha-value>)',
-                    300: 'oklch(0.78 0.15 200 / <alpha-value>)',
-                    400: 'oklch(0.72 0.17 200 / <alpha-value>)',
-                    500: 'oklch(0.70 0.18 200 / <alpha-value>)',
-                    600: 'oklch(0.65 0.18 200 / <alpha-value>)',
-                    700: 'oklch(0.55 0.16 200 / <alpha-value>)',
-                    800: 'oklch(0.45 0.14 200 / <alpha-value>)',
-                    900: 'oklch(0.35 0.10 200 / <alpha-value>)',
+                    50: 'oklch(0.95 0.04 190 / <alpha-value>)',
+                    100: 'oklch(0.90 0.08 190 / <alpha-value>)',
+                    200: 'oklch(0.85 0.12 190 / <alpha-value>)',
+                    300: 'oklch(0.78 0.15 190 / <alpha-value>)',
+                    400: 'oklch(0.72 0.17 190 / <alpha-value>)',
+                    500: 'oklch(0.70 0.18 190 / <alpha-value>)',
+                    600: 'oklch(0.65 0.18 190 / <alpha-value>)',
+                    700: 'oklch(0.55 0.16 190 / <alpha-value>)',
+                    800: 'oklch(0.45 0.14 190 / <alpha-value>)',
+                    900: 'oklch(0.35 0.10 190 / <alpha-value>)',
                     DEFAULT: 'hsl(var(--secondary))',
                     foreground: 'hsl(var(--secondary-foreground))'
                 },
+                tertiary: {
+                    50: 'oklch(0.95 0.05 10 / <alpha-value>)',
+                    100: 'oklch(0.90 0.10 10 / <alpha-value>)',
+                    200: 'oklch(0.85 0.15 10 / <alpha-value>)',
+                    300: 'oklch(0.78 0.18 10 / <alpha-value>)',
+                    400: 'oklch(0.72 0.20 10 / <alpha-value>)',
+                    500: 'oklch(0.68 0.22 10 / <alpha-value>)',
+                    600: 'oklch(0.62 0.22 10 / <alpha-value>)',
+                    700: 'oklch(0.55 0.20 10 / <alpha-value>)',
+                    800: 'oklch(0.45 0.16 10 / <alpha-value>)',
+                    900: 'oklch(0.35 0.12 10 / <alpha-value>)',
+                    DEFAULT: 'rgb(var(--color-tertiary))',
+                    foreground: '#ffffff'
+                },
                 accent: {
-                    50: 'oklch(0.95 0.05 188 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 188 / <alpha-value>)',
-                    200: 'oklch(0.82 0.12 188 / <alpha-value>)',
-                    300: 'oklch(0.75 0.16 188 / <alpha-value>)',
-                    400: 'oklch(0.68 0.18 188 / <alpha-value>)',
-                    500: 'oklch(0.65 0.20 188 / <alpha-value>)',
-                    600: 'oklch(0.60 0.22 188 / <alpha-value>)',
-                    700: 'oklch(0.52 0.20 188 / <alpha-value>)',
-                    800: 'oklch(0.42 0.16 188 / <alpha-value>)',
-                    900: 'oklch(0.32 0.12 188 / <alpha-value>)',
+                    50: 'oklch(0.95 0.05 210 / <alpha-value>)',
+                    100: 'oklch(0.90 0.08 210 / <alpha-value>)',
+                    200: 'oklch(0.82 0.12 210 / <alpha-value>)',
+                    300: 'oklch(0.75 0.16 210 / <alpha-value>)',
+                    400: 'oklch(0.68 0.18 210 / <alpha-value>)',
+                    500: 'oklch(0.65 0.20 210 / <alpha-value>)',
+                    600: 'oklch(0.60 0.22 210 / <alpha-value>)',
+                    700: 'oklch(0.52 0.20 210 / <alpha-value>)',
+                    800: 'oklch(0.42 0.16 210 / <alpha-value>)',
+                    900: 'oklch(0.32 0.12 210 / <alpha-value>)',
                     DEFAULT: 'hsl(var(--accent))',
                     foreground: 'hsl(var(--accent-foreground))'
+                },
+                // Alias emerald to primary (for legacy code using emerald-* classes)
+                emerald: {
+                    50: 'oklch(0.95 0.05 210 / <alpha-value>)',
+                    100: 'oklch(0.90 0.08 210 / <alpha-value>)',
+                    200: 'oklch(0.80 0.12 210 / <alpha-value>)',
+                    300: 'oklch(0.70 0.16 210 / <alpha-value>)',
+                    400: 'oklch(0.60 0.20 210 / <alpha-value>)',
+                    500: 'oklch(0.55 0.22 210 / <alpha-value>)',
+                    600: 'oklch(0.50 0.24 210 / <alpha-value>)',
+                    700: 'oklch(0.45 0.22 210 / <alpha-value>)',
+                    800: 'oklch(0.35 0.18 210 / <alpha-value>)',
+                    900: 'oklch(0.25 0.12 210 / <alpha-value>)'
+                },
+                // Alias teal/cyan to secondary
+                teal: {
+                    50: 'oklch(0.95 0.04 190 / <alpha-value>)',
+                    100: 'oklch(0.90 0.08 190 / <alpha-value>)',
+                    200: 'oklch(0.85 0.12 190 / <alpha-value>)',
+                    300: 'oklch(0.78 0.15 190 / <alpha-value>)',
+                    400: 'oklch(0.72 0.17 190 / <alpha-value>)',
+                    500: 'oklch(0.70 0.18 190 / <alpha-value>)',
+                    600: 'oklch(0.65 0.18 190 / <alpha-value>)',
+                    700: 'oklch(0.55 0.16 190 / <alpha-value>)',
+                    800: 'oklch(0.45 0.14 190 / <alpha-value>)',
+                    900: 'oklch(0.35 0.10 190 / <alpha-value>)'
+                },
+                cyan: {
+                    50: 'oklch(0.95 0.04 190 / <alpha-value>)',
+                    100: 'oklch(0.90 0.08 190 / <alpha-value>)',
+                    200: 'oklch(0.85 0.12 190 / <alpha-value>)',
+                    300: 'oklch(0.78 0.15 190 / <alpha-value>)',
+                    400: 'oklch(0.72 0.17 190 / <alpha-value>)',
+                    500: 'oklch(0.70 0.18 190 / <alpha-value>)',
+                    600: 'oklch(0.65 0.18 190 / <alpha-value>)',
+                    700: 'oklch(0.55 0.16 190 / <alpha-value>)',
+                    800: 'oklch(0.45 0.14 190 / <alpha-value>)',
+                    900: 'oklch(0.35 0.10 190 / <alpha-value>)'
                 },
                 background: {
                     DEFAULT: 'hsl(var(--background))',
@@ -178,9 +236,9 @@ export default {
                 lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
                 xl: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
                 '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
-                glow: '0 0 20px rgb(22 242 179 / 0.3)',
-                'glow-primary': '0 0 20px oklch(0.55 0.22 210 / 0.3)',
-                'glow-secondary': '0 0 20px oklch(0.70 0.18 180 / 0.3)',
+                glow: '0 0 20px rgb(16 185 129 / 0.3)',
+                'glow-primary': '0 0 20px oklch(0.55 0.22 160 / 0.3)',
+                'glow-secondary': '0 0 20px oklch(0.70 0.18 160 / 0.3)',
                 dropdown: '0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 6px -1px rgb(0 0 0 / 0.05)'
             },
             transitionDuration: {
@@ -218,6 +276,11 @@ export default {
             animation: {
                 slideInDropdown: 'slideInDropdown 550ms cubic-bezier(0.17, 0.67, 0.51, 1)',
                 slideInDropdownCentered: 'slideInDropdownCentered 550ms cubic-bezier(0.17, 0.67, 0.51, 1)'
+            },
+            backgroundImage: {
+                // Radial gradient that works with from-*/via-*/to-* modifiers
+                'gradient-radial':
+                    'radial-gradient(circle, var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to))'
             }
         }
     },

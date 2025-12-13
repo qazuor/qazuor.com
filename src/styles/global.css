@@ -15,7 +15,7 @@
         --text-secondary: 215 20% 22%; /* Dark blue-gray - improved contrast */
         --text-muted: 215 15% 28%; /* Medium blue-gray - improved contrast */
 
-        /* Backgrounds - Dark Mode - Purple-blue theme */
+        /* Backgrounds - Dark Mode - Purple-blue theme (FIXED - don't change with palette) */
         --bg-primary-dark: 256 45% 6%; /* Very dark purple, almost black */
         --bg-secondary-dark: 250 30% 10%; /* Dark purple-blue */
         --bg-tertiary-dark: 245 25% 16%; /* Medium dark purple-blue */
@@ -35,6 +35,18 @@
         --success: 0.7 0.18 150;
         --warning: 0.75 0.2 80;
         --error: 0.6 0.25 20;
+
+        /* ===========================================
+         * FIXED SECTION BACKGROUND GLOW COLORS
+         * These DON'T change with UI palette - they define the site's atmosphere
+         * Used for: blur overlays, hero circles, section glow effects
+         * To edit: change these values, all section glows update automatically
+         * Light mode: Blue gradient matching Ocean Depths theme
+         * Dark mode: Purple gradient (defined in .dark selector)
+         * =========================================== */
+        --section-background-glow-from: #295ca3;  /* Blue - start of gradient (light mode) */
+        --section-background-glow-via: #d3d8de;   /* Light gray - middle (light mode) */
+        --section-background-glow-to: #3980c6;    /* Blue - end of gradient (light mode) */
 
         /* Spacing (for reference in custom properties) */
         --space-1: 0.25rem;
@@ -64,6 +76,45 @@
         --radius-2xl: 1.5rem;
         --radius-full: 9999px;
 
+        /* RGB Color values for rgba() usage */
+        /* Primary - Ocean Blue */
+        --color-primary: 0, 119, 182; /* Ocean Blue RGB #0077B6 */
+        --color-primary-dark: 0, 95, 146; /* Darker ocean RGB */
+        --color-primary-full: rgb(0, 119, 182); /* Ocean Blue */
+        --color-primary-dark-full: rgb(0, 95, 146); /* Darker ocean */
+
+        /* Secondary - Cyan Bright */
+        --color-secondary: 0, 180, 216; /* Cyan RGB #00B4D8 */
+        --color-secondary-dark: 0, 150, 180; /* Darker cyan RGB */
+        --color-secondary-full: rgb(0, 180, 216); /* Cyan Bright */
+        --color-secondary-dark-full: rgb(0, 150, 180); /* Darker cyan */
+
+        /* Tertiary - Coral */
+        --color-tertiary: 255, 107, 107; /* Coral RGB #FF6B6B */
+        --color-tertiary-dark: 229, 90, 90; /* Darker coral RGB */
+        --color-tertiary-full: rgb(255, 107, 107); /* Coral */
+        --color-tertiary-dark-full: rgb(229, 90, 90); /* Darker coral */
+
+        /* Semantic UI Colors - Light Mode */
+        /* Info - Blue */
+        --color-ui-info: 59, 130, 246; /* blue-500 RGB */
+        --color-ui-info-full: rgb(59, 130, 246);
+        /* Warning - Amber */
+        --color-ui-warning: 245, 158, 11; /* amber-500 RGB */
+        --color-ui-warning-full: rgb(245, 158, 11);
+        /* Error - Red */
+        --color-ui-error: 239, 68, 68; /* red-500 RGB */
+        --color-ui-error-full: rgb(239, 68, 68);
+        /* Success - Emerald (matches primary) */
+        --color-ui-success: 16, 185, 129; /* emerald-500 RGB */
+        --color-ui-success-full: rgb(16, 185, 129);
+        /* Tip - Violet */
+        --color-ui-tip: 139, 92, 246; /* violet-500 RGB */
+        --color-ui-tip-full: rgb(139, 92, 246);
+        /* Quote - Cyan */
+        --color-ui-quote: 6, 182, 212; /* cyan-500 RGB */
+        --color-ui-quote-full: rgb(6, 182, 212);
+
         /* Transitions */
         --duration-fast: 150ms;
         --duration-base: 300ms;
@@ -84,22 +135,22 @@
         --card-foreground: 215 25% 15%; /* Dark blue-gray text on cards */
         --popover: 220 20% 98%; /* Almost white popovers */
         --popover-foreground: 215 25% 15%; /* Dark text on popovers */
-        --primary: 215 60% 40%; /* Deep blue primary matching the palette */
+        --primary: 200 100% 36%; /* Ocean Blue primary #0077B6 */
         --primary-foreground: 0 0% 100%; /* White text on primary */
-        --secondary: 215 15% 85%; /* Light blue-gray secondary */
+        --secondary: 190 100% 42%; /* Cyan secondary #00B4D8 */
         --secondary-foreground: 215 25% 15%; /* Dark text on secondary */
         --muted: 215 15% 88%; /* Very light blue-gray muted */
         --muted-foreground: 215 15% 28%; /* Medium blue-gray muted text - improved contrast */
-        --accent: 210 55% 50%; /* Vibrant blue accent */
+        --accent: 200 100% 36%; /* Ocean Blue accent */
         --accent-foreground: 0 0% 100%; /* White text on accent */
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 98%;
         --border: 215 15% 82%; /* Light blue-gray border */
         --input: 215 15% 90%; /* Light blue-gray input backgrounds */
-        --ring: 210 55% 50%; /* Blue focus ring */
+        --ring: 200 100% 36%; /* Ocean Blue focus ring */
         /* Form field backgrounds - slightly darker than card for contrast */
         --input-field-bg: rgba(0, 0, 0, 0.07);
-        --chart-1: 210 55% 50%; /* Blue charts */
+        --chart-1: 200 100% 36%; /* Ocean Blue charts */
         --chart-2: 200 60% 45%;
         --chart-3: 190 50% 55%;
         --chart-4: 43 74% 66%;
@@ -107,9 +158,56 @@
         --radius: 0.5rem;
     }
 
-    /* Dark Mode Override - Purple-blue theme matching section backgrounds */
+    /* Dark Mode Override - Emerald-blue theme matching section backgrounds */
     .dark {
-        /* Custom Dark Mode - Purple-blue theme */
+        /* ===========================================
+         * FIXED SECTION BACKGROUND GLOW COLORS - Dark Mode
+         * Purple gradient for dark mode atmosphere
+         * =========================================== */
+        --section-background-glow-from: #8270db;  /* Purple - start of gradient */
+        --section-background-glow-via: #282640;   /* Dark purple - middle */
+        --section-background-glow-to: #a17de8;    /* Violet - end of gradient */
+
+        /* RGB Color values for rgba() usage */
+        /* Primary - Ocean Blue */
+        --color-primary: 0, 119, 182; /* Ocean Blue RGB #0077B6 */
+        --color-primary-dark: 0, 95, 146; /* Darker ocean RGB */
+        --color-primary-full: rgb(0, 119, 182); /* Ocean Blue */
+        --color-primary-dark-full: rgb(0, 95, 146); /* Darker ocean */
+
+        /* Secondary - Cyan Bright */
+        --color-secondary: 0, 180, 216; /* Cyan RGB #00B4D8 */
+        --color-secondary-dark: 0, 150, 180; /* Darker cyan RGB */
+        --color-secondary-full: rgb(0, 180, 216); /* Cyan Bright */
+        --color-secondary-dark-full: rgb(0, 150, 180); /* Darker cyan */
+
+        /* Tertiary - Coral */
+        --color-tertiary: 255, 107, 107; /* Coral RGB #FF6B6B */
+        --color-tertiary-dark: 229, 90, 90; /* Darker coral RGB */
+        --color-tertiary-full: rgb(255, 107, 107); /* Coral */
+        --color-tertiary-dark-full: rgb(229, 90, 90); /* Darker coral */
+
+        /* Semantic UI Colors - Dark Mode (slightly lighter for dark bg) */
+        /* Info - Blue */
+        --color-ui-info: 96, 165, 250; /* blue-400 RGB */
+        --color-ui-info-full: rgb(96, 165, 250);
+        /* Warning - Amber */
+        --color-ui-warning: 251, 191, 36; /* amber-400 RGB */
+        --color-ui-warning-full: rgb(251, 191, 36);
+        /* Error - Red */
+        --color-ui-error: 248, 113, 113; /* red-400 RGB */
+        --color-ui-error-full: rgb(248, 113, 113);
+        /* Success - Emerald */
+        --color-ui-success: 52, 211, 153; /* emerald-400 RGB */
+        --color-ui-success-full: rgb(52, 211, 153);
+        /* Tip - Violet */
+        --color-ui-tip: 167, 139, 250; /* violet-400 RGB */
+        --color-ui-tip-full: rgb(167, 139, 250);
+        /* Quote - Cyan */
+        --color-ui-quote: 34, 211, 238; /* cyan-400 RGB */
+        --color-ui-quote-full: rgb(34, 211, 238);
+
+        /* Custom Dark Mode - Purple-blue theme (FIXED backgrounds - don't change with palette) */
         --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */
         --bg-secondary: 250 30% 12%; /* Dark purple-blue for cards */
         --bg-tertiary: 245 25% 18%; /* Slightly lighter purple for contrast */
@@ -117,36 +215,36 @@
         --text-secondary: 240 10% 75%; /* Light purple-gray for secondary text */
         --text-muted: 240 8% 55%; /* Medium purple-gray for muted text */
 
-        /* Shadcn/ui Dark Variables - Purple-blue theme */
-        --background: 256 45% 8%; /* Very dark purple background */
+        /* Shadcn/ui Dark Variables - Purple-blue backgrounds + Ocean Depths UI colors */
+        --background: 256 45% 8%; /* Very dark purple background (FIXED) */
         --foreground: 240 15% 95%; /* Almost white foreground with purple tint */
-        --card: 250 30% 12%; /* Dark purple-blue cards */
+        --card: 250 30% 12%; /* Dark purple-blue cards (FIXED) */
         --card-foreground: 240 15% 95%; /* Light text on cards */
-        --popover: 250 30% 12%; /* Dark purple-blue popovers */
+        --popover: 250 30% 12%; /* Dark purple-blue popovers (FIXED) */
         --popover-foreground: 240 15% 95%; /* Light text on popovers */
-        --primary: 250 60% 65%; /* Vibrant purple-blue primary */
+        --primary: 200 100% 45%; /* Ocean Blue primary (PALETTE) */
         --primary-foreground: 256 45% 8%; /* Dark text on bright primary */
-        --secondary: 245 25% 20%; /* Dark purple-blue secondary */
+        --secondary: 190 100% 50%; /* Cyan secondary (PALETTE) */
         --secondary-foreground: 240 15% 95%; /* Light text on secondary */
-        --muted: 245 25% 15%; /* Very dark purple-blue muted */
+        --muted: 245 25% 15%; /* Very dark purple-blue muted (FIXED) */
         --muted-foreground: 240 10% 70%; /* Light purple-gray muted text */
-        --accent: 260 70% 70%; /* Bright purple accent */
+        --accent: 200 100% 50%; /* Bright Ocean Blue accent (PALETTE) */
         --accent-foreground: 256 45% 8%; /* Dark text on accent */
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 0 0% 98%;
-        --border: 245 25% 22%; /* Dark purple border */
-        --input: 245 25% 15%; /* Dark purple input backgrounds */
-        --ring: 250 60% 65%; /* Purple-blue focus ring */
+        --border: 245 25% 22%; /* Dark purple border (FIXED) */
+        --input: 245 25% 15%; /* Dark purple input backgrounds (FIXED) */
+        --ring: 200 100% 45%; /* Ocean Blue focus ring (PALETTE) */
         /* Form field backgrounds - slightly lighter than card for contrast */
         --input-field-bg: rgba(255, 255, 255, 0.12);
-        --chart-1: 250 60% 65%; /* Purple-blue charts */
-        --chart-2: 260 50% 60%; /* Purple charts */
-        --chart-3: 240 40% 70%; /* Light purple charts */
-        --chart-4: 280 65% 60%; /* Violet charts */
-        --chart-5: 220 55% 65%; /* Blue-purple charts */
+        --chart-1: 200 100% 45%; /* Ocean Blue charts (PALETTE) */
+        --chart-2: 190 80% 50%; /* Cyan charts (PALETTE) */
+        --chart-3: 10 80% 65%; /* Coral charts (PALETTE) */
+        --chart-4: 190 65% 45%; /* Cyan charts (PALETTE) */
+        --chart-5: 200 55% 50%; /* Blue charts (PALETTE) */
 
-        /* Section Background Colors - Dark Mode */
-        /* Divider Gradient Colors - Dark Mode */
+        /* Section Background Colors - Dark Mode (FIXED) */
+        /* Divider Gradient Colors - Dark Mode (FIXED) */
         --divider-primary: #8b5cf6; /* Purple gradient matching theme */
         --divider-secondary: #6366f1; /* Indigo gradient */
         --divider-accent: #3b82f6; /* Blue gradient */
@@ -260,17 +358,17 @@
 }
 
 @layer components {
-    /* Gradient Text Utility - More vibrant and noticeable */
+    /* Gradient Text Utility - Emerald theme */
     .gradient-text {
-        @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
+        @apply bg-gradient-to-r from-blue-600 via-emerald-500 to-teal-500 dark:from-emerald-300 dark:via-teal-300 dark:to-cyan-300 bg-clip-text text-transparent;
         background-size: 200% 100%;
         animation: gradient-shift 8s ease infinite;
         will-change: background-position;
     }
 
-    /* Enhanced gradient for section titles - even more vibrant */
+    /* Enhanced gradient for section titles - emerald theme */
     .gradient-text-section {
-        @apply bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 dark:from-purple-300 dark:via-pink-300 dark:to-indigo-300 bg-clip-text text-transparent;
+        @apply bg-gradient-to-r from-blue-600 via-emerald-500 to-teal-400 dark:from-emerald-300 dark:via-teal-300 dark:to-cyan-300 bg-clip-text text-transparent;
         background-size: 150% 100%;
         animation: gradient-shift 10s ease infinite;
         filter: saturate(1.2);
@@ -278,7 +376,7 @@
     }
 
     .gradient-text-accent {
-        @apply bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 dark:from-purple-200 dark:via-pink-200 dark:to-indigo-300 bg-clip-text text-transparent;
+        @apply bg-gradient-to-r from-blue-500 via-teal-500 to-emerald-500 dark:from-emerald-200 dark:via-teal-200 dark:to-cyan-300 bg-clip-text text-transparent;
         background-size: 200% 100%;
         animation: gradient-shift 6s ease infinite;
         will-change: background-position;
@@ -286,7 +384,7 @@
 
     /* Alternative gradient with better light mode contrast */
     .gradient-text-blue {
-        @apply bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 dark:from-purple-300 dark:via-blue-300 dark:to-indigo-300 bg-clip-text text-transparent;
+        @apply bg-gradient-to-r from-blue-700 via-teal-600 to-emerald-600 dark:from-emerald-300 dark:via-teal-300 dark:to-cyan-300 bg-clip-text text-transparent;
         background-size: 200% 100%;
         animation: gradient-shift 10s ease infinite;
         will-change: background-position;
@@ -294,7 +392,7 @@
 
     /* Extra vibrant gradient for hero sections */
     .gradient-text-hero {
-        @apply bg-gradient-to-r from-blue-600 via-purple-500 to-violet-600 dark:from-purple-300 dark:via-pink-300 dark:to-blue-300 bg-clip-text text-transparent;
+        @apply bg-gradient-to-r from-blue-600 via-emerald-500 to-teal-500 dark:from-emerald-300 dark:via-teal-300 dark:to-cyan-300 bg-clip-text text-transparent;
         background-size: 300% 100%;
         animation: gradient-shift 12s ease infinite;
         will-change: background-position;
@@ -1156,39 +1254,39 @@
         color: hsl(0 85% 65%);
     }
 
-    /* ---- TIP Callout (purple) ---- */
+    /* ---- TIP Callout (emerald) ---- */
     .callout-tip,
     .content-prose blockquote.callout-tip {
-        background: hsl(280 50% 96%);
-        border: 1px solid hsl(280 70% 55% / 0.3);
+        background: hsl(160 50% 96%);
+        border: 1px solid hsl(160 70% 40% / 0.3);
         box-shadow:
-            inset 5px 0 0 hsl(280 70% 55%),
-            0 2px 8px hsl(280 70% 55% / 0.1);
+            inset 5px 0 0 hsl(160 70% 40%),
+            0 2px 8px hsl(160 70% 40% / 0.1);
     }
 
     .dark .content-prose blockquote.callout-tip {
-        background: hsl(280 35% 18%);
+        background: hsl(160 35% 18%);
     }
 
     .content-prose blockquote.callout-tip::after {
         content: '✦';
-        background: hsl(280 50% 96%);
-        border: 2px solid hsl(280 70% 55%);
-        color: hsl(280 70% 45%);
+        background: hsl(160 50% 96%);
+        border: 2px solid hsl(160 70% 40%);
+        color: hsl(160 70% 35%);
         font-size: 1.1rem;
     }
 
     .dark .content-prose blockquote.callout-tip::after {
         background: hsl(var(--background));
-        color: hsl(280 70% 55%);
+        color: hsl(160 70% 50%);
     }
 
     .callout-tip strong:first-of-type {
-        color: hsl(280 70% 45%);
+        color: hsl(160 70% 35%);
     }
 
     .dark .callout-tip strong:first-of-type {
-        color: hsl(280 70% 65%);
+        color: hsl(160 70% 55%);
     }
 
     /* ---- QUOTE Callout (slate/gray - neutral) ---- */

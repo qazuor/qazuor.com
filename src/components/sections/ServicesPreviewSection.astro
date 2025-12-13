@@ -162,14 +162,14 @@ const serviceCards = services
         </div>
 
         <!-- Why Work With Me Section -->
-        <div class="mt-16 p-8 rounded-2xl bg-background/20 backdrop-blur-sm border border-primary/20">
+        <div class="mt-16 p-8 rounded-2xl bg-foreground/10 backdrop-blur-sm border border-foreground/20">
             <h3 class="text-2xl font-bold text-foreground mb-6 text-center">
                 <span set:html={translations.whyWorkWithMe.title} />
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {translations.whyWorkWithMe.items.map((item, index) => (
-                    <div class="flex items-center gap-3 p-4 rounded-xl bg-background/30 border border-primary/10">
-                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm">
+                    <div class="flex items-center gap-3 p-4 rounded-xl bg-foreground/10 border border-foreground/15">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/25 text-primary flex items-center justify-center font-bold text-sm">
                             {index + 1}
                         </span>
                         <span class="text-foreground-secondary text-sm">{item}</span>

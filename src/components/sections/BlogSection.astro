@@ -39,7 +39,7 @@ interface Props {
     lang: string;
 }
 
-const { posts, primaryColor = '#8b5cf6', translations, lang } = Astro.props;
+const { posts, primaryColor = 'var(--section-blog-bg)', translations, lang } = Astro.props;
 
 // Get full blog collection with images
 const allBlogPosts = await getCollection('blog');

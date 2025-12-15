@@ -32,12 +32,13 @@ const resumeFiles = {
     <summary
         class:list={[
             'group inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500',
             'cursor-pointer list-none relative overflow-hidden',
-            'text-[#5a4fcf] bg-[linear-gradient(135deg,rgba(102,126,234,0.12)_0%,rgba(129,75,162,0.12)_100%)]',
-            'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
+            'text-white shadow-lg shadow-[var(--btn-tertiary-shadow)]',
+            'bg-[linear-gradient(135deg,var(--btn-tertiary-bg-start)_0%,var(--btn-tertiary-bg-end)_100%)]',
+            'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,var(--btn-tertiary-hover-start)_0%,var(--btn-tertiary-hover-end)_100%)]',
             'before:opacity-0 before:transition-opacity before:duration-400 before:ease-in-out',
-            'hover:before:opacity-20 hover:text-[#4a3fc0]',
+            'hover:before:opacity-100',
             'px-4 py-2 text-sm',
             className
         ]}

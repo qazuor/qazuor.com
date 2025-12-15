@@ -91,7 +91,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #0c0c0c;
+    background-color: var(--color-blog-card-overlay-full);
     opacity: 0.6;
 }
 
@@ -113,6 +113,13 @@
     transition: transform 0.5s cubic-bezier(0.23, 0.93, 0.77, 1) 0.01s;
 }
 
+/* Badges Container */
+.blog-post-card__badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 /* Category Badge */
 .blog-post-card__category {
     width: fit-content;
@@ -120,7 +127,7 @@
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #282828;
+    color: var(--color-blog-card-badge-text);
     text-transform: uppercase;
     border-radius: 0.25rem;
     white-space: nowrap;
@@ -128,11 +135,32 @@
     text-overflow: ellipsis;
 }
 
+/* New Badge - uses tertiary color from CSS variables */
+.blog-post-card__new-badge {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 0.25rem;
+    letter-spacing: 0.05em;
+    animation: pulse-new 2s infinite;
+}
+
+@keyframes pulse-new {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
 /* Title */
 .blog-post-card__title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #ffe6e6;
+    color: var(--color-blog-card-title);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -178,7 +206,7 @@
 .blog-post-card__quote p {
     font-size: 1.125rem;
     font-weight: 500;
-    color: #ffe6e6;
+    color: var(--color-blog-card-title);
     line-height: 1.6;
 }
 

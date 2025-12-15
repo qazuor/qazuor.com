@@ -19,42 +19,30 @@
     }
 
     function getMermaidThemeVariables() {
-        const isDark = document.documentElement.classList.contains('dark');
-        if (isDark) {
-            return {
-                primaryColor: '#8b5cf6',
-                primaryTextColor: '#f3f4f6',
-                primaryBorderColor: '#8b5cf6',
-                lineColor: '#22d3ee',
-                secondaryColor: '#1e293b',
-                tertiaryColor: '#334155',
-                background: '#1e293b',
-                mainBkg: '#1e293b',
-                secondaryBkg: '#334155',
-                textColor: '#f3f4f6',
-                fontSize: '16px',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                edgeLabelBackground: '#1e293b',
-                labelBackground: '#1e293b',
-                labelColor: '#f3f4f6'
-            };
-        }
+        // Read colors from CSS variables for theme consistency
+        const style = getComputedStyle(document.documentElement);
+        const primary = style.getPropertyValue('--mermaid-primary').trim();
+        const secondary = style.getPropertyValue('--mermaid-secondary').trim();
+        const background = style.getPropertyValue('--mermaid-background').trim();
+        const border = style.getPropertyValue('--mermaid-border').trim();
+        const text = style.getPropertyValue('--mermaid-text').trim();
+
         return {
-            primaryColor: '#3b82f6',
-            primaryTextColor: '#1f2937',
-            primaryBorderColor: '#3b82f6',
-            lineColor: '#0891b2',
-            secondaryColor: '#f1f5f9',
-            tertiaryColor: '#e2e8f0',
-            background: '#ffffff',
-            mainBkg: '#f8fafc',
-            secondaryBkg: '#f1f5f9',
-            textColor: '#1f2937',
+            primaryColor: primary,
+            primaryTextColor: text,
+            primaryBorderColor: primary,
+            lineColor: secondary,
+            secondaryColor: background,
+            tertiaryColor: border,
+            background: background,
+            mainBkg: background,
+            secondaryBkg: border,
+            textColor: text,
             fontSize: '16px',
             fontFamily: 'Inter, system-ui, sans-serif',
-            edgeLabelBackground: '#ffffff',
-            labelBackground: '#ffffff',
-            labelColor: '#1f2937'
+            edgeLabelBackground: background,
+            labelBackground: background,
+            labelColor: text
         };
     }
 
@@ -155,7 +143,11 @@
             // Render diagrams
             await mermaid.run();
 
-            // Style edge labels
+            // Style edge labels using CSS variables
+            const style = getComputedStyle(document.documentElement);
+            const edgeFill = style.getPropertyValue('--mermaid-background').trim();
+            const edgeStroke = style.getPropertyValue('--mermaid-primary').trim();
+
             document.querySelectorAll('.mermaid svg g.edgeLabel').forEach((label) => {
                 const rect = label.querySelector('rect');
                 if (rect) {
@@ -171,8 +163,8 @@
                     rect.setAttribute('y', String(currentY - padding));
                     rect.setAttribute('rx', '4');
                     rect.setAttribute('ry', '4');
-                    rect.setAttribute('fill', '#1e293b');
-                    rect.setAttribute('stroke', '#8b5cf6');
+                    rect.setAttribute('fill', edgeFill);
+                    rect.setAttribute('stroke', edgeStroke);
                     rect.setAttribute('stroke-width', '1');
                 }
             });

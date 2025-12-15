@@ -115,6 +115,87 @@
         --color-ui-quote: 6, 182, 212; /* cyan-500 RGB */
         --color-ui-quote-full: rgb(6, 182, 212);
 
+        /* ===========================================
+         * Brand Colors - External & Service Colors
+         * =========================================== */
+        /* LinkedIn Brand */
+        --color-linkedin: 0, 119, 181; /* #0077B5 RGB */
+        --color-linkedin-full: #0077B5;
+
+        /* Service Colors - Used for service cards, icons, and effects */
+        /* Web Apps - Sky Blue */
+        --color-service-web-apps: 14, 165, 233; /* #0ea5e9 RGB */
+        --color-service-web-apps-full: #0ea5e9;
+        --color-service-web-apps-light: 7, 89, 133; /* #075985 - darker for light mode */
+        --color-service-web-apps-light-full: #0369a1;
+        /* Landing Pages - Emerald */
+        --color-service-landing-pages: 16, 185, 129; /* #10b981 RGB */
+        --color-service-landing-pages-full: #10b981;
+        --color-service-landing-pages-light: 4, 120, 87; /* #047857 - darker for light mode */
+        --color-service-landing-pages-light-full: #047857;
+        /* Automation - Yellow */
+        --color-service-automation: 234, 179, 8; /* #eab308 RGB */
+        --color-service-automation-full: #eab308;
+        --color-service-automation-light: 161, 98, 7; /* #a16207 - darker for light mode */
+        --color-service-automation-light-full: #a16207;
+        /* Social Media Design - Rose */
+        --color-service-social-design: 225, 29, 72; /* #e11d48 RGB */
+        --color-service-social-design-full: #e11d48;
+        --color-service-social-design-light: 190, 18, 60; /* #be123c - darker for light mode */
+        --color-service-social-design-light-full: #be123c;
+        /* Web Optimization - Violet */
+        --color-service-web-optimization: 139, 92, 246; /* #8b5cf6 RGB */
+        --color-service-web-optimization-full: #8b5cf6;
+        --color-service-web-optimization-light: 109, 40, 217; /* #6d28d9 - darker for light mode */
+        --color-service-web-optimization-light-full: #6d28d9;
+        /* WordPress - Blue */
+        --color-service-wordpress: 59, 130, 246; /* #3b82f6 RGB */
+        --color-service-wordpress-full: #3b82f6;
+        --color-service-wordpress-light: 29, 78, 216; /* #1d4ed8 - darker for light mode */
+        --color-service-wordpress-light-full: #1d4ed8;
+
+        /* ===========================================
+         * Blog Card Colors
+         * =========================================== */
+        --color-blog-card-overlay: 12, 12, 12; /* #0c0c0c RGB - dark overlay */
+        --color-blog-card-overlay-full: #0c0c0c;
+        --color-blog-card-badge-text: #282828; /* Category badge text */
+        --color-blog-card-title: #ffe6e6; /* Light pink title */
+
+        /* ===========================================
+         * Mermaid Diagram Colors - Light Mode
+         * =========================================== */
+        --mermaid-primary: #3b82f6; /* blue-500 */
+        --mermaid-secondary: #0891b2; /* cyan-600 */
+        --mermaid-background: #f1f5f9; /* slate-100 */
+        --mermaid-border: #e2e8f0; /* slate-200 */
+        --mermaid-text: #1f2937; /* gray-800 */
+
+        /* ===========================================
+         * View Transition Gradient Colors
+         * =========================================== */
+        --transition-gradient-start: #3b82f6; /* blue-500 */
+        --transition-gradient-mid: #10b981; /* emerald-500 */
+        --transition-gradient-end: #14b8a6; /* teal-500 */
+
+        /* ===========================================
+         * Button Success Styling (Submit buttons)
+         * =========================================== */
+        --btn-success-shadow: rgba(16, 185, 129, 0.3);
+        --btn-success-bg-start: #10b981; /* emerald-500 */
+        --btn-success-bg-end: #059669; /* emerald-600 */
+        --btn-success-hover-start: #6ee7b7; /* emerald-300 */
+        --btn-success-hover-end: #047857; /* emerald-700 */
+
+        /* ===========================================
+         * Button Tertiary Styling (Resume/Coral buttons)
+         * =========================================== */
+        --btn-tertiary-shadow: rgba(255, 107, 107, 0.3);
+        --btn-tertiary-bg-start: #FF6B6B; /* coral */
+        --btn-tertiary-bg-end: #e55a5a; /* darker coral */
+        --btn-tertiary-hover-start: #ff8a8a; /* lighter coral */
+        --btn-tertiary-hover-end: #cc4a4a; /* even darker coral */
+
         /* Transitions */
         --duration-fast: 150ms;
         --duration-base: 300ms;
@@ -206,6 +287,59 @@
         /* Quote - Cyan */
         --color-ui-quote: 34, 211, 238; /* cyan-400 RGB */
         --color-ui-quote-full: rgb(34, 211, 238);
+
+        /* ===========================================
+         * Brand Colors - Dark Mode
+         * =========================================== */
+        /* LinkedIn - same in dark mode */
+        --color-linkedin: 0, 119, 181; /* #0077B5 RGB */
+        --color-linkedin-full: #0077B5;
+
+        /* Service Colors - Dark Mode (same as light, work well on dark backgrounds) */
+        --color-service-web-apps: 14, 165, 233;
+        --color-service-web-apps-full: #0ea5e9;
+        --color-service-landing-pages: 16, 185, 129;
+        --color-service-landing-pages-full: #10b981;
+        --color-service-automation: 234, 179, 8;
+        --color-service-automation-full: #eab308;
+        --color-service-social-design: 225, 29, 72;
+        --color-service-social-design-full: #e11d48;
+        --color-service-web-optimization: 139, 92, 246;
+        --color-service-web-optimization-full: #8b5cf6;
+        --color-service-wordpress: 59, 130, 246;
+        --color-service-wordpress-full: #3b82f6;
+
+        /* Blog Card Colors - same in dark mode */
+        --color-blog-card-overlay: 12, 12, 12;
+        --color-blog-card-overlay-full: #0c0c0c;
+        --color-blog-card-badge-text: #282828;
+        --color-blog-card-title: #ffe6e6;
+
+        /* Mermaid Diagram Colors - Dark Mode */
+        --mermaid-primary: #10b981; /* emerald-500 */
+        --mermaid-secondary: #22d3ee; /* cyan-400 */
+        --mermaid-background: #1e293b; /* slate-800 */
+        --mermaid-border: #334155; /* slate-700 */
+        --mermaid-text: #f3f4f6; /* gray-100 */
+
+        /* View Transition Gradient - same in dark mode */
+        --transition-gradient-start: #3b82f6;
+        --transition-gradient-mid: #10b981;
+        --transition-gradient-end: #14b8a6;
+
+        /* Button Success Styling - same in dark mode */
+        --btn-success-shadow: rgba(16, 185, 129, 0.3);
+        --btn-success-bg-start: #10b981;
+        --btn-success-bg-end: #059669;
+        --btn-success-hover-start: #6ee7b7;
+        --btn-success-hover-end: #047857;
+
+        /* Button Tertiary Styling - same in dark mode */
+        --btn-tertiary-shadow: rgba(255, 107, 107, 0.3);
+        --btn-tertiary-bg-start: #FF6B6B;
+        --btn-tertiary-bg-end: #e55a5a;
+        --btn-tertiary-hover-start: #ff8a8a;
+        --btn-tertiary-hover-end: #cc4a4a;
 
         /* Custom Dark Mode - Purple-blue theme (FIXED backgrounds - don't change with palette) */
         --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */

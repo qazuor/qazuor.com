@@ -177,9 +177,9 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                     onClick={handleCopyLink}
                     className={`p-2 rounded-lg backdrop-blur-sm border transition-all duration-300 ${
                         copyStatus === 'copied'
-                            ? 'text-emerald-400 bg-emerald-500/20 border-emerald-500/30'
+                            ? 'text-[rgb(var(--color-ui-success))] bg-[rgba(var(--color-ui-success),0.2)] border-[rgba(var(--color-ui-success),0.3)]'
                             : copyStatus === 'failed'
-                              ? 'text-red-400 bg-red-500/20 border-red-500/30'
+                              ? 'text-[rgb(var(--color-ui-error))] bg-[rgba(var(--color-ui-error),0.2)] border-[rgba(var(--color-ui-error),0.3)]'
                               : 'text-white/70 border-white/10 hover:border-white/20 hover:text-primary hover:bg-primary/10'
                     }`}
                     aria-label={copyStatus === 'copied' ? t.copied : t.copyLink}
@@ -229,9 +229,9 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                     onClick={handleCopyLink}
                     className={`group p-3 rounded-xl border transition-all duration-300 hover:-translate-y-0.5 ${
                         copyStatus === 'copied'
-                            ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30 shadow-lg shadow-emerald-500/20'
+                            ? 'text-[rgb(var(--color-ui-success))] bg-[rgba(var(--color-ui-success),0.1)] border-[rgba(var(--color-ui-success),0.3)] shadow-lg shadow-[rgba(var(--color-ui-success),0.2)]'
                             : copyStatus === 'failed'
-                              ? 'text-red-500 bg-red-500/10 border-red-500/30 shadow-lg shadow-red-500/20'
+                              ? 'text-[rgb(var(--color-ui-error))] bg-[rgba(var(--color-ui-error),0.1)] border-[rgba(var(--color-ui-error),0.3)] shadow-lg shadow-[rgba(var(--color-ui-error),0.2)]'
                               : 'text-foreground-secondary border-foreground/10 bg-surface/50 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-lg'
                     }`}
                     aria-label={copyStatus === 'copied' ? t.copied : t.copyLink}

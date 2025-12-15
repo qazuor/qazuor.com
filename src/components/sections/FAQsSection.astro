@@ -30,7 +30,7 @@ interface Props {
     };
 }
 
-const { primaryColor = '#8b5cf6', translations } = Astro.props;
+const { primaryColor = 'var(--section-faqs-bg)', translations } = Astro.props;
 
 // Combine all FAQs for JSON-LD schema
 const allFaqs = [...translations.faqs.clients, ...translations.faqs.employers];

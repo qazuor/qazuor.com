@@ -45,10 +45,10 @@ export function SubmitButton({ isLoading, loadingText, text }: SubmitButtonProps
                     'transition-all duration-300',
                     // Focus
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
-                    // Primary variant styling
-                    'relative overflow-hidden text-white shadow-lg shadow-[#667eea]/30',
-                    'bg-[linear-gradient(135deg,#667eea_0%,#814ba2_100%)]',
-                    'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,#8b7ec8_0%,#5a4fcf_100%)]',
+                    // Primary variant styling - using CSS variables for theming
+                    'relative overflow-hidden text-white shadow-lg shadow-[var(--btn-success-shadow)]',
+                    'bg-[linear-gradient(135deg,var(--btn-success-bg-start)_0%,var(--btn-success-bg-end)_100%)]',
+                    'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,var(--btn-success-hover-start)_0%,var(--btn-success-hover-end)_100%)]',
                     'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
                     // Hover (when not disabled)
                     !isLoading && 'hover:before:opacity-100',

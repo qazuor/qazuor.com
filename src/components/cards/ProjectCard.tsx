@@ -21,25 +21,26 @@ export interface ProjectCardProps {
             client: string;
         };
         moreTechnologies: string;
+        featured: string;
     };
 }
 
-// Category color mapping - enhanced visibility
+// Category color mapping - uses CSS variables from global.css
 const categoryColors = {
     'open-source': {
-        shadow: 'hover:shadow-emerald-500/20',
-        gradient: 'from-emerald-500/10 via-transparent to-transparent',
-        badge: 'bg-emerald-600 text-white border-emerald-700'
+        shadow: 'hover:shadow-[rgba(var(--color-category-opensource),0.2)]',
+        gradient: 'from-[rgba(var(--color-category-opensource),0.1)] via-transparent to-transparent',
+        badge: 'bg-[rgb(var(--color-category-opensource-dark))] text-white border-[rgb(var(--color-category-opensource-darker))]'
     },
     commercial: {
-        shadow: 'hover:shadow-blue-500/20',
-        gradient: 'from-blue-500/10 via-transparent to-transparent',
-        badge: 'bg-blue-600 text-white border-blue-700'
+        shadow: 'hover:shadow-[rgba(var(--color-category-commercial),0.2)]',
+        gradient: 'from-[rgba(var(--color-category-commercial),0.1)] via-transparent to-transparent',
+        badge: 'bg-[rgb(var(--color-category-commercial-dark))] text-white border-[rgb(var(--color-category-commercial-darker))]'
     },
     client: {
-        shadow: 'hover:shadow-purple-500/20',
-        gradient: 'from-purple-500/10 via-transparent to-transparent',
-        badge: 'bg-purple-600 text-white border-purple-700'
+        shadow: 'hover:shadow-[rgba(var(--color-category-client),0.2)]',
+        gradient: 'from-[rgba(var(--color-category-client),0.1)] via-transparent to-transparent',
+        badge: 'bg-[rgb(var(--color-category-client-dark))] text-white border-[rgb(var(--color-category-client-darker))]'
     }
 };
 
@@ -53,7 +54,7 @@ export const ProjectCard = memo(function ProjectCard({
     variant = 'list',
     lang = 'en',
     category = 'open-source',
-    featured: _featured = false,
+    featured = false,
     translations = {
         viewProject: 'View Project',
         categories: {
@@ -61,7 +62,8 @@ export const ProjectCard = memo(function ProjectCard({
             commercial: 'Commercial',
             client: 'Client'
         },
-        moreTechnologies: 'more'
+        moreTechnologies: 'more',
+        featured: 'Featured'
     }
 }: ProjectCardProps) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -211,7 +213,7 @@ export const ProjectCard = memo(function ProjectCard({
                     className={`relative h-full bg-card backdrop-blur-sm border border-border rounded-xl overflow-hidden transition-all duration-500 shadow-lg ${colors.shadow} hover:shadow-2xl group-hover:scale-[1.02] transform flex flex-col`}
                 >
                     {/* Category badge - improved visibility */}
-                    <div className="absolute top-4 left-4 z-20">
+                    <div className="absolute top-4 left-4 z-20 flex gap-2">
                         <div
                             className={`px-3 py-1.5 ${colors.badge} text-xs font-semibold rounded-full border shadow-lg backdrop-blur-md`}
                         >
@@ -221,6 +223,21 @@ export const ProjectCard = memo(function ProjectCard({
                                   ? translations.categories.commercial
                                   : translations.categories.client}
                         </div>
+                        {featured && (
+                            <div
+                                className="px-3 py-1.5 text-xs font-semibold rounded-full border shadow-lg backdrop-blur-md flex items-center gap-1"
+                                style={{
+                                    backgroundColor: 'var(--color-tertiary-full)',
+                                    color: 'white',
+                                    borderColor: 'var(--color-tertiary-dark-full)'
+                                }}
+                            >
+                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                {translations.featured}
+                            </div>
+                        )}
                     </div>
 
                     {/* Image section with enhanced hover */}

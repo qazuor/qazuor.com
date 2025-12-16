@@ -6,9 +6,12 @@ const { tool, lang, class: className = '' } = Astro.props;
 const t = getTranslations(lang);
 
 const difficultyColors = {
-    beginner: 'text-green-500 bg-green-500/10 border-green-500/20',
-    intermediate: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20',
-    advanced: 'text-red-500 bg-red-500/10 border-red-500/20'
+    beginner:
+        'text-[rgb(var(--color-difficulty-beginner))] bg-[rgba(var(--color-difficulty-beginner),0.1)] border-[rgba(var(--color-difficulty-beginner),0.2)]',
+    intermediate:
+        'text-[rgb(var(--color-difficulty-intermediate))] bg-[rgba(var(--color-difficulty-intermediate),0.1)] border-[rgba(var(--color-difficulty-intermediate),0.2)]',
+    advanced:
+        'text-[rgb(var(--color-difficulty-advanced))] bg-[rgba(var(--color-difficulty-advanced),0.1)] border-[rgba(var(--color-difficulty-advanced),0.2)]'
 } as const;
 
 // Icon mapping for tools (Lucide icons)

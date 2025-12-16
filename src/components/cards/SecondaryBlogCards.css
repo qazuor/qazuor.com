@@ -1,0 +1,374 @@
+/* Secondary Blog Cards - CSS-Tricks Style Hover Effect */
+
+.secondary-cards-container {
+    display: flex;
+    width: 100%;
+    height: 300px; /* Fixed height to prevent vertical shake during hover transitions */
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    margin-top: 2rem;
+}
+
+/* Individual Card */
+.secondary-card {
+    --card-width: 20%;
+    --card-width-hover: 50%;
+    --card-width-shrink: 12.5%;
+
+    position: relative;
+    width: var(--card-width);
+    height: 100%; /* Fill container height exactly */
+    background: var(--color-bg-secondary);
+    overflow: hidden;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s ease;
+}
+
+/* Card inner link */
+.secondary-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+    padding-left: calc(1.5rem + 4px); /* Account for border width */
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    gap: 0.75rem;
+}
+
+/* Left border - the signature CSS-Tricks element */
+.secondary-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--card-border-color);
+    transition: width 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+}
+
+/* Hover: border expands with glow */
+.secondary-card:hover::before {
+    width: 6px;
+    box-shadow: 0 0 20px var(--card-border-color),
+                0 0 40px color-mix(in oklch, var(--card-border-color), transparent 50%);
+}
+
+/* Subtle background tint on hover */
+.secondary-card:hover {
+    background: color-mix(in oklch, var(--card-border-color), var(--color-bg-secondary) 95%);
+}
+
+/* Desktop: Hover expansion effect */
+@media (min-width: 769px) {
+    /* When hovering a card, it expands */
+    .secondary-card:hover {
+        width: var(--card-width-hover);
+        z-index: 10;
+    }
+
+    /* Sibling cards shrink but maintain height - content clips with overflow */
+    .secondary-cards-container:has(.secondary-card:hover) .secondary-card:not(:hover) {
+        width: var(--card-width-shrink);
+    }
+
+    /* Content maintains original width and gets clipped - no text reflow */
+    .secondary-card__link {
+        /* Store the original rendered width so it doesn't change on hover */
+        width: 100%;
+    }
+
+    .secondary-cards-container:has(.secondary-card:hover) .secondary-card:not(:hover) .secondary-card__link {
+        /* Content keeps its original width (from default state) and gets clipped */
+        width: 200px; /* Approximate width of 20% of ~1000px container */
+        min-width: 200px;
+        flex-shrink: 0;
+    }
+
+
+    /* Adjust widths based on card count */
+    .secondary-cards-container[data-card-count="3"] .secondary-card {
+        --card-width: 33.33%;
+        --card-width-hover: 60%;
+        --card-width-shrink: 20%;
+    }
+
+    .secondary-cards-container[data-card-count="4"] .secondary-card {
+        --card-width: 25%;
+        --card-width-hover: 55%;
+        --card-width-shrink: 15%;
+    }
+
+    .secondary-cards-container[data-card-count="5"] .secondary-card {
+        --card-width: 20%;
+        --card-width-hover: 50%;
+        --card-width-shrink: 12.5%;
+    }
+}
+
+/* Header: Category & Date */
+.secondary-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: opacity 0.3s ease;
+}
+
+.secondary-card__category {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--card-border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.secondary-card__date {
+    font-size: 0.75rem;
+    color: var(--color-foreground-muted);
+    white-space: nowrap;
+}
+
+/* Title - truncated normally, full on hover */
+.secondary-card__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-foreground);
+    margin: 0;
+    flex-grow: 1;
+
+    /* Truncation */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: font-size 0.3s ease, opacity 0.3s ease;
+}
+
+/* Expanded: show full title */
+.secondary-card:hover .secondary-card__title {
+    -webkit-line-clamp: 5;
+}
+
+/* Excerpt - hidden by default, shown on hover */
+.secondary-card__excerpt {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-foreground-secondary);
+    margin: 0;
+
+    /* Hidden initially */
+    display: -webkit-box;
+    -webkit-line-clamp: 0;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    opacity: 0;
+    max-height: 0;
+    transition: opacity 0.3s ease 0.1s, max-height 0.3s ease;
+}
+
+/* Show excerpt on hover */
+.secondary-card:hover .secondary-card__excerpt {
+    -webkit-line-clamp: 3;
+    opacity: 1;
+    max-height: 100px;
+}
+
+/* Footer: Tags & Read Time */
+.secondary-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    gap: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.secondary-card__tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.secondary-card__tag {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.secondary-card:hover .secondary-card__tag {
+    opacity: 1;
+}
+
+/* Tags hidden when collapsed on desktop */
+@media (min-width: 769px) {
+    .secondary-cards-container:has(.secondary-card:hover) .secondary-card:not(:hover) .secondary-card__tags {
+        display: none;
+    }
+}
+
+.secondary-card__read-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.secondary-card__read-time {
+    font-size: 0.75rem;
+    color: var(--color-foreground-muted);
+    white-space: nowrap;
+}
+
+.secondary-card__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--card-border-color);
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+.secondary-card:hover .secondary-card__arrow {
+    transform: translateX(4px);
+}
+
+/* Mobile: Vertical stack with clear line separation */
+@media (max-width: 768px) {
+    .secondary-cards-container {
+        flex-direction: column;
+        height: auto; /* Override fixed height from desktop */
+        gap: 0;
+    }
+
+    .secondary-card {
+        width: 100% !important;
+        height: auto; /* Override fixed height from desktop */
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .secondary-card:last-child {
+        border-bottom: none;
+    }
+
+    .secondary-card__link {
+        padding: 1rem 1.25rem;
+        padding-left: calc(1.25rem + 4px);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .secondary-card__header {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .secondary-card__category {
+        font-size: 0.7rem;
+    }
+
+    .secondary-card__date {
+        font-size: 0.7rem;
+    }
+
+    .secondary-card__title {
+        font-size: 0.95rem;
+        -webkit-line-clamp: 2;
+        flex-grow: 0;
+        width: 100%;
+        line-height: 1.3;
+    }
+
+    /* Hide excerpt on mobile */
+    .secondary-card__excerpt {
+        display: none;
+    }
+
+    /* Footer on its own line */
+    .secondary-card__footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: 0.25rem;
+    }
+
+    /* Show first 2 tags on mobile */
+    .secondary-card__tags {
+        display: flex;
+    }
+
+    .secondary-card__tags .secondary-card__tag:nth-child(n+3) {
+        display: none;
+    }
+
+    .secondary-card__read-info {
+        flex-shrink: 0;
+    }
+
+    /* Hover doesn't expand on mobile */
+    .secondary-card:hover .secondary-card__title {
+        -webkit-line-clamp: 2;
+    }
+
+    /* Mobile hover effect: Elevation + Border glow */
+    .secondary-card {
+        transition: transform 0.25s ease,
+                    box-shadow 0.25s ease,
+                    background-color 0.25s ease;
+    }
+
+    .secondary-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                    0 2px 4px rgba(0, 0, 0, 0.04);
+        background: color-mix(in oklch, var(--card-border-color), var(--color-bg-secondary) 96%);
+        border-bottom-color: transparent;
+    }
+
+    /* Border glow effect on mobile */
+    .secondary-card:hover::before {
+        width: 5px;
+        box-shadow: 0 0 12px var(--card-border-color),
+                    0 0 4px var(--card-border-color);
+    }
+
+    /* Arrow animation on mobile */
+    .secondary-card:hover .secondary-card__arrow {
+        transform: translateX(3px);
+    }
+
+    /* Tags visibility on hover */
+    .secondary-card:hover .secondary-card__tag {
+        opacity: 1;
+    }
+}
+
+/* Focus states for accessibility */
+.secondary-card__link:focus-visible {
+    outline: 2px solid var(--card-border-color);
+    outline-offset: -2px;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .secondary-card:hover {
+        background: color-mix(in oklch, var(--card-border-color), var(--color-bg-secondary) 92%);
+    }
+}

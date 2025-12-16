@@ -144,3 +144,23 @@ export const rotatingColors: CategoryColorConfig[] = [
 export function getRotatingColor(index: number): CategoryColorConfig {
     return rotatingColors[index % rotatingColors.length];
 }
+
+/**
+ * Colors for secondary blog cards (CSS-Tricks style)
+ * Aligned with site's Deep Ocean palette (cyan/teal/green tones)
+ * Distinguishable but within the brand color family
+ */
+export const secondaryCardColors: string[] = [
+    'oklch(0.68 0.18 187)', // Cyan (primary tone)
+    'oklch(0.62 0.16 172)', // Teal (secondary tone)
+    'oklch(0.65 0.18 155)', // Sea Green
+    'oklch(0.58 0.14 210)', // Deep Blue
+    'oklch(0.60 0.16 142)' // Emerald (tertiary tone)
+];
+
+/**
+ * Get a secondary card color by index
+ */
+export function getSecondaryCardColor(index: number): string {
+    return secondaryCardColors[index % secondaryCardColors.length];
+}

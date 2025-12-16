@@ -63,6 +63,7 @@ const blogCollection = defineCollection({
             slug: z.string().optional(), // Custom slug (uses filename if not provided)
             image: image().optional(), // Local image (relative path from content file)
             category: z.string().optional(), // Category for card badge
+            featured: z.boolean().default(false), // Mark as featured post for home page
             // Series support for multi-part articles
             series: z
                 .object({

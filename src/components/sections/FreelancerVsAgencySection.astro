@@ -56,13 +56,13 @@ const iconImports: Record<string, string> = {
         <!-- Two Column Comparison -->
         <div class="grid md:grid-cols-2 gap-8 mt-12">
             <!-- Freelancer Column (Highlighted) -->
-            <div class="relative rounded-2xl border-2 border-emerald-500/30 bg-emerald-500/5 p-6 md:p-8">
+            <div class="relative rounded-2xl border-2 border-[rgba(var(--color-ui-success),0.3)] bg-[rgba(var(--color-ui-success),0.05)] p-6 md:p-8">
                 <!-- Recommended Badge -->
-                <div class="absolute -top-3 left-6 px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full uppercase tracking-wider">
+                <div class="absolute -top-3 left-6 px-3 py-1 bg-[rgb(var(--color-ui-success))] text-white text-xs font-bold rounded-full uppercase tracking-wider">
                     Recommended
                 </div>
 
-                <h3 class="text-xl font-bold text-emerald-400 mb-6 flex items-center gap-2">
+                <h3 class="text-xl font-bold text-[rgb(var(--color-ui-success))] mb-6 flex items-center gap-2">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
@@ -74,8 +74,8 @@ const iconImports: Record<string, string> = {
                         const iconSvg = iconImports[point.icon];
                         return (
                             <div class="flex gap-4">
-                                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                                    <div class="w-5 h-5 text-emerald-400" set:html={iconSvg} />
+                                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-[rgba(var(--color-ui-success),0.2)] flex items-center justify-center">
+                                    <div class="w-5 h-5 text-[rgb(var(--color-ui-success))]" set:html={iconSvg} />
                                 </div>
                                 <div>
                                     <h4 class="font-semibold text-foreground mb-1">{point.title}</h4>
@@ -120,7 +120,7 @@ const iconImports: Record<string, string> = {
             <p class="text-foreground-secondary mb-4">{translations.cta.text}</p>
             <a
                 href={`/${lang}/#contact`}
-                class="inline-flex items-center px-8 py-4 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors duration-200 shadow-lg shadow-emerald-500/20"
+                class="inline-flex items-center px-8 py-4 bg-[rgb(var(--color-ui-success))] text-white font-semibold rounded-lg hover:brightness-110 transition-all duration-200 shadow-lg shadow-[rgba(var(--color-ui-success),0.2)]"
             >
                 {translations.cta.button}
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

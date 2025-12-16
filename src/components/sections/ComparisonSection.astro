@@ -7,6 +7,7 @@
  */
 
 import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { serviceColors as serviceColorConfig } from '@/data/serviceColors';
 import { type ServiceComparison, services } from '@/data/services';
 
 interface Props {
@@ -63,40 +64,19 @@ interface Props {
 
 const { lang, translations } = Astro.props;
 
-// Service column colors matching the service cards
-const serviceColors: Record<string, { bg: string; border: string; text: string; header: string }> = {
-    'web-apps': { bg: 'bg-sky-500/10', border: 'border-sky-500/30', text: 'text-sky-400', header: 'bg-sky-500/20' },
-    'landing-pages': {
-        bg: 'bg-emerald-500/10',
-        border: 'border-emerald-500/30',
-        text: 'text-emerald-400',
-        header: 'bg-emerald-500/20'
-    },
-    'automation-integration': {
-        bg: 'bg-yellow-500/10',
-        border: 'border-yellow-500/30',
-        text: 'text-yellow-400',
-        header: 'bg-yellow-500/20'
-    },
-    'social-media-design': {
-        bg: 'bg-rose-500/10',
-        border: 'border-rose-500/30',
-        text: 'text-rose-400',
-        header: 'bg-rose-500/20'
-    },
-    'web-optimization': {
-        bg: 'bg-violet-500/10',
-        border: 'border-violet-500/30',
-        text: 'text-violet-400',
-        header: 'bg-violet-500/20'
-    },
-    wordpress: {
-        bg: 'bg-blue-500/10',
-        border: 'border-blue-500/30',
-        text: 'text-blue-400',
-        header: 'bg-blue-500/20'
-    }
-};
+// Service column colors - mapped from centralized serviceColors config
+// This ensures consistency across all service-related pages
+const serviceColors: Record<string, { bg: string; border: string; text: string; header: string }> = Object.fromEntries(
+    Object.entries(serviceColorConfig).map(([id, config]) => [
+        id,
+        {
+            bg: config.tailwind.bgLight,
+            border: config.tailwind.border,
+            text: config.tailwind.textDark,
+            header: config.tailwind.bgMedium
+        }
+    ])
+);
 
 // Map service id to header translation key
 const serviceHeaderKeys: Record<string, keyof typeof translations.headers> = {

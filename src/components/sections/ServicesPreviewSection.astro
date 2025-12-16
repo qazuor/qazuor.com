@@ -9,7 +9,7 @@ import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackgrou
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServicePreviewCard from '@/components/ui/ServicePreviewCard.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
-import { servicePixelColors } from '@/data/serviceColors';
+import { serviceColors } from '@/data/serviceColors';
 import { services } from '@/data/services';
 
 interface ServiceTranslation {
@@ -70,7 +70,7 @@ const serviceCards = services
             title: serviceTranslation.title,
             description: serviceTranslation.description,
             features: serviceTranslation.features,
-            pixelConfig: servicePixelColors[service.id]
+            pixelConfig: serviceColors[service.id].pixel
         };
     });
 ---

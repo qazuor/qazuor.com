@@ -17,6 +17,8 @@ export interface BlogPostCardProps {
     isActive?: boolean;
     onHover?: () => void;
     categoryColor?: string;
+    isNew?: boolean;
+    newLabel?: string;
 }
 
 export const BlogPostCard = memo(function BlogPostCard({
@@ -27,7 +29,9 @@ export const BlogPostCard = memo(function BlogPostCard({
     slug,
     isActive = false,
     onHover,
-    categoryColor = '#d3b19a'
+    categoryColor = '#d3b19a',
+    isNew = false,
+    newLabel = 'New'
 }: BlogPostCardProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -94,9 +98,22 @@ export const BlogPostCard = memo(function BlogPostCard({
 
                 {/* Content */}
                 <div className="blog-post-card__content">
-                    {/* Category Badge */}
-                    <div className="blog-post-card__category" style={{ backgroundColor: categoryColor }}>
-                        {category}
+                    {/* Category & New Badges */}
+                    <div className="blog-post-card__badges">
+                        <div className="blog-post-card__category" style={{ backgroundColor: categoryColor }}>
+                            {category}
+                        </div>
+                        {isNew && (
+                            <div
+                                className="blog-post-card__new-badge"
+                                style={{
+                                    backgroundColor: 'var(--color-tertiary-full)',
+                                    color: 'white'
+                                }}
+                            >
+                                {newLabel}
+                            </div>
+                        )}
                     </div>
 
                     {/* Title */}

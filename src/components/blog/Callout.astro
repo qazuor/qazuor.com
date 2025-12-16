@@ -10,79 +10,57 @@ const config = {
     info: {
         icon: 'ℹ️',
         defaultTitle: 'Info',
-        borderColor: 'border-l-blue-500',
-        bgColor: 'bg-blue-500/10',
-        titleColor: 'text-blue-400',
-        iconBg: 'bg-blue-500/20'
+        typeClass: 'callout-info'
     },
     warning: {
         icon: '⚠️',
         defaultTitle: 'Warning',
-        borderColor: 'border-l-amber-500',
-        bgColor: 'bg-amber-500/10',
-        titleColor: 'text-amber-400',
-        iconBg: 'bg-amber-500/20'
+        typeClass: 'callout-warning'
     },
     success: {
         icon: '✅',
         defaultTitle: 'Success',
-        borderColor: 'border-l-emerald-500',
-        bgColor: 'bg-emerald-500/10',
-        titleColor: 'text-emerald-400',
-        iconBg: 'bg-emerald-500/20'
+        typeClass: 'callout-success'
     },
     error: {
         icon: '❌',
         defaultTitle: 'Error',
-        borderColor: 'border-l-red-500',
-        bgColor: 'bg-red-500/10',
-        titleColor: 'text-red-400',
-        iconBg: 'bg-red-500/20'
+        typeClass: 'callout-error'
     },
     tip: {
         icon: '💡',
         defaultTitle: 'Tip',
-        borderColor: 'border-l-purple-500',
-        bgColor: 'bg-purple-500/10',
-        titleColor: 'text-purple-400',
-        iconBg: 'bg-purple-500/20'
+        typeClass: 'callout-tip'
     },
     quote: {
         icon: '💬',
         defaultTitle: '',
-        borderColor: 'border-l-cyan-500',
-        bgColor: 'bg-cyan-500/10',
-        titleColor: 'text-cyan-400',
-        iconBg: 'bg-cyan-500/20'
+        typeClass: 'callout-quote'
     }
 };
 
-const { icon, defaultTitle, borderColor, bgColor, titleColor, iconBg } = config[type];
+const { icon, defaultTitle, typeClass } = config[type];
 const displayTitle = title || defaultTitle;
 ---
 
 <aside
     class:list={[
         'callout my-6 rounded-r-lg border-l-4 p-4',
-        borderColor,
-        bgColor,
+        typeClass,
         type === 'quote' && 'italic'
     ]}
     role="note"
 >
     <div class="flex items-start gap-3">
         <span
-            class:list={[
-                'flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-lg',
-                iconBg
-            ]}
+            class="callout-icon flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-lg"
             aria-hidden="true"
         >
             {icon}
         </span>
         <div class="flex-1 min-w-0">
             {displayTitle && (
-                <p class:list={['font-semibold text-sm mb-1', titleColor]}>
+                <p class="callout-title font-semibold text-sm mb-1">
                     {displayTitle}
                 </p>
             )}
@@ -95,3 +73,49 @@ const displayTitle = title || defaultTitle;
         </div>
     </div>
 </aside>
+
+<style>
+    /* Callout type styles using semantic CSS variables */
+    .callout-info {
+        border-left-color: var(--color-ui-info-full);
+        background-color: rgba(var(--color-ui-info), 0.1);
+    }
+    .callout-info .callout-title { color: var(--color-ui-info-full); }
+    .callout-info .callout-icon { background-color: rgba(var(--color-ui-info), 0.2); }
+
+    .callout-warning {
+        border-left-color: var(--color-ui-warning-full);
+        background-color: rgba(var(--color-ui-warning), 0.1);
+    }
+    .callout-warning .callout-title { color: var(--color-ui-warning-full); }
+    .callout-warning .callout-icon { background-color: rgba(var(--color-ui-warning), 0.2); }
+
+    .callout-success {
+        border-left-color: var(--color-ui-success-full);
+        background-color: rgba(var(--color-ui-success), 0.1);
+    }
+    .callout-success .callout-title { color: var(--color-ui-success-full); }
+    .callout-success .callout-icon { background-color: rgba(var(--color-ui-success), 0.2); }
+
+    .callout-error {
+        border-left-color: var(--color-ui-error-full);
+        background-color: rgba(var(--color-ui-error), 0.1);
+    }
+    .callout-error .callout-title { color: var(--color-ui-error-full); }
+    .callout-error .callout-icon { background-color: rgba(var(--color-ui-error), 0.2); }
+
+    .callout-tip {
+        border-left-color: var(--color-ui-tip-full);
+        background-color: rgba(var(--color-ui-tip), 0.1);
+    }
+    .callout-tip .callout-title { color: var(--color-ui-tip-full); }
+    .callout-tip .callout-icon { background-color: rgba(var(--color-ui-tip), 0.2); }
+
+    .callout-quote {
+        border-left-color: var(--color-ui-quote-full);
+        background-color: rgba(var(--color-ui-quote), 0.1);
+    }
+    .callout-quote .callout-title { color: var(--color-ui-quote-full); }
+    .callout-quote .callout-icon { background-color: rgba(var(--color-ui-quote), 0.2); }
+</style>
+

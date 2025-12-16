@@ -208,8 +208,8 @@ export function Contact({
                 {/* Section Title */}
                 <div ref={titleRef} className="mb-10 md:mb-14">
                     <div className="section-title text-center">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-3">
-                            <span className="gradient-text">{translations.title}</span>
+                        <h2 className="text-6xl md:text-7xl font-bold mb-3">
+                            <span className="gradient-text-section">{translations.title}</span>
                         </h2>
                         <p className="text-foreground-secondary text-sm md:text-base max-w-xl mx-auto">
                             {translations.subtitle}

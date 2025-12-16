@@ -196,6 +196,126 @@
         --btn-tertiary-hover-start: #ff8a8a; /* lighter coral */
         --btn-tertiary-hover-end: #cc4a4a; /* even darker coral */
 
+        /* ===========================================
+         * Process Steps Colors (6-step gradient: blue → green)
+         * Used in ProcessSection for workflow visualization
+         * =========================================== */
+        --process-step-1: 59, 130, 246; /* blue-500 */
+        --process-step-2: 14, 165, 233; /* sky-500 */
+        --process-step-3: 6, 182, 212; /* cyan-500 */
+        --process-step-4: 20, 184, 166; /* teal-500 */
+        --process-step-5: 16, 185, 129; /* emerald-500 */
+        --process-step-6: 34, 197, 94; /* green-500 */
+        /* Full hex versions for gradients */
+        --process-step-1-full: #3b82f6;
+        --process-step-2-full: #0ea5e9;
+        --process-step-3-full: #06b6d4;
+        --process-step-4-full: #14b8a6;
+        --process-step-5-full: #10b981;
+        --process-step-6-full: #22c55e;
+
+        /* ===========================================
+         * Tooltip Colors (dark bg style)
+         * =========================================== */
+        --tooltip-bg: 31, 41, 55; /* gray-800 */
+        --tooltip-text: 243, 244, 246; /* gray-100 */
+        --tooltip-border: 31, 41, 55; /* gray-800 */
+
+        /* ===========================================
+         * Social Icon Colors
+         * =========================================== */
+        --social-icon: 75, 85, 99; /* gray-600 - visible in light mode */
+        --social-icon-hover: 17, 24, 39; /* gray-900 - prominent */
+
+        /* ===========================================
+         * Testimonial Section Colors - Light Mode
+         * Cyan/sky accent for testimonial cards and modal
+         * =========================================== */
+        --testimonial-accent: 6, 182, 212; /* cyan-500 */
+        --testimonial-accent-light: 56, 189, 248; /* sky-400 */
+        --testimonial-accent-dark: 8, 145, 178; /* cyan-600 - for text */
+        --testimonial-accent-full: #06b6d4;
+        --testimonial-accent-light-full: #38bdf8;
+        --testimonial-text: 15, 23, 42; /* slate-900 */
+        --testimonial-text-secondary: 30, 41, 59; /* slate-800 */
+        --testimonial-text-muted: 51, 65, 85; /* slate-700 */
+        --testimonial-card-bg: 255, 255, 255; /* white */
+        --testimonial-card-bg-tinted: 240, 249, 255; /* sky-50 */
+        --testimonial-focus: 59, 130, 246; /* blue-500 */
+
+        /* ===========================================
+         * Static Colors (don't change with theme)
+         * =========================================== */
+        --color-static-white: 255, 255, 255;
+        --color-static-black: 0, 0, 0;
+
+        /* ===========================================
+         * Status Colors (success, warning, error)
+         * Used for badges, alerts, checkmarks, etc.
+         * =========================================== */
+        --color-status-success: 34, 197, 94; /* green-500 */
+        --color-status-success-full: #22c55e;
+        --color-status-warning: 245, 158, 11; /* amber-500 */
+        --color-status-warning-full: #f59e0b;
+        --color-status-error: 239, 68, 68; /* red-500 */
+        --color-status-error-full: #ef4444;
+
+        /* ===========================================
+         * Difficulty Badge Colors (ToolCard)
+         * =========================================== */
+        --color-difficulty-beginner: 34, 197, 94; /* green-500 */
+        --color-difficulty-beginner-full: #22c55e;
+        --color-difficulty-intermediate: 245, 158, 11; /* amber-500 */
+        --color-difficulty-intermediate-full: #f59e0b;
+        --color-difficulty-advanced: 239, 68, 68; /* red-500 */
+        --color-difficulty-advanced-full: #ef4444;
+
+        /* ===========================================
+         * Project Category Colors (ProjectCard)
+         * =========================================== */
+        --color-category-opensource: 16, 185, 129; /* emerald-500 */
+        --color-category-opensource-dark: 5, 150, 105; /* emerald-600 */
+        --color-category-opensource-darker: 4, 120, 87; /* emerald-700 */
+        --color-category-opensource-full: #10b981;
+        --color-category-commercial: 59, 130, 246; /* blue-500 */
+        --color-category-commercial-dark: 37, 99, 235; /* blue-600 */
+        --color-category-commercial-darker: 29, 78, 216; /* blue-700 */
+        --color-category-commercial-full: #3b82f6;
+        --color-category-client: 245, 158, 11; /* amber-500 */
+        --color-category-client-dark: 217, 119, 6; /* amber-600 */
+        --color-category-client-darker: 180, 83, 9; /* amber-700 */
+        --color-category-client-full: #f59e0b;
+
+        /* ===========================================
+         * Timeline Gradient Colors (light mode)
+         * =========================================== */
+        --color-timeline-blue-from: #2563eb; /* blue-600 */
+        --color-timeline-blue-to: #1d4ed8; /* blue-700 */
+        --color-timeline-emerald-from: #059669; /* emerald-600 */
+        --color-timeline-emerald-to: #047857; /* emerald-700 */
+        --color-timeline-amber-from: #d97706; /* amber-600 */
+        --color-timeline-amber-to: #b45309; /* amber-700 */
+        --color-timeline-violet-from: #7c3aed; /* violet-600 */
+        --color-timeline-violet-to: #6d28d9; /* violet-700 */
+        --color-timeline-cyan-from: #0891b2; /* cyan-600 */
+        --color-timeline-cyan-to: #0e7490; /* cyan-700 */
+
+        /* ===========================================
+         * Focus/Outline Colors
+         * =========================================== */
+        --color-focus-outline: 245, 158, 11; /* amber-500 - for tertiary buttons */
+        --color-focus-outline-full: #f59e0b;
+
+        /* ===========================================
+         * UI Text Colors (muted grays)
+         * =========================================== */
+        --color-text-muted-gray: 107, 114, 128; /* gray-500 */
+
+        /* ===========================================
+         * Radar Chart Colors
+         * =========================================== */
+        --color-radar-icon-bg: #e2e8f0; /* slate-200 - light bg for dark icons */
+
         /* Transitions */
         --duration-fast: 150ms;
         --duration-base: 300ms;
@@ -340,6 +460,121 @@
         --btn-tertiary-bg-end: #e55a5a;
         --btn-tertiary-hover-start: #ff8a8a;
         --btn-tertiary-hover-end: #cc4a4a;
+
+        /* Process Steps Colors - same in dark mode (vibrant colors work well) */
+        --process-step-1: 59, 130, 246;
+        --process-step-2: 14, 165, 233;
+        --process-step-3: 6, 182, 212;
+        --process-step-4: 20, 184, 166;
+        --process-step-5: 16, 185, 129;
+        --process-step-6: 34, 197, 94;
+        --process-step-1-full: #3b82f6;
+        --process-step-2-full: #0ea5e9;
+        --process-step-3-full: #06b6d4;
+        --process-step-4-full: #14b8a6;
+        --process-step-5-full: #10b981;
+        --process-step-6-full: #22c55e;
+
+        /* ===========================================
+         * Tooltip Colors (dark bg style for both themes)
+         * =========================================== */
+        --tooltip-bg: 55, 65, 81; /* gray-700 */
+        --tooltip-text: 229, 231, 235; /* gray-200 */
+        --tooltip-border: 55, 65, 81; /* gray-700 */
+
+        /* ===========================================
+         * Social Icon Colors
+         * =========================================== */
+        --social-icon: 156, 163, 175; /* gray-400 - subtle */
+        --social-icon-hover: 229, 231, 235; /* gray-200 - prominent */
+
+        /* ===========================================
+         * Testimonial Section Colors - Dark Mode
+         * Uses primary/secondary colors for consistency
+         * =========================================== */
+        --testimonial-accent: 0, 119, 182; /* Ocean Blue - matches --color-primary */
+        --testimonial-accent-light: 0, 180, 216; /* Cyan - matches --color-secondary */
+        --testimonial-accent-dark: 0, 150, 180; /* Darker cyan for contrast */
+        --testimonial-accent-full: rgb(0, 119, 182);
+        --testimonial-accent-light-full: rgb(0, 180, 216);
+        --testimonial-text: 243, 244, 246; /* gray-100 - light text */
+        --testimonial-text-secondary: 209, 213, 219; /* gray-300 */
+        --testimonial-text-muted: 156, 163, 175; /* gray-400 */
+        --testimonial-card-bg: 30, 20, 50; /* Dark purple - matches modal */
+        --testimonial-card-bg-tinted: 20, 10, 40; /* Darker purple */
+        --testimonial-focus: 96, 165, 250; /* blue-400 */
+
+        /* ===========================================
+         * Static Colors - same in dark mode
+         * =========================================== */
+        --color-static-white: 255, 255, 255;
+        --color-static-black: 0, 0, 0;
+
+        /* ===========================================
+         * Status Colors - Dark Mode (slightly lighter)
+         * =========================================== */
+        --color-status-success: 74, 222, 128; /* green-400 */
+        --color-status-success-full: #4ade80;
+        --color-status-warning: 251, 191, 36; /* amber-400 */
+        --color-status-warning-full: #fbbf24;
+        --color-status-error: 248, 113, 113; /* red-400 */
+        --color-status-error-full: #f87171;
+
+        /* ===========================================
+         * Difficulty Badge Colors - Dark Mode
+         * =========================================== */
+        --color-difficulty-beginner: 74, 222, 128; /* green-400 */
+        --color-difficulty-beginner-full: #4ade80;
+        --color-difficulty-intermediate: 251, 191, 36; /* amber-400 */
+        --color-difficulty-intermediate-full: #fbbf24;
+        --color-difficulty-advanced: 248, 113, 113; /* red-400 */
+        --color-difficulty-advanced-full: #f87171;
+
+        /* ===========================================
+         * Project Category Colors - Dark Mode
+         * =========================================== */
+        --color-category-opensource: 52, 211, 153; /* emerald-400 */
+        --color-category-opensource-dark: 16, 185, 129; /* emerald-500 */
+        --color-category-opensource-darker: 5, 150, 105; /* emerald-600 */
+        --color-category-opensource-full: #34d399;
+        --color-category-commercial: 96, 165, 250; /* blue-400 */
+        --color-category-commercial-dark: 59, 130, 246; /* blue-500 */
+        --color-category-commercial-darker: 37, 99, 235; /* blue-600 */
+        --color-category-commercial-full: #60a5fa;
+        --color-category-client: 251, 191, 36; /* amber-400 */
+        --color-category-client-dark: 245, 158, 11; /* amber-500 */
+        --color-category-client-darker: 217, 119, 6; /* amber-600 */
+        --color-category-client-full: #fbbf24;
+
+        /* ===========================================
+         * Timeline Gradient Colors - Dark Mode (lighter)
+         * =========================================== */
+        --color-timeline-blue-from: #60a5fa; /* blue-400 */
+        --color-timeline-blue-to: #3b82f6; /* blue-500 */
+        --color-timeline-emerald-from: #34d399; /* emerald-400 */
+        --color-timeline-emerald-to: #10b981; /* emerald-500 */
+        --color-timeline-amber-from: #fbbf24; /* amber-400 */
+        --color-timeline-amber-to: #f59e0b; /* amber-500 */
+        --color-timeline-violet-from: #a78bfa; /* violet-400 */
+        --color-timeline-violet-to: #8b5cf6; /* violet-500 */
+        --color-timeline-cyan-from: #22d3ee; /* cyan-400 */
+        --color-timeline-cyan-to: #06b6d4; /* cyan-500 */
+
+        /* ===========================================
+         * Focus/Outline Colors - Dark Mode
+         * =========================================== */
+        --color-focus-outline: 251, 191, 36; /* amber-400 */
+        --color-focus-outline-full: #fbbf24;
+
+        /* ===========================================
+         * UI Text Colors - Dark Mode
+         * =========================================== */
+        --color-text-muted-gray: 156, 163, 175; /* gray-400 */
+
+        /* ===========================================
+         * Radar Chart Colors - Dark Mode
+         * =========================================== */
+        --color-radar-icon-bg: #334155; /* slate-700 - dark bg for white icons */
 
         /* Custom Dark Mode - Purple-blue theme (FIXED backgrounds - don't change with palette) */
         --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */

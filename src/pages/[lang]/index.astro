@@ -125,7 +125,8 @@ const sortedBlogPosts = allBlogPosts
         date: post.data.publishDate.toISOString().split('T')[0],
         readTime: post.data.readTime,
         tags: post.data.tags,
-        slug: `/${lang}/blog/${post.slug}`
+        slug: `/${lang}/blog/${post.slug}`,
+        featured: post.data.featured
     }));
 
 // Sort testimonials by filename prefix (01-, 02-, etc.)
@@ -298,6 +299,19 @@ const projectsTranslations = {
     viewAll: t('projects.viewAll', { markdown: true })
 };
 
+// Category translations map
+const categoryTranslations: Record<string, string> = {
+    Architecture: t('blog.categories.Architecture'),
+    Development: t('blog.categories.Development'),
+    Frontend: t('blog.categories.Frontend'),
+    General: t('blog.categories.General'),
+    Negocio: t('blog.categories.Negocio'),
+    Product: t('blog.categories.Product'),
+    Tooling: t('blog.categories.Tooling'),
+    TypeScript: t('blog.categories.TypeScript'),
+    'Web Development': t('blog.categories.Web Development')
+};
+
 const blogTranslations = {
     title: t('blog.title', { markdown: true }),
     subtitle: t('blog.subtitle', { markdown: true }),
@@ -305,7 +319,9 @@ const blogTranslations = {
     viewAll: t('blog.viewAll', { markdown: true }),
     noArticles: t('blog.noArticles', { markdown: true }),
     readMore: t('blog.readMore', { markdown: true }),
-    readTime: t('blog.readTime', { markdown: true })
+    readTime: t('blog.readTime'),
+    featured: t('blog.featured', { markdown: true }),
+    categories: categoryTranslations
 };
 
 const servicesPreviewTranslations = {

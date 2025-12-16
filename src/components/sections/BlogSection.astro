@@ -2,7 +2,9 @@
 import { getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import type { ImageMetadata } from 'astro';
-import { BlogPostCard } from '@/components/cards/BlogPostCard';
+import { FeaturedBlogCard } from '@/components/cards/FeaturedBlogCard';
+import type { SecondaryBlogPost } from '@/components/cards/SecondaryBlogCards';
+import { SecondaryBlogCards } from '@/components/cards/SecondaryBlogCards';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
@@ -11,7 +13,7 @@ import fallbackFrontend from '@/content/blog/_images/react-frontend.jpg';
 // Static imports for fallback images by category
 import fallbackDefault from '@/content/blog/_images/web-development.jpg';
 import fallbackWebdev from '@/content/blog/_images/web-development.jpg';
-import { getRotatingColor } from '@/data/categoryColors';
+import { getCategoryBgColor, getSecondaryCardColor } from '@/data/categoryColors';
 import { processMarkdown } from '@/i18n/utils';
 import DocumentEmptyIcon from '@/icons/ui/document-empty.svg?raw';
 
@@ -22,6 +24,7 @@ interface BlogPost {
     readTime: string;
     tags: string[];
     slug: string;
+    featured?: boolean;
 }
 
 interface Props {
@@ -35,11 +38,28 @@ interface Props {
         noArticles: string;
         readMore: string;
         readTime: string;
+        featured?: string;
+        categories?: Record<string, string>;
     };
     lang: string;
 }
 
 const { posts, primaryColor = 'var(--section-blog-bg)', translations, lang } = Astro.props;
+
+// Helper to translate category
+function translateCategory(category: string): string {
+    return translations.categories?.[category] || category;
+}
+
+// Helper to format readTime with translated label
+// Input: "30 min read" -> Output: "30 min de lectura" (for Spanish)
+function formatReadTime(readTime: string): string {
+    const match = readTime.match(/^(\d+)/);
+    if (match) {
+        return `${match[1]} ${translations.readTime}`;
+    }
+    return readTime;
+}
 
 // Get full blog collection with images
 const allBlogPosts = await getCollection('blog');
@@ -71,58 +91,81 @@ const categoryFallbacks: Record<string, ImageMetadata> = {
     Article: fallbackDefault
 };
 
-// Blog card image dimensions (16:9 aspect ratio for cards)
+// Blog card image dimensions (16:9 aspect ratio for featured card)
 const BLOG_IMAGE_WIDTH = 600;
 const BLOG_IMAGE_HEIGHT = 400;
 
-// Map posts with images (optimized by Astro)
-const postsWithImages = await Promise.all(
-    posts.slice(0, 3).map(async (post) => {
-        const fullPost = allBlogPosts.find((p: { slug: string }) => `/${lang}/blog/${p.slug}` === post.slug);
-        const category = fullPost?.data.category || post.tags[0] || 'Article';
+// Find featured post: first with featured=true, or most recent
+const featuredPostData = posts.find((p) => p.featured) || posts[0];
 
-        let optimizedImage = { src: '', width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
+// Secondary posts: next 5 after featured
+const secondaryPostsData = posts.filter((p) => p.slug !== featuredPostData?.slug).slice(0, 5);
 
-        // Try to use post image first
-        if (fullPost?.data.image) {
-            try {
-                const img = await getImage({
-                    src: fullPost.data.image as ImageMetadata,
-                    width: BLOG_IMAGE_WIDTH,
-                    height: BLOG_IMAGE_HEIGHT,
-                    format: 'webp'
-                });
-                optimizedImage = { src: img.src, width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
-            } catch (error) {
-                console.warn(`Failed to optimize image for ${post.slug}:`, error);
-            }
+// Process featured post with image
+let featuredPost = null;
+if (featuredPostData) {
+    const fullPost = allBlogPosts.find((p: { slug: string }) => `/${lang}/blog/${p.slug}` === featuredPostData.slug);
+    const category = fullPost?.data.category || featuredPostData.tags[0] || 'Article';
+
+    let optimizedImage = { src: '', width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
+
+    // Try to use post image first
+    if (fullPost?.data.image) {
+        try {
+            const img = await getImage({
+                src: fullPost.data.image as ImageMetadata,
+                width: BLOG_IMAGE_WIDTH,
+                height: BLOG_IMAGE_HEIGHT,
+                format: 'webp'
+            });
+            optimizedImage = { src: img.src, width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
+        } catch (error) {
+            console.warn(`Failed to optimize image for ${featuredPostData.slug}:`, error);
         }
+    }
 
-        // Fallback to category placeholder
-        if (!optimizedImage.src) {
-            const fallbackImageSrc = categoryFallbacks[category] || fallbackDefault;
-            try {
-                const img = await getImage({
-                    src: fallbackImageSrc,
-                    width: BLOG_IMAGE_WIDTH,
-                    height: BLOG_IMAGE_HEIGHT,
-                    format: 'webp'
-                });
-                optimizedImage = { src: img.src, width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
-            } catch (error) {
-                console.warn(`Failed to load placeholder for category ${category}:`, error);
-                // Last resort fallback - use default placeholder without optimization
-                optimizedImage = { src: '/placeholder.jpg', width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
-            }
+    // Fallback to category placeholder
+    if (!optimizedImage.src) {
+        const fallbackImageSrc = categoryFallbacks[category] || fallbackDefault;
+        try {
+            const img = await getImage({
+                src: fallbackImageSrc,
+                width: BLOG_IMAGE_WIDTH,
+                height: BLOG_IMAGE_HEIGHT,
+                format: 'webp'
+            });
+            optimizedImage = { src: img.src, width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
+        } catch (error) {
+            console.warn(`Failed to load placeholder for category ${category}:`, error);
+            optimizedImage = { src: '/placeholder.jpg', width: BLOG_IMAGE_WIDTH, height: BLOG_IMAGE_HEIGHT };
         }
+    }
 
-        return {
-            ...post,
-            image: optimizedImage,
-            category
-        };
-    })
-);
+    featuredPost = {
+        ...featuredPostData,
+        image: optimizedImage,
+        category: translateCategory(category),
+        categoryColor: getCategoryBgColor(category),
+        readTime: formatReadTime(featuredPostData.readTime)
+    };
+}
+
+// Process secondary posts (no images needed)
+const secondaryPosts: SecondaryBlogPost[] = secondaryPostsData.map((post, index) => {
+    const fullPost = allBlogPosts.find((p: { slug: string }) => `/${lang}/blog/${p.slug}` === post.slug);
+    const category = fullPost?.data.category || post.tags[0] || 'Article';
+
+    return {
+        title: post.title,
+        excerpt: processMarkdown(post.excerpt),
+        category: translateCategory(category),
+        slug: post.slug,
+        tags: post.tags,
+        readTime: formatReadTime(post.readTime),
+        date: post.date,
+        borderColor: getSecondaryCardColor(index)
+    };
+});
 ---
 
 <section
@@ -142,47 +185,55 @@ const postsWithImages = await Promise.all(
             descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
         />
 
-        <!-- Blog Cards Container -->
-        <div class="blog-cards-container flex flex-col md:flex-row justify-between items-stretch gap-4 mb-12 min-h-[500px] md:min-h-[600px]" data-post-count={postsWithImages.length}>
-            {
-                postsWithImages.map((post, index) => (
-                    <BlogPostCard
-                        client:visible
-                        title={post.title}
-                        excerpt={processMarkdown(post.excerpt)}
-                        category={post.category}
-                        image={post.image}
-                        slug={post.slug}
-                        categoryColor={getRotatingColor(index).bg}
-                    />
-                ))
-            }
-        </div>
-
-        {/* View All Button */}
+        <!-- Blog Content -->
         {
-            posts.length > 3 && (
-                <div class="text-center">
-                    <UnifiedButton
-                        href={`/${lang}/blog`}
-                        variant="primary"
-                        size="lg"
-                        iconPosition="right"
-                    >
-                        <span set:html={translations.viewAll} />
-                        <Fragment slot="icon-right">
-                            <svg class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </Fragment>
-                    </UnifiedButton>
+            posts.length > 0 ? (
+                <div class="blog-new-layout space-y-8">
+                    {/* Featured Post */}
+                    {featuredPost && (
+                        <FeaturedBlogCard
+                            client:visible
+                            title={featuredPost.title}
+                            excerpt={processMarkdown(featuredPost.excerpt)}
+                            category={featuredPost.category}
+                            image={featuredPost.image}
+                            slug={featuredPost.slug}
+                            tags={featuredPost.tags}
+                            readTime={featuredPost.readTime}
+                            date={featuredPost.date}
+                            categoryColor={featuredPost.categoryColor}
+                            featuredLabel={translations.featured || 'Featured'}
+                            lang={lang}
+                        />
+                    )}
+
+                    {/* Secondary Posts */}
+                    {secondaryPosts.length > 0 && (
+                        <SecondaryBlogCards client:visible posts={secondaryPosts} lang={lang} />
+                    )}
+
+                    {/* View All Button */}
+                    {posts.length > 6 && (
+                        <div class="text-center pt-8">
+                            <UnifiedButton href={`/${lang}/blog`} variant="primary" size="lg" iconPosition="right">
+                                <span set:html={translations.viewAll} />
+                                <Fragment slot="icon-right">
+                                    <svg
+                                        class="w-full h-full"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </Fragment>
+                            </UnifiedButton>
+                        </div>
+                    )}
                 </div>
-            )
-        }
-
-        {/* Empty State */}
-        {
-            posts.length === 0 && (
+            ) : (
+                /* Empty State */
                 <div class="text-center py-12">
                     <div class="w-16 h-16 mx-auto mb-4 text-foreground-muted" aria-hidden="true" set:html={DocumentEmptyIcon} />
                     <p class="text-foreground-secondary text-lg" set:html={translations.noArticles} />

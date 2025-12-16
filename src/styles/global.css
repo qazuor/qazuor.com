@@ -230,13 +230,13 @@
         --btn-success-hover-end: #047857; /* emerald-700 */
 
         /* ===========================================
-         * Button Tertiary Styling (Resume/Coral buttons)
+         * Button Tertiary Styling (Resume button)
          * =========================================== */
-        --btn-tertiary-shadow: rgba(255, 107, 107, 0.3);
-        --btn-tertiary-bg-start: #FF6B6B; /* coral */
-        --btn-tertiary-bg-end: #e55a5a; /* darker coral */
-        --btn-tertiary-hover-start: #ff8a8a; /* lighter coral */
-        --btn-tertiary-hover-end: #cc4a4a; /* even darker coral */
+        --btn-tertiary-shadow: rgba(20, 184, 166, 0.3);
+        --btn-tertiary-bg-start: #14b8a6;
+        --btn-tertiary-bg-end: #0d9488;
+        --btn-tertiary-hover-start: #2dd4bf;
+        --btn-tertiary-hover-end: #0f766e;
 
         /* ===========================================
          * Process Steps Colors (6-step gradient: blue → green)
@@ -497,11 +497,11 @@
         --btn-success-hover-end: #047857;
 
         /* Button Tertiary Styling - same in dark mode */
-        --btn-tertiary-shadow: rgba(255, 107, 107, 0.3);
-        --btn-tertiary-bg-start: #FF6B6B;
-        --btn-tertiary-bg-end: #e55a5a;
-        --btn-tertiary-hover-start: #ff8a8a;
-        --btn-tertiary-hover-end: #cc4a4a;
+        --btn-tertiary-shadow: rgba(20, 184, 166, 0.3);
+        --btn-tertiary-bg-start: #14b8a6;
+        --btn-tertiary-bg-end: #0d9488;
+        --btn-tertiary-hover-start: #2dd4bf;
+        --btn-tertiary-hover-end: #0f766e;
 
         /* Process Steps Colors - same in dark mode (vibrant colors work well) */
         --process-step-1: 59, 130, 246;

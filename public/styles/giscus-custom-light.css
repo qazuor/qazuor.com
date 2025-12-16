@@ -1,12 +1,12 @@
 /* biome-ignore-all lint/complexity/noImportantStyles: Giscus iframe requires !important to override its styles */
 /*
  * Custom Giscus Theme for qazuor.com - Light Mode
- * Based on the site's Ocean Depths color scheme
+ * Based on the site's theme color scheme
  *
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
- * Generated from: src/config/themeColors.ts
- * Run: npm run generate-giscus-css (or automatic via Astro integration)
- * Generated at: 2025-12-16T01:06:13.565Z
+ * Generated from: src/config/themeConfig.ts (via themeColors.ts)
+ * Run: npx tsx scripts/generate-giscus-css.ts
+ * Generated at: 2025-12-16T09:14:01.849Z
  */
 
 /* Main container */
@@ -40,7 +40,7 @@ main {
     --color-prettylights-syntax-meta-diff-range: #8250df;
     --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
 
-    /* Custom colors matching qazuor.com Ocean Depths theme - Light Mode */
+    /* Custom colors matching theme - Light Mode (Primary: #0077b6, Secondary: #00b4d8) */
     --color-canvas-default: transparent;
     --color-canvas-overlay: rgba(0, 119, 182, 0.03);
     --color-canvas-inset: rgba(0, 119, 182, 0.02);
@@ -56,9 +56,9 @@ main {
     --color-fg-muted: #475569;
     --color-fg-subtle: #64748b;
 
-    /* Accent colors - Ocean Depths theme (Primary: #0077B6, Secondary: #00B4D8) */
-    --color-accent-fg: #0077B6;
-    --color-accent-emphasis: #00B4D8;
+    /* Accent colors */
+    --color-accent-fg: #0077b6;
+    --color-accent-emphasis: #00b4d8;
     --color-accent-muted: rgba(0, 119, 182, 0.3);
     --color-accent-subtle: rgba(0, 119, 182, 0.1);
 
@@ -89,10 +89,10 @@ main {
 
     /* Primary button */
     --color-btn-primary-text: #ffffff;
-    --color-btn-primary-bg: #0077B6;
-    --color-btn-primary-border: #0077B6;
-    --color-btn-primary-hover-bg: #005F92;
-    --color-btn-primary-hover-border: #005F92;
+    --color-btn-primary-bg: #0077b6;
+    --color-btn-primary-border: #0077b6;
+    --color-btn-primary-hover-bg: #005f92;
+    --color-btn-primary-hover-border: #005f92;
     --color-btn-primary-selected-bg: #004D78;
     --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
     --color-btn-primary-disabled-bg: rgba(0, 119, 182, 0.3);
@@ -120,7 +120,7 @@ main {
 }
 
 .gsc-comment-box-textarea:focus {
-    border-color: #0077B6 !important;
+    border-color: #0077b6 !important;
     box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15) !important;
 }
 
@@ -135,12 +135,12 @@ main {
 }
 
 .gsc-comment-box-tab:hover {
-    color: #005F92 !important;
+    color: #005f92 !important;
 }
 
 .gsc-comment-box-tab[aria-selected="true"] {
-    color: #005F92 !important;
-    border-bottom-color: #0077B6 !important;
+    color: #005f92 !important;
+    border-bottom-color: #0077b6 !important;
 }
 
 /* Comments list */
@@ -170,7 +170,7 @@ main {
 .gsc-reactions-button:hover {
     background: rgba(0, 119, 182, 0.15) !important;
     border-color: rgba(0, 119, 182, 0.3) !important;
-    color: #005F92 !important;
+    color: #005f92 !important;
 }
 
 .gsc-social-reaction-summary-item {
@@ -184,7 +184,7 @@ main {
 }
 
 .gsc-social-reaction-summary-item-count {
-    color: #005F92 !important;
+    color: #005f92 !important;
 }
 
 /* Reply section */
@@ -204,7 +204,7 @@ main {
 
 /* Links */
 .gsc-comment a {
-    color: #005F92 !important;
+    color: #005f92 !important;
 }
 
 .gsc-comment a:hover {
@@ -223,7 +223,7 @@ main {
 
 /* Loading spinner */
 .gsc-loading {
-    color: #0077B6 !important;
+    color: #0077b6 !important;
 }
 
 /* Empty state */

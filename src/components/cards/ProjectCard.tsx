@@ -118,12 +118,18 @@ export const ProjectCard = memo(function ProjectCard({
                 >
                     {/* Image Section */}
                     <div
-                        className={`${isReversed ? 'md:order-2' : 'md:order-1'} h-full relative group overflow-hidden`}
+                        className={`${isReversed ? 'md:order-2' : 'md:order-1'} h-full relative group overflow-hidden bg-black rounded-t-2xl md:rounded-none ${isReversed ? 'md:rounded-r-2xl' : 'md:rounded-l-2xl'}`}
                     >
-                        <ImageCarousel images={images} onImageClick={handleImageClick} alt={title} fullHeight />
+                        <ImageCarousel
+                            images={images}
+                            onImageClick={handleImageClick}
+                            alt={title}
+                            fullHeight
+                            roundedCorners={isReversed ? 'top-md-right' : 'top-md-left'}
+                        />
                         {/* Gradient overlay */}
                         <div
-                            className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
+                            className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-t-2xl md:rounded-none ${isReversed ? 'md:rounded-r-2xl' : 'md:rounded-l-2xl'}`}
                         />
                     </div>
 
@@ -131,7 +137,7 @@ export const ProjectCard = memo(function ProjectCard({
                     <div
                         className={`flex flex-col justify-center ${
                             isReversed ? 'md:order-1' : 'md:order-2'
-                        } h-full bg-background px-8 py-8`}
+                        } h-full bg-background px-8 py-8 rounded-b-2xl md:rounded-b-none`}
                     >
                         <a
                             href={projectUrl}

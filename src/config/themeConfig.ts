@@ -365,10 +365,10 @@ export const darkTheme: ThemeConfig = {
         accentForeground: '195 50% 4%',
         destructive: '0 62.8% 30.6%',
         destructiveForeground: '0 0% 98%',
-        border: '195 30% 18%',
-        input: '195 35% 12%',
+        border: '195 30% 20%',
+        input: '195 35% 15%',
         ring: '187 85% 53%',
-        inputFieldBg: 'rgba(255, 255, 255, 0.05)'
+        inputFieldBg: 'rgba(255, 255, 255, 0.08)'
     },
     colors: {
         colorPrimary: '6, 182, 212',

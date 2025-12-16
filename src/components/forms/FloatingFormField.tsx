@@ -40,7 +40,7 @@ export function FloatingFormField({
     const isNearLimit = maxLength && charCount >= maxLength * 0.9;
     const isAtLimit = maxLength && charCount >= maxLength;
 
-    const baseInputClasses = `peer w-full px-3 pt-5 pb-1.5 border rounded-lg text-foreground text-sm placeholder-transparent focus:outline-none transition-all duration-300 ${error ? 'border-error focus:border-error' : 'border-foreground/10 focus:border-primary hover:border-foreground/20'}`;
+    const baseInputClasses = `peer w-full px-3 pt-5 pb-1.5 border rounded-lg text-foreground text-sm placeholder-transparent focus:outline-none transition-all duration-300 ${error ? 'border-error focus:border-error' : 'border-foreground/20 focus:border-primary hover:border-foreground/40 focus:ring-1 focus:ring-primary/30'}`;
 
     const labelClasses = `
         absolute left-3

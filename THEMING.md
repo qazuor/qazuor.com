@@ -24,18 +24,18 @@ del sitio de forma segura.
 
 ## Resumen Rápido
 
-### Si necesitas cambiar el color primario del sitio:
+### Si necesitas cambiar el color primario del sitio
 
 1. **`src/styles/global.css`** - Variables principales (líneas ~80-115 y
    ~170-210)
 2. **`src/layouts/BaseLayout.astro`** - Critical CSS (líneas ~217 y ~229)
 
-### Si necesitas cambiar colores de servicios:
+### Si necesitas cambiar colores de servicios
 
 1. **`src/data/serviceColors.ts`** - Colores para efectos pixel
 2. **`src/styles/global.css`** - Variables CSS de servicios
 
-### Si necesitas cambiar colores de secciones:
+### Si necesitas cambiar colores de secciones
 
 1. **`src/data/colors.ts`** - Fuente de verdad
 2. El archivo `generated-colors.css` se genera automáticamente
@@ -45,23 +45,27 @@ del sitio de forma segura.
 ## Arquitectura del Sistema de Colores
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                        SISTEMA DE COLORES                                    │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐    │
-│  │  global.css      │     │  colors.ts       │     │  serviceColors.ts│    │
-│  │  (CSS Variables) │     │  (Section BGs)   │     │  (Pixel Effects) │    │
-│  └────────┬─────────┘     └────────┬─────────┘     └────────┬─────────┘    │
-│           │                        │                        │               │
-│           ▼                        ▼                        ▼               │
-│  ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐    │
-│  │ Componentes CSS  │     │ generated-       │     │ ServicesPreview  │    │
-│  │ Tailwind classes │     │ colors.css       │     │ services/index   │    │
-│  │ Inline styles    │     │ (AUTO-GENERADO)  │     │ (PixelCanvas)    │    │
-│  └──────────────────┘     └──────────────────┘     └──────────────────┘    │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                           SISTEMA DE COLORES                                       │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                    │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  │
+│  │  global.css    │  │ themeColors.ts │  │  colors.ts     │  │ serviceColors  │  │
+│  │ (CSS Variables)│  │ (TypeScript)   │  │ (Section BGs)  │  │ (Pixel Effects)│  │
+│  └───────┬────────┘  └───────┬────────┘  └───────┬────────┘  └───────┬────────┘  │
+│          │                   │                   │                   │            │
+│          ▼                   ▼                   ▼                   ▼            │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  │
+│  │ Componentes:   │  │ SEO.astro      │  │ generated-     │  │ ServicesPreview│  │
+│  │ - BlogPostCard │  │ og-image/      │  │ colors.css     │  │ services/index │  │
+│  │ - ToolCard     │  │ generate.ts    │  │ (AUTO-GENERADO)│  │ (PixelCanvas)  │  │
+│  │ - ProjectCard  │  └────────────────┘  └────────────────┘  └────────────────┘  │
+│  │ - RadarChart   │                                                               │
+│  │ - Timeline     │                                                               │
+│  │ - etc...       │                                                               │
+│  └────────────────┘                                                               │
+│                                                                                    │
+└───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Tipos de Variables CSS
@@ -89,15 +93,32 @@ del sitio de forma segura.
 - Colores de Mermaid diagrams
 - Colores de View Transitions
 - Colores de botones
+- **Colores estáticos** (blanco, negro)
+- **Colores de status** (success, warning, error para badges)
+- **Colores de dificultad** (beginner, intermediate, advanced)
+- **Colores de categorías de proyecto** (opensource, commercial, client)
+- **Colores de gradientes de timeline**
+- **Colores de focus/outline**
+- **Colores de radar chart**
 
-### 2. `src/data/colors.ts`
+### 2. `src/config/themeColors.ts`
+
+**Configuración centralizada de colores en TypeScript.** Exporta:
+
+- `themeColors` - Colores RGB del tema (primary, secondary, tertiary)
+- `darkModeTextColors` - Colores de texto para modo oscuro
+- `rgbToHex()` - Utilidad para convertir RGB a hex
+
+**Usado por:** SEO.astro (theme-color meta), og-image/generate.ts
+
+### 3. `src/data/colors.ts`
 
 **Colores de fondo de secciones.** Define:
 
 - `lightModeColors` - Fondos para modo claro
 - `darkModeColors` - Fondos para modo oscuro
 
-### 3. `src/data/serviceColors.ts`
+### 4. `src/data/serviceColors.ts`
 
 **Colores para efectos pixel de servicios.** Define:
 
@@ -105,13 +126,13 @@ del sitio de forma segura.
 - Colores activos para hover
 - Configuración de efectos
 
-### 4. `src/styles/generated-colors.css`
+### 5. `src/styles/generated-colors.css`
 
 **⚠️ AUTO-GENERADO - NO EDITAR MANUALMENTE**
 
 Este archivo se regenera en cada build desde `colors.ts`.
 
-### 5. `src/layouts/BaseLayout.astro`
+### 6. `src/layouts/BaseLayout.astro`
 
 **Critical CSS inline** para evitar flash de colores durante la carga inicial.
 
@@ -281,6 +302,107 @@ Este archivo se regenera en cada build desde `colors.ts`.
 --btn-tertiary-hover-end: #cc4a4a; /* even darker coral */
 ```
 
+### Colores Estáticos
+
+```css
+/* Colores que no cambian entre temas */
+--color-static-white: 255, 255, 255;
+--color-static-black: 0, 0, 0;
+```
+
+### Colores de Status (Badges/Indicadores)
+
+```css
+/* Para badges de estado en componentes */
+--color-status-success: 34, 197, 94; /* green-500 */
+--color-status-warning: 245, 158, 11; /* amber-500 */
+--color-status-error: 239, 68, 68; /* red-500 */
+```
+
+**Usado en:** css-tricks/[slug].astro, services/index.astro,
+services/[slug].astro
+
+### Colores de Dificultad (ToolCard)
+
+```css
+/* Para badges de dificultad en herramientas */
+--color-difficulty-beginner: 34, 197, 94; /* green-500 */
+--color-difficulty-intermediate: 245, 158, 11; /* amber-500 */
+--color-difficulty-advanced: 239, 68, 68; /* red-500 */
+```
+
+**Usado en:** ToolCard.astro
+
+### Colores de Categorías de Proyecto
+
+```css
+/* Light Mode */
+--color-category-opensource: 16, 185, 129; /* emerald-500 */
+--color-category-opensource-dark: 5, 150, 105; /* emerald-600 */
+--color-category-opensource-darker: 4, 120, 87; /* emerald-700 */
+--color-category-commercial: 59, 130, 246; /* blue-500 */
+--color-category-commercial-dark: 37, 99, 235; /* blue-600 */
+--color-category-commercial-darker: 29, 78, 216; /* blue-700 */
+--color-category-client: 245, 158, 11; /* amber-500 */
+--color-category-client-dark: 217, 119, 6; /* amber-600 */
+--color-category-client-darker: 180, 83, 9; /* amber-700 */
+
+/* Dark Mode - valores ligeramente diferentes */
+```
+
+**Usado en:** ProjectCard.tsx
+
+### Colores de Gradientes de Timeline
+
+```css
+/* Gradientes para eventos del timeline */
+--color-timeline-blue-from: #2563eb;
+--color-timeline-blue-to: #1d4ed8;
+--color-timeline-emerald-from: #059669;
+--color-timeline-emerald-to: #047857;
+--color-timeline-amber-from: #d97706;
+--color-timeline-amber-to: #b45309;
+--color-timeline-violet-from: #7c3aed;
+--color-timeline-violet-to: #6d28d9;
+--color-timeline-cyan-from: #0891b2;
+--color-timeline-cyan-to: #0e7490;
+```
+
+**Usado en:** TimelineWrapper.tsx
+
+### Colores de Focus/Outline
+
+```css
+--color-focus-outline: 245, 158, 11; /* RGB para rgba() */
+--color-focus-outline-full: #f59e0b; /* Hex directo */
+```
+
+**Usado en:** ResumeDownloadDropdown.astro
+
+### Colores de Texto Muted
+
+```css
+/* Light Mode */
+--color-text-muted-gray: 107, 114, 128; /* gray-500 */
+
+/* Dark Mode */
+--color-text-muted-gray: 156, 163, 175; /* gray-400 */
+```
+
+**Usado en:** CommandPaletteInner.tsx
+
+### Colores de Radar Chart
+
+```css
+/* Light Mode */
+--color-radar-icon-bg: #e2e8f0; /* slate-200 */
+
+/* Dark Mode */
+--color-radar-icon-bg: #334155; /* slate-700 */
+```
+
+**Usado en:** RadarChart.tsx
+
 ### Colores de Secciones (Auto-generados)
 
 ```css
@@ -319,19 +441,26 @@ Este archivo se regenera en cada build desde `colors.ts`.
 
 ### Tabla de Referencia Rápida
 
-| Componente             | Variables que usa                        | Archivo                                 |
-| ---------------------- | ---------------------------------------- | --------------------------------------- |
-| SubmitButton           | `--btn-success-*`                        | `forms/SubmitButton.tsx`                |
-| ResumeDownloadDropdown | `--btn-tertiary-*`                       | `ui/ResumeDownloadDropdown.astro`       |
-| ShareButton            | `--color-ui-success`, `--color-ui-error` | `blog/ShareButton.tsx`                  |
-| TestimonialsSection    | `--color-linkedin-*`                     | `sections/TestimonialsSection.astro`    |
-| BlogPostCard           | `--color-blog-card-*`                    | `cards/BlogPostCard.css`                |
-| MermaidRenderer        | `--mermaid-*`                            | `blog/MermaidRenderer.astro`            |
-| ViewTransitionGSAP     | `--transition-gradient-*`                | `transitions/ViewTransitionGSAP.astro`  |
-| SEO                    | Hardcoded `#0077B6`                      | `layout/SEO.astro`                      |
-| Secciones              | `--section-*-bg`                         | `sections/*.astro`                      |
-| ServicesPreviewSection | `servicePixelColors`                     | `sections/ServicesPreviewSection.astro` |
-| Services Page          | `servicePixelColors`                     | `pages/[lang]/services/index.astro`     |
+| Componente             | Variables que usa                         | Archivo                                        |
+| ---------------------- | ----------------------------------------- | ---------------------------------------------- |
+| SubmitButton           | `--btn-success-*`                         | `forms/SubmitButton.tsx`                       |
+| ResumeDownloadDropdown | `--btn-tertiary-*`, `--color-focus-*`     | `ui/ResumeDownloadDropdown.astro`              |
+| ShareButton            | `--color-ui-success`, `--color-ui-error`  | `blog/ShareButton.tsx`                         |
+| TestimonialsSection    | `--color-linkedin-*`                      | `sections/TestimonialsSection.astro`           |
+| BlogPostCard           | `--color-blog-card-*`, `--color-static-*` | `cards/BlogPostCard.css`                       |
+| MermaidRenderer        | `--mermaid-*`                             | `blog/MermaidRenderer.astro`                   |
+| ViewTransitionGSAP     | `--transition-gradient-*`                 | `transitions/ViewTransitionGSAP.astro`         |
+| SEO                    | `themeColors.ts` (import)                 | `layout/SEO.astro`                             |
+| Secciones              | `--section-*-bg`                          | `sections/*.astro`                             |
+| ServicesPreviewSection | `servicePixelColors`                      | `sections/ServicesPreviewSection.astro`        |
+| Services Page          | `servicePixelColors`, `--color-status-*`  | `pages/[lang]/services/index.astro`            |
+| ToolCard               | `--color-difficulty-*`                    | `cards/ToolCard.astro`                         |
+| ProjectCard            | `--color-category-*`                      | `cards/ProjectCard.tsx`                        |
+| TimelineWrapper        | `--color-timeline-*`                      | `interactive/TimelineWrapper.tsx`              |
+| RadarChart             | `--color-radar-icon-bg`                   | `interactive/RadarChart.tsx`                   |
+| CommandPaletteInner    | `--color-text-muted-gray`                 | `ui/CommandPaletteInner.tsx`                   |
+| CSS Tricks Page        | `--color-status-*`                        | `pages/[lang]/goodies/css-tricks/[slug].astro` |
+| OG Image Generator     | `themeColors.ts` (import)                 | `utils/og-image/generate.ts`                   |
 
 ### Detalle por Componente
 
@@ -408,12 +537,15 @@ const primary = style.getPropertyValue('--mermaid-primary').trim();
 
 #### SEO.astro (Meta theme-color)
 
-```html
-<meta name="theme-color" content="#0077B6" />
+```astro
+---
+import { themeColors, rgbToHex } from '@/config/themeColors';
+---
+<meta name="theme-color" content={rgbToHex(themeColors.primary)} />
 ```
 
-**Para cambiar el color:** Edita directamente el valor hex (no puede usar CSS
-vars)
+**Para cambiar el color:** Modifica `themeColors.primary` en
+`src/config/themeColors.ts`
 
 #### Secciones (About, Skills, Projects, etc.)
 
@@ -423,6 +555,79 @@ const { primaryColor = 'var(--section-about-bg)' } = Astro.props;
 ```
 
 **Para cambiar el color:** Modifica `colors.ts` y regenera
+
+#### ToolCard.astro (Badges de dificultad)
+
+```typescript
+const difficultyColors = {
+  beginner:
+    'text-[rgb(var(--color-difficulty-beginner))] bg-[rgba(var(--color-difficulty-beginner),0.1)]',
+  intermediate: 'text-[rgb(var(--color-difficulty-intermediate))] ...',
+  advanced: 'text-[rgb(var(--color-difficulty-advanced))] ...',
+};
+```
+
+**Para cambiar el color:** Modifica `--color-difficulty-*` en `global.css`
+
+#### ProjectCard.tsx (Badges de categoría)
+
+```typescript
+const categoryColors = {
+  'open-source': {
+    shadow: 'hover:shadow-[rgba(var(--color-category-opensource),0.2)]',
+    gradient: 'from-[rgba(var(--color-category-opensource),0.1)]...',
+    badge: 'bg-[rgb(var(--color-category-opensource-dark))]...',
+  },
+  // commercial, client...
+};
+```
+
+**Para cambiar el color:** Modifica `--color-category-*` en `global.css`
+
+#### TimelineWrapper.tsx (Gradientes de timeline)
+
+```typescript
+const colorMap = {
+  '#2563eb':
+    'from-[var(--color-timeline-blue-from)] to-[var(--color-timeline-blue-to)]',
+  '#059669':
+    'from-[var(--color-timeline-emerald-from)] to-[var(--color-timeline-emerald-to)]',
+  // amber, violet, cyan...
+};
+```
+
+**Para cambiar el color:** Modifica `--color-timeline-*` en `global.css`
+
+#### RadarChart.tsx (Fondo de iconos)
+
+```typescript
+function getIconBackground(): string {
+  return 'var(--color-radar-icon-bg)';
+}
+```
+
+**Para cambiar el color:** Modifica `--color-radar-icon-bg` en `global.css`
+
+#### OG Image Generator (og-image/generate.ts)
+
+```typescript
+import {
+  darkModeTextColors,
+  rgbToHex,
+  themeColors,
+} from '@/config/themeColors';
+
+const COLORS = {
+  text: darkModeTextColors.default,
+  textMuted: darkModeTextColors.muted,
+  accent: rgbToHex(themeColors.secondary),
+  accentSecondary: rgbToHex(themeColors.primary),
+  // background/barBackground son OG-específicos
+};
+```
+
+**Para cambiar el color:** Modifica `themeColors.ts` para colores del tema, o
+edita directamente para colores específicos de OG
 
 ---
 
@@ -492,13 +697,21 @@ html.dark {
 }
 ```
 
-### Paso 4: Actualizar SEO.astro
+### Paso 4: Actualizar themeColors.ts
 
-```html
-<!-- Línea ~226 -->
-<meta name="theme-color" content="#0077B6" />
-<!-- ← Tu nuevo hex -->
+```typescript
+// src/config/themeColors.ts
+export const themeColors = {
+  primary: '0, 119, 182', // ← Tu nuevo RGB
+  secondary: '0, 180, 216',
+  tertiary: '255, 107, 107',
+};
 ```
+
+Este archivo centraliza los colores para:
+
+- SEO.astro (theme-color meta tag)
+- og-image/generate.ts (OG images)
 
 ### Paso 5: Verificar
 
@@ -602,44 +815,45 @@ El archivo `generated-colors.css` se actualizará automáticamente con:
 
 Estos colores son **intencionales** y no deben modificarse al cambiar el tema:
 
-### 1. Timeline (`src/data/timeline.ts`)
+### Colores de Marca de Terceros (NO modificar)
 
-Cada evento tiene su color único que representa diferentes etapas/tipos.
+| Ubicación                                     | Motivo                                              |
+| --------------------------------------------- | --------------------------------------------------- |
+| `src/data/timeline.ts`                        | Colores únicos por tipo de evento                   |
+| `src/components/interactive/SkillsGrid.astro` | Colores oficiales de tecnologías (React, Vue, etc.) |
+| `src/data/shareButtons.ts`                    | Colores oficiales de plataformas sociales           |
+| `ProfileCodeBlock.astro`                      | Tema Dracula (colores fijos externos)               |
 
-### 2. Skills (`src/components/interactive/SkillsGrid.astro`)
+### Colores de Diseño Fijo (NO modificar sin razón)
 
-Los colores son los **colores oficiales de cada tecnología** (React azul, Vue
-verde, etc.).
+| Ubicación                   | Motivo                                      |
+| --------------------------- | ------------------------------------------- |
+| `ProcessSection.astro`      | Gradiente fijo del diseño de la sección     |
+| Section Background Glows    | Crean la atmósfera del sitio (azul/púrpura) |
+| `ViewTransitionGSAP.astro`  | Overlay negro estándar para transiciones    |
+| `TestimonialsSection.astro` | CSS mask technique (requiere #fff)          |
 
-### 3. Share Buttons Brand Colors (`src/data/shareButtons.ts`)
+### Colores Semánticos (Modificar con cuidado)
 
-Los colores son los **oficiales de cada plataforma** (Twitter azul, LinkedIn
-azul, etc.).
+Estos colores **sí usan CSS variables** pero tienen significado semántico:
 
-### 4. Process Section Gradient (`src/components/sections/ProcessSection.astro`)
+| Variable               | Propósito                                            |
+| ---------------------- | ---------------------------------------------------- |
+| `--color-difficulty-*` | Beginner=verde, Intermediate=amarillo, Advanced=rojo |
+| `--color-category-*`   | Open-source=emerald, Commercial=blue, Client=amber   |
+| `--color-status-*`     | Success=verde, Warning=amarillo, Error=rojo          |
 
-El gradiente es parte del diseño fijo de la sección.
+Cambiarlos afecta la **comunicación visual** del significado. Por ejemplo,
+cambiar "success" a rojo confundiría a los usuarios.
 
-### 5. Project Card Categories (`src/components/cards/ProjectCard.tsx`)
+### Colores de OG Images (Parcialmente modificables)
 
-Los colores distinguen tipos de proyectos (open source, commercial, client).
+En `og-image/generate.ts`:
 
-### 6. ToolCard Difficulty (`src/components/cards/ToolCard.astro`)
-
-Los colores indican nivel de dificultad (fácil=verde, medio=amarillo,
-difícil=rojo).
-
-### 7. ProfileCodeBlock (`src/components/ui/ProfileCodeBlock.astro`)
-
-Usa el tema **Dracula** que tiene sus propios colores fijos.
-
-### 8. Section Background Glows
-
-Los colores de glow crean la atmósfera del sitio y son independientes del color
-primario:
-
-- Light mode: Gradiente azul
-- Dark mode: Gradiente púrpura
+- `background`, `backgroundGradient`, `barBackground`: OG-específicos, se pueden
+  ajustar
+- `text`, `textMuted`, `accent`, `accentSecondary`: Vienen de `themeColors.ts`,
+  cambiarán con el tema
 
 ---
 
@@ -762,9 +976,14 @@ THEMING.md o contacta al equipo de diseño.
 
 ### ¿Por qué algunos colores están hardcoded?
 
-- **SEO.astro theme-color**: Los meta tags no soportan CSS variables
 - **Timeline/Skills/Share buttons**: Son colores de marca de terceros
 - **Dracula theme**: Es un tema de código externo
+- **CSS masks (TestimonialsSection)**: Requieren #fff literal para funcionar
+- **ViewTransitionGSAP**: Negro (#000) es estándar para overlays de transición
+- **OG Images backgrounds**: Son específicos para las imágenes estáticas
+
+**Nota:** SEO.astro y og-image/generate.ts ahora importan de `themeColors.ts`,
+así que cambian con el tema.
 
 ### ¿Cómo sé si un color usa CSS variable o está hardcoded?
 
@@ -780,4 +999,4 @@ checklist de verificación para asegurarte de actualizar todo.
 
 ---
 
-_Última actualización: Diciembre 2025_
+_Última actualización: 15 Diciembre 2025_

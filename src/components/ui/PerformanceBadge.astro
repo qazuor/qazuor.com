@@ -303,58 +303,31 @@ const {
         }
     }
 
-    /* ========== THEME COLORS - Dark ========== */
+    /* ========== TOOLTIP COLORS - Uses CSS variables from global.css ========== */
     /* Top arrow */
-    :global(html.dark) .metric-item[data-tooltip-position="top"]::before {
-        border-color: rgb(55 65 81) transparent transparent transparent;
+    .metric-item[data-tooltip-position="top"]::before {
+        border-color: rgb(var(--tooltip-border)) transparent transparent transparent;
     }
     /* Bottom arrow */
-    :global(html.dark) .metric-item[data-tooltip-position="bottom"]::before {
-        border-color: transparent transparent rgb(55 65 81) transparent;
+    .metric-item[data-tooltip-position="bottom"]::before {
+        border-color: transparent transparent rgb(var(--tooltip-border)) transparent;
     }
     /* Left arrow (desktop) - arrow points right toward element */
     @media (min-width: 640px) {
-        :global(html.dark) .metric-item[data-tooltip-position="left"]::before {
-            border-color: transparent transparent transparent rgb(55 65 81);
+        .metric-item[data-tooltip-position="left"]::before {
+            border-color: transparent transparent transparent rgb(var(--tooltip-border));
         }
     }
     /* Left arrow becomes Right on mobile - arrow points left toward element */
     @media (max-width: 639px) {
-        :global(html.dark) .metric-item[data-tooltip-position="left"]::before {
-            border-color: transparent rgb(55 65 81) transparent transparent;
+        .metric-item[data-tooltip-position="left"]::before {
+            border-color: transparent rgb(var(--tooltip-border)) transparent transparent;
         }
     }
     /* Tooltip background */
-    :global(html.dark) .metric-item[data-tooltip]::after {
-        background: rgb(55 65 81);
-        color: rgb(229 231 235);
-    }
-
-    /* ========== THEME COLORS - Light ========== */
-    /* Top arrow */
-    :global(html:not(.dark)) .metric-item[data-tooltip-position="top"]::before {
-        border-color: rgb(31 41 55) transparent transparent transparent;
-    }
-    /* Bottom arrow */
-    :global(html:not(.dark)) .metric-item[data-tooltip-position="bottom"]::before {
-        border-color: transparent transparent rgb(31 41 55) transparent;
-    }
-    /* Left arrow (desktop) - arrow points right toward element */
-    @media (min-width: 640px) {
-        :global(html:not(.dark)) .metric-item[data-tooltip-position="left"]::before {
-            border-color: transparent transparent transparent rgb(31 41 55);
-        }
-    }
-    /* Left arrow becomes Right on mobile - arrow points left toward element */
-    @media (max-width: 639px) {
-        :global(html:not(.dark)) .metric-item[data-tooltip-position="left"]::before {
-            border-color: transparent rgb(31 41 55) transparent transparent;
-        }
-    }
-    /* Tooltip background */
-    :global(html:not(.dark)) .metric-item[data-tooltip]::after {
-        background: rgb(31 41 55);
-        color: rgb(243 244 246);
+    .metric-item[data-tooltip]::after {
+        background: rgb(var(--tooltip-bg));
+        color: rgb(var(--tooltip-text));
     }
 
     /* ========== SHOW ON HOVER ========== */

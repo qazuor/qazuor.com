@@ -172,7 +172,7 @@ export function TechnologyFilter({
                 <span>{translations.filterButton}</span>
 
                 {activeCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 bg-[rgb(var(--color-ui-error))] text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
                         {activeCount}
                     </span>
                 )}

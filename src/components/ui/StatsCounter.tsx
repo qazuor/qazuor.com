@@ -109,23 +109,47 @@ function useCoffeeAnimation(isVisible: boolean) {
 }
 
 /**
+ * Get color class/style based on stat index for visual variety
+ * Pattern: primary -> secondary -> tertiary -> primary
+ */
+function getStatColor(index: number): { className: string; style?: React.CSSProperties } {
+    const colorIndex = index % 3;
+    switch (colorIndex) {
+        case 0:
+            return { className: 'text-primary' };
+        case 1:
+            return { className: '', style: { color: 'var(--color-secondary-full)' } };
+        case 2:
+            return { className: '', style: { color: 'var(--color-tertiary-full)' } };
+        default:
+            return { className: 'text-primary' };
+    }
+}
+
+/**
  * Special stat item for the coffee counter with infinity animation
  * Counts from 0 to 999,999 then fades to infinity symbol
  */
 function CoffeeStatItem({
     stat,
     translation,
-    isVisible
+    isVisible,
+    colorIndex
 }: {
     stat: Stat;
     translation: { label: string; description: string };
     isVisible: boolean;
+    colorIndex: number;
 }) {
     const { displayValue, phase } = useCoffeeAnimation(isVisible);
+    const statColor = getStatColor(colorIndex);
 
     return (
         <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:bg-background/50 hover:border-primary/30">
-            <div className="stat-value font-bold text-primary mb-2 relative h-[1.2em] text-3xl lg:text-4xl">
+            <div
+                className={`stat-value font-bold mb-2 relative h-[1.2em] text-3xl lg:text-4xl ${statColor.className}`}
+                style={statColor.style}
+            >
                 {/* Infinity symbol - shows after fadeIn (larger) */}
                 <span
                     className={`absolute inset-0 flex items-center justify-center text-5xl lg:text-8xl transition-all duration-500 ease-in-out ${
@@ -156,17 +180,23 @@ function CoffeeStatItem({
 function StatItem({
     stat,
     translation,
-    isVisible
+    isVisible,
+    colorIndex
 }: {
     stat: Stat;
     translation: { label: string; description: string };
     isVisible: boolean;
+    colorIndex: number;
 }) {
     const count = useCountAnimation(stat.value, isVisible);
+    const statColor = getStatColor(colorIndex);
 
     return (
         <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:bg-background/50 hover:border-primary/30">
-            <div className="stat-value text-3xl lg:text-4xl font-bold text-primary mb-2">
+            <div
+                className={`stat-value text-3xl lg:text-4xl font-bold mb-2 ${statColor.className}`}
+                style={statColor.style}
+            >
                 {stat.prefix}
                 {count}
                 {stat.suffix}
@@ -221,15 +251,25 @@ export function StatsCounter({ stats, translations, className = '' }: StatsCount
         }
     };
 
-    const renderStatItem = (stat: Stat) => {
+    const renderStatItem = (stat: Stat, index: number) => {
         const translation = getTranslation(stat.id);
 
         // Use special component for coffee counter
         if (stat.id === 'coffees') {
-            return <CoffeeStatItem key={stat.id} stat={stat} translation={translation} isVisible={isVisible} />;
+            return (
+                <CoffeeStatItem
+                    key={stat.id}
+                    stat={stat}
+                    translation={translation}
+                    isVisible={isVisible}
+                    colorIndex={index}
+                />
+            );
         }
 
-        return <StatItem key={stat.id} stat={stat} translation={translation} isVisible={isVisible} />;
+        return (
+            <StatItem key={stat.id} stat={stat} translation={translation} isVisible={isVisible} colorIndex={index} />
+        );
     };
 
     return (

@@ -59,7 +59,7 @@ const radiusClass = borderRadius === 'none' ? '' : `rounded-${borderRadius}`;
 <!-- Animated Gradient Background -->
 <div class="absolute inset-0" style={positionStyles}>
     <div
-        class={`absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent ${radiusClass} ${blurClass}`}
+        class={`absolute inset-0 bg-[linear-gradient(to_right_bottom,var(--section-background-glow-from),var(--section-background-glow-via),var(--section-background-glow-to))] ${radiusClass} ${blurClass}`}
         style={`animation: pulse ${animationDuration}s ease-in-out infinite; opacity: ${lightOpacity / 100};`}
     >
     </div>

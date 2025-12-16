@@ -4,7 +4,7 @@ import UnifiedButton from './UnifiedButton.astro';
 interface Props {
     href?: string;
     text?: string;
-    variant?: 'primary' | 'secondary' | 'ghost';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
     size?: 'sm' | 'md' | 'lg';
     className?: string;
     ariaLabel?: string;
@@ -13,16 +13,17 @@ interface Props {
 const {
     href = '#contact',
     text = 'Get in Touch',
-    variant = 'ghost',
+    variant = 'secondary',
     size = 'md',
     className = '',
     ariaLabel = 'Get in touch with me'
 } = Astro.props;
 
 // Map old variant names to UnifiedButton variants
-const variantMap: Record<string, 'primary' | 'secondary' | 'ghost' | 'outline'> = {
+const variantMap: Record<string, 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'outline'> = {
     primary: 'primary',
     secondary: 'secondary',
+    tertiary: 'tertiary',
     ghost: 'ghost'
 };
 ---

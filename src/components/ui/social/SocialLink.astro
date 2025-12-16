@@ -69,22 +69,13 @@ const iconSize = sizeClasses[size];
         display: block;
     }
 
-    /* Estado normal: contraste mejorado para accesibilidad */
-    :global(html.dark) .social-icon {
-        color: rgb(156 163 175); /* gray-400 - Visible pero sutil en tema oscuro */
+    /* Icon colors - uses CSS variables from global.css */
+    .social-icon {
+        color: rgb(var(--social-icon));
     }
 
-    :global(html:not(.dark)) .social-icon {
-        color: rgb(75 85 99); /* gray-600 - Mejor contraste en tema claro */
-    }
-
-    /* Hover: alto contraste */
-    :global(html.dark) .social-link:hover .social-icon {
-        color: rgb(229 231 235); /* gray-200 - Más visible en tema oscuro */
-    }
-
-    :global(html:not(.dark)) .social-link:hover .social-icon {
-        color: rgb(17 24 39); /* gray-900 - Más visible en tema claro */
+    .social-link:hover .social-icon {
+        color: rgb(var(--social-icon-hover));
     }
 
     /* Tooltip styles */
@@ -127,24 +118,14 @@ const iconSize = sizeClasses[size];
         font-weight: 500;
     }
 
-    /* Theme-specific tooltip colors - Dark theme */
-    :global(html.dark) [data-tooltip]::before {
-        border-color: rgb(55 65 81) transparent transparent transparent; /* gray-700 */
+    /* Tooltip colors - uses CSS variables from global.css */
+    [data-tooltip]::before {
+        border-color: rgb(var(--tooltip-border)) transparent transparent transparent;
     }
 
-    :global(html.dark) [data-tooltip]::after {
-        background: rgb(55 65 81); /* gray-700 */
-        color: rgb(229 231 235); /* gray-200 */
-    }
-
-    /* Theme-specific tooltip colors - Light theme */
-    :global(html:not(.dark)) [data-tooltip]::before {
-        border-color: rgb(31 41 55) transparent transparent transparent; /* gray-800 */
-    }
-
-    :global(html:not(.dark)) [data-tooltip]::after {
-        background: rgb(31 41 55); /* gray-800 */
-        color: rgb(243 244 246); /* gray-100 */
+    [data-tooltip]::after {
+        background: rgb(var(--tooltip-bg));
+        color: rgb(var(--tooltip-text));
     }
 
     /* Tooltip positions */

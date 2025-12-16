@@ -6,7 +6,7 @@
  * For interactive buttons requiring client-side JS, use the React component directly.
  */
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'outline';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 interface Props {
@@ -87,6 +87,15 @@ const variantClasses: Record<ButtonVariant, string> = {
         'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
         !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
+    ]
+        .filter(Boolean)
+        .join(' '),
+    tertiary: [
+        'relative overflow-hidden text-white shadow-lg shadow-[var(--btn-tertiary-shadow)]',
+        'bg-[linear-gradient(135deg,var(--btn-tertiary-bg-start)_0%,var(--btn-tertiary-bg-end)_100%)]',
+        'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,var(--btn-tertiary-hover-start)_0%,var(--btn-tertiary-hover-end)_100%)]',
+        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        !disabled && 'hover:before:opacity-100 hover:-translate-y-0.5'
     ]
         .filter(Boolean)
         .join(' '),

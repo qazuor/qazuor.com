@@ -1072,11 +1072,7 @@
 
     /* Section title improvements */
     .section-title {
-        @apply mb-16 text-center;
-    }
-
-    .section-title h2 {
-        @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-4;
+        @apply mb-16;
     }
 
     .section-title p {

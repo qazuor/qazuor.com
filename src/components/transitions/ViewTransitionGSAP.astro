@@ -329,6 +329,11 @@ for (const project of projects) {
     // Timeline for entrance animation (shared between hooks)
     let entranceTimeline: gsap.core.Timeline | null = null;
 
+    // Track the pathname of the last rendered page (not window.location which changes on popstate)
+    // This is critical for back/forward navigation - during popstate, window.location changes
+    // BEFORE astro:before-preparation fires, so we need to track the actual rendered content
+    let lastRenderedPath = normalizePathname(window.location.pathname);
+
     /**
      * Normalize pathname by removing trailing slash for comparison
      */
@@ -367,16 +372,16 @@ for (const project of projects) {
      * This fires as soon as user clicks a link (before fetch)
      */
     document.addEventListener('astro:before-preparation', ((event: any) => {
-        const currentUrl = new URL(window.location.href);
         const newUrl = new URL(event.to);
 
         // Skip animation if pathname doesn't change (same-page hash navigation)
         // When pathname is the same, Astro only scrolls and doesn't trigger swap
         // This prevents the animation from getting stuck
-        // Normalize pathnames to ignore trailing slashes
-        const currentPath = normalizePathname(currentUrl.pathname);
+        // IMPORTANT: Use lastRenderedPath instead of window.location.pathname
+        // During popstate (back/forward), window.location already changed to the destination
+        // so comparing window.location vs event.to would always be "same page"
         const newPath = normalizePathname(newUrl.pathname);
-        const isSamePage = currentPath === newPath;
+        const isSamePage = lastRenderedPath === newPath;
 
         if (isSamePage) {
             // Prevent Astro from handling this navigation with View Transitions
@@ -431,6 +436,7 @@ for (const project of projects) {
      * Navigation.astro's smooth scroll implementation which includes header offset.
      * Same-page hash navigation is now handled by Navigation.astro exclusively.
      */
+
 
     /**
      * HOOK 2: Before swap - Wait for entrance, swap, then exit
@@ -490,4 +496,33 @@ for (const project of projects) {
             });
         };
     }) as EventListener);
+
+    /**
+     * HOOK 3: After swap - Update lastRenderedPath to track actual rendered content
+     * This is critical for back/forward navigation to work correctly
+     */
+    document.addEventListener('astro:after-swap', () => {
+        lastRenderedPath = normalizePathname(window.location.pathname);
+    });
+
+    /**
+     * HOOK 4: Popstate fallback for browsers without native View Transitions
+     * Firefox and other browsers may not trigger astro:before-preparation on popstate
+     * This handler detects when the rendered content differs from the target URL
+     * and forces a proper navigation with View Transitions using Astro's navigate()
+     */
+    window.addEventListener('popstate', async () => {
+        const targetPath = normalizePathname(window.location.pathname);
+
+        // If the actual rendered content is different from where we're navigating to,
+        // Astro didn't handle the navigation - we need to force it
+        if (lastRenderedPath !== targetPath) {
+            // Import navigate dynamically to avoid issues with SSR
+            const { navigate } = await import('astro:transitions/client');
+
+            // Force navigation with View Transitions
+            // Use history: 'replace' since the URL is already updated by popstate
+            navigate(window.location.href, { history: 'replace' });
+        }
+    });
 </script>

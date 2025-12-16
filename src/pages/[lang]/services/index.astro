@@ -7,7 +7,7 @@ import PixelCanvas from '@/components/ui/PixelCanvas.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import { getInterestsForService, sectionsColors } from '@/data';
-import { servicePixelColors } from '@/data/serviceColors';
+import { serviceColors } from '@/data/serviceColors';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
@@ -295,7 +295,7 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {services.map((service) => {
                     const serviceTranslation = serviceTranslations[service.id];
-                    const pixelConfig = servicePixelColors[service.id];
+                    const pixelConfig = serviceColors[service.id].pixel;
 
                     return (
                         <div
@@ -424,7 +424,7 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
 
                     <!-- Free Consultation Badge -->
                     <div class="flex items-center text-foreground-secondary text-sm">
-                        <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-4 h-4 mr-2 text-[rgb(var(--color-status-success))]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                         </svg>
                         <span set:html={ctaTranslations.consultation} />

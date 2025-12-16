@@ -143,11 +143,11 @@ const trickUrl = `${SITE_URL}/${lang}/goodies/css-tricks/${trick.slug}`;
                             <div class="flex flex-wrap gap-2">
                                 {supportStatus.map((browser) => (
                                     browser.supported ? (
-                                        <span class="px-3 py-1 text-xs rounded-full bg-green-500/10 text-green-500 border border-green-500/20">
+                                        <span class="px-3 py-1 text-xs rounded-full bg-[rgba(var(--color-status-success),0.1)] text-[rgb(var(--color-status-success))] border border-[rgba(var(--color-status-success),0.2)]">
                                             ✓ {browser.version}
                                         </span>
                                     ) : (
-                                        <span class="px-3 py-1 text-xs rounded-full bg-red-500/10 text-red-500 border border-red-500/20">
+                                        <span class="px-3 py-1 text-xs rounded-full bg-[rgba(var(--color-status-error),0.1)] text-[rgb(var(--color-status-error))] border border-[rgba(var(--color-status-error),0.2)]">
                                             ✗ {browser.name}
                                         </span>
                                     )

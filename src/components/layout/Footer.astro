@@ -119,7 +119,7 @@ const currentYear = new Date().getFullYear();
                                 <li>
                                     <a
                                         href={item.url}
-                                        class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
+                                        class="footer-nav-link text-xs text-foreground-muted transition-colors duration-base"
                                     >
                                         {item.name}
                                     </a>
@@ -223,5 +223,10 @@ const currentYear = new Date().getFullYear();
     /* Custom hover effects */
     footer a:hover {
         transform: translateY(-1px);
+    }
+
+    /* Navigation links use secondary color on hover for visual variety */
+    .footer-nav-link:hover {
+        color: var(--color-secondary-full);
     }
 </style>

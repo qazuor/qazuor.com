@@ -3,7 +3,8 @@ import { join } from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 import type { SatoriOptions } from 'satori';
 import satori from 'satori';
-import { darkModeTextColors, rgbToHex, themeColors } from '@/config/themeColors';
+import { rgbToHex, themeColors } from '@/config/colorHelpers';
+import { darkTheme } from '@/config/themeConfig';
 
 /**
  * OG Image Generator
@@ -67,8 +68,8 @@ function truncateAtWord(text: string, maxLength: number): string {
 const COLORS = {
     background: '#0f1a1e', // Dark teal-blue background (OG-specific)
     backgroundGradient: '#0f2a2e', // (OG-specific)
-    text: darkModeTextColors.default, // Light text from theme
-    textMuted: darkModeTextColors.muted, // Muted text from theme
+    text: darkTheme.textColors.default, // Light text from theme
+    textMuted: darkTheme.textColors.muted, // Muted text from theme
     accent: rgbToHex(themeColors.secondary), // Cyan from theme
     accentSecondary: rgbToHex(themeColors.primary), // Ocean Blue from theme
     barBackground: '#061210' // Darker bar background (OG-specific)

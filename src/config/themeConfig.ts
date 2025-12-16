@@ -703,3 +703,147 @@ ${generateThemeBlock(darkTheme, '.dark')}
 
 // Re-export for backwards compatibility with existing criticalThemeConfig.ts
 export { generateCriticalCSS as generateCriticalThemeCSS };
+
+// ============================================
+// TAILWIND COLOR SCALE GENERATION
+// ============================================
+
+/**
+ * Lightness values for generating color scales (50-900)
+ * Based on Tailwind's default color palette distribution
+ */
+const SCALE_LIGHTNESS: Record<string, number> = {
+    50: 0.97,
+    100: 0.93,
+    200: 0.85,
+    300: 0.75,
+    400: 0.65,
+    500: 0.55,
+    600: 0.45,
+    700: 0.35,
+    800: 0.25,
+    900: 0.18
+};
+
+/**
+ * Parse RGB string "r, g, b" to individual values
+ */
+function parseRGB(rgbString: string): { r: number; g: number; b: number } {
+    const parts = rgbString.split(',').map((s) => parseInt(s.trim(), 10));
+    return { r: parts[0], g: parts[1], b: parts[2] };
+}
+
+/**
+ * Convert RGB to HSL
+ */
+function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+    let h = 0;
+    let s = 0;
+
+    if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+        switch (max) {
+            case r:
+                h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+                break;
+            case g:
+                h = ((b - r) / d + 2) / 6;
+                break;
+            case b:
+                h = ((r - g) / d + 4) / 6;
+                break;
+        }
+    }
+
+    return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+    };
+}
+
+/**
+ * Generate OKLCH color scale from RGB base color
+ * Returns object with keys 50-900 for Tailwind
+ */
+function generateOklchScale(rgbString: string): Record<string, string> {
+    const { r, g, b } = parseRGB(rgbString);
+    const { h, s } = rgbToHsl(r, g, b);
+
+    // Convert hue to OKLCH hue (approximately the same)
+    const oklchHue = h;
+    // Adjust chroma based on saturation (rough conversion)
+    const baseChroma = (s / 100) * 0.25;
+
+    const scale: Record<string, string> = {};
+
+    for (const [step, lightness] of Object.entries(SCALE_LIGHTNESS)) {
+        // Reduce chroma at extreme lightness values for more natural colors
+        let chroma = baseChroma;
+        if (lightness > 0.9) {
+            chroma *= 0.3;
+        } else if (lightness > 0.8) {
+            chroma *= 0.5;
+        } else if (lightness < 0.25) {
+            chroma *= 0.6;
+        }
+
+        scale[step] = `oklch(${lightness.toFixed(2)} ${chroma.toFixed(3)} ${oklchHue} / <alpha-value>)`;
+    }
+
+    return scale;
+}
+
+/**
+ * Tailwind color scale type
+ */
+export interface TailwindColorScale {
+    50: string;
+    100: string;
+    200: string;
+    300: string;
+    400: string;
+    500: string;
+    600: string;
+    700: string;
+    800: string;
+    900: string;
+    DEFAULT: string;
+    foreground: string;
+}
+
+/**
+ * Generated Tailwind color scales from theme config
+ * Import this in tailwind.config.js
+ */
+export const tailwindColorScales = {
+    primary: {
+        ...generateOklchScale(darkTheme.colors.colorPrimary),
+        DEFAULT: 'hsl(var(--primary))',
+        foreground: 'hsl(var(--primary-foreground))'
+    },
+    secondary: {
+        ...generateOklchScale(darkTheme.colors.colorSecondary),
+        DEFAULT: 'hsl(var(--secondary))',
+        foreground: 'hsl(var(--secondary-foreground))'
+    },
+    tertiary: {
+        ...generateOklchScale(darkTheme.colors.colorTertiary),
+        DEFAULT: 'rgb(var(--color-tertiary))',
+        foreground: '#ffffff'
+    },
+    accent: {
+        ...generateOklchScale(darkTheme.colors.colorTertiary), // accent = tertiary
+        DEFAULT: 'hsl(var(--accent))',
+        foreground: 'hsl(var(--accent-foreground))'
+    }
+} as const;

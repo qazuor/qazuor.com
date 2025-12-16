@@ -1,3 +1,5 @@
+import { tailwindColorScales } from './src/config/themeConfig.ts';
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -6,105 +8,17 @@ export default {
         extend: {
             colors: {
                 // ===========================================
-                // PALETTE: Ocean Depths (Palette 1)
-                // Primary: Ocean Blue (hue 210)
-                // Secondary: Cyan (hue 190)
-                // Tertiary: Coral (hue 10)
+                // COLOR SCALES - Generated from themeConfig.ts
+                // To change colors, edit src/config/themeConfig.ts
                 // ===========================================
-                primary: {
-                    50: 'oklch(0.95 0.05 210 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 210 / <alpha-value>)',
-                    200: 'oklch(0.80 0.12 210 / <alpha-value>)',
-                    300: 'oklch(0.70 0.16 210 / <alpha-value>)',
-                    400: 'oklch(0.60 0.20 210 / <alpha-value>)',
-                    500: 'oklch(0.55 0.22 210 / <alpha-value>)',
-                    600: 'oklch(0.50 0.24 210 / <alpha-value>)',
-                    700: 'oklch(0.45 0.22 210 / <alpha-value>)',
-                    800: 'oklch(0.35 0.18 210 / <alpha-value>)',
-                    900: 'oklch(0.25 0.12 210 / <alpha-value>)',
-                    DEFAULT: 'hsl(var(--primary))',
-                    foreground: 'hsl(var(--primary-foreground))'
-                },
-                secondary: {
-                    50: 'oklch(0.95 0.04 190 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 190 / <alpha-value>)',
-                    200: 'oklch(0.85 0.12 190 / <alpha-value>)',
-                    300: 'oklch(0.78 0.15 190 / <alpha-value>)',
-                    400: 'oklch(0.72 0.17 190 / <alpha-value>)',
-                    500: 'oklch(0.70 0.18 190 / <alpha-value>)',
-                    600: 'oklch(0.65 0.18 190 / <alpha-value>)',
-                    700: 'oklch(0.55 0.16 190 / <alpha-value>)',
-                    800: 'oklch(0.45 0.14 190 / <alpha-value>)',
-                    900: 'oklch(0.35 0.10 190 / <alpha-value>)',
-                    DEFAULT: 'hsl(var(--secondary))',
-                    foreground: 'hsl(var(--secondary-foreground))'
-                },
-                tertiary: {
-                    50: 'oklch(0.95 0.05 10 / <alpha-value>)',
-                    100: 'oklch(0.90 0.10 10 / <alpha-value>)',
-                    200: 'oklch(0.85 0.15 10 / <alpha-value>)',
-                    300: 'oklch(0.78 0.18 10 / <alpha-value>)',
-                    400: 'oklch(0.72 0.20 10 / <alpha-value>)',
-                    500: 'oklch(0.68 0.22 10 / <alpha-value>)',
-                    600: 'oklch(0.62 0.22 10 / <alpha-value>)',
-                    700: 'oklch(0.55 0.20 10 / <alpha-value>)',
-                    800: 'oklch(0.45 0.16 10 / <alpha-value>)',
-                    900: 'oklch(0.35 0.12 10 / <alpha-value>)',
-                    DEFAULT: 'rgb(var(--color-tertiary))',
-                    foreground: '#ffffff'
-                },
-                accent: {
-                    50: 'oklch(0.95 0.05 210 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 210 / <alpha-value>)',
-                    200: 'oklch(0.82 0.12 210 / <alpha-value>)',
-                    300: 'oklch(0.75 0.16 210 / <alpha-value>)',
-                    400: 'oklch(0.68 0.18 210 / <alpha-value>)',
-                    500: 'oklch(0.65 0.20 210 / <alpha-value>)',
-                    600: 'oklch(0.60 0.22 210 / <alpha-value>)',
-                    700: 'oklch(0.52 0.20 210 / <alpha-value>)',
-                    800: 'oklch(0.42 0.16 210 / <alpha-value>)',
-                    900: 'oklch(0.32 0.12 210 / <alpha-value>)',
-                    DEFAULT: 'hsl(var(--accent))',
-                    foreground: 'hsl(var(--accent-foreground))'
-                },
-                // Alias emerald to primary (for legacy code using emerald-* classes)
-                emerald: {
-                    50: 'oklch(0.95 0.05 210 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 210 / <alpha-value>)',
-                    200: 'oklch(0.80 0.12 210 / <alpha-value>)',
-                    300: 'oklch(0.70 0.16 210 / <alpha-value>)',
-                    400: 'oklch(0.60 0.20 210 / <alpha-value>)',
-                    500: 'oklch(0.55 0.22 210 / <alpha-value>)',
-                    600: 'oklch(0.50 0.24 210 / <alpha-value>)',
-                    700: 'oklch(0.45 0.22 210 / <alpha-value>)',
-                    800: 'oklch(0.35 0.18 210 / <alpha-value>)',
-                    900: 'oklch(0.25 0.12 210 / <alpha-value>)'
-                },
-                // Alias teal/cyan to secondary
-                teal: {
-                    50: 'oklch(0.95 0.04 190 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 190 / <alpha-value>)',
-                    200: 'oklch(0.85 0.12 190 / <alpha-value>)',
-                    300: 'oklch(0.78 0.15 190 / <alpha-value>)',
-                    400: 'oklch(0.72 0.17 190 / <alpha-value>)',
-                    500: 'oklch(0.70 0.18 190 / <alpha-value>)',
-                    600: 'oklch(0.65 0.18 190 / <alpha-value>)',
-                    700: 'oklch(0.55 0.16 190 / <alpha-value>)',
-                    800: 'oklch(0.45 0.14 190 / <alpha-value>)',
-                    900: 'oklch(0.35 0.10 190 / <alpha-value>)'
-                },
-                cyan: {
-                    50: 'oklch(0.95 0.04 190 / <alpha-value>)',
-                    100: 'oklch(0.90 0.08 190 / <alpha-value>)',
-                    200: 'oklch(0.85 0.12 190 / <alpha-value>)',
-                    300: 'oklch(0.78 0.15 190 / <alpha-value>)',
-                    400: 'oklch(0.72 0.17 190 / <alpha-value>)',
-                    500: 'oklch(0.70 0.18 190 / <alpha-value>)',
-                    600: 'oklch(0.65 0.18 190 / <alpha-value>)',
-                    700: 'oklch(0.55 0.16 190 / <alpha-value>)',
-                    800: 'oklch(0.45 0.14 190 / <alpha-value>)',
-                    900: 'oklch(0.35 0.10 190 / <alpha-value>)'
-                },
+                primary: tailwindColorScales.primary,
+                secondary: tailwindColorScales.secondary,
+                tertiary: tailwindColorScales.tertiary,
+                accent: tailwindColorScales.accent,
+                // Aliases for legacy code
+                emerald: tailwindColorScales.primary,
+                teal: tailwindColorScales.tertiary,
+                cyan: tailwindColorScales.tertiary,
                 background: {
                     DEFAULT: 'hsl(var(--background))',
                     secondary: 'oklch(var(--bg-secondary) / <alpha-value>)',

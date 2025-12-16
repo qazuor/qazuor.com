@@ -19,6 +19,7 @@ import giscusTheme from './integrations/giscus-theme.ts';
 import searchIndex from './integrations/search-index.ts';
 import socialBlogData from './integrations/social-blog-data.ts';
 import testimonialAvatars from './integrations/testimonial-avatars.ts';
+import themeGenerator from './integrations/theme-generator.ts';
 import timelineSpriteWatcher from './integrations/timeline-sprite-watcher/index.ts';
 
 // https://astro.build/config
@@ -55,9 +56,16 @@ export default defineConfig({
             watch: true
         }),
 
-        // Giscus Theme Generator (generates CSS from theme colors)
+        // Theme Generator (generates theme CSS from themeConfig.ts)
+        themeGenerator({
+            configFile: 'src/config/themeConfig.ts',
+            outputFile: 'src/styles/generated-theme.css',
+            watch: true
+        }),
+
+        // Giscus Theme Generator (generates CSS from themeConfig)
         giscusTheme({
-            sourceFile: 'src/config/themeColors.ts',
+            sourceFile: 'src/config/themeConfig.ts',
             outputDir: 'public/styles',
             watch: true
         }),

@@ -3,8 +3,10 @@
 // Note: fonts.css now handles font loading with proper critical/non-critical split
 import '../styles/fonts.css';
 
-// Import auto-generated colors
+// Import auto-generated color interpolations
 import '../styles/generated-colors.css';
+// Note: generated-theme.css is imported in the global style tag at the end
+// to ensure it loads after global.css and overrides theme variables
 
 // Astro image optimization
 import { getImage } from 'astro:assets';
@@ -25,11 +27,15 @@ import { FloatingNav } from '@/components/navigation/FloatingNav';
 import BreadcrumbJsonLd from '@/components/seo/BreadcrumbJsonLd.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
 import ViewTransitionGSAP from '@/components/transitions/ViewTransitionGSAP.astro';
+import { generateCriticalCSS } from '@/config/themeConfig';
 // import PageTransition from '@/components/transitions/PageTransition.astro';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getRouteFromUrl, getTranslations } from '@/i18n/utils';
 import type { WebSiteSchema } from '@/types/jsonld';
 import { generateBreadcrumbs } from '@/utils/breadcrumbs';
+
+// Generate critical CSS at build time from centralized config
+const criticalThemeCSS = generateCriticalCSS();
 
 // Note: PixelCanvas custom element is lazy-loaded from src/scripts/pixel-canvas.ts
 // to ensure it works with View Transitions navigation
@@ -205,31 +211,9 @@ const alternateLinks = locales.map((locale) => {
         <!-- Critical CSS (inlined for fastest LCP) -->
         <!-- Contains ONLY styles needed for above-the-fold hero section -->
         <!-- IMPORTANT: Must include BOTH light and dark themes to prevent flash during View Transitions -->
+        <!-- Theme variables are generated from src/config/criticalThemeConfig.ts (single source of truth) -->
+        <style is:inline set:html={criticalThemeCSS}></style>
         <style is:inline>
-            /* CSS Variables - Light Mode (base) */
-            :root {
-                --bg-primary: 219 21% 96%;
-                --bg-secondary: 219 21% 94%;
-                --text-primary: 215 25% 15%;
-                --text-secondary: 215 20% 25%;
-                --background: 219 21% 94%;
-                --foreground: 215 25% 15%;
-                --primary: 215 60% 40%;
-                color-scheme: light;
-            }
-
-            /* CSS Variables - Dark Mode (override when .dark class present) */
-            html.dark {
-                --bg-primary: 256 45% 6%;
-                --bg-secondary: 250 30% 10%;
-                --text-primary: 240 15% 96%;
-                --text-secondary: 240 10% 72%;
-                --background: 256 45% 8%;
-                --foreground: 240 15% 95%;
-                --primary: 250 60% 65%;
-                color-scheme: dark;
-            }
-
             body {
                 font-family: "Inter", system-ui, -apple-system, sans-serif;
                 background: hsl(var(--background));
@@ -572,4 +556,6 @@ const alternateLinks = locales.map((locale) => {
 
 <style is:global>
     @import '../styles/global.css';
+    /* Theme variables from centralized config - overrides global.css duplicates */
+    @import '../styles/generated-theme.css';
 </style>

@@ -3,6 +3,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * ===========================================
+ * IMPORTANT: Theme Variable Architecture
+ * ===========================================
+ *
+ * TO CHANGE THEME COLORS:
+ * → Edit ONLY: src/config/themeConfig.ts
+ * → Restart dev server or run build
+ * → All CSS auto-regenerates
+ *
+ * FILES INVOLVED:
+ * 1. src/config/themeConfig.ts (SINGLE SOURCE OF TRUTH)
+ *    - All theme colors defined here
+ *    - Generates: src/styles/generated-theme.css
+ *    - Generates: public/styles/giscus-custom*.css
+ *    - Also generates inline critical CSS in BaseLayout
+ *
+ * 2. This file (global.css)
+ *    - NON-THEME variables: spacing, radius, durations, etc.
+ *    - LEGACY theme variables (kept for safety, but OVERRIDDEN)
+ *
+ * LOAD ORDER: global.css → generated-theme.css
+ * Variables in generated-theme.css take precedence.
+ *
+ * VARIABLES OVERRIDDEN BY generated-theme.css:
+ * - --bg-primary/secondary/tertiary, --text-primary/secondary/muted
+ * - --background, --foreground, --primary, --card, --popover, etc.
+ * - --color-primary/secondary/tertiary (all variants)
+ * - --color-ui-info/warning/error/success/tip/quote
+ * - --section-background-glow-*, --divider-*, --testimonial-*
+ * - --color-timeline-*, --social-icon*, --mermaid-*, --tooltip-*
+ * - --syntax-*, --chart-*
+ *
+ * VARIABLES UNIQUE TO THIS FILE (not overridden):
+ * - --space-*, --radius-*, --section-padding-*, --duration-*, --ease-*
+ * - --color-linkedin, --color-service-*, --color-blog-card-*
+ * - --process-step-*, --color-status-*, --color-difficulty-*
+ * - --color-category-*, --color-focus-outline-*, --transition-gradient-*
+ * - --btn-success-*, --btn-tertiary-*, --color-static-*, --color-radar-*
+ * ===========================================
+ */
+
 @layer base {
     :root {
         /* Backgrounds - Light Mode (blue-gray tinted) */
@@ -15,21 +57,21 @@
         --text-secondary: 215 20% 22%; /* Dark blue-gray - improved contrast */
         --text-muted: 215 15% 28%; /* Medium blue-gray - improved contrast */
 
-        /* Backgrounds - Dark Mode - Purple-blue theme (FIXED - don't change with palette) */
-        --bg-primary-dark: 256 45% 6%; /* Very dark purple, almost black */
-        --bg-secondary-dark: 250 30% 10%; /* Dark purple-blue */
-        --bg-tertiary-dark: 245 25% 16%; /* Medium dark purple-blue */
+        /* Backgrounds - Dark Mode - Slate Steel theme */
+        --bg-primary-dark: 215 28% 7%; /* GitHub dark #0d1117 */
+        --bg-secondary-dark: 215 23% 11%; /* GitHub dark #161b22 */
+        --bg-tertiary-dark: 215 19% 13%; /* GitHub dark #1c2128 */
 
-        /* Text - Dark Mode - High contrast with purple tint */
-        --text-primary-dark: 240 15% 96%; /* Almost pure white with purple tint */
-        --text-secondary-dark: 240 10% 72%; /* Light purple-gray */
-        --text-muted-dark: 240 8% 52%; /* Medium purple-gray */
+        /* Text - Dark Mode - High contrast neutral */
+        --text-primary-dark: 210 15% 96%; /* Almost pure white */
+        --text-secondary-dark: 215 12% 72%; /* Light slate-gray */
+        --text-muted-dark: 215 10% 52%; /* Medium slate-gray */
 
-        /* Syntax Highlighting - Purple-blue theme */
-        --syntax-keyword: 260 70% 70%; /* Purple keywords */
+        /* Syntax Highlighting - Steel Blue theme */
+        --syntax-keyword: 215 70% 65%; /* Steel blue keywords */
         --syntax-string: 120 40% 70%; /* Green strings */
         --syntax-number: 40 70% 70%; /* Orange numbers */
-        --syntax-comment: 240 15% 60%; /* Purple-gray comments */
+        --syntax-comment: 215 15% 55%; /* Slate-gray comments */
 
         /* Functional Colors */
         --success: 0.7 0.18 150;
@@ -108,9 +150,9 @@
         /* Success - Emerald (matches primary) */
         --color-ui-success: 16, 185, 129; /* emerald-500 RGB */
         --color-ui-success-full: rgb(16, 185, 129);
-        /* Tip - Violet */
-        --color-ui-tip: 139, 92, 246; /* violet-500 RGB */
-        --color-ui-tip-full: rgb(139, 92, 246);
+        /* Tip - Steel Blue */
+        --color-ui-tip: 59, 130, 246; /* blue-500 RGB */
+        --color-ui-tip-full: rgb(59, 130, 246);
         /* Quote - Cyan */
         --color-ui-quote: 6, 182, 212; /* cyan-500 RGB */
         --color-ui-quote-full: rgb(6, 182, 212);
@@ -295,8 +337,8 @@
         --color-timeline-emerald-to: #047857; /* emerald-700 */
         --color-timeline-amber-from: #d97706; /* amber-600 */
         --color-timeline-amber-to: #b45309; /* amber-700 */
-        --color-timeline-violet-from: #7c3aed; /* violet-600 */
-        --color-timeline-violet-to: #6d28d9; /* violet-700 */
+        --color-timeline-steel-from: #3b82f6; /* blue-500 */
+        --color-timeline-steel-to: #2563eb; /* blue-600 */
         --color-timeline-cyan-from: #0891b2; /* cyan-600 */
         --color-timeline-cyan-to: #0e7490; /* cyan-700 */
 
@@ -363,30 +405,30 @@
     .dark {
         /* ===========================================
          * FIXED SECTION BACKGROUND GLOW COLORS - Dark Mode
-         * Purple gradient for dark mode atmosphere
+         * PALETTE: Slate Steel - Neutral grays with steel blue
          * =========================================== */
-        --section-background-glow-from: #8270db;  /* Purple - start of gradient */
-        --section-background-glow-via: #282640;   /* Dark purple - middle */
-        --section-background-glow-to: #a17de8;    /* Violet - end of gradient */
+        --section-background-glow-from: #3b82f6;  /* Steel blue - start */
+        --section-background-glow-via: #1c2128;   /* Dark slate gray - middle */
+        --section-background-glow-to: #06b6d4;    /* Cyan accent - end */
 
         /* RGB Color values for rgba() usage */
-        /* Primary - Ocean Blue */
-        --color-primary: 0, 119, 182; /* Ocean Blue RGB #0077B6 */
-        --color-primary-dark: 0, 95, 146; /* Darker ocean RGB */
-        --color-primary-full: rgb(0, 119, 182); /* Ocean Blue */
-        --color-primary-dark-full: rgb(0, 95, 146); /* Darker ocean */
+        /* Primary - Steel Blue */
+        --color-primary: 59, 130, 246; /* Steel Blue RGB #3b82f6 */
+        --color-primary-dark: 37, 99, 235; /* Darker steel RGB */
+        --color-primary-full: rgb(59, 130, 246); /* Steel Blue */
+        --color-primary-dark-full: rgb(37, 99, 235); /* Darker steel */
 
-        /* Secondary - Cyan Bright */
-        --color-secondary: 0, 180, 216; /* Cyan RGB #00B4D8 */
-        --color-secondary-dark: 0, 150, 180; /* Darker cyan RGB */
-        --color-secondary-full: rgb(0, 180, 216); /* Cyan Bright */
-        --color-secondary-dark-full: rgb(0, 150, 180); /* Darker cyan */
+        /* Secondary - Slate Gray */
+        --color-secondary: 148, 163, 184; /* Slate-400 RGB */
+        --color-secondary-dark: 100, 116, 139; /* Slate-500 RGB */
+        --color-secondary-full: rgb(148, 163, 184); /* Slate Gray */
+        --color-secondary-dark-full: rgb(100, 116, 139); /* Darker slate */
 
-        /* Tertiary - Coral */
-        --color-tertiary: 255, 107, 107; /* Coral RGB #FF6B6B */
-        --color-tertiary-dark: 229, 90, 90; /* Darker coral RGB */
-        --color-tertiary-full: rgb(255, 107, 107); /* Coral */
-        --color-tertiary-dark-full: rgb(229, 90, 90); /* Darker coral */
+        /* Tertiary - Cyan Accent */
+        --color-tertiary: 6, 182, 212; /* Cyan-500 RGB #06b6d4 */
+        --color-tertiary-dark: 8, 145, 178; /* Cyan-600 RGB */
+        --color-tertiary-full: rgb(6, 182, 212); /* Cyan Accent */
+        --color-tertiary-dark-full: rgb(8, 145, 178); /* Darker cyan */
 
         /* Semantic UI Colors - Dark Mode (slightly lighter for dark bg) */
         /* Info - Blue */
@@ -401,9 +443,9 @@
         /* Success - Emerald */
         --color-ui-success: 52, 211, 153; /* emerald-400 RGB */
         --color-ui-success-full: rgb(52, 211, 153);
-        /* Tip - Violet */
-        --color-ui-tip: 167, 139, 250; /* violet-400 RGB */
-        --color-ui-tip-full: rgb(167, 139, 250);
+        /* Tip - Steel Blue */
+        --color-ui-tip: 96, 165, 250; /* blue-400 RGB */
+        --color-ui-tip-full: rgb(96, 165, 250);
         /* Quote - Cyan */
         --color-ui-quote: 34, 211, 238; /* cyan-400 RGB */
         --color-ui-quote-full: rgb(34, 211, 238);
@@ -490,18 +532,18 @@
 
         /* ===========================================
          * Testimonial Section Colors - Dark Mode
-         * Uses primary/secondary colors for consistency
+         * PALETTE: Slate Steel
          * =========================================== */
-        --testimonial-accent: 0, 119, 182; /* Ocean Blue - matches --color-primary */
-        --testimonial-accent-light: 0, 180, 216; /* Cyan - matches --color-secondary */
-        --testimonial-accent-dark: 0, 150, 180; /* Darker cyan for contrast */
-        --testimonial-accent-full: rgb(0, 119, 182);
-        --testimonial-accent-light-full: rgb(0, 180, 216);
+        --testimonial-accent: 59, 130, 246; /* Steel Blue - matches --color-primary */
+        --testimonial-accent-light: 6, 182, 212; /* Cyan - matches --color-tertiary */
+        --testimonial-accent-dark: 37, 99, 235; /* Darker steel for contrast */
+        --testimonial-accent-full: rgb(59, 130, 246);
+        --testimonial-accent-light-full: rgb(6, 182, 212);
         --testimonial-text: 243, 244, 246; /* gray-100 - light text */
         --testimonial-text-secondary: 209, 213, 219; /* gray-300 */
         --testimonial-text-muted: 156, 163, 175; /* gray-400 */
-        --testimonial-card-bg: 30, 20, 50; /* Dark purple - matches modal */
-        --testimonial-card-bg-tinted: 20, 10, 40; /* Darker purple */
+        --testimonial-card-bg: 22, 27, 34; /* #161b22 - matches section bg */
+        --testimonial-card-bg-tinted: 13, 17, 23; /* #0d1117 - darker slate */
         --testimonial-focus: 96, 165, 250; /* blue-400 */
 
         /* ===========================================
@@ -555,8 +597,8 @@
         --color-timeline-emerald-to: #10b981; /* emerald-500 */
         --color-timeline-amber-from: #fbbf24; /* amber-400 */
         --color-timeline-amber-to: #f59e0b; /* amber-500 */
-        --color-timeline-violet-from: #a78bfa; /* violet-400 */
-        --color-timeline-violet-to: #8b5cf6; /* violet-500 */
+        --color-timeline-steel-from: #60a5fa; /* blue-400 */
+        --color-timeline-steel-to: #3b82f6; /* blue-500 */
         --color-timeline-cyan-from: #22d3ee; /* cyan-400 */
         --color-timeline-cyan-to: #06b6d4; /* cyan-500 */
 
@@ -576,48 +618,48 @@
          * =========================================== */
         --color-radar-icon-bg: #334155; /* slate-700 - dark bg for white icons */
 
-        /* Custom Dark Mode - Purple-blue theme (FIXED backgrounds - don't change with palette) */
-        --bg-primary: 256 45% 8%; /* Very dark purple matching #18122B */
-        --bg-secondary: 250 30% 12%; /* Dark purple-blue for cards */
-        --bg-tertiary: 245 25% 18%; /* Slightly lighter purple for contrast */
-        --text-primary: 240 15% 95%; /* Almost pure white with purple tint */
-        --text-secondary: 240 10% 75%; /* Light purple-gray for secondary text */
-        --text-muted: 240 8% 55%; /* Medium purple-gray for muted text */
+        /* Custom Dark Mode - Slate Steel theme */
+        --bg-primary: 215 28% 7%; /* GitHub dark #0d1117 */
+        --bg-secondary: 215 23% 11%; /* GitHub dark #161b22 */
+        --bg-tertiary: 215 19% 13%; /* GitHub dark #1c2128 */
+        --text-primary: 210 15% 95%; /* Almost pure white */
+        --text-secondary: 215 12% 75%; /* Light slate-gray */
+        --text-muted: 215 10% 55%; /* Medium slate-gray */
 
-        /* Shadcn/ui Dark Variables - Purple-blue backgrounds + Ocean Depths UI colors */
-        --background: 256 45% 8%; /* Very dark purple background (FIXED) */
-        --foreground: 240 15% 95%; /* Almost white foreground with purple tint */
-        --card: 250 30% 12%; /* Dark purple-blue cards (FIXED) */
-        --card-foreground: 240 15% 95%; /* Light text on cards */
-        --popover: 250 30% 12%; /* Dark purple-blue popovers (FIXED) */
-        --popover-foreground: 240 15% 95%; /* Light text on popovers */
-        --primary: 200 100% 45%; /* Ocean Blue primary (PALETTE) */
-        --primary-foreground: 256 45% 8%; /* Dark text on bright primary */
-        --secondary: 190 100% 50%; /* Cyan secondary (PALETTE) */
-        --secondary-foreground: 240 15% 95%; /* Light text on secondary */
-        --muted: 245 25% 15%; /* Very dark purple-blue muted (FIXED) */
-        --muted-foreground: 240 10% 70%; /* Light purple-gray muted text */
-        --accent: 200 100% 50%; /* Bright Ocean Blue accent (PALETTE) */
-        --accent-foreground: 256 45% 8%; /* Dark text on accent */
+        /* Shadcn/ui Dark Variables - Slate Steel theme */
+        --background: 215 28% 7%; /* GitHub dark #0d1117 */
+        --foreground: 210 15% 95%; /* Almost pure white */
+        --card: 215 23% 11%; /* GitHub dark #161b22 */
+        --card-foreground: 210 15% 95%; /* Light text on cards */
+        --popover: 215 23% 11%; /* GitHub dark #161b22 */
+        --popover-foreground: 210 15% 95%; /* Light text on popovers */
+        --primary: 215 80% 60%; /* Steel Blue primary */
+        --primary-foreground: 215 28% 7%; /* Dark text on bright primary */
+        --secondary: 185 70% 45%; /* Cyan secondary */
+        --secondary-foreground: 210 15% 95%; /* Light text on secondary */
+        --muted: 215 16% 15%; /* Dark slate-gray muted */
+        --muted-foreground: 215 12% 70%; /* Light slate-gray muted text */
+        --accent: 185 70% 50%; /* Bright Cyan accent */
+        --accent-foreground: 215 28% 7%; /* Dark text on accent */
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 0 0% 98%;
-        --border: 245 25% 22%; /* Dark purple border (FIXED) */
-        --input: 245 25% 15%; /* Dark purple input backgrounds (FIXED) */
-        --ring: 200 100% 45%; /* Ocean Blue focus ring (PALETTE) */
+        --border: 215 16% 22%; /* Dark slate border */
+        --input: 215 16% 15%; /* Dark slate input backgrounds */
+        --ring: 215 80% 60%; /* Steel Blue focus ring */
         /* Form field backgrounds - slightly lighter than card for contrast */
-        --input-field-bg: rgba(255, 255, 255, 0.12);
-        --chart-1: 200 100% 45%; /* Ocean Blue charts (PALETTE) */
-        --chart-2: 190 80% 50%; /* Cyan charts (PALETTE) */
-        --chart-3: 10 80% 65%; /* Coral charts (PALETTE) */
-        --chart-4: 190 65% 45%; /* Cyan charts (PALETTE) */
-        --chart-5: 200 55% 50%; /* Blue charts (PALETTE) */
+        --input-field-bg: rgba(255, 255, 255, 0.08);
+        --chart-1: 215 80% 60%; /* Steel Blue charts */
+        --chart-2: 185 70% 50%; /* Cyan charts */
+        --chart-3: 10 80% 65%; /* Coral charts */
+        --chart-4: 185 60% 45%; /* Cyan charts */
+        --chart-5: 215 55% 50%; /* Blue charts */
 
-        /* Section Background Colors - Dark Mode (FIXED) */
-        /* Divider Gradient Colors - Dark Mode (FIXED) */
-        --divider-primary: #8b5cf6; /* Purple gradient matching theme */
-        --divider-secondary: #6366f1; /* Indigo gradient */
-        --divider-accent: #3b82f6; /* Blue gradient */
-        --divider-overlay: rgba(139, 92, 246, 0.6); /* Purple overlay matching theme */
+        /* Section Background Colors - Dark Mode */
+        /* Divider Gradient Colors - Dark Mode - Slate Steel */
+        --divider-primary: #3b82f6; /* Blue gradient */
+        --divider-secondary: #60a5fa; /* Light blue gradient */
+        --divider-accent: #06b6d4; /* Cyan gradient */
+        --divider-overlay: rgba(59, 130, 246, 0.5); /* Blue overlay */
     }
 
     /* Base Styles */
@@ -1859,7 +1901,7 @@
     }
 
     .dark .content-prose pre {
-        background: linear-gradient(135deg, hsl(250 30% 12%) 0%, hsl(250 25% 15%) 100%);
+        background: linear-gradient(135deg, hsl(215 23% 11%) 0%, hsl(215 19% 13%) 100%);
     }
 
     .dark .content-prose blockquote {
@@ -2332,7 +2374,7 @@
     }
 
     .dark .css-playground-editor-wrapper {
-        background: hsl(256 45% 8%);
+        background: hsl(215 28% 7%); /* GitHub dark #0d1117 */
     }
 
     /* CSS Playground - Syntax Highlighting Tokens */
@@ -2355,7 +2397,7 @@
     }
 
     .css-playground-highlight .token.number {
-        color: #a78bfa;
+        color: #60a5fa; /* blue-400 for Slate Steel theme */
     }
 
     .css-playground-highlight .token.unit {

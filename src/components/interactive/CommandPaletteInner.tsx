@@ -530,7 +530,7 @@ export function CommandPaletteInner({
                                                 <div className="flex flex-col items-center gap-2">
                                                     <span className="text-2xl">🔍</span>
                                                     <p>No se encontraron resultados para "{searchQuery}"</p>
-                                                    <p className="text-xs text-gray-500">
+                                                    <p className="text-xs text-[rgb(var(--color-text-muted-gray))]">
                                                         Tip: Intenta palabras clave más generales
                                                     </p>
                                                 </div>

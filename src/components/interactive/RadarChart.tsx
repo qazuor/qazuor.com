@@ -28,11 +28,12 @@ function getIconColor(iconSvg: string, skillColor: string, _isDarkMode: boolean)
 
 /**
  * Get the background color for icon containers
- * Dark mode: dark background for contrast with white icons
- * Light mode: light background for contrast with dark icons
+ * Uses CSS variable from global.css that changes with theme
+ * Dark mode: slate-700 for contrast with white icons
+ * Light mode: slate-200 for contrast with dark icons
  */
-function getIconBackground(isDarkMode: boolean): string {
-    return isDarkMode ? '#334155' : '#334155';
+function getIconBackground(_isDarkMode: boolean): string {
+    return 'var(--color-radar-icon-bg)';
 }
 
 import {

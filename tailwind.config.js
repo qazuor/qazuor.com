@@ -15,10 +15,6 @@ export default {
                 secondary: tailwindColorScales.secondary,
                 tertiary: tailwindColorScales.tertiary,
                 accent: tailwindColorScales.accent,
-                // Aliases for legacy code
-                emerald: tailwindColorScales.primary,
-                teal: tailwindColorScales.tertiary,
-                cyan: tailwindColorScales.tertiary,
                 background: {
                     DEFAULT: 'hsl(var(--background))',
                     secondary: 'oklch(var(--bg-secondary) / <alpha-value>)',

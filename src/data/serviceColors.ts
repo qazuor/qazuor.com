@@ -82,11 +82,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-emerald-500/10',
-            bgMedium: 'bg-emerald-500/20',
-            border: 'border-emerald-500/30',
-            textDark: 'text-emerald-400',
-            textLight: 'text-emerald-600'
+            bgLight: 'bg-primary-500/10',
+            bgMedium: 'bg-primary-500/20',
+            border: 'border-primary-500/30',
+            textDark: 'text-primary-400',
+            textLight: 'text-primary-600'
         }
     },
     'automation-integration': {

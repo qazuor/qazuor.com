@@ -45,7 +45,8 @@
             "commercial": "Comercial",
             "client": "Cliente"
         },
-        "moreTechnologies": "más"
+        "moreTechnologies": "más",
+        "featured": "Destacado"
     },
     "detail": {
         "backToProjects": "Volver a Proyectos",

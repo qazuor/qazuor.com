@@ -73,7 +73,7 @@ const categoryLabels: Record<string, string> = {
     client: t('projects.detail.categories.client')
 };
 
-const pageTitle = `${project.data.title} - ${t('projects.title')}`;
+const pageTitle = `${project.data.title} - ${t('projects.title', { markdown: false })}`;
 const seoDescription = stripMarkdown(project.data.description);
 const categoryLabel: string = categoryLabels[project.data.category] || project.data.category;
 const transitionTitle = project.data.title; // Title to show in page transition

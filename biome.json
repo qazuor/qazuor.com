@@ -73,16 +73,6 @@
     },
     "overrides": [
         {
-            "includes": ["**/cards/FeaturedBlogCard.tsx", "**/cards/SecondaryBlogCards.tsx"],
-            "linter": {
-                "rules": {
-                    "security": {
-                        "noDangerouslySetInnerHtml": "off"
-                    }
-                }
-            }
-        },
-        {
             "includes": ["**/animate-ui/**"],
             "linter": {
                 "rules": {

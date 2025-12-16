@@ -1,0 +1,130 @@
+---
+import './FeaturedBlogCard.css';
+
+export interface OptimizedBlogImage {
+    src: string;
+    width: number;
+    height: number;
+}
+
+interface Props {
+    title: string;
+    excerpt: string;
+    category: string;
+    image: OptimizedBlogImage;
+    slug: string;
+    tags: string[];
+    readTime: string;
+    date: string;
+    categoryColor: string;
+    featuredLabel?: string;
+    lang?: string;
+}
+
+const {
+    title,
+    excerpt,
+    category,
+    image,
+    slug,
+    tags,
+    readTime,
+    date,
+    categoryColor,
+    featuredLabel = 'Featured',
+    lang = 'en'
+} = Astro.props;
+
+// Format date for display based on language
+const dateLocale = lang === 'es' ? 'es-ES' : 'en-US';
+const formattedDate = new Date(date).toLocaleDateString(dateLocale, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+});
+---
+
+<article class="featured-blog-card">
+    <a href={slug} class="featured-blog-card__link" aria-label={`Read ${title}`}>
+        <!-- Image Section -->
+        <div class="featured-blog-card__image-container">
+            <img
+                src={image.src}
+                alt=""
+                width={image.width}
+                height={image.height}
+                decoding="async"
+                class="featured-blog-card__image"
+                loading="eager"
+            />
+            <div class="featured-blog-card__image-overlay"></div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="featured-blog-card__content">
+            <!-- Featured Badge & Meta -->
+            <div class="featured-blog-card__meta">
+                <span class="featured-blog-card__featured-badge">
+                    <!-- Sparkles icon (inline SVG) -->
+                    <svg
+                        class="featured-blog-card__badge-icon"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+                        <path d="M20 3v4" />
+                        <path d="M22 5h-4" />
+                        <path d="M4 17v2" />
+                        <path d="M5 18H3" />
+                    </svg>
+                    {featuredLabel}
+                </span>
+                <span class="featured-blog-card__category" style={`color: ${categoryColor}`}>
+                    {category}
+                </span>
+                <span class="featured-blog-card__separator">·</span>
+                <span class="featured-blog-card__date">{formattedDate}</span>
+            </div>
+
+            <!-- Title -->
+            <h3 class="featured-blog-card__title">{title}</h3>
+
+            <!-- Excerpt - content is sanitized markdown from content collections -->
+            <p class="featured-blog-card__excerpt" set:html={excerpt} />
+
+            <!-- Footer: Tags & Read Time -->
+            <div class="featured-blog-card__footer">
+                <div class="featured-blog-card__tags">
+                    {tags.slice(0, 4).map((tag) => (
+                        <span class="featured-blog-card__tag">#{tag}</span>
+                    ))}
+                </div>
+                <div class="featured-blog-card__read-info">
+                    <span class="featured-blog-card__read-time">{readTime}</span>
+                    <span class="featured-blog-card__arrow">
+                        <!-- ArrowUpRight icon (inline SVG) -->
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M7 7h10v10" />
+                            <path d="M7 17 17 7" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </a>
+</article>

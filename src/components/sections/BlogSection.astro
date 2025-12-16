@@ -2,9 +2,9 @@
 import { getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import type { ImageMetadata } from 'astro';
-import { FeaturedBlogCard } from '@/components/cards/FeaturedBlogCard';
-import type { SecondaryBlogPost } from '@/components/cards/SecondaryBlogCards';
-import { SecondaryBlogCards } from '@/components/cards/SecondaryBlogCards';
+import FeaturedBlogCard from '@/components/cards/FeaturedBlogCard.astro';
+import type { SecondaryBlogPost } from '@/components/cards/SecondaryBlogCards.astro';
+import SecondaryBlogCards from '@/components/cards/SecondaryBlogCards.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
@@ -192,7 +192,6 @@ const secondaryPosts: SecondaryBlogPost[] = secondaryPostsData.map((post, index)
                     {/* Featured Post */}
                     {featuredPost && (
                         <FeaturedBlogCard
-                            client:visible
                             title={featuredPost.title}
                             excerpt={processMarkdown(featuredPost.excerpt)}
                             category={featuredPost.category}
@@ -209,7 +208,7 @@ const secondaryPosts: SecondaryBlogPost[] = secondaryPostsData.map((post, index)
 
                     {/* Secondary Posts */}
                     {secondaryPosts.length > 0 && (
-                        <SecondaryBlogCards client:visible posts={secondaryPosts} lang={lang} />
+                        <SecondaryBlogCards posts={secondaryPosts} lang={lang} />
                     )}
 
                     {/* View All Button */}

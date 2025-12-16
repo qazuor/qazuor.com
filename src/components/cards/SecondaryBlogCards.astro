@@ -1,0 +1,83 @@
+---
+import './SecondaryBlogCards.css';
+
+export interface SecondaryBlogPost {
+    title: string;
+    excerpt: string;
+    category: string;
+    slug: string;
+    tags: string[];
+    readTime: string;
+    date: string;
+    borderColor: string;
+}
+
+interface Props {
+    posts: SecondaryBlogPost[];
+    lang?: string;
+}
+
+const { posts, lang = 'en' } = Astro.props;
+
+// Format date for display based on language
+function formatDate(dateStr: string): string {
+    const dateLocale = lang === 'es' ? 'es-ES' : 'en-US';
+    return new Date(dateStr).toLocaleDateString(dateLocale, {
+        month: 'short',
+        day: 'numeric'
+    });
+}
+---
+
+{posts.length > 0 && (
+    <div class="secondary-cards-container" data-card-count={posts.length}>
+        {posts.map((post, index) => (
+            <article
+                class="secondary-card"
+                style={`--card-border-color: ${post.borderColor}; --card-index: ${index};`}
+            >
+                <a href={post.slug} class="secondary-card__link" aria-label={`Read ${post.title}`}>
+                    <!-- Header: Category & Date -->
+                    <div class="secondary-card__header">
+                        <span class="secondary-card__category">{post.category}</span>
+                        <span class="secondary-card__date">{formatDate(post.date)}</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="secondary-card__title">{post.title}</h3>
+
+                    <!-- Excerpt - only visible on expanded, content is sanitized markdown -->
+                    <p class="secondary-card__excerpt" set:html={post.excerpt} />
+
+                    <!-- Footer: Tags & Read Time -->
+                    <div class="secondary-card__footer">
+                        <div class="secondary-card__tags">
+                            {post.tags.slice(0, 3).map((tag) => (
+                                <span class="secondary-card__tag">#{tag}</span>
+                            ))}
+                        </div>
+                        <div class="secondary-card__read-info">
+                            <span class="secondary-card__read-time">{post.readTime}</span>
+                            <span class="secondary-card__arrow">
+                                <!-- ArrowUpRight icon (inline SVG) -->
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M7 7h10v10" />
+                                    <path d="M7 17 17 7" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+        ))}
+    </div>
+)}

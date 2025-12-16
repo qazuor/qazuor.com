@@ -797,10 +797,10 @@
     .dark .gradient-text-section {
         background: linear-gradient(
             90deg,
-            hsl(220 100% 65%) 0%,
-            hsl(var(--primary)) 35%,
-            hsl(var(--secondary)) 65%,
-            hsl(170 100% 65%) 100%
+            #0e7490 0%,
+            #0891b2 35%,
+            #06b6d4 65%,
+            #22d3ee 100%
         );
         -webkit-background-clip: text;
         background-clip: text;

@@ -1,5 +1,11 @@
 /**
- * Color Palette for Website Sections
+ * Section Background Colors
+ *
+ * Defines background colors for each major section of the website.
+ * Used by color-interpolation integration to generate smooth transitions.
+ *
+ * NOTE: These are layout colors, not theme accent colors.
+ * For theme colors (primary, secondary, etc.), see src/config/themeConfig.ts
  */
 
 export interface SectionColors {
@@ -18,23 +24,23 @@ export interface SectionColors {
 }
 
 /**
- * Dark mode colors (blue gradient palette - hue 210°)
- * FIXED: These colors form the site's base dark blue theme
- * Source: Extracted from qazuor.com production on 2025-12-13
+ * Dark mode colors - SLATE STEEL PALETTE
+ * Neutral grays with steel blue undertones
+ * Inspired by GitHub/VS Code dark themes
  */
 export const darkModeColors: SectionColors = {
-    hero: '#0F1A2B', // rgb(15, 26, 43) - Deep dark blue
-    about: '#1A2A3D', // rgb(26, 42, 61) - Dark blue
-    skills: '#1E3552', // rgb(30, 53, 82) - Medium dark blue
-    projects: '#253853', // rgb(37, 56, 83) - Blue
-    servicesPreview: '#1A2A3D', // Same as about
-    blog: '#0F1A2B', // Same as hero
-    services: '#1A2A3D', // Same as about
-    goodies: '#1A2A3D', // Same as about
-    testimonials: '#253853', // Same as projects
-    contact: '#1E3552', // Same as skills
-    faqs: '#1A2A3D', // Same as about
-    footer: '#0A1420' // rgb(10, 20, 32) - Darkest blue
+    hero: '#0d1117', // GitHub dark bg - deepest
+    about: '#161b22', // Slightly lighter
+    skills: '#1c2128', // Medium dark
+    projects: '#21262d', // Lighter accent
+    servicesPreview: '#161b22', // Same as about
+    blog: '#0d1117', // Same as hero
+    services: '#161b22', // Same as about
+    goodies: '#161b22', // Same as about
+    testimonials: '#21262d', // Same as projects
+    contact: '#1c2128', // Same as skills
+    faqs: '#161b22', // Same as about
+    footer: '#010409' // Near black
 };
 
 /**

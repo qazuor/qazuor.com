@@ -50,8 +50,8 @@ export default defineConfig({
 
         // Color Interpolation Generator (first to run early)
         colorInterpolation({
-            sourceFile: 'src/data/colors.ts',
-            outputFile: 'src/styles/generated-colors.css',
+            sourceFile: 'src/data/sectionBackgrounds.ts',
+            outputFile: 'src/styles/generated-section-backgrounds.css',
             steps: 5,
             watch: true
         }),

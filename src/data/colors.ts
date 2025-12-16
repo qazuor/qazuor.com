@@ -19,20 +19,22 @@ export interface SectionColors {
 
 /**
  * Dark mode colors (blue gradient palette - hue 210°)
+ * FIXED: These colors form the site's base dark blue theme
+ * Source: Extracted from qazuor.com production on 2025-12-13
  */
 export const darkModeColors: SectionColors = {
-    hero: '#0F1A2B', // Deep blue
-    about: '#1A2A3D', // Dark blue (was #2A1F3D)
-    skills: '#1E3552', // Medium dark blue (was #332952)
-    projects: '#253853', // Blue (was #393053)
-    servicesPreview: '#1A2A3D', // Dark blue (between projects and blog)
-    blog: '#0F1A2B', // Deep blue (latest articles)
-    services: '#1A2A3D', // Dark blue (complementing about)
-    goodies: '#1A2A3D', // Dark blue (same as services)
-    testimonials: '#253853', // Blue
-    contact: '#1E3552', // Medium dark blue (was #332952)
-    faqs: '#1A2A3D', // Dark blue (after contact, before footer)
-    footer: '#0A1420' // Very dark blue matching bg-background dark mode
+    hero: '#0F1A2B', // rgb(15, 26, 43) - Deep dark blue
+    about: '#1A2A3D', // rgb(26, 42, 61) - Dark blue
+    skills: '#1E3552', // rgb(30, 53, 82) - Medium dark blue
+    projects: '#253853', // rgb(37, 56, 83) - Blue
+    servicesPreview: '#1A2A3D', // Same as about
+    blog: '#0F1A2B', // Same as hero
+    services: '#1A2A3D', // Same as about
+    goodies: '#1A2A3D', // Same as about
+    testimonials: '#253853', // Same as projects
+    contact: '#1E3552', // Same as skills
+    faqs: '#1A2A3D', // Same as about
+    footer: '#0A1420' // rgb(10, 20, 32) - Darkest blue
 };
 
 /**

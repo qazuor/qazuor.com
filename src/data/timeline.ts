@@ -167,8 +167,8 @@ export const timelineData: TimelineItem[] = [
         icon: 'squares',
         iconUseItemColor: true,
         category: 'project',
-        colorLightTheme: '#dc2626',
-        colorDarkTheme: '#f87171' // lighter variant for dark theme
+        colorLightTheme: '#d97706',
+        colorDarkTheme: '#fbbf24' // amber - important milestone
     },
     {
         id: 'love-life',
@@ -201,8 +201,8 @@ export const timelineData: TimelineItem[] = [
         icon: 'make',
         iconUseItemColor: false,
         category: 'skill',
-        colorLightTheme: '#0d9488',
-        colorDarkTheme: '#2dd4bf' // lighter variant for dark theme
+        colorLightTheme: '#0891b2',
+        colorDarkTheme: '#22d3ee' // cyan - technical skill
     },
     {
         id: 'ai-development',
@@ -218,8 +218,8 @@ export const timelineData: TimelineItem[] = [
         icon: 'brain',
         iconUseItemColor: true,
         category: 'skill',
-        colorLightTheme: '#8b5cf6',
-        colorDarkTheme: '#a78bfa' // lighter variant for dark theme
+        colorLightTheme: '#059669',
+        colorDarkTheme: '#34d399' // emerald - growth/skill
     },
     {
         id: 'new-beginnings',

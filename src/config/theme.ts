@@ -113,9 +113,9 @@ export const boxShadow = {
     lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
     xl: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
     '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
-    glow: '0 0 20px rgb(22 242 179 / 0.3)',
-    'glow-primary': '0 0 20px oklch(0.55 0.22 210 / 0.3)',
-    'glow-secondary': '0 0 20px oklch(0.70 0.18 180 / 0.3)',
+    glow: '0 0 20px rgb(16 185 129 / 0.3)',
+    'glow-primary': '0 0 20px oklch(0.55 0.22 160 / 0.3)',
+    'glow-secondary': '0 0 20px oklch(0.70 0.18 160 / 0.3)',
     none: 'none'
 } as const;
 

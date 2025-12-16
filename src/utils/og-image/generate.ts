@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 import type { SatoriOptions } from 'satori';
 import satori from 'satori';
+import { darkModeTextColors, rgbToHex, themeColors } from '@/config/themeColors';
 
 /**
  * OG Image Generator
@@ -62,15 +63,15 @@ function truncateAtWord(text: string, maxLength: number): string {
     return `${truncated.slice(0, lastSpaceIndex)}...`;
 }
 
-// Brand colors
+// Brand colors - uses theme colors from config for consistency
 const COLORS = {
-    background: '#0f0a1e', // Dark purple background
-    backgroundGradient: '#1a0f2e',
-    text: '#f8fafc', // Light text
-    textMuted: '#94a3b8', // Muted text
-    accent: '#8b5cf6', // Purple accent
-    accentSecondary: '#3b82f6', // Blue accent
-    barBackground: '#0a0612' // Darker bar background
+    background: '#0f1a1e', // Dark teal-blue background (OG-specific)
+    backgroundGradient: '#0f2a2e', // (OG-specific)
+    text: darkModeTextColors.default, // Light text from theme
+    textMuted: darkModeTextColors.muted, // Muted text from theme
+    accent: rgbToHex(themeColors.secondary), // Cyan from theme
+    accentSecondary: rgbToHex(themeColors.primary), // Ocean Blue from theme
+    barBackground: '#061210' // Darker bar background (OG-specific)
 };
 
 // Cache fonts to avoid fetching multiple times
@@ -257,8 +258,8 @@ function createOgTemplate(options: OgImageOptions & { photoBase64: string }) {
                                                                       type: 'div',
                                                                       props: {
                                                                           style: {
-                                                                              background: 'rgba(139, 92, 246, 0.2)',
-                                                                              border: '1px solid rgba(139, 92, 246, 0.4)',
+                                                                              background: 'rgba(16, 185, 129, 0.2)',
+                                                                              border: '1px solid rgba(16, 185, 129, 0.4)',
                                                                               color: COLORS.accent,
                                                                               padding: '5px 14px',
                                                                               borderRadius: '6px',
@@ -317,7 +318,7 @@ function createOgTemplate(options: OgImageOptions & { photoBase64: string }) {
                             width: '100%',
                             height: `${BOTTOM_BAR_HEIGHT}px`,
                             background: COLORS.barBackground,
-                            borderTop: '2px solid rgba(139, 92, 246, 0.5)',
+                            borderTop: '2px solid rgba(16, 185, 129, 0.5)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'flex-end',

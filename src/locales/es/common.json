@@ -107,8 +107,20 @@
         "pageDescription": "Este blog es el lugar donde bajo a tierra lo que uso todos los días: **frontend**, **TypeScript**, **Astro**, **React**, **UX**, **arquitectura de code** y forma de trabajar. No vas a encontrar teoría de manual, sino ejemplos reales, decisiones de diseño y pequeñas lecciones que salen de proyectos propios y de clientes.\n\nLa idea es simple: compartir lo que me hubiera gustado leer antes de enfrentarme a ciertos problemas. Menos humo, más contexto, buenas prácticas explicadas en castellano y suficiente detalle como para que puedas aplicar algo concreto después de cada post.",
         "readMore": "**Leer más**",
         "readTime": "min de lectura",
+        "categories": {
+            "Architecture": "Arquitectura",
+            "Development": "Desarrollo",
+            "Frontend": "Frontend",
+            "General": "General",
+            "Negocio": "Negocio",
+            "Product": "Producto",
+            "Tooling": "Herramientas",
+            "TypeScript": "TypeScript",
+            "Web Development": "Desarrollo Web"
+        },
         "viewAll": "Ver **todos** los artículos",
         "noArticles": "Aún no hay artículos. *¡Vuelve pronto!*",
+        "featured": "Destacado",
         "toc": {
             "title": "En esta página",
             "openToc": "Abrir índice de contenidos",

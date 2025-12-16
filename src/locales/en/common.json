@@ -107,8 +107,20 @@
         "pageDescription": "This blog is where I unpack what I use every day: **frontend**, **TypeScript**, **Astro**, **React**, **UX**, **code** architecture and workflows. You won't find textbook theory here, but real examples, design decisions and lessons learned from both personal products and client projects.\n\nThe idea is simple: share the kind of content I wish I had before running into certain problems. Less fluff, more context, practical best practices and enough detail so you can walk away from each post with something you can actually apply.",
         "readMore": "**Read more**",
         "readTime": "min read",
+        "categories": {
+            "Architecture": "Architecture",
+            "Development": "Development",
+            "Frontend": "Frontend",
+            "General": "General",
+            "Negocio": "Business",
+            "Product": "Product",
+            "Tooling": "Tooling",
+            "TypeScript": "TypeScript",
+            "Web Development": "Web Development"
+        },
         "viewAll": "View **all** articles",
         "noArticles": "No articles yet. *Check back soon!*",
+        "featured": "Featured",
         "toc": {
             "title": "On this page",
             "openToc": "Open table of contents",

@@ -25,6 +25,17 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
     // Store all cards permanently - preserve original DOM elements (useRef since it never triggers re-renders)
     const allCardsCache = useRef(new Map<string, Array<{ element: HTMLElement; technologies: string[] }>>()).current;
 
+    // Read filters from URL and sync state
+    const syncFiltersFromUrl = useCallback((techs: string[]) => {
+        const params = new URLSearchParams(window.location.search);
+        const tech = params.get('tech');
+        if (tech) {
+            setSelectedTechnologies(tech.split(',').filter((t) => techs.includes(t)));
+        } else {
+            setSelectedTechnologies([]);
+        }
+    }, []);
+
     // Initialize technologies and cards cache from DOM on mount
     useEffect(() => {
         const allProjects = document.querySelectorAll('.project-card');
@@ -56,14 +67,20 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
         });
 
         // Read initial filters from URL
-        const params = new URLSearchParams(window.location.search);
-        const tech = params.get('tech');
-        if (tech) {
-            setSelectedTechnologies(tech.split(',').filter((t) => techs.includes(t)));
-        }
+        syncFiltersFromUrl(techs);
 
         setMounted(true);
-    }, [allCardsCache]);
+    }, [allCardsCache, syncFiltersFromUrl]);
+
+    // Listen for browser back/forward navigation (popstate)
+    useEffect(() => {
+        const handlePopState = () => {
+            syncFiltersFromUrl(allTechnologies);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [allTechnologies, syncFiltersFromUrl]);
 
     const applyFilters = useCallback(
         (technologies: string[]) => {

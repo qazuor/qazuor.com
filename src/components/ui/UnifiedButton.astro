@@ -65,7 +65,7 @@ const baseClasses = [
     // Shape
     'rounded-xl',
     // Transitions
-    'transition-all duration-300',
+    'transition-all duration-base',
     // Focus
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
 ]
@@ -77,7 +77,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     primary: [
         'relative overflow-hidden text-white btn-primary-gradient',
         'before:absolute before:inset-0 before:btn-primary-hover-gradient',
-        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
         !disabled && 'hover:before:opacity-100'
     ]
         .filter(Boolean)
@@ -85,7 +85,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     secondary: [
         'relative overflow-hidden border text-foreground btn-secondary-bg',
         'before:absolute before:inset-0 before:btn-primary-gradient',
-        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
         !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
     ]
         .filter(Boolean)
@@ -94,7 +94,7 @@ const variantClasses: Record<ButtonVariant, string> = {
         'relative overflow-hidden text-white shadow-lg shadow-[var(--btn-tertiary-shadow)]',
         'bg-[linear-gradient(135deg,var(--btn-tertiary-bg-start)_0%,var(--btn-tertiary-bg-end)_100%)]',
         'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,var(--btn-tertiary-hover-start)_0%,var(--btn-tertiary-hover-end)_100%)]',
-        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
         !disabled && 'hover:before:opacity-100 hover:-translate-y-0.5'
     ]
         .filter(Boolean)
@@ -102,7 +102,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     ghost: [
         'relative overflow-hidden text-primary btn-ghost-bg',
         'before:absolute before:inset-0 before:btn-primary-gradient',
-        'before:opacity-0 before:transition-opacity before:duration-400 before:ease-in-out',
+        'before:opacity-0 before:transition-opacity before:duration-base before:ease-in-out',
         !disabled && 'hover:before:opacity-20'
     ]
         .filter(Boolean)
@@ -110,7 +110,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     outline: [
         'relative overflow-hidden border-2 text-primary btn-outline-style',
         'before:absolute before:inset-0 before:btn-primary-gradient',
-        'before:opacity-0 before:transition-opacity before:duration-500 before:ease-in-out',
+        'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
         !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
     ]
         .filter(Boolean)

@@ -243,7 +243,7 @@ export function ImageCarousel({
                         <button
                             type="button"
                             onClick={() => emblaApi?.scrollPrev()}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 dark:bg-black/70 hover:bg-black/80 dark:hover:bg-black/90 backdrop-blur-lg text-white p-3 rounded-full transition-all hidden md:flex items-center justify-center shadow-2xl ring-2 ring-white/40 hover:ring-white/60 hover:scale-110"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 dark:bg-black/70 hover:bg-black/80 dark:hover:bg-black/90 backdrop-blur-lg text-white p-3 rounded-full transition-all hidden md:flex items-center justify-center shadow-2xl ring-2 ring-white/40 hover:ring-white/60 hover:scale-emphasis"
                             aria-label="Previous image"
                         >
                             <svg
@@ -262,7 +262,7 @@ export function ImageCarousel({
                         <button
                             type="button"
                             onClick={() => emblaApi?.scrollNext()}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 dark:bg-black/70 hover:bg-black/80 dark:hover:bg-black/90 backdrop-blur-lg text-white p-3 rounded-full transition-all hidden md:flex items-center justify-center shadow-2xl ring-2 ring-white/40 hover:ring-white/60 hover:scale-110"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 dark:bg-black/70 hover:bg-black/80 dark:hover:bg-black/90 backdrop-blur-lg text-white p-3 rounded-full transition-all hidden md:flex items-center justify-center shadow-2xl ring-2 ring-white/40 hover:ring-white/60 hover:scale-emphasis"
                             aria-label="Next image"
                         >
                             <svg

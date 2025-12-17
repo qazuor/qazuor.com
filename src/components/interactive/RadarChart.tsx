@@ -339,7 +339,7 @@ export function RadarChart({
                             strokeWidth="2.5"
                             strokeLinejoin="round"
                             style={{
-                                transition: 'all 0.3s ease-in-out'
+                                transition: 'all var(--duration-base) var(--ease-in-out)'
                             }}
                         />
                     </g>
@@ -380,7 +380,7 @@ export function RadarChart({
                                             r={30}
                                             fill={skill.color}
                                             opacity={0.25}
-                                            className="transition-all duration-200"
+                                            className="transition-all duration-fast"
                                         />
                                     )}
 
@@ -391,7 +391,7 @@ export function RadarChart({
                                             y={point.y - (isHighlighted ? 19 : 17)}
                                             width={isHighlighted ? 38 : 34}
                                             height={isHighlighted ? 38 : 34}
-                                            className="transition-all duration-200"
+                                            className="transition-all duration-fast"
                                             style={{
                                                 filter: isHighlighted
                                                     ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))'
@@ -419,7 +419,7 @@ export function RadarChart({
                                             fill={skill.color}
                                             stroke="white"
                                             strokeWidth={isHighlighted ? 2.5 : 2}
-                                            className="transition-all duration-200"
+                                            className="transition-all duration-fast"
                                             style={{
                                                 filter: isHighlighted ? 'drop-shadow(0 0 6px rgba(0,0,0,0.3))' : 'none'
                                             }}

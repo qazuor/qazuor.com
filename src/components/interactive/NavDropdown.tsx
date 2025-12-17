@@ -256,10 +256,10 @@ export function NavDropdown({
                                 role="menuitem"
                                 tabIndex={focusedIndex === index ? 0 : -1}
                                 className={`
-                                    flex items-center gap-2 transition-all duration-200
+                                    flex items-center gap-2 transition-all duration-fast
                                     ${
                                         variant === 'grid'
-                                            ? 'px-3 py-2 text-[0.8125rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.02] focus:bg-foreground/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/20'
+                                            ? 'px-3 py-2 text-[0.8125rem] rounded-md hover:bg-foreground/[0.06] hover:scale-subtle focus:bg-foreground/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/20'
                                             : 'px-3 py-2 text-[0.65rem] hover:bg-foreground/5'
                                     }
                                     ${
@@ -302,7 +302,7 @@ export function NavDropdown({
                         <div className="border-t border-foreground/[0.06] p-3">
                             <a
                                 href={viewAllLink.href}
-                                className="flex items-center justify-between px-3 py-2 text-[0.8125rem] rounded-md hover:bg-foreground/[0.06] hover:scale-[1.02] transition-all duration-200 text-foreground-secondary hover:text-foreground font-medium focus:bg-foreground/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                className="flex items-center justify-between px-3 py-2 text-[0.8125rem] rounded-md hover:bg-foreground/[0.06] hover:scale-subtle transition-all duration-200 text-foreground-secondary hover:text-foreground font-medium focus:bg-foreground/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/20"
                                 onClick={() => handleSetIsOpen(false)}
                             >
                                 <span>{viewAllLink.label}</span>

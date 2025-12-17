@@ -65,7 +65,7 @@ export const TimelineCard = memo(function TimelineCard({ item, popoverWidth, isM
     const titleStyle = useMemo<React.CSSProperties>(
         () => ({
             color: item.colorHex,
-            transition: 'color 400ms cubic-bezier(0.4, 0, 0.2, 1)'
+            transition: 'color var(--duration-base) var(--ease-in-out)'
         }),
         [item.colorHex]
     );

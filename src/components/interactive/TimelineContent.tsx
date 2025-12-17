@@ -73,7 +73,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                     <button
                         type="button"
                         onClick={timeline.goToPrev}
-                        className="p-2 rounded-full bg-foreground/10 hover:bg-foreground/15 transition-colors duration-200 text-text-secondary hover:text-text-primary"
+                        className="p-2 rounded-full bg-foreground/10 hover:bg-foreground/15 transition-colors duration-fast text-text-secondary hover:text-text-primary"
                         aria-label={t.previous}
                     >
                         <svg
@@ -91,7 +91,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                     <button
                         type="button"
                         onClick={timeline.toggleAutoPlay}
-                        className={`p-2 rounded-full transition-colors duration-200 ${
+                        className={`p-2 rounded-full transition-colors duration-fast ${
                             timeline.isAutoPlaying
                                 ? 'bg-primary/25 text-primary hover:bg-primary/35'
                                 : 'bg-foreground/10 text-text-secondary hover:bg-foreground/15 hover:text-text-primary'
@@ -114,7 +114,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                     <button
                         type="button"
                         onClick={timeline.goToNext}
-                        className="p-2 rounded-full bg-foreground/10 hover:bg-foreground/15 transition-colors duration-200 text-text-secondary hover:text-text-primary"
+                        className="p-2 rounded-full bg-foreground/10 hover:bg-foreground/15 transition-colors duration-fast text-text-secondary hover:text-text-primary"
                         aria-label={t.next}
                     >
                         <svg
@@ -145,7 +145,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                             key={item.id}
                             type="button"
                             onClick={() => timeline.goToIndex(index)}
-                            className={`w-2.5 h-2.5 rounded-full transition-transform duration-300 ${
+                            className={`w-2.5 h-2.5 rounded-full transition-transform duration-base ${
                                 timeline.currentIndex === index
                                     ? 'scale-125'
                                     : 'scale-100 bg-foreground/20 hover:bg-foreground/35 hover:scale-110'
@@ -247,7 +247,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                             }`}
                                             style={{
                                                 color: isSelected ? item.colorHex : 'hsl(var(--text-secondary))',
-                                                transition: 'all 600ms cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                                transition: 'all var(--duration-slow) var(--ease-bounce)'
                                             }}
                                         >
                                             {item.year}
@@ -259,7 +259,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                             style={{
                                                 backgroundColor: 'hsl(var(--foreground) / 0.3)',
                                                 opacity: isSelected ? '0' : '1',
-                                                transition: 'opacity 400ms cubic-bezier(0.4, 0, 0.2, 1)'
+                                                transition: 'opacity var(--duration-base) var(--ease-in-out)'
                                             }}
                                         />
 
@@ -269,7 +269,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                                 isSelected ? 'transform translate-y-16' : 'translate-y-2'
                                             }`}
                                             style={{
-                                                transition: 'transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                                transition: 'transform var(--duration-slow) var(--ease-bounce)'
                                             }}
                                         >
                                             {/* Icon from data - grayscale when not selected, colored when selected */}
@@ -285,7 +285,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                                             ? item.colorHex
                                                             : 'hsl(var(--text-secondary))'
                                                         : undefined,
-                                                    transition: 'all 500ms cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                                    transition: 'all var(--duration-slow) var(--ease-bounce)'
                                                 }}
                                             >
                                                 <TimelineIcon iconName={item.icon} className="w-7 h-7" />
@@ -304,7 +304,7 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                                             opacity: isSelected ? 1 : 0,
                                             background: `linear-gradient(to bottom, ${item.colorHex}, ${item.colorHex}10)`,
                                             transition:
-                                                'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)'
+                                                'transform var(--duration-slow) var(--ease-bounce), opacity var(--duration-base) var(--ease-in-out)'
                                         }}
                                     />
 

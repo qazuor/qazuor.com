@@ -42,7 +42,7 @@ interface InfoItemProps {
 function InfoItem({ icon, label, value, href, isExternal }: InfoItemProps) {
     const content = (
         <div className="group flex items-start gap-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:scale-110">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary transition-all duration-base group-hover:bg-primary group-hover:text-white group-hover:scale-emphasis">
                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
                 <span className="w-4 h-4 [&>svg]:w-4 [&>svg]:h-4" dangerouslySetInnerHTML={{ __html: icon }} />
             </div>
@@ -59,7 +59,7 @@ function InfoItem({ icon, label, value, href, isExternal }: InfoItemProps) {
                 href={href}
                 target={isExternal ? '_blank' : undefined}
                 rel={isExternal ? 'noopener noreferrer' : undefined}
-                className="block transition-transform duration-300 hover:translate-x-1"
+                className="block transition-transform duration-base hover:translate-x-1"
             >
                 {content}
             </a>
@@ -82,7 +82,7 @@ function SocialLink({ href, icon, label }: SocialLinkProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="group w-9 h-9 rounded-full bg-background-secondary border border-foreground/10 flex items-center justify-center text-foreground-muted transition-all duration-300 hover:bg-primary hover:border-primary hover:text-white hover:scale-110 hover:shadow-lg hover:shadow-primary/25"
+            className="group w-9 h-9 rounded-full bg-background-secondary border border-foreground/10 flex items-center justify-center text-foreground-muted transition-all duration-base hover:bg-primary hover:border-primary hover:text-white hover:scale-emphasis hover:shadow-lg hover:shadow-primary/25"
         >
             {/* biome-ignore lint/security/noDangerouslySetInnerHtml: SVG from trusted local file */}
             <span className="w-4 h-4 [&>svg]:w-4 [&>svg]:h-4" dangerouslySetInnerHTML={{ __html: icon }} />

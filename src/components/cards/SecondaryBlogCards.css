@@ -21,8 +21,8 @@
     height: 100%; /* Fill container height exactly */
     background: var(--color-bg-secondary);
     overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.3s ease;
+    transition: width 0.35s var(--ease-in-out),
+                background-color var(--duration-base) var(--ease-in-out);
 }
 
 /* Card inner link */
@@ -47,7 +47,7 @@
     bottom: 0;
     width: 4px;
     background: var(--card-border-color);
-    transition: width 0.3s ease, box-shadow 0.3s ease;
+    transition: width var(--duration-base) var(--ease-in-out), box-shadow var(--duration-base) var(--ease-in-out);
     z-index: 10;
 }
 
@@ -115,7 +115,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-base) var(--ease-in-out);
 }
 
 .secondary-card__category {
@@ -149,7 +149,7 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: font-size 0.3s ease, opacity 0.3s ease;
+    transition: font-size var(--duration-base) var(--ease-in-out), opacity var(--duration-base) var(--ease-in-out);
 }
 
 /* Expanded: show full title */
@@ -171,7 +171,7 @@
     overflow: hidden;
     opacity: 0;
     max-height: 0;
-    transition: opacity 0.3s ease 0.1s, max-height 0.3s ease;
+    transition: opacity var(--duration-base) var(--ease-in-out) 0.1s, max-height var(--duration-base) var(--ease-in-out);
 }
 
 /* Show excerpt on hover */
@@ -188,7 +188,7 @@
     align-items: center;
     margin-top: auto;
     gap: 0.5rem;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-base) var(--ease-in-out);
 }
 
 .secondary-card__tags {
@@ -204,7 +204,7 @@
     font-weight: 500;
     white-space: nowrap;
     opacity: 0.7;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--duration-fast) var(--ease-in-out);
 }
 
 .secondary-card:hover .secondary-card__tag {
@@ -237,7 +237,7 @@
     justify-content: center;
     color: var(--card-border-color);
     transform: translateX(0);
-    transition: transform 0.3s ease;
+    transition: transform var(--duration-base) var(--ease-in-out);
 }
 
 .secondary-card:hover .secondary-card__arrow {
@@ -329,9 +329,9 @@
 
     /* Mobile hover effect: Elevation + Border glow */
     .secondary-card {
-        transition: transform 0.25s ease,
-                    box-shadow 0.25s ease,
-                    background-color 0.25s ease;
+        transition: transform var(--duration-fast) var(--ease-in-out),
+                    box-shadow var(--duration-fast) var(--ease-in-out),
+                    background-color var(--duration-fast) var(--ease-in-out);
     }
 
     .secondary-card:hover {

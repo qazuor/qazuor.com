@@ -12,9 +12,9 @@
     height: 100%;
     min-height: 500px;
 
-    border-radius: 0.5rem;
+    border-radius: var(--radius-lg); /* 12px - standard card radius */
 
-    transition: width 0.3s ease-in-out;
+    transition: width var(--duration-base) var(--ease-in-out);
 }
 
 /* Full card clickable link */
@@ -73,13 +73,13 @@
     object-fit: cover;
     object-position: center;
     transition:
-        transform 0.3s ease-in-out,
-        filter 0.3s ease-in-out;
+        transform var(--duration-base) var(--ease-in-out),
+        filter var(--duration-base) var(--ease-in-out);
 }
 
 .blog-post-card:hover .blog-post-card__bg-image {
-    transform: scale(1.05);
-    filter: blur(6px);
+    transform: scale(var(--scale-medium));
+    filter: blur(8px); /* Tailwind blur equivalent */
 }
 
 /* Dark Overlay */
@@ -104,13 +104,13 @@
     max-width: 100%;
     margin-bottom: 3rem; /* Space for corner icon */
     overflow: visible; /* Allow quote to be visible when expanded */
-    transition: transform 0.5s cubic-bezier(0.23, 0.93, 0.77, 1) 0.01s;
+    transition: transform var(--duration-slow) var(--ease-spring) 0.01s;
 }
 
 /* Title and Category wrapper (will move up on hover) */
 .blog-post-card__category,
 .blog-post-card__title {
-    transition: transform 0.5s cubic-bezier(0.23, 0.93, 0.77, 1) 0.01s;
+    transition: transform var(--duration-slow) var(--ease-spring) 0.01s;
 }
 
 /* Badges Container */
@@ -178,7 +178,7 @@
     display: grid;
     grid-template-rows: 0fr;
     overflow: hidden;
-    transition: grid-template-rows 0.3s cubic-bezier(0.23, 0.93, 0.77, 1) 0.01s;
+    transition: grid-template-rows var(--duration-base) var(--ease-spring) 0.01s;
 }
 
 .blog-post-card:hover .blog-post-card__quote-wrapper,
@@ -193,8 +193,8 @@
     transform: translateY(50%);
     opacity: 0;
     transition:
-        opacity 0.4s ease-in-out 0.15s,
-        transform 0.4s cubic-bezier(0.23, 0.93, 0.77, 1) 0.15s;
+        opacity 0.4s var(--ease-in-out) 0.15s,
+        transform 0.4s var(--ease-spring) 0.15s;
 }
 
 .blog-post-card:hover .blog-post-card__quote,
@@ -251,11 +251,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease;
+    transition: transform var(--duration-base) var(--ease-in-out);
 }
 
 .blog-post-card:hover .blog-post-card__icon-circle {
-    transform: scale(1.1);
+    transform: scale(var(--scale-emphasis));
 }
 
 /* Icon SVG */

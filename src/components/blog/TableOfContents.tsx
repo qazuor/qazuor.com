@@ -242,7 +242,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 ref={asideRef}
                 className={`
                     toc-sidebar hidden xl:block max-h-[calc(100vh-5rem)] overflow-y-auto z-30
-                    transition-opacity duration-300 ease-in-out
+                    transition-opacity duration-base ease-in-out
                     ${isStuck ? 'fixed top-20 w-64' : ''}
                     ${isHiddenByFooter ? 'opacity-0 pointer-events-none' : 'opacity-100'}
                 `}
@@ -262,7 +262,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                         type="button"
                                         onClick={() => handleClick(group.heading.slug)}
                                         className={`
-                                            block w-full text-left text-xs py-1 pl-3 transition-all duration-200
+                                            block w-full text-left text-xs py-1 pl-3 transition-all duration-fast
                                             border-l-2 -ml-[2px] hover:text-primary
                                             ${
                                                 isHeadingActive
@@ -282,7 +282,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                     {group.children.length > 0 && (
                                         <ul
                                             className={`
-                                                overflow-hidden transition-all duration-300 ease-in-out
+                                                overflow-hidden transition-all duration-base ease-in-out
                                                 ${isGroupActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
                                             `}
                                         >
@@ -292,7 +292,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                                         type="button"
                                                         onClick={() => handleClick(child.slug)}
                                                         className={`
-                                                            block w-full text-left text-xs py-1 pl-5 transition-all duration-200
+                                                            block w-full text-left text-xs py-1 pl-5 transition-all duration-fast
                                                             border-l-2 -ml-[2px] hover:text-primary
                                                             ${
                                                                 activeId === child.slug
@@ -331,7 +331,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 className={`
                     xl:hidden fixed bottom-0 left-0 right-0 z-50
                     bg-card rounded-t-3xl shadow-2xl
-                    transform transition-transform duration-300 ease-out
+                    transform transition-transform duration-base ease-out
                     max-h-[70vh] overflow-hidden
                     ${isDrawerOpen ? 'translate-y-0' : 'translate-y-full'}
                 `}
@@ -389,7 +389,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                         onClick={() => handleClick(group.heading.slug)}
                                         className={`
                                             block w-full text-left py-3 px-4 rounded-lg
-                                            transition-all duration-200
+                                            transition-all duration-fast
                                             ${
                                                 isHeadingActive
                                                     ? 'bg-primary/10 text-primary font-medium'
@@ -405,7 +405,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                     {group.children.length > 0 && (
                                         <ul
                                             className={`
-                                                overflow-hidden transition-all duration-300 ease-in-out
+                                                overflow-hidden transition-all duration-base ease-in-out
                                                 ${isGroupActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
                                             `}
                                         >
@@ -416,7 +416,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                                         onClick={() => handleClick(child.slug)}
                                                         className={`
                                                             block w-full text-left py-2 px-4 ml-4 rounded-lg
-                                                            transition-all duration-200 text-sm
+                                                            transition-all duration-fast text-sm
                                                             ${
                                                                 activeId === child.slug
                                                                     ? 'bg-primary/10 text-primary font-medium'

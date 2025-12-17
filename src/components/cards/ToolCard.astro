@@ -39,7 +39,7 @@ const iconSvg = iconMap[tool.data.icon] || iconMap.default;
 ---
 
 <article
-    class={`tool-card group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 ${className}`}
+    class={`tool-card group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-base hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 ${className}`}
 >
     <!-- Icon & Category -->
     <div class="flex items-start gap-4 mb-4">
@@ -124,7 +124,7 @@ const iconSvg = iconMap[tool.data.icon] || iconMap.default;
 
     <!-- Hover Effect Overlay -->
     <div
-        class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-base pointer-events-none"
     >
     </div>
 </article>

@@ -119,13 +119,13 @@ export function ScrollToTop({
                     onClick={hasToc ? openTocDrawer : scrollToTop}
                     data-scroll-to-top="true"
                     style={positionStyle}
-                    className="fixed z-[401] flex h-[54px] w-[54px] items-center justify-center rounded-full border border-border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary active:scale-95 text-muted-foreground dark:bg-card/95 dark:border-white/10 dark:shadow-black/20"
+                    className="fixed z-[401] flex h-[54px] w-[54px] items-center justify-center rounded-full border border-border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary active:scale-95 text-muted-foreground dark:bg-card/95 dark:border-white/10 dark:shadow-black/20"
                     aria-label={hasToc ? tocAriaLabel : ariaLabel}
                 >
                     {hasToc ? (
-                        <List size={20} className="transition-transform group-hover:scale-110" />
+                        <List size={20} className="transition-transform group-hover:scale-emphasis" />
                     ) : (
-                        <ArrowUp size={20} className="transition-transform group-hover:scale-110" />
+                        <ArrowUp size={20} className="transition-transform group-hover:scale-emphasis" />
                     )}
                 </button>
             )}

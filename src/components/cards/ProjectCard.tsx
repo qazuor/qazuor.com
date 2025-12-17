@@ -216,7 +216,7 @@ export const ProjectCard = memo(function ProjectCard({
 
                 {/* Card container with glassmorphism */}
                 <div
-                    className={`relative h-full bg-card backdrop-blur-sm border border-border rounded-xl overflow-hidden transition-all duration-500 shadow-lg ${colors.shadow} hover:shadow-2xl group-hover:scale-[1.02] transform flex flex-col`}
+                    className={`relative h-full bg-card backdrop-blur-sm border border-border rounded-xl overflow-hidden transition-all duration-slow shadow-lg ${colors.shadow} hover:shadow-2xl group-hover:scale-subtle transform flex flex-col`}
                 >
                     {/* Category badge - improved visibility */}
                     <div className="absolute top-4 left-4 z-20 flex gap-2">
@@ -248,7 +248,7 @@ export const ProjectCard = memo(function ProjectCard({
 
                     {/* Image section with enhanced hover */}
                     <div className="relative aspect-video overflow-hidden">
-                        <div className="transform transition-transform duration-500 group-hover:scale-105">
+                        <div className="transform transition-transform duration-slow group-hover:scale-medium">
                             <ImageCarousel images={images} onImageClick={handleImageClick} alt={title} />
                         </div>
                         {/* Gradient overlay on hover */}

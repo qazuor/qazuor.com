@@ -46,7 +46,7 @@ const PlatformButton = memo(function PlatformButton({
             <button
                 type="button"
                 onClick={handleClick}
-                className="p-2 text-white/70 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300"
+                className="p-2 text-white/70 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-base"
                 style={{ '--brand-color': brandColor } as React.CSSProperties}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -62,13 +62,13 @@ const PlatformButton = memo(function PlatformButton({
         <button
             type="button"
             onClick={handleClick}
-            className="group p-3 text-foreground-secondary rounded-xl border border-foreground/10 hover:border-transparent bg-surface/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+            className="group p-3 text-foreground-secondary rounded-xl border border-foreground/10 hover:border-transparent bg-surface/50 hover:shadow-lg transition-all duration-base hover:-translate-y-0.5"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             aria-label={ariaLabel}
             title={label}
         >
-            <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <Icon className="w-5 h-5 group-hover:scale-emphasis transition-transform" />
         </button>
     );
 });
@@ -147,10 +147,10 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
             <button
                 type="button"
                 onClick={handleNativeShare}
-                className="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300 hover:shadow-lg hover:shadow-white/5"
+                className="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl border border-white/20 hover:border-white/30 transition-all duration-base hover:shadow-lg hover:shadow-white/5"
                 aria-label={t.button}
             >
-                <ShareIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <ShareIcon className="w-4 h-4 group-hover:scale-emphasis transition-transform" />
                 <span>{t.button}</span>
             </button>
         );
@@ -175,7 +175,7 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                 <button
                     type="button"
                     onClick={handleCopyLink}
-                    className={`p-2 rounded-lg backdrop-blur-sm border transition-all duration-300 ${
+                    className={`p-2 rounded-lg backdrop-blur-sm border transition-all duration-base ${
                         copyStatus === 'copied'
                             ? 'text-[rgb(var(--color-ui-success))] bg-[rgba(var(--color-ui-success),0.2)] border-[rgba(var(--color-ui-success),0.3)]'
                             : copyStatus === 'failed'
@@ -200,10 +200,10 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                 <button
                     type="button"
                     onClick={handleNativeShare}
-                    className="group inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-600 hover:from-primary-600 hover:to-primary rounded-xl transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+                    className="group inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-600 hover:from-primary-600 hover:to-primary rounded-xl transition-all duration-base shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
                     aria-label={t.button}
                 >
-                    <ShareIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <ShareIcon className="w-4 h-4 group-hover:scale-emphasis transition-transform" />
                     <span>{t.button}</span>
                 </button>
             )}
@@ -227,7 +227,7 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                 <button
                     type="button"
                     onClick={handleCopyLink}
-                    className={`group p-3 rounded-xl border transition-all duration-300 hover:-translate-y-0.5 ${
+                    className={`group p-3 rounded-xl border transition-all duration-base hover:-translate-y-0.5 ${
                         copyStatus === 'copied'
                             ? 'text-[rgb(var(--color-ui-success))] bg-[rgba(var(--color-ui-success),0.1)] border-[rgba(var(--color-ui-success),0.3)] shadow-lg shadow-[rgba(var(--color-ui-success),0.2)]'
                             : copyStatus === 'failed'
@@ -239,9 +239,9 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                     aria-live="polite"
                 >
                     {copyStatus === 'copied' ? (
-                        <CheckIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        <CheckIcon className="w-5 h-5 group-hover:scale-emphasis transition-transform" />
                     ) : (
-                        <LinkIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        <LinkIcon className="w-5 h-5 group-hover:scale-emphasis transition-transform" />
                     )}
                 </button>
             </div>

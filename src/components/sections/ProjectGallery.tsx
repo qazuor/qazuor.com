@@ -51,7 +51,7 @@ export function ProjectGallery({ images, alt = 'Project image' }: ProjectGallery
                             width={image.width}
                             height={image.height}
                             decoding="async"
-                            className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                            className="w-full h-auto transition-transform duration-base group-hover:scale-emphasis"
                             loading="lazy"
                         />
                         {/* Hover Overlay */}

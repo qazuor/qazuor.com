@@ -342,7 +342,7 @@ export function FloatingNav({
         return (
             <nav
                 aria-label="Quick navigation"
-                className={`fixed bottom-4 left-1/2 z-[400] flex -translate-x-1/2 items-center gap-1 rounded-full border border-border bg-card/80 px-2 py-2 shadow-lg backdrop-blur-sm transition-all duration-300 md:hidden dark:bg-card/95 dark:border-white/10 dark:shadow-black/20 ${
+                className={`fixed bottom-4 left-1/2 z-[400] flex -translate-x-1/2 items-center gap-1 rounded-full border border-border bg-card/80 px-2 py-2 shadow-lg backdrop-blur-sm transition-all duration-base md:hidden dark:bg-card/95 dark:border-white/10 dark:shadow-black/20 ${
                     isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
                 }`}
             >
@@ -358,10 +358,10 @@ export function FloatingNav({
                             onClick={(e) => handleClick(e, section)}
                             aria-label={label}
                             aria-current={isActive ? 'true' : undefined}
-                            className={`relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 ${
+                            className={`relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-fast ${
                                 isActive
-                                    ? 'bg-primary/20 text-primary scale-110'
-                                    : 'text-muted-foreground active:bg-primary/10 hover:scale-105'
+                                    ? 'bg-primary/20 text-primary scale-emphasis'
+                                    : 'text-muted-foreground active:bg-primary/10 hover:scale-medium'
                             }`}
                         >
                             <Icon size={16} />
@@ -395,14 +395,14 @@ export function FloatingNav({
                             onClick={(e) => handleClick(e, section)}
                             aria-label={label}
                             aria-current={isActive ? 'true' : undefined}
-                            className={`group relative flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 ${
+                            className={`group relative flex h-10 w-10 items-center justify-center rounded-full transition-all duration-base ${
                                 isActive
-                                    ? 'bg-primary/20 text-primary ring-2 ring-primary/50 scale-110'
-                                    : 'text-muted-foreground hover:scale-110 hover:bg-primary/10 hover:text-primary'
+                                    ? 'bg-primary/20 text-primary ring-2 ring-primary/50 scale-emphasis'
+                                    : 'text-muted-foreground hover:scale-emphasis hover:bg-primary/10 hover:text-primary'
                             }`}
                         >
                             <Icon size={20} />
-                            <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                            <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                                 {label}
                             </span>
                         </button>
@@ -416,10 +416,10 @@ export function FloatingNav({
                     type="button"
                     onClick={toggleTheme}
                     aria-label={mergedUtilityLabels.theme}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
                 >
                     {isDark ? <Sun size={20} /> : <Moon size={20} />}
-                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.theme}
                     </span>
                 </button>
@@ -428,10 +428,10 @@ export function FloatingNav({
                     type="button"
                     onClick={switchLanguage}
                     aria-label={mergedUtilityLabels.language}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
                 >
                     <Languages size={20} />
-                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.language}
                     </span>
                 </button>
@@ -439,10 +439,10 @@ export function FloatingNav({
                 <a
                     href={`/${currentLocale}/goodies`}
                     aria-label={mergedUtilityLabels.goodies}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
                 >
                     <Gift size={20} />
-                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.goodies}
                     </span>
                 </a>
@@ -451,10 +451,10 @@ export function FloatingNav({
                     type="button"
                     onClick={openCommandPalette}
                     aria-label={mergedUtilityLabels.command}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
                 >
                     <SquareTerminal size={20} />
-                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                         {mergedUtilityLabels.command}
                     </span>
                 </button>
@@ -462,7 +462,7 @@ export function FloatingNav({
 
             {/* TOC Button (when available) OR Scroll to Top - with smooth fade, slide, and height animation */}
             <div
-                className={`flex flex-col items-center justify-center overflow-hidden rounded-full border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-300 ease-out dark:bg-card/95 dark:shadow-black/20 ${
+                className={`flex flex-col items-center justify-center overflow-hidden rounded-full border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-base ease-out dark:bg-card/95 dark:shadow-black/20 ${
                     showScrollToTop
                         ? 'h-14 w-14 p-2 opacity-100 border-border dark:border-white/10'
                         : 'h-0 w-14 p-0 opacity-0 border-transparent pointer-events-none'
@@ -474,10 +474,10 @@ export function FloatingNav({
                         onClick={openTocDrawer}
                         aria-label={mergedUtilityLabels.toc || tocTitle || 'Table of contents'}
                         tabIndex={showScrollToTop ? 0 : -1}
-                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
                     >
                         <List size={20} />
-                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                             {mergedUtilityLabels.toc || tocTitle || 'Table of contents'}
                         </span>
                     </button>
@@ -487,10 +487,10 @@ export function FloatingNav({
                         onClick={handleScrollToTop}
                         aria-label={mergedUtilityLabels.scrollToTop}
                         tabIndex={showScrollToTop ? 0 : -1}
-                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
                     >
                         <ArrowUp size={20} />
-                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                             {mergedUtilityLabels.scrollToTop}
                         </span>
                     </button>

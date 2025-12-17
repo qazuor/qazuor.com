@@ -145,14 +145,14 @@ function CoffeeStatItem({
     const statColor = getStatColor(colorIndex);
 
     return (
-        <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:bg-background/50 hover:border-primary/30">
+        <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-base hover:bg-background/50 hover:border-primary/30">
             <div
                 className={`stat-value font-bold mb-2 relative h-[1.2em] text-3xl lg:text-4xl ${statColor.className}`}
                 style={statColor.style}
             >
                 {/* Infinity symbol - shows after fadeIn (larger) */}
                 <span
-                    className={`absolute inset-0 flex items-center justify-center text-5xl lg:text-8xl transition-all duration-500 ease-in-out ${
+                    className={`absolute inset-0 flex items-center justify-center text-5xl lg:text-8xl transition-all duration-slow ease-in-out ${
                         phase === 'fadeIn' ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
                     }`}
                 >
@@ -160,7 +160,7 @@ function CoffeeStatItem({
                 </span>
                 {/* Counter - shows during counting, fades out (smaller font) */}
                 <span
-                    className={`absolute inset-0 flex items-center justify-center text-xl lg:text-2xl transition-all duration-500 ease-in-out ${
+                    className={`absolute inset-0 flex items-center justify-center text-xl lg:text-2xl transition-all duration-slow ease-in-out ${
                         phase === 'counting' ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
                     }`}
                 >
@@ -192,7 +192,7 @@ function StatItem({
     const statColor = getStatColor(colorIndex);
 
     return (
-        <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-300 hover:bg-background/50 hover:border-primary/30">
+        <li className="stat-item flex flex-col items-center text-center p-4 lg:p-6 rounded-xl bg-background/30 backdrop-blur-sm border border-border/30 transition-all duration-base hover:bg-background/50 hover:border-primary/30">
             <div
                 className={`stat-value text-3xl lg:text-4xl font-bold mb-2 ${statColor.className}`}
                 style={statColor.style}

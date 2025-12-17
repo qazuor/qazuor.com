@@ -33,10 +33,10 @@ export function ActiveFilters({ selectedTechnologies, onRemove, onClearAll, tran
                             key={tech}
                             type="button"
                             onClick={() => onRemove(tech)}
-                            className="relative inline-flex items-center px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium border border-primary/30 transition-all duration-200 group whitespace-nowrap overflow-hidden"
+                            className="relative inline-flex items-center px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium border border-primary/30 transition-all duration-fast group whitespace-nowrap overflow-hidden"
                         >
-                            <span className="group-hover:opacity-50 transition-opacity duration-200">{tech}</span>
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-primary/90 rounded-full">
+                            <span className="group-hover:opacity-50 transition-opacity duration-fast">{tech}</span>
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-fast bg-primary/90 rounded-full">
                                 <svg
                                     className="w-3 h-3 text-white"
                                     fill="none"

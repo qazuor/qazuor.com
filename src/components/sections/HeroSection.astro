@@ -137,10 +137,6 @@ const {
 
                 <!-- Social Links -->
                 <SocialLinks ariaLabels={ariaLabels} className="hero-element" />
-
-                <!-- Scroll Indicator (only visible on desktop in flow) -->
-                <ScrollIndicator text={translations.scroll} variant="desktop" className="hero-element hidden lg:block" />
-
             </div>
 
             <!-- Hero Avatar for Desktop -->
@@ -152,9 +148,35 @@ const {
             <HeroAvatar name={name} roles={roles} className="mobile-avatar" altText={heroAvatarAlt} />
         </div>
 
-        <!-- Scroll Indicator for Mobile (positioned absolutely within hero) -->
-        <div class="lg:hidden absolute bottom-20 left-4 z-30">
-            <ScrollIndicator text={translations.scroll} variant="mobile" />
-        </div>
     </div>
 </section>
+
+<!-- Scroll Indicator (fixed at bottom of viewport, hidden on scroll) -->
+<div id="scroll-indicator-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 transition-opacity duration-300">
+    <ScrollIndicator text={translations.scroll} variant="desktop" className="hidden lg:flex" />
+    <ScrollIndicator text={translations.scroll} variant="mobile" className="lg:hidden" />
+</div>
+
+<script>
+    const scrollIndicator = document.getElementById('scroll-indicator-container');
+    const heroSection = document.getElementById('hero');
+
+    if (scrollIndicator && heroSection) {
+        const updateVisibility = () => {
+            const heroBottom = heroSection.getBoundingClientRect().bottom;
+            const viewportHeight = window.innerHeight;
+
+            // Hide when scrolled past hero or when hero bottom is above viewport
+            if (heroBottom < viewportHeight * 0.5 || window.scrollY > 50) {
+                scrollIndicator.style.opacity = '0';
+                scrollIndicator.style.pointerEvents = 'none';
+            } else {
+                scrollIndicator.style.opacity = '1';
+                scrollIndicator.style.pointerEvents = 'auto';
+            }
+        };
+
+        window.addEventListener('scroll', updateVisibility, { passive: true });
+        updateVisibility();
+    }
+</script>

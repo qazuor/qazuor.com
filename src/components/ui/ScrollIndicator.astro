@@ -11,7 +11,7 @@ const { text, className = '', variant = 'desktop' } = Astro.props;
 ---
 
 {variant === 'desktop' ? (
-    <div class={`flex flex-col items-center w-fit mt-12 relative z-50 ${className}`}>
+    <div class={`flex flex-col items-center w-fit relative z-50 ${className}`}>
         <span class="text-sm text-foreground-secondary text-center">{text}</span>
         <div class="w-6 h-6 mx-auto text-foreground-secondary animate-bounce flex items-center justify-center [&>svg]:w-full [&>svg]:h-full" set:html={ArrowDownIcon} />
     </div>

@@ -75,7 +75,7 @@ const baseClasses = [
 // Variant classes - using CSS custom classes for theme variables
 const variantClasses: Record<ButtonVariant, string> = {
     primary: [
-        'relative overflow-hidden text-white btn-primary-gradient',
+        'relative overflow-hidden text-white btn-primary-gradient btn-shine btn-gradient-animate',
         'before:absolute before:inset-0 before:btn-primary-hover-gradient',
         'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
         !disabled && 'hover:before:opacity-100'
@@ -83,15 +83,15 @@ const variantClasses: Record<ButtonVariant, string> = {
         .filter(Boolean)
         .join(' '),
     secondary: [
-        'relative overflow-hidden border text-foreground btn-secondary-bg',
+        'relative overflow-hidden border text-foreground btn-secondary-bg btn-shine',
         'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
-        !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
+        !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent'
     ]
         .filter(Boolean)
         .join(' '),
     tertiary: [
-        'relative overflow-hidden text-white shadow-lg shadow-[var(--btn-tertiary-shadow)]',
+        'relative overflow-hidden text-white shadow-lg shadow-[var(--btn-tertiary-shadow)] btn-shine btn-gradient-animate',
         'bg-[linear-gradient(135deg,var(--btn-tertiary-bg-start)_0%,var(--btn-tertiary-bg-end)_100%)]',
         'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,var(--btn-tertiary-hover-start)_0%,var(--btn-tertiary-hover-end)_100%)]',
         'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
@@ -100,7 +100,7 @@ const variantClasses: Record<ButtonVariant, string> = {
         .filter(Boolean)
         .join(' '),
     ghost: [
-        'relative overflow-hidden text-primary btn-ghost-bg',
+        'relative overflow-hidden text-primary btn-ghost-bg btn-shine-subtle',
         'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-base before:ease-in-out',
         !disabled && 'hover:before:opacity-20'
@@ -108,7 +108,7 @@ const variantClasses: Record<ButtonVariant, string> = {
         .filter(Boolean)
         .join(' '),
     outline: [
-        'relative overflow-hidden border-2 text-primary btn-outline-style',
+        'relative overflow-hidden border-2 text-primary btn-outline-style btn-shine',
         'before:absolute before:inset-0 before:btn-primary-gradient',
         'before:opacity-0 before:transition-opacity before:duration-slow before:ease-in-out',
         !disabled && 'hover:before:opacity-100 hover:text-white hover:border-transparent hover:-translate-y-0.5'
@@ -205,11 +205,11 @@ const isLink = !!href;
     /* Button gradient styles using theme CSS variables */
     .btn-primary-gradient {
         background: linear-gradient(135deg, var(--color-primary-full) 0%, var(--color-primary-dark-full) 100%);
-        box-shadow: 0 10px 15px -3px rgba(var(--color-primary), 0.3);
+        box-shadow: 0 5px 5px -3px rgba(var(--color-primary), 0.3);
     }
 
     .btn-primary-gradient:hover {
-        box-shadow: 0 20px 25px -5px rgba(var(--color-primary), 0.3);
+        box-shadow: 0 10px 10px -5px rgba(var(--color-primary), 0.3);
     }
 
     .btn-primary-hover-gradient {
@@ -223,7 +223,7 @@ const isLink = !!href;
     }
 
     .btn-secondary-bg:hover {
-        box-shadow: 0 20px 25px -5px rgba(var(--color-primary), 0.3);
+        box-shadow: 0 10px 10px -5px rgba(var(--color-primary), 0.3);
     }
 
     .btn-ghost-bg {
@@ -238,5 +238,95 @@ const isLink = !!href;
 
     .btn-outline-style:hover {
         box-shadow: 0 20px 25px -5px rgba(var(--color-primary), 0.3);
+    }
+
+    /* ===== SHINE SWEEP EFFECT ===== */
+    .btn-shine::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 20%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 80%,
+            transparent 100%
+        );
+        transform: skewX(-20deg);
+        transition: none;
+        z-index: 15;
+        pointer-events: none;
+    }
+
+    .btn-shine:hover::after {
+        animation: shine-sweep 0.6s ease-out forwards;
+    }
+
+    /* Subtle shine for ghost variant */
+    .btn-shine-subtle::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(var(--color-primary), 0) 20%,
+            rgba(var(--color-primary), 0.2) 50%,
+            rgba(var(--color-primary), 0) 80%,
+            transparent 100%
+        );
+        transform: skewX(-20deg);
+        transition: none;
+        z-index: 15;
+        pointer-events: none;
+    }
+
+    .btn-shine-subtle:hover::after {
+        animation: shine-sweep 0.7s ease-out forwards;
+    }
+
+    @keyframes shine-sweep {
+        0% {
+            left: -100%;
+        }
+        100% {
+            left: 150%;
+        }
+    }
+
+    /* ===== GRADIENT ANIMATION ===== */
+    .btn-gradient-animate {
+        background-size: 200% 200%;
+        background-position: 0% 50%;
+        transition: background-position 0.5s ease-out, box-shadow 0.3s ease-out;
+    }
+
+    .btn-gradient-animate:hover {
+        background-position: 100% 50%;
+    }
+
+    /* Override gradient for animated buttons */
+    .btn-primary-gradient.btn-gradient-animate {
+        background: linear-gradient(
+            135deg,
+            var(--color-primary-full) 0%,
+            var(--color-primary-dark-full) 25%,
+            var(--color-secondary-full) 50%,
+            var(--color-primary-dark-full) 75%,
+            var(--color-primary-full) 100%
+        );
+        background-size: 300% 300%;
+        background-position: 0% 50%;
+    }
+
+    .btn-primary-gradient.btn-gradient-animate:hover {
+        background-position: 100% 50%;
     }
 </style>

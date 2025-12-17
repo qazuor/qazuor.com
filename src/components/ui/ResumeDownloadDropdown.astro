@@ -37,7 +37,7 @@ const resumeFiles = {
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus-outline-full)]',
             'cursor-pointer list-none relative overflow-hidden',
             'text-white shadow-lg shadow-[var(--btn-tertiary-shadow)]',
-            'bg-[linear-gradient(135deg,var(--btn-tertiary-bg-start)_0%,var(--btn-tertiary-bg-end)_100%)]',
+            'btn-tertiary-gradient btn-shine btn-gradient-animate',
             'before:absolute before:inset-0 before:bg-[linear-gradient(135deg,var(--btn-tertiary-hover-start)_0%,var(--btn-tertiary-hover-end)_100%)]',
             'before:opacity-0 before:transition-opacity before:duration-base before:ease-in-out',
             'hover:before:opacity-100',
@@ -130,6 +130,63 @@ const resumeFiles = {
         opacity: 1 !important;
     }
 
+    /* ===== TERTIARY GRADIENT BASE ===== */
+    .btn-tertiary-gradient {
+        background: linear-gradient(
+            135deg,
+            var(--btn-tertiary-bg-start) 0%,
+            var(--btn-tertiary-bg-end) 25%,
+            var(--btn-tertiary-hover-start) 50%,
+            var(--btn-tertiary-bg-end) 75%,
+            var(--btn-tertiary-bg-start) 100%
+        );
+    }
+
+    /* ===== SHINE SWEEP EFFECT ===== */
+    .btn-shine::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 20%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 80%,
+            transparent 100%
+        );
+        transform: skewX(-20deg);
+        transition: none;
+        z-index: 15;
+        pointer-events: none;
+    }
+
+    .btn-shine:hover::after {
+        animation: shine-sweep 0.6s ease-out forwards;
+    }
+
+    @keyframes shine-sweep {
+        0% {
+            left: -100%;
+        }
+        100% {
+            left: 150%;
+        }
+    }
+
+    /* ===== GRADIENT ANIMATION ===== */
+    .btn-gradient-animate {
+        background-size: 300% 300%;
+        background-position: 0% 50%;
+        transition: background-position 0.5s ease-out, box-shadow 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    .btn-gradient-animate:hover {
+        background-position: 100% 50%;
+    }
 </style>
 
 <script>

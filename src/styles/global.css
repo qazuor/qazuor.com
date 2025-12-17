@@ -948,7 +948,8 @@
 }
 
 /* Frame - matches ProfileCodeBlock: rounded-xl border shadow-2xl */
-.expressive-code figure.frame {
+/* Exclude mermaid diagrams from code block styling */
+.expressive-code:not(.mermaid-diagram) figure.frame {
     position: relative;
     border-radius: 0.75rem !important;
     overflow: hidden !important;
@@ -960,12 +961,13 @@
 }
 
 /* Hide default expressive-code header */
-.expressive-code .frame > .header {
+.expressive-code:not(.mermaid-diagram) .frame > .header {
     display: none !important;
 }
 
 /* Custom header with macOS dots - using SVG for crisp rendering */
-.expressive-code figure.frame::before {
+/* Exclude mermaid diagrams - they don't need terminal header */
+.expressive-code:not(.mermaid-diagram) figure.frame::before {
     content: '';
     display: block;
     height: 2.75rem;
@@ -978,7 +980,7 @@
 }
 
 /* Code content - padding 1rem same as ProfileCodeBlock */
-.expressive-code .frame pre {
+.expressive-code:not(.mermaid-diagram) .frame pre {
     margin: 0 !important;
     padding: 1rem !important;
     background-color: transparent !important;
@@ -986,7 +988,7 @@
 }
 
 /* Code typography - font-size 0.8rem, line-height 1.6 */
-.expressive-code .frame pre code {
+.expressive-code:not(.mermaid-diagram) .frame pre code {
     font-size: 0.8rem !important;
     line-height: 1.6 !important;
     font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace !important;
@@ -994,7 +996,7 @@
 }
 
 /* Line styling - matches ProfileCodeBlock */
-.expressive-code .frame .ec-line {
+.expressive-code:not(.mermaid-diagram) .frame .ec-line {
     transition: background-color 0.2s ease;
     padding: 0.125rem 0.75rem !important;
     margin: 0 -0.75rem !important;
@@ -1004,17 +1006,17 @@
 }
 
 /* Line hover effect - rgba(68, 71, 90, 0.6) same as ProfileCodeBlock */
-.expressive-code .frame .ec-line:hover {
+.expressive-code:not(.mermaid-diagram) .frame .ec-line:hover {
     background-color: rgba(68, 71, 90, 0.6) !important;
 }
 
 /* Line spacing */
-.expressive-code .frame .ec-line + .ec-line {
+.expressive-code:not(.mermaid-diagram) .frame .ec-line + .ec-line {
     margin-top: 0.05rem !important;
 }
 
 /* Copy button container - positioned in header, vertically centered */
-.expressive-code .frame .copy {
+.expressive-code:not(.mermaid-diagram) .frame .copy {
     position: absolute !important;
     top: 0.625rem !important; /* Centered in 2.75rem header */
     right: 0.5rem !important;
@@ -1022,12 +1024,12 @@
 }
 
 /* Hide the "Copied!" tooltip text */
-.expressive-code .frame .copy .feedback {
+.expressive-code:not(.mermaid-diagram) .frame .copy .feedback {
     display: none !important;
 }
 
 /* Copy button styling - matches language badge appearance */
-.expressive-code .frame .copy button {
+.expressive-code:not(.mermaid-diagram) .frame .copy button {
     width: 1.5rem !important;
     height: 1.5rem !important; /* Same height as badge */
     background: rgba(98, 114, 164, 0.3) !important;
@@ -1041,20 +1043,20 @@
     transition: background-color 0.2s ease !important;
 }
 
-.expressive-code .frame .copy button div {
+.expressive-code:not(.mermaid-diagram) .frame .copy button div {
     background: transparent !important;
     opacity: 0 !important;
     display: none !important;
 }
 
-.expressive-code .frame .copy button::before {
+.expressive-code:not(.mermaid-diagram) .frame .copy button::before {
     border: none !important;
     opacity: 0 !important;
     display: none !important;
 }
 
 /* Copy icon - default state (centered with absolute positioning) */
-.expressive-code .frame .copy button::after {
+.expressive-code:not(.mermaid-diagram) .frame .copy button::after {
     content: '' !important;
     position: absolute !important;
     top: 50% !important;
@@ -1068,16 +1070,16 @@
     transition: opacity 0.2s ease, background-color 0.3s ease, transform 0.2s ease !important;
 }
 
-.expressive-code .frame .copy button:hover {
+.expressive-code:not(.mermaid-diagram) .frame .copy button:hover {
     background: rgba(98, 114, 164, 0.5) !important;
 }
 
-.expressive-code .frame .copy button:hover::after {
+.expressive-code:not(.mermaid-diagram) .frame .copy button:hover::after {
     opacity: 1 !important;
 }
 
 /* Copied state - green checkmark icon with smooth animation */
-.expressive-code .frame .copy button.copied::after {
+.expressive-code:not(.mermaid-diagram) .frame .copy button.copied::after {
     /* Checkmark SVG icon */
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
@@ -1094,7 +1096,7 @@
 
 /* Language badge - positioned in header, left of copy button, vertically centered
    Note: plugin uses [data-language]::before pseudo-element */
-.expressive-code .frame [data-language]::before {
+.expressive-code:not(.mermaid-diagram) .frame [data-language]::before {
     position: absolute !important;
     top: 0.625rem !important; /* Same as copy button for alignment */
     right: 2.5rem !important; /* More separation from copy button */

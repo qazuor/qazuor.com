@@ -9,8 +9,92 @@
  * - Lazy loads Mermaid library only when diagrams are present
  * - Supports theme switching (light/dark mode)
  * - Re-renders diagrams on theme change
+ * - Click to open diagram in fullscreen modal
  */
 ---
+
+<!-- Mermaid Lightbox Modal -->
+<div id="mermaid-lightbox" class="mermaid-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Mermaid diagram fullscreen view">
+    <button class="mermaid-lightbox-close" aria-label="Close fullscreen view" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+    <div class="mermaid-lightbox-content"></div>
+</div>
+
+<style>
+    .mermaid-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding: 2rem;
+    }
+
+    .mermaid-lightbox[aria-hidden="false"] {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mermaid-lightbox-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.5rem;
+        color: white;
+        padding: 0.75rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        z-index: 10;
+    }
+
+    .mermaid-lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .mermaid-lightbox-content {
+        width: 90vw;
+        height: 85vh;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #282a36; /* Same Dracula background as mermaid diagrams */
+        border-radius: 0.75rem;
+        padding: 2rem;
+    }
+
+    .mermaid-lightbox-content :global(svg) {
+        /* Scale up the SVG to fill the container */
+        min-width: 80vw;
+        min-height: 70vh;
+        width: auto;
+        height: auto;
+        max-width: none;
+        max-height: none;
+    }
+
+    /* Clickable cursor on mermaid diagrams */
+    :global(.mermaid-diagram) {
+        cursor: zoom-in;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    :global(.mermaid-diagram:hover) {
+        transform: scale(1.01);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+</style>
 
 <script type="module" is:inline>
     // Theme detection for Mermaid diagrams
@@ -215,5 +299,65 @@
         } catch (err) {
             console.error('Mermaid re-render failed:', err);
         }
+    });
+
+    // Mermaid Lightbox functionality
+    function initMermaidLightbox() {
+        const lightbox = document.getElementById('mermaid-lightbox');
+        const lightboxContent = lightbox?.querySelector('.mermaid-lightbox-content');
+        const closeButton = lightbox?.querySelector('.mermaid-lightbox-close');
+
+        if (!lightbox || !lightboxContent || !closeButton) return;
+
+        // Open lightbox when clicking on a mermaid diagram
+        document.querySelectorAll('.mermaid-diagram').forEach((diagram) => {
+            diagram.addEventListener('click', () => {
+                const svg = diagram.querySelector('.mermaid svg');
+                if (svg) {
+                    // Clone the SVG to show in lightbox
+                    const svgClone = svg.cloneNode(true);
+                    lightboxContent.innerHTML = '';
+                    lightboxContent.appendChild(svgClone);
+                    lightbox.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close lightbox
+        function closeLightbox() {
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        closeButton.addEventListener('click', closeLightbox);
+
+        // Close on click outside content
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
+                closeLightbox();
+            }
+        });
+    }
+
+    // Initialize lightbox after mermaid renders
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initMermaidLightbox, 500);
+        });
+    } else {
+        setTimeout(initMermaidLightbox, 500);
+    }
+
+    // Re-initialize lightbox after View Transitions
+    document.addEventListener('qazuor:content-ready', () => {
+        setTimeout(initMermaidLightbox, 500);
     });
 </script>

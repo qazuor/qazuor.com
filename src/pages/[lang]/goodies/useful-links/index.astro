@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import type { CategoryIconName } from '@/components/ui/CategoryIcon';
 import CategoryIcon from '@/components/ui/CategoryIcon.astro';
+import CategoryTitle from '@/components/ui/CategoryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
@@ -111,10 +112,13 @@ const categoryLabels: Record<string, string> = {
             {
                 sortedCategories.map((category) => (
                     <div class="mb-12">
-                        <div class="flex items-center gap-3 mb-6">
-                            <CategoryIcon name={category as CategoryIconName} size={24} class="text-primary" />
-                            <h2 class="text-xl font-semibold">{categoryLabels[category] || category}</h2>
-                        </div>
+                        <CategoryTitle
+                            text={categoryLabels[category] || category}
+                            count={linksByCategory[category].length}
+                            className="mb-6"
+                        >
+                            <CategoryIcon slot="icon" name={category as CategoryIconName} size={24} />
+                        </CategoryTitle>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {linksByCategory[category].map((link: CollectionEntry<'useful-links'>) => (

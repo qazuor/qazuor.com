@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import CategoryTitle from '@/components/ui/CategoryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
@@ -108,7 +109,11 @@ const goodiesUrl = translatePath('/goodies', lang);
             {
                 sortedCategories.map((category) => (
                     <div class="mb-12">
-                        <h2 class="text-xl font-semibold mb-6">{categoryLabels[category] || category}</h2>
+                        <CategoryTitle
+                            text={categoryLabels[category] || category}
+                            count={snippetsByCategory[category].length}
+                            className="mb-6"
+                        />
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {snippetsByCategory[category].map((snippet: CollectionEntry<'snippets'>) => (

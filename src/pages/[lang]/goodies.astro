@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import CategoryIcon from '@/components/ui/CategoryIcon.astro';
+import CategoryTitle from '@/components/ui/CategoryTitle.astro';
 import LanguageIcon from '@/components/ui/LanguageIcon.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/sectionBackgrounds';
@@ -133,14 +134,10 @@ const categories = [
                     <section>
                         <!-- Category Header -->
                         <div class="mb-8">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <CategoryIcon name={category.id} size={28} class="text-primary" />
-                                    <div>
-                                        <h2 class="text-xl font-bold">{category.title}</h2>
-                                        <p class="text-sm text-foreground-secondary">{category.total} items</p>
-                                    </div>
-                                </div>
+                            <div class="flex items-center justify-between mb-5">
+                                <CategoryTitle text={category.title} count={category.total}>
+                                    <CategoryIcon slot="icon" name={category.id} size={28} />
+                                </CategoryTitle>
                                 <a
                                     href={category.href}
                                     class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-foreground/10 text-foreground-secondary hover:border-primary hover:text-primary transition-colors"
@@ -151,7 +148,7 @@ const categories = [
                                     </svg>
                                 </a>
                             </div>
-                            <p class="text-sm text-foreground-secondary max-w-3xl leading-relaxed ml-10" set:html={category.description} />
+                            <p class="text-sm text-foreground-secondary max-w-3xl leading-relaxed" set:html={category.description} />
                         </div>
 
                         <!-- Items Preview -->

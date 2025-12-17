@@ -6,7 +6,7 @@ import type { ImageMetadata } from 'astro';
 import { ProjectCard } from '@/components/cards/ProjectCard';
 import { ProjectFiltersManager } from '@/components/sections/ProjectFiltersManager';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
+import CategoryTitle from '@/components/ui/CategoryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
@@ -158,20 +158,13 @@ const cardTranslations = {
 					return (
 						<div class="mb-16 category-section" data-category={category}>
 							<div class="mb-8">
-								<div class="flex items-center gap-3 mb-3">
-									<span class="w-2 h-8 bg-primary rounded-full" />
-									<SecondaryTitle
-										text={categoryTitles[category as keyof typeof categoryTitles]}
-										element="h2"
-										size="xl"
-										showHtml={false}
-									/>
-									<span class="category-count text-lg font-normal text-foreground-secondary">
-										({projects.length})
-									</span>
-								</div>
+								<CategoryTitle
+									text={categoryTitles[category as keyof typeof categoryTitles]}
+									count={projects.length}
+									className="mb-5"
+								/>
 								<p
-									class="text-foreground-secondary text-sm max-w-3xl leading-relaxed ml-5"
+									class="text-foreground-secondary text-sm max-w-3xl leading-relaxed"
 									set:html={categoryDescriptions[category as keyof typeof categoryDescriptions]}
 								/>
 							</div>

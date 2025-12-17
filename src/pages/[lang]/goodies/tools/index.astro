@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import ToolCard from '@/components/cards/ToolCard.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
+import CategoryTitle from '@/components/ui/CategoryTitle.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
@@ -92,18 +92,11 @@ const goodiesUrl = translatePath('/goodies', lang);
             {
                 sortedTools.some((tool) => tool.data.featured) && (
                     <div class="mb-16 category-section">
-                        <div class="mb-8 flex items-center gap-3">
-                            <span class="w-2 h-8 bg-primary rounded-full" />
-                            <SecondaryTitle
-                                text={t('tools.featured', { markdown: true })}
-                                element="h2"
-                                size="xl"
-                                showHtml={false}
-                            />
-                            <span class="category-count text-lg font-normal text-foreground-secondary">
-                                ({sortedTools.filter((tool) => tool.data.featured).length})
-                            </span>
-                        </div>
+                        <CategoryTitle
+                            text={t('tools.featured', { markdown: false })}
+                            count={sortedTools.filter((tool) => tool.data.featured).length}
+                            className="mb-8"
+                        />
                         <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-auto-animate="true" data-auto-animate-duration="300">
                             {sortedTools
                                 .filter((tool) => tool.data.featured)
@@ -117,18 +110,11 @@ const goodiesUrl = translatePath('/goodies', lang);
 
             <!-- All Tools -->
             <div class="category-section">
-                <div class="mb-8 flex items-center gap-3">
-                    <span class="w-2 h-8 bg-primary rounded-full" />
-                    <SecondaryTitle
-                        text={t('tools.allTools', { markdown: true })}
-                        element="h2"
-                        size="xl"
-                        showHtml={false}
-                    />
-                    <span class="category-count text-lg font-normal text-foreground-secondary">
-                        ({sortedTools.length})
-                    </span>
-                </div>
+                <CategoryTitle
+                    text={t('tools.allTools', { markdown: false })}
+                    count={sortedTools.length}
+                    className="mb-8"
+                />
                 <div class="tools-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-auto-animate="true" data-auto-animate-duration="300">
                     {
                         sortedTools.map((tool) => (

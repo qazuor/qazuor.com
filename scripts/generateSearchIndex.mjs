@@ -23,35 +23,24 @@ async function generateSearchIndex() {
         }
 
         // Create file that works with the current BuildSearchIndex.astro approach
+        // Format: 4 spaces, single quotes, semicolons (Biome compatible)
         const indexContent = `// This file is auto-generated during build/dev
-// Do not edit manually - Content is loaded from BuildSearchIndex.astro
+// Do not edit manually
 
 import type { SearchableItem } from '../types/search';
 
-/**
- * Search index data - populated at runtime by BuildSearchIndex.astro
- * The data is available in window.__SEARCH_INDEX__ on the client
- */
+// Search index is populated by BuildSearchIndex.astro component
+// and made available via window.__SEARCH_INDEX__
 
-/**
- * Get search index from global window variable
- * The actual data is populated by BuildSearchIndex.astro component
- */
 export function getSearchIndex(): SearchableItem[] {
-  if (typeof window !== 'undefined' && window.__SEARCH_INDEX__) {
-    return window.__SEARCH_INDEX__;
-  }
-
-  return [];
+    if (typeof window !== 'undefined' && window.__SEARCH_INDEX__) {
+        return window.__SEARCH_INDEX__;
+    }
+    return [];
 }
 
-// Export placeholder for compatibility - real data comes from window.__SEARCH_INDEX__
-export const searchIndex: SearchableItem[] = [];
-
-// Metadata
-export const SEARCH_INDEX_GENERATED = '${new Date().toISOString()}';
-export const SEARCH_INDEX_MODE = 'runtime-hybrid';
-export const SEARCH_INDEX_SOURCE = 'BuildSearchIndex.astro -> window.__SEARCH_INDEX__';
+// For development: signal that index should be loaded from global variable
+export const SEARCH_INDEX_SOURCE = 'window';
 `;
 
         writeFileSync(searchIndexPath, indexContent, 'utf8');

@@ -31,6 +31,7 @@
             "downloadResume": "Resume",
             "resumeEnglish": "English",
             "resumeSpanish": "Español",
+            "resumeDownloading": "Downloading resume...",
             "scroll": "Scroll"
         },
         "iBuild": {

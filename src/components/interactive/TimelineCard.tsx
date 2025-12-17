@@ -54,8 +54,8 @@ export const TimelineCard = memo(function TimelineCard({ item, popoverWidth, isM
         () => ({
             ...POPOVER_BASE_COLORS,
             width: `${popoverWidth}px`,
-            padding: isMobile ? '12px 16px' : '16px 20px',
-            height: isMobile ? '100px' : '95px',
+            padding: isMobile ? '10px 14px' : '14px 18px',
+            height: isMobile ? '95px' : '110px',
             overflow: 'hidden'
         }),
         [popoverWidth, isMobile]
@@ -80,7 +80,7 @@ export const TimelineCard = memo(function TimelineCard({ item, popoverWidth, isM
                     {item.title}
                 </h3>
                 <p
-                    className={`${isMobile ? 'text-[10px] line-clamp-3' : 'text-xs line-clamp-2'} leading-relaxed`}
+                    className={`${isMobile ? 'text-[10px] line-clamp-3' : 'text-xs line-clamp-3'} leading-relaxed`}
                     style={CONTENT_COLOR_STYLE}
                 >
                     {item.content}

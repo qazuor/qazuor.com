@@ -25,8 +25,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Primer PC'
         },
         description: {
-            en: 'A 386 running DOS and Windows 3.1 - wrote small programs in QBasic 💾.',
-            es: 'Una 386 con DOS y Windows 3.1. Programé mis primeros experimentos en QBasic 💾.'
+            en: 'A 386 running DOS and Windows 3.1 - wrote my first programs in QBasic 💾. The start of everything.',
+            es: 'Una 386 con DOS y Windows 3.1. Programé mis primeros experimentos en QBasic 💾. El inicio de todo.'
         },
         icon: 'device-desktop',
         iconUseItemColor: true,
@@ -42,8 +42,8 @@ export const timelineData: TimelineItem[] = [
             es: 'HTML y familia'
         },
         description: {
-            en: 'Discovered HTML, built my first client website 🌐 while studying graphic design at UNLP. My first son was born. 👶',
-            es: 'Descubro el HTML, hago mi primera web 🌐 para un cliente mientras estudio diseño gráfico en la UNLP. Nace mi primer hijo. 👶'
+            en: 'Discovered HTML and built my first client website 🌐 while studying graphic design. My first son was born 👶.',
+            es: 'Descubro HTML y creo mi primera web 🌐 para un cliente mientras estudio diseño gráfico. Nace mi primer hijo 👶.'
         },
         icon: 'globe',
         iconUseItemColor: true,
@@ -59,8 +59,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Freelance'
         },
         description: {
-            en: 'Started working independently 💼 - first clients, first real challenges.',
-            es: 'Comienzo formalmente mi camino freelance 💼. Primeros clientes, primeros desafíos reales.'
+            en: 'Started working independently 💼 - first clients, first real challenges, and complete creative freedom.',
+            es: 'Comienzo mi camino freelance 💼. Primeros clientes, primeros desafíos reales y libertad creativa total.'
         },
         icon: 'briefcase',
         iconUseItemColor: true,
@@ -76,8 +76,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Primer CRM y docencia'
         },
         description: {
-            en: 'Built a complete CRM in HTML, JS and PHP so my website clients could manage their own content. My daughter was born 👶 and I began teaching design and programming.',
-            es: 'Desarrollo mi primer CRM completo en HTML, JS y PHP para que los clientes de mis sitios pudieran gestionar su propio contenido. Nace mi segunda hija 👶 y empiezo a dar clases de diseño y programación.'
+            en: 'Built a CRM in HTML, JS and PHP for client content management. My daughter was born 👶 and I started teaching.',
+            es: 'Desarrollo un CRM en HTML, JS y PHP para gestión de contenido. Nace mi hija 👶 y empiezo a dar clases.'
         },
         icon: 'cog',
         iconUseItemColor: true,
@@ -93,8 +93,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Avature'
         },
         description: {
-            en: 'Joined as Web Master, maintaining their website and a PHP-based ATS app.',
-            es: 'Me sumo como Web Master, manteniendo su sitio y una ATS app desarrollada en PHP.'
+            en: 'Joined Avature as Web Master 🏢, maintaining their website and building features for a PHP-based ATS app.',
+            es: 'Me sumo a Avature como Web Master 🏢, manteniendo su sitio y desarrollando features para una ATS app en PHP.'
         },
         icon: 'avature',
         iconUseItemColor: false,
@@ -110,8 +110,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Framework JS propio'
         },
         description: {
-            en: "Part of a two-person team that built an enterprise JavaScript framework from scratch ⚙️ that's still in use today. It featured HMR, error handling and reporting, custom JS packaging, client-server communication, modular CSS and i18n.",
-            es: 'En un equipo de dos personas, desarrollamos un framework JavaScript empresarial desde cero ⚙️ que aún se usa hoy. Incluía HMR, manejo y reporte de errores, sistema propio de empaquetado JS, comunicación cliente-servidor, CSS e i18n modularizado.'
+            en: 'Built an enterprise JS framework from scratch ⚙️ with HMR, error handling, custom packaging and i18n - still in use today.',
+            es: 'Creamos un framework JS empresarial desde cero ⚙️ con HMR, manejo de errores, empaquetado propio e i18n - aún en uso.'
         },
         icon: 'javascript',
         iconUseItemColor: false,
@@ -127,8 +127,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Especialización Frontend'
         },
         description: {
-            en: 'Specialized in frontend 🎨 and founded the UI-Core team at Avature.',
-            es: 'Me especializo en desarrollo frontend 🎨 y formo el equipo UI-Core en Avature.'
+            en: 'Specialized in frontend development 🎨 and founded the UI-Core team at Avature, focusing on user experience.',
+            es: 'Me especializo en frontend 🎨 y fundo el equipo UI-Core en Avature, enfocado en experiencia de usuario.'
         },
         icon: 'paint-brush',
         iconUseItemColor: true,
@@ -161,8 +161,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Visual Builder'
         },
         description: {
-            en: "Led the development of Avature's visual template builder 🎯 system.",
-            es: 'Lidero el desarrollo de un sistema visual 🎯 de creación de templates para Avature.'
+            en: "Led development of Avature's visual template builder 🎯 - a drag-and-drop system for creating custom layouts.",
+            es: 'Lidero el desarrollo del constructor visual de templates 🎯 - un sistema drag-and-drop para crear layouts.'
         },
         icon: 'squares',
         iconUseItemColor: true,
@@ -178,8 +178,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Amor y vida'
         },
         description: {
-            en: 'Met my current partner and adventure companion. 💕',
-            es: 'Conozco a mi actual compañera de vida y aventuras. 💕'
+            en: 'Met my life partner and adventure companion 💕. A new chapter begins, balancing love, family and code.',
+            es: 'Conozco a mi compañera de vida y aventuras 💕. Un nuevo capítulo empieza, equilibrando amor, familia y código.'
         },
         icon: 'heart',
         iconUseItemColor: true,
@@ -195,8 +195,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Era NO CODE'
         },
         description: {
-            en: 'Discovered NO CODE tools 🤖 and created several personal automation projects.',
-            es: 'Conocí herramientas NO CODE 🤖 y realicé algunos proyectos personales de automatización de cosas.'
+            en: 'Discovered NO CODE tools 🤖 and built personal automation projects - a new way to solve problems fast.',
+            es: 'Descubro herramientas NO CODE 🤖 y creo proyectos de automatización - una nueva forma de resolver problemas.'
         },
         icon: 'make',
         iconUseItemColor: false,
@@ -212,8 +212,8 @@ export const timelineData: TimelineItem[] = [
             es: 'Desarrollo con IA'
         },
         description: {
-            en: 'Started integrating AI tools into my development workflow 🧠, boosting productivity and exploring new possibilities.',
-            es: 'Comencé a integrar herramientas de IA en mi flujo de desarrollo 🧠, potenciando mi productividad y explorando nuevas posibilidades.'
+            en: 'Integrated AI tools into my development workflow 🧠, boosting productivity and exploring new possibilities.',
+            es: 'Integro herramientas de IA en mi flujo de desarrollo 🧠, potenciando productividad y explorando nuevas posibilidades.'
         },
         icon: 'brain',
         iconUseItemColor: true,
@@ -230,7 +230,7 @@ export const timelineData: TimelineItem[] = [
         },
         description: {
             en: 'Closed my Avature chapter, relaunched myself as a freelance developer 🚀 and released my personal portfolio.',
-            es: 'Cierro mi etapa en Avature, me relanzo como freelance 🚀 y lanzo mi portfolio personal.'
+            es: 'Cierro mi etapa en Avature, me relanzo como desarrollador freelance 🚀 y publico mi portfolio personal.'
         },
         icon: 'flag',
         iconUseItemColor: true,

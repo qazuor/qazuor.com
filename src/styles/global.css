@@ -938,14 +938,193 @@
     }
 }
 
-/* Expressive-code appearance*/
+/* =============================================================================
+   EXPRESSIVE-CODE STYLING - ProfileCodeBlock Style (macOS Terminal)
+   ============================================================================= */
+
+/* Base container */
 .content-prose .expressive-code {
-    padding-bottom: 2.5em;
+    margin: 1.5rem 0 2rem;
 }
 
+/* Frame - matches ProfileCodeBlock: rounded-xl border shadow-2xl */
+.expressive-code figure.frame {
+    position: relative;
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+    background-color: #282a36 !important;
+    border: 1px solid #44475a !important;
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Hide default expressive-code header */
+.expressive-code .frame > .header {
+    display: none !important;
+}
+
+/* Custom header with macOS dots - using SVG for crisp rendering */
+.expressive-code figure.frame::before {
+    content: '';
+    display: block;
+    height: 2.75rem;
+    background-color: #282a36;
+    border-bottom: 1px solid #44475a;
+    /* SVG with 3 perfect circles - same size as ProfileCodeBlock (w-3 h-3 = 12px) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='68' height='44'%3E%3Ccircle cx='16' cy='22' r='6' fill='%23ef4444'/%3E%3Ccircle cx='36' cy='22' r='6' fill='%23eab308'/%3E%3Ccircle cx='56' cy='22' r='6' fill='%2322c55e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+/* Code content - padding 1rem same as ProfileCodeBlock */
+.expressive-code .frame pre {
+    margin: 0 !important;
+    padding: 1rem !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}
+
+/* Code typography - font-size 0.8rem, line-height 1.6 */
+.expressive-code .frame pre code {
+    font-size: 0.8rem !important;
+    line-height: 1.6 !important;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace !important;
+    background: none !important; /* Remove expressive-code gradient */
+}
+
+/* Line styling - matches ProfileCodeBlock */
+.expressive-code .frame .ec-line {
+    transition: background-color 0.2s ease;
+    padding: 0.125rem 0.75rem !important;
+    margin: 0 -0.75rem !important;
+    border-radius: 0.25rem;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+}
+
+/* Line hover effect - rgba(68, 71, 90, 0.6) same as ProfileCodeBlock */
+.expressive-code .frame .ec-line:hover {
+    background-color: rgba(68, 71, 90, 0.6) !important;
+}
+
+/* Line spacing */
+.expressive-code .frame .ec-line + .ec-line {
+    margin-top: 0.05rem !important;
+}
+
+/* Copy button container - positioned in header, vertically centered */
+.expressive-code .frame .copy {
+    position: absolute !important;
+    top: 0.625rem !important; /* Centered in 2.75rem header */
+    right: 0.5rem !important;
+    z-index: 10;
+}
+
+/* Hide the "Copied!" tooltip text */
+.expressive-code .frame .copy .feedback {
+    display: none !important;
+}
+
+/* Copy button styling - matches language badge appearance */
+.expressive-code .frame .copy button {
+    width: 1.5rem !important;
+    height: 1.5rem !important; /* Same height as badge */
+    background: rgba(98, 114, 164, 0.3) !important;
+    border: 1px solid rgba(98, 114, 164, 0.5) !important;
+    border-radius: 0.25rem !important;
+    opacity: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.expressive-code .frame .copy button div {
+    background: transparent !important;
+    opacity: 0 !important;
+    display: none !important;
+}
+
+.expressive-code .frame .copy button::before {
+    border: none !important;
+    opacity: 0 !important;
+    display: none !important;
+}
+
+/* Copy icon - default state (centered with absolute positioning) */
+.expressive-code .frame .copy button::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background-color: #f8f8f2 !important;
+    width: 0.8rem !important;
+    height: 0.8rem !important;
+    margin: 0 !important;
+    opacity: 0.7 !important;
+    transition: opacity 0.2s ease, background-color 0.3s ease, transform 0.2s ease !important;
+}
+
+.expressive-code .frame .copy button:hover {
+    background: rgba(98, 114, 164, 0.5) !important;
+}
+
+.expressive-code .frame .copy button:hover::after {
+    opacity: 1 !important;
+}
+
+/* Copied state - green checkmark icon with smooth animation */
+.expressive-code .frame .copy button.copied::after {
+    /* Checkmark SVG icon */
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
+    mask-size: contain !important;
+    -webkit-mask-size: contain !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    -webkit-mask-position: center !important;
+    background-color: #22c55e !important; /* Green color */
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1.1) !important;
+}
+
+/* Language badge - positioned in header, left of copy button, vertically centered
+   Note: plugin uses [data-language]::before pseudo-element */
+.expressive-code .frame [data-language]::before {
+    position: absolute !important;
+    top: 0.625rem !important; /* Same as copy button for alignment */
+    right: 2.5rem !important; /* More separation from copy button */
+    z-index: 10;
+    height: 1.5rem !important; /* Same height as copy button */
+    font-size: 0.65rem !important;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace !important;
+    font-weight: 500 !important;
+    color: #f8f8f2 !important;
+    background: rgba(98, 114, 164, 0.3) !important;
+    border: 1px solid rgba(98, 114, 164, 0.5) !important;
+    padding: 0 0.5rem !important;
+    border-radius: 0.25rem !important;
+    text-transform: lowercase !important;
+    line-height: 1.5rem !important; /* Center text vertically */
+    opacity: 1 !important;
+    box-sizing: border-box !important;
+}
+
+/* Inline code in paragraphs - Dracula style */
 .content-prose p code {
-    margin: 0 5px;
-    color: #ffffff;
+    margin: 0 0.25rem;
+    padding: 0.125rem 0.5rem;
+    background: rgba(68, 71, 90, 0.5);
+    border: 1px solid #44475a;
+    border-radius: 0.375rem;
+    color: #f8f8f2;
+    font-size: 0.875em;
+    font-weight: 500;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }
 
 /* Mermaid Diagram Styles - Match expressive-code appearance */

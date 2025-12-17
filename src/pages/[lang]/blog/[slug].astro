@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import CalloutEnhancer from '@/components/blog/CalloutEnhancer.astro';
+import CodeCopyEnhancer from '@/components/blog/CodeCopyEnhancer.astro';
 import { Comments } from '@/components/blog/Comments';
 import MermaidRenderer from '@/components/blog/MermaidRenderer.astro';
 import { ShareButton } from '@/components/blog/ShareButton';
@@ -283,6 +284,9 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
 
                 <!-- Mermaid Diagram Renderer (only for blog posts) -->
                 <MermaidRenderer />
+
+                <!-- Code Copy Button Enhancer (green checkmark feedback) -->
+                <CodeCopyEnhancer />
 
                 <!-- Article Footer -->
                 <footer class="mt-16 pt-12 border-t border-foreground/10 space-y-16">

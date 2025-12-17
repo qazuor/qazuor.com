@@ -6,11 +6,11 @@ import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
 import normalizeTrailingSlash from '@reunmedia/astro-normalize-trailing-slash';
 import AstroPWA from '@vite-pwa/astro';
-import { defineConfig } from 'astro/config';
 import compressor from 'astro-compressor';
 import expressiveCode from 'astro-expressive-code';
 import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
+import { defineConfig } from 'astro/config';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
@@ -104,27 +104,22 @@ export default defineConfig({
             plugins: [
                 pluginLanguageBadge({
                     textTransform: 'lowercase',
-                    excludeLanguages: ['json', 'css', 'bash'],
+                    excludeLanguages: ['txt', 'text', 'plaintext'],
                     languageMap: {
                         cpp: 'C++',
                         csharp: 'C#',
                         ts: 'TypeScript',
-                        js: 'JavaScript'
+                        js: 'JavaScript',
+                        tsx: 'TSX',
+                        jsx: 'JSX',
+                        md: 'Markdown'
                     }
                 })
             ],
+            // Minimal styleOverrides - CSS handles the rest
             styleOverrides: {
-                languageBadge: {
-                    // Prominent badge style with border
-                    fontSize: '0.85rem',
-                    fontColor: '#e6f3ff',
-                    fontWeight: '600',
-                    background: '#1a1a2e',
-                    borderRadius: '0.5rem',
-                    opacity: '0.95',
-                    borderWidth: '2px',
-                    borderColor: '#0f3460'
-                }
+                borderRadius: '0',
+                borderWidth: '0'
             }
         }),
         mdx(),

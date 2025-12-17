@@ -1,0 +1,33 @@
+---
+/**
+ * CodeCopyEnhancer - Adds visual feedback (green checkmark) when code is copied
+ *
+ * This component adds click handlers to expressive-code copy buttons
+ * to show a green checkmark icon temporarily after copying.
+ */
+---
+
+<script>
+    function initCodeCopyEnhancer() {
+        // Find all copy buttons in expressive-code blocks
+        const copyButtons = document.querySelectorAll('.expressive-code .copy button');
+
+        copyButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                // Add the 'copied' class to show the green checkmark
+                button.classList.add('copied');
+
+                // Remove the class after 2 seconds to restore the copy icon
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        });
+    }
+
+    // Initialize on page load
+    initCodeCopyEnhancer();
+
+    // Re-initialize after Astro page transitions (View Transitions API)
+    document.addEventListener('astro:page-load', initCodeCopyEnhancer);
+</script>

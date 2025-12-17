@@ -40,6 +40,12 @@ const criticalThemeCSS = generateCriticalCSS();
 // Note: PixelCanvas custom element is lazy-loaded from src/scripts/pixel-canvas.ts
 // to ensure it works with View Transitions navigation
 
+interface TocHeading {
+    depth: number;
+    slug: string;
+    text: string;
+}
+
 interface Props {
     title: string;
     description?: string;
@@ -65,6 +71,10 @@ interface Props {
     noBreadcrumbs?: boolean;
     /** Preload hero image (only enable on homepage where hero is visible) */
     preloadHeroImage?: boolean;
+    /** TOC headings for blog posts - enables TOC button in FloatingNav */
+    tocHeadings?: TocHeading[];
+    /** TOC title for accessibility */
+    tocTitle?: string;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -92,7 +102,9 @@ const {
     socialLinks,
     breadcrumbName,
     noBreadcrumbs = false,
-    preloadHeroImage = false
+    preloadHeroImage = false,
+    tocHeadings,
+    tocTitle
 } = Astro.props;
 
 // Get current route without locale
@@ -120,7 +132,8 @@ const floatingNavUtilityLabels = {
     command: t('aria.openCommandPalette'),
     theme: t('aria.toggleTheme'),
     language: t('aria.changeLanguage'),
-    scrollToTop: t('aria.scrollToTop')
+    scrollToTop: t('aria.scrollToTop'),
+    toc: tocTitle || t('blog.toc.title')
 };
 
 // Site configuration
@@ -445,8 +458,13 @@ const alternateLinks = locales.map((locale) => {
             placeholder={t('aria.commandPalettePlaceholder')}
         />
 
-        <!-- Scroll to Top Button - mobile only (desktop uses FloatingNav's scroll-to-top) -->
-        <ScrollToTop client:only="react" ariaLabel={t('aria.scrollToTop')} />
+        <!-- Scroll to Top / TOC Button - mobile only (desktop uses FloatingNav's scroll-to-top/toc) -->
+        <ScrollToTop
+            client:only="react"
+            ariaLabel={t('aria.scrollToTop')}
+            hasToc={tocHeadings && tocHeadings.length > 0}
+            tocAriaLabel={tocTitle}
+        />
 
         <!-- Floating Navigation - visible on all pages -->
         <FloatingNav
@@ -454,6 +472,8 @@ const alternateLinks = locales.map((locale) => {
             labels={floatingNavLabels}
             currentLocale={lang}
             utilityLabels={floatingNavUtilityLabels}
+            tocHeadings={tocHeadings}
+            tocTitle={tocTitle}
         />
 
         <!-- View Transitions with Custom GSAP Animation -->

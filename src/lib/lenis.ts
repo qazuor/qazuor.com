@@ -67,6 +67,24 @@ export function scrollTo(target: string | number | HTMLElement, options = {}) {
 }
 
 /**
+ * Stop Lenis smooth scroll (pause)
+ */
+export function stopLenis() {
+    if (lenisInstance) {
+        lenisInstance.stop();
+    }
+}
+
+/**
+ * Start Lenis smooth scroll (resume)
+ */
+export function startLenis() {
+    if (lenisInstance) {
+        lenisInstance.start();
+    }
+}
+
+/**
  * Destroy Lenis instance
  */
 export function destroyLenis() {

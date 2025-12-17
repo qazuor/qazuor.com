@@ -76,7 +76,7 @@ const blogPostUrl = `${SITE_URL}/${lang}/blog/${getEffectiveSlug(post)}`;
 const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefined;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} tocHeadings={headings} tocTitle={tocTitle}>
     <!-- Blog Post JSON-LD Structured Data -->
     <BlogPostJsonLd
         slot="head"

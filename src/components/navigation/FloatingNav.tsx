@@ -9,6 +9,7 @@ import {
     Gift,
     Home,
     Languages,
+    List,
     type LucideIcon,
     Mail,
     MessageSquareQuote,
@@ -23,6 +24,12 @@ import { scrollTo } from '@/lib/lenis';
 import { MobileUtilitiesPopover } from './MobileUtilitiesPopover';
 
 type LabelKey = 'hero' | 'about' | 'skills' | 'projects' | 'services' | 'blog' | 'testimonials' | 'faqs' | 'contact';
+
+export interface TocHeading {
+    depth: number;
+    slug: string;
+    text: string;
+}
 
 interface NavSection {
     id: string;
@@ -71,7 +78,12 @@ interface FloatingNavProps {
         theme: string;
         language: string;
         scrollToTop: string;
+        toc?: string;
     };
+    /** TOC headings - when provided, shows TOC button instead of scroll-to-top */
+    tocHeadings?: TocHeading[];
+    /** TOC title for accessibility */
+    tocTitle?: string;
 }
 
 function useActiveSection(sectionIds: string[]) {
@@ -150,7 +162,8 @@ const defaultUtilityLabels = {
     command: 'Command',
     theme: 'Theme',
     language: 'Language',
-    scrollToTop: 'Scroll to top'
+    scrollToTop: 'Scroll to top',
+    toc: 'Table of contents'
 };
 
 // Memoized thresholds to prevent unnecessary re-renders
@@ -159,8 +172,11 @@ const SCROLL_THRESHOLDS = { nav: 100, scrollToTop: 300 };
 export function FloatingNav({
     labels = {},
     currentLocale = 'en',
-    utilityLabels = defaultUtilityLabels
+    utilityLabels = defaultUtilityLabels,
+    tocHeadings,
+    tocTitle
 }: FloatingNavProps) {
+    const hasToc = tocHeadings && tocHeadings.length > 0;
     const mergedLabels = useMemo(() => ({ ...defaultLabels, ...labels }), [labels]);
     const mergedUtilityLabels = useMemo(() => ({ ...defaultUtilityLabels, ...utilityLabels }), [utilityLabels]);
     const sectionIds = useMemo(() => NAV_SECTIONS.map((s) => s.id), []);
@@ -244,6 +260,10 @@ export function FloatingNav({
 
     const handleScrollToTop = useCallback(() => {
         scrollTo(0, { duration: 1.2 });
+    }, []);
+
+    const openTocDrawer = useCallback(() => {
+        window.dispatchEvent(new CustomEvent('openTocDrawer'));
     }, []);
 
     const switchLanguage = useCallback(() => {
@@ -440,7 +460,7 @@ export function FloatingNav({
                 </button>
             </div>
 
-            {/* Scroll to Top - with smooth fade, slide, and height animation */}
+            {/* TOC Button (when available) OR Scroll to Top - with smooth fade, slide, and height animation */}
             <div
                 className={`flex flex-col items-center justify-center overflow-hidden rounded-full border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-300 ease-out dark:bg-card/95 dark:shadow-black/20 ${
                     showScrollToTop
@@ -448,18 +468,33 @@ export function FloatingNav({
                         : 'h-0 w-14 p-0 opacity-0 border-transparent pointer-events-none'
                 }`}
             >
-                <button
-                    type="button"
-                    onClick={handleScrollToTop}
-                    aria-label={mergedUtilityLabels.scrollToTop}
-                    tabIndex={showScrollToTop ? 0 : -1}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
-                >
-                    <ArrowUp size={20} />
-                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
-                        {mergedUtilityLabels.scrollToTop}
-                    </span>
-                </button>
+                {hasToc ? (
+                    <button
+                        type="button"
+                        onClick={openTocDrawer}
+                        aria-label={mergedUtilityLabels.toc || tocTitle || 'Table of contents'}
+                        tabIndex={showScrollToTop ? 0 : -1}
+                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                    >
+                        <List size={20} />
+                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                            {mergedUtilityLabels.toc || tocTitle || 'Table of contents'}
+                        </span>
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={handleScrollToTop}
+                        aria-label={mergedUtilityLabels.scrollToTop}
+                        tabIndex={showScrollToTop ? 0 : -1}
+                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary"
+                    >
+                        <ArrowUp size={20} />
+                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                            {mergedUtilityLabels.scrollToTop}
+                        </span>
+                    </button>
+                )}
             </div>
         </div>
     );

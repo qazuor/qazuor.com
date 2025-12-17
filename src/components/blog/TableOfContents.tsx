@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { scrollTo as lenisScrollTo } from '@/lib/lenis';
+import { scrollTo as lenisScrollTo, startLenis, stopLenis } from '@/lib/lenis';
 
 export interface TocHeading {
     depth: number;
@@ -20,7 +20,7 @@ interface TableOfContentsProps {
 /**
  * Table of Contents component with scroll spy and collapsible sections
  * - Desktop: Fixed sidebar with collapsible heading groups
- * - Mobile: Floating button that opens a drawer
+ * - Mobile: Drawer opened via FloatingNav button (listens to 'openTocDrawer' event)
  */
 export function TableOfContents({ headings, title = 'On this page' }: TableOfContentsProps) {
     const [activeId, setActiveId] = useState<string>('');
@@ -28,7 +28,6 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
     const [isStuck, setIsStuck] = useState(false);
     const [isHiddenByFooter, setIsHiddenByFooter] = useState(false);
     const [stickyLeft, setStickyLeft] = useState<number | null>(null);
-    const [showScrollToTop, setShowScrollToTop] = useState(false);
     const observerRef = useRef<IntersectionObserver | null>(null);
     const asideRef = useRef<HTMLElement | null>(null);
     const initialTopRef = useRef<number | null>(null);
@@ -150,26 +149,29 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
         return () => document.removeEventListener('keydown', handleEscape);
     }, [isDrawerOpen]);
 
-    // Prevent body scroll when drawer is open
+    // Prevent body scroll when drawer is open (including Lenis smooth scroll)
     useEffect(() => {
         if (isDrawerOpen) {
             document.body.style.overflow = 'hidden';
+            stopLenis();
         } else {
             document.body.style.overflow = '';
+            startLenis();
         }
         return () => {
             document.body.style.overflow = '';
+            startLenis();
         };
     }, [isDrawerOpen]);
 
-    // Track if ScrollToTop button is visible (shows after 300px scroll)
+    // Listen for openTocDrawer event from FloatingNav
     useEffect(() => {
-        const toggleScrollToTopVisibility = () => {
-            setShowScrollToTop(window.pageYOffset > 300);
+        const handleOpenTocDrawer = () => {
+            setIsDrawerOpen(true);
         };
 
-        window.addEventListener('scroll', toggleScrollToTopVisibility, { passive: true });
-        return () => window.removeEventListener('scroll', toggleScrollToTopVisibility);
+        window.addEventListener('openTocDrawer', handleOpenTocDrawer);
+        return () => window.removeEventListener('openTocDrawer', handleOpenTocDrawer);
     }, []);
 
     // Track sticky state based on scroll position
@@ -313,37 +315,12 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 </nav>
             </aside>
 
-            {/* Mobile Floating Button - Visible only on mobile/tablet, moves up when ScrollToTop is visible */}
-            <button
-                type="button"
-                onClick={() => setIsDrawerOpen(true)}
-                className={`xl:hidden fixed right-6 z-30
-                    w-14 h-14 rounded-full
-                    bg-primary text-white shadow-lg shadow-primary/30
-                    flex items-center justify-center
-                    hover:bg-primary-600 hover:scale-105
-                    active:scale-95
-                    transition-all duration-200
-                    ${showScrollToTop ? 'bottom-[5.5rem]' : 'bottom-6'}`}
-                aria-label="Open table of contents"
-            >
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    aria-hidden="true"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                </svg>
-            </button>
-
             {/* Mobile Drawer Overlay */}
             {isDrawerOpen && (
                 <button
                     type="button"
                     className="xl:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm cursor-default"
+                    style={{ touchAction: 'none' }}
                     onClick={() => setIsDrawerOpen(false)}
                     aria-label="Close table of contents"
                 />
@@ -361,6 +338,8 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 role="dialog"
                 aria-modal="true"
                 aria-label={title}
+                onWheel={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
             >
                 {/* Drawer Handle */}
                 <div className="flex justify-center pt-3 pb-2">
@@ -390,7 +369,14 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 </div>
 
                 {/* Drawer Content - Shows all headings (mobile has more space) */}
-                <nav className="overflow-y-auto px-6 py-4 max-h-[calc(70vh-80px)]">
+                <nav
+                    className="overflow-y-auto px-6 py-4 max-h-[calc(70vh-80px)]"
+                    style={{
+                        WebkitOverflowScrolling: 'touch',
+                        overscrollBehavior: 'contain',
+                        touchAction: 'pan-y'
+                    }}
+                >
                     <ul className="space-y-1">
                         {groupedHeadings.map((group) => {
                             const isGroupActive = activeGroupSlug === group.heading.slug;

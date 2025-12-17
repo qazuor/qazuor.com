@@ -1,9 +1,13 @@
-import { ArrowUp } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowUp, List } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { scrollTo } from '@/lib/lenis';
 
 interface ScrollToTopProps {
     ariaLabel?: string;
+    /** When true, shows TOC button instead of scroll-to-top */
+    hasToc?: boolean;
+    /** Aria label for TOC button */
+    tocAriaLabel?: string;
 }
 
 // Nav widths measured with DevTools
@@ -12,7 +16,11 @@ const NAV_WIDTH_OTHER = 423; // 9 icons
 const BUTTON_SIZE = 54;
 const GAP = 8;
 
-export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
+export function ScrollToTop({
+    ariaLabel = 'Scroll to top',
+    hasToc = false,
+    tocAriaLabel = 'Table of contents'
+}: ScrollToTopProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -70,9 +78,13 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
         return () => window.removeEventListener('mobilePopoverChange', handlePopoverChange as EventListener);
     }, []);
 
-    const scrollToTop = () => {
+    const scrollToTop = useCallback(() => {
         scrollTo(0, { duration: 1.2 });
-    };
+    }, []);
+
+    const openTocDrawer = useCallback(() => {
+        window.dispatchEvent(new CustomEvent('openTocDrawer'));
+    }, []);
 
     // Don't render on desktop (FloatingNav has scroll-to-top)
     if (!isMobile) {
@@ -104,13 +116,17 @@ export function ScrollToTop({ ariaLabel = 'Scroll to top' }: ScrollToTopProps) {
             {isVisible && (
                 <button
                     type="button"
-                    onClick={scrollToTop}
+                    onClick={hasToc ? openTocDrawer : scrollToTop}
                     data-scroll-to-top="true"
                     style={positionStyle}
                     className="fixed z-[401] flex h-[54px] w-[54px] items-center justify-center rounded-full border border-border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-primary/10 hover:text-primary active:scale-95 text-muted-foreground dark:bg-card/95 dark:border-white/10 dark:shadow-black/20"
-                    aria-label={ariaLabel}
+                    aria-label={hasToc ? tocAriaLabel : ariaLabel}
                 >
-                    <ArrowUp size={20} className="transition-transform group-hover:scale-110" />
+                    {hasToc ? (
+                        <List size={20} className="transition-transform group-hover:scale-110" />
+                    ) : (
+                        <ArrowUp size={20} className="transition-transform group-hover:scale-110" />
+                    )}
                 </button>
             )}
         </>

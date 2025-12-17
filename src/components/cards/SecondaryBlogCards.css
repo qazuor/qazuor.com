@@ -21,8 +21,9 @@
     height: 100%; /* Fill container height exactly */
     background: var(--color-bg-secondary);
     overflow: hidden;
-    transition: width 0.35s var(--ease-in-out),
-                background-color var(--duration-base) var(--ease-in-out);
+    transition:
+        width 0.35s var(--ease-in-out),
+        background-color var(--duration-base) var(--ease-in-out);
 }
 
 /* Card inner link */
@@ -40,22 +41,31 @@
 
 /* Left border - the signature CSS-Tricks element */
 .secondary-card::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
     width: 4px;
     background: var(--card-border-color);
-    transition: width var(--duration-base) var(--ease-in-out), box-shadow var(--duration-base) var(--ease-in-out);
+    transition:
+        width var(--duration-base) var(--ease-in-out),
+        box-shadow var(--duration-base) var(--ease-in-out);
     z-index: 10;
 }
 
-/* Hover: border expands with glow */
+/* Hover: border expands with glow (right) + shadow fade (left) */
 .secondary-card:hover::before {
     width: 6px;
-    box-shadow: 0 0 20px var(--card-border-color),
-                0 0 40px color-mix(in oklch, var(--card-border-color), transparent 50%);
+    /* Glow to the right - more intense */
+    box-shadow:
+        0 0 8px 2px var(--card-border-color),
+        0 0 25px 4px var(--card-border-color),
+        0 0 50px 8px color-mix(in oklch, var(--card-border-color), transparent 30%),
+        0 0 80px 12px color-mix(in oklch, var(--card-border-color), transparent 60%),
+        /* Shadow fade to the left to mask overlapped text */
+        -25px 0 25px 8px var(--color-bg-secondary),
+        -15px 0 18px 5px var(--color-bg-secondary);
 }
 
 /* Subtle background tint on hover */
@@ -69,11 +79,31 @@
     .secondary-card:hover {
         width: var(--card-width-hover);
         z-index: 10;
+        overflow: visible; /* Allow ::before shadow to extend left */
     }
 
     /* Sibling cards shrink but maintain height - content clips with overflow */
     .secondary-cards-container:has(.secondary-card:hover) .secondary-card:not(:hover) {
         width: var(--card-width-shrink);
+    }
+
+    /* Fade mask on shrunk cards to smooth the text cutoff */
+    .secondary-cards-container:has(.secondary-card:hover) .secondary-card:not(:hover) .secondary-card__link {
+        mask-image: linear-gradient(to right, black 0%, black 30%, transparent 90%);
+        -webkit-mask-image: linear-gradient(to right, black 0%, black 30%, transparent 90%);
+    }
+
+    /* Gradient overlay on shrunk cards to fade content towards the right edge */
+    .secondary-cards-container:has(.secondary-card:hover) .secondary-card:not(:hover)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 60%;
+        background: linear-gradient(to right, transparent 0%, var(--color-bg-secondary) 100%);
+        pointer-events: none;
+        z-index: 5;
     }
 
     /* Content maintains original width and gets clipped - no text reflow */
@@ -88,7 +118,6 @@
         min-width: 200px;
         flex-shrink: 0;
     }
-
 
     /* Adjust widths based on card count */
     .secondary-cards-container[data-card-count="3"] .secondary-card {
@@ -149,7 +178,9 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: font-size var(--duration-base) var(--ease-in-out), opacity var(--duration-base) var(--ease-in-out);
+    transition:
+        font-size var(--duration-base) var(--ease-in-out),
+        opacity var(--duration-base) var(--ease-in-out);
 }
 
 /* Expanded: show full title */
@@ -171,7 +202,9 @@
     overflow: hidden;
     opacity: 0;
     max-height: 0;
-    transition: opacity var(--duration-base) var(--ease-in-out) 0.1s, max-height var(--duration-base) var(--ease-in-out);
+    transition:
+        opacity var(--duration-base) var(--ease-in-out) 0.1s,
+        max-height var(--duration-base) var(--ease-in-out);
 }
 
 /* Show excerpt on hover */
@@ -253,7 +286,7 @@
     }
 
     .secondary-card {
-        width: 100% !important;
+        width: 100%;
         height: auto; /* Override fixed height from desktop */
         border-bottom: 1px solid var(--color-border);
     }
@@ -314,7 +347,7 @@
         display: flex;
     }
 
-    .secondary-card__tags .secondary-card__tag:nth-child(n+3) {
+    .secondary-card__tags .secondary-card__tag:nth-child(n + 3) {
         display: none;
     }
 
@@ -329,15 +362,17 @@
 
     /* Mobile hover effect: Elevation + Border glow */
     .secondary-card {
-        transition: transform var(--duration-fast) var(--ease-in-out),
-                    box-shadow var(--duration-fast) var(--ease-in-out),
-                    background-color var(--duration-fast) var(--ease-in-out);
+        transition:
+            transform var(--duration-fast) var(--ease-in-out),
+            box-shadow var(--duration-fast) var(--ease-in-out),
+            background-color var(--duration-fast) var(--ease-in-out);
     }
 
     .secondary-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
-                    0 2px 4px rgba(0, 0, 0, 0.04);
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.08),
+            0 2px 4px rgba(0, 0, 0, 0.04);
         background: color-mix(in oklch, var(--card-border-color), var(--color-bg-secondary) 96%);
         border-bottom-color: transparent;
     }
@@ -345,8 +380,9 @@
     /* Border glow effect on mobile */
     .secondary-card:hover::before {
         width: 5px;
-        box-shadow: 0 0 12px var(--card-border-color),
-                    0 0 4px var(--card-border-color);
+        box-shadow:
+            0 0 12px var(--card-border-color),
+            0 0 4px var(--card-border-color);
     }
 
     /* Arrow animation on mobile */

@@ -458,17 +458,17 @@ export function RadarChart({
                                             dominantBaseline="middle"
                                             className={`transition-all duration-200 ${
                                                 isHighlighted
-                                                    ? 'font-bold text-foreground fill-current'
+                                                    ? 'font-medium text-foreground fill-current'
                                                     : 'font-medium text-foreground-secondary fill-current'
                                             }`}
                                             style={{
                                                 fontSize: `${calculateFontSize(isHighlighted, isMobile, {
-                                                    highlightedMobile: 18,
-                                                    highlightedDesktop: 12,
-                                                    normalMobile: 16,
-                                                    normalDesktop: 11
+                                                    highlightedMobile: 20,
+                                                    highlightedDesktop: 13,
+                                                    normalMobile: 18,
+                                                    normalDesktop: 13
                                                 })}px`,
-                                                letterSpacing: '0.2px'
+                                                letterSpacing: '0px'
                                             }}
                                         >
                                             {word}

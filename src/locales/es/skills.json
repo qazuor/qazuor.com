@@ -17,23 +17,19 @@
         "creativity": "Creatividad",
         "problemSolving": "Resolución de Problemas",
         "curiosity": "Curiosidad",
-        "graphicDesign": "Diseño Gráfico",
         "branding": "Branding",
-        "imageEditing": "Edición de Imágenes",
         "webPerformance": "Rendimiento Web",
         "webAccessibility": "Accesibilidad Web",
         "automation": "Automatización",
-        "seo": "SEO",
+        "seoAeo": "SEO & AEO",
         "socialMediaAndFlyers": "Redes Sociales y Flyers"
     },
     "descriptions": {
-        "graphicDesignDescription": "Diseño de piezas para redes sociales (banners, flyers, posts, stories)",
         "brandingDescription": "Diseño de identidades básicas de marca (logos sencillos, paletas de color, tipografías)",
-        "imageEditingDescription": "Edición básica de imágenes (corrección de color, recorte, montaje simple)",
         "webPerformanceDescription": "Performance y optimización básica de páginas (imágenes, lazy loading, etc.)",
         "webAccessibilityDescription": "Accesibilidad web básica (buen contraste, estructura semántica, labels, etc.)",
         "automationDescription": "Automatizaciones con Make / Zapier (ej: formulario → email → hoja de cálculo)",
-        "seoDescription": "Optimización para motores de búsqueda",
+        "seoAeoDescription": "Optimización para motores de búsqueda (SEO) y para respuestas de IA/LLMs (AEO)",
         "socialMediaAndFlyersDescription": "Diseño de gráficos para redes sociales y flyers de marketing"
     }
 }

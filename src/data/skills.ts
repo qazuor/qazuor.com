@@ -26,15 +26,12 @@ export const skillsData: SkillCategory[] = [
             { name: 'Node.js', icon: 'nodejs', color: '#339933', value: 75 },
             { name: 'React', icon: 'react', color: '#61DAFB', value: 80 },
             { name: 'Astro', icon: 'astro', color: '#FF5D01', value: 90 },
-            { name: 'HTML 5', icon: 'html5', color: '#E34F26', value: 95 },
             { name: 'CSS 3', icon: 'css3', color: '#1572B6', value: 90 },
             { name: 'Tailwind CSS', icon: 'tailwind', color: '#06B6D4', value: 80 },
             { name: 'PostgreSQL', icon: 'postgresql', color: '#336791', value: 70 },
             { name: 'Drizzle ORM', icon: 'drizzle', color: '#C5F74F', value: 70 },
             { name: 'Hono', icon: 'hono', color: '#E36002', value: 70 },
             { name: 'Zod', icon: 'zod', color: '#3E67B1', value: 75 },
-            { name: 'Git', icon: 'git', color: '#F05032', value: 85 },
-            { name: 'Claude Code', icon: 'claudecode', color: '#D97706', value: 85 },
             // Technical Other Skills
             {
                 name: 'webPerformance',
@@ -51,11 +48,11 @@ export const skillsData: SkillCategory[] = [
                 description: 'webAccessibilityDescription'
             },
             {
-                name: 'seo',
+                name: 'seoAeo',
                 icon: 'search',
                 color: '#4285F4',
                 value: 90,
-                description: 'seoDescription'
+                description: 'seoAeoDescription'
             }
         ]
     },
@@ -74,20 +71,6 @@ export const skillsData: SkillCategory[] = [
             { name: 'adaptability', icon: 'arrow-right', color: '#06B6D4', value: 70 },
             { name: 'flexibility', icon: 'arrow-up', color: '#10B981', value: 80 },
             // Creative Skills
-            {
-                name: 'graphicDesign',
-                icon: 'coreldraw',
-                color: '#019639',
-                value: 90,
-                description: 'graphicDesignDescription'
-            },
-            {
-                name: 'imageEditing',
-                icon: 'photoshop',
-                color: '#00C4CC',
-                value: 70,
-                description: 'imageEditingDescription'
-            },
             {
                 name: 'branding',
                 icon: 'palette',

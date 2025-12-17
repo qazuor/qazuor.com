@@ -155,12 +155,10 @@ export function calculateLabelPosition(
 
 /**
  * Calculate line height for multi-line text
+ * Uses constant values to prevent layout shift on hover
  */
-export function calculateLineHeight(isHighlighted: boolean, isMobile: boolean): number {
-    if (isHighlighted) {
-        return isMobile ? 22 : 16;
-    }
-    return isMobile ? 20 : 14;
+export function calculateLineHeight(_isHighlighted: boolean, isMobile: boolean): number {
+    return isMobile ? 22 : 16;
 }
 
 /**

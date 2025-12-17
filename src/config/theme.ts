@@ -93,13 +93,24 @@ export const typography = {
  * Synced with tailwind.config.js borderRadius configuration
  */
 export const borderRadius = {
-    sm: 'calc(var(--radius) - 4px)',
-    DEFAULT: '0.5rem',
-    md: 'calc(var(--radius) - 2px)',
-    lg: 'var(--radius)',
-    xl: '1rem',
-    '2xl': '1.5rem',
-    full: '9999px'
+    xs: '0.25rem', // 4px - small badges, pills
+    sm: '0.375rem', // 6px - inputs, small buttons
+    DEFAULT: '0.5rem', // 8px - default
+    md: '0.5rem', // 8px - buttons, small elements
+    lg: '0.75rem', // 12px - cards (standard)
+    xl: '1rem', // 16px - hero sections, featured cards
+    '2xl': '1.5rem', // 24px - large containers
+    full: '9999px' // circles
+} as const;
+
+/**
+ * Scale values for hover effects
+ * Synced with tailwind.config.js scale configuration
+ */
+export const scale = {
+    subtle: '1.02', // cards, previews (standard hover)
+    medium: '1.05', // buttons, interactive elements
+    emphasis: '1.1' // icons, CTAs
 } as const;
 
 /**
@@ -132,11 +143,12 @@ export const transition = {
         slower: '700ms'
     },
     timing: {
-        spring: 'cubic-bezier(0.27, 0.22, 0.44, 1.03)',
-        easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-        easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
-        easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
-        linear: 'linear'
+        linear: 'linear',
+        easeIn: 'cubic-bezier(0.4, 0, 1, 1)', // elements leaving
+        easeOut: 'cubic-bezier(0, 0, 0.2, 1)', // elements entering
+        easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)', // standard (default)
+        spring: 'cubic-bezier(0.27, 0.22, 0.44, 1.03)', // bouncy animations
+        bounce: 'cubic-bezier(0.34, 1.56, 0.64, 1)' // emphasis, success states
     }
 } as const;
 
@@ -173,6 +185,7 @@ export type FontSizeKey = keyof typeof typography.fontSize;
 export type FontFamilyKey = keyof typeof typography.fontFamily;
 export type FontWeightKey = keyof typeof typography.fontWeight;
 export type BorderRadiusKey = keyof typeof borderRadius;
+export type ScaleKey = keyof typeof scale;
 export type BoxShadowKey = keyof typeof boxShadow;
 export type TransitionDurationKey = keyof typeof transition.duration;
 export type TransitionTimingKey = keyof typeof transition.timing;
@@ -219,6 +232,7 @@ export const theme = {
     spacing,
     typography,
     borderRadius,
+    scale,
     boxShadow,
     transition,
     zIndex,

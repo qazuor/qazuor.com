@@ -370,6 +370,12 @@
         --ease-out: cubic-bezier(0, 0, 0.2, 1);
         --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
         --ease-spring: cubic-bezier(0.27, 0.22, 0.44, 1.03);
+        --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        /* Scale Values for Hover Effects */
+        --scale-subtle: 1.02;
+        --scale-medium: 1.05;
+        --scale-emphasis: 1.1;
 
         /* Shadcn/ui Light Variables - Blue-gray theme compatible */
         --background: 219 21% 94%; /* Light blue-gray background to match sections */
@@ -1199,7 +1205,7 @@
 
     .skip-link:focus {
         top: 16px;
-        transform: translateX(-50%) scale(1.02);
+        transform: translateX(-50%) scale(var(--scale-subtle));
         outline: 2px solid hsl(var(--accent));
         outline-offset: 4px;
         box-shadow:
@@ -1208,7 +1214,7 @@
     }
 
     .skip-link:hover {
-        transform: translateX(-50%) scale(1.05);
+        transform: translateX(-50%) scale(var(--scale-medium));
     }
 
     /* ==========================================================================
@@ -1862,11 +1868,11 @@
             0 2px 4px -2px hsl(var(--foreground) / 0.1);
         max-width: 100%;
         height: auto;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
     }
 
     .content-prose img:hover {
-        transform: scale(1.02);
+        transform: scale(var(--scale-subtle));
         box-shadow:
             0 20px 25px -5px hsl(var(--foreground) / 0.1),
             0 8px 10px -6px hsl(var(--foreground) / 0.1);

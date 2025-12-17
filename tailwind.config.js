@@ -131,13 +131,19 @@ export default {
                 32: '8rem'
             },
             borderRadius: {
-                sm: 'calc(var(--radius) - 4px)',
-                DEFAULT: '0.5rem',
-                md: 'calc(var(--radius) - 2px)',
-                lg: 'var(--radius)',
-                xl: '1rem',
-                '2xl': '1.5rem',
-                full: '9999px'
+                xs: '0.25rem', // 4px - small badges, pills
+                sm: '0.375rem', // 6px - inputs, small buttons
+                DEFAULT: '0.5rem', // 8px - default
+                md: '0.5rem', // 8px - buttons, small elements
+                lg: '0.75rem', // 12px - cards (standard)
+                xl: '1rem', // 16px - hero sections, featured cards
+                '2xl': '1.5rem', // 24px - large containers
+                full: '9999px' // circles
+            },
+            scale: {
+                subtle: '1.02', // cards, previews (standard hover)
+                medium: '1.05', // buttons, interactive elements
+                emphasis: '1.1' // icons, CTAs
             },
             boxShadow: {
                 sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
@@ -159,7 +165,12 @@ export default {
                 slower: '700ms'
             },
             transitionTimingFunction: {
-                spring: 'cubic-bezier(0.27, 0.22, 0.44, 1.03)'
+                linear: 'linear',
+                'ease-in': 'cubic-bezier(0.4, 0, 1, 1)', // elements leaving
+                'ease-out': 'cubic-bezier(0, 0, 0.2, 1)', // elements entering
+                'ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)', // standard (default)
+                spring: 'cubic-bezier(0.27, 0.22, 0.44, 1.03)', // bouncy animations
+                bounce: 'cubic-bezier(0.34, 1.56, 0.64, 1)' // emphasis, success states
             },
             keyframes: {
                 slideInDropdown: {

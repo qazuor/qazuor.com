@@ -1,6 +1,5 @@
 import { ArrowUp, List } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { scrollTo } from '@/lib/lenis';
 
 interface ScrollToTopProps {
     ariaLabel?: string;
@@ -79,7 +78,7 @@ export function ScrollToTop({
     }, []);
 
     const scrollToTop = useCallback(() => {
-        scrollTo(0, { duration: 1.2 });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
     const openTocDrawer = useCallback(() => {

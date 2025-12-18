@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { INTEREST_IDS, type InterestId } from '@/data';
-import { useContactForm, useScrollAnimation, useStaggerAnimation } from '@/hooks';
+import { useContactForm } from '@/hooks';
 import { ContactInfo } from './ContactInfo';
 import { FloatingFormField } from './FloatingFormField';
 import { InterestSelector } from './InterestSelector';
@@ -194,20 +194,12 @@ export function Contact({
         [translations.info, translations.description]
     );
 
-    // Animations
-    const titleRef = useScrollAnimation('.section-title', { y: 30, duration: 0.8 });
-    const formRef = useStaggerAnimation<HTMLFormElement>('.form-field', {
-        y: 20,
-        duration: 0.6,
-        stagger: 0.1
-    });
-
     return (
         <section className="relative pt-16 pb-32 md:pt-20 md:pb-40" id="contact">
             <div className="container-custom">
                 {/* Section Title */}
-                <div ref={titleRef} className="mb-10 md:mb-14">
-                    <div className="section-title text-center">
+                <div className="mb-10 md:mb-14">
+                    <div className="animate-on-scroll text-center">
                         <h2 className="text-6xl md:text-7xl font-bold mb-3">
                             <span className="gradient-text-section">{translations.title}</span>
                         </h2>
@@ -244,12 +236,7 @@ export function Contact({
                                 mb-[-80px] md:mb-[-100px]
                             "
                         >
-                            <form
-                                ref={formRef}
-                                onSubmit={handleSubmit}
-                                className="space-y-4"
-                                data-testid="contact-form"
-                            >
+                            <form onSubmit={handleSubmit} className="space-y-4" data-testid="contact-form">
                                 {/* Name & Email in 2 columns */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <FloatingFormField

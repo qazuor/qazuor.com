@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@/hooks';
-import { scrollTo } from '@/lib/lenis';
 import { MobileUtilitiesPopover } from './MobileUtilitiesPopover';
 
 type LabelKey = 'hero' | 'about' | 'skills' | 'projects' | 'services' | 'blog' | 'testimonials' | 'faqs' | 'contact';
@@ -259,7 +258,7 @@ export function FloatingNav({
     }, []);
 
     const handleScrollToTop = useCallback(() => {
-        scrollTo(0, { duration: 1.2 });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, []);
 
     const openTocDrawer = useCallback(() => {
@@ -276,34 +275,6 @@ export function FloatingNav({
         navigate(`${newPath || `/${newLocale}`}${currentSearch}${currentHash}`);
     }, [currentLocale]);
 
-    // Custom smooth scroll function with callback support
-    const smoothScrollTo = useCallback((targetY: number, duration = 800, onComplete?: () => void) => {
-        const startY = window.pageYOffset;
-        const distance = targetY - startY;
-        let startTime: number | null = null;
-
-        function animation(currentTime: number): void {
-            if (startTime === null) startTime = currentTime;
-            const timeElapsed = currentTime - startTime;
-            const progress = Math.min(timeElapsed / duration, 1);
-
-            // Ease in-out cubic
-            const ease =
-                progress < 0.5
-                    ? 4 * progress * progress * progress
-                    : (progress - 1) * (2 * progress - 2) * (2 * progress - 2) + 1;
-
-            window.scrollTo(0, startY + distance * ease);
-
-            if (progress < 1) {
-                requestAnimationFrame(animation);
-            } else if (onComplete) {
-                onComplete();
-            }
-        }
-        requestAnimationFrame(animation);
-    }, []);
-
     const handleClick = useCallback(
         (e: React.MouseEvent<HTMLButtonElement>, section: NavSection) => {
             e.preventDefault();
@@ -311,21 +282,15 @@ export function FloatingNav({
             const element = document.getElementById(targetId);
 
             if (isHomePage) {
-                // On home page - always smooth scroll to section
+                // On home page - smooth scroll to section using native scrollIntoView
+                // CSS scroll-margin-top handles the header offset
                 if (element) {
-                    const headerOffset = 80;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    // Execute smooth scroll FIRST, then update URL when complete
-                    smoothScrollTo(offsetPosition, 800, () => {
-                        // Update URL without triggering scroll (after animation completes)
-                        // Preserve query params when updating hash
-                        if (window.history?.replaceState) {
-                            const newUrl = `${window.location.pathname}${window.location.search}${section.hash}`;
-                            window.history.replaceState(null, '', newUrl);
-                        }
-                    });
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Update URL after starting scroll
+                    if (window.history?.replaceState) {
+                        const newUrl = `${window.location.pathname}${window.location.search}${section.hash}`;
+                        window.history.replaceState(null, '', newUrl);
+                    }
                 }
             } else {
                 // Not on home page - navigate to dedicated page or home with hash
@@ -335,7 +300,7 @@ export function FloatingNav({
                 navigate(targetUrl);
             }
         },
-        [currentLocale, isHomePage, smoothScrollTo]
+        [currentLocale, isHomePage]
     );
 
     if (isMobile) {

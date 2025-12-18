@@ -1,13 +1,6 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { ProjectCard } from '@/components/cards/ProjectCard';
 import type { OptimizedImage } from '@/components/ui/ImageCarousel';
-
-// Register ScrollTrigger plugin
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
 
 interface Project {
     title: string;
@@ -25,167 +18,120 @@ interface ProjectsFeaturedStackProps {
 }
 
 /**
- * Detects if the current device is mobile
+ * Featured Projects Stack Component
+ * Vanilla JS implementation of ScrollTrigger-like center pinning effect
+ *
+ * Behavior:
+ * - Each card pins at the center of the viewport when it arrives
+ * - While pinned, the next card scrolls up from below
+ * - When the next card reaches center, it pins and covers the previous
+ * - After the last card is pinned and you keep scrolling, all cards scroll away together
  */
-function isMobileDevice(): boolean {
-    if (typeof window === 'undefined') return false;
-
-    // Check multiple indicators for mobile
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const isSmallScreen = window.innerWidth < 768;
-
-    return isMobileUA || (isTouchDevice && isSmallScreen);
-}
-
-/**
- * Detects if the current browser is Firefox
- */
-function isFirefox(): boolean {
-    if (typeof window === 'undefined') return false;
-    return navigator.userAgent.toLowerCase().includes('firefox');
-}
-
 export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement[]>([]);
-    const [animationFailed, setAnimationFailed] = useState(false);
 
-    useEffect(() => {
-        // Detect mobile device
-        const mobile = isMobileDevice();
-
+    const updateCardPositions = useCallback(() => {
         if (!containerRef.current || cardsRef.current.length === 0) return;
 
-        try {
-            const ctx = gsap.context(() => {
-                cardsRef.current.forEach((card, index) => {
-                    if (!card) return;
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const cardHeight = 600; // Height of the card content
+        const centerOffset = (viewportHeight - cardHeight) / 2; // Position to center card vertically
 
-                    // Calculate the scale based on position in stack
-                    const targetScale = 1 - (cardsRef.current.length - 1 - index) * 0.05;
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const containerTop = scrollY + containerRect.top;
 
-                    // Mobile-first configuration
-                    const scrollTriggerConfig: ScrollTrigger.Vars = {
-                        trigger: card,
-                        start: 'top top',
-                        pin: true,
-                        pinSpacing: false,
-                        end: () => `+=${(cardsRef.current.length - index) * window.innerHeight}`,
-                        invalidateOnRefresh: true,
-                        markers: false, // Set to true for debugging
-                        // Mobile-specific optimizations
-                        ...(mobile && {
-                            // Disable anticipatePin on mobile to prevent layout issues
-                            anticipatePin: 0,
-                            // Use simpler pinning on mobile
-                            pinType: 'fixed',
-                            // Reduce scrub smoothness on mobile for better performance
-                            scrub: 1
-                        }),
-                        // Desktop-specific optimizations
-                        ...(!mobile && {
-                            anticipatePin: 1,
-                            scrub: 0.5
-                        })
-                    };
+        // Each card gets 100vh of scroll distance for its "pinned" phase
+        const scrollPerCard = viewportHeight;
+        const totalScrollDistance = projects.length * scrollPerCard;
 
-                    // Create ScrollTrigger with mobile-optimized config
-                    ScrollTrigger.create(scrollTriggerConfig);
+        cardsRef.current.forEach((card, index) => {
+            if (!card) return;
 
-                    // Scale down animation when next card arrives
-                    gsap.to(card, {
-                        scale: targetScale,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: card,
-                            start: 'top top',
-                            end: () => `+=${window.innerHeight}`,
-                            scrub: mobile ? 1 : 0.5,
-                            invalidateOnRefresh: true
-                        }
-                    });
-                });
+            const cardWrapper = card.querySelector('[data-card-wrapper]') as HTMLElement;
+            if (!cardWrapper) return;
 
-                // Firefox mobile-specific fix
-                if (mobile && isFirefox()) {
-                    // Force a refresh after a short delay to ensure proper layout
-                    setTimeout(() => {
-                        ScrollTrigger.refresh();
-                    }, 100);
-                }
-            }, containerRef);
+            // Calculate when this card should start and end pinning
+            const cardPinStart = containerTop + index * scrollPerCard;
+            const cardPinEnd = containerTop + totalScrollDistance;
 
-            return () => {
-                ctx.revert();
-                for (const trigger of ScrollTrigger.getAll()) {
-                    trigger.kill();
-                }
-            };
-        } catch (error) {
-            // Log error for debugging (only in development)
-            if (import.meta.env.DEV) {
-                console.error('Failed to initialize GSAP ScrollTrigger:', error);
+            if (scrollY < cardPinStart) {
+                // Before this card's pin point - card is below viewport, scrolling up naturally
+                cardWrapper.style.position = 'absolute';
+                cardWrapper.style.top = `${index * scrollPerCard + centerOffset}px`;
+                cardWrapper.style.transform = 'none';
+            } else if (scrollY >= cardPinStart && scrollY < cardPinEnd) {
+                // Card is in pinned phase - fixed at center
+                cardWrapper.style.position = 'fixed';
+                cardWrapper.style.top = `${centerOffset}px`;
+                cardWrapper.style.transform = 'none';
+            } else {
+                // After all cards have been shown - scroll away together
+                const overscroll = scrollY - cardPinEnd;
+                cardWrapper.style.position = 'absolute';
+                cardWrapper.style.top = `${totalScrollDistance + centerOffset - overscroll}px`;
+                cardWrapper.style.transform = 'none';
             }
-            // Enable fallback mode
-            setAnimationFailed(true);
-        }
-    }, []);
+        });
+    }, [projects.length]);
 
-    // Fallback render: simple stacked layout without animations
-    if (animationFailed) {
-        return (
-            <div className="relative space-y-8 px-5 py-16">
-                {projects.map((project, index) => (
-                    <div
-                        key={project.slug}
-                        className="w-full max-w-[1600px] mx-auto"
-                        style={{
-                            minHeight: '600px',
-                            opacity: 1,
-                            transform: 'none'
-                        }}
-                    >
-                        <ProjectCard
-                            title={project.title}
-                            description={project.description}
-                            technologies={project.technologies}
-                            images={project.images}
-                            slug={project.slug}
-                            layout={index % 2 === 0 ? 'default' : 'reversed'}
-                            variant="home"
-                            lang={lang}
-                        />
-                    </div>
-                ))}
-            </div>
-        );
-    }
+    useEffect(() => {
+        let ticking = false;
 
-    // Normal render with animations
+        const handleScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateCardPositions();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        // Initial calculation
+        updateCardPositions();
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', updateCardPositions);
+
+        // Re-initialize on view transitions
+        document.addEventListener('qazuor:content-ready', updateCardPositions);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', updateCardPositions);
+            document.removeEventListener('qazuor:content-ready', updateCardPositions);
+        };
+    }, [updateCardPositions]);
+
+    // Container height: each card needs 100vh of scroll space, plus extra for the exit
+    const containerHeight = (projects.length + 1) * 100;
+
     return (
-        <div ref={containerRef} className="relative">
+        <div ref={containerRef} className="relative" style={{ height: `${containerHeight}vh` }}>
             {projects.map((project, index) => (
                 <div
                     key={project.slug}
                     ref={(el) => {
                         if (el) cardsRef.current[index] = el;
                     }}
-                    className="h-screen flex items-center justify-center w-full px-5"
+                    className="absolute inset-x-0"
                     style={{ zIndex: index + 1 }}
                 >
-                    <div className="h-[600px] w-[80vw] max-w-[1600px]">
-                        <ProjectCard
-                            title={project.title}
-                            description={project.description}
-                            technologies={project.technologies}
-                            images={project.images}
-                            slug={project.slug}
-                            layout={index % 2 === 0 ? 'default' : 'reversed'}
-                            variant="home"
-                            lang={lang}
-                        />
+                    <div data-card-wrapper className="flex items-center justify-center px-5 w-full">
+                        <div className="h-[600px] w-[80vw] max-w-[1600px]">
+                            <ProjectCard
+                                title={project.title}
+                                description={project.description}
+                                technologies={project.technologies}
+                                images={project.images}
+                                slug={project.slug}
+                                layout={index % 2 === 0 ? 'default' : 'reversed'}
+                                variant="home"
+                                lang={lang}
+                            />
+                        </div>
                     </div>
                 </div>
             ))}

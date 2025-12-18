@@ -16,7 +16,6 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 import photo1 from '@/assets/images/photo1.png';
 // Other imports
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
-import { SmoothScroll } from '@/components/animations/SmoothScroll';
 import BuildSearchIndex from '@/components/BuildSearchIndex.astro';
 import { CommandPalette } from '@/components/interactive/CommandPalette';
 import { ScrollToTop } from '@/components/interactive/ScrollToTop';
@@ -444,9 +443,6 @@ const alternateLinks = locales.map((locale) => {
         <!-- AutoAnimate Global -->
         <AutoAnimateGlobal />
 
-        <!-- Smooth Scroll Integration -->
-        <SmoothScroll client:only="react" />
-
         <!-- Build Search Index -->
         <BuildSearchIndex />
 
@@ -551,6 +547,11 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Vercel Speed Insights (Core Web Vitals monitoring) -->
         <SpeedInsights debug={false} />
+
+        <!-- Scroll Reveal Animations - Vanilla JS IntersectionObserver -->
+        <script>
+            import('../scripts/scroll-reveal');
+        </script>
 
         <!-- PixelCanvas Custom Element - Lazy loaded only when needed -->
         <script>

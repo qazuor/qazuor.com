@@ -692,6 +692,23 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         overflow-x: hidden; /* Prevent horizontal scroll - must be on html too, not just body */
+        scroll-behavior: smooth;
+    }
+
+    /* Scroll offset for fixed header on anchor targets */
+    :target {
+        scroll-margin-top: 96px; /* Header height (80px) + extra padding (16px) */
+    }
+
+    section[id] {
+        scroll-margin-top: 96px;
+    }
+
+    /* Respect user motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
     }
 
     body {
@@ -2668,5 +2685,60 @@
 
     .dark .css-playground-highlight .token.punctuation {
         color: #a5b4c0;
+    }
+}
+
+/* ==========================================
+ * Scroll Reveal Animations
+ * Replaces GSAP scroll animations with CSS
+ * Uses IntersectionObserver for triggering (100% browser support)
+ * ========================================== */
+
+/* Base state: hidden and translated */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Visible state: animated in */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger animation items */
+.stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays - applied via nth-child */
+.stagger-item:nth-child(1) { transition-delay: 0ms; }
+.stagger-item:nth-child(2) { transition-delay: 100ms; }
+.stagger-item:nth-child(3) { transition-delay: 200ms; }
+.stagger-item:nth-child(4) { transition-delay: 300ms; }
+.stagger-item:nth-child(5) { transition-delay: 400ms; }
+.stagger-item:nth-child(6) { transition-delay: 500ms; }
+.stagger-item:nth-child(7) { transition-delay: 600ms; }
+.stagger-item:nth-child(8) { transition-delay: 700ms; }
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .animate-on-scroll,
+    .stagger-item {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }

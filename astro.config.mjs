@@ -287,12 +287,6 @@ export default defineConfig({
                             if (id.includes('react') || id.includes('react-dom')) {
                                 return 'vendor-react';
                             }
-                            if (id.includes('gsap')) {
-                                return 'vendor-gsap';
-                            }
-                            if (id.includes('@studio-freight/lenis')) {
-                                return 'vendor-lenis';
-                            }
                             // Lightbox lite in separate chunk - lazy loaded only when user clicks image (4.7KB)
                             if (id.includes('yet-another-react-lightbox-lite')) {
                                 return 'vendor-lightbox';

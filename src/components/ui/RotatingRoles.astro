@@ -17,96 +17,103 @@ const { roles, className = '' } = Astro.props;
 </div>
 
 <script>
-    import { loadGSAP } from '@/lib/gsap';
+    /**
+     * Rotating Roles Animation - Vanilla JS Implementation
+     * Replaces GSAP with native Web Animations API
+     */
 
-    // Store active timeline to prevent duplicates
-    let activeTimeline: any = null;
+    // Store active interval to prevent duplicates
+    let activeInterval: number | null = null;
+    let currentIndex = 0;
 
-    // Initialize rotating roles with GSAP (lazy-loaded)
-    async function initializeRotatingRoles() {
-        const rotatingRolesElement = document.getElementById('rotating-roles');
+    // Easing equivalent to GSAP's back.out(1.7)
+    const EASE_BACK_OUT = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+    const EASE_OUT = 'cubic-bezier(0.33, 1, 0.68, 1)';
 
-        if (rotatingRolesElement) {
-            const rolesData = rotatingRolesElement.getAttribute('data-roles');
+    // Initialize rotating roles
+    function initializeRotatingRoles() {
+        const element = document.getElementById('rotating-roles');
+        if (!element) return;
 
-            if (rolesData) {
-                try {
-                    const roles: string[] = JSON.parse(rolesData);
+        const rolesData = element.getAttribute('data-roles');
+        if (!rolesData) return;
 
-                    // Lazy load GSAP
-                    const gsap = await loadGSAP();
+        try {
+            const roles: string[] = JSON.parse(rolesData);
+            if (roles.length === 0) return;
 
-                    // Kill previous timeline if it exists
-                    if (activeTimeline) {
-                        activeTimeline.kill();
-                        activeTimeline = null;
-                    }
-
-                    // GSAP Timeline for smooth role transitions
-                    const createRoleTransition = () => {
-                        const timeline = gsap.timeline({
-                            repeat: -1,
-                            repeatDelay: 1.0
-                        });
-
-                        roles.forEach((role: string, index: number) => {
-                            if (index === 0) {
-                                timeline.set(rotatingRolesElement, { opacity: 1 });
-                                timeline.to({}, { duration: 1.5 });
-                            } else {
-                                timeline.to(rotatingRolesElement, {
-                                    opacity: 0,
-                                    scale: 0.95,
-                                    duration: 0.2,
-                                    ease: 'power2.out'
-                                });
-
-                                timeline.call(() => {
-                                    rotatingRolesElement.innerHTML = role;
-                                });
-
-                                timeline.to(rotatingRolesElement, {
-                                    opacity: 1,
-                                    scale: 1,
-                                    duration: 0.4,
-                                    ease: 'back.out(1.7)'
-                                });
-
-                                timeline.to({}, { duration: 1.0 });
-                            }
-                        });
-
-                        return timeline;
-                    };
-
-                    // Start the animation if there are multiple roles
-                    if (roles.length > 1) {
-                        activeTimeline = createRoleTransition();
-                    } else {
-                        gsap.from(rotatingRolesElement, {
-                            opacity: 0,
-                            scale: 0.9,
-                            duration: 0.8,
-                            ease: 'back.out(1.7)',
-                            delay: 0.5
-                        });
-                    }
-                } catch (error) {
-                    console.error('Error parsing roles data:', error);
-                }
+            // Clear previous interval if exists
+            if (activeInterval) {
+                clearInterval(activeInterval);
+                activeInterval = null;
             }
+
+            // Reset state
+            currentIndex = 0;
+            element.style.opacity = '1';
+            element.style.transform = 'scale(1)';
+
+            // Single role: just fade in
+            if (roles.length === 1) {
+                element.animate(
+                    [
+                        { opacity: 0, transform: 'scale(0.9)' },
+                        { opacity: 1, transform: 'scale(1)' }
+                    ],
+                    { duration: 800, easing: EASE_BACK_OUT, delay: 500, fill: 'forwards' }
+                );
+                return;
+            }
+
+            // Multiple roles: create rotation
+            async function rotateToNext() {
+                // Calculate next index
+                currentIndex = (currentIndex + 1) % roles.length;
+
+                // Fade out + scale down
+                const fadeOut = element!.animate(
+                    [
+                        { opacity: 1, transform: 'scale(1)' },
+                        { opacity: 0, transform: 'scale(0.95)' }
+                    ],
+                    { duration: 200, easing: EASE_OUT, fill: 'forwards' }
+                );
+
+                await fadeOut.finished;
+
+                // Change text
+                element!.innerHTML = roles[currentIndex];
+
+                // Fade in + scale up with bounce
+                element!.animate(
+                    [
+                        { opacity: 0, transform: 'scale(0.95)' },
+                        { opacity: 1, transform: 'scale(1)' }
+                    ],
+                    { duration: 400, easing: EASE_BACK_OUT, fill: 'forwards' }
+                );
+            }
+
+            // Start rotation after initial delay
+            setTimeout(() => {
+                rotateToNext();
+                // Then rotate every 2.5 seconds (1.5s display + 0.6s animation + 0.4s pause)
+                activeInterval = window.setInterval(rotateToNext, 2500);
+            }, 1500);
+
+        } catch (error) {
+            console.error('Error parsing roles data:', error);
         }
     }
 
-    // Initialize on initial page load (handles direct navigation)
+    // Initialize on page load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeRotatingRoles);
     } else {
         initializeRotatingRoles();
     }
 
-    // Re-initialize after View Transitions navigation
-    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    // Re-initialize after View Transitions
     document.addEventListener('qazuor:content-ready', initializeRotatingRoles);
 </script>
 

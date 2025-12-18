@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { scrollTo as lenisScrollTo, startLenis, stopLenis } from '@/lib/lenis';
 
 export interface TocHeading {
     depth: number;
@@ -120,20 +119,16 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
         };
     }, [tocHeadings]);
 
-    // Handle click on TOC item
-    // MF-008: Use Lenis scrollTo to avoid conflict with smooth scroll
+    // Handle click on TOC item - uses native smooth scroll via CSS scroll-behavior
     const handleClick = useCallback((slug: string) => {
         setActiveId(slug);
         setIsDrawerOpen(false);
 
-        // Smooth scroll to the heading using Lenis
+        // Smooth scroll to the heading using native scrollIntoView
+        // CSS scroll-margin-top handles the header offset
         const element = document.getElementById(slug);
         if (element) {
-            const navHeight = document.querySelector('header')?.getBoundingClientRect().height || 80;
-            lenisScrollTo(element, {
-                offset: -(navHeight + 24),
-                duration: 0.8
-            });
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }, []);
 
@@ -149,18 +144,15 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
         return () => document.removeEventListener('keydown', handleEscape);
     }, [isDrawerOpen]);
 
-    // Prevent body scroll when drawer is open (including Lenis smooth scroll)
+    // Prevent body scroll when drawer is open
     useEffect(() => {
         if (isDrawerOpen) {
             document.body.style.overflow = 'hidden';
-            stopLenis();
         } else {
             document.body.style.overflow = '';
-            startLenis();
         }
         return () => {
             document.body.style.overflow = '';
-            startLenis();
         };
     }, [isDrawerOpen]);
 

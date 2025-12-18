@@ -1,4 +1,3 @@
-import { useStaggerAnimation } from '@/hooks';
 import githubIcon from '@/icons/social/github.svg?raw';
 import linkedinIcon from '@/icons/social/linkedin.svg?raw';
 import mailIcon from '@/icons/social/mail.svg?raw';
@@ -97,16 +96,10 @@ const phoneIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="
 const locationIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>`;
 
 export function ContactInfo({ email, phone, location, social, translations, ariaLabels }: ContactInfoProps) {
-    const containerRef = useStaggerAnimation<HTMLDivElement>('.contact-info-item', {
-        y: 20,
-        duration: 0.6,
-        stagger: 0.1
-    });
-
     return (
-        <div ref={containerRef} className="space-y-6">
+        <div className="space-y-6">
             {/* Title & Description */}
-            <div className="contact-info-item">
+            <div className="stagger-item">
                 <h3 className="text-xl font-bold text-foreground mb-2">{translations.title}</h3>
                 <p className="text-foreground-secondary text-sm leading-relaxed">{translations.description}</p>
                 {translations.sectionDescription && (
@@ -119,7 +112,7 @@ export function ContactInfo({ email, phone, location, social, translations, aria
             </div>
 
             {/* Contact Details */}
-            <div className="space-y-4 contact-info-item">
+            <div className="space-y-4 stagger-item">
                 <InfoItem icon={mailIcon} label={translations.emailLabel} value={email} href={`mailto:${email}`} />
                 <InfoItem
                     icon={phoneIcon}
@@ -131,7 +124,7 @@ export function ContactInfo({ email, phone, location, social, translations, aria
             </div>
 
             {/* Social Links */}
-            <div className="contact-info-item pt-2">
+            <div className="stagger-item pt-2">
                 <p className="text-xs text-foreground-muted mb-3">{translations.orConnect}</p>
                 <div className="flex gap-2">
                     <SocialLink href={social.linkedin} icon={linkedinIcon} label={ariaLabels.linkedin} />

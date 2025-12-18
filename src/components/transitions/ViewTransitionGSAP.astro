@@ -314,20 +314,23 @@ for (const project of projects) {
 </script>
 
 <script>
-    import { gsap } from 'gsap';
+    /**
+     * ViewTransition Animation - Vanilla JS Implementation
+     * Replaces GSAP with native Web Animations API for zero dependencies
+     */
 
-    // Animation configuration (identical to original)
-    const TRANSITION_DURATION = 1; // Overlay slide duration
-    const TITLE_DELAY = 0; // Title appears early while overlay slides
-    const PAUSE_DURATION = 0.1; // Brief pause at peak
-    const EASE = 'power4.inOut'; // Smooth easing
+    // Animation configuration
+    const TRANSITION_DURATION = 1000; // ms - Overlay slide duration
+    const TITLE_DURATION = 400; // ms - Title fade duration
+    const PAUSE_DURATION = 100; // ms - Brief pause at peak
+    const EASE = 'cubic-bezier(0.86, 0, 0.07, 1)'; // Equivalent to GSAP power4.inOut
 
     // DOM elements
     const overlay = document.getElementById('page-transition-overlay')!;
     const titleElement = document.getElementById('page-transition-title')!;
 
-    // Timeline for entrance animation (shared between hooks)
-    let entranceTimeline: gsap.core.Timeline | null = null;
+    // Promise for entrance animation (shared between hooks)
+    let entrancePromise: Promise<void> | null = null;
 
     // Track the pathname of the last rendered page (not window.location which changes on popstate)
     // This is critical for back/forward navigation - during popstate, window.location changes
@@ -345,7 +348,7 @@ for (const project of projects) {
      * Get page title from URL using the build-time generated map
      */
     function getPageTitle(url: URL): string {
-        const titles = window.__PAGE_TITLES__ || {};
+        const titles = (window as any).__PAGE_TITLES__ || {};
         const normalizedPath = normalizePathname(url.pathname);
 
         // Try exact match with hash first
@@ -365,6 +368,90 @@ for (const project of projects) {
         const segments = normalizedPath.split('/').filter(Boolean);
         const lastSegment = segments[segments.length - 1] || 'home';
         return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, ' ');
+    }
+
+    /**
+     * Animate entrance - overlay slides up, title fades in
+     */
+    async function animateEntrance(): Promise<void> {
+        // Make overlay visible
+        overlay.style.visibility = 'visible';
+
+        // Overlay slides up from bottom (translateY(115%) -> translateY(0))
+        const overlayAnim = overlay.animate(
+            [
+                { transform: 'translateY(115%)' },
+                { transform: 'translateY(0)' }
+            ],
+            {
+                duration: TRANSITION_DURATION,
+                easing: EASE,
+                fill: 'forwards'
+            }
+        );
+
+        await overlayAnim.finished;
+
+        // Title fades in and slides up
+        const titleAnim = titleElement.animate(
+            [
+                { opacity: 0, transform: 'translateY(20px)' },
+                { opacity: 1, transform: 'translateY(0)' }
+            ],
+            {
+                duration: TITLE_DURATION,
+                easing: EASE,
+                fill: 'forwards'
+            }
+        );
+
+        await titleAnim.finished;
+
+        // Brief pause at peak
+        await new Promise<void>(resolve => setTimeout(resolve, PAUSE_DURATION));
+    }
+
+    /**
+     * Animate exit - title fades out, overlay slides up and out
+     */
+    async function animateExit(): Promise<void> {
+        // Title fades out and slides up
+        const titleAnim = titleElement.animate(
+            [
+                { opacity: 1, transform: 'translateY(0)' },
+                { opacity: 0, transform: 'translateY(-20px)' }
+            ],
+            {
+                duration: 300,
+                easing: EASE,
+                fill: 'forwards'
+            }
+        );
+
+        // Start overlay exit with slight overlap (-=0.1s = 100ms early)
+        await new Promise<void>(resolve => setTimeout(resolve, 200));
+
+        // Overlay slides up out of view
+        const overlayAnim = overlay.animate(
+            [
+                { transform: 'translateY(0)' },
+                { transform: 'translateY(-115%)' }
+            ],
+            {
+                duration: TRANSITION_DURATION,
+                easing: EASE,
+                fill: 'forwards'
+            }
+        );
+
+        // Wait for both animations to complete
+        await Promise.all([titleAnim.finished, overlayAnim.finished]);
+
+        // Reset for next transition
+        overlay.style.transform = 'translateY(115%)';
+        overlay.style.visibility = 'hidden';
+        titleElement.style.opacity = '0';
+        titleElement.style.transform = 'translateY(20px)';
     }
 
     /**
@@ -398,45 +485,9 @@ for (const project of projects) {
             gradientTextElement.textContent = pageTitle;
         }
 
-        // Start entrance animation immediately (no delay!)
-        entranceTimeline = gsap.timeline();
-
-        // Make overlay visible first
-        entranceTimeline.set(overlay, { visibility: 'visible' });
-
-        // Overlay slides up from bottom
-        entranceTimeline.to(overlay, {
-            y: 0,
-            duration: TRANSITION_DURATION,
-            ease: EASE
-        });
-
-        // Title fades in and slides up after overlay starts
-        entranceTimeline.to(
-            titleElement,
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.4,
-                ease: EASE
-            },
-            `+=${TITLE_DELAY}`
-        );
-
-        // Pause at top
-        entranceTimeline.to({}, { duration: PAUSE_DURATION });
+        // Start entrance animation immediately (store promise, don't await here)
+        entrancePromise = animateEntrance();
     }) as EventListener);
-
-    /**
-     * MANUAL HASH NAVIGATION HANDLER
-     * Astro doesn't trigger before-preparation for same-page hash links,
-     * so we need to handle them manually
-     *
-     * NOTE: This handler is intentionally removed to prevent conflicts with
-     * Navigation.astro's smooth scroll implementation which includes header offset.
-     * Same-page hash navigation is now handled by Navigation.astro exclusively.
-     */
-
 
     /**
      * HOOK 2: Before swap - Wait for entrance, swap, then exit
@@ -446,14 +497,9 @@ for (const project of projects) {
 
         event.swap = async () => {
             // STEP 1: Wait for entrance animation to complete
-            if (entranceTimeline) {
-                // Check if timeline is already complete (can happen with hash navigation)
-                if (entranceTimeline.progress() !== 1) {
-                    await new Promise<void>((resolve) => {
-                        entranceTimeline!.eventCallback('onComplete', () => resolve());
-                    });
-                }
-                entranceTimeline = null;
+            if (entrancePromise) {
+                await entrancePromise;
+                entrancePromise = null;
             }
 
             // STEP 2: Perform DOM swap (invisible behind overlay)
@@ -465,35 +511,7 @@ for (const project of projects) {
             document.dispatchEvent(new CustomEvent('qazuor:content-ready'));
 
             // STEP 3: Animate OUT (reveals new content)
-            const tlOut = gsap.timeline();
-
-            // Title fades out and slides up
-            tlOut.to(titleElement, {
-                opacity: 0,
-                y: -20,
-                duration: 0.3,
-                ease: EASE
-            });
-
-            // Overlay slides up out of view
-            tlOut.to(
-                overlay,
-                {
-                    y: '-115%',
-                    duration: TRANSITION_DURATION,
-                    ease: EASE
-                },
-                '-=0.1' // Slight overlap
-            );
-
-            // Reset for next transition
-            tlOut.set(overlay, { y: '115%', visibility: 'hidden' });
-            tlOut.set(titleElement, { opacity: 0, y: 20 });
-
-            // Wait for exit animation
-            await new Promise<void>((resolve) => {
-                tlOut.eventCallback('onComplete', () => resolve());
-            });
+            await animateExit();
         };
     }) as EventListener);
 

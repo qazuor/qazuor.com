@@ -229,7 +229,7 @@ const allTags = [translations.filterAll, ...Array.from(new Set(projects.flatMap(
         }
 
         // Re-initialize after View Transitions navigation
-        // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+        // Uses custom event dispatched by ViewTransition after DOM swap
         document.addEventListener('qazuor:content-ready', initProjectCards);
 
         // Cleanup handler for View Transitions

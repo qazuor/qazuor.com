@@ -77,7 +77,7 @@ export function useContactForm({ errorMessages, onSuccess, onError }: UseContact
         const timeoutId = setTimeout(readInterestsFromUrl, 100);
 
         // Listen for View Transitions navigation
-        // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+        // Uses custom event dispatched by ViewTransition after DOM swap
         const handlePageLoad = () => {
             // Small delay to ensure React component is ready after View Transition
             setTimeout(() => {

@@ -184,7 +184,7 @@ export function initLifecycle(): void {
     }
 
     // Handle View Transitions navigation
-    // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+    // Uses custom event dispatched by ViewTransition after DOM swap
     document.addEventListener('qazuor:content-ready', () => {
         runPageLoadCallbacks();
     });

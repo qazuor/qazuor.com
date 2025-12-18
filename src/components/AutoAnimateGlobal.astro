@@ -48,7 +48,7 @@
   }
 
   // Re-initialize after View Transitions navigation
-  // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+  // Uses custom event dispatched by ViewTransition after DOM swap
   // Use requestAnimationFrame to ensure DOM is fully ready after transition
   document.addEventListener('qazuor:content-ready', () => {
     requestAnimationFrame(() => {

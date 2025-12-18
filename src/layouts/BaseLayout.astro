@@ -25,7 +25,7 @@ import SEO from '@/components/layout/SEO.astro';
 import { FloatingNav } from '@/components/navigation/FloatingNav';
 import BreadcrumbJsonLd from '@/components/seo/BreadcrumbJsonLd.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
-import ViewTransitionGSAP from '@/components/transitions/ViewTransitionGSAP.astro';
+import ViewTransition from '@/components/transitions/ViewTransition.astro';
 import { generateCriticalCSS } from '@/config/themeConfig';
 // import PageTransition from '@/components/transitions/PageTransition.astro';
 import { languages } from '@/i18n/ui';
@@ -411,7 +411,7 @@ const alternateLinks = locales.map((locale) => {
                 // Apply on initial load
                 applyTheme();
 
-                // Apply after View Transitions (uses custom event from ViewTransitionGSAP)
+                // Apply after View Transitions (uses custom event from ViewTransition)
                 document.addEventListener('qazuor:content-ready', applyTheme);
 
                 // Also apply before swap to prevent flash during transition
@@ -446,9 +446,9 @@ const alternateLinks = locales.map((locale) => {
         <!-- Build Search Index -->
         <BuildSearchIndex />
 
-        <!-- Command Palette (Ctrl+K) -->
+        <!-- Command Palette (Ctrl+K) - loads when browser is idle -->
         <CommandPalette
-            client:only="react"
+            client:idle
             lang={lang}
             ariaLabel={t('aria.closeCommandPalette')}
             placeholder={t('aria.commandPalettePlaceholder')}
@@ -472,8 +472,8 @@ const alternateLinks = locales.map((locale) => {
             tocTitle={tocTitle}
         />
 
-        <!-- View Transitions with Custom GSAP Animation -->
-        <ViewTransitionGSAP />
+        <!-- View Transitions with Custom Animation -->
+        <ViewTransition />
 
         <main id="main-content" class="min-h-screen">
             <slot />

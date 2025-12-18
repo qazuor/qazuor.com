@@ -273,7 +273,7 @@ const goodiesUrl = translatePath('/goodies', lang);
         };
 
         // Re-initialize after View Transitions navigation
-        // Uses custom event dispatched by ViewTransitionGSAP after DOM swap
+        // Uses custom event dispatched by ViewTransition after DOM swap
         document.addEventListener('qazuor:content-ready', () => {
             window.__initToolCards();
         });

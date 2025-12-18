@@ -188,9 +188,11 @@ export default defineConfig({
             registerType: 'autoUpdate',
             manifest: false, // Using astro-favicons manifest
             workbox: {
-                // Exclude HTML from precache (too large due to inline SVGs)
-                // HTML will be cached at runtime with NetworkFirst strategy
-                globPatterns: ['**/*.{js,css,woff2,png,jpg,jpeg,svg,webp,avif,ico}'],
+                // Only precache essential assets (JS, CSS, fonts)
+                // Images cached at runtime with CacheFirst strategy
+                globPatterns: ['**/*.{js,css,woff2}'],
+                // Exclude large/duplicate files from precache
+                globIgnores: ['**/og.png', '**/og.jpg', '**/*.map'],
                 // Cache strategies
                 runtimeCaching: [
                     {

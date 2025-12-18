@@ -165,7 +165,8 @@ export function ProjectsFeaturedStack({
                                 href={viewAllUrl}
                                 className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                             >
-                                <span>{viewAllText}</span>
+                                {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Content from trusted translation files */}
+                                <span dangerouslySetInnerHTML={{ __html: viewAllText }} />
                                 <svg
                                     className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                                     fill="none"

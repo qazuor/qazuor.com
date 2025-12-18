@@ -58,6 +58,7 @@ async function downloadAvatars(verbose: boolean) {
 
     let downloadedCount = 0;
     let skippedCount = 0;
+    let fallbackCount = 0;
     let errorCount = 0;
 
     for (const file of testimonialFiles) {
@@ -94,15 +95,34 @@ async function downloadAvatars(verbose: boolean) {
         }
 
         // Download the image
+        let downloadSuccess = false;
         try {
             await downloadImage(avatarUrl, avatarPath);
+            downloadSuccess = true;
             downloadedCount++;
 
             if (verbose) {
                 console.log(`   ✓ Downloaded avatar for ${baseName}`);
             }
+        } catch (error) {
+            // Check if we have a fallback from git
+            if (existsSync(avatarPath)) {
+                // Use existing file as fallback
+                if (verbose) {
+                    console.log(`   ⚠ Download failed for ${baseName}, using existing file as fallback`);
+                }
+                downloadSuccess = true; // We can still proceed with the existing file
+                fallbackCount++;
+            } else {
+                errorCount++;
+                if (verbose) {
+                    console.error(`   ❌ Failed to download avatar for ${baseName}:`, error);
+                }
+            }
+        }
 
-            // Update the frontmatter with local avatar path
+        // Update the frontmatter with local avatar path (if file exists)
+        if (downloadSuccess || existsSync(avatarPath)) {
             let updatedFrontmatter = frontmatter;
 
             if (existingAvatarMatch) {
@@ -123,18 +143,15 @@ async function downloadAvatars(verbose: boolean) {
             const updatedContent = content.replace(/^---\n[\s\S]*?\n---/, `---\n${updatedFrontmatter}\n---`);
 
             writeFileSync(filePath, updatedContent, 'utf8');
-        } catch (error) {
-            errorCount++;
-            if (verbose) {
-                console.error(`   ❌ Failed to download avatar for ${baseName}:`, error);
-            }
         }
     }
 
     if (verbose) {
-        console.log(
-            `\n✅ Testimonial Avatars: ${downloadedCount} downloaded, ${skippedCount} skipped, ${errorCount} errors\n`
-        );
+        const parts = [`${downloadedCount} downloaded`];
+        if (fallbackCount > 0) parts.push(`${fallbackCount} using fallback`);
+        if (skippedCount > 0) parts.push(`${skippedCount} skipped`);
+        if (errorCount > 0) parts.push(`${errorCount} errors`);
+        console.log(`\n✅ Testimonial Avatars: ${parts.join(', ')}\n`);
     }
 }
 

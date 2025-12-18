@@ -1,0 +1,96 @@
+---
+/**
+ * TypewriterText - CSS typewriter animation
+ *
+ * CSS handles: typing animation, cursor blink
+ * JS handles: text rotation only (minimal)
+ */
+
+interface Props {
+    texts: string[];
+    class?: string;
+    /** Typing duration in seconds (default: 2) */
+    typeDuration?: number;
+    /** Delete duration in seconds - faster than typing (default: 0.8) */
+    deleteDuration?: number;
+    /** Pause at full text in seconds (default: 1.5) */
+    pauseDuration?: number;
+}
+
+const { texts, class: className = '', typeDuration = 7, deleteDuration = 2, pauseDuration = 5.5 } = Astro.props;
+
+// Total cycle = type + pause + delete + brief gap
+const cycleTime = typeDuration + pauseDuration + deleteDuration + 0.5;
+---
+
+<span
+    class:list={['typewriter', className]}
+    data-texts={JSON.stringify(texts)}
+    style={`--cycle-time: ${cycleTime}s;`}
+>
+    <span class="typewriter-text" set:html={texts[0]} />
+    <span class="typewriter-cursor" aria-hidden="true">|</span>
+</span>
+
+<style>
+    .typewriter {
+        display: inline-flex;
+        align-items: baseline;
+    }
+
+    .typewriter-text {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        font-family:'Courier New', Courier, monospace;
+        animation: typewriter var(--cycle-time) steps(20, end) infinite;
+    }
+
+    .typewriter-cursor {
+        animation: blink 0.6s step-end infinite;
+        font-weight: 900;
+        opacity: 1;
+    }
+
+    /*
+     * Typewriter cycle:
+     * 0-45%: typing (slow)
+     * 45-60%: pause at full
+     * 60-85%: deleting (fast)
+     * 85-100%: pause at empty
+     */
+    @keyframes typewriter {
+        0% { width: 0; }
+        40% { width: 100%; }
+        80% { width: 100%; }
+        90% { width: 0; }
+        100% { width: 0; }
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+</style>
+
+<script>
+    // Minimal JS: rotates text when CSS animation completes each cycle
+    document.querySelectorAll<HTMLElement>('.typewriter').forEach(el => {
+        if (el.dataset.init) return;
+        el.dataset.init = '1';
+
+        const texts: string[] = JSON.parse(el.dataset.texts || '[]');
+        if (texts.length <= 1) return;
+
+        const textEl = el.querySelector('.typewriter-text');
+        if (!textEl) return;
+
+        let i = 0;
+
+        // Sync with CSS animation - fires exactly when animation cycle ends
+        textEl.addEventListener('animationiteration', () => {
+            i = (i + 1) % texts.length;
+            textEl.innerHTML = texts[i];
+        });
+    });
+</script>

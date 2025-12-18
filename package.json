@@ -75,7 +75,6 @@
         "satori": "^0.18.3",
         "sharp": "^0.34.5",
         "tailwind-merge": "^3.4.0",
-        "typeit": "^8.8.7",
         "yet-another-react-lightbox-lite": "^1.10.0"
     },
     "devDependencies": {

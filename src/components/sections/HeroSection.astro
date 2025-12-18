@@ -5,7 +5,7 @@ import ResumeDownloadDropdown from '@/components/ui/ResumeDownloadDropdown.astro
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
 import TrustBadgesMarquee, { type TrustBadge } from '@/components/ui/TrustBadgesMarquee.astro';
-import { TypeItText } from '@/components/ui/TypeItText';
+import TypewriterText from '@/components/ui/TypewriterText.astro';
 import ViewProjectsLink from '@/components/ui/ViewProjectsLink.astro';
 
 interface Props {
@@ -94,12 +94,18 @@ const {
                     <span class="gradient-text-hero">{name}</span>
                 </h1>
 
-                <!-- Animated Text with TypeIt -->
+                <!-- Animated Text with CSS Typewriter -->
                 <div
                     class="hero-element text-lg md:text-xl lg:text-lg font-semibold text-foreground min-h-[3.5rem] md:min-h-[6rem] lg:min-h-[3rem] pt-2 mb-1 lg:mb-0"
                 >
                     <span class="text-foreground-secondary">{translations.iBuildText}</span>
-                    <TypeItText texts={iBuild} className="text-primary font-sometype" html={true} client:only="react" />
+                    <TypewriterText
+                        texts={iBuild}
+                        class="text-primary font-sometype"
+                        typeDuration={2}
+                        deleteDuration={0.8}
+                        pauseDuration={1.5}
+                    />
                 </div>
 
                 <!-- Subtitle -->

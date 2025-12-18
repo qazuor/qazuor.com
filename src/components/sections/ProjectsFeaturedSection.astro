@@ -2,7 +2,6 @@
 import { ProjectsFeaturedStack } from '@/components/sections/ProjectsFeaturedStack';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 
 interface OptimizedImage {
     src: string;
@@ -71,21 +70,12 @@ const featuredProjects = projects
 
 	<!-- Stacking Cards Section -->
 	<div class="relative z-[200]" role="region" aria-label="Featured projects showcase">
-		<ProjectsFeaturedStack client:visible projects={featuredProjects} lang={lang} />
-
-		<!-- View All Button -->
-		{
-			featuredProjects.length > 0 && (
-				<div class="h-screen flex items-center justify-center px-5 box-border relative z-[300]">
-					<UnifiedButton
-						href={`/${lang}/projects`}
-						variant="primary"
-						size="lg"
-					>
-						<span set:html={translations.viewAll} />
-					</UnifiedButton>
-				</div>
-			)
-		}
+		<ProjectsFeaturedStack
+			client:visible
+			projects={featuredProjects}
+			lang={lang}
+			viewAllUrl={featuredProjects.length > 0 ? `/${lang}/projects` : undefined}
+			viewAllText={translations.viewAll}
+		/>
 	</div>
 </div>

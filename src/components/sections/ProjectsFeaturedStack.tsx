@@ -15,6 +15,10 @@ interface Project {
 interface ProjectsFeaturedStackProps {
     projects: Project[];
     lang: string;
+    /** URL for the "View All" button - if provided, renders as last card in stack */
+    viewAllUrl?: string;
+    /** Text for the "View All" button */
+    viewAllText?: string;
 }
 
 /**
@@ -27,9 +31,18 @@ interface ProjectsFeaturedStackProps {
  * - When the next card reaches center, it pins and covers the previous
  * - After the last card is pinned and you keep scrolling, all cards scroll away together
  */
-export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackProps) {
+export function ProjectsFeaturedStack({
+    projects,
+    lang,
+    viewAllUrl,
+    viewAllText = 'View All Projects'
+}: ProjectsFeaturedStackProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement[]>([]);
+
+    // Total items = projects + optional view all button
+    const hasViewAll = !!viewAllUrl;
+    const totalItems = projects.length + (hasViewAll ? 1 : 0);
 
     const updateCardPositions = useCallback(() => {
         if (!containerRef.current || cardsRef.current.length === 0) return;
@@ -44,7 +57,7 @@ export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackP
 
         // Each card gets 100vh of scroll distance for its "pinned" phase
         const scrollPerCard = viewportHeight;
-        const totalScrollDistance = projects.length * scrollPerCard;
+        const totalScrollDistance = totalItems * scrollPerCard;
 
         cardsRef.current.forEach((card, index) => {
             if (!card) return;
@@ -74,7 +87,7 @@ export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackP
                 cardWrapper.style.transform = 'none';
             }
         });
-    }, [projects.length]);
+    }, [totalItems]);
 
     useEffect(() => {
         let ticking = false;
@@ -105,11 +118,12 @@ export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackP
         };
     }, [updateCardPositions]);
 
-    // Container height: each card needs 100vh of scroll space, plus extra for the exit
-    const containerHeight = (projects.length + 1) * 100;
+    // Container height: each item needs 100vh of scroll space, plus extra for the exit
+    const containerHeight = (totalItems + 1) * 100;
 
     return (
         <div ref={containerRef} className="relative" style={{ height: `${containerHeight}vh` }}>
+            {/* Project Cards */}
             {projects.map((project, index) => (
                 <div
                     key={project.slug}
@@ -135,6 +149,42 @@ export function ProjectsFeaturedStack({ projects, lang }: ProjectsFeaturedStackP
                     </div>
                 </div>
             ))}
+
+            {/* View All Button Card */}
+            {hasViewAll && (
+                <div
+                    ref={(el) => {
+                        if (el) cardsRef.current[projects.length] = el;
+                    }}
+                    className="absolute inset-x-0"
+                    style={{ zIndex: projects.length + 1 }}
+                >
+                    <div data-card-wrapper className="flex items-center justify-center px-5 w-full">
+                        <div className="h-[600px] w-[80vw] max-w-[1600px] flex items-center justify-center">
+                            <a
+                                href={viewAllUrl}
+                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                            >
+                                <span>{viewAllText}</span>
+                                <svg
+                                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -90,8 +90,8 @@ const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${cleanSlug(snippet.slu
 
             <!-- Header -->
             <header class="mb-12">
-                <h1 class="text-xl md:text-2xl font-bold mb-4 leading-tight">
-                    <span class="gradient-text">{snippet.data.name}</span>
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                    <span class="gradient-text-section">{snippet.data.name}</span>
                 </h1>
                 <p class="text-sm md:text-base text-foreground-secondary leading-relaxed">
                     {getDescription(snippet)}
@@ -116,6 +116,7 @@ const snippetUrl = `${SITE_URL}/${lang}/goodies/snippets/${cleanSlug(snippet.slu
                         url={canonicalUrl}
                         lang={lang as Locale}
                         variant="compact"
+                        showLabel={true}
                         client:load
                     />
                 </div>

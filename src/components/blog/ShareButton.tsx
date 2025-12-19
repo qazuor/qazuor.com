@@ -46,7 +46,7 @@ const PlatformButton = memo(function PlatformButton({
             <button
                 type="button"
                 onClick={handleClick}
-                className="p-2 text-white/70 rounded-lg backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-base"
+                className="p-2 text-foreground-secondary dark:text-white/70 rounded-lg backdrop-blur-sm border border-foreground/20 dark:border-white/10 hover:border-foreground/40 dark:hover:border-white/20 transition-all duration-base"
                 style={{ '--brand-color': brandColor } as React.CSSProperties}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -79,6 +79,7 @@ interface ShareButtonProps {
     url: string;
     lang: Locale;
     variant?: 'compact' | 'full';
+    showLabel?: boolean;
 }
 
 interface Translations {
@@ -87,6 +88,7 @@ interface Translations {
     copied: string;
     copyFailed: string;
     via: string;
+    label: string;
 }
 
 const translations: Record<Locale, Translations> = {
@@ -95,14 +97,16 @@ const translations: Record<Locale, Translations> = {
         copyLink: 'Copy link',
         copied: 'Copied!',
         copyFailed: 'Copy failed',
-        via: 'Share via'
+        via: 'Share via',
+        label: 'Share:'
     },
     es: {
         button: 'Compartir',
         copyLink: 'Copiar enlace',
         copied: '¡Copiado!',
         copyFailed: 'Error al copiar',
-        via: 'Compartir en'
+        via: 'Compartir en',
+        label: 'Comparte:'
     }
 };
 
@@ -110,7 +114,7 @@ const translations: Record<Locale, Translations> = {
  * Share button component with Web Share API support and fallback
  * Platform configuration is managed in src/data/shareButtons.ts
  */
-export function ShareButton({ title, description, url, lang, variant = 'full' }: ShareButtonProps) {
+export function ShareButton({ title, description, url, lang, variant = 'full', showLabel = false }: ShareButtonProps) {
     const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
     const t = translations[lang];
 
@@ -147,7 +151,7 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
             <button
                 type="button"
                 onClick={handleNativeShare}
-                className="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl border border-white/20 hover:border-white/30 transition-all duration-base hover:shadow-lg hover:shadow-white/5"
+                className="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground-secondary dark:text-white/90 hover:text-foreground dark:hover:text-white bg-foreground/10 dark:bg-white/10 hover:bg-foreground/20 dark:hover:bg-white/20 backdrop-blur-sm rounded-xl border border-foreground/20 dark:border-white/20 hover:border-foreground/30 dark:hover:border-white/30 transition-all duration-base hover:shadow-lg hover:shadow-foreground/5 dark:hover:shadow-white/5"
                 aria-label={t.button}
             >
                 <ShareIcon className="w-4 h-4 group-hover:scale-emphasis transition-transform" />
@@ -159,7 +163,10 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
     // Compact variant without native share: show platforms configured for compact
     if (isCompact) {
         return (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
+                {showLabel && (
+                    <span className="text-sm font-medium text-foreground-secondary dark:text-white/70">{t.label}</span>
+                )}
                 {compactPlatforms.map(({ id, Icon, label, brandColor }) => (
                     <PlatformButton
                         key={id}
@@ -180,7 +187,7 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
                             ? 'text-[rgb(var(--color-ui-success))] bg-[rgba(var(--color-ui-success),0.2)] border-[rgba(var(--color-ui-success),0.3)]'
                             : copyStatus === 'failed'
                               ? 'text-[rgb(var(--color-ui-error))] bg-[rgba(var(--color-ui-error),0.2)] border-[rgba(var(--color-ui-error),0.3)]'
-                              : 'text-white/70 border-white/10 hover:border-white/20 hover:text-primary hover:bg-primary/10'
+                              : 'text-foreground-secondary dark:text-white/70 border-foreground/10 dark:border-white/10 hover:border-foreground/20 dark:hover:border-white/20 hover:text-primary hover:bg-primary/10'
                     }`}
                     aria-label={copyStatus === 'copied' ? t.copied : t.copyLink}
                     title={copyStatus === 'copied' ? t.copied : t.copyLink}
@@ -195,6 +202,7 @@ export function ShareButton({ title, description, url, lang, variant = 'full' }:
     // Full variant: show all platforms configured for full mode
     return (
         <div className="flex flex-wrap items-center justify-center gap-3">
+            {showLabel && <span className="text-sm font-medium text-foreground-secondary">{t.label}</span>}
             {/* Native share button (mobile) */}
             {showNativeShare && (
                 <button

@@ -92,8 +92,8 @@ const trickUrl = `${SITE_URL}/${lang}/goodies/css-tricks/${trick.slug}`;
                     )}
                 </div>
 
-                <h1 class="text-xl md:text-2xl font-bold mb-4 leading-tight">
-                    <span class="gradient-text">{trick.data.title}</span>
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                    <span class="gradient-text-section">{trick.data.title}</span>
                 </h1>
                 <p class="text-sm md:text-base text-foreground-secondary leading-relaxed">
                     {trick.data.description}
@@ -118,6 +118,7 @@ const trickUrl = `${SITE_URL}/${lang}/goodies/css-tricks/${trick.slug}`;
                         url={canonicalUrl}
                         lang={lang as Locale}
                         variant="compact"
+                        showLabel={true}
                         client:load
                     />
                 </div>

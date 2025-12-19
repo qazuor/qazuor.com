@@ -398,6 +398,30 @@
         "pageDescription": "A curated selection of **links** I actually use: solid documentation, design references, **frontend** resources and online tools that make daily work easier. Less noise, more sites that add real value when you're building something serious.",
         "noLinks": "No links found"
     },
+    "helpDialog": {
+        "title": "Keyboard Shortcuts",
+        "description": "Quick reference for all available shortcuts. Press ESC or Backspace to go back.",
+        "commandPalette": "Command Palette",
+        "back": "Back",
+        "tip": "Type to search for commands in the command palette, or use the shortcuts above for quick navigation.",
+        "shortcuts": {
+            "openClose": "Open/close command palette",
+            "goBack": "Go back to command palette",
+            "navigate": "Navigate items in command palette",
+            "select": "Select item",
+            "home": "Navigate to Home",
+            "projects": "Navigate to Projects",
+            "blog": "Navigate to Blog",
+            "tools": "Navigate to Tools",
+            "about": "Navigate to About",
+            "copyUrl": "Copy current URL",
+            "showHelp": "Show this help dialog",
+            "github": "Open GitHub profile",
+            "linkedin": "Open LinkedIn profile",
+            "fiverr": "Open Fiverr profile",
+            "upwork": "Open Upwork profile"
+        }
+    },
     "aria": {
         "github": "Visit my GitHub profile",
         "linkedin": "Connect on LinkedIn",

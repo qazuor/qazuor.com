@@ -398,6 +398,30 @@
         "pageDescription": "Una selección curada de **links** que realmente uso: documentación clara, referencias de diseño, recursos de **frontend** y herramientas online que facilitan el trabajo diario. Menos ruido, más sitios que aportan valor cuando estás construyendo algo en serio.",
         "noLinks": "No se encontraron links"
     },
+    "helpDialog": {
+        "title": "Atajos de Teclado",
+        "description": "Referencia rápida de todos los atajos disponibles. Presiona ESC o Retroceso para volver.",
+        "commandPalette": "Paleta de Comandos",
+        "back": "Volver",
+        "tip": "Escribe para buscar comandos en la paleta de comandos, o usa los atajos de arriba para navegación rápida.",
+        "shortcuts": {
+            "openClose": "Abrir/cerrar paleta de comandos",
+            "goBack": "Volver a la paleta de comandos",
+            "navigate": "Navegar items en la paleta de comandos",
+            "select": "Seleccionar item",
+            "home": "Ir a Inicio",
+            "projects": "Ir a Proyectos",
+            "blog": "Ir al Blog",
+            "tools": "Ir a Tools",
+            "about": "Ir a Acerca de",
+            "copyUrl": "Copiar URL actual",
+            "showHelp": "Mostrar este diálogo de ayuda",
+            "github": "Abrir perfil de GitHub",
+            "linkedin": "Abrir perfil de LinkedIn",
+            "fiverr": "Abrir perfil de Fiverr",
+            "upwork": "Abrir perfil de Upwork"
+        }
+    },
     "aria": {
         "github": "Visita mi perfil de GitHub",
         "linkedin": "Conéctate en LinkedIn",

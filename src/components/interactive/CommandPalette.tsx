@@ -51,6 +51,11 @@ export function CommandPalette({
         setOpen(true);
     }, [setOpen]);
 
+    // Handle closing help dialog completely (without opening command palette)
+    const handleCloseHelp = useCallback(() => {
+        setIsHelpOpen(false);
+    }, []);
+
     // Listen for custom event from CommandButton
     useEffect(() => {
         const handleOpenCommandPalette = () => {
@@ -100,7 +105,12 @@ export function CommandPalette({
             )}
 
             {/* Help dialog - rendered at this level so it persists when command palette closes */}
-            <HelpDialog isOpen={isHelpOpen} onBackToCommandPalette={handleBackToCommandPalette} />
+            <HelpDialog
+                isOpen={isHelpOpen}
+                lang={lang}
+                onBackToCommandPalette={handleBackToCommandPalette}
+                onClose={handleCloseHelp}
+            />
 
             {/* Marker for tests to detect when component is hydrated */}
             {!open && !isHelpOpen && <div data-testid="command-palette-ready" style={{ display: 'none' }} />}

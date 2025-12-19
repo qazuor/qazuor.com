@@ -314,19 +314,20 @@
 
         /* ===========================================
          * Project Category Colors (ProjectCard)
+         * Theme-consistent colors (cyan/teal base)
          * =========================================== */
-        --color-category-opensource: 16, 185, 129; /* emerald-500 */
-        --color-category-opensource-dark: 5, 150, 105; /* emerald-600 */
-        --color-category-opensource-darker: 4, 120, 87; /* emerald-700 */
-        --color-category-opensource-full: #10b981;
-        --color-category-commercial: 59, 130, 246; /* blue-500 */
-        --color-category-commercial-dark: 37, 99, 235; /* blue-600 */
-        --color-category-commercial-darker: 29, 78, 216; /* blue-700 */
-        --color-category-commercial-full: #3b82f6;
-        --color-category-client: 245, 158, 11; /* amber-500 */
-        --color-category-client-dark: 217, 119, 6; /* amber-600 */
-        --color-category-client-darker: 180, 83, 9; /* amber-700 */
-        --color-category-client-full: #f59e0b;
+        --color-category-opensource: 6, 182, 212; /* cyan-500 - matches primary */
+        --color-category-opensource-dark: 8, 145, 178; /* cyan-600 */
+        --color-category-opensource-darker: 14, 116, 144; /* cyan-700 */
+        --color-category-opensource-full: #06b6d4;
+        --color-category-commercial: 15, 158, 142; /* teal - matches secondary */
+        --color-category-commercial-dark: 13, 136, 122; /* teal darker */
+        --color-category-commercial-darker: 11, 114, 102; /* teal darkest */
+        --color-category-commercial-full: #0f9e8e;
+        --color-category-client: 139, 92, 246; /* violet-500 - complementary */
+        --color-category-client-dark: 124, 58, 237; /* violet-600 */
+        --color-category-client-darker: 109, 40, 217; /* violet-700 */
+        --color-category-client-full: #8b5cf6;
 
         /* ===========================================
          * Timeline Gradient Colors (light mode)
@@ -580,19 +581,20 @@
 
         /* ===========================================
          * Project Category Colors - Dark Mode
+         * Theme-consistent colors (cyan/teal base)
          * =========================================== */
-        --color-category-opensource: 52, 211, 153; /* emerald-400 */
-        --color-category-opensource-dark: 16, 185, 129; /* emerald-500 */
-        --color-category-opensource-darker: 5, 150, 105; /* emerald-600 */
-        --color-category-opensource-full: #34d399;
-        --color-category-commercial: 96, 165, 250; /* blue-400 */
-        --color-category-commercial-dark: 59, 130, 246; /* blue-500 */
-        --color-category-commercial-darker: 37, 99, 235; /* blue-600 */
-        --color-category-commercial-full: #60a5fa;
-        --color-category-client: 251, 191, 36; /* amber-400 */
-        --color-category-client-dark: 245, 158, 11; /* amber-500 */
-        --color-category-client-darker: 217, 119, 6; /* amber-600 */
-        --color-category-client-full: #fbbf24;
+        --color-category-opensource: 34, 211, 238; /* cyan-400 - matches primary */
+        --color-category-opensource-dark: 6, 182, 212; /* cyan-500 */
+        --color-category-opensource-darker: 8, 145, 178; /* cyan-600 */
+        --color-category-opensource-full: #22d3ee;
+        --color-category-commercial: 45, 185, 170; /* teal lighter - matches secondary */
+        --color-category-commercial-dark: 15, 158, 142; /* teal */
+        --color-category-commercial-darker: 13, 136, 122; /* teal darker */
+        --color-category-commercial-full: #2db9aa;
+        --color-category-client: 167, 139, 250; /* violet-400 - complementary */
+        --color-category-client-dark: 139, 92, 246; /* violet-500 */
+        --color-category-client-darker: 124, 58, 237; /* violet-600 */
+        --color-category-client-full: #a78bfa;
 
         /* ===========================================
          * Timeline Gradient Colors - Dark Mode (lighter)
@@ -916,6 +918,63 @@
         @apply hover:bg-accent/10 hover:border-accent/50 hover:text-accent;
     }
 
+    /* UnifiedButton Gradient Styles - reusable across React and Astro */
+    .btn-unified-primary {
+        @apply relative overflow-hidden inline-flex items-center justify-center;
+        @apply font-semibold rounded-xl transition-all duration-base;
+        @apply text-white;
+        background: linear-gradient(135deg, var(--color-primary-full) 0%, var(--color-primary-dark-full) 100%);
+        box-shadow: 0 5px 5px -3px rgba(var(--color-primary), 0.3);
+    }
+
+    .btn-unified-primary:hover {
+        box-shadow: 0 10px 10px -5px rgba(var(--color-primary), 0.3);
+    }
+
+    .btn-unified-primary::before {
+        content: '';
+        @apply absolute inset-0 opacity-0 transition-opacity duration-slow;
+        background: linear-gradient(135deg, var(--color-secondary-full) 0%, var(--color-primary-full) 100%);
+    }
+
+    .btn-unified-primary:hover::before {
+        @apply opacity-100;
+    }
+
+    .btn-unified-primary > * {
+        @apply relative z-10;
+    }
+
+    /* Shine effect for unified buttons */
+    .btn-unified-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 20%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 80%,
+            transparent 100%
+        );
+        transform: skewX(-20deg);
+        z-index: 15;
+        pointer-events: none;
+    }
+
+    .btn-unified-primary:hover::after {
+        animation: btn-shine-sweep 0.6s ease-out forwards;
+    }
+
+    @keyframes btn-shine-sweep {
+        0% { left: -100%; }
+        100% { left: 150%; }
+    }
+
     /* Card Component */
     .card {
         @apply bg-card rounded-lg p-6;
@@ -977,9 +1036,30 @@
         0 0 0 1px rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Hide default expressive-code header */
-.expressive-code:not(.mermaid-diagram) .frame > .header {
+/* Hide expressive-code native terminal dots (we use custom colored ones) */
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal .header::before,
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal figcaption::before,
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal .header::after,
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal figcaption::after {
     display: none !important;
+    content: none !important;
+}
+
+/* Hide the three gray dots from terminal window frames */
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal .header .sr-only,
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal .header .sr-only ~ *:not(.title),
+.expressive-code:not(.mermaid-diagram) .frame figcaption .sr-only {
+    display: none !important;
+}
+
+/* Also hide any spans that might contain the dots (they appear after .title) */
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal figcaption > span:not(.title) {
+    display: none !important;
+}
+
+/* Remove any background dots from terminal header */
+.expressive-code:not(.mermaid-diagram) .frame.is-terminal figcaption.header {
+    background-image: none !important;
 }
 
 /* Custom header with macOS dots - using SVG for crisp rendering */
@@ -996,17 +1076,42 @@
     background-position: left center;
 }
 
-/* Code content - padding 1rem same as ProfileCodeBlock */
+/* Filename header - positioned next to macOS dots */
+.expressive-code:not(.mermaid-diagram) .frame > .header {
+    position: absolute !important;
+    top: 0 !important;
+    left: 4.5rem !important; /* After the macOS dots */
+    right: 5rem !important; /* Leave space for language badge and copy button */
+    height: 2.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    z-index: 5;
+}
+
+/* Filename text styling */
+.expressive-code:not(.mermaid-diagram) .frame > .header .title {
+    font-size: 0.75rem !important;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace !important;
+    color: #f8f8f2 !important;
+    opacity: 0.9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Code content - compact padding for code blocks */
 .expressive-code:not(.mermaid-diagram) .frame pre {
     margin: 0 !important;
-    padding: 1rem !important;
+    padding: 0.1rem 0.75rem !important;
     background-color: transparent !important;
     border-radius: 0 !important;
 }
 
-/* Code typography - font-size 0.8rem, line-height 1.6 */
+/* Code typography - font-size 0.7rem for compact code blocks, line-height 1.6 */
 .expressive-code:not(.mermaid-diagram) .frame pre code {
-    font-size: 0.8rem !important;
+    font-size: 0.6rem !important;
     line-height: 1.6 !important;
     font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace !important;
     background: none !important; /* Remove expressive-code gradient */
@@ -1018,7 +1123,7 @@
     padding: 0.125rem 0.75rem !important;
     margin: 0 -0.75rem !important;
     border-radius: 0.25rem;
-    font-size: 0.8rem !important;
+    font-size: 0.7rem !important;
     line-height: 1.4 !important;
 }
 
@@ -2121,6 +2226,13 @@
         box-shadow: 0 2px 12px hsl(var(--primary) / 0.4);
     }
 
+    /* Light mode: ensure OL numbers have proper contrast */
+    :not(.dark) .content-prose ol > li::before {
+        background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+        color: hsl(var(--background));
+        box-shadow: 0 2px 8px hsl(var(--primary) / 0.25);
+    }
+
     .dark .content-prose code {
         background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.15));
         border-color: hsl(var(--primary) / 0.25);
@@ -2740,5 +2852,30 @@
         opacity: 1;
         transform: none;
         transition: none;
+    }
+}
+
+/* Elements inside React islands should animate on mount, not via JS class toggle
+ * This prevents hydration mismatches while still providing animations */
+astro-island .animate-on-scroll,
+astro-island .stagger-item {
+    animation: scroll-reveal-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+astro-island .stagger-item:nth-child(1) { animation-delay: 0ms; }
+astro-island .stagger-item:nth-child(2) { animation-delay: 100ms; }
+astro-island .stagger-item:nth-child(3) { animation-delay: 200ms; }
+astro-island .stagger-item:nth-child(4) { animation-delay: 300ms; }
+astro-island .stagger-item:nth-child(5) { animation-delay: 400ms; }
+astro-island .stagger-item:nth-child(6) { animation-delay: 500ms; }
+
+@keyframes scroll-reveal-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

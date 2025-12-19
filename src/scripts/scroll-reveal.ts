@@ -15,15 +15,25 @@ const OBSERVER_OPTIONS: IntersectionObserverInit = {
 const ANIMATE_SELECTORS = ['.animate-on-scroll', '.stagger-item'];
 
 /**
+ * Check if element is inside a React island (astro-island)
+ * These should not be animated by this script to avoid hydration mismatches
+ */
+function isInsideReactIsland(element: Element): boolean {
+    return element.closest('astro-island') !== null;
+}
+
+/**
  * Initialize scroll reveal animations
  */
 function initScrollReveal(): void {
     // Check for reduced motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        // Make all elements visible immediately
+        // Make all elements visible immediately (only non-React elements)
         const elements = document.querySelectorAll(ANIMATE_SELECTORS.join(', '));
         for (const el of elements) {
-            el.classList.add('is-visible');
+            if (!isInsideReactIsland(el)) {
+                el.classList.add('is-visible');
+            }
         }
         return;
     }
@@ -39,10 +49,12 @@ function initScrollReveal(): void {
         }
     }, OBSERVER_OPTIONS);
 
-    // Observe all animatable elements
+    // Observe all animatable elements (excluding those inside React islands)
     const elements = document.querySelectorAll(ANIMATE_SELECTORS.join(', '));
     for (const el of elements) {
-        observer.observe(el);
+        if (!isInsideReactIsland(el)) {
+            observer.observe(el);
+        }
     }
 }
 

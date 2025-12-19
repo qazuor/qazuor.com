@@ -59,25 +59,18 @@ const radiusClass = borderRadius === 'none' ? '' : `rounded-${borderRadius}`;
 <!-- Animated Gradient Background -->
 <div class="absolute inset-0" style={positionStyles}>
     <div
-        class={`absolute inset-0 bg-[linear-gradient(to_right_bottom,var(--section-background-glow-from),var(--section-background-glow-via),var(--section-background-glow-to))] ${radiusClass} ${blurClass}`}
-        style={`animation: pulse ${animationDuration}s ease-in-out infinite; opacity: ${lightOpacity / 100};`}
+        class={`animated-gradient-bg absolute inset-0 bg-[linear-gradient(to_right_bottom,var(--section-background-glow-from),var(--section-background-glow-via),var(--section-background-glow-to))] ${radiusClass} ${blurClass}`}
+        style={`animation: pulse ${animationDuration}s ease-in-out infinite; --light-opacity: ${lightOpacity / 100}; --dark-opacity: ${darkOpacity / 100};`}
     >
     </div>
 </div>
 
 <style>
-    .dark [data-gradient] {
-        opacity: var(--dark-opacity) !important;
+    .animated-gradient-bg {
+        opacity: var(--light-opacity);
+    }
+
+    .dark .animated-gradient-bg {
+        opacity: var(--dark-opacity);
     }
 </style>
-
-<script is:inline define:vars={{ darkOpacity }}>
-    // Set CSS variable for dark mode opacity
-    document.documentElement.style.setProperty('--dark-opacity', darkOpacity / 100);
-
-    // Add data attribute to gradient element
-    const gradientElement = document.querySelector('.bg-gradient-to-br');
-    if (gradientElement) {
-        gradientElement.setAttribute('data-gradient', '');
-    }
-</script>

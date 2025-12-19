@@ -130,6 +130,28 @@
         };
     }
 
+    // Extract code from a mermaid block - tries multiple methods
+    function extractMermaidCode(pre, expressiveContainer) {
+        // Method 1: From copy button data-code attribute
+        const copyButton = expressiveContainer?.querySelector('.copy button[data-code]');
+        if (copyButton) {
+            const code = copyButton.getAttribute('data-code');
+            if (code) return code;
+        }
+
+        // Method 2: From code element text content
+        const codeElement = pre.querySelector('code');
+        if (codeElement) {
+            return codeElement.textContent || '';
+        }
+
+        // Method 3: Direct pre text content (fallback)
+        return pre.textContent || '';
+    }
+
+    // Track if mermaid has been initialized to avoid duplicate event listeners
+    let mermaidInitialized = false;
+
     // Mermaid initialization function
     async function initializeMermaid() {
         // Check for mermaid blocks FIRST (before loading library)
@@ -139,14 +161,16 @@
         if (mermaidBlocks.length === 0) return;
 
         try {
-            // Only load mermaid when needed
-            const mermaidModule = await import(
-                'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
-            );
-            const mermaid = mermaidModule.default || mermaidModule;
+            // Only load mermaid when needed (reuse if already loaded)
+            let mermaid = window.__mermaidInstance;
 
-            // Store mermaid reference for theme change re-render
-            window.__mermaidInstance = mermaid;
+            if (!mermaid) {
+                const mermaidModule = await import(
+                    'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
+                );
+                mermaid = mermaidModule.default || mermaidModule;
+                window.__mermaidInstance = mermaid;
+            }
 
             // Initialize Mermaid with current theme
             mermaid.initialize({
@@ -181,12 +205,14 @@
                 }
             }
 
+            // Track containers to process
+            const containersToProcess = [];
+
             mermaidBlocks.forEach((pre, index) => {
                 const expressiveContainer = pre.closest('.expressive-code');
-                const copyButton = expressiveContainer?.querySelector('.copy button[data-code]');
-                let code = copyButton?.getAttribute('data-code') || '';
+                let code = extractMermaidCode(pre, expressiveContainer);
 
-                if (!code) return;
+                if (!code || code.trim() === '') return;
 
                 // Fix expressive-code formatting
                 code = code.replace(/    /g, '\n').replace(/\u007f/g, '\n');
@@ -217,12 +243,19 @@
                 figure.appendChild(mermaidDiv);
                 container.appendChild(figure);
 
-                if (expressiveContainer) {
-                    expressiveContainer.replaceWith(container);
-                } else {
-                    pre.replaceWith(container);
-                }
+                containersToProcess.push({
+                    target: expressiveContainer || pre,
+                    replacement: container
+                });
             });
+
+            // Replace all containers
+            containersToProcess.forEach(({ target, replacement }) => {
+                target.replaceWith(replacement);
+            });
+
+            // Only proceed if we have diagrams to render
+            if (containersToProcess.length === 0) return;
 
             // Render diagrams
             await mermaid.run();
@@ -252,9 +285,19 @@
                     rect.setAttribute('stroke-width', '1');
                 }
             });
+
+            // Re-initialize lightbox after rendering
+            initMermaidLightbox();
         } catch (error) {
             console.error('Mermaid failed to load:', error);
         }
+    }
+
+    // Debounced initialization to handle rapid navigations
+    let initTimeout = null;
+    function debouncedInit() {
+        if (initTimeout) clearTimeout(initTimeout);
+        initTimeout = setTimeout(initializeMermaid, 50);
     }
 
     // Initialize on initial page load
@@ -265,8 +308,12 @@
     }
 
     // Re-initialize after View Transitions navigation
-    // Uses custom event dispatched by ViewTransition after DOM swap
-    document.addEventListener('qazuor:content-ready', initializeMermaid);
+    // Listen to both custom event and Astro's official event for better compatibility
+    if (!mermaidInitialized) {
+        document.addEventListener('qazuor:content-ready', debouncedInit);
+        document.addEventListener('astro:page-load', debouncedInit);
+        mermaidInitialized = true;
+    }
 
     // Re-render diagrams on theme change
     document.addEventListener('theme-changed', async () => {
@@ -302,6 +349,9 @@
     });
 
     // Mermaid Lightbox functionality
+    // Track attached listeners to avoid duplicates
+    const lightboxListeners = new WeakSet();
+
     function initMermaidLightbox() {
         const lightbox = document.getElementById('mermaid-lightbox');
         const lightboxContent = lightbox?.querySelector('.mermaid-lightbox-content');
@@ -309,8 +359,18 @@
 
         if (!lightbox || !lightboxContent || !closeButton) return;
 
+        // Close lightbox function
+        function closeLightbox() {
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
         // Open lightbox when clicking on a mermaid diagram
         document.querySelectorAll('.mermaid-diagram').forEach((diagram) => {
+            // Skip if already has listener
+            if (lightboxListeners.has(diagram)) return;
+            lightboxListeners.add(diagram);
+
             diagram.addEventListener('click', () => {
                 const svg = diagram.querySelector('.mermaid svg');
                 if (svg) {
@@ -324,40 +384,32 @@
             });
         });
 
-        // Close lightbox
-        function closeLightbox() {
-            lightbox.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+        // Only attach close button listener once
+        if (!lightboxListeners.has(closeButton)) {
+            lightboxListeners.add(closeButton);
+            closeButton.addEventListener('click', closeLightbox);
         }
 
-        closeButton.addEventListener('click', closeLightbox);
+        // Only attach lightbox backdrop listener once
+        if (!lightboxListeners.has(lightbox)) {
+            lightboxListeners.add(lightbox);
 
-        // Close on click outside content
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                closeLightbox();
-            }
-        });
+            // Close on click outside content
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
 
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
-                closeLightbox();
-            }
-        });
+            // Close on Escape key (use document with check)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
+                    closeLightbox();
+                }
+            });
+        }
     }
 
-    // Initialize lightbox after mermaid renders
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(initMermaidLightbox, 500);
-        });
-    } else {
-        setTimeout(initMermaidLightbox, 500);
-    }
-
-    // Re-initialize lightbox after View Transitions
-    document.addEventListener('qazuor:content-ready', () => {
-        setTimeout(initMermaidLightbox, 500);
-    });
+    // Initial lightbox setup (called from initializeMermaid after rendering)
+    // No need for separate initialization - it's called at the end of initializeMermaid()
 </script>

@@ -501,7 +501,7 @@ export function RadarChart({
                                         className="leading-snug"
                                         style={{
                                             color: isDarkMode ? 'rgba(226, 232, 240, 0.9)' : 'rgba(71, 85, 105, 0.95)',
-                                            fontSize: isMobile ? '0.8125rem' : '0.6875rem'
+                                            fontSize: isMobile ? '1rem' : '0.875rem'
                                         }}
                                     >
                                         {skills[hoveredIndex].description}

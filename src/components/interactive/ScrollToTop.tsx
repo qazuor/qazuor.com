@@ -20,11 +20,18 @@ export function ScrollToTop({
     hasToc = false,
     tocAriaLabel = 'Table of contents'
 }: ScrollToTopProps) {
+    // SSR guard - component uses browser APIs, render nothing during SSR
+    const [isClient, setIsClient] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isHomePage, setIsHomePage] = useState(false);
     const [canFitOnSide, setCanFitOnSide] = useState(false);
+
+    // Set isClient to true after mount (enables client:idle hydration)
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     // Check if we're on the home page (affects alignment since home has fewer nav icons)
     useEffect(() => {
@@ -37,20 +44,27 @@ export function ScrollToTop({
         return () => window.removeEventListener('popstate', checkHomePage);
     }, []);
 
-    // Combined resize handler: check mobile viewport and button fit space
+    // Check mobile viewport using matchMedia (avoids forced reflow from window.innerWidth)
     useEffect(() => {
-        const handleResize = () => {
-            const viewportWidth = window.innerWidth;
-            // Check if mobile (< 768px) - only show on mobile since desktop has it in FloatingNav
-            setIsMobile(viewportWidth < 768);
-            // Check if button can fit on the side of the nav
-            const navWidth = isHomePage ? NAV_WIDTH_HOME : NAV_WIDTH_OTHER;
-            const sideSpace = (viewportWidth - navWidth) / 2;
-            setCanFitOnSide(sideSpace >= BUTTON_SIZE + GAP);
-        };
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        const mobileQuery = window.matchMedia('(max-width: 767px)');
+        setIsMobile(mobileQuery.matches);
+
+        const handleMobileChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mobileQuery.addEventListener('change', handleMobileChange);
+        return () => mobileQuery.removeEventListener('change', handleMobileChange);
+    }, []);
+
+    // Check if button can fit on side using matchMedia (avoids forced reflow)
+    // Breakpoint: navWidth + 2 * (BUTTON_SIZE + GAP) = navWidth + 124
+    useEffect(() => {
+        const navWidth = isHomePage ? NAV_WIDTH_HOME : NAV_WIDTH_OTHER;
+        const breakpoint = navWidth + 2 * (BUTTON_SIZE + GAP);
+        const fitQuery = window.matchMedia(`(min-width: ${breakpoint}px)`);
+        setCanFitOnSide(fitQuery.matches);
+
+        const handleFitChange = (e: MediaQueryListEvent) => setCanFitOnSide(e.matches);
+        fitQuery.addEventListener('change', handleFitChange);
+        return () => fitQuery.removeEventListener('change', handleFitChange);
     }, [isHomePage]);
 
     // Listen for scroll to toggle visibility
@@ -84,6 +98,11 @@ export function ScrollToTop({
     const openTocDrawer = useCallback(() => {
         window.dispatchEvent(new CustomEvent('openTocDrawer'));
     }, []);
+
+    // Don't render during SSR (wait for client hydration)
+    if (!isClient) {
+        return null;
+    }
 
     // Don't render on desktop (FloatingNav has scroll-to-top)
     if (!isMobile) {

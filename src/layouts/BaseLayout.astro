@@ -455,14 +455,16 @@ const alternateLinks = locales.map((locale) => {
         />
 
         <!-- Scroll to Top / TOC Button - mobile only (desktop uses FloatingNav's scroll-to-top/toc) -->
+        <!-- Uses client:idle to defer hydration until browser is idle (has SSR guard) -->
         <ScrollToTop
-            client:only="react"
+            client:idle
             ariaLabel={t('aria.scrollToTop')}
             hasToc={tocHeadings && tocHeadings.length > 0}
             tocAriaLabel={tocTitle}
         />
 
         <!-- Floating Navigation - visible on all pages -->
+        <!-- Uses client:only="react" because component relies on browser APIs -->
         <FloatingNav
             client:only="react"
             labels={floatingNavLabels}

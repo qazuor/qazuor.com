@@ -1391,37 +1391,21 @@ const testimonials = allTestimonials.map((t, i) => ({
         const { carousel, slides } = getCarouselElements();
         if (!carousel || slides.length === 0) return 0;
 
-        // Find the slide whose center is closest to the viewport center
-        const carouselRect = carousel.getBoundingClientRect();
-        const viewportCenter = carouselRect.left + carouselRect.width / 2;
-
-        let closestIndex = 0;
-        let closestDistance = Infinity;
-
-        slides.forEach((slide, index) => {
-            const slideRect = slide.getBoundingClientRect();
-            const slideCenter = slideRect.left + slideRect.width / 2;
-            const distance = Math.abs(slideCenter - viewportCenter);
-
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestIndex = index;
-            }
-        });
-
-        return closestIndex;
+        // Use cached dimension calculation (avoids forced reflow)
+        return findCenteredSlideIndexCached(carousel, slides);
     }
 
     function scrollToSlide(index: number) {
         const { carousel, slides } = getCarouselElements();
         if (!carousel || slides.length === 0) return;
 
-        const targetSlide = slides[Math.max(0, Math.min(index, slides.length - 1))];
-        if (targetSlide) {
-            // Calculate scroll position to center the target slide
-            const slideLeft = targetSlide.offsetLeft;
-            const slideWidth = targetSlide.offsetWidth;
-            const carouselWidth = carousel.offsetWidth;
+        const targetIndex = Math.max(0, Math.min(index, slides.length - 1));
+        if (slides[targetIndex]) {
+            // Use cached dimensions to avoid forced reflow
+            ensureDimensionCache(carousel, slides);
+            const slideLeft = dimensionCache.slideOffsetLefts[targetIndex];
+            const slideWidth = dimensionCache.slideWidths[targetIndex];
+            const carouselWidth = dimensionCache.carouselWidth;
 
             // Scroll so the slide is centered in the viewport
             const scrollPosition = slideLeft - (carouselWidth / 2) + (slideWidth / 2);
@@ -1440,33 +1424,20 @@ const testimonials = allTestimonials.map((t, i) => ({
             if (!carousel) return;
 
             const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
-            const carouselRect = carousel.getBoundingClientRect();
-            const viewportCenter = carouselRect.left + carouselRect.width / 2;
 
-            // Find current centered slide
-            let centeredIndex = 0;
-            let closestDistance = Infinity;
-
-            allSlides.forEach((slide, index) => {
-                const slideRect = slide.getBoundingClientRect();
-                const slideCenter = slideRect.left + slideRect.width / 2;
-                const distance = Math.abs(slideCenter - viewportCenter);
-
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    centeredIndex = index;
-                }
-            });
+            // Use cached dimensions to find centered slide (avoids forced reflow)
+            const centeredIndex = findCenteredSlideIndexCached(carousel, allSlides);
 
             // Navigate to adjacent slide
             const newIndex = direction === 'prev' ? centeredIndex - 1 : centeredIndex + 1;
 
             // Bounds check (with clones, we have extra slides)
             if (newIndex >= 0 && newIndex < allSlides.length) {
-                const targetSlide = allSlides[newIndex];
-                const slideLeft = targetSlide.offsetLeft;
-                const slideWidth = targetSlide.offsetWidth;
-                const carouselWidth = carousel.offsetWidth;
+                // Use cached dimensions for scroll calculation
+                ensureDimensionCache(carousel, allSlides);
+                const slideLeft = dimensionCache.slideOffsetLefts[newIndex];
+                const slideWidth = dimensionCache.slideWidths[newIndex];
+                const carouselWidth = dimensionCache.carouselWidth;
                 const scrollPosition = slideLeft - (carouselWidth / 2) + (slideWidth / 2);
 
                 carousel.scrollTo({
@@ -1504,25 +1475,10 @@ const testimonials = allTestimonials.map((t, i) => ({
         });
 
         // Update slides active state (for opacity effect)
-        // Mark the centered slide as active
+        // Mark the centered slide as active using cached dimensions
         if (carousel) {
             const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
-            const carouselRect = carousel.getBoundingClientRect();
-            const viewportCenter = carouselRect.left + carouselRect.width / 2;
-
-            let closestIndex = 0;
-            let closestDistance = Infinity;
-
-            allSlides.forEach((slide, index) => {
-                const slideRect = slide.getBoundingClientRect();
-                const slideCenter = slideRect.left + slideRect.width / 2;
-                const distance = Math.abs(slideCenter - viewportCenter);
-
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestIndex = index;
-                }
-            });
+            const closestIndex = findCenteredSlideIndexCached(carousel, allSlides);
 
             allSlides.forEach((slide, i) => {
                 slide.classList.toggle('active', i === closestIndex);
@@ -1667,6 +1623,84 @@ const testimonials = allTestimonials.map((t, i) => ({
     let totalRealSlides = 0;
     let isJumping = false; // Flag to prevent scroll handler during instant jumps
 
+    // ============================================
+    // DIMENSION CACHE: Avoid forced reflows from repeated offsetWidth/getBoundingClientRect calls
+    // ============================================
+    interface DimensionCache {
+        carouselWidth: number;
+        slideWidths: number[];
+        slideOffsetLefts: number[];
+        valid: boolean;
+    }
+
+    const dimensionCache: DimensionCache = {
+        carouselWidth: 0,
+        slideWidths: [],
+        slideOffsetLefts: [],
+        valid: false
+    };
+
+    function invalidateDimensionCache() {
+        dimensionCache.valid = false;
+    }
+
+    function ensureDimensionCache(carousel: HTMLElement, slides: NodeListOf<HTMLElement> | HTMLElement[]) {
+        if (dimensionCache.valid) return;
+
+        // Batch read all dimensions at once (single reflow)
+        dimensionCache.carouselWidth = carousel.offsetWidth;
+        dimensionCache.slideWidths = [];
+        dimensionCache.slideOffsetLefts = [];
+
+        const slideArray = Array.from(slides);
+        for (const slide of slideArray) {
+            dimensionCache.slideWidths.push(slide.offsetWidth);
+            dimensionCache.slideOffsetLefts.push(slide.offsetLeft);
+        }
+
+        dimensionCache.valid = true;
+    }
+
+    // Find centered slide using cached dimensions + current scrollLeft (no getBoundingClientRect needed)
+    function findCenteredSlideIndexCached(carousel: HTMLElement, slides: NodeListOf<HTMLElement> | HTMLElement[]): number {
+        ensureDimensionCache(carousel, slides);
+
+        const scrollLeft = carousel.scrollLeft;
+        const viewportCenter = scrollLeft + dimensionCache.carouselWidth / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        for (let i = 0; i < dimensionCache.slideOffsetLefts.length; i++) {
+            const slideCenter = dimensionCache.slideOffsetLefts[i] + dimensionCache.slideWidths[i] / 2;
+            const distance = Math.abs(slideCenter - viewportCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        }
+
+        return closestIndex;
+    }
+
+    // Setup ResizeObserver to invalidate cache on resize
+    function setupDimensionCacheInvalidation() {
+        const carousel = document.getElementById('testimonials-carousel');
+        if (!carousel) return;
+
+        const resizeObserver = new ResizeObserver(() => {
+            invalidateDimensionCache();
+        });
+        resizeObserver.observe(carousel);
+
+        // Also invalidate when slides are added/removed (clone setup)
+        const mutationObserver = new MutationObserver(() => {
+            invalidateDimensionCache();
+        });
+        mutationObserver.observe(carousel, { childList: true });
+    }
+
     function setupInfiniteLoop() {
         const carousel = document.getElementById('testimonials-carousel');
         if (!carousel) return;
@@ -1732,22 +1766,9 @@ const testimonials = allTestimonials.map((t, i) => ({
         if (!carousel || totalRealSlides === 0) return 0;
 
         const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
-        const carouselRect = carousel.getBoundingClientRect();
-        const viewportCenter = carouselRect.left + carouselRect.width / 2;
 
-        let closestIndex = 0;
-        let closestDistance = Infinity;
-
-        allSlides.forEach((slide, index) => {
-            const slideRect = slide.getBoundingClientRect();
-            const slideCenter = slideRect.left + slideRect.width / 2;
-            const distance = Math.abs(slideCenter - viewportCenter);
-
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestIndex = index;
-            }
-        });
+        // Use cached dimensions to find centered slide (avoids forced reflow)
+        const closestIndex = findCenteredSlideIndexCached(carousel, allSlides);
 
         // Convert to real slide index (accounting for prepended clones)
         // Example with 8 slides and 3 clones: [5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2]
@@ -1769,23 +1790,9 @@ const testimonials = allTestimonials.map((t, i) => ({
         if (!carousel || totalRealSlides === 0) return;
 
         const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
-        const carouselRect = carousel.getBoundingClientRect();
-        const viewportCenter = carouselRect.left + carouselRect.width / 2;
 
-        // Find which slide is centered
-        let centeredIndex = 0;
-        let closestDistance = Infinity;
-
-        allSlides.forEach((slide, index) => {
-            const slideRect = slide.getBoundingClientRect();
-            const slideCenter = slideRect.left + slideRect.width / 2;
-            const distance = Math.abs(slideCenter - viewportCenter);
-
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                centeredIndex = index;
-            }
-        });
+        // Use cached dimensions to find centered slide (avoids forced reflow)
+        const centeredIndex = findCenteredSlideIndexCached(carousel, allSlides);
 
         // Layout with 8 slides and 3 clones per side:
         // Index:  0   1   2   3   4   5   6   7   8   9  10  11  12  13
@@ -1829,10 +1836,11 @@ const testimonials = allTestimonials.map((t, i) => ({
             return;
         }
 
-        // Calculate target scroll position
-        const slideLeft = targetSlide.offsetLeft;
-        const slideWidth = targetSlide.offsetWidth;
-        const carouselWidth = carousel.offsetWidth;
+        // Calculate target scroll position using cached dimensions (avoids forced reflow)
+        ensureDimensionCache(carousel, allSlides);
+        const slideLeft = dimensionCache.slideOffsetLefts[targetIndex];
+        const slideWidth = dimensionCache.slideWidths[targetIndex];
+        const carouselWidth = dimensionCache.carouselWidth;
         const scrollPosition = slideLeft - (carouselWidth / 2) + (slideWidth / 2);
 
         // TECHNIQUE 1: Add CSS class to disable all transitions/animations
@@ -1869,6 +1877,7 @@ const testimonials = allTestimonials.map((t, i) => ({
     // ============================================
     function initCarousel() {
         setupInfiniteLoop();
+        setupDimensionCacheInvalidation(); // Setup resize/mutation observers for dimension cache
         updateCarouselIndicators();
         // Start autoplay on initialization
         if (isAutoplayEnabled) {

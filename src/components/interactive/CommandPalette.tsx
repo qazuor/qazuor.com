@@ -1,10 +1,12 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
-import { HelpDialog } from './HelpDialog';
 
 // Lazy load the heavy CommandPalette component
 const CommandPaletteInner = lazy(() =>
     import('./CommandPaletteInner').then((module) => ({ default: module.CommandPaletteInner }))
 );
+
+// Lazy load HelpDialog (only needed when user requests help)
+const HelpDialog = lazy(() => import('./HelpDialog').then((module) => ({ default: module.HelpDialog })));
 
 interface CommandPaletteProps {
     lang: string;
@@ -105,12 +107,17 @@ export function CommandPalette({
             )}
 
             {/* Help dialog - rendered at this level so it persists when command palette closes */}
-            <HelpDialog
-                isOpen={isHelpOpen}
-                lang={lang}
-                onBackToCommandPalette={handleBackToCommandPalette}
-                onClose={handleCloseHelp}
-            />
+            {/* Only render when open to take advantage of lazy loading */}
+            {isHelpOpen && (
+                <Suspense fallback={null}>
+                    <HelpDialog
+                        isOpen={isHelpOpen}
+                        lang={lang}
+                        onBackToCommandPalette={handleBackToCommandPalette}
+                        onClose={handleCloseHelp}
+                    />
+                </Suspense>
+            )}
 
             {/* Marker for tests to detect when component is hydrated */}
             {!open && !isHelpOpen && <div data-testid="command-palette-ready" style={{ display: 'none' }} />}

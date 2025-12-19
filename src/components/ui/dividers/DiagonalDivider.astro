@@ -18,7 +18,10 @@ interface Props {
         | 'services-to-testimonials'
         | 'testimonials-to-contact'
         | 'faqs-to-footer'
-        | 'contact-to-footer';
+        | 'contact-to-footer'
+        // Service detail page transitions
+        | 'features-to-pricing'
+        | 'faq-to-related';
 }
 
 const { direction = 'mixed', transition = 'hero-to-about' } = Astro.props;
@@ -169,6 +172,15 @@ const line4Right = direction === 'right';
         --divider-transition-secondary: var(--contact-to-footer-4);
         --divider-transition-accent: var(--contact-to-footer-3);
         --divider-transition-final: var(--contact-to-footer-5);
+    }
+
+    /* Service detail page transitions - using background color */
+    .diagonal-divider[data-transition='features-to-pricing'],
+    .diagonal-divider[data-transition='faq-to-related'] {
+        --divider-transition-primary: hsl(var(--background) / 0.3);
+        --divider-transition-secondary: hsl(var(--background) / 0.6);
+        --divider-transition-accent: hsl(var(--background) / 0.5);
+        --divider-transition-final: hsl(var(--background));
     }
 
     /* Dynamic diagonal colors that respond to theme changes */

@@ -15,7 +15,10 @@ interface Props {
         | 'services-to-testimonials'
         | 'testimonials-to-contact'
         | 'faqs-to-contact'
-        | 'contact-to-footer';
+        | 'contact-to-footer'
+        // Service detail page transitions
+        | 'hero-to-features'
+        | 'related-to-cta';
 }
 
 const { transition = 'hero-to-about' } = Astro.props;
@@ -204,6 +207,16 @@ const { transition = 'hero-to-about' } = Astro.props;
         --divider-transition-3: var(--contact-to-footer-3);
         --divider-transition-4: var(--contact-to-footer-4);
         --divider-transition-5: var(--contact-to-footer-5);
+    }
+
+    /* Service detail page transitions - using background color */
+    .wave-divider[data-transition='hero-to-features'],
+    .wave-divider[data-transition='related-to-cta'] {
+        --divider-transition-1: hsl(var(--background) / 0.2);
+        --divider-transition-2: hsl(var(--background) / 0.4);
+        --divider-transition-3: hsl(var(--background) / 0.6);
+        --divider-transition-4: hsl(var(--background) / 0.8);
+        --divider-transition-5: hsl(var(--background));
     }
 
     /* Dynamic wave colors that respond to theme changes and specific transitions */

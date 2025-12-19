@@ -14,7 +14,10 @@ interface Props {
         | 'blog-to-testimonials'
         | 'testimonials-to-faqs'
         | 'testimonials-to-contact'
-        | 'contact-to-footer';
+        | 'contact-to-footer'
+        // Service detail page transitions
+        | 'pricing-to-faq'
+        | 'cta-to-footer';
 }
 
 const { transition = 'testimonials-to-contact' } = Astro.props;
@@ -162,6 +165,15 @@ const { transition = 'testimonials-to-contact' } = Astro.props;
         --divider-transition-2: var(--contact-to-footer-3);
         --divider-transition-3: var(--contact-to-footer-4);
         --divider-transition-4: var(--contact-to-footer-5);
+    }
+
+    /* Service detail page transitions - using background color */
+    .zigzag-divider[data-transition='pricing-to-faq'],
+    .zigzag-divider[data-transition='cta-to-footer'] {
+        --divider-transition-1: hsl(var(--background) / 0.4);
+        --divider-transition-2: hsl(var(--background) / 0.6);
+        --divider-transition-3: hsl(var(--background) / 0.8);
+        --divider-transition-4: hsl(var(--background));
     }
 
     /* Dynamic zigzag colors that respond to theme changes */

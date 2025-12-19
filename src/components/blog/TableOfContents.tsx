@@ -21,8 +21,12 @@ interface TableOfContentsProps {
  * - Desktop: Fixed sidebar with collapsible heading groups
  * - Mobile: Drawer opened via FloatingNav button (listens to 'openTocDrawer' event)
  */
+// Delay before expanding/collapsing sections (prevents rapid changes during fast scroll)
+const COLLAPSE_DELAY_MS = 150;
+
 export function TableOfContents({ headings, title = 'On this page' }: TableOfContentsProps) {
     const [activeId, setActiveId] = useState<string>('');
+    const [debouncedActiveGroupSlug, setDebouncedActiveGroupSlug] = useState<string>('');
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isStuck, setIsStuck] = useState(false);
     const [isHiddenByFooter, setIsHiddenByFooter] = useState(false);
@@ -30,6 +34,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
     const observerRef = useRef<IntersectionObserver | null>(null);
     const asideRef = useRef<HTMLElement | null>(null);
     const initialTopRef = useRef<number | null>(null);
+    const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Headings to exclude from TOC
     const excludedHeadings = [
@@ -82,6 +87,31 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
         }
         return groupedHeadings[0]?.heading.slug || '';
     }, [activeId, groupedHeadings]);
+
+    // Debounce activeGroupSlug to prevent rapid expand/collapse during fast scrolling
+    useEffect(() => {
+        // Clear any pending timeout
+        if (collapseTimeoutRef.current) {
+            clearTimeout(collapseTimeoutRef.current);
+        }
+
+        // If no current debounced value, set immediately (initial render)
+        if (!debouncedActiveGroupSlug) {
+            setDebouncedActiveGroupSlug(activeGroupSlug);
+            return;
+        }
+
+        // Delay the change to prevent rapid expand/collapse
+        collapseTimeoutRef.current = setTimeout(() => {
+            setDebouncedActiveGroupSlug(activeGroupSlug);
+        }, COLLAPSE_DELAY_MS);
+
+        return () => {
+            if (collapseTimeoutRef.current) {
+                clearTimeout(collapseTimeoutRef.current);
+            }
+        };
+    }, [activeGroupSlug, debouncedActiveGroupSlug]);
 
     // Setup Intersection Observer for scroll spy
     useEffect(() => {
@@ -235,7 +265,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 className={`
                     toc-sidebar hidden xl:block max-h-[calc(100vh-5rem)] overflow-y-auto z-30
                     transition-opacity duration-base ease-in-out
-                    ${isStuck ? 'fixed top-20 w-64' : ''}
+                    ${isStuck ? 'fixed top-20 w-72' : ''}
                     ${isHiddenByFooter ? 'opacity-0 pointer-events-none' : 'opacity-100'}
                 `}
                 style={isStuck && stickyLeft !== null ? { left: `${stickyLeft}px` } : undefined}
@@ -245,6 +275,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                     <ul className="space-y-1 border-l-2 border-foreground/10">
                         {groupedHeadings.map((group) => {
                             const isGroupActive = activeGroupSlug === group.heading.slug;
+                            const isGroupExpanded = debouncedActiveGroupSlug === group.heading.slug;
                             const isHeadingActive = activeId === group.heading.slug;
 
                             return (
@@ -265,17 +296,17 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                             }
                                         `}
                                         aria-current={isHeadingActive ? 'true' : undefined}
-                                        aria-expanded={isGroupActive && group.children.length > 0}
+                                        aria-expanded={isGroupExpanded && group.children.length > 0}
                                     >
                                         {group.heading.text}
                                     </button>
 
-                                    {/* Child h3 headings - collapsible */}
+                                    {/* Child h3 headings - collapsible with delay to prevent rapid changes */}
                                     {group.children.length > 0 && (
                                         <ul
                                             className={`
                                                 overflow-hidden transition-all duration-base ease-in-out
-                                                ${isGroupActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                                                ${isGroupExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
                                             `}
                                         >
                                             {group.children.map((child) => (
@@ -371,7 +402,7 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                 >
                     <ul className="space-y-1">
                         {groupedHeadings.map((group) => {
-                            const isGroupActive = activeGroupSlug === group.heading.slug;
+                            const isGroupExpanded = debouncedActiveGroupSlug === group.heading.slug;
                             const isHeadingActive = activeId === group.heading.slug;
 
                             return (
@@ -393,12 +424,12 @@ export function TableOfContents({ headings, title = 'On this page' }: TableOfCon
                                         {group.heading.text}
                                     </button>
 
-                                    {/* Child h3 headings - collapsible in mobile too */}
+                                    {/* Child h3 headings - collapsible with delay */}
                                     {group.children.length > 0 && (
                                         <ul
                                             className={`
                                                 overflow-hidden transition-all duration-base ease-in-out
-                                                ${isGroupActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                                                ${isGroupExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
                                             `}
                                         >
                                             {group.children.map((child) => (

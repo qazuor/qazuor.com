@@ -6,7 +6,7 @@
  * AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
  * Generated from: src/config/themeConfig.ts (via themeColors.ts)
  * Run: npx tsx scripts/generate-giscus-css.ts
- * Generated at: 2025-12-19T03:57:29.605Z
+ * Generated at: 2025-12-19T07:22:41.914Z
  */
 
 /* Main container */
@@ -40,16 +40,16 @@ main {
     --color-prettylights-syntax-meta-diff-range: #8250df;
     --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
 
-    /* Custom colors matching theme - Light Mode (Primary: #0688a8, Secondary: #0f9e8e) */
+    /* Custom colors matching theme - Light Mode (Primary: #0f4b78, Secondary: #085f73) */
     --color-canvas-default: transparent;
-    --color-canvas-overlay: rgba(6, 136, 168, 0.03);
-    --color-canvas-inset: rgba(6, 136, 168, 0.02);
-    --color-canvas-subtle: rgba(6, 136, 168, 0.05);
+    --color-canvas-overlay: rgba(15, 75, 120, 0.03);
+    --color-canvas-inset: rgba(15, 75, 120, 0.02);
+    --color-canvas-subtle: rgba(15, 75, 120, 0.05);
 
     /* Borders */
-    --color-border-default: rgba(6, 136, 168, 0.25);
-    --color-border-muted: rgba(6, 136, 168, 0.2);
-    --color-border-subtle: rgba(6, 136, 168, 0.15);
+    --color-border-default: rgba(15, 75, 120, 0.25);
+    --color-border-muted: rgba(15, 75, 120, 0.2);
+    --color-border-subtle: rgba(15, 75, 120, 0.15);
 
     /* Text colors */
     --color-fg-default: #1e293b;
@@ -57,10 +57,10 @@ main {
     --color-fg-subtle: #64748b;
 
     /* Accent colors */
-    --color-accent-fg: #0688a8;
-    --color-accent-emphasis: #0f9e8e;
-    --color-accent-muted: rgba(6, 136, 168, 0.3);
-    --color-accent-subtle: rgba(6, 136, 168, 0.1);
+    --color-accent-fg: #0f4b78;
+    --color-accent-emphasis: #085f73;
+    --color-accent-muted: rgba(15, 75, 120, 0.3);
+    --color-accent-subtle: rgba(15, 75, 120, 0.1);
 
     /* Success colors */
     --color-success-fg: #059669;
@@ -75,27 +75,27 @@ main {
     --color-danger-emphasis: #ef4444;
 
     /* Neutral colors */
-    --color-neutral-muted: rgba(6, 136, 168, 0.15);
-    --color-neutral-subtle: rgba(6, 136, 168, 0.08);
+    --color-neutral-muted: rgba(15, 75, 120, 0.15);
+    --color-neutral-subtle: rgba(15, 75, 120, 0.08);
 
     /* Button styles */
     --color-btn-text: #1e293b;
-    --color-btn-bg: rgba(6, 136, 168, 0.1);
-    --color-btn-border: rgba(6, 136, 168, 0.25);
-    --color-btn-hover-bg: rgba(6, 136, 168, 0.15);
-    --color-btn-hover-border: rgba(6, 136, 168, 0.35);
-    --color-btn-active-bg: rgba(6, 136, 168, 0.2);
-    --color-btn-active-border: rgba(6, 136, 168, 0.4);
+    --color-btn-bg: rgba(15, 75, 120, 0.1);
+    --color-btn-border: rgba(15, 75, 120, 0.25);
+    --color-btn-hover-bg: rgba(15, 75, 120, 0.15);
+    --color-btn-hover-border: rgba(15, 75, 120, 0.35);
+    --color-btn-active-bg: rgba(15, 75, 120, 0.2);
+    --color-btn-active-border: rgba(15, 75, 120, 0.4);
 
     /* Primary button */
     --color-btn-primary-text: #ffffff;
-    --color-btn-primary-bg: #0688a8;
-    --color-btn-primary-border: #0688a8;
-    --color-btn-primary-hover-bg: #056c85;
-    --color-btn-primary-hover-border: #056c85;
+    --color-btn-primary-bg: #0f4b78;
+    --color-btn-primary-border: #0f4b78;
+    --color-btn-primary-hover-bg: #0a3c64;
+    --color-btn-primary-hover-border: #0a3c64;
     --color-btn-primary-selected-bg: #004D78;
     --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
-    --color-btn-primary-disabled-bg: rgba(6, 136, 168, 0.3);
+    --color-btn-primary-disabled-bg: rgba(15, 75, 120, 0.3);
     --color-btn-primary-disabled-border: transparent;
 }
 
@@ -106,30 +106,30 @@ main {
 
 /* Comment box styling */
 .gsc-comment-box {
-    background: rgba(6, 136, 168, 0.03) !important;
-    border: 1px solid rgba(6, 136, 168, 0.2) !important;
+    background: rgba(15, 75, 120, 0.03) !important;
+    border: 1px solid rgba(15, 75, 120, 0.2) !important;
     border-radius: 1rem !important;
     backdrop-filter: blur(8px);
-    box-shadow: 0 4px 20px rgba(6, 136, 168, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(15, 75, 120, 0.08) !important;
     transition: all 0.3s ease !important;
 }
 
 .gsc-comment-box:hover {
-    border-color: rgba(6, 136, 168, 0.3) !important;
-    box-shadow: 0 8px 30px rgba(6, 136, 168, 0.12) !important;
+    border-color: rgba(15, 75, 120, 0.3) !important;
+    box-shadow: 0 8px 30px rgba(15, 75, 120, 0.12) !important;
 }
 
 .gsc-comment-box-textarea {
     background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(6, 136, 168, 0.2) !important;
+    border: 1px solid rgba(15, 75, 120, 0.2) !important;
     border-radius: 0.75rem !important;
     color: #1e293b !important;
     transition: all 0.3s ease !important;
 }
 
 .gsc-comment-box-textarea:focus {
-    border-color: #0688a8 !important;
-    box-shadow: 0 0 0 3px rgba(6, 136, 168, 0.15), 0 0 20px rgba(6, 136, 168, 0.1) !important;
+    border-color: #0f4b78 !important;
+    box-shadow: 0 0 0 3px rgba(15, 75, 120, 0.15), 0 0 20px rgba(15, 75, 120, 0.1) !important;
 }
 
 .gsc-comment-box-textarea::placeholder {
@@ -139,7 +139,7 @@ main {
 /* Tabs styling */
 .gsc-comment-box-tabs {
     background: transparent !important;
-    border-bottom: 1px solid rgba(6, 136, 168, 0.15) !important;
+    border-bottom: 1px solid rgba(15, 75, 120, 0.15) !important;
 }
 
 .gsc-comment-box-tab {
@@ -148,27 +148,27 @@ main {
 }
 
 .gsc-comment-box-tab:hover {
-    color: #056c85 !important;
+    color: #0a3c64 !important;
 }
 
 .gsc-comment-box-tab[aria-selected="true"] {
-    color: #056c85 !important;
-    border-bottom-color: #0688a8 !important;
+    color: #0a3c64 !important;
+    border-bottom-color: #0f4b78 !important;
 }
 
 /* Comments list */
 .gsc-comment {
-    background: rgba(6, 136, 168, 0.02) !important;
-    border: 1px solid rgba(6, 136, 168, 0.15) !important;
+    background: rgba(15, 75, 120, 0.02) !important;
+    border: 1px solid rgba(15, 75, 120, 0.15) !important;
     border-radius: 1rem !important;
     backdrop-filter: blur(4px);
-    box-shadow: 0 2px 10px rgba(6, 136, 168, 0.04) !important;
+    box-shadow: 0 2px 10px rgba(15, 75, 120, 0.04) !important;
     transition: all 0.3s ease !important;
 }
 
 .gsc-comment:hover {
-    border-color: rgba(6, 136, 168, 0.25) !important;
-    box-shadow: 0 4px 20px rgba(6, 136, 168, 0.08) !important;
+    border-color: rgba(15, 75, 120, 0.25) !important;
+    box-shadow: 0 4px 20px rgba(15, 75, 120, 0.08) !important;
     transform: translateY(-1px) !important;
 }
 
@@ -178,39 +178,39 @@ main {
 }
 
 .gsc-reactions-button {
-    background: rgba(6, 136, 168, 0.08) !important;
-    border: 1px solid rgba(6, 136, 168, 0.2) !important;
+    background: rgba(15, 75, 120, 0.08) !important;
+    border: 1px solid rgba(15, 75, 120, 0.2) !important;
     border-radius: 2rem !important;
     color: #475569 !important;
     transition: all 0.2s ease !important;
 }
 
 .gsc-reactions-button:hover {
-    background: rgba(6, 136, 168, 0.15) !important;
-    border-color: rgba(6, 136, 168, 0.3) !important;
-    color: #056c85 !important;
+    background: rgba(15, 75, 120, 0.15) !important;
+    border-color: rgba(15, 75, 120, 0.3) !important;
+    color: #0a3c64 !important;
     transform: scale(1.05) !important;
 }
 
 .gsc-social-reaction-summary-item {
-    background: rgba(6, 136, 168, 0.08) !important;
-    border: 1px solid rgba(6, 136, 168, 0.2) !important;
+    background: rgba(15, 75, 120, 0.08) !important;
+    border: 1px solid rgba(15, 75, 120, 0.2) !important;
     border-radius: 2rem !important;
     transition: all 0.2s ease !important;
 }
 
 .gsc-social-reaction-summary-item:hover {
-    background: rgba(6, 136, 168, 0.15) !important;
+    background: rgba(15, 75, 120, 0.15) !important;
     transform: scale(1.05) !important;
 }
 
 .gsc-social-reaction-summary-item-count {
-    color: #056c85 !important;
+    color: #0a3c64 !important;
 }
 
 /* Reply section */
 .gsc-reply {
-    border-left: 2px solid rgba(6, 136, 168, 0.25) !important;
+    border-left: 2px solid rgba(15, 75, 120, 0.25) !important;
 }
 
 /* Header and timestamps */
@@ -220,57 +220,57 @@ main {
 
 .gsc-comment-author-avatar {
     border-radius: 50% !important;
-    border: 2px solid rgba(6, 136, 168, 0.25) !important;
+    border: 2px solid rgba(15, 75, 120, 0.25) !important;
     transition: all 0.3s ease !important;
 }
 
 .gsc-comment-author-avatar:hover {
-    border-color: #0688a8 !important;
-    box-shadow: 0 0 15px rgba(6, 136, 168, 0.2) !important;
+    border-color: #0f4b78 !important;
+    box-shadow: 0 0 15px rgba(15, 75, 120, 0.2) !important;
 }
 
 /* Links */
 .gsc-comment a {
-    color: #056c85 !important;
+    color: #0a3c64 !important;
     transition: all 0.2s ease !important;
 }
 
 .gsc-comment a:hover {
     color: #004D78 !important;
-    text-shadow: 0 0 10px rgba(6, 136, 168, 0.2) !important;
+    text-shadow: 0 0 10px rgba(15, 75, 120, 0.2) !important;
 }
 
 /* Login section */
 .gsc-comment-box-bottom {
-    border-top: 1px solid rgba(6, 136, 168, 0.15) !important;
+    border-top: 1px solid rgba(15, 75, 120, 0.15) !important;
 }
 
 /* Sign in button styling */
 .gsc-comment-box-bottom a {
-    background: linear-gradient(135deg, #0688a8, #0f9e8e) !important;
+    background: linear-gradient(135deg, #0f4b78, #085f73) !important;
     color: #ffffff !important;
     border: none !important;
     border-radius: 0.5rem !important;
     padding: 0.5rem 1rem !important;
     font-weight: 500 !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 2px 10px rgba(6, 136, 168, 0.25) !important;
+    box-shadow: 0 2px 10px rgba(15, 75, 120, 0.25) !important;
 }
 
 .gsc-comment-box-bottom a:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 4px 20px rgba(6, 136, 168, 0.35) !important;
+    box-shadow: 0 4px 20px rgba(15, 75, 120, 0.35) !important;
     filter: brightness(1.1) !important;
 }
 
 /* Timeline connector */
 .gsc-timeline {
-    border-left-color: rgba(6, 136, 168, 0.2) !important;
+    border-left-color: rgba(15, 75, 120, 0.2) !important;
 }
 
 /* Loading spinner */
 .gsc-loading {
-    color: #0688a8 !important;
+    color: #0f4b78 !important;
 }
 
 /* Header with reactions count */
@@ -284,13 +284,13 @@ main {
 
 /* Emoji picker */
 .gsc-emoji-button {
-    background: rgba(6, 136, 168, 0.08) !important;
-    border-color: rgba(6, 136, 168, 0.2) !important;
+    background: rgba(15, 75, 120, 0.08) !important;
+    border-color: rgba(15, 75, 120, 0.2) !important;
     transition: all 0.2s ease !important;
 }
 
 .gsc-emoji-button:hover {
-    background: rgba(6, 136, 168, 0.15) !important;
+    background: rgba(15, 75, 120, 0.15) !important;
     transform: scale(1.1) !important;
 }
 
@@ -300,7 +300,7 @@ main {
 }
 
 .gsc-upvote-button:hover {
-    color: #0688a8 !important;
+    color: #0f4b78 !important;
 }
 
 /* Discussion metadata */
@@ -315,16 +315,16 @@ main {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(6, 136, 168, 0.03);
+    background: rgba(15, 75, 120, 0.03);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(6, 136, 168, 0.2);
+    background: rgba(15, 75, 120, 0.2);
     border-radius: 4px;
     transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(6, 136, 168, 0.35);
+    background: rgba(15, 75, 120, 0.35);
 }

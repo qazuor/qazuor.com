@@ -201,134 +201,136 @@ export interface ThemeConfig {
 
 export const lightTheme: ThemeConfig = {
     critical: {
-        bgPrimary: '180 20% 99%',
-        bgSecondary: '185 25% 96%',
-        bgTertiary: '185 22% 92%',
-        textPrimary: '200 45% 8%',
-        textSecondary: '195 35% 18%',
-        textMuted: '190 25% 32%',
-        background: '185 25% 96%',
-        foreground: '200 45% 8%',
-        primary: '192 95% 32%'
+        bgPrimary: '200 20% 99%',
+        bgSecondary: '205 25% 96%',
+        bgTertiary: '205 22% 92%',
+        textPrimary: '210 50% 6%', // Azul oscuro para máximo contraste
+        textSecondary: '208 40% 14%', // Azul oscuro
+        textMuted: '205 30% 22%', // Azul-gris oscuro
+        background: '205 25% 96%',
+        foreground: '210 50% 6%',
+        primary: '205 100% 24%' // Azul oscuro (ratio ~7:1)
     },
     shadcn: {
-        background: '185 25% 96%',
-        foreground: '200 45% 8%',
+        background: '205 25% 96%',
+        foreground: '210 50% 6%',
         card: '0 0% 100%',
-        cardForeground: '200 45% 8%',
+        cardForeground: '210 50% 6%',
         popover: '0 0% 100%',
-        popoverForeground: '200 45% 8%',
-        primary: '192 95% 32%',
+        popoverForeground: '210 50% 6%',
+        primary: '205 100% 24%', // Azul oscuro
         primaryForeground: '0 0% 100%',
-        secondary: '175 75% 35%',
+        secondary: '195 90% 26%', // Cyan-azul oscuro
         secondaryForeground: '0 0% 100%',
-        muted: '185 18% 88%',
-        mutedForeground: '190 25% 32%',
-        accent: '160 85% 32%',
+        muted: '205 18% 88%',
+        mutedForeground: '205 30% 22%',
+        accent: '200 95% 28%', // Azul-cyan
         accentForeground: '0 0% 100%',
-        destructive: '0 84.2% 60.2%',
+        destructive: '0 84% 45%',
         destructiveForeground: '0 0% 98%',
-        border: '190 20% 78%',
-        input: '185 18% 90%',
-        ring: '192 95% 32%',
-        inputFieldBg: 'rgba(0, 0, 0, 0.04)'
+        border: '205 25% 70%',
+        input: '205 18% 88%',
+        ring: '205 100% 24%',
+        inputFieldBg: 'rgba(0, 0, 0, 0.06)'
     },
     colors: {
-        colorPrimary: '6, 136, 168',
-        colorPrimaryDark: '5, 108, 133',
-        colorPrimaryFull: 'rgb(6, 136, 168)',
-        colorPrimaryDarkFull: 'rgb(5, 108, 133)',
-        colorSecondary: '15, 158, 142',
-        colorSecondaryDark: '11, 128, 115',
-        colorSecondaryFull: 'rgb(15, 158, 142)',
-        colorSecondaryDarkFull: 'rgb(11, 128, 115)',
-        colorTertiary: '18, 140, 64',
-        colorTertiaryDark: '16, 112, 52',
-        colorTertiaryFull: 'rgb(18, 140, 64)',
-        colorTertiaryDarkFull: 'rgb(16, 112, 52)'
+        // Paleta azul con alto contraste
+        colorPrimary: '15, 75, 120', // #0f4b78 - azul oscuro
+        colorPrimaryDark: '10, 60, 100', // #0a3c64 - más oscuro
+        colorPrimaryFull: 'rgb(15, 75, 120)',
+        colorPrimaryDarkFull: 'rgb(10, 60, 100)',
+        colorSecondary: '8, 95, 115', // #085f73 - cyan-azul oscuro
+        colorSecondaryDark: '5, 75, 95', // #054b5f
+        colorSecondaryFull: 'rgb(8, 95, 115)',
+        colorSecondaryDarkFull: 'rgb(5, 75, 95)',
+        colorTertiary: '5, 85, 130', // #055582 - azul medio
+        colorTertiaryDark: '3, 68, 105', // #034469
+        colorTertiaryFull: 'rgb(5, 85, 130)',
+        colorTertiaryDarkFull: 'rgb(3, 68, 105)'
     },
     ui: {
-        colorUiInfo: '6, 136, 168',
-        colorUiInfoFull: 'rgb(6, 136, 168)',
-        colorUiWarning: '180, 98, 5',
-        colorUiWarningFull: 'rgb(180, 98, 5)',
-        colorUiError: '185, 28, 28',
-        colorUiErrorFull: 'rgb(185, 28, 28)',
-        colorUiSuccess: '18, 140, 64',
-        colorUiSuccessFull: 'rgb(18, 140, 64)',
-        colorUiTip: '6, 136, 168',
-        colorUiTipFull: 'rgb(6, 136, 168)',
-        colorUiQuote: '15, 158, 142',
-        colorUiQuoteFull: 'rgb(15, 158, 142)'
+        // UI colors azules
+        colorUiInfo: '15, 75, 120',
+        colorUiInfoFull: 'rgb(15, 75, 120)',
+        colorUiWarning: '140, 70, 0',
+        colorUiWarningFull: 'rgb(140, 70, 0)',
+        colorUiError: '160, 20, 20',
+        colorUiErrorFull: 'rgb(160, 20, 20)',
+        colorUiSuccess: '15, 100, 70', // Verde-azulado
+        colorUiSuccessFull: 'rgb(15, 100, 70)',
+        colorUiTip: '15, 75, 120',
+        colorUiTipFull: 'rgb(15, 75, 120)',
+        colorUiQuote: '8, 95, 115',
+        colorUiQuoteFull: 'rgb(8, 95, 115)'
     },
     glow: {
-        sectionBackgroundGlowFrom: '#0688a8',
-        sectionBackgroundGlowVia: '#e8f6f8',
-        sectionBackgroundGlowTo: '#0891b2'
+        sectionBackgroundGlowFrom: '#0f4b78',
+        sectionBackgroundGlowVia: '#e8f2f8',
+        sectionBackgroundGlowTo: '#085f73'
     },
     dividers: {
-        dividerPrimary: '#0688a8',
-        dividerSecondary: '#0f9e8e',
-        dividerAccent: '#128c40'
+        dividerPrimary: '#0f4b78',
+        dividerSecondary: '#085f73',
+        dividerAccent: '#055582'
     },
     testimonials: {
-        testimonialAccent: '6, 136, 168',
-        testimonialAccentLight: '15, 158, 142',
-        testimonialAccentDark: '5, 108, 133',
-        testimonialAccentFull: '#0688a8',
-        testimonialAccentLightFull: '#0f9e8e',
-        testimonialText: '10, 18, 32',
-        testimonialTextSecondary: '22, 35, 52',
-        testimonialTextMuted: '45, 58, 78',
+        testimonialAccent: '15, 75, 120',
+        testimonialAccentLight: '8, 95, 115',
+        testimonialAccentDark: '10, 60, 100',
+        testimonialAccentFull: '#0f4b78',
+        testimonialAccentLightFull: '#085f73',
+        testimonialText: '8, 14, 26',
+        testimonialTextSecondary: '16, 28, 42',
+        testimonialTextMuted: '32, 45, 62',
         testimonialCardBg: '255, 255, 255',
-        testimonialCardBgTinted: '232, 246, 248',
-        testimonialFocus: '6, 136, 168'
+        testimonialCardBgTinted: '232, 242, 250',
+        testimonialFocus: '15, 75, 120'
     },
     timeline: {
-        colorTimelineBlueFrom: '#0688a8',
-        colorTimelineBlueTo: '#056c85',
-        colorTimelineEmeraldFrom: '#0f9e8e',
-        colorTimelineEmeraldTo: '#0b8073',
-        colorTimelineAmberFrom: '#b46205',
-        colorTimelineAmberTo: '#8f4e04',
-        colorTimelineSteelFrom: '#0891b2',
-        colorTimelineSteelTo: '#0688a8',
-        colorTimelineCyanFrom: '#128c40',
-        colorTimelineCyanTo: '#107034'
+        colorTimelineBlueFrom: '#1d4ed8', // blue-700 - more vibrant
+        colorTimelineBlueTo: '#1e40af', // blue-800
+        colorTimelineEmeraldFrom: '#047857', // emerald-700 - more vibrant
+        colorTimelineEmeraldTo: '#065f46', // emerald-800
+        colorTimelineAmberFrom: '#b45309', // amber-700 - more vibrant
+        colorTimelineAmberTo: '#92400e', // amber-800
+        colorTimelineSteelFrom: '#1d4ed8', // blue-700
+        colorTimelineSteelTo: '#1e40af', // blue-800
+        colorTimelineCyanFrom: '#0e7490', // cyan-700 - more vibrant
+        colorTimelineCyanTo: '#155e75' // cyan-800
     },
     socialIcons: {
-        socialIcon: '55, 65, 81',
-        socialIconHover: '6, 136, 168'
+        socialIcon: '35, 45, 65',
+        socialIconHover: '15, 75, 120'
     },
     mermaid: {
-        mermaidPrimary: '#0688a8',
-        mermaidSecondary: '#0f9e8e',
-        mermaidBackground: '#f0f9fa',
-        mermaidBorder: '#b8e0e6',
-        mermaidText: '#0a1220'
+        mermaidPrimary: '#0f4b78',
+        mermaidSecondary: '#085f73',
+        mermaidBackground: '#f0f5fa',
+        mermaidBorder: '#a0c8d8',
+        mermaidText: '#081018'
     },
     tooltips: {
-        tooltipBg: '16, 62, 78',
+        tooltipBg: '12, 45, 70',
         tooltipText: '243, 244, 246',
-        tooltipBorder: '16, 62, 78'
+        tooltipBorder: '12, 45, 70'
     },
     syntax: {
-        syntaxKeyword: '192 95% 32%',
-        syntaxString: '160 85% 32%',
-        syntaxNumber: '35 90% 38%',
-        syntaxComment: '190 20% 42%'
+        syntaxKeyword: '205 100% 24%', // Azul
+        syntaxString: '150 70% 28%', // Verde oscuro (para diferenciación)
+        syntaxNumber: '35 95% 32%', // Naranja
+        syntaxComment: '205 25% 40%' // Azul-gris
     },
     charts: {
-        chart1: '192 95% 32%',
-        chart2: '175 75% 35%',
-        chart3: '160 85% 32%',
-        chart4: '200 88% 30%',
-        chart5: '150 78% 35%'
+        chart1: '205 100% 24%',
+        chart2: '195 90% 26%',
+        chart3: '200 95% 28%',
+        chart4: '215 85% 28%',
+        chart5: '190 80% 28%'
     },
     textColors: {
-        default: '#0a1220',
-        muted: '#056c85',
-        subtle: '#0688a8'
+        default: '#081018',
+        muted: '#0a3c64',
+        subtle: '#0f4b78'
     }
 };
 

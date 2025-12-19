@@ -44,6 +44,13 @@ const cycleTime = typeDuration + pauseDuration + deleteDuration + 0.5;
         white-space: nowrap;
         font-family:'Courier New', Courier, monospace;
         animation: typewriter var(--cycle-time) steps(20, end) infinite;
+        /* Ensure sufficient contrast (4.5:1) on hero background */
+        color: hsl(var(--primary));
+    }
+
+    /* Light mode: darker primary for better contrast on hero bg (#9aa6b2) */
+    :global(html:not(.dark)) .typewriter-text {
+        color: hsl(205, 100%, 20%);
     }
 
     .typewriter-cursor {

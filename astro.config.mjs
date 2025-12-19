@@ -12,6 +12,7 @@ import favicons from 'astro-favicons';
 import lighthouse from 'astro-lighthouse';
 import { defineConfig } from 'astro/config';
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import colorInterpolation from './integrations/color-interpolation.ts';
@@ -102,6 +103,7 @@ export default defineConfig({
                 wrap: true
             },
             plugins: [
+                pluginLineNumbers(),
                 pluginLanguageBadge({
                     textTransform: 'lowercase',
                     excludeLanguages: ['txt', 'text', 'plaintext'],
@@ -336,6 +338,14 @@ export default defineConfig({
                     '**/tmp/**',
                     '**/temp/**'
                 ]
+            },
+            // CORS headers for Giscus custom CSS in development
+            // Includes Private Network Access header for Chrome's security policy
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Private-Network': 'true'
             }
         }
     },

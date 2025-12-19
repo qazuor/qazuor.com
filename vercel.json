@@ -3,6 +3,19 @@
     "buildCommand": "pnpm build",
     "headers": [
         {
+            "source": "/styles/giscus-custom(.*)?.css",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "*"
+                },
+                {
+                    "key": "Access-Control-Allow-Methods",
+                    "value": "GET, OPTIONS"
+                }
+            ]
+        },
+        {
             "source": "/(.*)",
             "headers": [
                 {

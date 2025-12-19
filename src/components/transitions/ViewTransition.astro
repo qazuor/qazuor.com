@@ -30,6 +30,7 @@ import { getProjectSlug } from '@/utils/projects';
 
 // Generate page titles map at build time
 const pageTitles: Record<string, string> = {};
+const paginationTranslations: Record<string, { blogTitle: string; pageLabel: string }> = {};
 const langs = Object.keys(languages) as Array<'en' | 'es'>;
 
 // 1. Static pages from translations
@@ -45,6 +46,12 @@ for (const lang of langs) {
         skills: t('nav.skills'),
         testimonials: t('nav.testimonials'),
         contact: t('nav.contact')
+    };
+
+    // Store pagination translations for client-side use
+    paginationTranslations[lang] = {
+        blogTitle: nav.blog,
+        pageLabel: t('blog.pagination.page')
     };
 
     // Root and section pages
@@ -310,8 +317,9 @@ for (const project of projects) {
 </style>
 
 <!-- Inject page titles map generated at build time -->
-<script is:inline define:vars={{ pageTitles }}>
+<script is:inline define:vars={{ pageTitles, paginationTranslations }}>
     window.__PAGE_TITLES__ = pageTitles;
+    window.__PAGINATION_TRANSLATIONS__ = paginationTranslations;
 </script>
 
 <script>
@@ -350,6 +358,7 @@ for (const project of projects) {
      */
     function getPageTitle(url: URL): string {
         const titles = (window as any).__PAGE_TITLES__ || {};
+        const paginationTrans = (window as any).__PAGINATION_TRANSLATIONS__ || {};
         const normalizedPath = normalizePathname(url.pathname);
 
         // Try exact match with hash first
@@ -363,6 +372,17 @@ for (const project of projects) {
         // Try exact path match
         if (titles[normalizedPath]) {
             return titles[normalizedPath];
+        }
+
+        // Check for blog pagination pattern: /{lang}/blog/{pageNumber}
+        const blogPaginationMatch = normalizedPath.match(/^\/(en|es)\/blog\/(\d+)$/);
+        if (blogPaginationMatch) {
+            const lang = blogPaginationMatch[1];
+            const pageNum = blogPaginationMatch[2];
+            const trans = paginationTrans[lang];
+            if (trans) {
+                return `${trans.blogTitle} - ${trans.pageLabel} ${pageNum}`;
+            }
         }
 
         // Fallback: extract last segment and capitalize

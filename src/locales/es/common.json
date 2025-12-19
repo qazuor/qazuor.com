@@ -440,6 +440,7 @@
             "titleCssTrick": "Comparte este CSS trick",
             "description": "Si te resultó útil, compártelo con tu red",
             "button": "Compartir",
+            "label": "Compartir",
             "copyLink": "Copiar enlace",
             "copied": "¡Copiado!",
             "copyFailed": "Error al copiar",

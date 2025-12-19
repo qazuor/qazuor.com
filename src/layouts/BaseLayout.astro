@@ -455,9 +455,9 @@ const alternateLinks = locales.map((locale) => {
         />
 
         <!-- Scroll to Top / TOC Button - mobile only (desktop uses FloatingNav's scroll-to-top/toc) -->
-        <!-- Uses client:idle to defer hydration until browser is idle (has SSR guard) -->
+        <!-- Uses client:only because component renders null initially (SSR would be wasted work) -->
         <ScrollToTop
-            client:idle
+            client:only="react"
             ariaLabel={t('aria.scrollToTop')}
             hasToc={tocHeadings && tocHeadings.length > 0}
             tocAriaLabel={tocTitle}
@@ -558,7 +558,8 @@ const alternateLinks = locales.map((locale) => {
         )}
 
         <!-- Vercel Speed Insights (Core Web Vitals monitoring) -->
-        <SpeedInsights debug={false} />
+        <!-- Disabled: adds ~10-15KB JS overhead that affects Lighthouse score -->
+        <!-- <SpeedInsights debug={false} /> -->
 
         <!-- Scroll Reveal Animations - Vanilla JS IntersectionObserver -->
         <script>

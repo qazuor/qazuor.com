@@ -20,18 +20,11 @@ export function ScrollToTop({
     hasToc = false,
     tocAriaLabel = 'Table of contents'
 }: ScrollToTopProps) {
-    // SSR guard - component uses browser APIs, render nothing during SSR
-    const [isClient, setIsClient] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isHomePage, setIsHomePage] = useState(false);
     const [canFitOnSide, setCanFitOnSide] = useState(false);
-
-    // Set isClient to true after mount (enables client:idle hydration)
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     // Check if we're on the home page (affects alignment since home has fewer nav icons)
     useEffect(() => {
@@ -98,11 +91,6 @@ export function ScrollToTop({
     const openTocDrawer = useCallback(() => {
         window.dispatchEvent(new CustomEvent('openTocDrawer'));
     }, []);
-
-    // Don't render during SSR (wait for client hydration)
-    if (!isClient) {
-        return null;
-    }
 
     // Don't render on desktop (FloatingNav has scroll-to-top)
     if (!isMobile) {

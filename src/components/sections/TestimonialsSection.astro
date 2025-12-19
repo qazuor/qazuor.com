@@ -1242,9 +1242,11 @@ const testimonials = allTestimonials.map((t, i) => ({
         modal.setAttribute('aria-hidden', 'true');
 
         // Unlock scroll - remove fixed positioning and restore scroll
-        document.body.classList.remove('modal-open');
+        // Order matters: reset top first, then scroll instantly, then remove class
+        const scrollY = savedScrollY;
         document.body.style.top = '';
-        window.scrollTo(0, savedScrollY);
+        document.body.classList.remove('modal-open');
+        window.scrollTo({ top: scrollY, behavior: 'instant' });
 
         // Return focus to the trigger element
         if (triggerElement) {

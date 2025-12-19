@@ -1,8 +1,12 @@
 ---
 import ServiceJsonLd from '@/components/seo/ServiceJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
+import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
+import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import { getInterestsForService } from '@/data';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
@@ -176,22 +180,35 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
 
     <!-- Hero Section -->
     <section
-        class="relative section overflow-hidden pt-32 pb-20"
+        class="relative section overflow-hidden pt-32 pb-48 md:pb-56"
         style={`background-color: ${service.themeColor}`}
     >
         <AnimatedGradientBackground />
 
-        <div class="container-custom">
-            <div class="max-w-4xl mx-auto text-center">
-                <ServiceIcon name={service.iconId} size={64} class="text-primary mb-6" />
-                <h1 class="text-5xl md:text-6xl font-bold text-foreground mb-6" set:html={serviceTitle} />
-                <p class="text-xl text-foreground-secondary leading-relaxed max-w-3xl mx-auto" set:html={serviceDescription} />
-            </div>
+        <!-- Background Icon -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+            <ServiceIcon
+                name={service.iconId}
+                size={400}
+                class="text-foreground/[0.08] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]"
+            />
         </div>
+
+        <div class="container-custom relative z-10">
+            <SectionTitle
+                title={serviceTitle}
+                subtitle={serviceDescription}
+                size="xl"
+                customElement="h1"
+            />
+        </div>
+
+        <!-- Divider: Hero to Features -->
+        <WaveDivider transition="hero-to-features" />
     </section>
 
     <!-- Features Section -->
-    <section class="relative section py-20 bg-background">
+    <section class="relative section pt-20 pb-32 md:pb-36 bg-background">
         <div class="container-custom">
             <SectionTitle
                 title={t('services.featuresTitle', { markdown: true })}
@@ -220,10 +237,17 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
                 }
             </div>
         </div>
+
+        <!-- Divider: Features to Pricing (uses service themeColor) -->
+        <div
+            style={`--divider-transition-primary: ${service.themeColor}50; --divider-transition-secondary: ${service.themeColor}99; --divider-transition-accent: ${service.themeColor}80; --divider-transition-final: ${service.themeColor};`}
+        >
+            <DiagonalDivider direction="right" transition="features-to-pricing" />
+        </div>
     </section>
 
     <!-- Pricing Section -->
-    <section class="relative section py-20" style={`background-color: ${service.themeColor}`}>
+    <section class="relative section pt-20 pb-40 md:pb-48" style={`background-color: ${service.themeColor}`}>
         <AnimatedGradientBackground />
 
         <div class="container-custom">
@@ -293,10 +317,13 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
                 </div>
             </div>
         </div>
+
+        <!-- Divider: Pricing to FAQ -->
+        <ZigzagDivider transition="pricing-to-faq" />
     </section>
 
     <!-- FAQ Section -->
-    <section class="relative section py-20 bg-background">
+    <section class="relative section pt-20 pb-32 md:pb-36 bg-background">
         <div class="container-custom">
             <SectionTitle
                 title={t('services.faqTitle', { markdown: true })}
@@ -332,61 +359,77 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
                 }
             </div>
         </div>
+
+        <!-- Divider: FAQ to Related/CTA -->
+        {relatedServices.length > 0 ? (
+            <div
+                style={`--divider-transition-primary: ${service.themeColor}50; --divider-transition-secondary: ${service.themeColor}99; --divider-transition-accent: ${service.themeColor}80; --divider-transition-final: ${service.themeColor};`}
+            >
+                <DiagonalDivider direction="left" transition="faq-to-related" />
+            </div>
+        ) : (
+            <DiagonalDivider direction="left" transition="faq-to-related" />
+        )}
     </section>
 
     <!-- Related Services Section -->
     {
         relatedServices.length > 0 && (
-            <section
-                class="relative section py-20"
-                style={`background-color: ${service.themeColor}`}
-            >
-                <AnimatedGradientBackground />
+            <>
+                <section
+                    class="relative section pt-20 pb-48 md:pb-56"
+                    style={`background-color: ${service.themeColor}`}
+                >
+                    <AnimatedGradientBackground />
 
-                <div class="container-custom">
-                    <SectionTitle title={t('services.relatedServices.title')} size="lg" />
+                    <div class="container-custom">
+                        <SectionTitle title={t('services.relatedServices.title')} size="lg" />
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
-                        {relatedServices.map((related) => (
-                            <a
-                                href={`/${lang}/services/${related.slug}`}
-                                class="group bg-foreground/5 backdrop-blur-sm rounded-2xl p-6 border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20 transition-all"
-                            >
-                                <div class="flex items-start gap-4">
-                                    <ServiceIcon name={related.iconId} size={40} class="text-primary" />
-                                    <div class="flex-1">
-                                        <h3
-                                            class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"
-                                            set:html={related.title}
-                                        />
-                                        <p class="text-foreground-secondary text-sm">
-                                            {related.description}
-                                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
+                            {relatedServices.map((related) => (
+                                <a
+                                    href={`/${lang}/services/${related.slug}`}
+                                    class="group bg-foreground/5 backdrop-blur-sm rounded-2xl p-6 border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20 transition-all"
+                                >
+                                    <div class="flex items-start gap-4">
+                                        <ServiceIcon name={related.iconId} size={40} class="text-primary" />
+                                        <div class="flex-1">
+                                            <h3
+                                                class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"
+                                                set:html={related.title}
+                                            />
+                                            <p class="text-foreground-secondary text-sm">
+                                                {related.description}
+                                            </p>
+                                        </div>
+                                        <svg
+                                            class="w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:translate-x-1 transition-all"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M9 5l7 7-7 7"
+                                            />
+                                        </svg>
                                     </div>
-                                    <svg
-                                        class="w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:translate-x-1 transition-all"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </div>
-                            </a>
-                        ))}
+                                </a>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+
+                    <!-- Divider: Related to CTA -->
+                    <WaveDivider transition="related-to-cta" />
+                </section>
+            </>
         )
     }
 
     <!-- CTA Section -->
-    <section class="relative section py-20 bg-background">
+    <section class="relative section pt-20 pb-40 md:pb-48 bg-background">
         <div class="container-custom">
             <div class="max-w-3xl mx-auto text-center bg-foreground/5 backdrop-blur-sm rounded-2xl p-12 border border-foreground/10">
                 <h2
@@ -398,20 +441,24 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
                     set:html={t('services.cta.description', { markdown: true })}
                 />
 
-                <a
+                <UnifiedButton
                     href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
-                    class="inline-flex items-center px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors text-lg"
+                    variant="primary"
+                    size="lg"
+                    iconPosition="right"
                 >
                     <span set:html={t('services.cta.button', { markdown: true })} />
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
-                        />
-                    </svg>
-                </a>
+                    <Fragment slot="icon-right">
+                        <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
+                            />
+                        </svg>
+                    </Fragment>
+                </UnifiedButton>
 
                 <div class="flex items-center justify-center gap-2 mt-6 text-foreground-secondary text-sm">
                     <svg class="w-4 h-4 text-[rgb(var(--color-status-success))]" fill="currentColor" viewBox="0 0 20 20">
@@ -425,5 +472,8 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
                 </div>
             </div>
         </div>
+
+        <!-- Divider: CTA to Footer -->
+        <ZigzagDivider transition="cta-to-footer" />
     </section>
 </BaseLayout>

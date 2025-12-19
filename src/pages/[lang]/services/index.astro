@@ -6,6 +6,7 @@ import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackgrou
 import PixelCanvas from '@/components/ui/PixelCanvas.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import { getInterestsForService, sectionsColors } from '@/data';
 import { serviceColors } from '@/data/serviceColors';
 import { services } from '@/data/services';
@@ -361,15 +362,22 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
                                 */}
 
                                 <!-- CTA Button -->
-                                <a
-                                    href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
-                                    class="service-cta-button relative z-10 mt-auto inline-flex items-center justify-center w-full px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-all duration-200"
-                                >
-                                    {serviceTranslation.ctaButton}
-                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
+                                <div class="relative z-10 mt-auto">
+                                    <UnifiedButton
+                                        href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
+                                        variant="primary"
+                                        size="md"
+                                        iconPosition="right"
+                                        class="w-full justify-center"
+                                    >
+                                        {serviceTranslation.ctaButton}
+                                        <Fragment slot="icon-right">
+                                            <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </Fragment>
+                                    </UnifiedButton>
+                                </div>
                             </div>
 
                             <!-- Hover Content (Icon + Title centered) -->
@@ -382,15 +390,21 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
                                         set:html={serviceTranslation.title}
                                     />
                                 </h3>
-                                <a
-                                    href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
-                                    class="service-cta-button relative z-10 mt-6 inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-all duration-200 pointer-events-auto"
-                                >
-                                    {serviceTranslation.ctaButton}
-                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
+                                <div class="mt-6 pointer-events-auto">
+                                    <UnifiedButton
+                                        href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
+                                        variant="primary"
+                                        size="md"
+                                        iconPosition="right"
+                                    >
+                                        {serviceTranslation.ctaButton}
+                                        <Fragment slot="icon-right">
+                                            <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </Fragment>
+                                    </UnifiedButton>
+                                </div>
                             </div>
                         </div>
                     );
@@ -413,15 +427,19 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
 
                 <!-- Main CTA Button -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <a
-                        href={`/${lang}/contact`}
-                        class="inline-flex items-center px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors duration-200"
+                    <UnifiedButton
+                        href={`/${lang}/#contact`}
+                        variant="primary"
+                        size="lg"
+                        iconPosition="right"
                     >
                         <span set:html={ctaTranslations.button} />
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
-                        </svg>
-                    </a>
+                        <Fragment slot="icon-right">
+                            <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                            </svg>
+                        </Fragment>
+                    </UnifiedButton>
 
                     <!-- Free Consultation Badge -->
                     <div class="flex items-center text-foreground-secondary text-sm">

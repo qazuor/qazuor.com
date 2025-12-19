@@ -508,41 +508,40 @@ const testimonials = allTestimonials.map((t, i) => ({
     .carousel-indicators {
         display: flex;
         justify-content: center;
-        gap: 0.5rem;
+        align-items: center;
+        gap: 0.2rem;
     }
 
     .carousel-dot {
-        width: 0.5rem;
-        height: 0.5rem;
+        /* Touch target: 24px | Visual dot via ::after */
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        background: transparent;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .carousel-dot::after {
+        content: '';
+        width: 0.8rem;
+        height: 0.8rem;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.3);
-        border: none;
-        padding: 0;
-        cursor: pointer;
         transition: all 0.3s ease;
-        /* Expand touch target to 44px for accessibility (WCAG 2.5.5) */
-        position: relative;
     }
 
-    /* Invisible touch target expansion */
-    .carousel-dot::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-    }
-
-    .carousel-dot:hover {
+    .carousel-dot:hover::after {
         background: rgba(255, 255, 255, 0.5);
     }
 
-    .carousel-dot.active {
+    .carousel-dot.active::after {
         background: rgba(255, 255, 255, 0.9);
-        transform: scale(1.3);
+        transform: scale(1.2);
     }
 
     /* Light mode nav buttons */
@@ -557,15 +556,15 @@ const testimonials = allTestimonials.map((t, i) => ({
     }
 
     /* Light mode indicators */
-    :global(html:not(.dark)) .carousel-dot {
+    :global(html:not(.dark)) .carousel-dot::after {
         background: rgba(var(--testimonial-text-muted), 0.3);
     }
 
-    :global(html:not(.dark)) .carousel-dot:hover {
+    :global(html:not(.dark)) .carousel-dot:hover::after {
         background: rgba(var(--testimonial-text-muted), 0.5);
     }
 
-    :global(html:not(.dark)) .carousel-dot.active {
+    :global(html:not(.dark)) .carousel-dot.active::after {
         background: rgba(var(--testimonial-text-muted), 0.9);
     }
 

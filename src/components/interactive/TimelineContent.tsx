@@ -135,8 +135,9 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                 </div>
 
                 {/* Progress Dots - Fixed height container to prevent layout shifts */}
+                {/* Touch target: 2.2rem (35px) | Visual dot: 0.8rem (13px) - matches carousel dots */}
                 <div
-                    className="flex items-center justify-center gap-1.5 flex-wrap max-w-md px-4 h-5"
+                    className="flex items-center justify-center gap-[0.2rem] px-4 h-9"
                     role="tablist"
                     aria-label="Timeline progress"
                 >
@@ -145,19 +146,23 @@ export default function TimelineContent({ lang, timelineItems }: TimelineContent
                             key={item.id}
                             type="button"
                             onClick={() => timeline.goToIndex(index)}
-                            className={`w-2.5 h-2.5 rounded-full transition-transform duration-base ${
-                                timeline.currentIndex === index
-                                    ? 'scale-125'
-                                    : 'scale-100 bg-foreground/20 hover:bg-foreground/35 hover:scale-110'
-                            }`}
-                            style={{
-                                backgroundColor: timeline.currentIndex === index ? item.colorHex : undefined
-                            }}
+                            className="w-[2.2rem] h-[2.2rem] rounded-full flex items-center justify-center bg-transparent border-none cursor-pointer"
                             role="tab"
                             aria-selected={timeline.currentIndex === index}
                             aria-label={`${t.goToItem} ${index + 1}: ${item.year}`}
                             tabIndex={timeline.currentIndex === index ? 0 : -1}
-                        />
+                        >
+                            <span
+                                className={`w-[0.8rem] h-[0.8rem] rounded-full transition-all duration-base ${
+                                    timeline.currentIndex === index
+                                        ? 'scale-120'
+                                        : 'bg-foreground/20 hover:bg-foreground/35 hover:scale-110'
+                                }`}
+                                style={{
+                                    backgroundColor: timeline.currentIndex === index ? item.colorHex : undefined
+                                }}
+                            />
+                        </button>
                     ))}
                 </div>
             </div>

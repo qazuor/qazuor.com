@@ -65,11 +65,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-sky-500/10',
-            bgMedium: 'bg-sky-500/20',
-            border: 'border-sky-500/30',
+            bgLight: 'bg-sky-500/20',
+            bgMedium: 'bg-sky-600/45',
+            border: 'border-sky-500/50',
             textDark: 'text-sky-400',
-            textLight: 'text-sky-600'
+            textLight: 'text-white'
         }
     },
     'landing-pages': {
@@ -82,11 +82,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-primary-500/10',
-            bgMedium: 'bg-primary-500/20',
-            border: 'border-primary-500/30',
+            bgLight: 'bg-primary-500/20',
+            bgMedium: 'bg-primary-600/45',
+            border: 'border-primary-500/50',
             textDark: 'text-primary-400',
-            textLight: 'text-primary-600'
+            textLight: 'text-white'
         }
     },
     'automation-integration': {
@@ -99,11 +99,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-yellow-500/10',
-            bgMedium: 'bg-yellow-500/20',
-            border: 'border-yellow-500/30',
+            bgLight: 'bg-yellow-500/20',
+            bgMedium: 'bg-yellow-600/45',
+            border: 'border-yellow-500/50',
             textDark: 'text-yellow-400',
-            textLight: 'text-yellow-600'
+            textLight: 'text-white'
         }
     },
     'social-media-design': {
@@ -116,11 +116,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-rose-500/10',
-            bgMedium: 'bg-rose-500/20',
-            border: 'border-rose-500/30',
+            bgLight: 'bg-rose-500/20',
+            bgMedium: 'bg-rose-600/45',
+            border: 'border-rose-500/50',
             textDark: 'text-rose-400',
-            textLight: 'text-rose-600'
+            textLight: 'text-white'
         }
     },
     'web-optimization': {
@@ -133,11 +133,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-violet-500/10',
-            bgMedium: 'bg-violet-500/20',
-            border: 'border-violet-500/30',
+            bgLight: 'bg-violet-500/20',
+            bgMedium: 'bg-violet-600/45',
+            border: 'border-violet-500/50',
             textDark: 'text-violet-400',
-            textLight: 'text-violet-600'
+            textLight: 'text-white'
         }
     },
     wordpress: {
@@ -150,11 +150,11 @@ export const serviceColors: Record<string, ServiceColorConfig> = {
             speed: 30
         },
         tailwind: {
-            bgLight: 'bg-blue-500/10',
-            bgMedium: 'bg-blue-500/20',
-            border: 'border-blue-500/30',
+            bgLight: 'bg-blue-500/20',
+            bgMedium: 'bg-blue-600/45',
+            border: 'border-blue-500/50',
             textDark: 'text-blue-400',
-            textLight: 'text-blue-600'
+            textLight: 'text-white'
         }
     }
 };

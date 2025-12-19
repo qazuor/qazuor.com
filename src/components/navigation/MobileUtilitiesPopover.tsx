@@ -142,14 +142,14 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                 createPortal(
                     <div
                         ref={popoverRef}
-                        className="fixed z-[500] rounded-xl border border-border bg-card/95 p-2 shadow-lg backdrop-blur-sm dark:border-white/10 dark:shadow-black/20"
+                        className="fixed z-[500] rounded-xl border border-border bg-card/95 p-2 shadow-lg backdrop-blur-md dark:bg-card dark:border-white/20 dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] dark:ring-1 dark:ring-white/10"
                         style={{
                             bottom: popoverPosition.bottom,
                             left: popoverPosition.left
                         }}
                     >
                         {/* Arrow - centered at bottom */}
-                        <div className="absolute -bottom-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-card border-r border-b border-border" />
+                        <div className="absolute -bottom-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-card border-r border-b border-border dark:border-white/20" />
 
                         <div className="flex flex-col gap-1">
                             {/* Theme Toggle */}

@@ -181,6 +181,8 @@ export function FloatingNav({
     const sectionIds = useMemo(() => NAV_SECTIONS.map((s) => s.id), []);
     const activeSection = useActiveSection(sectionIds);
     const isMobile = useMediaQuery('(max-width: 767px)');
+    // Hide TOC button in FloatingNav when sidebar TOC is visible (xl+ screens)
+    const isTocSidebarVisible = useMediaQuery('(min-width: 1280px)');
     const { isNavVisible: isScrolled, showScrollToTop } = useScrollThresholds(SCROLL_THRESHOLDS);
     const { isDark, toggleTheme } = useTheme();
     const [isHomePage, setIsHomePage] = useState(true);
@@ -275,8 +277,26 @@ export function FloatingNav({
         navigate(`${newPath || `/${newLocale}`}${currentSearch}${currentHash}`);
     }, [currentLocale]);
 
+    // Get the href for a section (for real links)
+    const getSectionHref = useCallback(
+        (section: NavSection) => {
+            if (isHomePage) {
+                // On home page - just use hash
+                return section.hash;
+            }
+            // Not on home page - link to dedicated page or home with hash
+            return section.pageUrl ? `/${currentLocale}${section.pageUrl}` : `/${currentLocale}/${section.hash}`;
+        },
+        [currentLocale, isHomePage]
+    );
+
     const handleClick = useCallback(
-        (e: React.MouseEvent<HTMLButtonElement>, section: NavSection) => {
+        (e: React.MouseEvent<HTMLAnchorElement>, section: NavSection) => {
+            // Allow ctrl/cmd+click to open in new tab (don't prevent default)
+            if (e.ctrlKey || e.metaKey) {
+                return;
+            }
+
             e.preventDefault();
             const targetId = section.hash.replace('#', '');
             const element = document.getElementById(targetId);
@@ -307,7 +327,7 @@ export function FloatingNav({
         return (
             <nav
                 aria-label="Quick navigation"
-                className={`fixed bottom-4 left-1/2 z-[400] flex -translate-x-1/2 items-center gap-1 rounded-full border border-border bg-card/80 px-2 py-2 shadow-lg backdrop-blur-sm transition-all duration-base md:hidden dark:bg-card/95 dark:border-white/10 dark:shadow-black/20 ${
+                className={`fixed bottom-4 left-1/2 z-[400] flex -translate-x-1/2 items-center gap-1 rounded-full border border-border bg-card/95 px-2 py-2 shadow-[0_4px_20px_rgba(0,0,0,0.15),0_0_40px_rgba(var(--color-primary),0.15)] backdrop-blur-md transition-all duration-base md:hidden dark:bg-card dark:border-primary/30 dark:shadow-[0_4px_25px_rgba(0,0,0,0.6),0_0_60px_rgba(var(--color-primary),0.4)] dark:ring-1 dark:ring-primary/20 ${
                     isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
                 }`}
             >
@@ -317,12 +337,12 @@ export function FloatingNav({
                     const label = mergedLabels[section.labelKey];
 
                     return (
-                        <button
+                        <a
                             key={section.id}
-                            type="button"
+                            href={getSectionHref(section)}
                             onClick={(e) => handleClick(e, section)}
                             aria-label={label}
-                            aria-current={isActive ? 'true' : undefined}
+                            aria-current={isActive ? 'page' : undefined}
                             className={`relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-fast ${
                                 isActive
                                     ? 'bg-primary/20 text-primary scale-emphasis'
@@ -330,7 +350,7 @@ export function FloatingNav({
                             }`}
                         >
                             <Icon size={16} />
-                        </button>
+                        </a>
                     );
                 })}
                 {/* Separator */}
@@ -346,7 +366,7 @@ export function FloatingNav({
             {/* Main Navigation */}
             <nav
                 aria-label="Quick navigation"
-                className="flex flex-col gap-2 rounded-full border border-border bg-card/80 p-2 shadow-lg backdrop-blur-sm dark:bg-card/95 dark:border-white/10 dark:shadow-black/20"
+                className="flex flex-col gap-2 rounded-full border border-border bg-card/90 p-2 shadow-lg backdrop-blur-md dark:bg-card dark:border-white/20 dark:shadow-[0_0_15px_rgba(0,0,0,0.4)] dark:ring-1 dark:ring-white/10"
             >
                 {visibleSections.map((section) => {
                     const Icon = section.icon;
@@ -354,12 +374,12 @@ export function FloatingNav({
                     const label = mergedLabels[section.labelKey];
 
                     return (
-                        <button
+                        <a
                             key={section.id}
-                            type="button"
+                            href={getSectionHref(section)}
                             onClick={(e) => handleClick(e, section)}
                             aria-label={label}
-                            aria-current={isActive ? 'true' : undefined}
+                            aria-current={isActive ? 'page' : undefined}
                             className={`group relative flex h-10 w-10 items-center justify-center rounded-full transition-all duration-base ${
                                 isActive
                                     ? 'bg-primary/20 text-primary ring-2 ring-primary/50 scale-emphasis'
@@ -370,13 +390,13 @@ export function FloatingNav({
                             <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                                 {label}
                             </span>
-                        </button>
+                        </a>
                     );
                 })}
             </nav>
 
             {/* Utilities */}
-            <div className="flex flex-col gap-2 rounded-full border border-border bg-card/80 p-2 shadow-lg backdrop-blur-sm dark:bg-card/95 dark:border-white/10 dark:shadow-black/20">
+            <div className="flex flex-col gap-2 rounded-full border border-border bg-card/90 p-2 shadow-lg backdrop-blur-md dark:bg-card dark:border-white/20 dark:shadow-[0_0_15px_rgba(0,0,0,0.4)] dark:ring-1 dark:ring-white/10">
                 <button
                     type="button"
                     onClick={toggleTheme}
@@ -425,15 +445,16 @@ export function FloatingNav({
                 </button>
             </div>
 
-            {/* TOC Button (when available) OR Scroll to Top - with smooth fade, slide, and height animation */}
+            {/* TOC Button (when available and sidebar not visible) OR Scroll to Top - with smooth fade, slide, and height animation */}
             <div
-                className={`flex flex-col items-center justify-center overflow-hidden rounded-full border bg-card/80 shadow-lg backdrop-blur-sm transition-all duration-base ease-out dark:bg-card/95 dark:shadow-black/20 ${
+                className={`flex flex-col items-center justify-center overflow-hidden rounded-full border bg-card/90 shadow-lg backdrop-blur-md transition-all duration-base ease-out dark:bg-card dark:shadow-[0_0_15px_rgba(0,0,0,0.4)] ${
                     showScrollToTop
-                        ? 'h-14 w-14 p-2 opacity-100 border-border dark:border-white/10'
+                        ? 'h-14 w-14 p-2 opacity-100 border-border dark:border-white/20 dark:ring-1 dark:ring-white/10'
                         : 'h-0 w-14 p-0 opacity-0 border-transparent pointer-events-none'
                 }`}
             >
-                {hasToc ? (
+                {/* Show TOC button only when TOC exists AND sidebar is not visible (not xl+ screens) */}
+                {hasToc && !isTocSidebarVisible ? (
                     <button
                         type="button"
                         onClick={openTocDrawer}

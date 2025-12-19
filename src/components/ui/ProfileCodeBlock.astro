@@ -102,4 +102,11 @@ if (lang === 'es') {
     .code-content-wrapper :global(.ec-line + .ec-line) {
         margin-top: 0.05rem;
     }
+
+    /* Fix color contrast for comments (WCAG 4.5:1 compliance) */
+    /* Dracula theme uses #6272A4 which fails contrast on #282a36 background */
+    /* Using #9CA8BE (~5.2:1 ratio) for better readability while maintaining aesthetic */
+    .code-content-wrapper :global(span[style*="6272A4"]) {
+        color: #9CA8BE !important;
+    }
 </style>

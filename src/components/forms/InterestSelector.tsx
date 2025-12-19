@@ -31,11 +31,11 @@ export function InterestSelector({ label, interests, selectedInterests, onChange
                             type="button"
                             onClick={() => toggleInterest(interest.id)}
                             className={`
-                                px-2 py-1 text-[10px] rounded-full
+                                px-2 py-1 text-[10px] rounded-full font-medium
                                 border transition-all duration-200
                                 ${
                                     isSelected
-                                        ? 'bg-primary text-white border-primary shadow-sm'
+                                        ? 'bg-primary text-primary-foreground border-primary shadow-sm'
                                         : 'text-foreground-secondary border-foreground/10 hover:border-primary/50 hover:text-foreground'
                                 }
                             `}

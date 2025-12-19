@@ -78,6 +78,9 @@ const seoDescription = stripMarkdown(project.data.description);
 const categoryLabel: string = categoryLabels[project.data.category] || project.data.category;
 const transitionTitle = project.data.title; // Title to show in page transition
 
+// Check if project has any links
+const hasLinks = !!(project.data.githubUrl || project.data.demoUrl || project.data.publicUrl);
+
 // Format date
 const formattedDate = new Intl.DateTimeFormat(lang, {
     year: 'numeric',
@@ -191,7 +194,7 @@ const projectImageUrl =
 			<div class="max-w-4xl mx-auto">
 
 				<!-- Quick Info Cards -->
-				<div class="grid md:grid-cols-2 gap-6 mb-12">
+				<div class:list={["grid gap-6 mb-12", hasLinks ? "md:grid-cols-2" : "grid-cols-1"]}>
 					<!-- Technologies Card -->
 					<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
 						<SecondaryTitle
@@ -210,63 +213,65 @@ const projectImageUrl =
 						</div>
 					</div>
 
-					<!-- Links Card -->
-					<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
-						<SecondaryTitle
-							text={t('projects.detail.links.title', { markdown: false })}
-							element="h2"
-							size="lg"
-							className="mb-4"
-							showHtml={false}
-						/>
-						<div class="flex flex-col gap-3">
-							{
-								project.data.githubUrl && (
-									<IconLink
-										href={project.data.githubUrl}
-										text={t('projects.detail.links.github')}
-										icon={GithubIcon}
-										target="_blank"
-										rel="noopener noreferrer"
-										variant="secondary"
-										size="md"
-										className="inline-flex items-center gap-2 border border-foreground/10 justify-center"
-										showHtml={true}
-									/>
-								)
-							}
-							{
-								project.data.demoUrl && (
-									<IconLink
-										href={project.data.demoUrl}
-										text={t('projects.detail.links.demo')}
-										icon={ExternalLinkIcon}
-										target="_blank"
-										rel="noopener noreferrer"
-										variant="primary"
-										size="md"
-										className="inline-flex items-center gap-2 justify-center"
-										showHtml={true}
-									/>
-								)
-							}
-							{
-								project.data.publicUrl && (
-									<IconLink
-										href={project.data.publicUrl}
-										text={t('projects.detail.links.visit')}
-										icon={ExternalLinkIcon}
-										target="_blank"
-										rel="noopener noreferrer"
-										variant="primary"
-										size="md"
-										className="inline-flex items-center gap-2 justify-center"
-										showHtml={true}
-									/>
-								)
-							}
+					<!-- Links Card (only shown if project has links) -->
+					{hasLinks && (
+						<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+							<SecondaryTitle
+								text={t('projects.detail.links.title', { markdown: false })}
+								element="h2"
+								size="lg"
+								className="mb-4"
+								showHtml={false}
+							/>
+							<div class="flex flex-col gap-3">
+								{
+									project.data.githubUrl && (
+										<IconLink
+											href={project.data.githubUrl}
+											text={t('projects.detail.links.github')}
+											icon={GithubIcon}
+											target="_blank"
+											rel="noopener noreferrer"
+											variant="secondary"
+											size="md"
+											className="inline-flex items-center gap-2 border border-foreground/10 justify-center"
+											showHtml={true}
+										/>
+									)
+								}
+								{
+									project.data.demoUrl && (
+										<IconLink
+											href={project.data.demoUrl}
+											text={t('projects.detail.links.demo')}
+											icon={ExternalLinkIcon}
+											target="_blank"
+											rel="noopener noreferrer"
+											variant="primary"
+											size="md"
+											className="inline-flex items-center gap-2 justify-center"
+											showHtml={true}
+										/>
+									)
+								}
+								{
+									project.data.publicUrl && (
+										<IconLink
+											href={project.data.publicUrl}
+											text={t('projects.detail.links.visit')}
+											icon={ExternalLinkIcon}
+											target="_blank"
+											rel="noopener noreferrer"
+											variant="primary"
+											size="md"
+											className="inline-flex items-center gap-2 justify-center"
+											showHtml={true}
+										/>
+									)
+								}
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 
 				<!-- Markdown Content with improved styles -->

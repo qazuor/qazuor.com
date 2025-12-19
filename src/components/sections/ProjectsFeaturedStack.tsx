@@ -163,7 +163,7 @@ export function ProjectsFeaturedStack({
                         <div className="h-[600px] w-[80vw] max-w-[1600px] flex items-center justify-center">
                             <a
                                 href={viewAllUrl}
-                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold rounded-xl text-white overflow-hidden transition-all duration-300 hover:-translate-y-0.5 btn-view-all"
                             >
                                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Content from trusted translation files */}
                                 <span dangerouslySetInnerHTML={{ __html: viewAllText }} />

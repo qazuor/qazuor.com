@@ -352,6 +352,7 @@ const testimonials = allTestimonials.map((t, i) => ({
         opacity: 0.4;
         transform: scale(0.92);
         transition: opacity 0.4s ease, transform 0.4s ease;
+        contain: layout style;
     }
 
     .testimonial-slide.active {
@@ -562,6 +563,7 @@ const testimonials = allTestimonials.map((t, i) => ({
         border-radius: var(--radius-2xl);
         transform-style: preserve-3d;
         transition: transform var(--duration-base) var(--ease-out);
+        contain: layout;
     }
 
     /* Glow effect that follows cursor - subtle */

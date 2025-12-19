@@ -38,19 +38,29 @@ export function ProjectFilters({ categories, technologies, onFilterChange, trans
         window.dispatchEvent(event);
     }, [selectedCategory, selectedTechnologies, onFilterChange]);
 
-    // Update URL query params when filters change
+    // Update URL query params when filters change (preserving other params like 'interests')
     useEffect(() => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams(window.location.search);
 
+        // Update category param
         if (selectedCategory !== 'all') {
             params.set('category', selectedCategory);
+        } else {
+            params.delete('category');
         }
 
+        // Update tech param
         if (selectedTechnologies.length > 0) {
             params.set('tech', selectedTechnologies.join(','));
+        } else {
+            params.delete('tech');
         }
 
-        const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+        const queryString = params.toString();
+        const hash = window.location.hash;
+        const newUrl = queryString
+            ? `${window.location.pathname}?${queryString}${hash}`
+            : `${window.location.pathname}${hash}`;
         window.history.replaceState({}, '', newUrl);
     }, [selectedCategory, selectedTechnologies]);
 

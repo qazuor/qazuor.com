@@ -151,12 +151,18 @@ export function ProjectFiltersManager({ filterTranslations }: ProjectFiltersMana
                 }
             }
 
-            // Update URL
-            const params = new URLSearchParams();
+            // Update URL (preserving other params like 'interests')
+            const params = new URLSearchParams(window.location.search);
             if (technologies.length > 0) {
                 params.set('tech', technologies.join(','));
+            } else {
+                params.delete('tech');
             }
-            const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+            const queryString = params.toString();
+            const hash = window.location.hash;
+            const newUrl = queryString
+                ? `${window.location.pathname}?${queryString}${hash}`
+                : `${window.location.pathname}${hash}`;
             window.history.replaceState({}, '', newUrl);
         },
         [allCardsCache]

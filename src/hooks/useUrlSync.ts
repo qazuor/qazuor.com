@@ -101,7 +101,11 @@ export function useUrlSync<T>({
             params.set(key, serialized);
         }
 
-        const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+        const queryString = params.toString();
+        const hash = window.location.hash;
+        const newUrl = queryString
+            ? `${window.location.pathname}?${queryString}${hash}`
+            : `${window.location.pathname}${hash}`;
         window.history.replaceState({}, '', newUrl);
     }, [value, key, serialize, defaultValue]);
 

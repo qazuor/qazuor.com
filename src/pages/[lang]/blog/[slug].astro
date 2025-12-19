@@ -163,27 +163,34 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                             </span>
                         </div>
 
-                        <!-- Tags -->
-                        <div class="flex flex-wrap gap-2">
-                            {
-                                post.data.tags.map((tag: string) => (
-                                    <span class="px-3 py-1.5 text-sm font-semibold bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-sm shadow-sm">
-                                        #{tag}
-                                    </span>
-                                ))
-                            }
-                        </div>
+                        <!-- Tags & Share Row -->
+                        <div class="flex flex-wrap items-center gap-4">
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-1.5">
+                                {
+                                    post.data.tags.map((tag: string) => (
+                                        <span class="px-2 py-1 text-xs font-medium bg-white/15 text-white/90 rounded-md border border-white/20 backdrop-blur-sm">
+                                            #{tag}
+                                        </span>
+                                    ))
+                                }
+                            </div>
 
-                        <!-- Share buttons -->
-                        <div class="pt-2">
-                            <ShareButton
-                                title={post.data.title}
-                                description={post.data.excerpt}
-                                url={canonicalUrl}
-                                lang={lang}
-                                variant="compact"
-                                client:load
-                            />
+                            <!-- Separator -->
+                            <span class="hidden sm:block w-px h-6 bg-white/30"></span>
+
+                            <!-- Share buttons with label -->
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-white/60 font-medium uppercase tracking-wider">{t('social.share.label')}:</span>
+                                <ShareButton
+                                    title={post.data.title}
+                                    description={post.data.excerpt}
+                                    url={canonicalUrl}
+                                    lang={lang}
+                                    variant="compact"
+                                    client:load
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -241,27 +248,34 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                         </span>
                     </div>
 
-                    <!-- Tags -->
-                    <div class="flex flex-wrap gap-2">
-                        {
-                            post.data.tags.map((tag: string) => (
-                                <span class="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20">
-                                    #{tag}
-                                </span>
-                            ))
-                        }
-                    </div>
+                    <!-- Tags & Share Row -->
+                    <div class="flex flex-wrap items-center gap-4">
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-1.5">
+                            {
+                                post.data.tags.map((tag: string) => (
+                                    <span class="px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-md border border-primary/20">
+                                        #{tag}
+                                    </span>
+                                ))
+                            }
+                        </div>
 
-                    <!-- Share buttons -->
-                    <div class="pt-2">
-                        <ShareButton
-                            title={post.data.title}
-                            description={post.data.excerpt}
-                            url={canonicalUrl}
-                            lang={lang}
-                            variant="compact"
-                            client:load
-                        />
+                        <!-- Separator -->
+                        <span class="hidden sm:block w-px h-6 bg-foreground/20"></span>
+
+                        <!-- Share buttons with label -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-foreground-secondary font-medium uppercase tracking-wider">{t('social.share.label')}:</span>
+                            <ShareButton
+                                title={post.data.title}
+                                description={post.data.excerpt}
+                                url={canonicalUrl}
+                                lang={lang}
+                                variant="compact"
+                                client:load
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -545,7 +559,7 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
             </article>
 
             <!-- TOC Wrapper - Sticky sidebar on desktop, mobile button renders independently -->
-            <div class="xl:w-64 xl:flex-shrink-0">
+            <div class="xl:w-72 xl:flex-shrink-0">
                 <TableOfContents
                     headings={headings}
                     title={tocTitle}

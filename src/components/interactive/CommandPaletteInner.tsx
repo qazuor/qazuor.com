@@ -13,7 +13,6 @@ import homeIcon from '@/icons/ui/home.svg?raw';
 import newspaperIcon from '@/icons/ui/newspaper.svg?raw';
 import searchIcon from '@/icons/ui/search.svg?raw';
 import type { CommandItem } from '@/types/commandPalette';
-import { HelpDialog } from './HelpDialog';
 
 // Icon maps - defined outside component to avoid recreating on each render
 const ICON_MAP: Record<string, string> = {
@@ -55,15 +54,16 @@ interface CommandPaletteInnerProps {
     placeholder?: string;
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
+    onShowHelp: () => void;
 }
 
 export function CommandPaletteInner({
     lang,
     placeholder = 'Type a command or search...',
     isOpen: open,
-    onOpenChange: setOpen
+    onOpenChange: setOpen,
+    onShowHelp
 }: CommandPaletteInnerProps) {
-    const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewportHeight, setViewportHeight] = useState<number | null>(null);
     const [viewportOffset, setViewportOffset] = useState(0);
@@ -154,8 +154,7 @@ export function CommandPaletteInner({
         (action: string) => {
             switch (action) {
                 case 'showHelp':
-                    setOpen(false); // Cierra el command palette
-                    setIsHelpOpen(true); // Abre el help dialog
+                    onShowHelp(); // Delegate to parent which handles the dialog
                     break;
                 case 'copyUrl':
                     navigator.clipboard.writeText(window.location.href);
@@ -165,7 +164,7 @@ export function CommandPaletteInner({
                     break;
             }
         },
-        [setOpen]
+        [setOpen, onShowHelp]
     );
 
     // Simple lookup functions using constant maps (no useCallback needed)
@@ -199,12 +198,6 @@ export function CommandPaletteInner({
     const getContentIcon = (category: string) => CONTENT_ICON_MAP[category] ?? folderIcon;
     const getCategoryDisplayName = (category: string) =>
         CATEGORY_DISPLAY_NAMES[category] ?? category.charAt(0).toUpperCase() + category.slice(1);
-
-    // Helper functions for HelpDialog
-    const handleBackToCommandPalette = useCallback(() => {
-        setIsHelpOpen(false);
-        setOpen(true);
-    }, [setOpen]);
 
     // Focus management - auto-focus input when opened
     useEffect(() => {
@@ -543,9 +536,6 @@ export function CommandPaletteInner({
                     </div>
                 </div>
             )}
-
-            {/* Help Dialog */}
-            <HelpDialog isOpen={isHelpOpen} onBackToCommandPalette={handleBackToCommandPalette} />
         </>
     );
 }

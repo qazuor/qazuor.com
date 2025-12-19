@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { HelpDialog } from './HelpDialog';
 
 // Lazy load the heavy CommandPalette component
 const CommandPaletteInner = lazy(() =>
@@ -20,6 +21,7 @@ interface CommandPaletteProps {
  * - Global keyboard shortcuts (Cmd/Ctrl+K)
  * - Custom event listening (from CommandButton)
  * - Lazy loading of the heavy CommandPaletteInner component
+ * - HelpDialog management (lifted from inner to prevent unmount issues)
  *
  * The actual implementation is split into CommandPaletteInner.tsx
  * to reduce initial bundle size (~1.2MB saved in initial load)
@@ -31,10 +33,23 @@ export function CommandPalette({
     onOpenChange
 }: CommandPaletteProps) {
     const [internalOpen, setInternalOpen] = useState(false);
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
 
     // Use external open state if provided, otherwise use internal state
     const open = externalOpen !== undefined ? externalOpen : internalOpen;
     const setOpen = onOpenChange || setInternalOpen;
+
+    // Handle showing help dialog (called from CommandPaletteInner)
+    const handleShowHelp = useCallback(() => {
+        setOpen(false);
+        setIsHelpOpen(true);
+    }, [setOpen]);
+
+    // Handle going back to command palette from help dialog
+    const handleBackToCommandPalette = useCallback(() => {
+        setIsHelpOpen(false);
+        setOpen(true);
+    }, [setOpen]);
 
     // Listen for custom event from CommandButton
     useEffect(() => {
@@ -61,23 +76,34 @@ export function CommandPalette({
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [open, setOpen]);
 
-    // Always render a marker so tests can detect when component is hydrated
-    // Only render the heavy inner component when open
-    if (!open) {
-        return <div data-testid="command-palette-ready" style={{ display: 'none' }} />;
-    }
-
     return (
-        <Suspense
-            fallback={
-                // Minimal loading fallback - component loads fast enough
-                // that this rarely shows, but prevents layout shift
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-lg" aria-hidden="true" />
-                </div>
-            }
-        >
-            <CommandPaletteInner lang={lang} placeholder={placeholder} isOpen={open} onOpenChange={setOpen} />
-        </Suspense>
+        <>
+            {/* Command palette - only render when open */}
+            {open && (
+                <Suspense
+                    fallback={
+                        // Minimal loading fallback - component loads fast enough
+                        // that this rarely shows, but prevents layout shift
+                        <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black/40 backdrop-blur-lg" aria-hidden="true" />
+                        </div>
+                    }
+                >
+                    <CommandPaletteInner
+                        lang={lang}
+                        placeholder={placeholder}
+                        isOpen={open}
+                        onOpenChange={setOpen}
+                        onShowHelp={handleShowHelp}
+                    />
+                </Suspense>
+            )}
+
+            {/* Help dialog - rendered at this level so it persists when command palette closes */}
+            <HelpDialog isOpen={isHelpOpen} onBackToCommandPalette={handleBackToCommandPalette} />
+
+            {/* Marker for tests to detect when component is hydrated */}
+            {!open && !isHelpOpen && <div data-testid="command-palette-ready" style={{ display: 'none' }} />}
+        </>
     );
 }

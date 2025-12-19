@@ -145,49 +145,53 @@ export function TechnologyFilter({
 
     return (
         <div className="relative w-full md:w-auto">
-            {/* Filter Button */}
-            <button
-                ref={buttonRef}
-                type="button"
-                onClick={handleToggle}
-                className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:scale-medium transition-all duration-base relative"
-                aria-expanded={isOpen}
-                aria-haspopup="true"
-            >
-                <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    role="img"
-                    aria-label="Filter icon"
+            {/* Filter Button Container - badge outside button to avoid overflow clip */}
+            <div className="relative inline-flex w-full md:w-auto">
+                <button
+                    ref={buttonRef}
+                    type="button"
+                    onClick={handleToggle}
+                    className="w-full md:w-auto btn-unified-primary gap-2 px-6 py-3"
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
                 >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                    />
-                </svg>
-                <span>{translations.filterButton}</span>
+                    <span className="relative z-10 inline-flex items-center gap-2">
+                        <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            role="img"
+                            aria-label="Filter icon"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                            />
+                        </svg>
+                        <span>{translations.filterButton}</span>
+                        <svg
+                            className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            role="img"
+                            aria-label="Dropdown arrow"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
 
+                {/* Badge outside button to avoid overflow:hidden clipping */}
                 {activeCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-[rgb(var(--color-ui-error))] text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 bg-[rgb(var(--color-ui-error))] text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center z-20 pointer-events-none">
                         {activeCount}
                     </span>
                 )}
-
-                <svg
-                    className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    role="img"
-                    aria-label="Dropdown arrow"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
+            </div>
 
             {/* Dropdown/Bottom Sheet */}
             {isOpen && (

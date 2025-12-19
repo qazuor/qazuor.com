@@ -84,10 +84,10 @@ const stepColors = [
         <div class="hidden lg:block mt-12">
             <!-- Timeline Line -->
             <div class="relative">
-                <!-- Connector line -->
+                <!-- Connector line (z-0 stays behind step boxes which have z-10 + opaque bg) -->
                 <div
-                    class="absolute top-12 left-0 right-0 h-0.5 opacity-30"
-                    style="background: linear-gradient(to right, var(--process-step-1-full), var(--process-step-3-full), var(--process-step-5-full))"
+                    class="absolute top-12 left-0 right-0 h-0.5 opacity-30 z-0"
+                    style="background: linear-gradient(to right, var(--process-step-1-full), var(--process-step-3-full), var(--process-step-5-full));"
                 />
 
                 <!-- Steps -->
@@ -101,12 +101,14 @@ const stepColors = [
                             <div class="relative flex flex-col items-center text-center group">
                                 <!-- Step Number + Icon -->
                                 <div
-                                    class={`relative z-10 w-24 h-24 rounded-2xl ${colors.bg} ${colors.border} border-2 flex flex-col items-center justify-center transition-all duration-base group-hover:scale-emphasis group-hover:shadow-lg group-hover:shadow-primary/20`}
+                                    class={`relative z-10 w-24 h-24 rounded-2xl bg-background ${colors.border} border-2 flex flex-col items-center justify-center transition-all duration-base group-hover:scale-emphasis group-hover:shadow-lg group-hover:shadow-primary/20 overflow-hidden`}
                                 >
-                                    <span class={`text-xs font-bold ${colors.text} mb-1`}>
+                                    <!-- Color overlay -->
+                                    <div class={`absolute inset-0 ${colors.bg}`} />
+                                    <span class={`relative z-10 text-xs font-bold ${colors.text} mb-1`}>
                                         {String(step.number).padStart(2, '0')}
                                     </span>
-                                    <div class={`w-8 h-8 ${colors.text}`} set:html={iconSvg} />
+                                    <div class={`relative z-10 w-8 h-8 ${colors.text}`} set:html={iconSvg} />
                                 </div>
 
                                 <!-- Dot on timeline -->

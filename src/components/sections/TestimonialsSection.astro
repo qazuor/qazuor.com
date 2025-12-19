@@ -359,6 +359,23 @@ const testimonials = allTestimonials.map((t, i) => ({
         transform: scale(1);
     }
 
+    /* Light mode: Enhanced active card contrast */
+    :global(html:not(.dark)) .testimonial-slide.active .testimonial-content {
+        background: linear-gradient(
+            135deg,
+            rgba(var(--testimonial-card-bg), 0.95) 0%,
+            rgba(var(--testimonial-card-bg-tinted), 0.9) 100%
+        );
+        border: 2px solid rgba(var(--testimonial-accent), 0.4);
+        box-shadow:
+            0 8px 32px rgba(var(--testimonial-accent), 0.2),
+            0 0 0 1px rgba(var(--testimonial-accent), 0.1);
+    }
+
+    :global(html:not(.dark)) .testimonial-slide.active .testimonial-border {
+        opacity: 0.8;
+    }
+
     @media (min-width: 640px) {
         .testimonial-slide {
             flex: 0 0 calc(50% - 1rem);

@@ -535,14 +535,24 @@ const alternateLinks = locales.map((locale) => {
         </script>
 
         <!-- Umami Analytics (privacy-focused, self-hosted) -->
-        <!-- Only loads in production, async+defer to not block render -->
+        <!-- Deferred with requestIdleCallback to not block render or affect LCP -->
         {import.meta.env.PROD && (
-            <script
-                async
-                defer
-                src="https://qazuor-com-umami.vercel.app/script.js"
-                data-website-id="2076519d-ab81-4c53-890f-9eabc54a0bb8"
-            ></script>
+            <script is:inline>
+                (function() {
+                    function loadUmami() {
+                        var s = document.createElement('script');
+                        s.src = 'https://qazuor-com-umami.vercel.app/script.js';
+                        s.dataset.websiteId = '2076519d-ab81-4c53-890f-9eabc54a0bb8';
+                        s.async = true;
+                        document.body.appendChild(s);
+                    }
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(loadUmami, { timeout: 3000 });
+                    } else {
+                        setTimeout(loadUmami, 3000);
+                    }
+                })();
+            </script>
         )}
 
         <!-- Vercel Speed Insights (Core Web Vitals monitoring) -->

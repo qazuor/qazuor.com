@@ -8,16 +8,14 @@ interface CommentsProps {
 }
 
 // Custom theme URLs - uses our custom CSS files for both light and dark modes
-// In production: https://qazuor.com/styles/giscus-custom.css (dark) or giscus-custom-light.css (light)
-// In development: uses local URLs
-const getCustomThemeUrl = (isDark: boolean) => {
+// Note: In dev, Chrome blocks this due to Private Network Access policy, but Firefox works fine
+const getGiscusTheme = (isDark: boolean) => {
     const fileName = isDark ? 'giscus-custom.css' : 'giscus-custom-light.css';
     if (typeof window !== 'undefined') {
         const { hostname } = window.location;
         if (hostname === 'qazuor.com' || hostname === 'www.qazuor.com') {
             return `https://qazuor.com/styles/${fileName}`;
         }
-        // For localhost/dev, use the local URL
         return `${window.location.origin}/styles/${fileName}`;
     }
     return `https://qazuor.com/styles/${fileName}`;
@@ -28,19 +26,28 @@ const getCustomThemeUrl = (isDark: boolean) => {
  * Supports dynamic language and custom theme matching site design
  */
 export function Comments({ lang }: CommentsProps) {
-    const [theme, setTheme] = useState<string>('dark');
+    // Initialize with correct theme based on current document state
+    const [theme, setTheme] = useState<string>(() => {
+        if (typeof window !== 'undefined') {
+            const isDark = document.documentElement.classList.contains('dark');
+            return getGiscusTheme(isDark);
+        }
+        return getGiscusTheme(true); // Default to dark for SSR
+    });
 
     useEffect(() => {
-        // Get initial theme from document
+        // Re-check theme on mount (in case SSR guess was wrong)
         const isDark = document.documentElement.classList.contains('dark');
-        setTheme(getCustomThemeUrl(isDark));
+        const correctTheme = getGiscusTheme(isDark);
+        // setTheme only triggers re-render if value actually changed
+        setTheme(correctTheme);
 
         // Create observer to watch for theme changes
         const observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 if (mutation.attributeName === 'class') {
                     const isDark = document.documentElement.classList.contains('dark');
-                    const newTheme = getCustomThemeUrl(isDark);
+                    const newTheme = getGiscusTheme(isDark);
                     setTheme(newTheme);
 
                     // Also send message to Giscus iframe to update theme

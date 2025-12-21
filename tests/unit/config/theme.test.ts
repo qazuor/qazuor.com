@@ -136,10 +136,10 @@ describe('Theme Configuration', () => {
             }
         });
 
-        it('should use CSS var for dynamic values', () => {
-            expect(borderRadius.sm).toContain('var(--radius)');
-            expect(borderRadius.md).toContain('var(--radius)');
-            expect(borderRadius.lg).toContain('var(--radius)');
+        it('should use rem units for consistent sizing', () => {
+            expect(borderRadius.sm).toContain('rem');
+            expect(borderRadius.md).toContain('rem');
+            expect(borderRadius.lg).toContain('rem');
         });
     });
 

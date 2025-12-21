@@ -92,13 +92,13 @@ function generateTransitionCSS(colors: SectionColors, steps: number): string {
 
     for (const transition of transitions) {
         const interpolations = generateInterpolationSteps(transition.from, transition.to, steps);
-        // Use 2 spaces for indentation and lowercase hex colors
-        css += `  /* ${transition.name.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}: ${transition.from} to ${transition.to} */\n`;
+        // Use 4 spaces for indentation (Biome standard) and lowercase hex colors
+        css += `    /* ${transition.name.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}: ${transition.from} to ${transition.to} */\n`;
 
         interpolations.forEach((color, index) => {
-            // Ensure hex colors are lowercase and use 2 spaces for indentation
+            // Ensure hex colors are lowercase and use 4 spaces for indentation
             const lowercaseColor = color.toLowerCase();
-            css += `  --${transition.name}-${index + 1}: ${lowercaseColor};\n`;
+            css += `    --${transition.name}-${index + 1}: ${lowercaseColor};\n`;
         });
         css += '\n';
     }
@@ -176,37 +176,37 @@ function generateCompleteCSS(darkColors: SectionColors, lightColors: SectionColo
  */
 
 :root {
-  /* Section Background Colors - Light Mode */
-  --section-hero-bg: ${lightColors.hero.toLowerCase()};
-  --section-about-bg: ${lightColors.about.toLowerCase()};
-  --section-skills-bg: ${lightColors.skills.toLowerCase()};
-  --section-projects-bg: ${lightColors.projects.toLowerCase()};
-  --section-services-preview-bg: ${lightColors.servicesPreview.toLowerCase()};
-  --section-blog-bg: ${lightColors.blog.toLowerCase()};
-  --section-services-bg: ${lightColors.services.toLowerCase()};
-  --section-goodies-bg: ${lightColors.goodies.toLowerCase()};
-  --section-testimonials-bg: ${lightColors.testimonials.toLowerCase()};
-  --section-contact-bg: ${lightColors.contact.toLowerCase()};
-  --section-faqs-bg: ${lightColors.faqs.toLowerCase()};
-  --section-footer-bg: ${lightColors.footer.toLowerCase()};
+    /* Section Background Colors - Light Mode */
+    --section-hero-bg: ${lightColors.hero.toLowerCase()};
+    --section-about-bg: ${lightColors.about.toLowerCase()};
+    --section-skills-bg: ${lightColors.skills.toLowerCase()};
+    --section-projects-bg: ${lightColors.projects.toLowerCase()};
+    --section-services-preview-bg: ${lightColors.servicesPreview.toLowerCase()};
+    --section-blog-bg: ${lightColors.blog.toLowerCase()};
+    --section-services-bg: ${lightColors.services.toLowerCase()};
+    --section-goodies-bg: ${lightColors.goodies.toLowerCase()};
+    --section-testimonials-bg: ${lightColors.testimonials.toLowerCase()};
+    --section-contact-bg: ${lightColors.contact.toLowerCase()};
+    --section-faqs-bg: ${lightColors.faqs.toLowerCase()};
+    --section-footer-bg: ${lightColors.footer.toLowerCase()};
 
 ${generateTransitionCSS(lightColors, steps).trimEnd()}
 }
 
 .dark {
-  /* Section Background Colors - Dark Mode */
-  --section-hero-bg: ${darkColors.hero.toLowerCase()};
-  --section-about-bg: ${darkColors.about.toLowerCase()};
-  --section-skills-bg: ${darkColors.skills.toLowerCase()};
-  --section-projects-bg: ${darkColors.projects.toLowerCase()};
-  --section-services-preview-bg: ${darkColors.servicesPreview.toLowerCase()};
-  --section-blog-bg: ${darkColors.blog.toLowerCase()};
-  --section-services-bg: ${darkColors.services.toLowerCase()};
-  --section-goodies-bg: ${darkColors.goodies.toLowerCase()};
-  --section-testimonials-bg: ${darkColors.testimonials.toLowerCase()};
-  --section-contact-bg: ${darkColors.contact.toLowerCase()};
-  --section-faqs-bg: ${darkColors.faqs.toLowerCase()};
-  --section-footer-bg: ${darkColors.footer.toLowerCase()};
+    /* Section Background Colors - Dark Mode */
+    --section-hero-bg: ${darkColors.hero.toLowerCase()};
+    --section-about-bg: ${darkColors.about.toLowerCase()};
+    --section-skills-bg: ${darkColors.skills.toLowerCase()};
+    --section-projects-bg: ${darkColors.projects.toLowerCase()};
+    --section-services-preview-bg: ${darkColors.servicesPreview.toLowerCase()};
+    --section-blog-bg: ${darkColors.blog.toLowerCase()};
+    --section-services-bg: ${darkColors.services.toLowerCase()};
+    --section-goodies-bg: ${darkColors.goodies.toLowerCase()};
+    --section-testimonials-bg: ${darkColors.testimonials.toLowerCase()};
+    --section-contact-bg: ${darkColors.contact.toLowerCase()};
+    --section-faqs-bg: ${darkColors.faqs.toLowerCase()};
+    --section-footer-bg: ${darkColors.footer.toLowerCase()};
 
 ${generateTransitionCSS(darkColors, steps).trimEnd()}
 }

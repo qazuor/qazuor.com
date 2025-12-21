@@ -150,7 +150,7 @@ main {
     --color-btn-primary-border: ${pHex};
     --color-btn-primary-hover-bg: ${pDarkHex};
     --color-btn-primary-hover-border: ${pDarkHex};
-    --color-btn-primary-selected-bg: #004D78;
+    --color-btn-primary-selected-bg: #004d78;
     --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
     --color-btn-primary-disabled-bg: ${rgba(p, 0.3)};
     --color-btn-primary-disabled-border: transparent;
@@ -186,7 +186,9 @@ main {
 
 .gsc-comment-box-textarea:focus {
     border-color: ${pHex} !important;
-    box-shadow: 0 0 0 3px ${rgba(p, 0.2)}, 0 0 20px ${rgba(p, 0.15)} !important;
+    box-shadow:
+        0 0 0 3px ${rgba(p, 0.2)},
+        0 0 20px ${rgba(p, 0.15)} !important;
 }
 
 .gsc-comment-box-textarea::placeholder {
@@ -293,7 +295,7 @@ main {
 }
 
 .gsc-comment a:hover {
-    color: #00D4FF !important;
+    color: #00d4ff !important;
     text-shadow: 0 0 10px ${rgba(p, 0.3)} !important;
 }
 
@@ -492,7 +494,7 @@ main {
     --color-btn-primary-border: ${pHex};
     --color-btn-primary-hover-bg: ${pDarkHex};
     --color-btn-primary-hover-border: ${pDarkHex};
-    --color-btn-primary-selected-bg: #004D78;
+    --color-btn-primary-selected-bg: #004d78;
     --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
     --color-btn-primary-disabled-bg: ${rgba(p, 0.3)};
     --color-btn-primary-disabled-border: transparent;
@@ -528,7 +530,9 @@ main {
 
 .gsc-comment-box-textarea:focus {
     border-color: ${pHex} !important;
-    box-shadow: 0 0 0 3px ${rgba(p, 0.15)}, 0 0 20px ${rgba(p, 0.1)} !important;
+    box-shadow:
+        0 0 0 3px ${rgba(p, 0.15)},
+        0 0 20px ${rgba(p, 0.1)} !important;
 }
 
 .gsc-comment-box-textarea::placeholder {
@@ -635,7 +639,7 @@ main {
 }
 
 .gsc-comment a:hover {
-    color: #004D78 !important;
+    color: #004d78 !important;
     text-shadow: 0 0 10px ${rgba(p, 0.2)} !important;
 }
 

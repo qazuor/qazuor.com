@@ -476,25 +476,6 @@ export const darkTheme: ThemeConfig = {
 // ============================================
 
 /**
- * Converts camelCase to kebab-case CSS variable name
- */
-function toKebabCase(str: string): string {
-    return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-}
-
-/**
- * Generates CSS variables from a flat object
- */
-function generateVarsFromObject(obj: Record<string, string>, prefix = ''): string {
-    return Object.entries(obj)
-        .map(([key, value]) => {
-            const varName = prefix ? `--${prefix}-${toKebabCase(key)}` : `--${toKebabCase(key)}`;
-            return `    ${varName}: ${value};`;
-        })
-        .join('\n');
-}
-
-/**
  * Generates critical CSS for inline injection in <head>
  * Only includes variables needed for above-the-fold content
  */
@@ -537,8 +518,6 @@ export function generateFullThemeCSS(): string {
     const timestamp = new Date().toISOString();
 
     const generateThemeBlock = (theme: ThemeConfig, selector: string): string => {
-        const isRoot = selector === ':root';
-
         return `${selector} {
     /* ===========================================
      * Core Background & Text

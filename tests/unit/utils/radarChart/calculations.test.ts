@@ -12,21 +12,21 @@ import {
 
 describe('roundTo', () => {
     it('should round to 2 decimal places by default', () => {
-        expect(roundTo(3.14159)).toBe(3.14);
+        expect(roundTo(3.24567)).toBe(3.25);
         expect(roundTo(2.999)).toBe(3);
         expect(roundTo(1.126)).toBe(1.13);
         expect(roundTo(2.344)).toBe(2.34);
     });
 
     it('should round to specified decimal places', () => {
-        expect(roundTo(3.14159, 3)).toBe(3.142);
-        expect(roundTo(3.14159, 4)).toBe(3.1416);
-        expect(roundTo(3.14159, 0)).toBe(3);
-        expect(roundTo(3.14159, 1)).toBe(3.1);
+        expect(roundTo(3.24567, 3)).toBe(3.246);
+        expect(roundTo(3.24567, 4)).toBe(3.2457);
+        expect(roundTo(3.24567, 0)).toBe(3);
+        expect(roundTo(3.24567, 1)).toBe(3.2);
     });
 
     it('should handle negative numbers', () => {
-        expect(roundTo(-3.14159, 2)).toBe(-3.14);
+        expect(roundTo(-3.24567, 2)).toBe(-3.25);
         expect(roundTo(-2.999, 2)).toBe(-3);
     });
 

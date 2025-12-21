@@ -30,7 +30,6 @@ const getRoundedClasses = (corners: 'all' | 'left' | 'right' | 'none' | 'top-md-
             return 'rounded-t-2xl md:rounded-none md:rounded-r-2xl';
         case 'none':
             return '';
-        case 'all':
         default:
             return 'rounded-xl';
     }

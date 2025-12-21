@@ -205,7 +205,7 @@ describe('BlogPostCard', () => {
             // Simulate intersection
             if (observerCallback && observeTargets.length > 0) {
                 act(() => {
-                    observerCallback!(
+                    observerCallback?.(
                         [{ isIntersecting: true, target: observeTargets[0] } as IntersectionObserverEntry],
                         {} as IntersectionObserver
                     );

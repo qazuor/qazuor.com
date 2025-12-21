@@ -8,15 +8,13 @@ import '../styles/generated-section-backgrounds.css';
 // Note: generated-theme.css is imported in the global style tag at the end
 // to ensure it loads after global.css and overrides theme variables
 
-// Astro image optimization
-import { getImage } from 'astro:assets';
 import { ViewTransitions } from 'astro:transitions';
 // Vercel Speed Insights (keeping for Core Web Vitals monitoring)
 import SpeedInsights from '@vercel/speed-insights/astro';
-import photo1 from '@/assets/images/photo1.png';
 // Other imports
 import AutoAnimateGlobal from '@/components/AutoAnimateGlobal.astro';
 import BuildSearchIndex from '@/components/BuildSearchIndex.astro';
+import ConsoleGreeting from '@/components/ConsoleGreeting.astro';
 import { CommandPalette } from '@/components/interactive/CommandPalette';
 import { ScrollToTop } from '@/components/interactive/ScrollToTop';
 import LifecycleInit from '@/components/LifecycleInit.astro';
@@ -68,8 +66,6 @@ interface Props {
     breadcrumbName?: string;
     /** Disable breadcrumbs on this page */
     noBreadcrumbs?: boolean;
-    /** Preload hero image (only enable on homepage where hero is visible) */
-    preloadHeroImage?: boolean;
     /** TOC headings for blog posts - enables TOC button in FloatingNav */
     tocHeadings?: TocHeading[];
     /** TOC title for accessibility */
@@ -78,12 +74,6 @@ interface Props {
 
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
-
-// Optimize hero image for LCP (Largest Contentful Paint)
-const optimizedPhoto = await getImage({
-    src: photo1,
-    format: 'webp'
-});
 
 const {
     title,
@@ -101,7 +91,6 @@ const {
     socialLinks,
     breadcrumbName,
     noBreadcrumbs = false,
-    preloadHeroImage = false,
     tocHeadings,
     tocTitle
 } = Astro.props;
@@ -203,16 +192,6 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Note: Inter 500/600/700 and JetBrains Mono are loaded on-demand via CSS -->
         <!-- They are not preloaded because they're used below the fold or in code blocks -->
-
-        <!-- Preload LCP image (hero image) - only on pages with hero section -->
-        {preloadHeroImage && (
-            <link
-                rel="preload"
-                href={optimizedPhoto.src}
-                as="image"
-                fetchpriority="high"
-            />
-        )}
 
         <!-- Prefetch common navigation routes for faster navigation -->
         <link rel="prefetch" href="/en/projects/" />
@@ -445,6 +424,9 @@ const alternateLinks = locales.map((locale) => {
 
         <!-- Build Search Index -->
         <BuildSearchIndex />
+
+        <!-- Console greeting for developers (F12) -->
+        <ConsoleGreeting />
 
         <!-- Command Palette (Ctrl+K) - loads when browser is idle -->
         <CommandPalette

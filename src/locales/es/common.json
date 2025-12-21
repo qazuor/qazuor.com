@@ -200,7 +200,9 @@
         "readMore": "Leer más",
         "readLess": "Leer menos",
         "viewProfile": "Ver perfil",
-        "viewMore": "Ver Más"
+        "viewMore": "Ver Más",
+        "pauseCarousel": "Pausar carrusel",
+        "playCarousel": "Reproducir carrusel"
     },
     "contact": {
         "title": "Ponte en Contacto",

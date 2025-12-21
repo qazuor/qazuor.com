@@ -24,6 +24,8 @@ interface Props {
         readLess: string;
         viewProfile: string;
         viewMore?: string;
+        pauseCarousel: string;
+        playCarousel: string;
     };
 }
 
@@ -193,7 +195,7 @@ const testimonials = allTestimonials.map((t, i) => ({
                     <button
                         type="button"
                         class="carousel-autoplay-btn playing"
-                        aria-label={translations.pauseCarousel || "Pausar carrusel"}
+                        aria-label={translations.pauseCarousel}
                         data-carousel-autoplay
                     >
                         {/* Pause icon (shown when playing) */}

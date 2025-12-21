@@ -200,7 +200,9 @@
         "readMore": "Read more",
         "readLess": "Read less",
         "viewProfile": "View profile",
-        "viewMore": "View More"
+        "viewMore": "View More",
+        "pauseCarousel": "Pause carousel",
+        "playCarousel": "Play carousel"
     },
     "contact": {
         "title": "Get In Touch",

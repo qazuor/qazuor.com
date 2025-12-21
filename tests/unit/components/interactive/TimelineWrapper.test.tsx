@@ -90,8 +90,8 @@ describe('TimelineWrapper', () => {
         it('should pass timeline items to TimelineContent', () => {
             render(<TimelineWrapper lang="en" />);
 
-            expect(screen.getByTestId('timeline-item-0')).toBeInTheDocument();
-            expect(screen.getByTestId('timeline-item-1')).toBeInTheDocument();
+            expect(screen.getByTestId('timeline-item-First Event EN')).toBeInTheDocument();
+            expect(screen.getByTestId('timeline-item-Second Event EN')).toBeInTheDocument();
         });
     });
 

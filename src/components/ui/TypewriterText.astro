@@ -1,35 +1,52 @@
 ---
 /**
- * TypewriterText - CSS typewriter animation
+ * TypewriterText - Pure CSS typewriter animation
  *
- * CSS handles: typing animation, cursor blink
- * JS handles: text rotation only (minimal)
+ * CSS-only implementation - NO JavaScript DOM mutations.
+ * All texts are rendered in DOM and animated with CSS.
+ * Keyframes are generated dynamically based on text count.
  */
 
 interface Props {
     texts: string[];
     class?: string;
-    /** Typing duration in seconds (default: 2) */
-    typeDuration?: number;
-    /** Delete duration in seconds - faster than typing (default: 0.8) */
-    deleteDuration?: number;
-    /** Pause at full text in seconds (default: 1.5) */
-    pauseDuration?: number;
+    /** Duration each text is shown in seconds (default: 4) */
+    cycleDuration?: number;
 }
 
-const { texts, class: className = '', typeDuration = 7, deleteDuration = 2, pauseDuration = 5.5 } = Astro.props;
+const { texts, class: className = '', cycleDuration = 4 } = Astro.props;
 
-// Total cycle = type + pause + delete + brief gap
-const cycleTime = typeDuration + pauseDuration + deleteDuration + 0.5;
+const totalTexts = texts.length;
+const totalDuration = cycleDuration * totalTexts;
+
+// Calculate keyframe percentages for each text
+const slotPercent = 100 / totalTexts;
+
+// Within each slot:
+// - 0-20%: typing (width grows)
+// - 20-80%: visible (full width)
+// - 80-95%: deleting (width shrinks)
+// - 95-100%: gap
+const typeEnd = slotPercent * 0.2;
+const visibleEnd = slotPercent * 0.8;
+const deleteEnd = slotPercent * 0.95;
 ---
 
 <span
     class:list={['typewriter', className]}
-    data-texts={JSON.stringify(texts)}
-    style={`--cycle-time: ${cycleTime}s;`}
+    style={`--total-duration: ${totalDuration}s;`}
 >
-    <span class="typewriter-text" set:html={texts[0]} />
-    <span class="typewriter-cursor" aria-hidden="true">|</span>
+    <span class="typewriter-wrapper">
+        {texts.map((text, index) => (
+            <span
+                class={`typewriter-text typewriter-text-${index}`}
+                aria-hidden={index > 0 ? "true" : undefined}
+            >
+                <span class="typewriter-content" set:html={text} />
+                <span class="typewriter-cursor" aria-hidden="true">|</span>
+            </span>
+        ))}
+    </span>
 </span>
 
 <style>
@@ -38,66 +55,77 @@ const cycleTime = typeDuration + pauseDuration + deleteDuration + 0.5;
         align-items: baseline;
     }
 
-    .typewriter-text {
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        font-family:'Courier New', Courier, monospace;
-        animation: typewriter var(--cycle-time) steps(20, end) infinite;
-        /* Ensure sufficient contrast (4.5:1) on hero background */
-        color: hsl(var(--primary));
+    .typewriter-wrapper {
+        position: relative;
+        display: inline-grid;
     }
 
-    /* Light mode: darker primary for better contrast on hero bg (#9aa6b2) */
-    :global(html:not(.dark)) .typewriter-text {
-        color: hsl(205, 100%, 20%);
+    .typewriter-text {
+        grid-area: 1 / 1;
+        display: inline-flex;
+        overflow: hidden;
+        white-space: nowrap;
+        font-family: 'Courier New', Courier, monospace;
+        color: hsl(var(--primary));
+        width: 0;
+    }
+
+    .typewriter-content {
+        display: inline-block;
     }
 
     .typewriter-cursor {
-        animation: blink 0.6s step-end infinite;
+        animation: blink 0.5s step-end infinite;
         font-weight: 900;
         opacity: 1;
-    }
-
-    /*
-     * Typewriter cycle:
-     * 0-45%: typing (slow)
-     * 45-60%: pause at full
-     * 60-85%: deleting (fast)
-     * 85-100%: pause at empty
-     */
-    @keyframes typewriter {
-        0% { width: 0; }
-        40% { width: 100%; }
-        80% { width: 100%; }
-        90% { width: 0; }
-        100% { width: 0; }
+        flex-shrink: 0;
     }
 
     @keyframes blink {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
     }
+
+    /* Light mode: darker primary for better contrast */
+    :global(html:not(.dark)) .typewriter-text {
+        color: hsl(205, 100%, 20%);
+    }
+
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .typewriter-text {
+            animation: none !important;
+            width: auto;
+        }
+
+        .typewriter-text:not(:first-child) {
+            display: none;
+        }
+
+        .typewriter-cursor {
+            animation: none;
+        }
+    }
 </style>
 
-<script>
-    // Minimal JS: rotates text when CSS animation completes each cycle
-    document.querySelectorAll<HTMLElement>('.typewriter').forEach(el => {
-        if (el.dataset.init) return;
-        el.dataset.init = '1';
+{/* Generate individual keyframes for each text */}
+<style set:html={texts.map((_, index) => {
+    const startPercent = index * slotPercent;
 
-        const texts: string[] = JSON.parse(el.dataset.texts || '[]');
-        if (texts.length <= 1) return;
+    const p1 = startPercent + typeEnd;
+    const p2 = startPercent + visibleEnd;
+    const p3 = startPercent + deleteEnd;
+    const p4 = (index + 1) * slotPercent;
 
-        const textEl = el.querySelector('.typewriter-text');
-        if (!textEl) return;
+    return `
+        .typewriter-text-${index} {
+            animation: typewriter-${index} var(--total-duration) steps(15, end) infinite;
+        }
 
-        let i = 0;
-
-        // Sync with CSS animation - fires exactly when animation cycle ends
-        textEl.addEventListener('animationiteration', () => {
-            i = (i + 1) % texts.length;
-            textEl.innerHTML = texts[i];
-        });
-    });
-</script>
+        @keyframes typewriter-${index} {
+            0%${startPercent > 0 ? `, ${startPercent.toFixed(1)}%` : ''} { width: 0; }
+            ${p1.toFixed(1)}%, ${p2.toFixed(1)}% { width: 100%; }
+            ${p3.toFixed(1)}%, ${p4.toFixed(1)}%${index === texts.length - 1 ? ', 100%' : ''} { width: 0; }
+        }
+    `;
+}).join('\n')} />

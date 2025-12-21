@@ -509,12 +509,14 @@
                     "Integración de bases de datos",
                     "Desarrollo de APIs",
                     "Arquitectura escalable"
-                ]
+                ],
+                "cta": "Explorar Apps Web"
             },
             "landingPages": {
                 "title": "**Landing Pages** y Sitios",
                 "description": "Landing pages de alta conversión y sitios web estáticos ultrarrápidos.",
-                "features": ["Optimización SEO", "Diseño mobile-first", "Alto rendimiento", "Integración con CMS"]
+                "features": ["Optimización SEO", "Diseño mobile-first", "Alto rendimiento", "Integración con CMS"],
+                "cta": "Explorar Landing Pages"
             },
             "automation": {
                 "title": "**Automatización** y APIs",
@@ -524,7 +526,8 @@
                     "Integraciones de terceros",
                     "Sincronización de datos",
                     "Webhooks personalizados"
-                ]
+                ],
+                "cta": "Explorar Automatización"
             },
             "socialDesign": {
                 "title": "**Diseño** para Redes Sociales",
@@ -534,7 +537,8 @@
                     "Identidad de marca",
                     "Optimizado por plataforma",
                     "Formatos editables"
-                ]
+                ],
+                "cta": "Explorar Diseño Social"
             },
             "webOptimization": {
                 "title": "**Optimización** Web",
@@ -544,12 +548,14 @@
                     "Optimización SEO",
                     "Core Web Vitals",
                     "Optimización de imágenes"
-                ]
+                ],
+                "cta": "Explorar Optimización"
             },
             "wordpress": {
                 "title": "**Soluciones** WordPress",
                 "description": "Sitios WordPress personalizados con themes y plugins a medida.",
-                "features": ["Desarrollo de themes", "Creación de plugins", "WooCommerce", "Migración y soporte"]
+                "features": ["Desarrollo de themes", "Creación de plugins", "WooCommerce", "Migración y soporte"],
+                "cta": "Explorar WordPress"
             }
         }
     },

@@ -504,12 +504,14 @@
             "webApps": {
                 "title": "**Full-Stack** Web Apps",
                 "description": "Complete web applications with modern technologies, from frontend to backend.",
-                "features": ["Custom development", "Database integration", "API development", "Scalable architecture"]
+                "features": ["Custom development", "Database integration", "API development", "Scalable architecture"],
+                "cta": "Explore Web Apps"
             },
             "landingPages": {
                 "title": "**Landing Pages** & Sites",
                 "description": "High-converting landing pages and blazing-fast static websites.",
-                "features": ["SEO optimization", "Mobile-first design", "Fast performance", "CMS integration"]
+                "features": ["SEO optimization", "Mobile-first design", "Fast performance", "CMS integration"],
+                "cta": "Explore Landing Pages"
             },
             "automation": {
                 "title": "**Automation** & APIs",
@@ -519,22 +521,26 @@
                     "Third-party integrations",
                     "Data synchronization",
                     "Custom webhooks"
-                ]
+                ],
+                "cta": "Explore Automation"
             },
             "socialDesign": {
                 "title": "**Social Media** Design",
                 "description": "Visual content and brand assets for social platforms.",
-                "features": ["Social templates", "Brand identity", "Platform-optimized", "Editable formats"]
+                "features": ["Social templates", "Brand identity", "Platform-optimized", "Editable formats"],
+                "cta": "Explore Social Design"
             },
             "webOptimization": {
                 "title": "**Web** Optimization",
                 "description": "Speed up your website and improve search rankings.",
-                "features": ["Performance audit", "SEO optimization", "Core Web Vitals", "Image optimization"]
+                "features": ["Performance audit", "SEO optimization", "Core Web Vitals", "Image optimization"],
+                "cta": "Explore Optimization"
             },
             "wordpress": {
                 "title": "**WordPress** Solutions",
                 "description": "Custom WordPress sites with themes and plugins tailored to your needs.",
-                "features": ["Theme development", "Plugin creation", "WooCommerce", "Migration & support"]
+                "features": ["Theme development", "Plugin creation", "WooCommerce", "Migration & support"],
+                "cta": "Explore WordPress"
             }
         }
     },

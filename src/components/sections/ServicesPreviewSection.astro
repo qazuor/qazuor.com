@@ -16,6 +16,7 @@ interface ServiceTranslation {
     title: string;
     description: string;
     features: string[];
+    cta: string;
 }
 
 interface Props {
@@ -70,6 +71,7 @@ const serviceCards = services
             title: serviceTranslation.title,
             description: serviceTranslation.description,
             features: serviceTranslation.features,
+            cta: serviceTranslation.cta,
             pixelConfig: serviceColors[service.id].pixel
         };
     });
@@ -100,7 +102,7 @@ const serviceCards = services
                     description={service.description}
                     features={service.features}
                     href={`/${lang}/services/${service.slug}`}
-                    ctaText={translations.learnMore}
+                    ctaText={service.cta}
                     iconId={service.iconId}
                     pixelConfig={service.pixelConfig}
                 />

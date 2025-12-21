@@ -1,125 +1,51 @@
 ---
+/**
+ * RotatingRoles Component (CSS-Only Version)
+ *
+ * Displays rotating role titles with fade/scale animations.
+ * Shows one role at a time with smooth transitions.
+ * Uses pure CSS animations - NO JavaScript DOM mutations.
+ * All roles remain in DOM for SEO/LLM visibility.
+ *
+ * @example
+ * <RotatingRoles
+ *   roles={['Full Stack Developer', 'Software Architect', 'Tech Lead']}
+ * />
+ */
+
 interface Props {
     roles: string[];
     className?: string;
+    /** Duration each role is shown (in seconds) */
+    duration?: number;
 }
 
-const { roles, className = '' } = Astro.props;
+const { roles, className = '', duration = 2.5 } = Astro.props;
+
+// Calculate animation timing
+const totalRoles = roles.length;
+const totalDuration = totalRoles * duration; // Total cycle time in seconds
 ---
 
 <div class={`absolute bottom-16 lg:bottom-20 left-1/2 -translate-x-1/2 ${className}`} style="z-index: 100;">
-    <span
-        id="rotating-roles"
-        class="text-sm lg:text-lg font-medium text-primary bg-background/90 backdrop-blur-md px-3 py-1.5 lg:px-4 lg:py-2 rounded-full border border-foreground/20 shadow-lg rotating-roles"
-        data-roles={JSON.stringify(roles)}
-        set:html={roles[0]}
-    />
+    <div
+        class="rotating-roles-container text-sm lg:text-lg font-medium text-primary bg-background/90 backdrop-blur-md px-3 py-1.5 lg:px-4 lg:py-2 rounded-full border border-foreground/20 shadow-lg"
+        style={`--total-duration: ${totalDuration}s; --role-count: ${totalRoles};`}
+        aria-label={`Roles: ${roles.join(', ')}`}
+    >
+        {roles.map((role, index) => (
+            <span
+                class="rotating-role"
+                style={`--role-index: ${index};`}
+                aria-hidden={index > 0 ? "true" : undefined}
+                set:html={role}
+            />
+        ))}
+    </div>
 </div>
 
-<script>
-    /**
-     * Rotating Roles Animation - Vanilla JS Implementation
-     * Replaces GSAP with native Web Animations API
-     */
-
-    // Store active interval to prevent duplicates
-    let activeInterval: number | null = null;
-    let currentIndex = 0;
-
-    // Easing equivalent to GSAP's back.out(1.7)
-    const EASE_BACK_OUT = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
-    const EASE_OUT = 'cubic-bezier(0.33, 1, 0.68, 1)';
-
-    // Initialize rotating roles
-    function initializeRotatingRoles() {
-        const element = document.getElementById('rotating-roles');
-        if (!element) return;
-
-        const rolesData = element.getAttribute('data-roles');
-        if (!rolesData) return;
-
-        try {
-            const roles: string[] = JSON.parse(rolesData);
-            if (roles.length === 0) return;
-
-            // Clear previous interval if exists
-            if (activeInterval) {
-                clearInterval(activeInterval);
-                activeInterval = null;
-            }
-
-            // Reset state
-            currentIndex = 0;
-            element.style.opacity = '1';
-            element.style.transform = 'scale(1)';
-
-            // Single role: just fade in
-            if (roles.length === 1) {
-                element.animate(
-                    [
-                        { opacity: 0, transform: 'scale(0.9)' },
-                        { opacity: 1, transform: 'scale(1)' }
-                    ],
-                    { duration: 800, easing: EASE_BACK_OUT, delay: 500, fill: 'forwards' }
-                );
-                return;
-            }
-
-            // Multiple roles: create rotation
-            async function rotateToNext() {
-                // Calculate next index
-                currentIndex = (currentIndex + 1) % roles.length;
-
-                // Fade out + scale down
-                const fadeOut = element!.animate(
-                    [
-                        { opacity: 1, transform: 'scale(1)' },
-                        { opacity: 0, transform: 'scale(0.95)' }
-                    ],
-                    { duration: 200, easing: EASE_OUT, fill: 'forwards' }
-                );
-
-                await fadeOut.finished;
-
-                // Change text
-                element!.innerHTML = roles[currentIndex];
-
-                // Fade in + scale up with bounce
-                element!.animate(
-                    [
-                        { opacity: 0, transform: 'scale(0.95)' },
-                        { opacity: 1, transform: 'scale(1)' }
-                    ],
-                    { duration: 400, easing: EASE_BACK_OUT, fill: 'forwards' }
-                );
-            }
-
-            // Start rotation after initial delay
-            setTimeout(() => {
-                rotateToNext();
-                // Then rotate every 2.5 seconds (1.5s display + 0.6s animation + 0.4s pause)
-                activeInterval = window.setInterval(rotateToNext, 2500);
-            }, 1500);
-
-        } catch (error) {
-            console.error('Error parsing roles data:', error);
-        }
-    }
-
-    // Initialize on page load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeRotatingRoles);
-    } else {
-        initializeRotatingRoles();
-    }
-
-    // Re-initialize after View Transitions
-    document.addEventListener('qazuor:content-ready', initializeRotatingRoles);
-</script>
-
 <style>
-    /* Rotating roles styling with shine effect */
-    .rotating-roles {
+    .rotating-roles-container {
         white-space: nowrap;
         min-height: 2.5rem;
         display: inline-flex;
@@ -134,7 +60,7 @@ const { roles, className = '' } = Astro.props;
     }
 
     /* Shine effect overlay */
-    .rotating-roles::before {
+    .rotating-roles-container::before {
         content: '';
         position: absolute;
         top: 0;
@@ -147,8 +73,55 @@ const { roles, className = '' } = Astro.props;
     }
 
     /* Trigger shine on hover */
-    .rotating-roles:hover::before {
+    .rotating-roles-container:hover::before {
         left: 100%;
+    }
+
+    .rotating-role {
+        position: absolute;
+        opacity: 0;
+        transform: scale(0.95);
+        /*
+         * CSS-only animation using custom properties:
+         * - Total duration comes from inline style
+         * - Each role calculates its delay based on index
+         */
+        animation: role-cycle var(--total-duration) cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+        animation-delay: calc(var(--role-index) * var(--total-duration) / var(--role-count));
+    }
+
+    /* First role takes up space for layout */
+    .rotating-role:first-child {
+        position: relative;
+    }
+
+    @keyframes role-cycle {
+        /* Start: hidden and scaled down */
+        0% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        /* Enter: scale up with bounce effect */
+        3% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Visible: stay in place */
+        /* Exit point calculated as: (1 / role-count) * 100 - transition */
+        20% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Exit: scale down and fade out */
+        25% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        /* Hidden: stay hidden for rest of cycle */
+        100% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
     }
 
     @keyframes subtle-glow {
@@ -161,6 +134,27 @@ const { roles, className = '' } = Astro.props;
             box-shadow:
                 0 4px 25px rgba(var(--color-primary), 0.4),
                 0 0 30px rgba(var(--color-primary), 0.15);
+        }
+    }
+
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .rotating-role {
+            animation: none;
+        }
+
+        /* Only show first role when reduced motion is preferred */
+        .rotating-role:first-child {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .rotating-role:not(:first-child) {
+            display: none;
+        }
+
+        .rotating-roles-container {
+            animation: none;
         }
     }
 </style>

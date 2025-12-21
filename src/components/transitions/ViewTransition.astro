@@ -341,6 +341,41 @@ for (const project of projects) {
     // Promise for entrance animation (shared between hooks)
     let entrancePromise: Promise<void> | null = null;
 
+    /**
+     * Pause all SVG animations in the overlay
+     * This prevents constant repaints when overlay is hidden
+     */
+    function pauseSvgAnimations(): void {
+        const animateElements = overlay.querySelectorAll('animate');
+        animateElements.forEach(el => {
+            // SVG animate elements can be paused by setting animation to 'indefinite'
+            // and storing the original begin value
+            if (!el.dataset.originalBegin) {
+                el.dataset.originalBegin = el.getAttribute('begin') || '0s';
+            }
+            el.setAttribute('begin', 'indefinite');
+        });
+    }
+
+    /**
+     * Resume all SVG animations in the overlay
+     */
+    function resumeSvgAnimations(): void {
+        const animateElements = overlay.querySelectorAll('animate');
+        animateElements.forEach(el => {
+            // Restore original begin value and restart
+            const originalBegin = el.dataset.originalBegin || '0s';
+            el.setAttribute('begin', originalBegin);
+            // Force restart the animation
+            if (typeof (el as any).beginElement === 'function') {
+                (el as any).beginElement();
+            }
+        });
+    }
+
+    // Initially pause SVG animations since overlay starts hidden
+    pauseSvgAnimations();
+
     // Track the pathname of the last rendered page (not window.location which changes on popstate)
     // This is critical for back/forward navigation - during popstate, window.location changes
     // BEFORE astro:before-preparation fires, so we need to track the actual rendered content
@@ -395,6 +430,9 @@ for (const project of projects) {
      * Animate entrance - overlay slides up, title fades in
      */
     async function animateEntrance(): Promise<void> {
+        // Resume SVG wave animations
+        resumeSvgAnimations();
+
         // Make overlay visible
         overlay.style.visibility = 'visible';
 
@@ -473,6 +511,9 @@ for (const project of projects) {
         overlay.style.visibility = 'hidden';
         titleElement.style.opacity = '0';
         titleElement.style.transform = 'translateY(20px)';
+
+        // Pause SVG wave animations to prevent constant repaints
+        pauseSvgAnimations();
     }
 
     /**

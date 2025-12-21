@@ -6,6 +6,190 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2025-12-21
+
+### Added
+
+- **Custom CTA per service**: Each service card now has its own call-to-action
+  text instead of generic "Learn More" (en/es translations)
+
+### Fixed
+
+- **Astro audit panel constant re-rendering**: Fixed issue where dev toolbar
+  audit panel would redraw every few seconds, making it difficult to read errors
+
+### Performance
+
+- **TypewriterText CSS-only**: Converted from JavaScript innerHTML mutations to
+  pure CSS animations with dynamic keyframes per text
+- **RotatingRoles CSS-only**: Replaced setInterval-based rotation with CSS
+  animation-delay per role index
+- **TrustBadgesMarquee CSS-only**: Converted badge cycling to CSS animations
+  with staggered delays
+- **ViewTransition SVG pause**: Pause wave animations when overlay is hidden to
+  prevent constant repaints
+- **Testimonials carousel optimization**: Added index tracking to skip unchanged
+  DOM updates, increased scroll debounce to 150ms
+
+---
+
+## [1.6.0] - 2025-12-19
+
+### Major Changes
+
+#### New Theme System
+
+- **Centralized theme configuration**: Complete overhaul of color management
+  with `themeConfig.ts` as single source of truth
+- **Deep Ocean color palette**: New dark mode palette with improved contrast and
+  visual hierarchy
+- **Ocean Depths palette**: Light mode variant with enhanced readability
+- **CSS variables migration**: Replaced 200+ hardcoded colors with semantic CSS
+  variables
+- **Design tokens**: Added standardized scale (radius, spacing) and timing
+  tokens
+- **Giscus theme generator**: Astro integration auto-generates Giscus CSS from
+  theme config
+
+#### New Floating Navigation
+
+- **FloatingNav system**: Replaced static Navigation with animated floating
+  navbar
+- **URL hash sync**: Navbar updates URL hash during scroll navigation
+- **Improved accessibility**: Better visibility and keyboard navigation support
+- **Performance optimized**: Consolidated hooks, reduced re-renders
+
+#### Blog Section Redesign
+
+- **FeaturedBlogCard component**: Large hero-style card for featured posts
+- **SecondaryBlogCards**: Grid layout with CSS-Tricks hover effect and glow
+  animations
+- **Astro components**: Converted from React to Astro for better performance
+- **Category colors**: Dynamic category badge colors based on blog category
+- **Featured field**: New schema field to mark posts as featured
+
+#### Testimonials Carousel
+
+- **Infinite carousel**: Converted grid layout to smooth infinite carousel
+- **Autoplay controls**: Pause on manual navigation, resume on visibility
+- **Touch targets**: Expanded dot controls to 44px for accessibility
+- **CSS containment**: Reduced layout thrashing with contain properties
+
+### Added
+
+- **i18n language detection**: Automatic language detection and redirection
+  based on browser preferences
+- **Site branding in titles**: All page titles now include "| Julián Cataldo"
+  suffix
+- **Discord and X links**: Added to social network links across the site
+- **Resume language selector**: Dropdown to download CV in English or Spanish
+- **Download toast**: Visual feedback when downloading resume
+- **CategoryTitle component**: Standardized heading styles across sections
+- **Shine sweep effect**: Button hover animation with gradient sweep
+- **Copy button animation**: Smooth checkmark feedback on code block copy
+- **TOC drawer improvements**: Debounced expand/collapse for smoother scrolling
+- **View All button animation**: Included in projects stack animation
+- **Goodies improvements**: Better card aesthetics and increased default items
+- **Share button labels**: Optional `showLabel` prop for share buttons
+
+### Changed
+
+- **Light mode contrast**: Improved visibility across all components (hero,
+  buttons, timeline, skills, services, testimonials)
+- **TypeIt replaced**: Migrated from TypeIt library to CSS-only typewriter
+  animation
+- **GSAP/Lenis removed**: Migrated all animations to CSS and vanilla JavaScript
+- **animate-ui removed**: Replaced with lucide-react static icons
+- **framer-motion removed**: Eliminated unused animation dependencies
+- **Skills section**: Removed language skills section, renamed "SEO" to "SEO &
+  AEO"
+- **Timeline simplified**: Reduced entries, balanced text lengths, optimized
+  card heights
+- **Home page cleanup**: Removed section descriptions, reduced FAQs for cleaner
+  layout
+- **Footer branding**: Hidden on homepage, kept balanced layout
+- **Service icon**: Changed web-optimization icon to TrendingUp
+- **Image carousel**: Enhanced display with blur background
+
+### Fixed
+
+- **Accessibility (a11y)**:
+  - Code comment contrast for WCAG compliance
+  - Touch target sizes for carousel and timeline dots (44px minimum)
+  - Typewriter text contrast improved
+
+- **Performance**:
+  - Disabled Speed Insights causing mobile issues
+  - Reduced forced reflows and optimized hydration
+  - Removed unused JetBrains Mono 700 weight
+  - CSS containment on testimonials
+  - Deferred Umami analytics with requestIdleCallback
+  - Added fetchpriority="high" to LCP hero image
+  - Lazy-loaded PixelCanvas script
+  - Optimized callout enhancer with early bailout
+  - Lazy hydration for below-fold components
+  - Fixed critical React re-render issues and memory leaks
+
+- **Navigation & Routing**:
+  - Preserved URL hash and query params during navigation
+  - Fixed browser back/forward navigation in project filters
+  - Back button navigation in Firefox
+
+- **UI/UX**:
+  - Mobile navigation menu positioning
+  - Horizontal scroll prevention with overflow-x hidden
+  - Scrollbar visibility in Chrome
+  - Timeline jitter during item transitions
+  - Testimonials pause autoplay on manual navigation
+  - TOC drawer scroll containment on mobile
+  - Scroll indicator always visible without scrolling
+  - Mermaid diagrams excluded from code block styling
+  - Mermaid diagram rendering after view transitions
+  - Help dialog i18n support and click outside to close
+  - Radar tooltip font size increased
+  - View All button and conditional links card
+  - React hydration mismatches resolved
+  - Testimonials instant scroll on modal close
+  - Command palette help dialog unmounting prevented
+
+- **SEO**:
+  - Strip markdown from project descriptions
+  - Strip markdown from page titles
+
+- **Build**:
+  - Testimonial avatars committed to avoid LinkedIn 403 errors
+  - Missing motion package dependency added
+  - Duplicate Tailwind directives removed
+  - Correct Tailwind darkMode configuration
+
+### Performance Optimizations
+
+- **PWA precache**: Optimized cache strategy and client hydration
+- **React optimization**: Phase 3 architectural improvements
+- **Memoization**: Improved across all React components
+- **DOM caching**: Command palette icon lookups optimized
+- **Client directives**: Optimized for lazy hydration
+
+### Removed
+
+- **GSAP library**: All GSAP animations migrated to CSS
+- **Lenis smooth scroll**: Replaced with native browser behavior
+- **framer-motion**: Unused animation library
+- **motion package**: Unused dependency
+- **animate-ui icons**: Replaced with static lucide-react icons
+- **TypeIt library**: Replaced with CSS-only animation
+- **Language skills section**: Removed from skills radar
+
+### Technical
+
+- New files: `src/config/themeConfig.ts`, `src/styles/design-tokens.css`
+- Integration: `integrations/giscus-css-generator.ts`
+- Refactored: 50+ components migrated to CSS variables
+- Updated: Tailwind config generates color scales from themeConfig
+- Documentation: `docs/THEMING.md` updated with new system
+
+---
+
 ## [1.5.6] - 2025-12-08
 
 ### Added - New Testimonial

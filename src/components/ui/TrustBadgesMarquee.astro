@@ -1,9 +1,10 @@
 ---
 /**
- * TrustBadgesMarquee Component
+ * TrustBadgesMarquee Component (CSS-Only Version)
  *
  * Displays trust indicators with vertical slide animation.
  * Shows one badge at a time with smooth slide-up transitions.
+ * Uses pure CSS animations - NO JavaScript DOM mutations.
  * All badges remain in DOM for SEO/LLM visibility.
  *
  * @example
@@ -67,24 +68,27 @@ const iconMap: Record<TrustBadgeIcon, string> = {
     briefcase: BriefcaseIcon,
     rocket: RocketIcon
 };
+
+// Calculate animation timing
+const totalBadges = badges.length;
+const totalDuration = totalBadges * duration; // Total cycle time in seconds
+const visiblePercent = (1 / totalBadges) * 100; // Percentage of time each badge is visible
+const transitionPercent = 1; // 1% for enter/exit transitions
 ---
 
 <div
     class:list={['trust-marquee-container relative overflow-hidden', className]}
     role="list"
     aria-label="Trust indicators"
-    data-duration={duration}
+    style={`--total-duration: ${totalDuration}s; --badge-count: ${totalBadges};`}
 >
     <div class="trust-marquee-track">
         {
             badges.map((badge, index) => (
                 <div
-                    class:list={[
-                        'trust-marquee-item flex items-center justify-start gap-2 text-foreground-muted text-xs lg:text-sm',
-                        index === 0 ? 'active' : ''
-                    ]}
+                    class="trust-marquee-item flex items-center justify-start gap-2 text-foreground-muted text-xs lg:text-sm"
                     role="listitem"
-                    data-index={index}
+                    style={`--badge-index: ${index};`}
                 >
                     <span
                         class="trust-badge-icon w-3.5 h-3.5 lg:w-4 lg:h-4 opacity-70 flex-shrink-0 [&>svg]:w-full [&>svg]:h-full"
@@ -98,7 +102,7 @@ const iconMap: Record<TrustBadgeIcon, string> = {
     </div>
 </div>
 
-<style>
+<style define:vars={{ visiblePercent, transitionPercent }}>
     .trust-marquee-container {
         height: 24px;
     }
@@ -121,65 +125,55 @@ const iconMap: Record<TrustBadgeIcon, string> = {
         height: 100%;
         opacity: 0;
         transform: translateY(100%);
-        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        /*
+         * CSS-only animation using custom properties:
+         * - Total duration comes from inline style
+         * - Each badge calculates its delay based on index
+         */
+        animation: badge-cycle var(--total-duration) ease-in-out infinite;
+        animation-delay: calc(var(--badge-index) * var(--total-duration) / var(--badge-count));
     }
 
-    .trust-marquee-item.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .trust-marquee-item.exiting {
-        opacity: 0;
-        transform: translateY(-100%);
+    @keyframes badge-cycle {
+        /* Start: hidden below */
+        0% {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        /* Enter: slide up and fade in */
+        1% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Visible: stay in place */
+        /* Exit point calculated as: (1 / badge-count) * 100 - transition */
+        7.33% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Exit: slide up and fade out */
+        8.33% {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+        /* Hidden: stay hidden for rest of cycle */
+        100% {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
     }
 
     /* Respect reduced motion preferences */
     @media (prefers-reduced-motion: reduce) {
         .trust-marquee-item {
-            transition: none;
+            animation: none;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Only show first badge when reduced motion is preferred */
+        .trust-marquee-item:not(:first-child) {
+            display: none;
         }
     }
 </style>
-
-<script>
-    function initMarquee() {
-        const containers = document.querySelectorAll<HTMLElement>('.trust-marquee-container');
-
-        containers.forEach(container => {
-            const items = container.querySelectorAll('.trust-marquee-item');
-            if (items.length === 0) return;
-
-            const duration = parseInt(container.dataset.duration || '3', 10) * 1000;
-            let currentIndex = 0;
-
-            // Check for reduced motion preference
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) return;
-
-            setInterval(() => {
-                const currentItem = items[currentIndex];
-                const nextIndex = (currentIndex + 1) % items.length;
-                const nextItem = items[nextIndex];
-
-                // Exit current
-                currentItem.classList.remove('active');
-                currentItem.classList.add('exiting');
-
-                // Enter next
-                nextItem.classList.add('active');
-
-                // Clean up exiting class after animation
-                setTimeout(() => {
-                    currentItem.classList.remove('exiting');
-                }, 400);
-
-                currentIndex = nextIndex;
-            }, duration);
-        });
-    }
-
-    // Run on page load and view transitions
-    initMarquee();
-    document.addEventListener('astro:page-load', initMarquee);
-</script>

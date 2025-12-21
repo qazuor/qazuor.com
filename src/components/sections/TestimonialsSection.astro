@@ -193,7 +193,7 @@ const testimonials = allTestimonials.map((t, i) => ({
                     <button
                         type="button"
                         class="carousel-autoplay-btn playing"
-                        aria-label="Pause autoplay"
+                        aria-label={translations.pauseCarousel || "Pausar carrusel"}
                         data-carousel-autoplay
                     >
                         {/* Pause icon (shown when playing) */}
@@ -1464,8 +1464,25 @@ const testimonials = allTestimonials.map((t, i) => ({
 
     function updateCarouselIndicators() {
         const realIndex = totalRealSlides > 0 ? getRealSlideIndex() : getCurrentSlideIndex();
-        const { dots, prevBtn, nextBtn } = getCarouselElements();
         const carousel = document.getElementById('testimonials-carousel');
+
+        // Calculate centered index for slides
+        let closestIndex = -1;
+        if (carousel) {
+            const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
+            closestIndex = findCenteredSlideIndexCached(carousel, allSlides);
+        }
+
+        // Skip DOM updates if indices haven't changed (reduces mutations significantly)
+        if (realIndex === lastRealIndex && closestIndex === lastCenteredIndex) {
+            return;
+        }
+
+        // Update tracking variables
+        lastRealIndex = realIndex;
+        lastCenteredIndex = closestIndex;
+
+        const { dots, prevBtn, nextBtn } = getCarouselElements();
 
         // Update dots (based on real slide index)
         dots.forEach((dot, i) => {
@@ -1475,11 +1492,8 @@ const testimonials = allTestimonials.map((t, i) => ({
         });
 
         // Update slides active state (for opacity effect)
-        // Mark the centered slide as active using cached dimensions
-        if (carousel) {
+        if (carousel && closestIndex >= 0) {
             const allSlides = carousel.querySelectorAll<HTMLElement>('.testimonial-slide');
-            const closestIndex = findCenteredSlideIndexCached(carousel, allSlides);
-
             allSlides.forEach((slide, i) => {
                 slide.classList.toggle('active', i === closestIndex);
             });
@@ -1495,15 +1509,17 @@ const testimonials = allTestimonials.map((t, i) => ({
     // ============================================
     let scrollTimeout: ReturnType<typeof setTimeout>;
     let scrollEndTimeout: ReturnType<typeof setTimeout>;
+    let lastRealIndex = -1; // Track last index to avoid unnecessary DOM updates
+    let lastCenteredIndex = -1;
 
     document.addEventListener('scroll', (e) => {
         const target = e.target;
         if (!(target instanceof Element)) return;
 
         if (target.id === 'testimonials-carousel') {
-            // Debounce the indicator update
+            // Debounce the indicator update (150ms to reduce DOM mutations)
             clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(updateCarouselIndicators, 50);
+            scrollTimeout = setTimeout(updateCarouselIndicators, 150);
 
             // Check infinite loop bounds QUICKLY after scroll pauses
             // Using shorter delay for faster response

@@ -14,6 +14,7 @@ import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, stripMarkdown } from '@/i18n/utils';
 import GithubIcon from '@/icons/social/github.svg?raw';
+import NpmIcon from '@/icons/social/npm.svg?raw';
 import ExternalLinkIcon from '@/icons/ui/external-link.svg?raw';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getProjectSlug } from '@/utils/projects';
@@ -79,7 +80,28 @@ const categoryLabel: string = categoryLabels[project.data.category] || project.d
 const transitionTitle = project.data.title; // Title to show in page transition
 
 // Check if project has any links
-const hasLinks = !!(project.data.githubUrl || project.data.demoUrl || project.data.publicUrl);
+const hasLinks = !!(project.data.githubUrl || project.data.demoUrl || project.data.publicUrl || project.data.npmUrl);
+
+// Get status labels
+const statusLabels: Record<string, string> = {
+    development: t('projects.detail.status.development'),
+    beta: t('projects.detail.status.beta'),
+    production: t('projects.detail.status.production'),
+    maintenance: t('projects.detail.status.maintenance')
+};
+
+// Status colors
+const statusColors: Record<string, string> = {
+    development: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+    beta: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
+    production: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+    maintenance: 'bg-purple-500/10 text-purple-500 border-purple-500/20'
+};
+
+// Format start date if available
+const formattedStartDate = project.data.metrics?.startDate
+    ? new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short' }).format(project.data.metrics.startDate)
+    : null;
 
 // Format date
 const formattedDate = new Intl.DateTimeFormat(lang, {
@@ -167,6 +189,16 @@ const projectImageUrl =
 						</svg>
 						<span class="text-sm font-medium text-primary">{categoryLabel}</span>
 					</div>
+
+					<!-- Status Badge -->
+					{project.data.status && (
+						<div class:list={["inline-flex items-center gap-2 px-4 py-2 border rounded-lg", statusColors[project.data.status]]}>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+							</svg>
+							<span class="text-sm font-medium">{statusLabels[project.data.status]}</span>
+						</div>
+					)}
 
 					<!-- Date Badge -->
 					<div class="inline-flex items-center gap-2 px-4 py-2 bg-foreground/5 border border-border rounded-lg">
@@ -269,6 +301,21 @@ const projectImageUrl =
 										/>
 									)
 								}
+								{
+									project.data.npmUrl && (
+										<IconLink
+											href={project.data.npmUrl}
+											text={t('projects.detail.links.npm')}
+											icon={NpmIcon}
+											target="_blank"
+											rel="noopener noreferrer"
+											variant="secondary"
+											size="md"
+											className="inline-flex items-center gap-2 border border-foreground/10 justify-center"
+											showHtml={true}
+										/>
+									)
+								}
 							</div>
 						</div>
 					)}
@@ -278,6 +325,167 @@ const projectImageUrl =
 				<div class="content-prose mb-16">
 					<Content />
 				</div>
+
+				<!-- Metrics Section -->
+				{project.data.metrics && (
+					<div class="mb-12">
+						<SecondaryTitle
+							text={t('projects.detail.metrics.title', { markdown: false })}
+							element="h2"
+							size="xl"
+							className="mb-6"
+							showHtml={false}
+						/>
+						<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+							{project.data.metrics.commits && (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-3 text-center min-h-[70px] flex flex-col justify-center">
+									<div class="text-lg md:text-xl font-bold text-primary leading-tight">{project.data.metrics.commits.toLocaleString()}</div>
+									<div class="text-xs text-foreground-secondary leading-tight mt-1">{t('projects.detail.metrics.commits')}</div>
+								</div>
+							)}
+							{project.data.metrics.linesOfCode && (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-3 text-center min-h-[70px] flex flex-col justify-center">
+									<div class="text-lg md:text-xl font-bold text-primary leading-tight">{project.data.metrics.linesOfCode.toLocaleString()}</div>
+									<div class="text-xs text-foreground-secondary leading-tight mt-1">{t('projects.detail.metrics.linesOfCode')}</div>
+								</div>
+							)}
+							{project.data.metrics.developmentTime && (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-3 text-center min-h-[70px] flex flex-col justify-center">
+									<div class="text-lg md:text-xl font-bold text-primary leading-tight">{project.data.metrics.developmentTime}</div>
+									<div class="text-xs text-foreground-secondary leading-tight mt-1">{t('projects.detail.metrics.developmentTime')}</div>
+								</div>
+							)}
+							{formattedStartDate && (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-3 text-center min-h-[70px] flex flex-col justify-center">
+									<div class="text-lg md:text-xl font-bold text-primary leading-tight">{formattedStartDate}</div>
+									<div class="text-xs text-foreground-secondary leading-tight mt-1">{t('projects.detail.metrics.startDate')}</div>
+								</div>
+							)}
+							{project.data.metrics.contributors && (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-3 text-center min-h-[70px] flex flex-col justify-center">
+									<div class="text-lg md:text-xl font-bold text-primary leading-tight">{project.data.metrics.contributors}</div>
+									<div class="text-xs text-foreground-secondary leading-tight mt-1">{t('projects.detail.metrics.contributors')}</div>
+								</div>
+							)}
+							{typeof project.data.metrics.openIssues === 'number' && (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-3 text-center min-h-[70px] flex flex-col justify-center">
+									<div class="text-lg md:text-xl font-bold text-primary leading-tight">{project.data.metrics.openIssues}</div>
+									<div class="text-xs text-foreground-secondary leading-tight mt-1">{t('projects.detail.metrics.openIssues')}</div>
+								</div>
+							)}
+						</div>
+					</div>
+				)}
+
+				<!-- Highlights Section -->
+				{project.data.highlights && project.data.highlights.length > 0 && (
+					<div class="mb-12">
+						<SecondaryTitle
+							text={t('projects.detail.highlights.title', { markdown: false })}
+							element="h2"
+							size="xl"
+							className="mb-6"
+							showHtml={false}
+						/>
+						<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+							<ul class="grid md:grid-cols-2 gap-3">
+								{project.data.highlights.map((highlight: string) => (
+									<li class="flex items-start gap-3">
+										<svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+										</svg>
+										<span class="text-foreground-secondary">{highlight}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				)}
+
+				<!-- Challenges Section -->
+				{project.data.challenges && project.data.challenges.length > 0 && (
+					<div class="mb-12">
+						<SecondaryTitle
+							text={t('projects.detail.challenges.title', { markdown: false })}
+							element="h2"
+							size="xl"
+							className="mb-6"
+							showHtml={false}
+						/>
+						<div class="space-y-4">
+							{project.data.challenges.map((challenge: { problem: string; solution: string }) => (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+									<div class="mb-4">
+										<div class="flex items-center gap-2 mb-2">
+											<svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+											</svg>
+											<span class="text-sm font-semibold text-amber-500">{t('projects.detail.challenges.problem')}</span>
+										</div>
+										<p class="text-foreground-secondary">{challenge.problem}</p>
+									</div>
+									<div>
+										<div class="flex items-center gap-2 mb-2">
+											<svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+											</svg>
+											<span class="text-sm font-semibold text-emerald-500">{t('projects.detail.challenges.solution')}</span>
+										</div>
+										<p class="text-foreground-secondary">{challenge.solution}</p>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				<!-- Stack Rationale Section -->
+				{project.data.stackRationale && Object.keys(project.data.stackRationale).length > 0 && (
+					<div class="mb-12">
+						<SecondaryTitle
+							text={t('projects.detail.stackRationale.title', { markdown: false })}
+							element="h2"
+							size="xl"
+							className="mb-6"
+							showHtml={false}
+						/>
+						<div class="grid sm:grid-cols-2 gap-4">
+							{Object.entries(project.data.stackRationale).map(([tech, reason]) => (
+								<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-4 flex flex-col gap-2">
+									<div class="inline-flex">
+										<span class="px-3 py-1.5 text-sm font-semibold bg-primary/15 text-primary border border-primary/30 rounded-lg whitespace-nowrap">{tech}</span>
+									</div>
+									<p class="text-sm text-foreground-secondary leading-relaxed">{reason}</p>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				<!-- Future Improvements Section -->
+				{project.data.futureImprovements && project.data.futureImprovements.length > 0 && (
+					<div class="mb-12">
+						<SecondaryTitle
+							text={t('projects.detail.futureImprovements.title', { markdown: false })}
+							element="h2"
+							size="xl"
+							className="mb-6"
+							showHtml={false}
+						/>
+						<div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+							<ul class="space-y-3">
+								{project.data.futureImprovements.map((improvement: string) => (
+									<li class="flex items-start gap-3">
+										<svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+										</svg>
+										<span class="text-foreground-secondary">{improvement}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	</section>

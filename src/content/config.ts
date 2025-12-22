@@ -1,5 +1,21 @@
 import { defineCollection, z } from 'astro:content';
 
+// Challenge schema for projects
+const challengeSchema = z.object({
+    problem: z.string(),
+    solution: z.string()
+});
+
+// Metrics schema for projects
+const metricsSchema = z.object({
+    commits: z.number().optional(),
+    linesOfCode: z.number().optional(),
+    developmentTime: z.string().optional(), // e.g., "3 weeks", "2 months"
+    startDate: z.date().optional(),
+    contributors: z.number().optional(),
+    openIssues: z.number().optional()
+});
+
 // Projects collection schema
 const projectsCollection = defineCollection({
     type: 'content',
@@ -18,9 +34,17 @@ const projectsCollection = defineCollection({
             githubUrl: z.string().url().optional(), // For open-source projects
             demoUrl: z.string().url().optional(), // For open-source projects
             publicUrl: z.string().url().optional(), // For client/commercial projects
+            npmUrl: z.string().url().optional(), // For npm packages
             featured: z.boolean().default(false),
             publishDate: z.date(),
-            order: z.number().default(999)
+            order: z.number().default(999),
+            // New fields for enhanced project details
+            status: z.enum(['development', 'beta', 'production', 'maintenance']).optional(),
+            metrics: metricsSchema.optional(),
+            challenges: z.array(challengeSchema).optional(),
+            highlights: z.array(z.string()).optional(),
+            futureImprovements: z.array(z.string()).optional(),
+            stackRationale: z.record(z.string(), z.string()).optional() // { "React": "reason", "TypeScript": "reason" }
         })
 });
 

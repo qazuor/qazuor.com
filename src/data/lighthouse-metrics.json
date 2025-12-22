@@ -1,15 +1,15 @@
 {
     "desktop": {
         "performance": {
-            "score": "97",
-            "lcp": "0.9s",
-            "fcp": "0.7s",
-            "cls": "0.041",
-            "tbt": "60ms",
-            "si": "1.4s"
+            "score": "100",
+            "lcp": "0.7s",
+            "fcp": "0.5s",
+            "cls": "0",
+            "tbt": "0ms",
+            "si": "0.7s"
         },
         "accessibility": {
-            "score": "97"
+            "score": "100"
         },
         "bestPractices": {
             "score": "100"
@@ -20,15 +20,15 @@
     },
     "mobile": {
         "performance": {
-            "score": "87",
-            "lcp": "3.3s",
-            "fcp": "2.7s",
-            "cls": "0.00",
-            "tbt": "54ms",
-            "si": "3.3s"
+            "score": "89",
+            "lcp": "2.0s",
+            "fcp": "1.8s",
+            "cls": "0",
+            "tbt": "0ms",
+            "si": "2.0s"
         },
         "accessibility": {
-            "score": "97"
+            "score": "100"
         },
         "bestPractices": {
             "score": "100"
@@ -37,8 +37,8 @@
             "score": "100"
         }
     },
-    "lastUpdated": "2025-12-05T10:15:14.249Z",
+    "lastUpdated": "2025-12-19T18:48:00.000Z",
     "source": "manual",
     "url": "https://qazuor.com/es",
-    "reportUrl": "https://pagespeed.web.dev/analysis/https-qazuor-com-es/nmbhmjjg0u?form_factor=mobile"
+    "reportUrl": "https://pagespeed.web.dev/analysis/https-qazuor-com-es/ufo8n8lokb?form_factor=mobile"
 }

@@ -45,6 +45,25 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose, alt = 'Pr
     const loadingRef = useRef(false);
     const loadedRef = useRef(false);
 
+    // Reset state on View Transitions navigation
+    useEffect(() => {
+        const handleContentReady = () => {
+            // Reset refs so lightbox can be loaded again on new page
+            loadingRef.current = false;
+            loadedRef.current = false;
+            setLightbox(null);
+            setIsLoading(false);
+            setLightboxIndex(undefined);
+        };
+
+        // Listen for custom event fired after View Transitions DOM swap
+        document.addEventListener('qazuor:content-ready', handleContentReady);
+
+        return () => {
+            document.removeEventListener('qazuor:content-ready', handleContentReady);
+        };
+    }, []);
+
     const loadLightbox = useCallback(async () => {
         // Use refs to prevent multiple loads without re-creating callback
         if (loadedRef.current || loadingRef.current) return;

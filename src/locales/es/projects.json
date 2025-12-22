@@ -62,7 +62,38 @@
             "title": "Enlaces",
             "github": "Ver en GitHub",
             "demo": "Ver Demo",
-            "visit": "Visitar Sitio"
+            "visit": "Visitar Sitio",
+            "npm": "Ver en NPM"
+        },
+        "status": {
+            "title": "Estado",
+            "development": "En Desarrollo",
+            "beta": "Beta",
+            "production": "Producción",
+            "maintenance": "Mantenimiento"
+        },
+        "metrics": {
+            "title": "Métricas del Proyecto",
+            "commits": "Commits",
+            "linesOfCode": "Líneas de Código",
+            "developmentTime": "Tiempo de Desarrollo",
+            "startDate": "Inicio",
+            "contributors": "Colaboradores",
+            "openIssues": "Issues Abiertos"
+        },
+        "challenges": {
+            "title": "Desafíos y Soluciones",
+            "problem": "Problema",
+            "solution": "Solución"
+        },
+        "highlights": {
+            "title": "Características Destacadas"
+        },
+        "futureImprovements": {
+            "title": "Mejoras Futuras"
+        },
+        "stackRationale": {
+            "title": "¿Por Qué Este Stack?"
         }
     },
     "cta": {

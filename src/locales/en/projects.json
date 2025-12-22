@@ -62,7 +62,38 @@
             "title": "Links",
             "github": "View on GitHub",
             "demo": "View Demo",
-            "visit": "Visit Site"
+            "visit": "Visit Site",
+            "npm": "View on NPM"
+        },
+        "status": {
+            "title": "Status",
+            "development": "In Development",
+            "beta": "Beta",
+            "production": "Production",
+            "maintenance": "Maintenance"
+        },
+        "metrics": {
+            "title": "Project Metrics",
+            "commits": "Commits",
+            "linesOfCode": "Lines of Code",
+            "developmentTime": "Development Time",
+            "startDate": "Started",
+            "contributors": "Contributors",
+            "openIssues": "Open Issues"
+        },
+        "challenges": {
+            "title": "Challenges & Solutions",
+            "problem": "Problem",
+            "solution": "Solution"
+        },
+        "highlights": {
+            "title": "Key Highlights"
+        },
+        "futureImprovements": {
+            "title": "Future Improvements"
+        },
+        "stackRationale": {
+            "title": "Why This Stack?"
         }
     },
     "cta": {

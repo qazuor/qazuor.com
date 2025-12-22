@@ -28,6 +28,37 @@ mainImage: ./_images/cheroga-automation/1.png
 featured: true
 publishDate: 2021-08-01
 order: 11
+status: production
+metrics:
+  developmentTime: '2 semanas'
+  startDate: 2021-08-01
+challenges:
+  - problem:
+      'Limitaciones API de WhatsApp - Crear grupos programáticamente era
+      complejo'
+    solution: 'Workflow semi-automatizado con mínima intervención manual'
+  - problem:
+      'Datos inconsistentes - Información faltante en formularios de reserva'
+    solution: 'Validación frontend más defaults inteligentes'
+  - problem: 'Problemas de timezone - Eventos de calendario en hora incorrecta'
+    solution: 'Todas las fechas normalizadas a timezone de Argentina'
+highlights:
+  - '2 horas ahorradas por reserva en trabajo manual'
+  - '10 escenarios Make.com para automatización completa'
+  - 'Cero comunicaciones perdidas con recordatorios automatizados'
+  - 'Experiencia profesional consistente para todos los huéspedes'
+  - 'Escalable sin trabajo adicional'
+futureImprovements:
+  - 'Automatización de tracking de pagos'
+  - 'Solicitudes de reseñas automatizadas'
+  - 'Integración con plataformas de reservas'
+  - 'Dashboard de analíticas'
+  - 'Soporte multi-propiedad'
+stackRationale:
+  Make.com: 'Automatización no-code potente, infraestructura confiable'
+  Google Suite: 'Cliente ya usa Google, integración perfecta'
+  Airtable: 'Base de datos flexible para registros de huéspedes'
+  WhatsApp: 'Canal de comunicación principal en Argentina'
 ---
 
 ## Descripción del Proyecto

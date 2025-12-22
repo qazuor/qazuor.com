@@ -21,8 +21,50 @@ mainImage: ./_images/zodsmith/1.png
 githubUrl: https://github.com/qazuor/zodsmith-builder
 demoUrl: https://qazuzor-zodsmith-builder.vercel.app
 featured: true
-publishDate: 2025-11-26
+publishDate: 2025-11-25
 order: 1
+status: production
+metrics:
+  commits: 21
+  linesOfCode: 10800
+  developmentTime: '5 days'
+  startDate: 2025-11-25
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem:
+      "Drag-and-drop state sync - Zustand state wasn't updating correctly during
+      drag operations"
+    solution:
+      'Implemented a commit system that only updates state on drop, not during
+      drag'
+  - problem:
+      'Code generation edge cases - Optional fields, nested arrays, and empty
+      enums generated invalid code'
+    solution:
+      'Added exhaustive validation before generation plus specific edge case
+      tests'
+  - problem:
+      'Performance with many fields - Re-renders were slow with 20+ fields'
+    solution: 'Aggressive memoization and list virtualization'
+highlights:
+  - 'Drag-and-drop with smooth animations using dnd-kit'
+  - '8 predefined templates for common use cases'
+  - 'TypeScript import - paste interfaces and convert to Zod'
+  - '3 export modes: Schema only, Type only, or Full module'
+  - 'Local persistence - never lose work in progress'
+  - 'Bilingual support (English/Spanish)'
+futureImprovements:
+  - 'Support for nested objects and complex types'
+  - 'Schema composition and references (extends, merge)'
+  - 'Export/import schema configurations'
+  - 'Additional output formats (JSON Schema, Yup)'
+  - 'Collaborative editing features'
+stackRationale:
+  dnd-kit: 'More modern than react-beautiful-dnd, better accessibility support'
+  Zustand: 'Simpler than Redux, perfect for medium-sized apps'
+  shadcn/ui: 'Accessible components, fully customizable'
+  Vite: 'Instant HMR, optimized builds'
 ---
 
 ## Project Description
@@ -121,11 +163,3 @@ The typical flow is straightforward:
 3. **Configure**: Set validations, descriptions and requirements
 4. **Preview**: See the generated code update in real-time
 5. **Export**: Copy the code directly to your project
-
-## Future Improvements
-
-- Support for nested objects and complex types
-- Schema composition and references
-- Export/import schema configurations
-- Additional output formats (JSON Schema, Yup)
-- Collaborative editing features

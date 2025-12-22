@@ -31,6 +31,45 @@ demoUrl: https://hospeda-web.vercel.app
 featured: true
 publishDate: 2025-12-01
 order: 5
+status: development
+metrics:
+  commits: 1967
+  linesOfCode: 570085
+  developmentTime: '8 months'
+  startDate: 2025-05-08
+  contributors: 3
+  openIssues: 53
+challenges:
+  - problem:
+      'Type synchronization between apps - Changes in schemas broke other apps'
+    solution: 'Shared @hospeda/types package with CI validation'
+  - problem: 'Production DB migrations - Drizzle push vs migrate conflicts'
+    solution: 'Migration scripts with automatic rollback'
+  - problem:
+      'Performance with large listings - Thousands of accommodations without
+      pagination'
+    solution: 'Cursor-based pagination with infinite scroll'
+  - problem: 'AI integration costs - LLM calls quickly accumulated costs'
+    solution: 'Aggressive caching and per-user rate limiting'
+highlights:
+  - '1,967 commits demonstrating active development'
+  - 'Monorepo architecture with TurboRepo for optimized builds'
+  - 'AI integration for recommendations and semantic search'
+  - 'Host management tools: calendar, analytics, communication'
+  - 'Regional focus with local knowledge built-in'
+  - 'WCAG compliant and mobile-first design'
+futureImprovements:
+  - 'Mobile app (React Native)'
+  - 'Payment gateway integration'
+  - 'Multi-property dashboard for hosts'
+  - 'OTA integration (Booking, Airbnb)'
+  - 'Review system with NLP analysis'
+stackRationale:
+  Monorepo: 'Shared code between apps, coordinated releases'
+  TurboRepo: 'Build caching, intelligent parallelization'
+  Hono: 'Lightweight, edge-compatible, excellent DX'
+  Drizzle: 'Type-safe queries, better than Prisma for edge'
+  TanStack Router: 'File-based routing with types, loaders'
 ---
 
 ## Project Overview

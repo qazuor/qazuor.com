@@ -32,6 +32,38 @@ demoUrl: https://bookmind-two.vercel.app
 featured: false
 publishDate: 2025-12-01
 order: 8
+status: development
+metrics:
+  commits: 107
+  linesOfCode: 29649
+  developmentTime: '1 month'
+  startDate: 2025-11-04
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem: 'AI API rate limiting - Too many calls to Groq exhausted the limit'
+    solution: 'Processing queue plus aggressive summary caching'
+  - problem: 'Semantic search performance - Embeddings were slow on search'
+    solution: 'Pre-compute embeddings when saving bookmarks'
+  - problem: 'Inconsistent metadata extraction - Some sites lack og:tags'
+    solution: 'Fallback chain: og:tags → meta tags → title/description scraping'
+highlights:
+  - 'AI summaries automatically generated for every bookmark'
+  - 'Semantic search - find by concept, not just keywords'
+  - 'Smart organization with AI-suggested categories and tags'
+  - 'Multiple export formats: JSON, HTML, CSV'
+  - 'Multi-language support (English/Spanish)'
+  - 'Dark/light mode with system preference detection'
+futureImprovements:
+  - 'Browser extension for one-click saving'
+  - 'Mobile app for on-the-go access'
+  - 'Import from Chrome, Firefox, Pocket'
+  - 'Shared collections for teams'
+  - 'Advanced search operators'
+stackRationale:
+  Groq + Llama 3.1: 'Fast and economical for personal use'
+  Better Auth: 'Simple but complete auth, no vendor lock-in'
+  Drizzle + Neon: 'Serverless PostgreSQL with type-safe queries'
 ---
 
 ## Project Description

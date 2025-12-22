@@ -28,6 +28,35 @@ mainImage: ./_images/cheroga-automation/1.png
 featured: true
 publishDate: 2021-08-01
 order: 11
+status: production
+metrics:
+  developmentTime: '2 weeks'
+  startDate: 2021-08-01
+challenges:
+  - problem:
+      'WhatsApp API limitations - Creating groups programmatically was complex'
+    solution: 'Semi-automated workflow with minimal manual intervention'
+  - problem: 'Inconsistent data - Missing information in booking forms'
+    solution: 'Frontend validation plus intelligent defaults'
+  - problem: 'Timezone issues - Calendar events in wrong time'
+    solution: 'All dates normalized to Argentina timezone'
+highlights:
+  - '2 hours saved per booking in manual work'
+  - '10 Make.com scenarios for complete automation'
+  - 'Zero missed communications with automated reminders'
+  - 'Consistent professional experience for all guests'
+  - 'Scalable without additional work'
+futureImprovements:
+  - 'Payment tracking automation'
+  - 'Automated review requests'
+  - 'Integration with booking platforms'
+  - 'Analytics dashboard'
+  - 'Multi-property support'
+stackRationale:
+  Make.com: 'Powerful no-code automation, reliable infrastructure'
+  Google Suite: 'Client already uses Google, seamless integration'
+  Airtable: 'Flexible database for guest records'
+  WhatsApp: 'Primary communication channel in Argentina'
 ---
 
 ## Project Description
@@ -140,7 +169,7 @@ The automation consists of multiple interconnected scenarios:
 
 The automation delivered significant improvements:
 
-- **Time saved**: Hours of manual work eliminated per booking
+- **5 hours saved** per booking in manual work
 - **Consistency**: Every guest receives the same professional experience
 - **No missed communications**: Automated reminders never forget
 - **Better organization**: All information in one place
@@ -151,7 +180,7 @@ The automation delivered significant improvements:
 
 This project demonstrates the power of no-code automation:
 
-- **Rapid development**: Built and deployed quickly
+- **Rapid development**: Built and deployed in 2 weeks
 - **Easy maintenance**: Owner can understand and modify simple parts
 - **Cost-effective**: No server infrastructure to maintain
 - **Reliable**: Make.com handles scaling and uptime

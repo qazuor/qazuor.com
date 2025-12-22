@@ -15,9 +15,43 @@ images:
   - ./_images/reactCustomHooks/1.png
 mainImage: ./_images/reactCustomHooks/1.png
 githubUrl: https://github.com/qazuor/reactCustomHooks
+npmUrl: https://www.npmjs.com/package/@qazuor/react-hooks
 featured: false
 publishDate: 2025-04-01
 order: 6
+status: production
+metrics:
+  commits: 53
+  linesOfCode: 1155
+  developmentTime: '2 weeks'
+  startDate: 2025-03-04
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem: 'SSR compatibility - Hooks accessing window broke in SSR'
+    solution: "typeof window !== 'undefined' checks with safe initial values"
+  - problem: 'Memory leaks in intervals - Timers not cleaned up on unmount'
+    solution: 'Rigorous cleanup in useEffect return functions'
+  - problem:
+      'Complex type inference - Generics for hooks with multiple overloads'
+    solution: 'Well-defined overload signatures plus type tests'
+highlights:
+  - '20+ hooks covering common use cases'
+  - 'Zero dependencies - only React as peer dependency'
+  - 'Full TypeScript support with excellent type inference'
+  - 'Tree-shakeable - only import what you use'
+  - 'SSR safe - compatible with Next.js and others'
+  - 'Bundle under 5KB gzipped for entire library'
+futureImprovements:
+  - 'usePrevious - Track previous value'
+  - 'useAsync - Async operation state management'
+  - 'useIntersectionObserver - Viewport visibility detection'
+  - 'useGeolocation - Browser geolocation API'
+  - 'useEventListener - Simplified event listener management'
+stackRationale:
+  TypeScript: 'Excellent type inference for hook consumers'
+  Vitest: 'Fast testing with great DX'
+  Zero dependencies: 'Minimal bundle size, no version conflicts'
 ---
 
 ## Project Description
@@ -129,13 +163,3 @@ function SearchDropdown() {
 
 Each hook is independently importable, so you only include what you use in your
 bundle. The entire library is under 5KB gzipped.
-
-## Future Hooks
-
-Planning to add:
-
-- `usePrevious` - Track previous value
-- `useAsync` - Async operation state management
-- `useIntersectionObserver` - Viewport visibility detection
-- `useGeolocation` - Browser geolocation API
-- `useEventListener` - Simplified event listener management

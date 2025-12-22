@@ -24,6 +24,44 @@ demoUrl: https://qazuor-animotion-css.vercel.app
 featured: true
 publishDate: 2025-11-25
 order: 4
+status: production
+metrics:
+  commits: 18
+  linesOfCode: 6965
+  developmentTime: '5 días'
+  startDate: 2025-11-25
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem:
+      'Línea de tiempo de keyframes compleja - Representar 0-100% con múltiples
+      propiedades simultáneas'
+    solution: 'Sistema de pistas por propiedad con sincronización'
+  - problem:
+      'Vista previa de animación - Reproducir animaciones sin afectar el estado
+      del editor'
+    solution: 'Elemento de preview aislado con su propio ciclo de animación'
+  - problem:
+      'Generación optimizada de keyframes - Evitar keyframes redundantes en el
+      CSS generado'
+    solution: 'Algoritmo de compresión que agrupa propiedades idénticas'
+highlights:
+  - 'Editor visual de keyframes con línea de tiempo interactiva'
+  - '17 funciones de timing desde básicas hasta cubic-bezier'
+  - '15 presets de animación categorizados por tipo'
+  - 'Propiedades animables: transforms, opacity, colors, shadows'
+  - 'Historial de animaciones con persistencia en localStorage'
+  - 'Múltiples formas de preview: cuadrado, círculo, texto, ícono'
+futureImprovements:
+  - 'Secuenciación de animaciones (encadenar múltiples animaciones)'
+  - 'Formatos de salida CSS-in-JS'
+  - 'Librería de animaciones exportable'
+  - 'URLs de animaciones compartibles'
+  - 'Más categorías de presets'
+stackRationale:
+  Motion: 'Para animaciones UI suaves en el editor mismo'
+  Radix UI: 'Sliders y toggles accesibles'
+  Zustand: 'Historial de animaciones con soporte undo/redo'
 ---
 
 ## Descripción del Proyecto

@@ -32,6 +32,44 @@ demoUrl: https://qazuzor-zodsmith-builder.vercel.app
 featured: true
 publishDate: 2025-11-26
 order: 1
+status: production
+metrics:
+  commits: 21
+  linesOfCode: 10800
+  developmentTime: '5 días'
+  startDate: 2025-11-25
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem:
+      'Sincronización de drag-and-drop con estado - Zustand no actualizaba
+      correctamente durante el arrastre'
+    solution:
+      'Sistema de commit que solo actualiza al soltar, no durante el arrastre'
+  - problem:
+      'Casos edge de generación de código - Campos opcionales, arrays anidados y
+      enums vacíos generaban código inválido'
+    solution: 'Validación exhaustiva antes de generar más tests específicos'
+  - problem: 'Performance con muchos campos - Re-renders lentos con 20+ campos'
+    solution: 'Memoización agresiva y virtualización de listas'
+highlights:
+  - 'Drag-and-drop con animaciones suaves usando dnd-kit'
+  - '8 plantillas predefinidas para casos comunes'
+  - 'Importar TypeScript - pegar interfaces y convertir a Zod'
+  - '3 modos de exportación: Solo Schema, Solo Type, o Módulo completo'
+  - 'Persistencia local - nunca pierdas trabajo en progreso'
+  - 'Soporte bilingüe (Inglés/Español)'
+futureImprovements:
+  - 'Soporte para objetos anidados y tipos complejos'
+  - 'Composición de schemas y referencias (extends, merge)'
+  - 'Exportar/importar configuraciones de schemas'
+  - 'Formatos de salida adicionales (JSON Schema, Yup)'
+  - 'Funciones de edición colaborativa'
+stackRationale:
+  dnd-kit: 'Más moderno que react-beautiful-dnd, mejor soporte de accesibilidad'
+  Zustand: 'Más simple que Redux, perfecto para apps medianas'
+  shadcn/ui: 'Componentes accesibles, totalmente personalizables'
+  Vite: 'HMR instantáneo, builds optimizados'
 ---
 
 ## Descripción del Proyecto
@@ -132,11 +170,3 @@ El flujo típico es directo:
 3. **Configurar**: Establecer validaciones, descripciones y requerimientos
 4. **Previsualizar**: Ver el código generado actualizarse en tiempo real
 5. **Exportar**: Copiar el código directamente a tu proyecto
-
-## Mejoras Futuras
-
-- Soporte para objetos anidados y tipos complejos
-- Composición de esquemas y referencias
-- Exportar/importar configuraciones de esquemas
-- Formatos de salida adicionales (JSON Schema, Yup)
-- Funciones de edición colaborativa

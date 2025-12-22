@@ -32,6 +32,42 @@ demoUrl: https://bookmind-two.vercel.app
 featured: false
 publishDate: 2025-12-01
 order: 8
+status: development
+metrics:
+  commits: 107
+  linesOfCode: 29649
+  developmentTime: '1 mes'
+  startDate: 2025-11-04
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem:
+      'Rate limiting de API IA - Demasiadas llamadas a Groq agotaban el límite'
+    solution: 'Cola de procesamiento más caché agresivo de resúmenes'
+  - problem:
+      'Rendimiento de búsqueda semántica - Embeddings eran lentos en búsqueda'
+    solution: 'Pre-computar embeddings al guardar marcadores'
+  - problem:
+      'Extracción de metadata inconsistente - Algunos sitios carecen de og:tags'
+    solution:
+      'Cadena de fallback: og:tags → meta tags → scraping de title/description'
+highlights:
+  - 'Resúmenes IA generados automáticamente para cada marcador'
+  - 'Búsqueda semántica - encontrá por concepto, no solo palabras clave'
+  - 'Organización inteligente con categorías y tags sugeridos por IA'
+  - 'Múltiples formatos de exportación: JSON, HTML, CSV'
+  - 'Soporte multi-idioma (Inglés/Español)'
+  - 'Modo oscuro/claro con detección de preferencia del sistema'
+futureImprovements:
+  - 'Extensión de navegador para guardado con un clic'
+  - 'App móvil para acceso en movimiento'
+  - 'Importar desde Chrome, Firefox, Pocket'
+  - 'Colecciones compartidas para equipos'
+  - 'Operadores de búsqueda avanzados'
+stackRationale:
+  Groq + Llama 3.1: 'Rápido y económico para uso personal'
+  Better Auth: 'Auth simple pero completo, sin vendor lock-in'
+  Drizzle + Neon: 'PostgreSQL serverless con queries type-safe'
 ---
 
 ## Descripción del Proyecto

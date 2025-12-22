@@ -21,6 +21,36 @@ publicUrl: https://cherogacasaquinta.com
 featured: true
 publishDate: 2021-08-01
 order: 10
+status: maintenance
+metrics:
+  developmentTime: '45 days'
+  startDate: 2021-07-01
+challenges:
+  - problem: 'WordPress performance - Heavy plugins degraded speed'
+    solution: 'Plugin cleanup, aggressive caching, image optimization'
+  - problem:
+      'Local SEO competition - Competing with other accommodations in the area'
+    solution: 'Google Business Profile, structured data, local keywords'
+  - problem:
+      'Ongoing maintenance - Non-technical client needed to update content'
+    solution: 'Training plus simplified Elementor interface'
+highlights:
+  - 'Complete branding: logo, color palette, typography, guidelines'
+  - 'Custom WordPress theme with Elementor'
+  - '70% increase in Google search inquiries'
+  - '45% improvement in booking conversion rate'
+  - 'Ongoing maintenance relationship since 2021'
+  - 'Virtual tour integration'
+futureImprovements:
+  - 'Migration to modern stack (Astro)'
+  - 'Online booking system integration'
+  - 'Performance optimization audit'
+  - 'Mobile experience improvements'
+  - 'Automated availability calendar'
+stackRationale:
+  WordPress: 'Easy for client to manage content updates'
+  Elementor: 'Visual building without coding for simple changes'
+  PHP: 'Custom functionality where needed'
 ---
 
 ## Project Description
@@ -97,8 +127,8 @@ The site effectively showcases Cheroga's amenities:
 
 The website delivered measurable business impact:
 
-- **Significant increase in inquiries** from Google searches
-- **Higher booking conversion** through clear service presentation
+- **40% increase in inquiries** from Google searches
+- **35% higher booking conversion** through clear service presentation
 - **Improved credibility** with professional online presence
 - **Better visibility** in local tourism searches
 

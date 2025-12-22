@@ -22,6 +22,43 @@ demoUrl: https://qazuor-react-form-toolkit.vercel.app/
 featured: false
 publishDate: 2025-04-10
 order: 7
+status: beta
+metrics:
+  commits: 293
+  linesOfCode: 10196
+  developmentTime: '1 mes'
+  startDate: 2025-03-19
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem:
+      'Inferencia de tipos con schemas Zod - Inferir tipos desde campos anidados
+      era complejo'
+    solution:
+      'Tipos de utilidad que extraen tipos recursivamente desde el schema'
+  - problem:
+      'Re-mount de campos condicionales - Campos condicionales perdían estado'
+    solution: 'Preservar en React Hook Form incluso cuando no se renderizan'
+  - problem:
+      'Validación de campos array - Validar arrays con dependencias internas'
+    solution: 'Validación de schema a nivel del array completo'
+highlights:
+  - 'Type-safe end-to-end - Schema define validación Y tipos'
+  - '7 idiomas integrados para mensajes de error'
+  - 'Patrones de campos avanzados: condicionales, dependientes, arrays'
+  - 'Bajo boilerplate comparado con React Hook Form puro'
+  - 'Framework agnostic: CRA, Next.js, Remix, Vite'
+futureImprovements:
+  - 'Formularios wizard/multi-paso'
+  - 'Campos de carga de archivos'
+  - 'Integración con editor de texto enriquecido'
+  - 'Constructor visual de formularios'
+  - 'Más temas pre-diseñados'
+stackRationale:
+  React Hook Form:
+    'Rendimiento (controlado vs no controlado), re-renders mínimos'
+  Zod: 'Validación en runtime más inferencia TypeScript'
+  Tailwind: 'Estilos rápidos pero completamente personalizable'
 ---
 
 ## Descripción del Proyecto

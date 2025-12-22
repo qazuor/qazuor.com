@@ -16,9 +16,45 @@ images:
   - ./_images/reactCustomHooks/1.png
 mainImage: ./_images/reactCustomHooks/1.png
 githubUrl: https://github.com/qazuor/reactCustomHooks
+npmUrl: https://www.npmjs.com/package/@qazuor/react-hooks
 featured: false
 publishDate: 2025-04-01
 order: 6
+status: production
+metrics:
+  commits: 53
+  linesOfCode: 1155
+  developmentTime: '2 semanas'
+  startDate: 2025-03-04
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem: 'Compatibilidad SSR - Hooks accediendo a window rompían en SSR'
+    solution:
+      "Chequeos typeof window !== 'undefined' con valores iniciales seguros"
+  - problem: 'Memory leaks en intervalos - Timers no limpiados al desmontar'
+    solution: 'Limpieza rigurosa en funciones de retorno de useEffect'
+  - problem:
+      'Inferencia de tipos compleja - Genéricos para hooks con múltiples
+      overloads'
+    solution: 'Firmas de overload bien definidas más tests de tipos'
+highlights:
+  - '20+ hooks cubriendo casos de uso comunes'
+  - 'Cero dependencias - solo React como peer dependency'
+  - 'Soporte completo de TypeScript con excelente inferencia de tipos'
+  - 'Tree-shakeable - solo importás lo que usás'
+  - 'SSR safe - compatible con Next.js y otros'
+  - 'Bundle bajo 5KB gzipped para la librería completa'
+futureImprovements:
+  - 'usePrevious - Trackear valor previo'
+  - 'useAsync - Gestión de estado de operaciones async'
+  - 'useIntersectionObserver - Detección de visibilidad en viewport'
+  - 'useGeolocation - API de geolocalización del navegador'
+  - 'useEventListener - Gestión simplificada de event listeners'
+stackRationale:
+  TypeScript: 'Excelente inferencia de tipos para consumidores del hook'
+  Vitest: 'Testing rápido con gran DX'
+  Zero dependencies: 'Tamaño de bundle mínimo, sin conflictos de versión'
 ---
 
 ## Descripción del Proyecto

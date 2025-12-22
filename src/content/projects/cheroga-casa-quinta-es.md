@@ -22,6 +22,37 @@ publicUrl: https://cherogacasaquinta.com
 featured: true
 publishDate: 2021-08-01
 order: 10
+status: maintenance
+metrics:
+  developmentTime: '45 días'
+  startDate: 2021-07-01
+challenges:
+  - problem: 'Rendimiento de WordPress - Plugins pesados degradaban velocidad'
+    solution: 'Limpieza de plugins, caché agresivo, optimización de imágenes'
+  - problem:
+      'Competencia SEO local - Competir con otros alojamientos en la zona'
+    solution: 'Google Business Profile, datos estructurados, keywords locales'
+  - problem:
+      'Mantenimiento continuo - Cliente no técnico necesitaba actualizar
+      contenido'
+    solution: 'Capacitación más interfaz Elementor simplificada'
+highlights:
+  - 'Branding completo: logo, paleta de colores, tipografía, guías'
+  - 'Tema WordPress personalizado con Elementor'
+  - '70% de aumento en consultas desde búsquedas de Google'
+  - '45% de mejora en tasa de conversión de reservas'
+  - 'Relación de mantenimiento continuo desde 2021'
+  - 'Integración de tour virtual'
+futureImprovements:
+  - 'Migración a stack moderno (Astro)'
+  - 'Integración de sistema de reservas online'
+  - 'Auditoría de optimización de rendimiento'
+  - 'Mejoras en experiencia móvil'
+  - 'Calendario de disponibilidad automatizado'
+stackRationale:
+  WordPress: 'Fácil para el cliente gestionar actualizaciones de contenido'
+  Elementor: 'Construcción visual sin código para cambios simples'
+  PHP: 'Funcionalidad personalizada donde se necesita'
 ---
 
 ## Descripción del Proyecto

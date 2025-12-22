@@ -19,6 +19,42 @@ githubUrl: https://github.com/qazuor/Gemfolio
 featured: true
 publishDate: 2025-12-15
 order: 9
+status: development
+metrics:
+  commits: 186
+  linesOfCode: 104117
+  developmentTime: '2 meses'
+  startDate: 2025-11-05
+  contributors: 2
+  openIssues: 0
+challenges:
+  - problem: 'Imágenes HD pesadas - Fotos de joyería requieren alta resolución'
+    solution: 'Optimización automática con CDN Cloudflare R2'
+  - problem:
+      'Variantes de productos complejas - Mismo diseño en múltiples materiales'
+    solution: 'Sistema de variantes con SKU único por combinación'
+  - problem:
+      'Modo dual (catálogo/tienda) - Cambiar modos sin duplicación de código'
+    solution: 'Proveedor de contexto controlando qué features mostrar'
+highlights:
+  - 'Catálogo de productos HD con funcionalidad de zoom'
+  - 'Sistema de variantes: tamaños, materiales, tipos de piedra'
+  - 'PWA con soporte offline e instalable'
+  - 'Optimización SEO con datos estructurados JSON-LD'
+  - 'Modo dual: catálogo público + tienda con precios'
+  - 'Diseño responsive mobile-first'
+futureImprovements:
+  - 'Pasarela de pagos (MercadoPago, Stripe)'
+  - 'Soporte multi-tienda'
+  - 'Sincronización POS físico'
+  - 'Cuentas de clientes e historial de pedidos'
+  - 'Herramientas de marketing (campañas email, redes sociales)'
+stackRationale:
+  Astro + React:
+    'Páginas de catálogo rápidas más interactividad donde se necesita'
+  TanStack Start: 'React full-stack moderno para panel admin'
+  Cloudflare R2: 'Almacenamiento económico para muchas imágenes'
+  UploadThing: 'Carga de imágenes con preview y optimización'
 ---
 
 ## Descripción del Proyecto

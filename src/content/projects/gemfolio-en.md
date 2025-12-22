@@ -18,6 +18,39 @@ githubUrl: https://github.com/qazuor/Gemfolio
 featured: true
 publishDate: 2025-12-15
 order: 9
+status: development
+metrics:
+  commits: 186
+  linesOfCode: 104117
+  developmentTime: '2 months'
+  startDate: 2025-11-05
+  contributors: 2
+  openIssues: 0
+challenges:
+  - problem: 'Heavy HD images - Jewelry photos require high resolution'
+    solution: 'Automatic optimization with Cloudflare R2 CDN'
+  - problem: 'Complex product variants - Same design in multiple materials'
+    solution: 'Variant system with unique SKU per combination'
+  - problem: 'Dual-mode (catalog/store) - Switch modes without code duplication'
+    solution: 'Context provider controlling which features to display'
+highlights:
+  - 'HD product catalog with zoom functionality'
+  - 'Variant system: sizes, materials, stone types'
+  - 'PWA with offline support and installable'
+  - 'SEO optimization with JSON-LD structured data'
+  - 'Dual-mode: public catalog + store with pricing'
+  - 'Mobile-first responsive design'
+futureImprovements:
+  - 'Payment gateway (MercadoPago, Stripe)'
+  - 'Multi-store support'
+  - 'Physical POS synchronization'
+  - 'Customer accounts and order history'
+  - 'Marketing tools (email campaigns, social media)'
+stackRationale:
+  Astro + React: 'Fast catalog pages plus interactivity where needed'
+  TanStack Start: 'Modern full-stack React for admin panel'
+  Cloudflare R2: 'Economical storage for many images'
+  UploadThing: 'Image upload with preview and optimization'
 ---
 
 ## Project Description
@@ -115,11 +148,3 @@ sales features and AI integration.
 Initially built for a specific need, Gemfolio will be offered as a product for
 other small jewelry retailers and artisans who need a professional online
 presence without the complexity of large e-commerce platforms.
-
-## Future Plans
-
-- Payment gateway integration
-- Multi-store support
-- Inventory sync with physical POS systems
-- Customer accounts and order history
-- Marketing tools (email campaigns, social media integration)

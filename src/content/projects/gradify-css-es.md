@@ -24,6 +24,44 @@ demoUrl: https://qazuor-gradify-css.vercel.app/
 featured: true
 publishDate: 2025-11-25
 order: 2
+status: production
+metrics:
+  commits: 24
+  linesOfCode: 6087
+  developmentTime: '5 días'
+  startDate: 2025-11-25
+  contributors: 1
+  openIssues: 0
+challenges:
+  - problem:
+      'Renderizado de gradientes complejos - Gradientes cónicos con muchas
+      paradas causaban artefactos visuales'
+    solution: 'Limitación de paradas de color y normalización de posiciones'
+  - problem:
+      'Selector de color inconsistente - Diferentes navegadores renderizaban
+      colores de forma distinta'
+    solution: 'Normalización a hex y preview en canvas'
+  - problem:
+      'Selector de ángulo táctil - El selector circular era difícil de usar en
+      móviles'
+    solution: 'Área de toque expandida y debounce en actualizaciones'
+highlights:
+  - '3 tipos de gradientes: Lineal, Radial y Cónico'
+  - 'Selector visual de ángulo 360° para gradientes lineales'
+  - 'Paradas de color ilimitadas con posicionamiento preciso'
+  - '15+ presets curados en 4 categorías'
+  - 'Historial de gradientes con auto-guardado'
+  - 'Tema oscuro/claro con detección de preferencias del sistema'
+futureImprovements:
+  - 'Generador de animaciones de gradientes'
+  - 'Formatos de salida CSS-in-JS (styled-components, emotion)'
+  - 'Colecciones de paletas de gradientes'
+  - 'URLs compartibles de gradientes'
+  - 'Extensión de navegador para acceso rápido'
+stackRationale:
+  Zod: 'Validación type-safe para configuraciones de gradientes'
+  shadcn/ui: 'Sliders y color pickers accesibles'
+  Zustand: 'Persistencia simple con middleware'
 ---
 
 ## Descripción del Proyecto
@@ -119,11 +157,3 @@ src/
 4. **Previsualización en tiempo real**: Mirá el gradiente actualizarse al
    instante
 5. **Copiá el CSS**: Un clic al portapapeles
-
-## Ideas Futuras
-
-- Generador de animaciones de gradiente
-- Formatos de salida CSS-in-JS
-- Colecciones de paletas de gradientes
-- Compartir gradientes via URL
-- Extensión de navegador para acceso rápido

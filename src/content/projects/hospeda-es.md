@@ -32,6 +32,49 @@ demoUrl: https://hospeda-web.vercel.app
 featured: true
 publishDate: 2025-12-01
 order: 5
+status: development
+metrics:
+  commits: 1967
+  linesOfCode: 570085
+  developmentTime: '8 meses'
+  startDate: 2025-05-08
+  contributors: 3
+  openIssues: 53
+challenges:
+  - problem:
+      'Sincronización de tipos entre apps - Cambios en schemas rompían otras
+      apps'
+    solution: 'Package compartido @hospeda/types con validación en CI'
+  - problem:
+      'Migraciones de DB en producción - Conflictos entre Drizzle push vs
+      migrate'
+    solution: 'Scripts de migración con rollback automático'
+  - problem:
+      'Rendimiento con listados grandes - Miles de alojamientos sin paginación'
+    solution: 'Paginación basada en cursor con scroll infinito'
+  - problem:
+      'Costos de integración IA - Llamadas a LLM acumulaban costos rápidamente'
+    solution: 'Caché agresivo y rate limiting por usuario'
+highlights:
+  - '1,967 commits demostrando desarrollo activo'
+  - 'Arquitectura monorepo con TurboRepo para builds optimizados'
+  - 'Integración de IA para recomendaciones y búsqueda semántica'
+  - 'Herramientas de gestión para anfitriones: calendario, analíticas,
+    comunicación'
+  - 'Enfoque regional con conocimiento local integrado'
+  - 'Diseño WCAG compliant y mobile-first'
+futureImprovements:
+  - 'App móvil (React Native)'
+  - 'Integración de pasarela de pagos'
+  - 'Dashboard multi-propiedad para anfitriones'
+  - 'Integración OTA (Booking, Airbnb)'
+  - 'Sistema de reseñas con análisis NLP'
+stackRationale:
+  Monorepo: 'Código compartido entre apps, releases coordinados'
+  TurboRepo: 'Caché de builds, paralelización inteligente'
+  Hono: 'Liviano, compatible con edge, excelente DX'
+  Drizzle: 'Queries type-safe, mejor que Prisma para edge'
+  TanStack Router: 'Routing basado en archivos con tipos, loaders'
 ---
 
 ## Descripción del Proyecto

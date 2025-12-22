@@ -467,7 +467,9 @@ const alternateLinks = locales.map((locale) => {
         <Footer lang={lang} isHome={isHomePage} />
 
         <!-- Callout Enhancer for prose content (blog, projects, goodies) -->
-        <!-- Transforms blockquotes with patterns like **Info:** into styled callouts -->
+        <!-- Transforms blockquotes with GitHub Alerts syntax [!type] into styled callouts -->
+        <!-- Supports: [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION] (GitHub standard) -->
+        <!-- Plus custom: [!INFO], [!SUCCESS], [!ERROR], [!QUOTE] -->
         <!-- Uses is:inline to ensure re-execution after View Transitions -->
         <script is:inline>
             (function() {
@@ -475,14 +477,21 @@ const alternateLinks = locales.map((locale) => {
                 if (window.__calloutEnhancerInitialized) return;
                 window.__calloutEnhancerInitialized = true;
 
-                var calloutPatterns = {
-                    info: /^<strong>Info:?<\/strong>:?\s*/i,
-                    warning: /^<strong>Warning:?<\/strong>:?\s*/i,
-                    tip: /^<strong>Tip:?<\/strong>:?\s*/i,
-                    success: /^<strong>Success:?<\/strong>:?\s*/i,
-                    error: /^<strong>Error:?<\/strong>:?\s*/i,
-                    quote: /^<strong>Quote:?<\/strong>:?\s*/i
+                // Map GitHub Alert types to our callout types
+                var typeMap = {
+                    'note': 'info',
+                    'info': 'info',
+                    'tip': 'tip',
+                    'important': 'warning',
+                    'warning': 'warning',
+                    'caution': 'error',
+                    'error': 'error',
+                    'success': 'success',
+                    'quote': 'quote'
                 };
+
+                // Pattern to match GitHub Alerts: [!TYPE] at the start
+                var githubAlertPattern = /^\[!(NOTE|INFO|TIP|IMPORTANT|WARNING|CAUTION|ERROR|SUCCESS|QUOTE)\]/i;
 
                 function enhanceCallouts() {
                     // Early bailout: skip if no prose content on page
@@ -495,16 +504,25 @@ const alternateLinks = locales.map((locale) => {
                         var firstParagraph = blockquote.querySelector('p');
                         if (!firstParagraph) return;
 
-                        var html = firstParagraph.innerHTML.trim();
+                        var text = firstParagraph.textContent.trim();
+                        var match = text.match(githubAlertPattern);
 
-                        for (var type in calloutPatterns) {
-                            if (calloutPatterns[type].test(html)) {
-                                blockquote.dataset.calloutEnhanced = 'true';
-                                blockquote.classList.add('callout-' + type);
-                                var cleanedHtml = html.replace(calloutPatterns[type], '').trim();
+                        if (match) {
+                            var alertType = match[1].toLowerCase();
+                            var calloutType = typeMap[alertType] || 'info';
+
+                            blockquote.dataset.calloutEnhanced = 'true';
+                            blockquote.classList.add('callout-' + calloutType);
+
+                            // Remove the [!TYPE] from the content
+                            var html = firstParagraph.innerHTML;
+                            var cleanedHtml = html.replace(/^\[!(NOTE|INFO|TIP|IMPORTANT|WARNING|CAUTION|ERROR|SUCCESS|QUOTE)\]\s*/i, '').trim();
+
+                            if (cleanedHtml) {
                                 firstParagraph.innerHTML = cleanedHtml;
-                                if (!cleanedHtml) firstParagraph.remove();
-                                break;
+                            } else {
+                                // If first paragraph only had the type, remove it
+                                firstParagraph.remove();
                             }
                         }
                     });

@@ -1,6 +1,7 @@
 ---
 title: 'Checklist práctico para usar IA sin llenar el repo de basura'
 slug: 'ia-codigo-calidad'
+lang: es
 excerpt:
   'Rutinas concretas de trabajo asistido por IA: debugging, tests, refactors y
   diseño. Todo sin regalarle el volante al modelo.'

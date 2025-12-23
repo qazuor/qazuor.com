@@ -1,6 +1,7 @@
 ---
 title: 'Mi estrategia de monorepo con Turborepo: cómo organizo apps y packages'
 slug: 'turborepo-monorepo-estrategia'
+lang: es
 excerpt:
   'Cómo estructuro un monorepo con Turborepo para proyectos que dejaron de ser
   un juguete: apps claras, packages reutilizables y reglas simples para no morir

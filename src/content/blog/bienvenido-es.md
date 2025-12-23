@@ -1,6 +1,7 @@
 ---
 title: 'Bienvenido a mi blog: quién soy y de qué va esto'
-slug: 'bienvenido'
+slug: 'bienvenido-es'
+lang: es
 excerpt:
   'Una intro a este espacio: quién soy, qué hago, y qué tipo de contenido vas a
   encontrar acá. Sin humo, con code y opiniones honestas.'

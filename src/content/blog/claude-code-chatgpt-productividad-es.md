@@ -3,6 +3,7 @@ title:
   'Cómo uso Claude Code y ChatGPT para acelerar mi trabajo sin perder control
   del código'
 slug: 'claude-code-chatgpt-productividad'
+lang: es
 excerpt:
   'IA como copiloto, no como piloto suicida: cómo integro Claude Code y ChatGPT
   en mi flujo de trabajo sin regalarles el volante.'

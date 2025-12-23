@@ -3,6 +3,7 @@ title:
   'Construyendo mi portfolio desde cero: decisiones técnicas y lecciones
   aprendidas'
 slug: 'construyendo-portfolio-decisiones-tecnicas'
+lang: es
 excerpt:
   'Un recorrido completo por el desarrollo de qazuor.com: stack técnico,
   arquitectura, features implementadas, problemas reales que encontré y cómo los

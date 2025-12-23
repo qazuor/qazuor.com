@@ -1,6 +1,7 @@
 ---
 title: 'Dev freelance vs Agencia: cuándo tiene sentido cada opción'
 slug: 'dev-freelance-vs-agencia'
+lang: es
 excerpt:
   'Un análisis honesto de cuándo conviene trabajar con un dev freelance y cuándo
   con una agencia. Sin agenda oculta, con pros y contras reales.'

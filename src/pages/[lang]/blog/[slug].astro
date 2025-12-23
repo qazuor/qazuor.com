@@ -15,31 +15,60 @@ import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getAdjacentPosts, getEffectiveSlug, getRelatedPosts, getSeriesPosts } from '@/utils/blog';
+import {
+    getAdjacentPosts,
+    getAllUniqueSlugs,
+    getBlogPostBySlugWithFallback,
+    getBlogPostsForLang,
+    getEffectiveSlug,
+    getRelatedPosts,
+    getSeriesPosts,
+    type SupportedLang
+} from '@/utils/blog';
 
 export async function getStaticPaths() {
     const allBlogPosts = await getCollection('blog');
 
-    // Generate paths for each language and each blog post
-    return Object.keys(languages).flatMap((lang) =>
-        allBlogPosts
-            .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
-            .map((post: CollectionEntry<'blog'>) => ({
-                params: { lang, slug: getEffectiveSlug(post) },
-                props: { post, allPosts: allBlogPosts }
-            }))
-    );
+    // Get all unique slugs from published posts
+    const uniqueSlugs = getAllUniqueSlugs(allBlogPosts);
+
+    // Generate paths for each language and each unique slug
+    // The actual post resolution (with fallback) happens at render time
+    const paths = [];
+    for (const lang of Object.keys(languages)) {
+        for (const slug of uniqueSlugs) {
+            paths.push({
+                params: { lang, slug },
+                props: { allPosts: allBlogPosts }
+            });
+        }
+    }
+
+    return paths;
 }
 
 interface Props {
-    post: CollectionEntry<'blog'>;
     allPosts: CollectionEntry<'blog'>[];
 }
 
-const { post, allPosts } = Astro.props;
+const { allPosts } = Astro.props;
+const { lang: urlLang, slug } = Astro.params;
+const lang = urlLang as SupportedLang;
+
+// Get the post with fallback support
+const postResult = getBlogPostBySlugWithFallback(allPosts, slug, lang);
+
+// This shouldn't happen since we generate paths from existing slugs, but handle it gracefully
+if (!postResult) {
+    return Astro.redirect(`/${lang}/blog`);
+}
+
+const { post, isFallback, actualLang } = postResult;
 const { Content, headings } = await post.render();
 
-const lang = getLangFromUrl(Astro.url);
+// Get posts in the same language for related/adjacent (use actual language of content)
+const postsInSameLang = getBlogPostsForLang(allPosts, actualLang);
+
 const t = getTranslations(lang);
 
 // Get TOC translation
@@ -58,10 +87,10 @@ const formattedDate = new Date(post.data.publishDate).toLocaleDateString(lang ==
 // Extract read time number
 const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
 
-// Get blog post metadata (related, series, adjacent)
-const relatedPosts = getRelatedPosts(post, allPosts);
-const seriesData = getSeriesPosts(post, allPosts);
-const { prev, next } = getAdjacentPosts(post, allPosts);
+// Get blog post metadata (related, series, adjacent) - use posts in same language
+const relatedPosts = getRelatedPosts(post, postsInSameLang);
+const seriesData = getSeriesPosts(post, postsInSameLang);
+const { prev, next } = getAdjacentPosts(post, postsInSameLang);
 
 // Canonical URL for sharing
 const canonicalUrl = Astro.url.href;

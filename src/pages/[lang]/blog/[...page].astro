@@ -9,7 +9,7 @@ import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getEffectiveSlug } from '@/utils/blog';
+import { getBlogPostsForLangWithFallback, getEffectiveSlug, type SupportedLang } from '@/utils/blog';
 
 // Define the type for our blog post data
 interface BlogPostData {
@@ -29,27 +29,22 @@ interface Props {
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
     const allBlogPosts = await getCollection('blog');
 
-    // Filter out drafts and sort by date (newest first)
-    const publishedPosts = allBlogPosts
-        .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
-        .sort(
-            (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
-                b.data.publishDate.getTime() - a.data.publishDate.getTime()
-        );
-
     // Generate paginated paths for each language
     return Object.keys(languages).flatMap((lang) => {
-        const postsForLang = publishedPosts.map((post: CollectionEntry<'blog'>) => ({
-            title: post.data.title,
-            excerpt: post.data.excerpt,
-            date: post.data.publishDate.toISOString().split('T')[0],
-            readTime: post.data.readTime,
-            tags: post.data.tags,
-            slug: `/${lang}/blog/${getEffectiveSlug(post)}`,
-            category: post.data.category || post.data.tags[0] || 'Article'
-        }));
+        // Get posts with fallback (if English version doesn't exist, use Spanish)
+        const postsWithFallback = getBlogPostsForLangWithFallback(allBlogPosts, lang as SupportedLang)
+            .sort((a, b) => b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
+            .map(({ post }) => ({
+                title: post.data.title,
+                excerpt: post.data.excerpt,
+                date: post.data.publishDate.toISOString().split('T')[0],
+                readTime: post.data.readTime,
+                tags: post.data.tags,
+                slug: `/${lang}/blog/${getEffectiveSlug(post)}`,
+                category: post.data.category || post.data.tags[0] || 'Article'
+            }));
 
-        return paginate(postsForLang, {
+        return paginate(postsWithFallback, {
             params: { lang },
             pageSize: 9 // 9 posts per page (3x3 grid)
         });
@@ -132,7 +127,7 @@ const pageDescription = processMarkdown(t('blog.pageDescription'));
                                         <div class="flex items-center justify-between mb-4">
                                             <span
                                                 class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider text-white shadow-lg backdrop-blur-sm"
-                                                style={`background: linear-gradient(135deg, ${getCategoryColor(post.category).bg}, ${getCategoryColor(post.category).bg}dd); box-shadow: 0 4px 14px ${getCategoryColor(post.category).shadow}`}
+                                                style={`background: ${getCategoryColor(post.category).bg}; box-shadow: 0 4px 14px ${getCategoryColor(post.category).shadow}`}
                                             >
                                                 {post.category}
                                             </span>

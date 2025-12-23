@@ -20,6 +20,7 @@ import { trustBadges as trustBadgesConfig } from '@/data/trustBadges';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getBlogPostsForLangWithFallback, getEffectiveSlug, type SupportedLang } from '@/utils/blog';
 import { getProjectSlug } from '@/utils/projects';
 
 export function getStaticPaths() {
@@ -70,7 +71,8 @@ const seoKeywords =
 const allProjects = await getCollection('projects', (entry: CollectionEntry<'projects'>) => {
     return entry.data.lang === lang;
 });
-const allBlogPosts = await getCollection('blog');
+const allBlogPostsRaw = await getCollection('blog');
+const allBlogPosts = getBlogPostsForLangWithFallback(allBlogPostsRaw, lang as SupportedLang);
 const allTestimonials = await getCollection('testimonials');
 
 // Sort projects by order field, then by date
@@ -112,20 +114,16 @@ const sortedProjects = await Promise.all(
         })
 );
 
-// Sort blog posts by date (newest first) and filter out drafts
+// Sort blog posts by date (newest first) - with fallback to Spanish if English doesn't exist
 const sortedBlogPosts = allBlogPosts
-    .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
-    .sort(
-        (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
-            b.data.publishDate.getTime() - a.data.publishDate.getTime()
-    )
-    .map((post: CollectionEntry<'blog'>) => ({
+    .sort((a, b) => b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
+    .map(({ post }) => ({
         title: post.data.title,
         excerpt: post.data.excerpt,
         date: post.data.publishDate.toISOString().split('T')[0],
         readTime: post.data.readTime,
         tags: post.data.tags,
-        slug: `/${lang}/blog/${post.slug}`,
+        slug: `/${lang}/blog/${getEffectiveSlug(post)}`,
         featured: post.data.featured
     }));
 

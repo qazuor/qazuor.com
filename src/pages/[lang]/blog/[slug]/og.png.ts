@@ -1,31 +1,41 @@
-import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { languages } from '@/i18n/ui';
-import { getEffectiveSlug } from '@/utils/blog';
+import { getAllUniqueSlugs, getBlogPostBySlugWithFallback, type SupportedLang } from '@/utils/blog';
 import { generateOgImageResponse } from '@/utils/og-image';
 
 /**
  * Static OG Image endpoint for blog posts
  * Generates: /en/blog/[slug]/og.png, /es/blog/[slug]/og.png
+ * Uses fallback to Spanish if English version doesn't exist
  */
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const allBlogPosts = await getCollection('blog');
 
-    // Generate paths for each language and each blog post
-    return Object.keys(languages).flatMap((lang) =>
-        allBlogPosts
-            .filter((post: CollectionEntry<'blog'>) => !post.data.draft)
-            .map((post: CollectionEntry<'blog'>) => ({
-                params: { lang, slug: getEffectiveSlug(post) },
-                props: {
-                    title: post.data.title,
-                    excerpt: post.data.excerpt,
-                    tags: post.data.tags
-                }
-            }))
-    );
+    // Get all unique slugs from published posts
+    const uniqueSlugs = getAllUniqueSlugs(allBlogPosts);
+
+    // Generate paths for each language and each unique slug
+    const paths = [];
+    for (const lang of Object.keys(languages)) {
+        for (const slug of uniqueSlugs) {
+            const postResult = getBlogPostBySlugWithFallback(allBlogPosts, slug, lang as SupportedLang);
+
+            if (postResult) {
+                paths.push({
+                    params: { lang, slug },
+                    props: {
+                        title: postResult.post.data.title,
+                        excerpt: postResult.post.data.excerpt,
+                        tags: postResult.post.data.tags
+                    }
+                });
+            }
+        }
+    }
+
+    return paths;
 };
 
 interface Props {

@@ -161,4 +161,99 @@ describe('getEffectiveSlug', () => {
             expect(getEffectiveSlug(post)).toBe('custom-with-hyphens-too');
         });
     });
+
+    describe('language suffix removal', () => {
+        it('should remove -es suffix from filename slug', () => {
+            const post = createMockPost({
+                slug: 'my-blog-post-es',
+                data: {
+                    title: 'Test Post',
+                    publishDate: new Date('2024-01-01'),
+                    excerpt: 'Test excerpt',
+                    tags: ['test'],
+                    readTime: '5 min'
+                }
+            });
+
+            expect(getEffectiveSlug(post)).toBe('my-blog-post');
+        });
+
+        it('should remove -en suffix from filename slug', () => {
+            const post = createMockPost({
+                slug: 'my-blog-post-en',
+                data: {
+                    title: 'Test Post',
+                    publishDate: new Date('2024-01-01'),
+                    excerpt: 'Test excerpt',
+                    tags: ['test'],
+                    readTime: '5 min'
+                }
+            });
+
+            expect(getEffectiveSlug(post)).toBe('my-blog-post');
+        });
+
+        it('should NOT remove language suffix from custom slug in frontmatter', () => {
+            const post = createMockPost({
+                slug: 'my-blog-post-en',
+                data: {
+                    slug: 'custom-slug-en',
+                    title: 'Test Post',
+                    publishDate: new Date('2024-01-01'),
+                    excerpt: 'Test excerpt',
+                    tags: ['test'],
+                    readTime: '5 min'
+                }
+            });
+
+            // Custom slug should be returned as-is
+            expect(getEffectiveSlug(post)).toBe('custom-slug-en');
+        });
+
+        it('should handle long filename with language suffix', () => {
+            const post = createMockPost({
+                slug: 'bienvenido-a-mi-blog-quien-soy-y-de-que-va-esto-es',
+                data: {
+                    title: 'Test Post',
+                    publishDate: new Date('2024-01-01'),
+                    excerpt: 'Test excerpt',
+                    tags: ['test'],
+                    readTime: '5 min'
+                }
+            });
+
+            expect(getEffectiveSlug(post)).toBe('bienvenido-a-mi-blog-quien-soy-y-de-que-va-esto');
+        });
+
+        it('should not affect slugs without language suffix', () => {
+            const post = createMockPost({
+                slug: 'my-blog-post-2024',
+                data: {
+                    title: 'Test Post',
+                    publishDate: new Date('2024-01-01'),
+                    excerpt: 'Test excerpt',
+                    tags: ['test'],
+                    readTime: '5 min'
+                }
+            });
+
+            expect(getEffectiveSlug(post)).toBe('my-blog-post-2024');
+        });
+
+        it('should only remove suffix at the end, not in the middle', () => {
+            const post = createMockPost({
+                slug: 'en-espanol-post-es',
+                data: {
+                    title: 'Test Post',
+                    publishDate: new Date('2024-01-01'),
+                    excerpt: 'Test excerpt',
+                    tags: ['test'],
+                    readTime: '5 min'
+                }
+            });
+
+            // Should only remove the trailing -es, not the "en-" at the start
+            expect(getEffectiveSlug(post)).toBe('en-espanol-post');
+        });
+    });
 });

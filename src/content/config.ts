@@ -85,6 +85,7 @@ const blogCollection = defineCollection({
             readTime: z.string(),
             draft: z.boolean().default(false),
             slug: z.string().optional(), // Custom slug (uses filename if not provided)
+            lang: z.enum(['en', 'es']), // Language of the content
             image: image().optional(), // Local image (relative path from content file)
             category: z.string().optional(), // Category for card badge
             featured: z.boolean().default(false), // Mark as featured post for home page

@@ -52,8 +52,8 @@ export const categoryColors: Record<string, CategoryColorConfig> = {
     Architecture: createColor(0.42, 0.18, 270),
     Arquitectura: createColor(0.42, 0.18, 270),
 
-    // Performance - Amber/Orange (accent, stands out)
-    Performance: createColor(0.52, 0.16, 55),
+    // Performance - Sky blue (lighter cyan)
+    Performance: createColor(0.5, 0.14, 205),
 
     // Product / Producto - Emerald green
     Product: createColor(0.45, 0.15, 150),

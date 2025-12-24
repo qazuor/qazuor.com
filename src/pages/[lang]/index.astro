@@ -16,6 +16,7 @@ import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
 import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import { contact, sectionsColors } from '@/data';
+import { type BlogCategoryKey, getCategoryName } from '@/data/blogCategories';
 import { trustBadges as trustBadgesConfig } from '@/data/trustBadges';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -298,17 +299,16 @@ const projectsTranslations = {
     viewAll: t('projects.viewAll', { markdown: true })
 };
 
-// Category translations map
+// Category translations map - using centralized category keys
 const categoryTranslations: Record<string, string> = {
-    Architecture: t('blog.categories.Architecture'),
-    Development: t('blog.categories.Development'),
-    Frontend: t('blog.categories.Frontend'),
-    General: t('blog.categories.General'),
-    Negocio: t('blog.categories.Negocio'),
-    Product: t('blog.categories.Product'),
-    Tooling: t('blog.categories.Tooling'),
-    TypeScript: t('blog.categories.TypeScript'),
-    'Web Development': t('blog.categories.Web Development')
+    frontend: getCategoryName('frontend', lang as SupportedLang),
+    productivity: getCategoryName('productivity', lang as SupportedLang),
+    development: getCategoryName('development', lang as SupportedLang),
+    architecture: getCategoryName('architecture', lang as SupportedLang),
+    performance: getCategoryName('performance', lang as SupportedLang),
+    product: getCategoryName('product', lang as SupportedLang),
+    business: getCategoryName('business', lang as SupportedLang),
+    general: getCategoryName('general', lang as SupportedLang)
 };
 
 const blogTranslations = {

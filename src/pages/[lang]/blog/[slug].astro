@@ -11,6 +11,7 @@ import { TableOfContents } from '@/components/blog/TableOfContents';
 import BlogPostJsonLd from '@/components/seo/BlogPostJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+import { type BlogCategoryKey, getCategoryName } from '@/data/blogCategories';
 import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
@@ -491,7 +492,7 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                                             <!-- Category badge -->
                                             {related.category && (
                                                 <span class="inline-block px-2.5 py-1 text-xs font-semibold rounded-lg bg-primary/10 text-primary mb-3">
-                                                    {related.category}
+                                                    {getCategoryName(related.category as BlogCategoryKey, lang)}
                                                 </span>
                                             )}
 

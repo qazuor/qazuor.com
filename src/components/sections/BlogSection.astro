@@ -65,30 +65,24 @@ function formatReadTime(readTime: string): string {
 const allBlogPosts = await getCollection('blog');
 
 // Category fallback mapping (using static imports)
+// Keys are the centralized category keys from blogCategories.ts
 const categoryFallbacks: Record<string, ImageMetadata> = {
-    Frontend: fallbackFrontend,
-    Programming: fallbackProgramming,
-    'Web Development': fallbackWebdev,
-    WebAssembly: fallbackProgramming,
-    JavaScript: fallbackFrontend,
-    TypeScript: fallbackFrontend,
-    React: fallbackFrontend,
-    Astro: fallbackFrontend,
-    'Node.js': fallbackProgramming,
-    API: fallbackWebdev,
-    Database: fallbackProgramming,
-    DevOps: fallbackProgramming,
-    Testing: fallbackProgramming,
-    Performance: fallbackWebdev,
-    Security: fallbackProgramming,
-    Accessibility: fallbackWebdev,
-    SEO: fallbackWebdev,
-    Design: fallbackFrontend,
-    'UI/UX': fallbackFrontend,
-    CSS: fallbackFrontend,
-    Tutorial: fallbackWebdev,
-    Guide: fallbackWebdev,
-    Article: fallbackDefault
+    // Category keys
+    frontend: fallbackFrontend,
+    productivity: fallbackWebdev,
+    development: fallbackProgramming,
+    architecture: fallbackProgramming,
+    performance: fallbackWebdev,
+    product: fallbackWebdev,
+    business: fallbackWebdev,
+    general: fallbackDefault,
+    // Additional fallbacks for common tags
+    javascript: fallbackFrontend,
+    typescript: fallbackFrontend,
+    react: fallbackFrontend,
+    astro: fallbackFrontend,
+    css: fallbackFrontend,
+    design: fallbackFrontend
 };
 
 // Blog card image dimensions (16:9 aspect ratio for featured card)

@@ -9,7 +9,7 @@ publishDate: 2025-11-01
 tags: [intro, sobre-mi, blog]
 readTime: 6 min read
 draft: false
-category: General
+category: general
 image: ./_images/portfolio-design.jpg
 ---
 

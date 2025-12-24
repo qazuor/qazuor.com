@@ -8,7 +8,7 @@ publishDate: 2025-11-06
 tags: [business, freelance, agencies, decisions]
 readTime: 9 min read
 draft: false
-category: Business
+category: business
 image: ./_images/portfolio-design.jpg
 ---
 

@@ -10,7 +10,7 @@ publishDate: 2025-11-16
 tags: [ai, productivity, typescript, development, tools]
 readTime: 12 min read
 draft: false
-category: Productivity
+category: productivity
 image: ./_images/portfolio-design.jpg
 series:
   id: ia-and-development

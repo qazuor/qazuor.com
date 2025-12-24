@@ -9,7 +9,7 @@ publishDate: 2025-11-06
 tags: [negocio, freelance, agencias, decisiones]
 readTime: 9 min read
 draft: false
-category: Negocio
+category: business
 image: ./_images/portfolio-design.jpg
 ---
 

@@ -12,7 +12,7 @@ publishDate: 2025-11-11
 tags: [portfolio, astro, react, typescript, arquitectura, performance]
 readTime: 25 min read
 draft: false
-category: Development
+category: development
 image: ./_images/portfolio-design.jpg
 ---
 

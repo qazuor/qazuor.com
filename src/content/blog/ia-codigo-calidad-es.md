@@ -9,7 +9,7 @@ publishDate: 2025-11-21
 tags: [ia, productividad, desarrollo, typescript, debugging]
 readTime: 14 min read
 draft: false
-category: Productividad
+category: productivity
 image: ./_images/portfolio-design.jpg
 series:
   id: ia-and-development

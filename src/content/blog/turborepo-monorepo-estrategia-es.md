@@ -10,7 +10,7 @@ publishDate: 2025-11-26
 tags: [monorepo, turborepo, arquitectura, tooling, productividad]
 readTime: 10 min read
 draft: false
-category: Arquitectura
+category: architecture
 image: ./_images/monorepo-tools.jpg
 series:
   id: arquitectura

@@ -87,7 +87,18 @@ const blogCollection = defineCollection({
             slug: z.string().optional(), // Custom slug (uses filename if not provided)
             lang: z.enum(['en', 'es']), // Language of the content
             image: image().optional(), // Local image (relative path from content file)
-            category: z.string().optional(), // Category for card badge
+            category: z
+                .enum([
+                    'frontend',
+                    'productivity',
+                    'development',
+                    'architecture',
+                    'performance',
+                    'product',
+                    'business',
+                    'general'
+                ])
+                .optional(), // Category key - translated at display time
             featured: z.boolean().default(false), // Mark as featured post for home page
             // Series support for multi-part articles
             series: z

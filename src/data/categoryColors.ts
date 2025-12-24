@@ -6,8 +6,10 @@
  * OKLCH format: oklch(lightness chroma hue)
  * - Lightness: 0.42-0.50 for good contrast with white text
  * - Chroma: 0.14-0.20 for vibrant but not garish colors
- * - Hue: Spread across the color wheel, favoring blues/cyans/greens
+ * - Hue: Blues/cyans/greens from Deep Ocean palette
  */
+
+import type { BlogCategoryKey } from './blogCategories';
 
 export interface CategoryColorConfig {
     bg: string;
@@ -25,114 +27,33 @@ function createColor(lightness: number, chroma: number, hue: number): CategoryCo
 }
 
 /**
- * Category colors mapped by category name
- * Includes both Spanish and English variants
- *
- * Color palette designed for:
- * - Clear visual distinction between categories
- * - Harmony with Deep Ocean theme (blues, cyans, teals, greens)
- * - Good contrast with white text
+ * Category colors mapped by category key
+ * All colors within Deep Ocean palette (blues, cyans, teals, greens)
  */
-export const categoryColors: Record<string, CategoryColorConfig> = {
-    // ==========================================
-    // PRIMARY BLOG CATEGORIES (actively used)
-    // ==========================================
-
+export const categoryColors: Record<BlogCategoryKey, CategoryColorConfig> = {
     // Frontend - Cyan (theme primary color)
-    Frontend: createColor(0.48, 0.16, 195),
+    frontend: createColor(0.48, 0.16, 195),
 
-    // Productivity / Productividad - Teal-green
-    Productivity: createColor(0.45, 0.14, 168),
-    Productividad: createColor(0.45, 0.14, 168),
+    // Productivity - Teal-green
+    productivity: createColor(0.45, 0.14, 168),
 
     // Development - Deep blue
-    Development: createColor(0.45, 0.18, 240),
+    development: createColor(0.45, 0.18, 240),
 
-    // Architecture / Arquitectura - Blue-violet
-    Architecture: createColor(0.42, 0.18, 270),
-    Arquitectura: createColor(0.42, 0.18, 270),
+    // Architecture - Blue-violet
+    architecture: createColor(0.42, 0.18, 270),
 
     // Performance - Sky blue (lighter cyan)
-    Performance: createColor(0.5, 0.14, 205),
+    performance: createColor(0.5, 0.14, 205),
 
-    // Product / Producto - Emerald green
-    Product: createColor(0.45, 0.15, 150),
-    Producto: createColor(0.45, 0.15, 150),
+    // Product - Emerald green
+    product: createColor(0.45, 0.15, 150),
 
-    // Business / Negocio - Purple-magenta
-    Business: createColor(0.45, 0.16, 310),
-    Negocio: createColor(0.45, 0.16, 310),
+    // Business - Indigo-purple
+    business: createColor(0.45, 0.16, 280),
 
     // General - Slate blue (neutral)
-    General: createColor(0.48, 0.12, 220),
-
-    // ==========================================
-    // TECH-SPECIFIC CATEGORIES
-    // ==========================================
-
-    // JavaScript - Yellow (brand color)
-    JavaScript: createColor(0.55, 0.15, 85),
-
-    // TypeScript - Blue (brand color)
-    TypeScript: createColor(0.45, 0.16, 230),
-
-    // React - Cyan (brand color)
-    React: createColor(0.5, 0.16, 195),
-
-    // Astro - Orange-red (brand color)
-    Astro: createColor(0.5, 0.18, 25),
-
-    // CSS - Purple (brand association)
-    CSS: createColor(0.48, 0.18, 280),
-
-    // Node.js - Green (brand color)
-    'Node.js': createColor(0.48, 0.16, 140),
-
-    // ==========================================
-    // SECONDARY CATEGORIES
-    // ==========================================
-
-    // Programming - Blue
-    Programming: createColor(0.48, 0.14, 225),
-
-    // Web Development - Teal
-    'Web Development': createColor(0.48, 0.14, 175),
-
-    // Tutorial - Purple
-    Tutorial: createColor(0.48, 0.16, 290),
-
-    // Guide - Orange
-    Guide: createColor(0.5, 0.16, 45),
-
-    // Article - Steel blue
-    Article: createColor(0.48, 0.12, 215),
-
-    // API - Deep teal
-    API: createColor(0.45, 0.14, 180),
-
-    // Database - Indigo
-    Database: createColor(0.42, 0.14, 260),
-
-    // DevOps - Dark blue
-    DevOps: createColor(0.4, 0.14, 235),
-
-    // Testing - Green-teal
-    Testing: createColor(0.48, 0.14, 160),
-
-    // Security - Red (warning association)
-    Security: createColor(0.45, 0.18, 15),
-
-    // Accessibility - Blue-green
-    Accessibility: createColor(0.48, 0.14, 185),
-
-    // SEO - Green
-    SEO: createColor(0.48, 0.12, 145),
-
-    // Design - Pink-magenta
-    Design: createColor(0.48, 0.18, 330),
-
-    // UI/UX - Purple
-    'UI/UX': createColor(0.48, 0.16, 305)
+    general: createColor(0.48, 0.12, 220)
 };
 
 /**
@@ -142,17 +63,17 @@ export const categoryColors: Record<string, CategoryColorConfig> = {
 export const defaultCategoryColor: CategoryColorConfig = createColor(0.48, 0.12, 220);
 
 /**
- * Get color config for a category
+ * Get color config for a category key
  */
-export function getCategoryColor(category: string): CategoryColorConfig {
-    return categoryColors[category] || defaultCategoryColor;
+export function getCategoryColor(categoryKey: string): CategoryColorConfig {
+    return categoryColors[categoryKey as BlogCategoryKey] || defaultCategoryColor;
 }
 
 /**
- * Get just the background color for a category
+ * Get just the background color for a category key
  */
-export function getCategoryBgColor(category: string): string {
-    return (categoryColors[category] || defaultCategoryColor).bg;
+export function getCategoryBgColor(categoryKey: string): string {
+    return (categoryColors[categoryKey as BlogCategoryKey] || defaultCategoryColor).bg;
 }
 
 /**
@@ -160,9 +81,9 @@ export function getCategoryBgColor(category: string): string {
  * Returns colors in a cycle for indexed items
  */
 export const rotatingColors: CategoryColorConfig[] = [
-    categoryColors.Frontend,
-    categoryColors.Productivity,
-    categoryColors.Development
+    categoryColors.frontend,
+    categoryColors.productivity,
+    categoryColors.development
 ];
 
 /**
@@ -175,14 +96,13 @@ export function getRotatingColor(index: number): CategoryColorConfig {
 /**
  * Colors for secondary blog cards (CSS-Tricks style)
  * Aligned with site's Deep Ocean palette (cyan/teal/green tones)
- * Distinguishable but within the brand color family
  */
 export const secondaryCardColors: string[] = [
-    'oklch(0.48 0.16 195)', // Cyan (primary tone)
-    'oklch(0.45 0.14 168)', // Teal (secondary tone)
-    'oklch(0.45 0.15 150)', // Emerald
-    'oklch(0.45 0.18 240)', // Deep Blue
-    'oklch(0.42 0.18 270)' // Blue-violet
+    categoryColors.frontend.bg,
+    categoryColors.productivity.bg,
+    categoryColors.product.bg,
+    categoryColors.development.bg,
+    categoryColors.architecture.bg
 ];
 
 /**

@@ -3,11 +3,11 @@ import { getCollection } from 'astro:content';
 import type { GetStaticPaths, Page } from 'astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
-import { type BlogCategoryKey, blogCategories, getCategoryName } from '@/data/blogCategories';
+import { type BlogCategoryKey, blogCategories, getAllCategoryKeys, getCategoryName } from '@/data/blogCategories';
 import { getCategoryColor } from '@/data/categoryColors';
 import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
+import { getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getBlogPostsForLangWithFallback, getEffectiveSlug, type SupportedLang } from '@/utils/blog';
 
@@ -25,61 +25,80 @@ interface BlogPostData {
 
 interface Props {
     page: Page<BlogPostData>;
+    category: BlogCategoryKey;
+    categoryName: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
     const allBlogPosts = await getCollection('blog');
+    const allCategoryKeys = getAllCategoryKeys();
 
-    // Generate paginated paths for each language
+    // Generate paginated paths for each language and category
     return Object.keys(languages).flatMap((lang) => {
         const typedLang = lang as SupportedLang;
-        // Get posts with fallback (if English version doesn't exist, use Spanish)
-        const postsWithFallback = getBlogPostsForLangWithFallback(allBlogPosts, typedLang)
-            .sort((a, b) => b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
-            .map(({ post }) => {
-                const categoryKey = (post.data.category || 'general') as BlogCategoryKey;
-                return {
+
+        // Get all posts with fallback for this language
+        const allPostsForLang = getBlogPostsForLangWithFallback(allBlogPosts, typedLang).sort(
+            (a, b) => b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime()
+        );
+
+        // Generate paths for each category
+        return allCategoryKeys.flatMap((categoryKey) => {
+            // Filter posts by category
+            const categoryPosts = allPostsForLang
+                .filter(({ post }) => (post.data.category || 'general') === categoryKey)
+                .map(({ post }) => ({
                     title: post.data.title,
                     excerpt: post.data.excerpt,
                     date: post.data.publishDate.toISOString().split('T')[0],
                     readTime: post.data.readTime,
                     tags: post.data.tags,
                     slug: `/${lang}/blog/${getEffectiveSlug(post)}`,
-                    categoryKey,
+                    categoryKey: categoryKey as BlogCategoryKey,
                     categoryName: getCategoryName(categoryKey, typedLang)
-                };
-            });
+                }));
 
-        return paginate(postsWithFallback, {
-            params: { lang },
-            pageSize: 9 // 9 posts per page (3x3 grid)
+            // Only generate pages if there are posts in this category
+            if (categoryPosts.length === 0) {
+                return [];
+            }
+
+            return paginate(categoryPosts, {
+                params: { lang, category: categoryKey },
+                props: {
+                    category: categoryKey,
+                    categoryName: getCategoryName(categoryKey, typedLang)
+                },
+                pageSize: 9
+            });
         });
     });
 };
 
-const { page }: Props = Astro.props;
-const lang = getLangFromUrl(Astro.url) as SupportedLang;
-const t = getTranslations(lang);
+const { page, category, categoryName }: Props = Astro.props;
+const { lang } = Astro.params;
+const typedLang = lang as SupportedLang;
+const t = getTranslations(typedLang);
 
-const title = `${t('blog.title', { markdown: false })} - qazuor.com`;
+const title = `${categoryName} - ${t('blog.title', { markdown: false })} - qazuor.com`;
 
-// Process pageDescription: markdown + line breaks
-const pageDescription = processMarkdown(t('blog.pageDescription'));
-
-// Get all posts to determine which categories have content
+// Get all categories that have posts for the filter
 const allBlogPosts = await getCollection('blog');
-const allPostsForLang = getBlogPostsForLangWithFallback(allBlogPosts, lang);
+const postsForLang = getBlogPostsForLangWithFallback(allBlogPosts, typedLang);
 const usedCategoryKeys = [
-    ...new Set(allPostsForLang.map(({ post }) => post.data.category || 'general'))
+    ...new Set(postsForLang.map(({ post }) => post.data.category || 'general'))
 ] as BlogCategoryKey[];
 
-// Get categories with translations for filter links, sorted by blogCategories order
+// Get categories with translations for filter, sorted by blogCategories order
 const filterCategories = blogCategories
     .filter((cat) => usedCategoryKeys.includes(cat.key))
     .map((cat) => ({
         key: cat.key,
-        name: cat.translations[lang]
+        name: cat.translations[typedLang]
     }));
+
+// Base path for pagination
+const categoryBasePath = `/${lang}/blog/category/${category}`;
 ---
 
 <BaseLayout title={title}>
@@ -97,36 +116,34 @@ const filterCategories = blogCategories
                 </div>
 
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight">
-                    <span class="gradient-text-section" set:html={t('blog.title', { markdown: true })} />
+                    <span class="gradient-text-section">{categoryName}</span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-foreground-secondary max-w-2xl mx-auto leading-relaxed" set:html={t('blog.subtitle', { markdown: true })} />
-
-                <!-- Page Description -->
-                <div class="mt-8 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-left" set:html={pageDescription} />
             </header>
 
             <!-- Category Filter -->
-            {filterCategories.length > 1 && (
-                <div class="flex flex-wrap justify-center gap-2 mb-10">
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <a
+                    href={`/${lang}/blog`}
+                    class="category-filter-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border"
+                >
+                    {typedLang === 'es' ? 'Todos' : 'All'}
+                </a>
+                {filterCategories.map((cat) => (
                     <a
-                        href={`/${lang}/blog`}
-                        class="category-filter-link active px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border"
+                        href={`/${lang}/blog/category/${cat.key}`}
+                        class:list={[
+                            'category-filter-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border',
+                            { 'active': cat.key === category }
+                        ]}
+                        style={`--cat-bg: ${getCategoryColor(cat.key).bg}`}
+                        data-category={cat.key}
                     >
-                        {lang === 'es' ? 'Todos' : 'All'}
+                        {cat.name}
                     </a>
-                    {filterCategories.map((cat) => (
-                        <a
-                            href={`/${lang}/blog/category/${cat.key}`}
-                            class="category-filter-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border"
-                            style={`--cat-bg: ${getCategoryColor(cat.key).bg}`}
-                            data-category={cat.key}
-                        >
-                            {cat.name}
-                        </a>
-                    ))}
-                </div>
-            )}
+                ))}
+            </div>
 
             <!-- Page indicator -->
             {
@@ -198,7 +215,7 @@ const filterCategories = blogCategories
                                                 datetime={post.date}
                                                 class="text-xs text-foreground-muted font-medium shrink-0"
                                             >
-                                                {new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
+                                                {new Date(post.date).toLocaleDateString(typedLang === 'es' ? 'es-ES' : 'en-US', {
                                                     year: 'numeric',
                                                     month: 'short',
                                                     day: 'numeric'
@@ -272,7 +289,7 @@ const filterCategories = blogCategories
                                     <div class="flex items-center gap-2">
                                         {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
                                             const isCurrentPage = pageNum === page.currentPage;
-                                            const href = pageNum === 1 ? `/${lang}/blog` : `/${lang}/blog/${pageNum}`;
+                                            const href = pageNum === 1 ? categoryBasePath : `${categoryBasePath}/${pageNum}`;
 
                                             return isCurrentPage ? (
                                                 <UnifiedButton
@@ -387,13 +404,8 @@ const filterCategories = blogCategories
     }
 
     .category-filter-link.active {
-        background: hsl(var(--primary));
-        border-color: hsl(var(--primary));
-        color: white;
-    }
-
-    .category-filter-link[data-category].active {
         background: var(--cat-bg);
         border-color: var(--cat-bg);
+        color: white;
     }
 </style>

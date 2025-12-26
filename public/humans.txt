@@ -1,0 +1,24 @@
+/* TEAM */
+Developer: Julian Cataldo (qazuor)
+Role: Full-Stack Developer & Designer
+Location: Concepcion del Uruguay, Entre Rios, Argentina
+Contact: contact [at] qazuor.com
+GitHub: https://github.com/qazuor
+LinkedIn: https://linkedin.com/in/juliancataldo
+
+/* SITE */
+Last update: 2025-12-25
+Language: English, Spanish
+Standards: HTML5, CSS3, TypeScript
+Framework: Astro 5.x
+Components: React 19
+Styling: Tailwind CSS
+Hosted: Vercel
+Repository: https://github.com/qazuor/qazuor.com
+
+/* THANKS */
+Astro - https://astro.build
+React - https://react.dev
+Tailwind CSS - https://tailwindcss.com
+Vercel - https://vercel.com
+Claude AI - https://anthropic.com

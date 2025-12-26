@@ -4,8 +4,12 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
-Sitemap: https://qazuor.com/sitemap-index.xml
+# Sitemap
+Sitemap: https://qazuor.com/sitemap.xml
+
+# RSS Feeds
+# English: https://qazuor.com/en/rss.xml
+# Spanish: https://qazuor.com/es/rss.xml
 
 # Crawl delay (optional, helps reduce server load)
 Crawl-delay: 1

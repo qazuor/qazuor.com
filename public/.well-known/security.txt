@@ -1,0 +1,12 @@
+# Security Policy for qazuor.com
+# https://securitytxt.org/
+
+Contact: mailto:security@qazuor.com
+Contact: https://github.com/qazuor/qazuor.com/security/advisories/new
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, es
+Canonical: https://qazuor.com/.well-known/security.txt
+Policy: https://github.com/qazuor/qazuor.com/security/policy
+
+# If you discover a security vulnerability, please report it responsibly.
+# I appreciate your help in keeping this site secure.

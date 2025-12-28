@@ -5,9 +5,13 @@ import { getAllCategoryKeys } from '@/data/blogCategories';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getAllUniqueSlugs } from '@/utils/blog';
+import { getProjectSlug } from '@/utils/projects';
 
 const SITE_URL = 'https://qazuor.com';
 const LANGS = Object.keys(languages) as Array<'en' | 'es'>;
+
+// Helper to clean numeric prefix from slug (e.g., "async/01-sleep" -> "async/sleep")
+const cleanSlug = (slug: string) => slug.replace(/\/\d+-/, '/');
 
 interface SitemapUrl {
     loc: string;
@@ -154,13 +158,7 @@ export const GET: APIRoute = async () => {
 
     // Projects
     const projects = await getCollection('projects');
-    const projectSlugs = [
-        ...new Set(
-            projects.map(
-                (project: CollectionEntry<'projects'>) => project.data.slug || project.id.replace(/-(?:en|es)$/, '')
-            )
-        )
-    ];
+    const projectSlugs = [...new Set(projects.map((project: CollectionEntry<'projects'>) => getProjectSlug(project)))];
 
     for (const slug of projectSlugs) {
         const path = `/projects/${slug}/`;
@@ -190,7 +188,7 @@ export const GET: APIRoute = async () => {
     // CSS Tricks
     const cssTricks = await getCollection('css-tricks');
     for (const trick of cssTricks) {
-        const path = `/goodies/css-tricks/${trick.id}/`;
+        const path = `/goodies/css-tricks/${trick.slug}/`;
         for (const lang of LANGS) {
             urls.push({
                 loc: `${SITE_URL}/${lang}${path}`,
@@ -204,7 +202,7 @@ export const GET: APIRoute = async () => {
     // Snippets
     const snippets = await getCollection('snippets');
     for (const snippet of snippets) {
-        const path = `/goodies/snippets/${snippet.id}/`;
+        const path = `/goodies/snippets/${cleanSlug(snippet.slug)}/`;
         for (const lang of LANGS) {
             urls.push({
                 loc: `${SITE_URL}/${lang}${path}`,

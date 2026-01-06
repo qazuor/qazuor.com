@@ -181,13 +181,46 @@ const currentYear = new Date().getFullYear();
         <div class="pt-8 border-t border-foreground/10">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <!-- Made with love - Left -->
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
-                        <span class="text-sm font-medium text-foreground">Q</span>
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
+                            <span class="text-sm font-medium text-foreground">Q</span>
+                        </div>
+                        <span class="text-xs text-foreground-muted">
+                            © {currentYear} Qazuor. {t('footer.madeWith')}
+                        </span>
                     </div>
-                    <span class="text-xs text-foreground-muted">
-                        © {currentYear} Qazuor. {t('footer.madeWith')}
-                    </span>
+                    <div class="flex flex-col gap-1 pl-10">
+                        <span class="text-xs text-foreground-muted/70 italic">
+                            {t('footer.openSource.attribution')}
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <a
+                                href="https://github.com/qazuor/qazuor.com/blob/main/LICENSE"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
+                            >
+                                {t('footer.openSource.license')}
+                            </a>
+                            <span class="text-foreground-muted">•</span>
+                            <a
+                                href="https://github.com/qazuor/qazuor.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
+                            >
+                                {t('footer.openSource.source')}
+                            </a>
+                            <span class="text-foreground-muted">•</span>
+                            <a
+                                href={`/${lang}`}
+                                class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
+                            >
+                                qazuor.com
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <!-- Performance stats - Right -->
                 <PerformanceBadge

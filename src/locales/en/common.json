@@ -285,6 +285,11 @@
             "title": "Contact me"
         },
         "madeWith": "Made with 💙 with Astro",
+        "openSource": {
+            "license": "MIT License",
+            "source": "Source on GitHub",
+            "attribution": "Fork it freely, just keep the attribution"
+        },
         "lighthouse": {
             "title": "Lighthouse Scores",
             "desktop": "Desktop",

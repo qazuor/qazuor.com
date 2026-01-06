@@ -1,6 +1,63 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "buildCommand": "pnpm build",
+    "redirects": [
+        {
+            "source": "/goodies",
+            "destination": "/en/goodies/",
+            "permanent": true
+        },
+        {
+            "source": "/goodies/:path*",
+            "destination": "/en/goodies/:path*",
+            "permanent": true
+        },
+        {
+            "source": "/blog",
+            "destination": "/en/blog/",
+            "permanent": true
+        },
+        {
+            "source": "/blog/:path*",
+            "destination": "/en/blog/:path*",
+            "permanent": true
+        },
+        {
+            "source": "/projects",
+            "destination": "/en/projects/",
+            "permanent": true
+        },
+        {
+            "source": "/projects/:path*",
+            "destination": "/en/projects/:path*",
+            "permanent": true
+        },
+        {
+            "source": "/services/:path*",
+            "destination": "/en/services/:path*",
+            "permanent": true
+        },
+        {
+            "source": "/es/contact",
+            "destination": "/es/#contact",
+            "permanent": true
+        },
+        {
+            "source": "/en/contact",
+            "destination": "/en/#contact",
+            "permanent": true
+        },
+        {
+            "source": "/contact",
+            "destination": "/en/#contact",
+            "permanent": true
+        },
+        {
+            "source": "/en/projects/cheroga-casa-quinta-en.md/",
+            "destination": "/en/projects/cheroga-casa-quinta/",
+            "permanent": true
+        }
+    ],
     "headers": [
         {
             "source": "/sitemap.xml",

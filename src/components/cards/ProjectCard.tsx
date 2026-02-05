@@ -69,7 +69,9 @@ export const ProjectCard = memo(function ProjectCard({
 }: ProjectCardProps) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
+    // Start visible for SSR so cards are shown even if React doesn't
+    // re-hydrate after View Transitions (prevents opacity-0 in static HTML)
+    const [isVisible, setIsVisible] = useState(true);
     const cardRef = useRef<HTMLDivElement>(null);
 
     const handleImageClick = (index: number) => {
@@ -86,8 +88,24 @@ export const ProjectCard = memo(function ProjectCard({
     const isHome = variant === 'home';
     const colors = categoryColors[category];
 
-    // Intersection Observer for scroll animations
+    // Scroll-reveal animation as progressive enhancement.
+    // Elements already in viewport stay visible; below-fold elements
+    // get hidden and animate in when scrolled into view.
     useEffect(() => {
+        const card = cardRef.current;
+        if (!card) return;
+
+        const rect = card.getBoundingClientRect();
+        const isAboveFold = rect.top < window.innerHeight;
+
+        if (isAboveFold) {
+            setIsVisible(true);
+            return;
+        }
+
+        // Below fold: hide and animate in on scroll
+        setIsVisible(false);
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -100,9 +118,7 @@ export const ProjectCard = memo(function ProjectCard({
             { threshold: 0.1 }
         );
 
-        if (cardRef.current) {
-            observer.observe(cardRef.current);
-        }
+        observer.observe(card);
 
         return () => observer.disconnect();
     }, []);

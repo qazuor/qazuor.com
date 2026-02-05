@@ -277,14 +277,14 @@ describe('ProjectCard', () => {
     });
 
     describe('scroll animation', () => {
-        it('should start with opacity-0 class', () => {
+        it('should start visible for SSR safety (opacity-100)', () => {
             render(<ProjectCard {...defaultProps} />);
 
             const article = screen.getByRole('article');
-            expect(article.className).toContain('opacity-0');
+            expect(article.className).toContain('opacity-100');
         });
 
-        it('should add opacity-100 when intersecting', () => {
+        it('should stay opacity-100 when intersecting', () => {
             render(<ProjectCard {...defaultProps} />);
 
             // Simulate intersection

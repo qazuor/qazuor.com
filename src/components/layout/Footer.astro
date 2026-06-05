@@ -6,6 +6,17 @@ import photoFooter from '@/assets/images/photo-footer.png';
 import PerformanceBadge from '@/components/ui/PerformanceBadge.astro';
 import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { contact } from '@/data/contact';
+import {
+    commercialFooter,
+    discoveryFooter,
+    type FooterGroup,
+    type FooterItem,
+    footerContact,
+    footerGroups,
+    legalFooter,
+    localizedFooterPath,
+    resourcesFooter
+} from '@/data/footer';
 import { getTranslations, processMarkdown } from '@/i18n/utils';
 
 interface Props {
@@ -27,15 +38,41 @@ const latestPosts: CollectionEntry<'blog'>[] = allBlogPosts
     )
     .slice(0, 8);
 
-// Navigation items with translated labels
-const exploreItems = [
-    { name: t('footer.explore.services'), url: `/${lang}/services` },
-    { name: t('footer.explore.projects'), url: `/${lang}/projects` },
-    { name: t('footer.explore.blog'), url: `/${lang}/blog` },
-    { name: t('footer.explore.goodies'), url: `/${lang}/goodies` }
-];
+/**
+ * Build the localized labels for a footer group at SSR time.
+ *
+ * Uses the i18n runtime (`t()`) to resolve each item's `i18nKey` into the
+ * current locale, then constructs a display-ready object. `external` links
+ * are passed through unchanged.
+ */
+function resolveGroupItems(group: FooterGroup): Array<{ id: string; label: string; url: string; external: boolean }> {
+    return group.items.map((item: FooterItem) => ({
+        id: item.id,
+        label: t(item.i18nKey),
+        url: localizedFooterPath(item, lang),
+        external: !!item.external
+    }));
+}
+
+const commercialItems = resolveGroupItems(commercialFooter);
+const discoveryItems = resolveGroupItems(discoveryFooter);
+const resourcesItems = resolveGroupItems(resourcesFooter);
+const legalItems = resolveGroupItems(legalFooter);
+
+const commercialTitle = t('footer.explore.title');
+const discoveryTitle = t('footer.discovery.title');
+const resourcesTitle = t('footer.resources.title');
+const legalTitle = t('footer.legal.title');
 
 const currentYear = new Date().getFullYear();
+
+/**
+ * Sanity check: every group referenced here must also be present in
+ * `footerGroups` so the array order and the per-group references stay in
+ * sync. This is a type-level guard only — it does not affect runtime.
+ */
+const _exhaustive: ReadonlyArray<FooterGroup> = footerGroups;
+void _exhaustive;
 ---
 
 <footer class:list={["relative z-40 py-16 md:py-20", className]} style="background-color: var(--section-footer-bg)">
@@ -43,7 +80,7 @@ const currentYear = new Date().getFullYear();
         <!-- Main Footer Content -->
         <div class:list={[
             "grid grid-cols-1 gap-8 lg:gap-10 mb-6 lg:mb-12",
-            isHome ? "sm:grid-cols-2 lg:grid-cols-[auto_1fr_1fr]" : "sm:grid-cols-2 lg:grid-cols-4"
+            isHome ? "sm:grid-cols-2 lg:grid-cols-[auto_1fr_1fr_1fr]" : "sm:grid-cols-2 lg:grid-cols-5"
         ]}>
             {/* Branding / About - different layout for home vs other pages */}
             {isHome ? (
@@ -105,66 +142,106 @@ const currentYear = new Date().getFullYear();
                 </ul>
             </div>
 
-            <!-- Explore + Contact combined -->
+            <!-- Commercial Navigation (mirrors primary nav) -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-semibold text-foreground">
+                    {commercialTitle}
+                    <span class="text-foreground-muted">—</span>
+                </h3>
+                <ul class="space-y-1">
+                    {
+                        commercialItems.map((item) => (
+                            <li>
+                                <a
+                                    href={item.url}
+                                    class="footer-nav-link text-xs text-foreground-muted transition-colors duration-base"
+                                >
+                                    {item.label}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+
+            <!-- Discovery + Resources (goodies secondary nav) -->
             <div class="space-y-6">
-                <!-- Explore / Navigation -->
                 <div class="space-y-3">
                     <h3 class="text-lg font-semibold text-foreground">
-                        {t('footer.explore.title')}
+                        {discoveryTitle}
                         <span class="text-foreground-muted">—</span>
                     </h3>
                     <ul class="space-y-1">
                         {
-                            exploreItems.map((item) => (
+                            discoveryItems.map((item) => (
                                 <li>
                                     <a
                                         href={item.url}
                                         class="footer-nav-link text-xs text-foreground-muted transition-colors duration-base"
                                     >
-                                        {item.name}
+                                        {item.label}
                                     </a>
                                 </li>
                             ))
                         }
                     </ul>
                 </div>
-
-                <!-- Contact -->
                 <div class="space-y-3">
-                    <h3 class="text-lg font-semibold text-foreground">
-                        {t('footer.contact.title')}
-                        <span class="text-foreground-muted">—</span>
+                    <h3 class="text-sm font-semibold text-foreground/80">
+                        {resourcesTitle}
                     </h3>
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-foreground-muted">E:</span>
-                            <a
-                                href={`mailto:${contact.email}`}
-                                class="text-xs text-foreground hover:text-primary transition-colors duration-base"
-                            >
-                                {contact.email}
-                            </a>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-foreground-muted">P:</span>
-                            <span class="text-xs text-foreground-muted">{contact.phone}</span>
-                        </div>
-                    </div>
-                    <SocialLinks
-                        ariaLabels={{
-                            github: t('aria.github'),
-                            linkedin: t('aria.linkedin'),
-                            fiverr: t('aria.fiverr'),
-                            upwork: t('aria.upwork'),
-                            whatsapp: t('aria.whatsapp'),
-                            mail: t('aria.mail'),
-                            buymeacoffee: t('aria.buymeacoffee'),
-                            discord: t('aria.discord'),
-                            x: t('aria.x')
-                        }}
-                        size="sm"
-                    />
+                    <ul class="space-y-1">
+                        {
+                            resourcesItems.map((item) => (
+                                <li>
+                                    <a
+                                        href={item.url}
+                                        class="footer-nav-link text-xs text-foreground-muted transition-colors duration-base"
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            ))
+                        }
+                    </ul>
                 </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-semibold text-foreground">
+                    {t('footer.contact.title')}
+                    <span class="text-foreground-muted">—</span>
+                </h3>
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-foreground-muted">E:</span>
+                        <a
+                            href={`mailto:${contact.email}`}
+                            class="text-xs text-foreground hover:text-primary transition-colors duration-base"
+                        >
+                            {contact.email}
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-foreground-muted">P:</span>
+                        <span class="text-xs text-foreground-muted">{contact.phone}</span>
+                    </div>
+                </div>
+                <SocialLinks
+                    ariaLabels={{
+                        github: t('aria.github'),
+                        linkedin: t('aria.linkedin'),
+                        fiverr: t('aria.fiverr'),
+                        upwork: t('aria.upwork'),
+                        whatsapp: t('aria.whatsapp'),
+                        mail: t('aria.mail'),
+                        buymeacoffee: t('aria.buymeacoffee'),
+                        discord: t('aria.discord'),
+                        x: t('aria.x')
+                    }}
+                    size="sm"
+                />
             </div>
         </div>
 
@@ -194,24 +271,24 @@ const currentYear = new Date().getFullYear();
                         <span class="text-xs text-foreground-muted/70 italic">
                             {t('footer.openSource.attribution')}
                         </span>
-                        <div class="flex items-center gap-2">
-                            <a
-                                href="https://github.com/qazuor/qazuor.com/blob/main/LICENSE"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
-                            >
-                                {t('footer.openSource.license')}
-                            </a>
-                            <span class="text-foreground-muted">•</span>
-                            <a
-                                href="https://github.com/qazuor/qazuor.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
-                            >
-                                {t('footer.openSource.source')}
-                            </a>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            {
+                                legalItems.map((item, index) => (
+                                    <>
+                                        <a
+                                            href={item.url}
+                                            target={item.external ? '_blank' : undefined}
+                                            rel={item.external ? 'noopener noreferrer' : undefined}
+                                            class="text-xs text-foreground-muted hover:text-primary transition-colors duration-base"
+                                        >
+                                            {item.label}
+                                        </a>
+                                        {index < legalItems.length - 1 && (
+                                            <span class="text-foreground-muted">•</span>
+                                        )}
+                                    </>
+                                ))
+                            }
                             <span class="text-foreground-muted">•</span>
                             <a
                                 href={`/${lang}`}

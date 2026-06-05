@@ -38,6 +38,12 @@ interface Props {
     heroAvatarAlt?: string;
     /** Trust badges to display below social links */
     trustBadges?: TrustBadge[];
+    /**
+     * Whether to render the resume download dropdown. Defaults to `true` for
+     * back-compat with personal-portfolio callers. SPEC-001 Phase 2 disables
+     * it on the commercial homepage (the resume lives on `/hire`).
+     */
+    showResume?: boolean;
 }
 
 const {
@@ -76,7 +82,8 @@ const {
         x: 'X (Twitter)'
     },
     heroAvatarAlt,
-    trustBadges = []
+    trustBadges = [],
+    showResume = true
 } = Astro.props;
 ---
 
@@ -129,14 +136,16 @@ const {
                         size="sm"
                         className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
                     />
-                    <ResumeDownloadDropdown
-                        text={translations.downloadResume}
-                        englishLabel={translations.resumeEnglish}
-                        spanishLabel={translations.resumeSpanish}
-                        downloadingMessage={translations.resumeDownloading}
-                        className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
-                        ariaLabel={translations.downloadResume}
-                    />
+                    {showResume && (
+                        <ResumeDownloadDropdown
+                            text={translations.downloadResume}
+                            englishLabel={translations.resumeEnglish}
+                            spanishLabel={translations.resumeSpanish}
+                            downloadingMessage={translations.resumeDownloading}
+                            className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
+                            ariaLabel={translations.downloadResume}
+                        />
+                    )}
                 </nav>
 
                 <!-- Social Links -->

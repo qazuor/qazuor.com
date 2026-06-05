@@ -22,17 +22,17 @@
         "toggle": "Cambiar tema"
     },
     "home": {
-        "title": "Construyendo Experiencias Web Modernas",
-        "subtitle": "Construyendo experiencias web hermosas, eficientes y accesibles",
-        "description": "Creando aplicaciones web rápidas, hermosas y accesibles con herramientas de vanguardia y mejores prácticas",
+        "title": "Qazuor — Web Apps, Landing Pages y Optimización para Equipos Ambiciosos",
+        "subtitle": "Qazuor ayuda a startups, agencias y equipos de producto a lanzar productos web modernos — rápidos, accesibles y construidos para durar.",
+        "description": "Qazuor es una práctica boutique senior que construye web apps, landing pages e integraciones rápidas, accesibles y enfocadas en conversión para startups, agencias y equipos de producto.",
         "hero": {
-            "title": "Hola, soy **qazuor**",
-            "subtitle": "Experiencias web *bellas*, **rápidas** y accesibles, de la idea al deploy.",
-            "description": "Apasionado por crear experiencias digitales excepcionales con tecnologías web modernas",
-            "dynamicIntro": "Soy **{role}** con {years} años de experiencia en *{specialty}*",
-            "iBuildText": "Construyo",
-            "viewProjects": "Ver Proyectos",
-            "getInTouch": "Contactar",
+            "title": "Qazuor construye **productos web modernos**",
+            "subtitle": "Web apps, landing pages e integraciones lideradas por senior — construidas para equipos que necesitan **lanzar rápido** sin recortar **performance**, **accesibilidad** o **calidad de código**.",
+            "description": "Qazuor ayuda a startups, agencias y equipos de producto a lanzar productos web que performan, convierten y escalan — sin el overhead de una agencia.",
+            "dynamicIntro": "Un **{role}** que construye productos web modernos para equipos ambiciosos",
+            "iBuildText": "Qazuor construye",
+            "viewProjects": "Explorar work",
+            "getInTouch": "Iniciar un proyecto",
             "downloadResume": "CV",
             "resumeEnglish": "English",
             "resumeSpanish": "Español",
@@ -362,8 +362,8 @@
         }
     },
     "seo": {
-        "title": "Leandro Asrilevich - Desarrollador Full-Stack | Soluciones Web Modernas",
-        "imageAlt": "qazuor - Portafolio de Desarrollador Full-Stack"
+        "title": "Qazuor — Web Apps, Landing Pages y Optimización para Equipos Ambiciosos",
+        "imageAlt": "Qazuor — Web apps, landing pages y optimización"
     },
     "goodies": {
         "title": "Goodies",
@@ -635,6 +635,43 @@
             ]
         }
     },
+    "whyQazuor": {
+        "title": "**Por qué** Qazuor",
+        "subtitle": "Consultor senior, no una agencia. Trabajo directo, sin intermediarios.",
+        "description": "Qazuor es una **práctica boutique senior**: un solo operador, un punto de contacto claro, propiedad total del trabajo. El resultado es un tipo de engagement diferente — construido sobre comunicación directa, precios claros, y código que es realmente tuyo.",
+        "items": [
+            {
+                "title": "Trabajo senior directo",
+                "description": "Trabajás con la persona que hace el trabajo. Sin account managers, sin handoffs, sin sorpresas de juniors."
+            },
+            {
+                "title": "Alcance orientado a outcomes",
+                "description": "Engagements de alcance fijo o time-boxed con deliverables claros, precios transparentes, y plazos predecibles."
+            },
+            {
+                "title": "Calidad de código por defecto",
+                "description": "Código type-safe, accesible, performance-first con documentación y tests donde importan — no como un add-on pago."
+            },
+            {
+                "title": "Construido para durar",
+                "description": "Te pertenece todo — código, assets de diseño, contenido. Sin lock-in de vendor, sin plataformas propietarias."
+            }
+        ]
+    },
+    "featuredWork": {
+        "title": "**Work** Destacado",
+        "subtitle": "Casos comerciales seleccionados",
+        "description": "Una muestra curada de trabajo reciente con clientes — el tipo de problemas que Qazuor resuelve, las restricciones involucradas, y los outcomes entregados. Los case studies completos viven en la sección work.",
+        "placeholder": {
+            "eyebrow": "Próximamente",
+            "title": "Los case studies seleccionados están en camino",
+            "body": "La sección work se está curando. Mientras tanto, el archivo de **projects** tiene el portfolio técnico más amplio, y el **blog** es donde se desgranan procesos y trade-offs.",
+            "viewWork": "Explorar work (en progreso)",
+            "viewProjects": "Ver el archivo de projects",
+            "viewBlog": "Leer el blog"
+        },
+        "viewAll": "Explorar **todo** el work"
+    },
     "work": {
         "title": "Work",
         "subtitle": "Casos comerciales seleccionados",
@@ -658,7 +695,7 @@
             "phase": "El contenido completo llega en SPEC-001 Phase 4."
         }
     },
-    "about": {
+    "aboutPage": {
         "title": "About",
         "subtitle": "Sobre Qazuor",
         "placeholder": {
@@ -667,7 +704,7 @@
             "phase": "El contenido completo llega en SPEC-001 Phase 4."
         }
     },
-    "contact": {
+    "contactPage": {
         "title": "Contact",
         "subtitle": "Iniciar una conversación de proyecto",
         "placeholder": {

@@ -22,17 +22,17 @@
         "toggle": "Toggle theme"
     },
     "home": {
-        "title": "Building Modern Web Experiences",
-        "subtitle": "Building beautiful, performant, and accessible web experiences",
-        "description": "Creating fast, beautiful, and accessible web applications with cutting-edge tools and best practices",
+        "title": "Qazuor — Web Apps, Landing Pages, and Optimization for Ambitious Teams",
+        "subtitle": "Qazuor helps startups, agencies, and product teams ship modern web products — fast, accessible, and built to last.",
+        "description": "Qazuor is a boutique senior practice building fast, accessible, and conversion-focused web apps, landing pages, and integrations for startups, agencies, and product teams.",
         "hero": {
-            "title": "Hi, I'm **qazuor**",
-            "subtitle": "Building *beautiful*, **performant** and accessible web experiences, from idea to deployment.",
-            "description": "Passionate about crafting exceptional digital experiences with modern web technologies",
-            "dynamicIntro": "I'm a **{role}** with {years} years of experience in *{specialty}*",
-            "iBuildText": "I build",
-            "viewProjects": "View Projects",
-            "getInTouch": "Get in Touch",
+            "title": "Qazuor builds **modern web products**",
+            "subtitle": "Senior-led web apps, landing pages, and integrations — built for teams that need to ship *fast* without cutting corners on **performance**, **accessibility**, or **code quality**.",
+            "description": "Qazuor helps startups, agencies, and product teams ship web products that perform, convert, and scale — without the overhead of an agency.",
+            "dynamicIntro": "A **{role}** building modern web products for ambitious teams",
+            "iBuildText": "Qazuor builds",
+            "viewProjects": "Explore work",
+            "getInTouch": "Start a project",
             "downloadResume": "Resume",
             "resumeEnglish": "English",
             "resumeSpanish": "Español",
@@ -362,8 +362,8 @@
         }
     },
     "seo": {
-        "title": "Leandro Asrilevich - Full-Stack Developer | Modern Web Solutions",
-        "imageAlt": "qazuor - Full-Stack Developer Portfolio"
+        "title": "Qazuor — Web Apps, Landing Pages, and Optimization for Ambitious Teams",
+        "imageAlt": "Qazuor — Web apps, landing pages, and optimization"
     },
     "goodies": {
         "title": "Goodies",
@@ -620,6 +620,43 @@
             ]
         }
     },
+    "whyQazuor": {
+        "title": "**Why** Qazuor",
+        "subtitle": "Senior consultant, not an agency. Direct work, no middlemen.",
+        "description": "Qazuor is a **boutique senior practice**: one operator, one clear point of contact, full ownership of the work. The result is a different kind of engagement — one built on direct communication, clear pricing, and code you actually own.",
+        "items": [
+            {
+                "title": "Direct senior work",
+                "description": "You work with the person doing the work. No account managers, no handoffs, no junior surprises."
+            },
+            {
+                "title": "Outcome-driven scoping",
+                "description": "Fixed-scope or time-boxed engagements with clear deliverables, transparent pricing, and predictable timelines."
+            },
+            {
+                "title": "Code quality as default",
+                "description": "Type-safe, accessible, performance-first code with documentation and tests where they matter — not as a paid add-on."
+            },
+            {
+                "title": "Built to last",
+                "description": "You own everything — code, design assets, content. No vendor lock-in, no proprietary platforms."
+            }
+        ]
+    },
+    "featuredWork": {
+        "title": "**Featured** Work",
+        "subtitle": "Selected commercial case studies",
+        "description": "A curated slice of recent client work — the kind of problems Qazuor solves, the constraints involved, and the outcomes delivered. Full case studies land in the work section.",
+        "placeholder": {
+            "eyebrow": "Coming soon",
+            "title": "Selected case studies are on the way",
+            "body": "The work section is being curated. In the meantime, the **projects** archive has the broader technical portfolio, and the **blog** is where process and trade-offs get unpacked.",
+            "viewWork": "Explore work (in progress)",
+            "viewProjects": "Browse the projects archive",
+            "viewBlog": "Read the blog"
+        },
+        "viewAll": "Explore **all** work"
+    },
     "work": {
         "title": "Work",
         "subtitle": "Selected commercial case studies",
@@ -643,7 +680,7 @@
             "phase": "Full content comes in SPEC-001 Phase 4."
         }
     },
-    "about": {
+    "aboutPage": {
         "title": "About",
         "subtitle": "About Qazuor",
         "placeholder": {
@@ -652,7 +689,7 @@
             "phase": "Full content comes in SPEC-001 Phase 4."
         }
     },
-    "contact": {
+    "contactPage": {
         "title": "Contact",
         "subtitle": "Start a project conversation",
         "placeholder": {

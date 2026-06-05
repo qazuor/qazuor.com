@@ -28,6 +28,8 @@ interface SectionColors {
     contact: string;
     faqs: string;
     footer: string;
+    whyQazuor: string;
+    featuredWork: string;
 }
 
 /**
@@ -146,7 +148,10 @@ function loadColorsFromSource(sourceFile: string): { dark: SectionColors; light:
                 testimonials: colors.testimonials || '#000000',
                 contact: colors.contact || '#000000',
                 faqs: colors.faqs || '#000000',
-                footer: colors.footer || '#000000'
+                footer: colors.footer || '#000000',
+                // SPEC-001 Phase 2 additions
+                whyQazuor: colors.whyQazuor || '#000000',
+                featuredWork: colors.featuredWork || '#000000'
             };
         };
 

@@ -21,21 +21,21 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const pageTitle = `${t('contact.placeholder.title')} | ${t('contact.title')}`;
-const pageDescription = t('contact.placeholder.subtitle');
+const pageTitle = `${t('contactPage.placeholder.title')} | ${t('contactPage.title')}`;
+const pageDescription = t('contactPage.placeholder.subtitle');
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
     <section class="container-custom py-24 md:py-32">
         <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
         <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
-            {t('contact.placeholder.title')}
+            {t('contactPage.placeholder.title')}
         </h1>
         <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
-            {t('contact.placeholder.subtitle')}
+            {t('contactPage.placeholder.subtitle')}
         </p>
         <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
-            {t('contact.placeholder.phase')}
+            {t('contactPage.placeholder.phase')}
         </p>
     </section>
 </BaseLayout>

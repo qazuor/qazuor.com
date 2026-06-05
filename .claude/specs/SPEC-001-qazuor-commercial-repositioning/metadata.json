@@ -1,0 +1,22 @@
+{
+  "specId": "SPEC-001",
+  "slug": "qazuor-commercial-repositioning",
+  "title": "Qazuor Commercial Repositioning",
+  "status": "draft",
+  "createdAt": "2026-06-05",
+  "owner": "OpenCode",
+  "deliveryMode": "single-change",
+  "primaryGoal": "Reposition qazuor.com as a commercial-first site under the Qazuor brand without losing portfolio and recruiter value.",
+  "keyRoutes": [
+    "/services",
+    "/work",
+    "/projects",
+    "/hire",
+    "/blog",
+    "/goodies"
+  ],
+  "locales": ["es", "en"],
+  "topLevelPathLanguage": "english",
+  "navPrimary": ["services", "work", "projects", "blog", "about", "hire", "contact"],
+  "navSecondary": ["goodies"]
+}

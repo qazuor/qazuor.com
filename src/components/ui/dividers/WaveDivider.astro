@@ -16,6 +16,8 @@ interface Props {
         | 'testimonials-to-contact'
         | 'faqs-to-contact'
         | 'contact-to-footer'
+        // SPEC-001 Phase 2 — commercial-first homepage flow
+        | 'hero-to-why-qazuor'
         // Service detail page transitions
         | 'hero-to-features'
         | 'related-to-cta';
@@ -207,6 +209,15 @@ const { transition = 'hero-to-about' } = Astro.props;
         --divider-transition-3: var(--contact-to-footer-3);
         --divider-transition-4: var(--contact-to-footer-4);
         --divider-transition-5: var(--contact-to-footer-5);
+    }
+
+    /* SPEC-001 Phase 2 — commercial-first homepage flow */
+    .wave-divider[data-transition='hero-to-why-qazuor'] {
+        --divider-transition-1: var(--hero-to-why-qazuor-1);
+        --divider-transition-2: var(--hero-to-why-qazuor-2);
+        --divider-transition-3: var(--hero-to-why-qazuor-3);
+        --divider-transition-4: var(--hero-to-why-qazuor-4);
+        --divider-transition-5: var(--hero-to-why-qazuor-5);
     }
 
     /* Service detail page transitions - using background color */

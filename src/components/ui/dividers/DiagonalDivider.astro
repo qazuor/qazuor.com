@@ -19,6 +19,9 @@ interface Props {
         | 'testimonials-to-contact'
         | 'faqs-to-footer'
         | 'contact-to-footer'
+        // SPEC-001 Phase 2 — commercial-first homepage flow
+        | 'why-qazuor-to-services-preview'
+        | 'featured-work-to-testimonials'
         // Service detail page transitions
         | 'features-to-pricing'
         | 'faq-to-related';
@@ -172,6 +175,21 @@ const line4Right = direction === 'right';
         --divider-transition-secondary: var(--contact-to-footer-4);
         --divider-transition-accent: var(--contact-to-footer-3);
         --divider-transition-final: var(--contact-to-footer-5);
+    }
+
+    /* SPEC-001 Phase 2 — commercial-first homepage flow */
+    .diagonal-divider[data-transition='why-qazuor-to-services-preview'] {
+        --divider-transition-primary: var(--why-qazuor-to-services-preview-2);
+        --divider-transition-secondary: var(--why-qazuor-to-services-preview-4);
+        --divider-transition-accent: var(--why-qazuor-to-services-preview-3);
+        --divider-transition-final: var(--why-qazuor-to-services-preview-5);
+    }
+
+    .diagonal-divider[data-transition='featured-work-to-testimonials'] {
+        --divider-transition-primary: var(--featured-work-to-testimonials-2);
+        --divider-transition-secondary: var(--featured-work-to-testimonials-4);
+        --divider-transition-accent: var(--featured-work-to-testimonials-3);
+        --divider-transition-final: var(--featured-work-to-testimonials-5);
     }
 
     /* Service detail page transitions - using background color */

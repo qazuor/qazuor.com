@@ -21,6 +21,10 @@ export interface SectionColors {
     contact: string;
     faqs: string;
     footer: string;
+    /** SPEC-001 Phase 2: commercial-first homepage addition. */
+    whyQazuor: string;
+    /** SPEC-001 Phase 2: commercial-first homepage addition. */
+    featuredWork: string;
 }
 
 /**
@@ -40,7 +44,9 @@ export const darkModeColors: SectionColors = {
     testimonials: '#21262d', // Same as projects
     contact: '#1c2128', // Same as skills
     faqs: '#161b22', // Same as about
-    footer: '#010409' // Near black
+    footer: '#010409', // Near black
+    whyQazuor: '#1c2128', // Sits between about/skills and projects
+    featuredWork: '#21262d' // Sits between services-preview and testimonials
 };
 
 /**
@@ -58,7 +64,9 @@ export const lightModeColors: SectionColors = {
     testimonials: '#BCCCDC', // Light blue-gray
     contact: '#ADC4CE', // Soft blue-gray
     faqs: '#BCCCDC', // Light blue-gray (after contact, before footer)
-    footer: '#E8EBF0' // Light blue-gray matching bg-background light mode
+    footer: '#E8EBF0', // Light blue-gray matching bg-background light mode
+    whyQazuor: '#9FB7C7', // Sits between services-preview and featured-work
+    featuredWork: '#A8C0CE' // Sits between whyQazuor and testimonials
 };
 
 /**
@@ -77,7 +85,9 @@ export const sectionsColorsCSSProps: SectionColors = {
     testimonials: 'var(--section-testimonials-bg)',
     contact: 'var(--section-contact-bg)',
     faqs: 'var(--section-faqs-bg)',
-    footer: 'var(--section-footer-bg)'
+    footer: 'var(--section-footer-bg)',
+    whyQazuor: 'var(--section-why-qazuor-bg)',
+    featuredWork: 'var(--section-featured-work-bg)'
 };
 
 /**

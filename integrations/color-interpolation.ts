@@ -87,7 +87,12 @@ function generateTransitionCSS(colors: SectionColors, steps: number): string {
         { name: 'faqs-to-contact', from: colors.faqs, to: colors.contact },
         { name: 'contact-to-faqs', from: colors.contact, to: colors.faqs },
         { name: 'faqs-to-footer', from: colors.faqs, to: colors.footer },
-        { name: 'contact-to-footer', from: colors.contact, to: colors.footer }
+        { name: 'contact-to-footer', from: colors.contact, to: colors.footer },
+        // SPEC-001 Phase 2 — commercial-first homepage flow
+        { name: 'hero-to-why-qazuor', from: colors.hero, to: colors.whyQazuor },
+        { name: 'why-qazuor-to-services-preview', from: colors.whyQazuor, to: colors.servicesPreview },
+        { name: 'services-preview-to-featured-work', from: colors.servicesPreview, to: colors.featuredWork },
+        { name: 'featured-work-to-testimonials', from: colors.featuredWork, to: colors.testimonials }
     ];
 
     let css = '';

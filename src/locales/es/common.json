@@ -850,6 +850,24 @@
             "title": "¿No sabés qué servicio necesitás?",
             "body": "Mandame una descripción corta de lo que estás trabajando. Lo leo, hago un par de preguntas de clarificación, y te digo qué camino encaja — incluso si ese camino no soy yo.",
             "cta": "Enviar un mensaje corto"
+        },
+        "groupings": {
+            "webAppOrLanding": {
+                "headline": "Necesito una web app o una landing page",
+                "fit": "Mejor cuando tenés un producto, campaña o sitio de negocio para entregar — y lo querés hecho por senior, no improvisado."
+            },
+            "optimizeExisting": {
+                "headline": "Necesito optimizar algo que ya existe",
+                "fit": "Mejor cuando el sitio está online pero lento, el Lighthouse está en los 50s, o faltan las bases de SEO y necesitás un pase senior para limpiarlo."
+            },
+            "automateSomething": {
+                "headline": "Necesito automatizar algo que se come mi semana",
+                "fit": "Mejor cuando el back office está sostenido por cadenas de Zapier, copy-paste entre herramientas y un webhook que silenciosamente pierde eventos."
+            },
+            "ongoingDesignSupport": {
+                "headline": "Necesito soporte de diseño continuo para redes",
+                "fit": "Mejor cuando necesitás un stream constante de visuales on-brand y tu setup actual es muy lento, muy caro o muy inconsistente."
+            }
         }
     }
 }

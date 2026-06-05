@@ -3,15 +3,13 @@ import ComparisonSection from '@/components/sections/ComparisonSection.astro';
 import FreelancerVsAgencySection from '@/components/sections/FreelancerVsAgencySection.astro';
 import ProcessSection from '@/components/sections/ProcessSection.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
-import PixelCanvas from '@/components/ui/PixelCanvas.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
-import { getInterestsForService, sectionsColors } from '@/data';
-import { serviceColors } from '@/data/serviceColors';
-import { services } from '@/data/services';
+import { sectionsColors } from '@/data';
+import { type Service, type ServiceGrouping, serviceGroupings, services } from '@/data/services';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
@@ -23,101 +21,45 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-// SEO
+// SEO — Qazuor commercial-first framing
 const pageTitle = t('services.allServices', { markdown: false });
 const pageDescription = t('services.subtitle', { markdown: false });
 
-// Map service IDs to their translations
-const serviceTranslations: Record<
-    string,
-    {
-        title: string;
-        description: string;
-        features: string[];
-        ctaButton: string;
-    }
-> = {
-    'web-apps': {
-        title: t('services.webApps.title', { markdown: true }),
-        description: t('services.webApps.description', { markdown: true }),
-        features: [
-            t('services.webApps.features.0'),
-            t('services.webApps.features.1'),
-            t('services.webApps.features.2'),
-            t('services.webApps.features.3'),
-            t('services.webApps.features.4'),
-            t('services.webApps.features.5')
-        ],
-        ctaButton: t('services.webApps.ctaButton')
-    },
-    'landing-pages': {
-        title: t('services.landingPages.title', { markdown: true }),
-        description: t('services.landingPages.description', { markdown: true }),
-        features: [
-            t('services.landingPages.features.0'),
-            t('services.landingPages.features.1'),
-            t('services.landingPages.features.2'),
-            t('services.landingPages.features.3'),
-            t('services.landingPages.features.4'),
-            t('services.landingPages.features.5')
-        ],
-        ctaButton: t('services.landingPages.ctaButton')
-    },
-    'automation-integration': {
-        title: t('services.automation.title', { markdown: true }),
-        description: t('services.automation.description', { markdown: true }),
-        features: [
-            t('services.automation.features.0'),
-            t('services.automation.features.1'),
-            t('services.automation.features.2'),
-            t('services.automation.features.3'),
-            t('services.automation.features.4'),
-            t('services.automation.features.5')
-        ],
-        ctaButton: t('services.automation.ctaButton')
-    },
-    'social-media-design': {
-        title: t('services.socialDesign.title', { markdown: true }),
-        description: t('services.socialDesign.description', { markdown: true }),
-        features: [
-            t('services.socialDesign.features.0'),
-            t('services.socialDesign.features.1'),
-            t('services.socialDesign.features.2'),
-            t('services.socialDesign.features.3'),
-            t('services.socialDesign.features.4'),
-            t('services.socialDesign.features.5')
-        ],
-        ctaButton: t('services.socialDesign.ctaButton')
-    },
-    'web-optimization': {
-        title: t('services.webOptimization.title', { markdown: true }),
-        description: t('services.webOptimization.description', { markdown: true }),
-        features: [
-            t('services.webOptimization.features.0'),
-            t('services.webOptimization.features.1'),
-            t('services.webOptimization.features.2'),
-            t('services.webOptimization.features.3'),
-            t('services.webOptimization.features.4'),
-            t('services.webOptimization.features.5')
-        ],
-        ctaButton: t('services.webOptimization.ctaButton')
-    },
-    wordpress: {
-        title: t('services.wordpress.title', { markdown: true }),
-        description: t('services.wordpress.description', { markdown: true }),
-        features: [
-            t('services.wordpress.features.0'),
-            t('services.wordpress.features.1'),
-            t('services.wordpress.features.2'),
-            t('services.wordpress.features.3'),
-            t('services.wordpress.features.4'),
-            t('services.wordpress.features.5')
-        ],
-        ctaButton: t('services.wordpress.ctaButton')
-    }
+// Lookup table: service id → translation copy (title + short blurb only —
+// the hub reframes services by outcome, so we keep the cards lean).
+const serviceKeyMap: Record<string, string> = {
+    'web-apps': 'webApps',
+    'landing-pages': 'landingPages',
+    'automation-integration': 'automation',
+    'social-media-design': 'socialDesign',
+    'web-optimization': 'webOptimization',
+    wordpress: 'wordpress'
 };
 
-// CTA Translations
+const serviceBlurbs: Record<string, { title: string; blurb: string }> = Object.fromEntries(
+    services.map((service: Service) => {
+        const key = serviceKeyMap[service.id];
+        return [
+            service.id,
+            {
+                title: t(`services.${key}.title`, { markdown: true }),
+                blurb: t(`services.${key}.description`)
+            }
+        ];
+    })
+);
+
+// Resolve groupings: for each grouping, replace the `serviceIds` with the
+// matching `Service` objects so the template does not have to do its own
+// lookups.
+const resolvedGroupings = serviceGroupings.map((grouping: ServiceGrouping) => ({
+    ...grouping,
+    headline: t(grouping.headlineKey, { markdown: false }),
+    fit: t(grouping.fitKey, { markdown: false }),
+    services: grouping.serviceIds.map((id) => services.find((s) => s.id === id)).filter((s): s is Service => Boolean(s))
+}));
+
+// CTA copy (used by the not-sure card and the bottom CTA block)
 const ctaTranslations = {
     title: t('services.cta.title', { markdown: true }),
     description: t('services.cta.description', { markdown: true }),
@@ -125,64 +67,13 @@ const ctaTranslations = {
     consultation: t('services.cta.consultation', { markdown: true })
 };
 
-// Freelancer vs Agency Section Translations
-const freelancerVsAgencyTranslations = {
-    title: t('services.freelancerVsAgency.title', { markdown: true }),
-    subtitle: t('services.freelancerVsAgency.subtitle', { markdown: true }),
-    freelancer: {
-        title: t('services.freelancerVsAgency.freelancer.title'),
-        points: [
-            {
-                icon: 'chat-bubble',
-                title: t('services.freelancerVsAgency.freelancer.points.0.title'),
-                description: t('services.freelancerVsAgency.freelancer.points.0.description')
-            },
-            {
-                icon: 'bolt',
-                title: t('services.freelancerVsAgency.freelancer.points.1.title'),
-                description: t('services.freelancerVsAgency.freelancer.points.1.description')
-            },
-            {
-                icon: 'currency-dollar',
-                title: t('services.freelancerVsAgency.freelancer.points.2.title'),
-                description: t('services.freelancerVsAgency.freelancer.points.2.description')
-            },
-            {
-                icon: 'lightbulb',
-                title: t('services.freelancerVsAgency.freelancer.points.3.title'),
-                description: t('services.freelancerVsAgency.freelancer.points.3.description')
-            }
-        ]
-    },
-    agency: {
-        title: t('services.freelancerVsAgency.agency.title'),
-        points: [
-            {
-                icon: 'users',
-                title: t('services.freelancerVsAgency.agency.points.0.title'),
-                description: t('services.freelancerVsAgency.agency.points.0.description')
-            },
-            {
-                icon: 'clock',
-                title: t('services.freelancerVsAgency.agency.points.1.title'),
-                description: t('services.freelancerVsAgency.agency.points.1.description')
-            },
-            {
-                icon: 'building-office',
-                title: t('services.freelancerVsAgency.agency.points.2.title'),
-                description: t('services.freelancerVsAgency.agency.points.2.description')
-            },
-            {
-                icon: 'document-text',
-                title: t('services.freelancerVsAgency.agency.points.3.title'),
-                description: t('services.freelancerVsAgency.agency.points.3.description')
-            }
-        ]
-    },
-    cta: {
-        text: t('services.freelancerVsAgency.cta.text'),
-        button: t('services.freelancerVsAgency.cta.button')
-    }
+// Not-sure card (decoupled from the bottom CTA so it lives inside the hero
+// framing as part of the hub intent: "pick the outcome you are after").
+const notSureTranslations = {
+    eyebrow: t('servicesHub.notSure.eyebrow'),
+    title: t('servicesHub.notSure.title'),
+    body: t('servicesHub.notSure.body'),
+    cta: t('servicesHub.notSure.cta')
 };
 
 // Comparison Section Translations
@@ -267,149 +158,152 @@ const processTranslations = {
     }
 };
 
-// Page Description (processed for markdown and line breaks)
-const servicesPageDescription = processMarkdown(t('services.pageDescription'));
+// Freelancer vs Agency Section Translations
+const freelancerVsAgencyTranslations = {
+    title: t('services.freelancerVsAgency.title', { markdown: true }),
+    subtitle: t('services.freelancerVsAgency.subtitle', { markdown: true }),
+    freelancer: {
+        title: t('services.freelancerVsAgency.freelancer.title'),
+        points: [
+            {
+                icon: 'chat-bubble',
+                title: t('services.freelancerVsAgency.freelancer.points.0.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.0.description')
+            },
+            {
+                icon: 'bolt',
+                title: t('services.freelancerVsAgency.freelancer.points.1.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.1.description')
+            },
+            {
+                icon: 'currency-dollar',
+                title: t('services.freelancerVsAgency.freelancer.points.2.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.2.description')
+            },
+            {
+                icon: 'lightbulb',
+                title: t('services.freelancerVsAgency.freelancer.points.3.title'),
+                description: t('services.freelancerVsAgency.freelancer.points.3.description')
+            }
+        ]
+    },
+    agency: {
+        title: t('services.freelancerVsAgency.agency.title'),
+        points: [
+            {
+                icon: 'users',
+                title: t('services.freelancerVsAgency.agency.points.0.title'),
+                description: t('services.freelancerVsAgency.agency.points.0.description')
+            },
+            {
+                icon: 'clock',
+                title: t('services.freelancerVsAgency.agency.points.1.title'),
+                description: t('services.freelancerVsAgency.agency.points.1.description')
+            },
+            {
+                icon: 'building-office',
+                title: t('services.freelancerVsAgency.agency.points.2.title'),
+                description: t('services.freelancerVsAgency.agency.points.2.description')
+            },
+            {
+                icon: 'document-text',
+                title: t('services.freelancerVsAgency.agency.points.3.title'),
+                description: t('services.freelancerVsAgency.agency.points.3.description')
+            }
+        ]
+    },
+    cta: { text: t('services.freelancerVsAgency.cta.text'), button: t('services.freelancerVsAgency.cta.button') }
+};
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
-    <!-- Services Section -->
     <section
         id="services"
-        class="relative section services-section overflow-hidden pt-32"
+        class="relative section services-section overflow-hidden pt-32 pb-24"
         style={`background-color: ${sectionsColors.services}`}
     >
-        <!-- Animated Gradient Background -->
         <AnimatedGradientBackground />
 
-        <div class="container-custom">
-            <!-- Section Title -->
+        <div class="container-custom relative z-10">
+            <!-- Hero / Hub framing -->
             <SectionTitle
-                title={t('services.title', { markdown: true })}
-                subtitle={t('services.subtitle', { markdown: true })}
+                title={t('servicesHub.title', { markdown: true })}
+                subtitle={t('servicesHub.subtitle', { markdown: true })}
                 size="2xl"
                 customElement="h1"
             />
 
-            <!-- Page Description -->
-            <div class="mt-8 mb-12 text-sm text-foreground-secondary max-w-3xl mx-auto leading-relaxed text-center" set:html={servicesPageDescription} />
-
-            <!-- Services Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {services.map((service) => {
-                    const serviceTranslation = serviceTranslations[service.id];
-                    const pixelConfig = serviceColors[service.id].pixel;
-
-                    return (
-                        <div
-                            class="service-card group relative overflow-hidden bg-foreground/5 backdrop-blur-sm rounded-2xl border border-foreground/10 transition-all duration-300 isolate min-h-[420px]"
-                            style={`--active-color: ${pixelConfig.activeColor}`}
+            <!-- Groupings: each section answers a visitor's actual outcome question -->
+            <div class="mt-16 space-y-12">
+                {
+                    resolvedGroupings.map((grouping) => (
+                        <article
+                            class="rounded-2xl border border-foreground/10 bg-card/40 backdrop-blur-sm p-6 md:p-8"
+                            data-grouping-id={grouping.id}
                         >
-                            <!-- Pixel Canvas Effect -->
-                            <PixelCanvas
-                                gap={pixelConfig.gap}
-                                speed={pixelConfig.speed}
-                                colors={pixelConfig.colors}
-                                colorsLight={pixelConfig.colorsLight}
-                                class="absolute inset-0 z-[1] pointer-events-none"
-                            />
+                            <header class="mb-6">
+                                <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-2">
+                                    {grouping.headline}
+                                </h2>
+                                <p class="text-foreground-secondary text-base md:text-lg leading-relaxed max-w-3xl">
+                                    {grouping.fit}
+                                </p>
+                            </header>
 
-                            <!-- Card overlay for depth effect -->
-                            <div class="service-card-overlay absolute inset-0 z-0 pointer-events-none" />
-
-
-                            <!-- Card Content -->
-                            <div class="service-card-content relative p-8 h-full flex flex-col">
-                                <!-- Service Header -->
-                                <div class="flex items-start gap-4 mb-6">
-                                    <ServiceIcon name={service.iconId} size={40} class="service-icon text-primary transition-all duration-300" />
-                                    <div class="flex-1">
-                                        <h2 class="text-2xl font-bold text-foreground mb-2">
-                                            <a
-                                                href={`/${lang}/services/${service.slug}`}
-                                                class="stretched-link"
-                                                set:html={serviceTranslation.title}
-                                            />
-                                        </h2>
-                                        <p class="text-foreground-secondary leading-relaxed">
-                                            {serviceTranslation.description}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Features List (Preview - First 4) -->
-                                <div class="flex-grow mb-6">
-                                    <ul class="space-y-2">
-                                        {serviceTranslation.features.slice(0, 4).map((feature: string) => (
-                                            <li class="flex items-center text-foreground-secondary">
-                                                <svg class="w-5 h-5 text-primary mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                                </svg>
-                                                {feature}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                {/* Pricing - Hidden for now, keeping code for future use
-                                <div class="mb-6">
-                                    <div class="flex items-center justify-between p-4 bg-foreground/5 rounded-lg border border-foreground/10">
-                                        <span class="text-foreground-secondary font-medium">
-                                            {lang === 'es' ? 'Precio:' : 'Price:'}
-                                        </span>
-                                        <span class="text-foreground font-bold text-lg">{formatPricing(service)}</span>
-                                    </div>
-                                </div>
-                                */}
-
-                                <!-- CTA Button -->
-                                <div class="relative z-10 mt-auto">
-                                    <UnifiedButton
-                                        href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
-                                        variant="primary"
-                                        size="md"
-                                        iconPosition="right"
-                                        class="w-full justify-center"
-                                    >
-                                        {serviceTranslation.ctaButton}
-                                        <Fragment slot="icon-right">
-                                            <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {grouping.services.map((service) => {
+                                    const copy = serviceBlurbs[service.id];
+                                    return (
+                                        <a
+                                            href={`/${lang}/services/${service.slug}`}
+                                            class="group flex items-start gap-4 p-5 rounded-xl border border-foreground/10 bg-background/40 hover:border-primary/40 hover:bg-background/60 transition-all duration-300"
+                                            aria-label={copy.title}
+                                        >
+                                            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                                                <ServiceIcon name={service.iconId} size={22} />
+                                            </span>
+                                            <div class="flex-1 min-w-0">
+                                                <h3 class="text-base md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
+                                                    <span set:html={copy.title} />
+                                                </h3>
+                                                <p class="text-sm text-foreground-secondary leading-relaxed mt-1 line-clamp-3">
+                                                    {copy.blurb}
+                                                </p>
+                                            </div>
+                                            <svg
+                                                class="flex-shrink-0 w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-300"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                aria-hidden="true"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                                             </svg>
-                                        </Fragment>
-                                    </UnifiedButton>
-                                </div>
+                                        </a>
+                                    );
+                                })}
                             </div>
-
-                            <!-- Hover Content (Icon + Title centered) -->
-                            <div class="service-card-hover-content absolute inset-0 z-[2] flex flex-col items-center justify-center p-8 pointer-events-none">
-                                <ServiceIcon name={service.iconId} size={64} class="service-icon-hover mb-4 transition-all duration-300" />
-                                <h3 class="text-2xl font-bold text-foreground text-center">
-                                    <a
-                                        href={`/${lang}/services/${service.slug}`}
-                                        class="stretched-link pointer-events-auto"
-                                        set:html={serviceTranslation.title}
-                                    />
-                                </h3>
-                                <div class="mt-6 pointer-events-auto">
-                                    <UnifiedButton
-                                        href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
-                                        variant="primary"
-                                        size="md"
-                                        iconPosition="right"
-                                    >
-                                        {serviceTranslation.ctaButton}
-                                        <Fragment slot="icon-right">
-                                            <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </Fragment>
-                                    </UnifiedButton>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })}
+                        </article>
+                    ))
+                }
             </div>
+
+            <!-- Not-sure card — alternative to picking a grouping -->
+            <aside class="mt-12 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card/30 to-accent/5 p-6 md:p-8 text-center">
+                <p class="text-xs font-medium uppercase tracking-widest text-primary mb-2">
+                    {notSureTranslations.eyebrow}
+                </p>
+                <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-3">
+                    {notSureTranslations.title}
+                </h2>
+                <p class="text-foreground-secondary text-base leading-relaxed max-w-2xl mx-auto mb-6">
+                    {notSureTranslations.body}
+                </p>
+                <UnifiedButton href={`/${lang}/contact`} variant="primary" size="md">
+                    {notSureTranslations.cta}
+                </UnifiedButton>
+            </aside>
 
             <!-- Process Section - How I Work -->
             <ProcessSection translations={processTranslations} />
@@ -425,10 +319,9 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
                 <h2 class="text-2xl font-bold text-foreground mb-4" set:html={ctaTranslations.title} />
                 <p class="text-foreground-secondary mb-6 max-w-2xl mx-auto" set:html={ctaTranslations.description} />
 
-                <!-- Main CTA Button -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <UnifiedButton
-                        href={`/${lang}/#contact`}
+                        href={`/${lang}/contact`}
                         variant="primary"
                         size="lg"
                         iconPosition="right"
@@ -441,7 +334,6 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
                         </Fragment>
                     </UnifiedButton>
 
-                    <!-- Free Consultation Badge -->
                     <div class="flex items-center text-foreground-secondary text-sm">
                         <svg class="w-4 h-4 mr-2 text-[rgb(var(--color-status-success))]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -455,107 +347,10 @@ const servicesPageDescription = processMarkdown(t('services.pageDescription'));
 </BaseLayout>
 
 <style>
-    .service-card {
-        --active-color: #e3e3e3;
-        user-select: none;
-    }
-
-    .service-card-overlay {
-        background: radial-gradient(
-            circle at bottom left,
-            transparent 55%,
-            hsl(var(--color-background) / 0.8)
-        );
-        box-shadow: hsl(var(--color-background)) -0.5cqi 0.5cqi 2.5cqi inset;
-        transition: opacity 900ms cubic-bezier(0.5, 1, 0.89, 1);
-    }
-
-    .service-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        margin: auto;
-        aspect-ratio: 1;
-        background: radial-gradient(circle, hsl(var(--color-background)), transparent 65%);
-        opacity: 0;
-        transition: opacity 800ms cubic-bezier(0.5, 1, 0.89, 1);
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    .service-card:hover,
-    .service-card:focus-within {
-        border-color: var(--active-color);
-        transition: border-color 800ms cubic-bezier(0.45, 0, 0.55, 1);
-    }
-
-    .service-card:hover .service-card-overlay,
-    .service-card:focus-within .service-card-overlay {
-        opacity: 0;
-    }
-
-    .service-card:hover::after,
-    .service-card:focus-within::after {
-        opacity: 1;
-    }
-
-    .service-card:hover .service-icon,
-    .service-card:focus-within .service-icon {
-        color: var(--active-color);
-        transform: scale(1.1);
-    }
-
-    .service-card:focus-within {
-        outline: 2px solid var(--active-color);
-        outline-offset: 2px;
-    }
-
-    /* Content transition on hover */
-    .service-card-content {
-        transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .service-card-hover-content {
-        opacity: 0;
-        transform: scale(0.85);
-        transition:
-            opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
-            transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .service-card:hover .service-card-content,
-    .service-card:focus-within .service-card-content {
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .service-card:hover .service-card-hover-content,
-    .service-card:focus-within .service-card-hover-content {
-        opacity: 1;
-        transform: scale(1);
-        transition:
-            opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms,
-            transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
-    }
-
-    /* Stretched link - makes entire card clickable */
-    .stretched-link::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        content: "";
-    }
-
-    .stretched-link {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    /* Hover icon uses the card's active color */
-    .service-icon-hover {
-        color: var(--active-color);
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 </style>

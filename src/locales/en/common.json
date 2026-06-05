@@ -835,6 +835,24 @@
             "title": "Not sure which service you need?",
             "body": "Send a short description of what you are working on. I will read it, ask a couple of clarifying questions, and tell you which path fits — even if that path is not me.",
             "cta": "Send a short message"
+        },
+        "groupings": {
+            "webAppOrLanding": {
+                "headline": "I need a web app or a landing page",
+                "fit": "Best when you have a product, campaign, or business site to ship — and you want it built senior, not improvised."
+            },
+            "optimizeExisting": {
+                "headline": "I need to optimize something that already exists",
+                "fit": "Best when the site is live but slow, the Lighthouse is in the 50s, or the SEO basics are missing and you need a senior pass to clean it up."
+            },
+            "automateSomething": {
+                "headline": "I need to automate something that is eating my week",
+                "fit": "Best when the back office is held together by Zapier chains, copy-paste between tools, and a webhook that silently drops events."
+            },
+            "ongoingDesignSupport": {
+                "headline": "I need ongoing design support for social",
+                "fit": "Best when you need a steady stream of on-brand visuals and your current setup is too slow, too expensive, or too inconsistent."
+            }
         }
     }
 }

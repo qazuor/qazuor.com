@@ -6,10 +6,10 @@
       `/{lang}/`, `services`, `projects`, `blog`, nav, footer, and SEO output.
 - [x] 1.2 Apply the spec rule `modify if present, create if missing` and map
       each required target route to a concrete source file.
-- [ ] 1.3 Create any missing route shells for `/{lang}/work`,
+- [x] 1.3 Create any missing route shells for `/{lang}/work`,
       `/{lang}/work/[slug]`, `/{lang}/hire`, `/{lang}/about`, and
       `/{lang}/contact`.
-- [ ] 1.4 Create or extend shared navigation/footer data so primary and
+- [x] 1.4 Create or extend shared navigation/footer data so primary and
       secondary nav can be managed centrally.
 
 ## Phase 2: Homepage and Navigation

@@ -2,9 +2,9 @@
 
 ## Phase 1: Foundations
 
-- [ ] 1.1 Identify the editable source entrypoints that currently generate
+- [x] 1.1 Identify the editable source entrypoints that currently generate
       `/{lang}/`, `services`, `projects`, `blog`, nav, footer, and SEO output.
-- [ ] 1.2 Apply the spec rule `modify if present, create if missing` and map
+- [x] 1.2 Apply the spec rule `modify if present, create if missing` and map
       each required target route to a concrete source file.
 - [ ] 1.3 Create any missing route shells for `/{lang}/work`,
       `/{lang}/work/[slug]`, `/{lang}/hire`, `/{lang}/about`, and

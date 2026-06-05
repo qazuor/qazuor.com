@@ -1,0 +1,114 @@
+---
+/**
+ * FeaturedWorkSection - Homepage slice of curated commercial case studies
+ *
+ * SPEC-001 Phase 2: the homepage leads with services, then surfaces a
+ * Featured Work slice before testimonials. The full case study feed
+ * arrives in Phase 3 once the `work` content collection is in place.
+ * For now the section renders a placeholder card that points visitors
+ * to /work (in progress), /projects (broader technical portfolio), and
+ * /blog (process and trade-offs).
+ *
+ * Layout is a single centered "Coming soon" card with three CTAs that
+ * keep the commercial-first information flow going.
+ */
+
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+
+interface Props {
+    primaryColor?: string;
+    lang: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        description: string;
+        placeholder: {
+            eyebrow: string;
+            title: string;
+            body: string;
+            viewWork: string;
+            viewProjects: string;
+            viewBlog: string;
+        };
+        viewAll: string;
+    };
+}
+
+const { primaryColor = 'var(--section-featured-work-bg)', lang, translations } = Astro.props;
+---
+
+<section
+    class="relative section section-featured-work overflow-hidden py-20 md:py-28"
+    id="featured-work"
+    style={`background-color: ${primaryColor}`}
+>
+    <div class="container-custom relative z-10">
+        <SectionTitle
+            title={translations.title}
+            subtitle={translations.subtitle}
+            description={translations.description}
+            descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
+        />
+
+        <!-- Placeholder card: full case study feed lands in Phase 3 -->
+        <div
+            class="max-w-3xl mx-auto mt-12 p-8 lg:p-10 rounded-2xl bg-background/50 backdrop-blur-sm border border-primary/20 text-center"
+        >
+            <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-3">
+                {translations.placeholder.eyebrow}
+            </p>
+            <h3 class="text-2xl lg:text-3xl font-bold text-foreground mb-4">
+                {translations.placeholder.title}
+            </h3>
+            <p class="text-foreground-secondary leading-relaxed mb-8" set:html={translations.placeholder.body} />
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <UnifiedButton
+                    href={`/${lang}/work`}
+                    variant="primary"
+                    size="md"
+                    ariaLabel={translations.placeholder.viewWork}
+                >
+                    {translations.placeholder.viewWork}
+                </UnifiedButton>
+                <UnifiedButton
+                    href={`/${lang}/projects`}
+                    variant="secondary"
+                    size="md"
+                    ariaLabel={translations.placeholder.viewProjects}
+                >
+                    {translations.placeholder.viewProjects}
+                </UnifiedButton>
+                <UnifiedButton
+                    href={`/${lang}/blog`}
+                    variant="ghost"
+                    size="md"
+                    ariaLabel={translations.placeholder.viewBlog}
+                >
+                    {translations.placeholder.viewBlog}
+                </UnifiedButton>
+            </div>
+        </div>
+
+        <!-- View all work link -->
+        <div class="text-center mt-10">
+            <a
+                href={`/${lang}/work`}
+                class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-foreground transition-colors"
+            >
+                <span set:html={translations.viewAll} />
+                <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,78 @@
+---
+/**
+ * WhyQazuorSection - Qazuor-branded differentiators
+ *
+ * SPEC-001 Phase 2: replaces the personal "Why Work With Me" panel that
+ * used to live inside ServicesPreviewSection. The copy is Qazuor-branded
+ * (boutique senior practice, not personal recruiter framing) so the
+ * homepage can lead with services and the differentiators do not
+ * duplicate the service cards.
+ *
+ * Renders four differentiator cards in a 2x2 grid on desktop and a
+ * single column on mobile. Each card uses a Lucide-style icon from the
+ * existing `src/icons/ui/` set so the section feels coherent with the
+ * rest of the site.
+ */
+
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import BuildingOfficeIcon from '@/icons/ui/building-office.svg?raw';
+import ClipboardDocumentListIcon from '@/icons/ui/clipboard-document-list.svg?raw';
+import CodeBracketIcon from '@/icons/ui/code-bracket.svg?raw';
+import UsersIcon from '@/icons/ui/users.svg?raw';
+
+interface WhyQazuorItem {
+    title: string;
+    description: string;
+}
+
+interface Props {
+    primaryColor?: string;
+    translations: {
+        title: string;
+        subtitle: string;
+        description: string;
+        items: WhyQazuorItem[];
+    };
+}
+
+const { primaryColor = 'var(--section-why-qazuor-bg)', translations } = Astro.props;
+
+// Icons are paired positionally with translations.items. The order of
+// icons here MUST match the order of items in the i18n file.
+const itemIcons = [UsersIcon, ClipboardDocumentListIcon, CodeBracketIcon, BuildingOfficeIcon] as const;
+---
+
+<section
+    class="relative section section-why-qazuor overflow-hidden py-20 md:py-28"
+    id="why-qazuor"
+    style={`background-color: ${primaryColor}`}
+>
+    <div class="container-custom relative z-10">
+        <SectionTitle
+            title={translations.title}
+            subtitle={translations.subtitle}
+            description={translations.description}
+            descriptionClassName="!text-base !max-w-3xl mx-auto mt-6 leading-relaxed"
+        />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-12">
+            {translations.items.map((item, index) => (
+                <article
+                    class="flex flex-col gap-4 p-6 lg:p-8 rounded-2xl bg-background/50 backdrop-blur-sm border border-primary/20 transition-all duration-300 hover:border-primary/50"
+                >
+                    <div
+                        class="w-12 h-12 flex items-center justify-center rounded-xl bg-primary/10 text-primary [&>svg]:w-7 [&>svg]:h-7"
+                        aria-hidden="true"
+                        set:html={itemIcons[index]}
+                    />
+                    <h3 class="text-xl font-bold text-foreground">
+                        <span set:html={item.title} />
+                    </h3>
+                    <p class="text-foreground-secondary leading-relaxed">
+                        {item.description}
+                    </p>
+                </article>
+            ))}
+        </div>
+    </div>
+</section>

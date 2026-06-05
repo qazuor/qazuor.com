@@ -44,6 +44,18 @@ interface Props {
      * it on the commercial homepage (the resume lives on `/hire`).
      */
     showResume?: boolean;
+    /**
+     * Destination for the "View Work" CTA. Defaults to `#projects` for
+     * back-compat. SPEC-001 Phase 2 sets this to the commercial `/work` route
+     * from the homepage so the primary CTA does not route to `/projects`.
+     */
+    viewProjectsHref?: string;
+    /**
+     * Destination for the "Get in Touch" CTA. Defaults to `#contact` for
+     * back-compat. SPEC-001 Phase 2 sets this to the commercial `/contact`
+     * route from the homepage.
+     */
+    getInTouchHref?: string;
 }
 
 const {
@@ -83,7 +95,9 @@ const {
     },
     heroAvatarAlt,
     trustBadges = [],
-    showResume = true
+    showResume = true,
+    viewProjectsHref,
+    getInTouchHref
 } = Astro.props;
 ---
 
@@ -127,11 +141,13 @@ const {
                 <!-- CTA Buttons -->
                 <nav class="hero-element flex flex-wrap gap-2 lg:gap-4 pt-3" aria-label="Primary actions">
                     <ViewProjectsLink
+                        href={viewProjectsHref}
                         text={translations.viewProjects}
                         size="sm"
                         className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"
                     />
                     <GetInTouchLink
+                        href={getInTouchHref}
                         text={translations.getInTouch}
                         size="sm"
                         className="!px-3 !py-2 !text-xs lg:!px-4 lg:!py-2 lg:!text-sm"

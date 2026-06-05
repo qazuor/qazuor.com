@@ -1,28 +1,20 @@
 ---
-import { getImage } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
-import type { ImageMetadata } from 'astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
 import { Contact } from '@/components/forms/Contact';
-import AboutSection from '@/components/sections/AboutSection.astro';
-import BlogSection from '@/components/sections/BlogSection.astro';
 import FAQsSection from '@/components/sections/FAQsSection.astro';
+import FeaturedWorkSection from '@/components/sections/FeaturedWorkSection.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
-import ProjectsFeaturedSection from '@/components/sections/ProjectsFeaturedSection.astro';
 import ServicesPreviewSection from '@/components/sections/ServicesPreviewSection.astro';
-import SkillsSection from '@/components/sections/SkillsSection.astro';
 import TestimonialsSection from '@/components/sections/TestimonialsSection.astro';
+import WhyQazuorSection from '@/components/sections/WhyQazuorSection.astro';
 import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
 import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import { contact, sectionsColors } from '@/data';
-import { type BlogCategoryKey, getCategoryName } from '@/data/blogCategories';
 import { trustBadges as trustBadgesConfig } from '@/data/trustBadges';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getBlogPostsForLangWithFallback, getEffectiveSlug, type SupportedLang } from '@/utils/blog';
-import { getProjectSlug } from '@/utils/projects';
 
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -40,102 +32,42 @@ const seoTranslations = {
     imageAlt: t('seo.imageAlt', { markdown: false })
 };
 
-// SEO keywords - definidos directamente ya que las traducciones no manejan bien arrays
+// SEO keywords - Qazuor commercial framing
 const seoKeywords =
     lang === 'es'
         ? [
-              'Desarrollador Full-Stack',
+              'Apps Web',
+              'Landing Pages',
+              'Desarrollador Senior',
               'React',
               'TypeScript',
-              'Desarrollo Web',
-              'UI/UX',
-              'JavaScript',
-              'Node.js',
               'Astro',
-              'TailwindCSS',
-              'Portafolio'
+              'Optimización de Rendimiento',
+              'Accesibilidad',
+              'Estudio Boutique',
+              'Qazuor'
           ]
         : [
-              'Full-Stack Developer',
+              'Web Apps',
+              'Landing Pages',
+              'Senior Developer',
               'React',
               'TypeScript',
-              'Web Development',
-              'UI/UX',
-              'JavaScript',
-              'Node.js',
               'Astro',
-              'TailwindCSS',
-              'Portfolio'
+              'Performance Optimization',
+              'Accessibility',
+              'Boutique Studio',
+              'Qazuor'
           ];
 
-// Load Content Collections - filter projects by language
-const allProjects = await getCollection('projects', (entry: CollectionEntry<'projects'>) => {
-    return entry.data.lang === lang;
-});
-const allBlogPostsRaw = await getCollection('blog');
-const allBlogPosts = getBlogPostsForLangWithFallback(allBlogPostsRaw, lang as SupportedLang);
+// Load content collection entries that the homepage still surfaces
 const allTestimonials = await getCollection('testimonials');
 
-// Sort projects by order field, then by date
-const sortedProjects = await Promise.all(
-    allProjects
-        .sort((a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) => {
-            if (a.data.order !== b.data.order) {
-                return a.data.order - b.data.order;
-            }
-            return b.data.publishDate.getTime() - a.data.publishDate.getTime();
-        })
-        .map(async (project: CollectionEntry<'projects'>) => {
-            const processedImages = await Promise.all(
-                project.data.images.map(async (img: ImageMetadata) => {
-                    // Optimize with specific dimensions for project cards (16:9 aspect ratio)
-                    const optimizedImg = await getImage({
-                        src: img,
-                        width: 800,
-                        height: 450,
-                        format: 'webp'
-                    });
-                    return {
-                        src: optimizedImg.src,
-                        width: 800,
-                        height: 450
-                    };
-                })
-            );
-            const cleanSlug = getProjectSlug(project);
-            return {
-                title: project.data.title,
-                description: project.data.description,
-                slug: cleanSlug,
-                technologies: project.data.technologies,
-                images: processedImages,
-                featured: project.data.featured,
-                order: project.data.order
-            };
-        })
-);
-
-// Sort blog posts by date (newest first) - with fallback to Spanish if English doesn't exist
-const sortedBlogPosts = allBlogPosts
-    .sort((a, b) => b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
-    .map(({ post }) => ({
-        title: post.data.title,
-        excerpt: post.data.excerpt,
-        date: post.data.publishDate.toISOString().split('T')[0],
-        readTime: post.data.readTime,
-        tags: post.data.tags,
-        slug: `/${lang}/blog/${getEffectiveSlug(post)}`,
-        featured: post.data.featured
-    }));
-
-// Sort testimonials by filename prefix (01-, 02-, etc.)
-const sortedTestimonialsRaw = allTestimonials.sort(
-    (a: CollectionEntry<'testimonials'>, b: CollectionEntry<'testimonials'>) => {
-        return a.id.localeCompare(b.id);
-    }
-);
-
 // Process testimonials with optimized avatar images
+const sortedTestimonialsRaw = allTestimonials.sort(
+    (a: CollectionEntry<'testimonials'>, b: CollectionEntry<'testimonials'>) => a.id.localeCompare(b.id)
+);
+
 const sortedTestimonials = await Promise.all(
     sortedTestimonialsRaw.map(async (testimonial: CollectionEntry<'testimonials'>) => {
         let optimizedAvatar: string | undefined;
@@ -143,8 +75,9 @@ const sortedTestimonials = await Promise.all(
         // Optimize avatar image if available (ImageMetadata from content collection)
         if (testimonial.data.avatar) {
             try {
+                const { getImage } = await import('astro:assets');
                 const img = await getImage({
-                    src: testimonial.data.avatar as ImageMetadata,
+                    src: testimonial.data.avatar as import('astro').ImageMetadata,
                     width: 96,
                     height: 96,
                     format: 'webp'
@@ -168,7 +101,7 @@ const sortedTestimonials = await Promise.all(
     })
 );
 
-// Translations for components
+// Translations for the hero
 const heroTranslations = {
     iBuildText: t('home.hero.iBuildText', { markdown: true }),
     viewProjects: t('home.hero.viewProjects', { markdown: true }),
@@ -192,136 +125,35 @@ const heroAriaLabels = {
     x: t('aria.x')
 };
 
-const aboutTranslations = {
-    title: t('about.title', { markdown: true }),
-    subtitle: t('about.subtitle', { markdown: true }),
-    storyTitle: t('about.storyTitle', { markdown: true }),
-    storyParagraph1: t('about.storyParagraph1', { markdown: true }),
-    storyParagraph2: t('about.storyParagraph2', { markdown: true }),
-    storyParagraph3: t('about.storyParagraph3', { markdown: true }),
-    storySummary: t('about.storySummary', { markdown: true }),
-    ctaButton: t('about.ctaButton', { markdown: true }),
-    connect: t('about.connect', { markdown: true }),
-    workTogether: t('about.workTogether', { markdown: true }),
-    timeline: {
-        beginning: {
-            title: t('about.timeline.beginning.title', { markdown: true }),
-            description: t('about.timeline.beginning.description', { markdown: true })
-        },
-        present: {
-            description: t('about.timeline.present.description', { markdown: true })
-        }
-    }
+// Profile translations
+const profileTranslations = {
+    name: t('profile.name', { markdown: true }),
+    role: t('profile.role', { markdown: true })
 };
 
-const statsTranslations = {
-    years: {
-        label: t('home.stats.years.label'),
-        description: t('home.stats.years.description')
-    },
-    technologies: {
-        label: t('home.stats.technologies.label'),
-        description: t('home.stats.technologies.description')
-    },
-    coffees: {
-        label: t('home.stats.coffees.label'),
-        description: t('home.stats.coffees.description')
-    },
-    linesOfCode: {
-        label: t('home.stats.linesOfCode.label'),
-        description: t('home.stats.linesOfCode.description')
-    },
-    passion: {
-        label: t('home.stats.passion.label'),
-        description: t('home.stats.passion.description')
-    },
-    mentored: {
-        label: t('home.stats.mentored.label'),
-        description: t('home.stats.mentored.description')
-    }
+// Hero content translations
+const heroContentTranslations = {
+    iBuild: [
+        t('home.iBuild.webapps', { markdown: true }),
+        t('home.iBuild.interfaces', { markdown: true }),
+        t('home.iBuild.solutions', { markdown: true }),
+        t('home.iBuild.experiences', { markdown: true }),
+        t('home.iBuild.uis', { markdown: true }),
+        t('home.iBuild.tools', { markdown: true })
+    ],
+    roles: [
+        t('home.roles.fullstack', { markdown: true }),
+        t('home.roles.frontend', { markdown: true }),
+        t('home.roles.designer', { markdown: true })
+    ],
+    subtitle: t('home.hero.subtitle', { markdown: true })
 };
 
-const skillsTranslations = {
-    title: t('skills.title', { markdown: true }),
-    subtitle: t('skills.subtitle', { markdown: true }),
-    description: t('skills.description', { markdown: true }),
-    categoryTitles: {
-        technicalSkills: t('skills.categories.technicalSkills', { markdown: true }),
-        humanCreativeSkills: t('skills.categories.humanCreativeSkills', { markdown: true })
-    },
-    skillItems: {
-        // Soft Skills
-        adaptability: t('skills.items.adaptability'),
-        positiveAttitude: t('skills.items.positiveAttitude'),
-        communication: t('skills.items.communication'),
-        flexibility: t('skills.items.flexibility'),
-        analyticalThinking: t('skills.items.analyticalThinking'),
-        teamwork: t('skills.items.teamwork'),
-        decisionMaking: t('skills.items.decisionMaking'),
-        creativity: t('skills.items.creativity'),
-        problemSolving: t('skills.items.problemSolving'),
-        curiosity: t('skills.items.curiosity'),
-        // Creative Skills
-        graphicDesign: t('skills.items.graphicDesign'),
-        branding: t('skills.items.branding'),
-        imageEditing: t('skills.items.imageEditing'),
-        socialMediaAndFlyers: t('skills.items.socialMediaAndFlyers'),
-        // Technical Other Skills
-        webPerformance: t('skills.items.webPerformance'),
-        webAccessibility: t('skills.items.webAccessibility'),
-        automation: t('skills.items.automation'),
-        seoAeo: t('skills.items.seoAeo')
-    },
-    skillDescriptions: {
-        graphicDesignDescription: t('skills.descriptions.graphicDesignDescription'),
-        brandingDescription: t('skills.descriptions.brandingDescription'),
-        imageEditingDescription: t('skills.descriptions.imageEditingDescription'),
-        socialMediaAndFlyersDescription: t('skills.descriptions.socialMediaAndFlyersDescription'),
-        webPerformanceDescription: t('skills.descriptions.webPerformanceDescription'),
-        webAccessibilityDescription: t('skills.descriptions.webAccessibilityDescription'),
-        automationDescription: t('skills.descriptions.automationDescription'),
-        seoAeoDescription: t('skills.descriptions.seoAeoDescription')
-    },
-    languages: {
-        title: t('skills.languages.title'),
-        native: t('skills.languages.native'),
-        writtenOnly: t('skills.languages.writtenOnly'),
-        fluent: t('skills.languages.fluent'),
-        intermediate: t('skills.languages.intermediate'),
-        basic: t('skills.languages.basic')
-    }
-};
-
-const projectsTranslations = {
-    title: t('projects.title', { markdown: true }),
-    subtitle: t('projects.subtitle', { markdown: true }),
-    description: t('projects.description', { markdown: true }),
-    viewAll: t('projects.viewAll', { markdown: true })
-};
-
-// Category translations map - using centralized category keys
-const categoryTranslations: Record<string, string> = {
-    frontend: getCategoryName('frontend', lang as SupportedLang),
-    productivity: getCategoryName('productivity', lang as SupportedLang),
-    development: getCategoryName('development', lang as SupportedLang),
-    architecture: getCategoryName('architecture', lang as SupportedLang),
-    performance: getCategoryName('performance', lang as SupportedLang),
-    product: getCategoryName('product', lang as SupportedLang),
-    business: getCategoryName('business', lang as SupportedLang),
-    general: getCategoryName('general', lang as SupportedLang)
-};
-
-const blogTranslations = {
-    title: t('blog.title', { markdown: true }),
-    subtitle: t('blog.subtitle', { markdown: true }),
-    // description removed from homepage - kept in dedicated blog page
-    viewAll: t('blog.viewAll', { markdown: true }),
-    noArticles: t('blog.noArticles', { markdown: true }),
-    readMore: t('blog.readMore', { markdown: true }),
-    readTime: t('blog.readTime'),
-    featured: t('blog.featured', { markdown: true }),
-    categories: categoryTranslations
-};
+// Trust badges for hero section - key differentiators for LLM citations
+const trustBadges = trustBadgesConfig.map((badge) => ({
+    icon: badge.icon,
+    text: t(`home.trustBadges.${badge.translationKey}`)
+}));
 
 const servicesPreviewTranslations = {
     title: t('servicesPreview.title', { markdown: true }),
@@ -397,6 +229,45 @@ const servicesPreviewTranslations = {
             cta: t('servicesPreview.services.wordpress.cta')
         }
     }
+};
+
+const whyQazuorTranslations = {
+    title: t('whyQazuor.title', { markdown: true }),
+    subtitle: t('whyQazuor.subtitle', { markdown: true }),
+    description: t('whyQazuor.description', { markdown: true }),
+    items: [
+        {
+            title: t('whyQazuor.items.0.title'),
+            description: t('whyQazuor.items.0.description')
+        },
+        {
+            title: t('whyQazuor.items.1.title'),
+            description: t('whyQazuor.items.1.description')
+        },
+        {
+            title: t('whyQazuor.items.2.title'),
+            description: t('whyQazuor.items.2.description')
+        },
+        {
+            title: t('whyQazuor.items.3.title'),
+            description: t('whyQazuor.items.3.description')
+        }
+    ]
+};
+
+const featuredWorkTranslations = {
+    title: t('featuredWork.title', { markdown: true }),
+    subtitle: t('featuredWork.subtitle', { markdown: true }),
+    description: t('featuredWork.description', { markdown: true }),
+    placeholder: {
+        eyebrow: t('featuredWork.placeholder.eyebrow'),
+        title: t('featuredWork.placeholder.title'),
+        body: t('featuredWork.placeholder.body', { markdown: true }),
+        viewWork: t('featuredWork.placeholder.viewWork'),
+        viewProjects: t('featuredWork.placeholder.viewProjects'),
+        viewBlog: t('featuredWork.placeholder.viewBlog')
+    },
+    viewAll: t('featuredWork.viewAll', { markdown: true })
 };
 
 const contactTranslations = {
@@ -499,38 +370,11 @@ const faqsTranslations = {
     }
 };
 
-// Profile translations
-const profileTranslations = {
-    name: t('profile.name', { markdown: true }),
-    role: t('profile.role', { markdown: true })
-};
+// Hero CTA links — commercial-first destinations
+const workHref = `/${lang}/work`;
+const contactHref = `/${lang}/contact`;
 
-// Hero content translations
-const heroContentTranslations = {
-    iBuild: [
-        t('home.iBuild.webapps', { markdown: true }),
-        t('home.iBuild.interfaces', { markdown: true }),
-        t('home.iBuild.solutions', { markdown: true }),
-        t('home.iBuild.experiences', { markdown: true }),
-        t('home.iBuild.uis', { markdown: true }),
-        t('home.iBuild.tools', { markdown: true })
-    ],
-    roles: [
-        t('home.roles.fullstack', { markdown: true }),
-        t('home.roles.frontend', { markdown: true }),
-        t('home.roles.designer', { markdown: true })
-    ],
-    subtitle: t('home.hero.subtitle', { markdown: true })
-};
-
-// Trust badges for hero section - key differentiators for LLM citations
-// Configuration comes from src/data/trustBadges.ts, translations from i18n
-const trustBadges = trustBadgesConfig.map((badge) => ({
-    icon: badge.icon,
-    text: t(`home.trustBadges.${badge.translationKey}`)
-}));
-
-// Colors are now imported from data module
+// Colors are imported from data module
 ---
 
 <BaseLayout
@@ -548,7 +392,7 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
         upwork: contact.social.upwork
     }}
 >
-    <!-- Hero Section (background with gradients) -->
+    <!-- 1. Hero (commercial framing, Qazuor brand) -->
     <div class="relative">
         <HeroSection
             primaryColor={sectionsColors.hero}
@@ -560,55 +404,43 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
             ariaLabels={heroAriaLabels}
             heroAvatarAlt={t('imageAlt.heroAvatar')}
             trustBadges={trustBadges}
+            viewProjectsHref={workHref}
+            getInTouchHref={contactHref}
+            showResume={false}
         />
-        <WaveDivider transition="hero-to-about" />
+        <WaveDivider transition="hero-to-why-qazuor" />
     </div>
 
-    <!-- About Section with purple gradient background -->
+    <!-- 2. Why Qazuor (differentiators) -->
     <div class="relative">
-        <AboutSection primaryColor={sectionsColors.about} lang={lang} translations={aboutTranslations} statsTranslations={statsTranslations} />
-        <DiagonalDivider direction="mixed" transition="about-to-skills" />
-    </div>
-
-    <!-- Skills Section with indigo gradient background -->
-    <div class="relative">
-        <SkillsSection primaryColor={sectionsColors.skills} translations={skillsTranslations} />
-        <WaveDivider transition="skills-to-projects" />
-    </div>
-
-    <!-- Projects Section with blue gradient background -->
-    <div class="relative">
-        <ProjectsFeaturedSection
-            primaryColor={sectionsColors.projects}
-            projects={sortedProjects}
-            translations={projectsTranslations}
-            lang={lang}
+        <WhyQazuorSection
+            primaryColor={sectionsColors.whyQazuor}
+            translations={whyQazuorTranslations}
         />
-        <ZigzagDivider transition="projects-to-services-preview" />
+        <DiagonalDivider direction="mixed" transition="why-qazuor-to-services-preview" />
     </div>
 
-    <!-- Services Preview Section (between Projects and Blog) -->
+    <!-- 3. Services Preview (offerings) -->
     <div class="relative">
         <ServicesPreviewSection
             primaryColor={sectionsColors.servicesPreview}
             lang={lang}
             translations={servicesPreviewTranslations}
         />
-        <DiagonalDivider direction="right" transition="services-preview-to-blog" />
+        <ZigzagDivider transition="services-preview-to-featured-work" />
     </div>
 
-    <!-- Blog Section with cyan gradient background -->
+    <!-- 4. Featured Work (placeholder; full feed in Phase 3) -->
     <div class="relative">
-        <BlogSection
-            primaryColor={sectionsColors.blog}
-            posts={sortedBlogPosts}
-            translations={blogTranslations}
+        <FeaturedWorkSection
+            primaryColor={sectionsColors.featuredWork}
             lang={lang}
+            translations={featuredWorkTranslations}
         />
-        <DiagonalDivider direction="left" transition="blog-to-testimonials" />
+        <DiagonalDivider direction="right" transition="featured-work-to-testimonials" />
     </div>
 
-    <!-- Testimonials Section with purple gradient background -->
+    <!-- 5. Testimonials (social proof) -->
     <div class="relative">
         <TestimonialsSection
             primaryColor={sectionsColors.testimonials}
@@ -618,7 +450,7 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
         <ZigzagDivider transition="testimonials-to-faqs" />
     </div>
 
-    <!-- FAQs Section - 8 FAQs: 5 for clients + 3 for employers -->
+    <!-- 6. FAQs -->
     <div class="relative">
         <FAQsSection
             primaryColor={sectionsColors.faqs}
@@ -627,8 +459,9 @@ const trustBadges = trustBadgesConfig.map((badge) => ({
         <WaveDivider transition="faqs-to-contact" />
     </div>
 
-    <!-- Contact Section with gradient background -->
+    <!-- 7. Contact (final CTA) -->
     <div
+        id="contact"
         class="relative section section-contact overflow-hidden pt-0"
         style={`background-color: ${sectionsColors.contact}`}
     >

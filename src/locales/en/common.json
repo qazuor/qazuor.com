@@ -662,28 +662,179 @@
     "hire": {
         "title": "Hire",
         "subtitle": "For recruiters and hiring teams",
+        "meta": {
+            "title": "Qazuor — Senior engineer open to senior IC, tech lead, and fractional roles",
+            "description": "Twenty-year senior engineer. TypeScript, React, Astro. Open to senior IC, tech lead, and fractional staff roles. Remote, GMT-3, async-first."
+        },
+        "eyebrow": "For recruiters",
         "placeholder": {
             "title": "Hire — placeholder",
             "subtitle": "Recruiter-oriented landing page will live here.",
             "phase": "Full content comes in SPEC-001 Phase 4."
-        }
+        },
+        "availability": "Availability",
+        "roleTargets": "Role targets",
+        "experienceSummary": "Experience summary",
+        "coreStrengths": "Core strengths",
+        "selectedWork": "Selected work",
+        "resume": "Resume / CV",
+        "professionalLinks": "Professional links",
+        "howToReach": "How to reach me",
+        "timeZone": "Time zone",
+        "location": "Location",
+        "viewProject": "View project",
+        "downloadResume": "Download",
+        "viewLinkedIn": "View LinkedIn",
+        "viewGitHub": "View GitHub profile",
+        "openProject": "Open project",
+        "relatedHref": "Explore all work",
+        "fallbackDescription": "Senior full-stack engineer with twenty years of experience. Open to senior IC, tech lead, and fractional staff roles."
     },
     "aboutPage": {
         "title": "About",
         "subtitle": "About Qazuor",
+        "meta": {
+            "title": "About Qazuor — boutique senior practice, built and run by Leandro",
+            "description": "Qazuor is a boutique senior practice building modern web products. The brand is Qazuor, the operator is Leandro. Honest about size, model, and how the work gets done."
+        },
+        "eyebrow": "About the practice",
         "placeholder": {
             "title": "About — placeholder",
             "subtitle": "Longer brand and operator context will live here.",
             "phase": "Full content comes in SPEC-001 Phase 4."
+        },
+        "hero": {
+            "lead": "**Qazuor** is a boutique senior practice. The brand is Qazuor. The operator — the person doing the work — is **Leandro**.",
+            "supporting": "Commercial-first on the surface, honestly small underneath. One person, no agency, no junior handoffs."
+        },
+        "operator": {
+            "title": "The operator",
+            "intro": "Twenty years of professional engineering, ten of them shipping production web work. Self-taught, curious by default, and equally comfortable in the code and in the conversation that gets the code shipped.",
+            "body": "Started writing code at eight or nine. Picked up design because the visual layer kept being the bottleneck. Kept going because the work is good when the seams between code, design, and product stop being seams.",
+            "closing": "Today, the work under the Qazuor name spans consumer apps, B2B dashboards, marketing sites, internal tools, and product surfaces — all senior-led, all built to last."
+        },
+        "philosophy": {
+            "title": "How Qazuor works",
+            "intro": "No agency overhead. No account managers. No hidden scope. The model is direct on purpose: it produces a different kind of engagement, and a different kind of output.",
+            "principles": [
+                {
+                    "title": "Senior-only by default",
+                    "description": "You work with the person doing the work. No account managers, no handoffs, no junior surprises."
+                },
+                {
+                    "title": "Scope first, code second",
+                    "description": "Fixed-scope or time-boxed engagements with clear deliverables, transparent pricing, and predictable timelines."
+                },
+                {
+                    "title": "Quality as the default",
+                    "description": "Type-safe, accessible, performance-first code with documentation and tests where they matter — not as a paid add-on."
+                },
+                {
+                    "title": "Built to be handed over",
+                    "description": "Code, design assets, and content all belong to the client. No vendor lock-in, no proprietary platforms."
+                },
+                {
+                    "title": "Honest about size",
+                    "description": "One operator, a small network of trusted collaborators for overflow work. The work that ships under the Qazuor name is mine."
+                }
+            ]
+        },
+        "timeline": {
+            "title": "A short timeline",
+            "intro": "Not the long autobiography. The shape of the journey, in milestones."
+        },
+        "next": {
+            "title": "What you can do next",
+            "intro": "Different intents need different surfaces. Pick the one that fits.",
+            "commercial": "Have a project in mind? Start with the work Qazuor ships and the services behind it.",
+            "recruiter": "Evaluating fit for a senior IC, tech lead, or fractional role?",
+            "learn": "Want to read the thinking, not the resume?",
+            "servicesCta": "Explore services",
+            "workCta": "See the work",
+            "hireCta": "Open the hire page",
+            "blogCta": "Read the blog",
+            "contactCta": "Get in touch"
         }
     },
     "contactPage": {
         "title": "Contact",
         "subtitle": "Start a project conversation",
+        "meta": {
+            "title": "Contact Qazuor — project inquiries, recruiter outreach, and partnerships",
+            "description": "Reach out for project work, hiring conversations, or partnerships. Email preferred. Response within 48 hours, Monday to Friday."
+        },
+        "eyebrow": "Contact",
         "placeholder": {
             "title": "Contact — placeholder",
             "subtitle": "Dedicated contact route will live here.",
             "phase": "Full content comes in SPEC-001 Phase 4."
+        },
+        "headline": "Let's talk about what you're working on",
+        "intro": "Project work, recruiter outreach, partnerships, or just a quick question — the form below is the fastest path. The more context you share, the faster the first reply is useful.",
+        "inquiryTypes": {
+            "title": "Common inquiries",
+            "intro": "Pick the framing that fits. The form auto-fills based on the link you came from.",
+            "items": [
+                {
+                    "id": "project",
+                    "title": "Project inquiry",
+                    "description": "A new build, a redesign, an optimization, or an integration you need help with. Includes commercial, MVP, and ongoing engagements."
+                },
+                {
+                    "id": "hire",
+                    "title": "Recruiter / hiring team",
+                    "description": "Roles, contract windows, or a quick fit check. The hire page has the full profile; the form is the fastest way to start a thread."
+                },
+                {
+                    "id": "partnership",
+                    "title": "Partnership / collaboration",
+                    "description": "Agencies, studios, or product teams looking for a senior contractor for overflow, white-label work, or a specific feature area."
+                },
+                {
+                    "id": "other",
+                    "title": "Something else",
+                    "description": "Press, speaking, open source, or just a quick question. The form routes everything to the same inbox."
+                }
+            ]
+        },
+        "response": {
+            "title": "Response expectations",
+            "line1": "Email is the fastest path. The form below, hello@qazuor.com, or any of the social links — they all reach the same inbox.",
+            "line2": "I respond within **48 hours, Monday to Friday** (GMT-3, Argentina).",
+            "line3": "If your project has a hard deadline, mention it in the message — urgent inquiries are triaged daily."
+        },
+        "form": {
+            "title": "Send a message",
+            "subtitle": "Form submissions go to the same inbox. The more context you share, the more useful the first reply will be.",
+            "intentLabel": "What's this about?",
+            "serviceLabel": "Service of interest",
+            "noService": "Not sure yet"
+        },
+        "direct": {
+            "title": "Direct contact",
+            "email": "Email",
+            "phone": "Phone",
+            "location": "Location",
+            "timeZone": "Time zone"
+        },
+        "social": {
+            "title": "Social",
+            "intro": "Pick the channel you already use. DMs are checked but slower than email."
+        },
+        "success": {
+            "title": "Message sent",
+            "body": "Thanks — I respond within 48 hours, Monday to Friday (GMT-3). If something is urgent, mention it in the subject line and it gets triaged the same day."
+        }
+    },
+    "servicesHub": {
+        "eyebrow": "What can we work on together?",
+        "title": "Pick the outcome you're after",
+        "subtitle": "Services are organized by the result you want, not by category. If you are not sure which one fits, the form at the bottom of the page routes everything to the same inbox.",
+        "notSure": {
+            "eyebrow": "Not sure?",
+            "title": "Not sure which service you need?",
+            "body": "Send a short description of what you are working on. I will read it, ask a couple of clarifying questions, and tell you which path fits — even if that path is not me.",
+            "cta": "Send a short message"
         }
     }
 }

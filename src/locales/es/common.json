@@ -677,28 +677,179 @@
     "hire": {
         "title": "Hire",
         "subtitle": "Para reclutadores y equipos de hiring",
+        "meta": {
+            "title": "Qazuor — Senior engineer abierto a roles senior IC, tech lead y fraccionales",
+            "description": "Ingeniero senior con veinte años de experiencia. TypeScript, React, Astro. Abierto a roles senior IC, tech lead y staff fraccional. Remoto, GMT-3, async-first."
+        },
+        "eyebrow": "Para reclutadores",
         "placeholder": {
             "title": "Hire — placeholder",
             "subtitle": "Aquí vivirá la landing orientada a reclutadores.",
             "phase": "El contenido completo llega en SPEC-001 Phase 4."
-        }
+        },
+        "availability": "Disponibilidad",
+        "roleTargets": "Roles objetivo",
+        "experienceSummary": "Resumen de experiencia",
+        "coreStrengths": "Fortalezas centrales",
+        "selectedWork": "Trabajo seleccionado",
+        "resume": "CV / Resume",
+        "professionalLinks": "Links profesionales",
+        "howToReach": "Cómo contactarme",
+        "timeZone": "Zona horaria",
+        "location": "Ubicación",
+        "viewProject": "Ver proyecto",
+        "downloadResume": "Descargar",
+        "viewLinkedIn": "Ver LinkedIn",
+        "viewGitHub": "Ver perfil de GitHub",
+        "openProject": "Abrir proyecto",
+        "relatedHref": "Ver todo el trabajo",
+        "fallbackDescription": "Ingeniero full-stack senior con veinte años de experiencia. Abierto a roles senior IC, tech lead y staff fraccional."
     },
     "aboutPage": {
         "title": "About",
         "subtitle": "Sobre Qazuor",
+        "meta": {
+            "title": "Sobre Qazuor — práctica boutique senior, construida y operada por Leandro",
+            "description": "Qazuor es una práctica boutique senior que construye productos web modernos. La marca es Qazuor, el operador es Leandro. Honestos sobre tamaño, modelo y cómo se hace el trabajo."
+        },
+        "eyebrow": "Sobre la práctica",
         "placeholder": {
             "title": "About — placeholder",
             "subtitle": "Aquí vivirá el contexto extendido de marca y operador.",
             "phase": "El contenido completo llega en SPEC-001 Phase 4."
+        },
+        "hero": {
+            "lead": "**Qazuor** es una práctica boutique senior. La marca es Qazuor. El operador — la persona que hace el trabajo — es **Leandro**.",
+            "supporting": "Comercial-first en la superficie, honestamente chico debajo. Una persona, sin agencia, sin handoffs a juniors."
+        },
+        "operator": {
+            "title": "El operador",
+            "intro": "Veinte años de ingeniería profesional, diez de ellos entregando producto web en producción. Autodidacta, curioso por default, e igual de cómodo en el código que en la conversación que lo lleva a producción.",
+            "body": "Empecé a escribir código a los ocho o nueve años. Sumé diseño porque la capa visual siempre era el cuello de botella. Seguí porque el trabajo es bueno cuando las costuras entre código, diseño y producto dejan de ser costuras.",
+            "closing": "Hoy, el trabajo bajo el nombre Qazuor cubre apps de consumo, dashboards B2B, sitios de marketing, herramientas internas y superficies de producto — todo senior-led, todo construido para durar."
+        },
+        "philosophy": {
+            "title": "Cómo trabaja Qazuor",
+            "intro": "Sin overhead de agencia. Sin account managers. Sin scope oculto. El modelo es directo a propósito: produce un tipo distinto de engagement, y un tipo distinto de output.",
+            "principles": [
+                {
+                    "title": "Solo senior por default",
+                    "description": "Trabajás con la persona que hace el trabajo. Sin account managers, sin handoffs, sin sorpresas de juniors."
+                },
+                {
+                    "title": "Alcance primero, código después",
+                    "description": "Engagements de alcance fijo o time-boxed con deliverables claros, precios transparentes, y plazos predecibles."
+                },
+                {
+                    "title": "Calidad como default",
+                    "description": "Código type-safe, accesible, performance-first con documentación y tests donde importan — no como add-on pago."
+                },
+                {
+                    "title": "Construido para ser entregado",
+                    "description": "Código, design assets y contenido son del cliente. Sin lock-in de vendor, sin plataformas propietarias."
+                },
+                {
+                    "title": "Honestos sobre el tamaño",
+                    "description": "Un operador, una red chica de colaboradores de confianza para picos de trabajo. El trabajo que sale bajo el nombre Qazuor es mío."
+                }
+            ]
+        },
+        "timeline": {
+            "title": "Una línea de tiempo corta",
+            "intro": "No la autobiografía larga. La forma del recorrido, en hitos."
+        },
+        "next": {
+            "title": "Qué podés hacer ahora",
+            "intro": "Distintas intenciones necesitan distintas superficies. Elegí la que encaje.",
+            "commercial": "¿Tenés un proyecto en mente? Arrancá por el trabajo que Qazuor entrega y los servicios detrás.",
+            "recruiter": "¿Estás evaluando fit para un rol senior IC, tech lead o fraccional?",
+            "learn": "¿Querés leer el razonamiento, no el CV?",
+            "servicesCta": "Explorar servicios",
+            "workCta": "Ver el trabajo",
+            "hireCta": "Abrir hire",
+            "blogCta": "Leer el blog",
+            "contactCta": "Ponerse en contacto"
         }
     },
     "contactPage": {
         "title": "Contact",
         "subtitle": "Iniciar una conversación de proyecto",
+        "meta": {
+            "title": "Contactar a Qazuor — consultas de proyecto, recruiter outreach y partnerships",
+            "description": "Escribí para proyectos, conversaciones de hiring o partnerships. Email preferido. Respuesta en 48 horas, lunes a viernes."
+        },
+        "eyebrow": "Contacto",
         "placeholder": {
             "title": "Contact — placeholder",
             "subtitle": "Aquí vivirá la ruta dedicada de contacto.",
             "phase": "El contenido completo llega en SPEC-001 Phase 4."
+        },
+        "headline": "Hablemos de lo que estás trabajando",
+        "intro": "Proyecto, recruiter outreach, partnership, o una pregunta rápida — el formulario de abajo es el camino más rápido. Cuanto más contexto compartas, más útil va a ser la primera respuesta.",
+        "inquiryTypes": {
+            "title": "Tipos de consulta",
+            "intro": "Elegí el framing que encaje. El formulario se autocompleta según el link del que vengas.",
+            "items": [
+                {
+                    "id": "project",
+                    "title": "Consulta de proyecto",
+                    "description": "Un build nuevo, un redesign, una optimización o una integración. Incluye trabajos comerciales, MVP y engagements continuos."
+                },
+                {
+                    "id": "hire",
+                    "title": "Reclutador / equipo de hiring",
+                    "description": "Roles, ventanas de contrato o un quick fit check. La página de hire tiene el perfil completo; el formulario es la forma más rápida de empezar un hilo."
+                },
+                {
+                    "id": "partnership",
+                    "title": "Partnership / colaboración",
+                    "description": "Agencias, estudios o equipos de producto que buscan un senior de confianza para overflow, white-label, o un área de features específica."
+                },
+                {
+                    "id": "other",
+                    "title": "Otra cosa",
+                    "description": "Prensa, charlas, open source, o una pregunta rápida. Todo el formulario llega al mismo inbox."
+                }
+            ]
+        },
+        "response": {
+            "title": "Expectativas de respuesta",
+            "line1": "El email es el camino más rápido. El formulario de abajo, hello@qazuor.com, o cualquier link social — todos llegan al mismo inbox.",
+            "line2": "Respondo en **48 horas, lunes a viernes** (GMT-3, Argentina).",
+            "line3": "Si tu proyecto tiene un deadline duro, mencionalo en el mensaje — las consultas urgentes se triagean a diario."
+        },
+        "form": {
+            "title": "Enviar un mensaje",
+            "subtitle": "Los envíos del formulario van al mismo inbox. Cuanto más contexto compartas, más útil va a ser la primera respuesta.",
+            "intentLabel": "¿De qué se trata?",
+            "serviceLabel": "Servicio de interés",
+            "noService": "Aún no estoy seguro"
+        },
+        "direct": {
+            "title": "Contacto directo",
+            "email": "Email",
+            "phone": "Teléfono",
+            "location": "Ubicación",
+            "timeZone": "Zona horaria"
+        },
+        "social": {
+            "title": "Social",
+            "intro": "Elegí el canal que ya usás. Los DMs se revisan, pero son más lentos que el email."
+        },
+        "success": {
+            "title": "Mensaje enviado",
+            "body": "Gracias — respondo en 48 horas, lunes a viernes (GMT-3). Si algo es urgente, mencionalo en el subject y se triaggea el mismo día."
+        }
+    },
+    "servicesHub": {
+        "eyebrow": "¿En qué podemos trabajar juntos?",
+        "title": "Elegí el outcome que estás buscando",
+        "subtitle": "Los servicios están organizados por el resultado que querés, no por categoría. Si no estás seguro cuál encaja, el formulario al final de la página rutea todo al mismo inbox.",
+        "notSure": {
+            "eyebrow": "¿No estás seguro?",
+            "title": "¿No sabés qué servicio necesitás?",
+            "body": "Mandame una descripción corta de lo que estás trabajando. Lo leo, hago un par de preguntas de clarificación, y te digo qué camino encaja — incluso si ese camino no soy yo.",
+            "cta": "Enviar un mensaje corto"
         }
     }
 }

@@ -1,48 +1,362 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import WorkJsonLd from '@/components/seo/WorkJsonLd.astro';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SecondaryTitle from '@/components/ui/SecondaryTitle.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getAllWorkSlugs, getWorkBySlugWithFallback, getWorkSlug, type SupportedLang } from '@/utils/work';
 
 /**
  * Work detail route — `/{lang}/work/[slug]`.
  *
- * Phase 1 shell only. The `work` content collection is not yet defined; this
- * file exists so the route is wired in the filesystem, and `getStaticPaths`
- * returns an empty array so no pages are built until Phase 3 introduces the
- * collection schema and the curated case studies.
- *
- * Per Requirement 2.2, the shell is present for both `es` and `en`.
+ * Phase 3 implementation. Replaces the dormant Phase 1 shell.
+ * Mirrors the blog pattern: one URL slug per entry, with locale fallback
+ * (en is the default; if a `es` route is requested and only an `en`
+ * version exists, the English version is served with `isFallback=true`).
  */
-export function getStaticPaths() {
-    // Phase 3 will iterate over a work content collection here.
-    // Returning an empty array keeps the route registered without producing
-    // any build output until real case studies exist.
-    const paths: Array<{ params: { lang: string; slug: string } }> = [];
+export async function getStaticPaths() {
+    const allWork = await getCollection('work');
+    const uniqueSlugs = getAllWorkSlugs(allWork);
+
+    const paths = [];
     for (const lang of Object.keys(languages)) {
-        // Intentionally no entries for now.
-        void lang;
+        for (const slug of uniqueSlugs) {
+            paths.push({
+                params: { lang, slug },
+                props: { allWork }
+            });
+        }
     }
     return paths;
 }
 
-const lang = getLangFromUrl(Astro.url);
+interface Props {
+    allWork: CollectionEntry<'work'>[];
+}
+
+const { allWork } = Astro.props;
+const { lang: urlLang, slug } = Astro.params;
+const lang = (urlLang as SupportedLang) ?? 'en';
 const t = getTranslations(lang);
 
-const pageTitle = `${t('work.detail.placeholderTitle')} | ${t('work.title')}`;
-const pageDescription = t('work.detail.placeholderSubtitle');
+const result = getWorkBySlugWithFallback(allWork, slug ?? '', lang);
+if (!result) {
+    // Defensive — getStaticPaths only generates valid slugs.
+    return Astro.redirect(`/${lang}/work`);
+}
+
+const { entry: work, isFallback, actualLang } = result;
+const { Content } = await work.render();
+
+const SITE_URL = 'https://qazuor.com';
+const workUrl = `${SITE_URL}/${lang}/work/${getWorkSlug(work)}`;
+const cleanSlug = getWorkSlug(work);
+
+// Resolve the related project, if any (bi-directional cross-link)
+let relatedProject: CollectionEntry<'projects'> | null = null;
+if (work.data.relatedProjectSlug) {
+    const candidates = await getCollection('projects', (entry: CollectionEntry<'projects'>) => {
+        return entry.data.lang === actualLang && entry.id.replace(/-(en|es)$/, '') === work.data.relatedProjectSlug;
+    });
+    if (candidates.length > 0) {
+        relatedProject = candidates[0];
+    }
+}
+
+const pageTitle = `${work.data.title} | ${t('work.title', { markdown: false })}`;
+const pageDescription = work.data.summary;
+
+// Format date if available
+const formattedDate = work.data.date
+    ? new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long' }).format(work.data.date)
+    : null;
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription} noindex={true}>
-    <section class="container-custom py-24 md:py-32">
-        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
-        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
-            {t('work.detail.placeholderTitle')}
-        </h1>
-        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
-            {t('work.detail.placeholderSubtitle')}
-        </p>
-        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
-            {t('work.detail.phase')}
-        </p>
+<BaseLayout
+    title={pageTitle}
+    description={pageDescription}
+    type="article"
+    noindex={isFallback}
+    breadcrumbName={work.data.title}
+>
+    <!-- Case study JSON-LD -->
+    <WorkJsonLd
+        slot="head"
+        lang={lang}
+        name={work.data.title}
+        summary={work.data.summary}
+        url={workUrl}
+        datePublished={work.data.date}
+        industry={work.data.industry}
+        services={work.data.services}
+        stack={work.data.stack}
+        relatedProjectUrl={relatedProject ? `${SITE_URL}/${lang}/projects/${work.data.relatedProjectSlug}` : undefined}
+    />
+
+    <section class="relative min-h-screen overflow-hidden" style={`background-color: ${sectionsColors.work}`}>
+        <AnimatedGradientBackground />
+
+        <div class="container-custom py-16 relative z-10">
+            <!-- Breadcrumb back link -->
+            <div class="mb-8">
+                <a
+                    href={`/${lang}/work`}
+                    class="inline-flex items-center gap-2 text-foreground-secondary hover:text-foreground transition-colors duration-200"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    {t('work.detail.backToWork', { markdown: false })}
+                </a>
+            </div>
+
+            <!-- Fallback notice: only shown when serving a different-locale version -->
+            {
+                isFallback && (
+                    <div class="mb-6 inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        {actualLang === 'en' ? 'English version — translation pending' : 'Versión en español — pendiente'}
+                    </div>
+                )
+            }
+
+            <!-- Hero header -->
+            <div class="mb-12">
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="text-xs font-medium uppercase tracking-widest text-primary">
+                        {t('work.card.caseStudy', { markdown: false })}
+                    </span>
+                    {
+                        work.data.featured && (
+                            <span class="text-xs font-medium uppercase tracking-widest text-emerald-500">
+                                · {t('work.card.featured', { markdown: false })}
+                            </span>
+                        )
+                    }
+                </div>
+
+                <SectionTitle title={work.data.title} subtitle={work.data.summary} size="2xl" />
+
+                <!-- Metadata badges -->
+                <div class="flex flex-wrap items-center gap-2 mt-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/20 rounded-lg">
+                        <span>{work.data.clientType}</span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-foreground/5 text-foreground-secondary border border-foreground/10 rounded-lg">
+                        <span>{work.data.industry}</span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-foreground/5 text-foreground-secondary border border-foreground/10 rounded-lg">
+                        <span>{work.data.role}</span>
+                    </div>
+                    {
+                        formattedDate && (
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-foreground/5 text-foreground-secondary border border-foreground/10 rounded-lg">
+                                <time datetime={work.data.date?.toISOString()}>{formattedDate}</time>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <!-- Quick info cards: stack + services + timeframe + teamSize -->
+                <div class="grid gap-6 mb-12 md:grid-cols-2">
+                    <!-- Stack -->
+                    <div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+                        <SecondaryTitle
+                            text={t('work.detail.stack', { markdown: false })}
+                            element="h2"
+                            size="lg"
+                            className="mb-4"
+                            showHtml={false}
+                        />
+                        <div class="flex flex-wrap gap-2">
+                            {
+                                work.data.stack.map((tech: string) => (
+                                    <Badge text={tech} variant="tag" size="md" showHtml={false} />
+                                ))
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Services -->
+                    <div class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+                        <SecondaryTitle
+                            text={t('work.detail.services', { markdown: false })}
+                            element="h2"
+                            size="lg"
+                            className="mb-4"
+                            showHtml={false}
+                        />
+                        <div class="flex flex-wrap gap-2">
+                            {
+                                work.data.services.map((service: string) => (
+                                    <Badge text={service} variant="primary" size="md" showHtml={false} />
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem / Solution / Impact: structured case study sections -->
+                <section class="mb-12 space-y-6">
+                    <article class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg
+                                class="w-5 h-5 text-amber-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <h2 class="text-lg font-semibold text-amber-600 dark:text-amber-400">
+                                {t('work.detail.problem', { markdown: false })}
+                            </h2>
+                        </div>
+                        <p class="text-foreground-secondary leading-relaxed">
+                            {work.data.problem}
+                        </p>
+                    </article>
+
+                    <article class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg
+                                class="w-5 h-5 text-blue-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <h2 class="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                                {t('work.detail.solution', { markdown: false })}
+                            </h2>
+                        </div>
+                        <p class="text-foreground-secondary leading-relaxed">
+                            {work.data.solution}
+                        </p>
+                    </article>
+
+                    <article class="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg
+                                class="w-5 h-5 text-emerald-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <h2 class="text-lg font-semibold text-emerald-600 dark:text-emerald-400">
+                                {t('work.detail.impact', { markdown: false })}
+                            </h2>
+                        </div>
+                        <p class="text-foreground-secondary leading-relaxed">
+                            {work.data.impact}
+                        </p>
+                    </article>
+                </section>
+
+                <!-- Body markdown content (case study narrative) -->
+                <div class="content-prose mb-16">
+                    <Content />
+                </div>
+
+                <!-- Related project CTA: only if relatedProjectSlug resolves -->
+                {
+                    relatedProject && (
+                        <section class="mb-12">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg
+                                    class="w-5 h-5 text-primary"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <h2 class="text-lg font-semibold text-foreground">
+                                    {t('work.detail.relatedProjectTitle', { markdown: false })}
+                                </h2>
+                            </div>
+                            <p class="text-foreground-secondary text-sm leading-relaxed mb-4">
+                                {t('work.detail.relatedProjectDescription', { markdown: false })}
+                            </p>
+                            <a
+                                href={`/${lang}/projects/${cleanSlug}`}
+                                class="group inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300 text-sm font-semibold text-primary"
+                            >
+                                <span>{relatedProject.data.title}</span>
+                                <span aria-hidden="true">·</span>
+                                <span>{t('work.detail.viewProject', { markdown: false })}</span>
+                                <svg
+                                    class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </section>
+                    )
+                }
+
+                <!-- Bottom CTA: have a similar project? -->
+                <section class="mb-12 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card/30 to-accent/5 p-8 text-center">
+                    <h2 class="text-2xl font-bold text-foreground mb-3">
+                        {t('work.detail.ctaTitle', { markdown: false })}
+                    </h2>
+                    <p class="text-foreground-secondary text-sm leading-relaxed mb-6 max-w-xl mx-auto">
+                        {t('work.detail.ctaDescription', { markdown: false })}
+                    </p>
+                    <UnifiedButton
+                        href={`/${lang}/contact`}
+                        variant="primary"
+                        size="lg"
+                    >
+                        {t('work.detail.ctaButton', { markdown: false })}
+                    </UnifiedButton>
+                </section>
+            </div>
+        </div>
     </section>
 </BaseLayout>

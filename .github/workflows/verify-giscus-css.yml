@@ -1,0 +1,56 @@
+name: Verify giscus CSS generated
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/generate-giscus-css.ts'
+      - 'src/config/themeConfig.ts'
+      - 'src/config/themeColors.ts'
+      - 'public/styles/giscus-custom.css'
+      - 'public/styles/giscus-custom-light.css'
+      - '.github/workflows/verify-giscus-css.yml'
+  push:
+    branches: [main]
+
+jobs:
+  verify-giscus-css:
+    name: Generate and verify giscus theme CSS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate giscus CSS
+        run: pnpm exec tsx scripts/generate-giscus-css.ts
+
+      - name: Verify giscus CSS files were generated
+        run: |
+          missing=0
+          for f in public/styles/giscus-custom.css public/styles/giscus-custom-light.css; do
+            if [ ! -s "$f" ]; then
+              echo "::error file=$f::File is missing or empty after generation"
+              missing=1
+            else
+              echo "OK: $f ($(wc -c < "$f") bytes)"
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "::error::One or more giscus CSS files were not generated. Check that scripts/generate-giscus-css.ts runs cleanly."
+            exit 1
+          fi
+          echo "All giscus CSS files generated successfully."

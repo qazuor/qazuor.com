@@ -14,13 +14,13 @@
 
 ## Phase 2: Homepage and Navigation
 
-- [ ] 2.1 Rewrite the homepage structure into commercial order: hero, trust,
+- [x] 2.1 Rewrite the homepage structure into commercial order: hero, trust,
       services, why Qazuor, featured work, testimonials, FAQ, CTA.
-- [ ] 2.2 Remove timeline/about-depth, skills-heavy, recruiter-heavy, and
+- [x] 2.2 Remove timeline/about-depth, skills-heavy, recruiter-heavy, and
       portfolio-first content from the main homepage flow.
-- [ ] 2.3 Update primary navigation to `services`, `work`, `projects`, `blog`,
+- [x] 2.3 Update primary navigation to `services`, `work`, `projects`, `blog`,
       `about`, `hire`, `contact` in both locales.
-- [ ] 2.4 Remove `goodies` from primary nav and expose it only from footer or
+- [x] 2.4 Remove `goodies` from primary nav and expose it only from footer or
       equivalent secondary navigation.
 
 ## Phase 3: Work and Portfolio Separation

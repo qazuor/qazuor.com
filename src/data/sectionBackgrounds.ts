@@ -25,6 +25,8 @@ export interface SectionColors {
     whyQazuor: string;
     /** SPEC-001 Phase 2: commercial-first homepage addition. */
     featuredWork: string;
+    /** SPEC-001 Phase 3: dedicated /work hub and /work/[slug] case studies. */
+    work: string;
 }
 
 /**
@@ -46,7 +48,8 @@ export const darkModeColors: SectionColors = {
     faqs: '#161b22', // Same as about
     footer: '#010409', // Near black
     whyQazuor: '#1c2128', // Sits between about/skills and projects
-    featuredWork: '#21262d' // Sits between services-preview and testimonials
+    featuredWork: '#21262d', // Sits between services-preview and testimonials
+    work: '#1c2128' // Dedicated work hub — sits between skills and projects in tone
 };
 
 /**
@@ -66,7 +69,8 @@ export const lightModeColors: SectionColors = {
     faqs: '#BCCCDC', // Light blue-gray (after contact, before footer)
     footer: '#E8EBF0', // Light blue-gray matching bg-background light mode
     whyQazuor: '#9FB7C7', // Sits between services-preview and featured-work
-    featuredWork: '#A8C0CE' // Sits between whyQazuor and testimonials
+    featuredWork: '#A8C0CE', // Sits between whyQazuor and testimonials
+    work: '#B5C8D6' // Dedicated work hub — distinct from projects, lighter than featuredWork
 };
 
 /**
@@ -87,7 +91,8 @@ export const sectionsColorsCSSProps: SectionColors = {
     faqs: 'var(--section-faqs-bg)',
     footer: 'var(--section-footer-bg)',
     whyQazuor: 'var(--section-why-qazuor-bg)',
-    featuredWork: 'var(--section-featured-work-bg)'
+    featuredWork: 'var(--section-featured-work-bg)',
+    work: 'var(--section-work-bg)'
 };
 
 /**

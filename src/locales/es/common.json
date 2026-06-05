@@ -632,8 +632,9 @@
         "viewAll": "Explorar **todo** el work"
     },
     "work": {
-        "title": "Work",
-        "subtitle": "Casos comerciales seleccionados",
+        "title": "**Work** Seleccionado",
+        "subtitle": "Casos comerciales curados, con contexto",
+        "description": "Casos comerciales curados — el tipo de problemas que Qazuor resuelve, las restricciones involucradas y los outcomes entregados. Cada caso es la versión business-facing de un proyecto del portfolio técnico.",
         "placeholder": {
             "title": "Work — placeholder",
             "subtitle": "Aquí vivirán los casos comerciales seleccionados.",
@@ -642,7 +643,35 @@
         "detail": {
             "placeholderTitle": "Caso de estudio — placeholder",
             "placeholderSubtitle": "Este caso de estudio se autorá en SPEC-001 Phase 3.",
-            "phase": "Aún no hay casos de estudio publicados."
+            "phase": "Aún no hay casos de estudio publicados.",
+            "backToWork": "Volver a Work",
+            "problem": "El Problema",
+            "solution": "La Solución",
+            "impact": "El Impacto",
+            "stack": "Stack Técnico",
+            "services": "Servicios Entregados",
+            "clientType": "Tipo de Cliente",
+            "industry": "Industria",
+            "role": "Mi Rol",
+            "timeframe": "Plazo",
+            "teamSize": "Tamaño del Equipo",
+            "relatedProjectTitle": "Leer el deep-dive técnico",
+            "relatedProjectDescription": "El write-up completo del proyecto — arquitectura, decisiones y lecciones aprendidas — vive en el archivo de projects.",
+            "viewProject": "Abrir la página del proyecto",
+            "ctaTitle": "¿Tenés un proyecto similar?",
+            "ctaDescription": "Sea un build nuevo, un redesign o una optimización postergada, hablemos de cómo es un engagement senior-led para tu caso.",
+            "ctaButton": "Iniciar conversación"
+        },
+        "card": {
+            "viewCaseStudy": "**Leer caso de estudio**",
+            "caseStudy": "Caso de estudio",
+            "featured": "*Destacado*"
+        },
+        "empty": {
+            "title": "Aún no hay casos de estudio publicados",
+            "description": "Los casos se están curando. Mientras tanto, el archivo de projects tiene el portfolio técnico más amplio, y el blog es donde se desgranan procesos y trade-offs.",
+            "viewProjects": "Ver el archivo de projects",
+            "viewBlog": "Leer el blog"
         }
     },
     "hire": {

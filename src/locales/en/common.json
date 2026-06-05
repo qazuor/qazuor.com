@@ -617,8 +617,9 @@
         "viewAll": "Explore **all** work"
     },
     "work": {
-        "title": "Work",
-        "subtitle": "Selected commercial case studies",
+        "title": "**Selected** Work",
+        "subtitle": "Commercial case studies, curated for context",
+        "description": "Curated commercial case studies — the kind of problems Qazuor solves, the constraints involved, and the outcomes delivered. Each case study is the business-facing version of a project from the technical portfolio.",
         "placeholder": {
             "title": "Work — placeholder",
             "subtitle": "Curated commercial case studies will live here.",
@@ -627,7 +628,35 @@
         "detail": {
             "placeholderTitle": "Case study — placeholder",
             "placeholderSubtitle": "This case study will be authored in SPEC-001 Phase 3.",
-            "phase": "No case studies are published yet."
+            "phase": "No case studies are published yet.",
+            "backToWork": "Back to Work",
+            "problem": "The Problem",
+            "solution": "The Solution",
+            "impact": "The Impact",
+            "stack": "Tech Stack",
+            "services": "Services Delivered",
+            "clientType": "Client Type",
+            "industry": "Industry",
+            "role": "My Role",
+            "timeframe": "Timeframe",
+            "teamSize": "Team Size",
+            "relatedProjectTitle": "Read the technical deep-dive",
+            "relatedProjectDescription": "The full project write-up — architecture, decisions, and lessons learned — lives in the projects archive.",
+            "viewProject": "Open the project page",
+            "ctaTitle": "Have a similar project?",
+            "ctaDescription": "Whether it's a new build, a redesign, or a long-overdue optimization, let's talk about what a senior-led engagement looks like for you.",
+            "ctaButton": "Start a conversation"
+        },
+        "card": {
+            "viewCaseStudy": "**Read case study**",
+            "caseStudy": "Case study",
+            "featured": "*Featured*"
+        },
+        "empty": {
+            "title": "No case studies are published yet",
+            "description": "Case studies are being curated. In the meantime, the projects archive has the broader technical portfolio, and the blog is where process and trade-offs get unpacked.",
+            "viewProjects": "Browse the projects archive",
+            "viewBlog": "Read the blog"
         }
     },
     "hire": {

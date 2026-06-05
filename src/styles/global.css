@@ -90,6 +90,9 @@
         --section-background-glow-via: #d3d8de;   /* Light gray - middle (light mode) */
         --section-background-glow-to: #3980c6;    /* Blue - end of gradient (light mode) */
 
+        /* SPEC-001 Phase 3 — dedicated /work hub background (light mode) */
+        --section-work-bg: #b5c8d6;
+
         /* Spacing (for reference in custom properties) */
         --space-1: 0.25rem;
         --space-2: 0.5rem;
@@ -417,6 +420,9 @@
         --section-background-glow-from: #3b82f6;  /* Steel blue - start */
         --section-background-glow-via: #1c2128;   /* Dark slate gray - middle */
         --section-background-glow-to: #06b6d4;    /* Cyan accent - end */
+
+        /* SPEC-001 Phase 3 — dedicated /work hub background (dark mode) */
+        --section-work-bg: #1c2128;
 
         /* RGB Color values for rgba() usage */
         /* Primary - Steel Blue */

@@ -52,20 +52,6 @@
             "frontend": "Desarrollador **Frontend**",
             "designer": "Diseñador **UI/UX**"
         },
-        "features": {
-            "performance": {
-                "title": "Alto Rendimiento",
-                "description": "Construido con Astro para cargas de página ultrarrápidas y rendimiento óptimo."
-            },
-            "animations": {
-                "title": "Animaciones Hermosas",
-                "description": "Animaciones suaves con GSAP y Tailwind CSS para una experiencia de usuario encantadora."
-            },
-            "multilingual": {
-                "title": "Multiidioma",
-                "description": "Soporte completo de i18n con cambio fluido de idioma entre EN/ES."
-            }
-        },
         "cta": {
             "title": "¿Listo para trabajar juntos?",
             "description": "Construyamos algo increíble",
@@ -86,24 +72,6 @@
             "codeOwnership": "Código Propio Incluido",
             "responseTime": "Respuesta <24h",
             "openForWork": "Disponible para Proyectos"
-        },
-        "stats": {
-            "years": {
-                "label": "Años de Experiencia",
-                "description": "Construyendo soluciones web desde los inicios de la industria"
-            },
-            "technologies": {
-                "label": "Tecnologías",
-                "description": "React, Astro, Node, TypeScript y muchas más"
-            },
-            "coffees": {
-                "label": "Cafés",
-                "description": "Combustible para sesiones de código nocturnas"
-            },
-            "mentored": {
-                "label": "Devs Mentoreados",
-                "description": "Ayudando a otros a crecer en sus carreras"
-            }
         }
     },
     "blog": {
@@ -522,15 +490,6 @@
         "description": "Desde aplicaciones web personalizadas hasta landing pages y automatizaciones, ofrezco soluciones integrales adaptadas a las necesidades de tu negocio.",
         "viewAll": "Explorar **Todos los Servicios**",
         "learnMore": "Saber más",
-        "whyWorkWithMe": {
-            "title": "Por Qué **Trabajar** Conmigo",
-            "items": [
-                "Comunicación directa, sin intermediarios",
-                "Precios y plazos transparentes",
-                "Calidad de código y mejores prácticas",
-                "Soporte continuo después de la entrega"
-            ]
-        },
         "services": {
             "webApps": {
                 "title": "**Aplicaciones** Web Full-Stack",

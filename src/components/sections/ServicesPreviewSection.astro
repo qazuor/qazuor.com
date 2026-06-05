@@ -2,7 +2,12 @@
 /**
  * ServicesPreviewSection - Homepage preview of available services
  * Shows 4 service cards with key features and links to full service pages
- * Positioned between Projects and Blog sections
+ * Positioned after the trust strip on the commercial-first homepage.
+ *
+ * SPEC-001 Phase 2: the personal "Why Work With Me" panel that used to
+ * live inside this section was removed. The Qazuor-branded differentiators
+ * moved to a dedicated {@link WhyQazuorSection} so the homepage can lead
+ * with services and the differentiators do not duplicate the service copy.
  */
 
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
@@ -28,10 +33,6 @@ interface Props {
         description?: string;
         viewAll: string;
         learnMore: string;
-        whyWorkWithMe: {
-            title: string;
-            items: string[];
-        };
         services: {
             webApps: ServiceTranslation;
             landingPages: ServiceTranslation;
@@ -107,23 +108,6 @@ const serviceCards = services
                     pixelConfig={service.pixelConfig}
                 />
             ))}
-        </div>
-
-        <!-- Why Work With Me Section -->
-        <div class="mt-16 p-8 rounded-2xl bg-foreground/10 backdrop-blur-sm border border-foreground/20">
-            <h3 class="text-2xl font-bold text-foreground mb-6 text-center">
-                <span set:html={translations.whyWorkWithMe.title} />
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {translations.whyWorkWithMe.items.map((item, index) => (
-                    <div class="flex items-center gap-3 p-4 rounded-xl bg-foreground/10 border border-foreground/15">
-                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/25 text-primary flex items-center justify-center font-bold text-sm">
-                            {index + 1}
-                        </span>
-                        <span class="text-foreground-secondary text-sm">{item}</span>
-                    </div>
-                ))}
-            </div>
         </div>
 
         <!-- View All Services Button -->

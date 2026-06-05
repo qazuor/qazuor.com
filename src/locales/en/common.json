@@ -52,20 +52,6 @@
             "frontend": "**Frontend** Developer",
             "designer": "**UI/UX** Designer"
         },
-        "features": {
-            "performance": {
-                "title": "Fast Performance",
-                "description": "Built with Astro for lightning-fast page loads and optimal performance."
-            },
-            "animations": {
-                "title": "Beautiful Animations",
-                "description": "Smooth animations powered by GSAP and Tailwind CSS for delightful UX."
-            },
-            "multilingual": {
-                "title": "Multilingual",
-                "description": "Full i18n support with seamless language switching between EN/ES."
-            }
-        },
         "cta": {
             "title": "Ready to work together?",
             "description": "Let's build something amazing",
@@ -86,24 +72,6 @@
             "codeOwnership": "Code Ownership Included",
             "responseTime": "<24h Response Time",
             "openForWork": "Open for Work"
-        },
-        "stats": {
-            "years": {
-                "label": "Years Experience",
-                "description": "Building web solutions since the early days of the industry"
-            },
-            "technologies": {
-                "label": "Technologies",
-                "description": "React, Astro, Node, TypeScript and many more"
-            },
-            "coffees": {
-                "label": "Coffees",
-                "description": "Fuel for late-night coding sessions"
-            },
-            "mentored": {
-                "label": "Mentored Devs",
-                "description": "Helping others grow in their careers"
-            }
         }
     },
     "blog": {
@@ -522,15 +490,6 @@
         "description": "From custom web applications to landing pages and automation, I offer comprehensive solutions tailored to your business needs.",
         "viewAll": "Explore **All Services**",
         "learnMore": "Learn more",
-        "whyWorkWithMe": {
-            "title": "Why **Work** With Me",
-            "items": [
-                "Direct communication, no middlemen",
-                "Transparent pricing and timelines",
-                "Code quality and best practices",
-                "Ongoing support after delivery"
-            ]
-        },
         "services": {
             "webApps": {
                 "title": "**Full-Stack** Web Apps",

@@ -1,0 +1,95 @@
+---
+/**
+ * WorkJsonLd Component
+ * Renders structured data for commercial case study (work) pages.
+ *
+ * The work case study is modeled as a CreativeWork with:
+ * - Client / provider context
+ * - Industry and service keywords
+ * - Optional technical reference (related project) for bi-directional linking
+ * - A breadcrumb chain to the /work hub and home
+ *
+ * @example
+ * <WorkJsonLd
+ *   lang="en"
+ *   name="MarkView: a markdown editor that works everywhere"
+ *   summary="A PWA markdown editor with cloud sync..."
+ *   url="https://qazuor.com/en/work/markview"
+ *   datePublished={new Date('2025-12-07')}
+ *   industry="Developer tools / productivity"
+ *   services={['web-apps', 'web-optimization']}
+ *   stack={['React', 'TypeScript']}
+ *   relatedProjectUrl="https://qazuor.com/en/projects/markview"
+ * />
+ */
+import type { BreadcrumbListSchema, CreativeWorkSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+    lang: string;
+    name: string;
+    summary: string;
+    url: string;
+    datePublished?: Date;
+    industry?: string;
+    services?: string[];
+    stack?: string[];
+    relatedProjectUrl?: string;
+}
+
+const { lang, name, summary, url, datePublished, industry, services = [], stack = [], relatedProjectUrl } = Astro.props;
+
+const SITE_URL = 'https://qazuor.com';
+
+const keywords: string[] = [];
+if (industry) keywords.push(industry);
+for (const service of services) keywords.push(service);
+for (const item of stack) keywords.push(item);
+
+// Build CreativeWork schema (case study framing)
+const workSchema: CreativeWorkSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: name,
+    description: summary,
+    url: url,
+    author: {
+        '@type': 'Person',
+        name: 'Julian Cataldo'
+    },
+    ...(datePublished && { datePublished: datePublished.toISOString() }),
+    ...(keywords.length > 0 && { keywords }),
+    ...(industry && { about: industry }),
+    ...(relatedProjectUrl && { isBasedOn: relatedProjectUrl })
+};
+
+// Build Breadcrumb schema
+const breadcrumbSchema: BreadcrumbListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        {
+            '@type': 'ListItem',
+            position: 1,
+            name: lang === 'es' ? 'Inicio' : 'Home',
+            item: `${SITE_URL}/${lang}`
+        },
+        {
+            '@type': 'ListItem',
+            position: 2,
+            // Top-level route paths stay in English in both locales (per SPEC-001).
+            name: 'Work',
+            item: `${SITE_URL}/${lang}/work`
+        },
+        {
+            '@type': 'ListItem',
+            position: 3,
+            name: name
+        }
+    ]
+};
+
+const schemas = [workSchema, breadcrumbSchema];
+---
+
+<JsonLd schema={schemas} />

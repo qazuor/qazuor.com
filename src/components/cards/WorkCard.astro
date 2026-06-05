@@ -1,0 +1,101 @@
+---
+/**
+ * WorkCard Component
+ * Text-first card for the /work index. Case studies in Phase 3 do not use
+ * cover imagery — the card surfaces the client type, title, summary, and
+ * the service chips. Clicking anywhere on the card navigates to the
+ * detail page.
+ *
+ * @example
+ * <WorkCard
+ *   lang="en"
+ *   href="/en/work/markview"
+ *   title="MarkView: a markdown editor that works everywhere"
+ *   summary="A PWA markdown editor..."
+ *   clientType="Own product / developer tool"
+ *   industry="Developer tools"
+ *   services={['web-apps', 'web-optimization']}
+ *   featured={true}
+ *   labels={{ caseStudy: 'Case study', featured: 'Featured', viewCaseStudy: 'Read case study' }}
+ * />
+ */
+import Badge from '@/components/ui/Badge.astro';
+
+interface Props {
+    lang: string;
+    href: string;
+    title: string;
+    summary: string;
+    clientType: string;
+    industry: string;
+    services: string[];
+    featured?: boolean;
+    labels: {
+        caseStudy: string;
+        featured: string;
+        viewCaseStudy: string;
+    };
+}
+
+const { lang, href, title, summary, clientType, industry, services, featured = false, labels } = Astro.props;
+---
+
+<a
+    href={href}
+    lang={lang}
+    class="group flex h-full flex-col rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 transition-all duration-300 hover:border-primary/40 hover:bg-card/80 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+>
+    <div class="flex items-center gap-2 mb-4">
+        <span class="text-[10px] font-medium uppercase tracking-widest text-primary">
+            {labels.caseStudy}
+        </span>
+        {
+            featured && (
+                <span class="text-[10px] font-medium uppercase tracking-widest text-emerald-500">
+                    · {labels.featured}
+                </span>
+            )
+        }
+    </div>
+
+    <p class="text-xs font-medium uppercase tracking-wide text-foreground-muted mb-2">
+        {clientType}
+    </p>
+
+    <h3 class="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+        {title}
+    </h3>
+
+    <p class="text-sm text-foreground-secondary leading-relaxed mb-6 line-clamp-4">
+        {summary}
+    </p>
+
+    <div class="mt-auto space-y-3">
+        <div class="flex flex-wrap gap-1.5">
+            {
+                services.slice(0, 3).map((service: string) => (
+                    <Badge text={service} variant="tag" size="sm" showHtml={false} />
+                ))
+            }
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-border/50">
+            <span class="text-xs text-foreground-muted">
+                {industry}
+            </span>
+            <span
+                class="text-sm font-semibold text-primary group-hover:translate-x-0.5 transition-transform duration-300"
+                set:html={labels.viewCaseStudy}
+            />
+        </div>
+    </div>
+</a>
+
+<style>
+    .line-clamp-4 {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>

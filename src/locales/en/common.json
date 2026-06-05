@@ -9,7 +9,12 @@
         "skills": "Skills",
         "testimonials": "Testimonials",
         "faqs": "FAQ",
-        "contact": "Contact"
+        "contact": "Contact",
+        "work": "Work",
+        "hire": "Hire",
+        "snippets": "Snippets",
+        "cssTricks": "CSS Tricks",
+        "usefulLinks": "Useful Links"
     },
     "theme": {
         "light": "Light",
@@ -276,6 +281,25 @@
             "projects": "Projects",
             "blog": "Blog",
             "goodies": "Goodies"
+        },
+        "commercial": {
+            "work": "Work",
+            "about": "About",
+            "hire": "Hire",
+            "contact": "Contact"
+        },
+        "discovery": {
+            "title": "Discover"
+        },
+        "resources": {
+            "title": "Resources",
+            "tools": "Tools",
+            "snippets": "Snippets",
+            "usefulLinks": "Useful Links",
+            "cssTricks": "CSS Tricks"
+        },
+        "legal": {
+            "title": "Legal"
         },
         "latestPosts": {
             "title": "Latest posts",

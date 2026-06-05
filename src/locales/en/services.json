@@ -71,6 +71,22 @@
         "meta": {
             "title": "Full-Stack Web Application Development | Custom Solutions",
             "description": "Professional full-stack web application development services. From concept to deployment, I build scalable, secure web apps tailored to your business needs."
+        },
+        "whoItIsFor": {
+            "0": "Founders launching an MVP who need a senior pair of hands without a full-time hire",
+            "1": "Teams shipping a product feature that needs real architecture, not a duct-tape prototype",
+            "2": "Agencies and studios that need a reliable senior contractor for complex builds"
+        },
+        "problemsSolved": {
+            "0": "Stuck between a slow in-house team and an over-priced agency",
+            "1": "Existing codebase that needs a senior eye before the next round of features",
+            "2": "A feature spec that is half-written and needs someone to drive it to ship",
+            "3": "Authentication, data modeling, and API design that the team keeps avoiding"
+        },
+        "detailCta": {
+            "title": "Ready to scope your web app?",
+            "label": "Tell me about it",
+            "iconHint": "Tell me about your project"
         }
     },
     "landingPages": {
@@ -140,6 +156,22 @@
         "meta": {
             "title": "Landing Page & Static Website Development | High-Performance Sites",
             "description": "Professional landing pages and static websites that load instantly and convert visitors. Optimized for SEO, mobile-friendly, and built with modern technologies."
+        },
+        "whoItIsFor": {
+            "0": "Founders and marketers launching a product, campaign, or feature",
+            "1": "Agencies that need a senior frontend partner to deliver high-converting pages on tight timelines",
+            "2": "Businesses that need a fast, SEO-clean static site instead of a slow CMS"
+        },
+        "problemsSolved": {
+            "0": "Current site is slow, scores poorly on Core Web Vitals, and is hurting SEO",
+            "1": "Launching a campaign next week and the in-house team is overloaded",
+            "2": "Conversion rate is flat and the page needs a senior rewrite, not a redesign",
+            "3": "CMS-based site is too heavy for a one-page focused goal"
+        },
+        "detailCta": {
+            "title": "Ready to launch a page that converts?",
+            "label": "Send the brief",
+            "iconHint": "Send me a brief"
         }
     },
     "automation": {
@@ -209,6 +241,22 @@
         "meta": {
             "title": "Workflow Automation & API Integration Services | Custom Solutions",
             "description": "Professional workflow automation and API integration services. Connect your tools, eliminate repetitive tasks, and streamline your business processes."
+        },
+        "whoItIsFor": {
+            "0": "Operations and RevOps leads who are tired of copy-paste between SaaS tools",
+            "1": "Small teams whose engineers should be building product, not babysitting Zapier chains",
+            "2": "Companies whose CRM, billing, and product are out of sync and the manual reconciliation is breaking things"
+        },
+        "problemsSolved": {
+            "0": "Data is split across tools and the team spends hours each week reconciling it by hand",
+            "1": "Customer-facing workflows stall because the back-office system cannot keep up",
+            "2": "Third-party APIs need to talk to each other and the off-the-shelf connectors do not exist",
+            "3": "Webhook chains that should be simple are silently dropping events"
+        },
+        "detailCta": {
+            "title": "Got a workflow that should not be manual?",
+            "label": "Walk me through it",
+            "iconHint": "Tell me about the workflow"
         }
     },
     "socialDesign": {
@@ -278,6 +326,22 @@
         "meta": {
             "title": "Social Media Design Services | Templates & Brand Assets",
             "description": "Professional social media design services. Custom templates, brand identity, and visual content that engages your audience across all platforms."
+        },
+        "whoItIsFor": {
+            "0": "Founders and small teams that need a steady stream of on-brand visual content",
+            "1": "Marketers who want a designer who understands systems, not just one-off posts",
+            "2": "Brands whose feed looks inconsistent because every post was made by a different person"
+        },
+        "problemsSolved": {
+            "0": "No internal designer, and agency turnaround is too slow for the content calendar",
+            "1": "Templates and visual identity drift over time, so the feed stops looking like the brand",
+            "2": "Need a designer who can ship platform-native assets, not just resized square images",
+            "3": "Brand assets live in five different files and nothing matches anymore"
+        },
+        "detailCta": {
+            "title": "Need a designer who can keep up with the calendar?",
+            "label": "Tell me about the brand",
+            "iconHint": "Tell me about the brand"
         }
     },
     "webOptimization": {
@@ -347,6 +411,22 @@
         "meta": {
             "title": "Web Optimization Services | SEO, Performance & Accessibility",
             "description": "Professional web optimization services. Improve your SEO for search engines and LLMs, speed up load times, and make your site accessible to everyone. Audits and complete optimization."
+        },
+        "whoItIsFor": {
+            "0": "Teams whose site is functional but slow, and that slowness is starting to cost conversions",
+            "1": "Marketers and SEO leads who know the technical debt is hurting rankings but cannot get engineering prioritized on it",
+            "2": "Companies launching a new site that needs a senior Lighthouse pass before it goes public"
+        },
+        "problemsSolved": {
+            "0": "Lighthouse scores in the 50-70 range, dragging rankings and conversion",
+            "1": "A slow LCP / CLS that nobody on the team has time to diagnose and fix",
+            "2": "Image and asset pipeline that ships 2MB hero images on a 50ms connection",
+            "3": "SEO basics missing: structured data, canonicals, sitemap, robots"
+        },
+        "detailCta": {
+            "title": "Got a slow site you want to fix?",
+            "label": "Send me the URL",
+            "iconHint": "Send me the URL to audit"
         }
     },
     "wordpress": {
@@ -417,6 +497,22 @@
         "meta": {
             "title": "WordPress Development Services | Custom Themes & Plugins",
             "description": "Professional WordPress development services. Custom theme and plugin development, WooCommerce setup, migration, and ongoing maintenance. Get a fast, secure WordPress site."
+        },
+        "whoItIsFor": {
+            "0": "Content-driven businesses and publishers who need WordPress without the bloat",
+            "1": "Small e-commerce teams who want a WooCommerce build that does not fall over under load",
+            "2": "Teams stuck with a fragile theme or plugin and need a senior to stabilize and ship"
+        },
+        "problemsSolved": {
+            "0": "Existing WordPress site is slow, plugin-heavy, and breaking every update",
+            "1": "Need a custom theme or plugin that does not exist in any marketplace",
+            "2": "Migrating from another CMS without losing SEO, content, or design fidelity",
+            "3": "WooCommerce store that is technically online but conversion is flat"
+        },
+        "detailCta": {
+            "title": "Got a WordPress site that needs a senior's touch?",
+            "label": "Tell me about it",
+            "iconHint": "Tell me about the WordPress project"
         }
     },
     "cta": {

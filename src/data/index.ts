@@ -5,6 +5,7 @@
 
 export * from './contact';
 export * from './footer';
+export * from './hire';
 export * from './interests';
 export * from './navigation';
 export * from './process';

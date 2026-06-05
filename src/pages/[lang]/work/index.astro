@@ -1,16 +1,27 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import WorkCard from '@/components/cards/WorkCard.astro';
+import WorkJsonLd from '@/components/seo/WorkJsonLd.astro';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+import { sectionsColors } from '@/data';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { ItemListSchema } from '@/types/jsonld';
+import { getWorkSlug } from '@/utils/work';
 
 /**
  * Work index route — `/{lang}/work`.
  *
- * Phase 1 shell only. Lists curated commercial case studies once the `work`
- * content collection is introduced in Phase 3.
+ * Phase 3 implementation. Lists curated commercial case studies from the
+ * `work` content collection. The page exists in both `es` and `en` per
+ * Requirement 2.2.
  *
- * Currently a placeholder rendering in both `es` and `en` per Requirement 2.2
- * (every new route must exist in both locales).
+ * Sorting: featured first, then by `order` ascending, then by `date`
+ * descending (matches the projects index convention).
  */
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -21,21 +32,146 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
 
-const pageTitle = `${t('work.placeholder.title')} | ${t('work.title')}`;
-const pageDescription = t('work.placeholder.subtitle');
+const SITE_URL = 'https://qazuor.com';
+
+// Load work entries for the active language
+const workEntries = await getCollection('work', (entry: CollectionEntry<'work'>) => entry.data.lang === lang);
+
+// Sort: featured first, then by order, then by date desc
+const sortedWork = [...workEntries].sort((a, b) => {
+    const aFeatured = a.data.featured || false;
+    const bFeatured = b.data.featured || false;
+    if (aFeatured !== bFeatured) {
+        return bFeatured ? 1 : -1;
+    }
+    if (a.data.order !== b.data.order) {
+        return a.data.order - b.data.order;
+    }
+    const aDate = a.data.date ? a.data.date.getTime() : 0;
+    const bDate = b.data.date ? b.data.date.getTime() : 0;
+    return bDate - aDate;
+});
+
+const cardLabels = {
+    caseStudy: t('work.card.caseStudy'),
+    featured: t('work.card.featured', { markdown: false }),
+    viewCaseStudy: t('work.card.viewCaseStudy', { markdown: true })
+};
+
+const pageTitle = `${t('work.title', { markdown: false })} | qazuor.com`;
+const pageDescription = t('work.description', { markdown: false });
+
+// Build an ItemList schema (SEO/AEO) for the work hub
+const itemListSchema: ItemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: t('work.title', { markdown: false }),
+    description: t('work.description', { markdown: false }),
+    numberOfItems: sortedWork.length,
+    itemListElement: sortedWork.map((work, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${SITE_URL}/${lang}/work/${getWorkSlug(work)}`,
+        name: work.data.title,
+        item: {
+            '@type': 'CreativeWork',
+            name: work.data.title,
+            url: `${SITE_URL}/${lang}/work/${getWorkSlug(work)}`,
+            description: work.data.summary
+        }
+    }))
+};
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
-    <section class="container-custom py-24 md:py-32">
-        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
-        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
-            {t('work.placeholder.title')}
-        </h1>
-        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
-            {t('work.placeholder.subtitle')}
-        </p>
-        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
-            {t('work.placeholder.phase')}
-        </p>
+<BaseLayout title={pageTitle} description={pageDescription} type="website">
+    <!-- Work hub structured data -->
+    <WorkJsonLd
+        slot="head"
+        lang={lang}
+        name={t('work.title', { markdown: false })}
+        summary={pageDescription}
+        url={`${SITE_URL}/${lang}/work`}
+    />
+
+    <!-- AEO: list the case studies as an ItemList so answer engines can cite them -->
+    <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(itemListSchema)}
+    />
+
+    <section class="relative min-h-screen overflow-hidden" style={`background-color: ${sectionsColors.work}`}>
+        <AnimatedGradientBackground />
+
+        <div class="container-custom py-16 md:py-24 relative z-10">
+            <SectionTitle
+                title={t('work.title', { markdown: true })}
+                subtitle={t('work.subtitle', { markdown: true })}
+                description={t('work.description', { markdown: true })}
+                size="2xl"
+                descriptionClassName="!text-sm !max-w-3xl mx-auto mt-4 leading-relaxed"
+            />
+
+            {
+                sortedWork.length === 0 ? (
+                    <div class="mt-16 text-center max-w-2xl mx-auto">
+                        <h2 class="text-2xl font-semibold text-foreground mb-3">
+                            {t('work.empty.title', { markdown: false })}
+                        </h2>
+                        <p class="text-foreground-secondary text-sm leading-relaxed mb-8">
+                            {t('work.empty.description', { markdown: false })}
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                            <UnifiedButton
+                                href={`/${lang}/projects`}
+                                variant="primary"
+                                size="md"
+                            >
+                                {t('work.empty.viewProjects', { markdown: false })}
+                            </UnifiedButton>
+                            <UnifiedButton
+                                href={`/${lang}/blog`}
+                                variant="secondary"
+                                size="md"
+                            >
+                                {t('work.empty.viewBlog', { markdown: false })}
+                            </UnifiedButton>
+                        </div>
+                    </div>
+                ) : (
+                    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {sortedWork.map((work) => (
+                            <WorkCard
+                                lang={lang}
+                                href={`/${lang}/work/${getWorkSlug(work)}`}
+                                title={work.data.title}
+                                summary={work.data.summary}
+                                clientType={work.data.clientType}
+                                industry={work.data.industry}
+                                services={work.data.services}
+                                featured={work.data.featured}
+                                labels={cardLabels}
+                            />
+                        ))}
+                    </div>
+                )
+            }
+
+            {
+                sortedWork.length > 0 && (
+                    <div class="mt-16 text-center">
+                        <p class="text-foreground-secondary text-sm">
+                            {t('work.empty.viewProjects', { markdown: false })}{' '}
+                            <a
+                                href={`/${lang}/projects`}
+                                class="font-semibold text-primary hover:underline"
+                            >
+                                →
+                            </a>
+                        </p>
+                    </div>
+                )
+            }
+        </div>
     </section>
 </BaseLayout>

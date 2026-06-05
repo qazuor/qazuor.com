@@ -217,6 +217,38 @@ const usefulLinksCollection = defineCollection({
     })
 });
 
+// Work collection schema — SPEC-001 Phase 3
+// Curated commercial case studies powering the /work hub and /work/[slug] pages.
+// Mirrors the project collection's per-locale file pattern (slug-en.md, slug-es.md).
+// Cross-link to the underlying technical entry in the `projects` collection via
+// `relatedProjectSlug`; the reverse direction lives on the project schema
+// (`relatedWorkSlug`) so commercial ↔ technical linking stays bi-directional.
+const workCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        summary: z.string(), // 1-2 sentence elevator pitch for cards
+        clientType: z.string(), // e.g., "Tourism startup", "B2B SaaS", "Personal brand"
+        services: z.array(z.string()), // service slugs from src/data/services.ts (e.g., "web-apps")
+        role: z.string(), // e.g., "Lead frontend developer", "Tech lead + designer"
+        industry: z.string(),
+        problem: z.string(), // 2-3 sentences on the business problem
+        solution: z.string(), // 2-3 sentences on the solution delivered
+        impact: z.string(), // 1-2 sentences with metrics or qualitative outcomes
+        stack: z.array(z.string()),
+        relatedProjectSlug: z.string().optional(), // matches a slug in src/content/projects/
+        featured: z.boolean().default(false), // surfaces on the Featured Work homepage slice
+        order: z.number().default(999), // ascending sort order on the index
+        lang: z.enum(['en', 'es']), // per-locale parity, mirrors the projects convention
+        date: z.date().optional(),
+        coverImage: z.string().optional(), // deferred — not used in Phase 3 cards
+        thumbnail: z.string().optional(), // deferred — not used in Phase 3 cards
+        timeframe: z.string().optional(), // e.g., "6 weeks", "Q3 2024"
+        teamSize: z.number().optional(),
+        client: z.string().optional() // optional, may be anonymized
+    })
+});
+
 export const collections = {
     projects: projectsCollection,
     blog: blogCollection,
@@ -224,5 +256,6 @@ export const collections = {
     tools: toolsCollection,
     snippets: snippetsCollection,
     'css-tricks': cssTricksCollection,
-    'useful-links': usefulLinksCollection
+    'useful-links': usefulLinksCollection,
+    work: workCollection
 };

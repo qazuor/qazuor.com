@@ -1,0 +1,41 @@
+---
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+/**
+ * About route — `/{lang}/about`.
+ *
+ * Phase 1 shell only. The longer-form brand and operator context that was
+ * removed from the homepage (Requirement 4.2) will live here, authored in
+ * Phase 4 (Requirement 10.1).
+ *
+ * Per Requirement 2.2, the shell exists in both `es` and `en`.
+ */
+export function getStaticPaths() {
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+const pageTitle = `${t('about.placeholder.title')} | ${t('about.title')}`;
+const pageDescription = t('about.placeholder.subtitle');
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+    <section class="container-custom py-24 md:py-32">
+        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
+        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
+            {t('about.placeholder.title')}
+        </h1>
+        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
+            {t('about.placeholder.subtitle')}
+        </p>
+        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
+            {t('about.placeholder.phase')}
+        </p>
+    </section>
+</BaseLayout>

@@ -1,0 +1,41 @@
+---
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+/**
+ * Work index route — `/{lang}/work`.
+ *
+ * Phase 1 shell only. Lists curated commercial case studies once the `work`
+ * content collection is introduced in Phase 3.
+ *
+ * Currently a placeholder rendering in both `es` and `en` per Requirement 2.2
+ * (every new route must exist in both locales).
+ */
+export function getStaticPaths() {
+    return Object.keys(languages).map((lang) => ({
+        params: { lang }
+    }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+const pageTitle = `${t('work.placeholder.title')} | ${t('work.title')}`;
+const pageDescription = t('work.placeholder.subtitle');
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+    <section class="container-custom py-24 md:py-32">
+        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
+        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
+            {t('work.placeholder.title')}
+        </h1>
+        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
+            {t('work.placeholder.subtitle')}
+        </p>
+        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
+            {t('work.placeholder.phase')}
+        </p>
+    </section>
+</BaseLayout>

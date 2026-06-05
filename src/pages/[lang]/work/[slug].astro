@@ -1,0 +1,48 @@
+---
+import { languages } from '@/i18n/ui';
+import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+/**
+ * Work detail route — `/{lang}/work/[slug]`.
+ *
+ * Phase 1 shell only. The `work` content collection is not yet defined; this
+ * file exists so the route is wired in the filesystem, and `getStaticPaths`
+ * returns an empty array so no pages are built until Phase 3 introduces the
+ * collection schema and the curated case studies.
+ *
+ * Per Requirement 2.2, the shell is present for both `es` and `en`.
+ */
+export function getStaticPaths() {
+    // Phase 3 will iterate over a work content collection here.
+    // Returning an empty array keeps the route registered without producing
+    // any build output until real case studies exist.
+    const paths: Array<{ params: { lang: string; slug: string } }> = [];
+    for (const lang of Object.keys(languages)) {
+        // Intentionally no entries for now.
+        void lang;
+    }
+    return paths;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = getTranslations(lang);
+
+const pageTitle = `${t('work.detail.placeholderTitle')} | ${t('work.title')}`;
+const pageDescription = t('work.detail.placeholderSubtitle');
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} noindex={true}>
+    <section class="container-custom py-24 md:py-32">
+        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
+        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
+            {t('work.detail.placeholderTitle')}
+        </h1>
+        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
+            {t('work.detail.placeholderSubtitle')}
+        </p>
+        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
+            {t('work.detail.phase')}
+        </p>
+    </section>
+</BaseLayout>

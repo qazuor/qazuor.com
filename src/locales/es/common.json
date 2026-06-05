@@ -610,5 +610,46 @@
                 }
             ]
         }
+    },
+    "work": {
+        "title": "Work",
+        "subtitle": "Casos comerciales seleccionados",
+        "placeholder": {
+            "title": "Work — placeholder",
+            "subtitle": "Aquí vivirán los casos comerciales seleccionados.",
+            "phase": "El contenido completo llega en SPEC-001 Phase 3."
+        },
+        "detail": {
+            "placeholderTitle": "Caso de estudio — placeholder",
+            "placeholderSubtitle": "Este caso de estudio se autorá en SPEC-001 Phase 3.",
+            "phase": "Aún no hay casos de estudio publicados."
+        }
+    },
+    "hire": {
+        "title": "Hire",
+        "subtitle": "Para reclutadores y equipos de hiring",
+        "placeholder": {
+            "title": "Hire — placeholder",
+            "subtitle": "Aquí vivirá la landing orientada a reclutadores.",
+            "phase": "El contenido completo llega en SPEC-001 Phase 4."
+        }
+    },
+    "about": {
+        "title": "About",
+        "subtitle": "Sobre Qazuor",
+        "placeholder": {
+            "title": "About — placeholder",
+            "subtitle": "Aquí vivirá el contexto extendido de marca y operador.",
+            "phase": "El contenido completo llega en SPEC-001 Phase 4."
+        }
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Iniciar una conversación de proyecto",
+        "placeholder": {
+            "title": "Contact — placeholder",
+            "subtitle": "Aquí vivirá la ruta dedicada de contacto.",
+            "phase": "El contenido completo llega en SPEC-001 Phase 4."
+        }
     }
 }

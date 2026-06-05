@@ -25,15 +25,15 @@
 
 ## Phase 3: Work and Portfolio Separation
 
-- [ ] 3.1 Create the `work` content model or data source for curated commercial
+- [x] 3.1 Create the `work` content model or data source for curated commercial
       case studies.
-- [ ] 3.2 Build the `work` index page with cards that surface problem, role,
+- [x] 3.2 Build the `work` index page with cards that surface problem, role,
       service tags, and impact.
-- [ ] 3.3 Build the `work` detail template with context, problem, constraints,
+- [x] 3.3 Build the `work` detail template with context, problem, constraints,
       solution, impact, stack, and service CTA.
-- [ ] 3.4 Reframe the `projects` index copy so it reads as the broader technical
+- [x] 3.4 Reframe the `projects` index copy so it reads as the broader technical
       portfolio, not the main sales proof page.
-- [ ] 3.5 Add cross-links between relevant `projects` items and corresponding
+- [x] 3.5 Add cross-links between relevant `projects` items and corresponding
       `work` case studies.
 
 ## Phase 4: Service and Recruiter Surfaces

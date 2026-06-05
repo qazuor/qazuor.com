@@ -1,12 +1,12 @@
 import { navigate } from 'astro:transitions/client';
-import { Gift, Languages, Moon, Plus, SquareTerminal, Sun } from 'lucide-react';
+import { Home, Languages, Moon, Plus, SquareTerminal, Sun } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface MobileUtilitiesPopoverProps {
     currentLocale: string;
     translations: {
-        goodies: string;
+        home: string;
         command: string;
         theme: string;
         language: string;
@@ -14,6 +14,7 @@ interface MobileUtilitiesPopoverProps {
 }
 
 export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUtilitiesPopoverProps) {
+    const [isHomePage, setIsHomePage] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [isDark, setIsDark] = useState(false);
     const [popoverPosition, setPopoverPosition] = useState({
@@ -59,6 +60,22 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
 
         return () => observer.disconnect();
     }, []);
+
+    // Track whether we are on the home page so the Home utility is hidden
+    // when it would be redundant.
+    useEffect(() => {
+        const update = () => {
+            const path = window.location.pathname;
+            setIsHomePage(path === `/${currentLocale}` || path === `/${currentLocale}/` || path === '/');
+        };
+        update();
+        window.addEventListener('popstate', update);
+        document.addEventListener('astro:after-swap', update);
+        return () => {
+            window.removeEventListener('popstate', update);
+            document.removeEventListener('astro:after-swap', update);
+        };
+    }, [currentLocale]);
 
     // Close on click outside
     useEffect(() => {
@@ -182,15 +199,17 @@ export function MobileUtilitiesPopover({ currentLocale, translations }: MobileUt
                                 <SquareTerminal size={20} />
                             </button>
 
-                            {/* Goodies Link */}
-                            <a
-                                href={`/${currentLocale}/goodies`}
-                                aria-label={translations.goodies}
-                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <Gift size={20} />
-                            </a>
+                            {/* Home Link (hidden on home page) */}
+                            {!isHomePage && (
+                                <a
+                                    href={`/${currentLocale}`}
+                                    aria-label={translations.home}
+                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <Home size={20} />
+                                </a>
+                            )}
                         </div>
                     </div>,
                     document.body

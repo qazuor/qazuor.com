@@ -1,28 +1,17 @@
 import { navigate } from 'astro:transitions/client';
-import {
-    ArrowUp,
-    BadgeCheck,
-    BriefcaseBusiness,
-    CircleHelp,
-    FileText,
-    FolderGit2,
-    Gift,
-    Home,
-    Languages,
-    List,
-    type LucideIcon,
-    Mail,
-    MessageSquareQuote,
-    Moon,
-    SquareTerminal,
-    Sun,
-    UserRound
-} from 'lucide-react';
+import { ArrowUp, Home, Languages, List, type LucideIcon, Moon, SquareTerminal, Sun } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { resolveNavIcon } from '@/data/navIcons';
+import { localizedNavPath, type NavItem, type NavLocale, primaryNav } from '@/data/navigation';
 import { useTheme } from '@/hooks';
 import { MobileUtilitiesPopover } from './MobileUtilitiesPopover';
 
-type LabelKey = 'hero' | 'about' | 'skills' | 'projects' | 'services' | 'blog' | 'testimonials' | 'faqs' | 'contact';
+/**
+ * Keys used to look up translated labels for primary nav items.
+ * Mirrors the `id` field of entries in `primaryNav` from
+ * `src/data/navigation.ts`.
+ */
+export type LabelKey = 'services' | 'work' | 'projects' | 'blog' | 'about' | 'hire' | 'contact';
 
 export interface TocHeading {
     depth: number;
@@ -31,48 +20,51 @@ export interface TocHeading {
 }
 
 interface NavSection {
+    /** Stable identifier from the navigation data. */
     id: string;
-    hash: string; // Hash for home page (e.g., '#about')
-    pageUrl?: string; // Optional page URL for non-home navigation (e.g., '/projects')
+    /** Hash for in-page anchor (only used when on home and the item has no dedicated page). */
+    hash: string;
+    /** Locale-aware URL for the item (e.g. `/en/services`). */
+    pageUrl: string;
+    /** Resolved icon component. */
     icon: LucideIcon;
+    /** Key used to look up the translated label. */
     labelKey: LabelKey;
 }
 
 const defaultLabels: Record<LabelKey, string> = {
-    hero: 'Home',
-    about: 'About',
-    skills: 'Skills',
-    projects: 'Projects',
     services: 'Services',
+    work: 'Work',
+    projects: 'Projects',
     blog: 'Blog',
-    testimonials: 'Testimonials',
-    faqs: 'FAQ',
+    about: 'About',
+    hire: 'Hire',
     contact: 'Contact'
 };
 
-const NAV_SECTIONS: NavSection[] = [
-    { id: 'hero', hash: '#hero', icon: Home, labelKey: 'hero' },
-    { id: 'about', hash: '#about', icon: UserRound, labelKey: 'about' },
-    { id: 'skills', hash: '#skills', icon: BadgeCheck, labelKey: 'skills' },
-    { id: 'projects', hash: '#projects', pageUrl: '/projects', icon: FolderGit2, labelKey: 'projects' },
-    {
-        id: 'services-preview',
-        hash: '#services-preview',
-        pageUrl: '/services',
-        icon: BriefcaseBusiness,
-        labelKey: 'services'
-    },
-    { id: 'blog', hash: '#blog', pageUrl: '/blog', icon: FileText, labelKey: 'blog' },
-    { id: 'testimonials', hash: '#testimonials', icon: MessageSquareQuote, labelKey: 'testimonials' },
-    { id: 'faqs', hash: '#faqs', icon: CircleHelp, labelKey: 'faqs' },
-    { id: 'contact', hash: '#contact', icon: Mail, labelKey: 'contact' }
-];
+/**
+ * Build the primary nav list from the central navigation data, pre-resolving
+ * icons and pre-computing locale-aware paths. Computed once per module load —
+ * the data is static.
+ */
+function buildNavSections(locale: NavLocale): NavSection[] {
+    return primaryNav.map((item: NavItem) => {
+        const icon = resolveNavIcon(item.icon);
+        return {
+            id: item.id,
+            hash: '#hero',
+            pageUrl: localizedNavPath(item, locale),
+            icon,
+            labelKey: item.id as LabelKey
+        };
+    });
+}
 
 interface FloatingNavProps {
     labels?: Partial<Record<LabelKey, string>>;
     currentLocale?: string;
     utilityLabels?: {
-        goodies: string;
+        home: string;
         command: string;
         theme: string;
         language: string;
@@ -85,40 +77,7 @@ interface FloatingNavProps {
     tocTitle?: string;
 }
 
-function useActiveSection(sectionIds: string[]) {
-    const [activeSection, setActiveSection] = useState<string | null>(null);
-
-    useEffect(() => {
-        // Single IntersectionObserver for all sections (more efficient than N observers)
-        const observer = new IntersectionObserver(
-            (entries) => {
-                for (const entry of entries) {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id);
-                    }
-                }
-            },
-            {
-                rootMargin: '-20% 0px -60% 0px',
-                threshold: 0
-            }
-        );
-
-        // Observe all section elements
-        for (const id of sectionIds) {
-            const element = document.getElementById(id);
-            if (element) {
-                observer.observe(element);
-            }
-        }
-
-        return () => observer.disconnect();
-    }, [sectionIds]);
-
-    return activeSection;
-}
-
-function useMediaQuery(query: string) {
+function useMediaQuery(query: string): boolean {
     const [matches, setMatches] = useState(false);
 
     useEffect(() => {
@@ -157,7 +116,7 @@ function useScrollThresholds(thresholds: { nav: number; scrollToTop: number }) {
 }
 
 const defaultUtilityLabels = {
-    goodies: 'Goodies',
+    home: 'Home',
     command: 'Command',
     theme: 'Theme',
     language: 'Language',
@@ -178,82 +137,49 @@ export function FloatingNav({
     const hasToc = tocHeadings && tocHeadings.length > 0;
     const mergedLabels = useMemo(() => ({ ...defaultLabels, ...labels }), [labels]);
     const mergedUtilityLabels = useMemo(() => ({ ...defaultUtilityLabels, ...utilityLabels }), [utilityLabels]);
-    const sectionIds = useMemo(() => NAV_SECTIONS.map((s) => s.id), []);
-    const activeSection = useActiveSection(sectionIds);
+    const locale = currentLocale as NavLocale;
+    const navSections = useMemo(() => buildNavSections(locale), [locale]);
     const isMobile = useMediaQuery('(max-width: 767px)');
     // Hide TOC button in FloatingNav when sidebar TOC is visible (xl+ screens)
     const isTocSidebarVisible = useMediaQuery('(min-width: 1280px)');
     const { isNavVisible: isScrolled, showScrollToTop } = useScrollThresholds(SCROLL_THRESHOLDS);
     const { isDark, toggleTheme } = useTheme();
     const [isHomePage, setIsHomePage] = useState(true);
-    const prevActiveSection = useRef<string | null>(null);
+    const [currentPath, setCurrentPath] = useState<string>('/');
+    const prevPathRef = useRef<string | null>(null);
 
-    // Check if we're on home page
+    // Track current path so the active nav item is URL-based (not section
+    // observer-based). Updates on popstate and on Astro's view-transitions
+    // navigation events.
     useEffect(() => {
-        const checkHomePage = () => {
+        const updatePath = () => {
             const path = window.location.pathname;
-            setIsHomePage(/^\/(es|en)?\/?$/.test(path));
+            setCurrentPath(path);
+            setIsHomePage(path === `/${locale}` || path === `/${locale}/` || path === '/');
         };
-        checkHomePage();
-        window.addEventListener('popstate', checkHomePage);
-        return () => window.removeEventListener('popstate', checkHomePage);
-    }, []);
+        updatePath();
+        window.addEventListener('popstate', updatePath);
+        // Astro view transitions: re-check after content swap
+        document.addEventListener('astro:after-swap', updatePath);
+        return () => {
+            window.removeEventListener('popstate', updatePath);
+            document.removeEventListener('astro:after-swap', updatePath);
+        };
+    }, [locale]);
 
-    // Update URL hash when active section changes (only on home page)
-    useEffect(() => {
-        if (activeSection && activeSection !== prevActiveSection.current && isHomePage) {
-            const section = NAV_SECTIONS.find((s) => s.id === activeSection);
-            if (section && window.history?.replaceState) {
-                // Preserve query params when updating hash
-                const newUrl = `${window.location.pathname}${window.location.search}${section.hash}`;
-                window.history.replaceState(null, '', newUrl);
+    // Helper: is the given nav section the active one?
+    const isSectionActive = useCallback(
+        (section: NavSection): boolean => {
+            if (prevPathRef.current !== currentPath) {
+                prevPathRef.current = currentPath;
             }
-            prevActiveSection.current = activeSection;
-        }
-    }, [activeSection, isHomePage]);
-
-    // Filter sections: hide home icon when on home page
-    const visibleSections = useMemo(() => {
-        return isHomePage ? NAV_SECTIONS.filter((s) => s.id !== 'hero') : NAV_SECTIONS;
-    }, [isHomePage]);
-
-    // Handle browser back/forward navigation (popstate) and initial hash on load
-    useEffect(() => {
-        const scrollToHash = (hash: string) => {
-            if (hash) {
-                const targetId = hash.replace('#', '');
-                const element = document.getElementById(targetId);
-                if (element) {
-                    const headerOffset = 80;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            } else {
-                // No hash - scroll to top
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            }
-        };
-
-        const handlePopState = () => {
-            scrollToHash(window.location.hash);
-        };
-
-        // Handle initial hash on page load (with small delay to ensure DOM is ready)
-        if (window.location.hash) {
-            setTimeout(() => scrollToHash(window.location.hash), 100);
-        }
-
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
+            // For /en vs /es (when currentLocale is 'en'), normalize trailing slash
+            const normalized = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+            const target = section.pageUrl.endsWith('/') ? section.pageUrl : `${section.pageUrl}/`;
+            return normalized === target;
+        },
+        [currentPath]
+    );
 
     const openCommandPalette = useCallback(() => {
         window.dispatchEvent(new CustomEvent('openCommandPalette'));
@@ -269,58 +195,41 @@ export function FloatingNav({
 
     const switchLanguage = useCallback(() => {
         const newLocale = currentLocale === 'es' ? 'en' : 'es';
-        const currentPath = window.location.pathname;
+        const currentPath_ = window.location.pathname;
         const currentSearch = window.location.search;
         const currentHash = window.location.hash;
-        const newPath = currentPath.replace(new RegExp(`^/${currentLocale}`), `/${newLocale}`);
+        const newPath = currentPath_.replace(new RegExp(`^/${currentLocale}`), `/${newLocale}`);
         // Use View Transitions for language switch (preserve query params and hash)
         navigate(`${newPath || `/${newLocale}`}${currentSearch}${currentHash}`);
     }, [currentLocale]);
 
-    // Get the href for a section (for real links)
-    const getSectionHref = useCallback(
+    const navigateToSection = useCallback(
         (section: NavSection) => {
-            if (isHomePage) {
-                // On home page - just use hash
-                return section.hash;
+            // If we are on the home page and the section has an in-page hash
+            // (none in the new commercial nav, but kept for safety), scroll to it.
+            // Otherwise navigate to the dedicated page.
+            if (isHomePage && section.hash && section.hash !== '#hero') {
+                const element = document.getElementById(section.hash.replace('#', ''));
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
             }
-            // Not on home page - link to dedicated page or home with hash
-            return section.pageUrl ? `/${currentLocale}${section.pageUrl}` : `/${currentLocale}/${section.hash}`;
+            navigate(section.pageUrl);
         },
-        [currentLocale, isHomePage]
+        [isHomePage]
     );
 
-    const handleClick = useCallback(
+    const handleSectionClick = useCallback(
         (e: React.MouseEvent<HTMLAnchorElement>, section: NavSection) => {
-            // Allow ctrl/cmd+click to open in new tab (don't prevent default)
+            // Allow ctrl/cmd+click to open in new tab
             if (e.ctrlKey || e.metaKey) {
                 return;
             }
-
             e.preventDefault();
-            const targetId = section.hash.replace('#', '');
-            const element = document.getElementById(targetId);
-
-            if (isHomePage) {
-                // On home page - smooth scroll to section using native scrollIntoView
-                // CSS scroll-margin-top handles the header offset
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Update URL after starting scroll
-                    if (window.history?.replaceState) {
-                        const newUrl = `${window.location.pathname}${window.location.search}${section.hash}`;
-                        window.history.replaceState(null, '', newUrl);
-                    }
-                }
-            } else {
-                // Not on home page - navigate to dedicated page or home with hash
-                const targetUrl = section.pageUrl
-                    ? `/${currentLocale}${section.pageUrl}`
-                    : `/${currentLocale}/${section.hash}`;
-                navigate(targetUrl);
-            }
+            navigateToSection(section);
         },
-        [currentLocale, isHomePage]
+        [navigateToSection]
     );
 
     if (isMobile) {
@@ -331,16 +240,16 @@ export function FloatingNav({
                     isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
                 }`}
             >
-                {visibleSections.map((section) => {
+                {navSections.map((section) => {
                     const Icon = section.icon;
-                    const isActive = activeSection === section.id;
+                    const isActive = isSectionActive(section);
                     const label = mergedLabels[section.labelKey];
 
                     return (
                         <a
                             key={section.id}
-                            href={getSectionHref(section)}
-                            onClick={(e) => handleClick(e, section)}
+                            href={section.pageUrl}
+                            onClick={(e) => handleSectionClick(e, section)}
                             aria-label={label}
                             aria-current={isActive ? 'page' : undefined}
                             className={`relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-fast ${
@@ -368,16 +277,16 @@ export function FloatingNav({
                 aria-label="Quick navigation"
                 className="flex flex-col gap-2 rounded-full border border-border bg-card/90 p-2 shadow-lg backdrop-blur-md dark:bg-card dark:border-white/20 dark:shadow-[0_0_15px_rgba(0,0,0,0.4)] dark:ring-1 dark:ring-white/10"
             >
-                {visibleSections.map((section) => {
+                {navSections.map((section) => {
                     const Icon = section.icon;
-                    const isActive = activeSection === section.id;
+                    const isActive = isSectionActive(section);
                     const label = mergedLabels[section.labelKey];
 
                     return (
                         <a
                             key={section.id}
-                            href={getSectionHref(section)}
-                            onClick={(e) => handleClick(e, section)}
+                            href={section.pageUrl}
+                            onClick={(e) => handleSectionClick(e, section)}
                             aria-label={label}
                             aria-current={isActive ? 'page' : undefined}
                             className={`group relative flex h-10 w-10 items-center justify-center rounded-full transition-all duration-base ${
@@ -397,6 +306,20 @@ export function FloatingNav({
 
             {/* Utilities */}
             <div className="flex flex-col gap-2 rounded-full border border-border bg-card/90 p-2 shadow-lg backdrop-blur-md dark:bg-card dark:border-white/20 dark:shadow-[0_0_15px_rgba(0,0,0,0.4)] dark:ring-1 dark:ring-white/10">
+                {/* Home link (hidden when already on home) */}
+                {!isHomePage && (
+                    <a
+                        href={`/${currentLocale}`}
+                        aria-label={mergedUtilityLabels.home}
+                        className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
+                    >
+                        <Home size={20} />
+                        <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                            {mergedUtilityLabels.home}
+                        </span>
+                    </a>
+                )}
+
                 <button
                     type="button"
                     onClick={toggleTheme}
@@ -420,17 +343,6 @@ export function FloatingNav({
                         {mergedUtilityLabels.language}
                     </span>
                 </button>
-
-                <a
-                    href={`/${currentLocale}/goodies`}
-                    aria-label={mergedUtilityLabels.goodies}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-all duration-base hover:scale-emphasis hover:bg-primary/10 hover:text-primary"
-                >
-                    <Gift size={20} />
-                    <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium opacity-0 shadow-md ring-1 ring-border transition-all duration-fast group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
-                        {mergedUtilityLabels.goodies}
-                    </span>
-                </a>
 
                 <button
                     type="button"

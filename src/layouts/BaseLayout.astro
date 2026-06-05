@@ -101,22 +101,25 @@ const route = getRouteFromUrl(Astro.url);
 // Check if we're on the home page (for floating nav)
 const isHomePage = route === '' || route === '/';
 
-// Floating nav labels for i18n
+// Floating nav labels for i18n — SPEC-001 commercial-first primary nav order
+// (services, work, projects, blog, about, hire, contact). Keys MUST match the
+// `LabelKey` type in `src/components/navigation/FloatingNav.tsx`.
 const floatingNavLabels = {
-    hero: t('nav.home'),
-    about: t('nav.about'),
-    skills: t('nav.skills'),
-    projects: t('nav.projects'),
     services: t('nav.services'),
+    work: t('nav.work'),
+    projects: t('nav.projects'),
     blog: t('nav.blog'),
-    testimonials: t('nav.testimonials'),
-    faqs: t('nav.faqs'),
+    about: t('nav.about'),
+    hire: t('nav.hire'),
     contact: t('nav.contact')
 };
 
-// Utility labels for mobile FloatingNav popover
+// Utility labels for the FloatingNav cluster and mobile popover.
+// `goodies` was removed from primary nav (SPEC-001 Requirement 3.1) and now
+// lives only in the footer / secondary nav. The Home utility is added so
+// users on inner pages have a one-tap way back to the homepage.
 const floatingNavUtilityLabels = {
-    goodies: t('nav.tools'),
+    home: t('nav.home'),
     command: t('aria.openCommandPalette'),
     theme: t('aria.toggleTheme'),
     language: t('aria.changeLanguage'),

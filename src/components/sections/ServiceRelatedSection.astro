@@ -1,0 +1,84 @@
+---
+/**
+ * ServiceRelatedSection.astro
+ *
+ * Renders the "You might also like" cross-sell block at the bottom of a
+ * service detail page. Lists related services as text-first cards with
+ * icon, title, blurb, and a chevron. Used by:
+ * - /{lang}/services/[slug] (Phase 4, when `relatedServices` is non-empty)
+ *
+ * The section does not include its own bottom divider — the page renders
+ * the appropriate `WaveDivider` or `DiagonalDivider` after the section so
+ * the divider's color interpolation matches the next section's background.
+ *
+ * @example
+ * <ServiceRelatedSection
+ *   lang="en"
+ *   title="You Might Also Like"
+ *   themeColor="var(--section-skills-bg)"
+ *   services={[{ slug: 'web-apps', iconId: 'web-apps', title: 'Web Apps', description: '...' }]}
+ * />
+ */
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import ServiceIcon from '@/components/ui/ServiceIcon.astro';
+
+export interface RelatedServiceCard {
+    slug: string;
+    iconId: 'web-apps' | 'landing-pages' | 'automation' | 'social-design' | 'web-optimization' | 'wordpress';
+    /** Already markdown-processed title (HTML allowed). */
+    title: string;
+    /** Plain-text description. */
+    description: string;
+}
+
+interface Props {
+    lang: 'en' | 'es';
+    title: string;
+    themeColor: string;
+    services: readonly RelatedServiceCard[];
+}
+
+const { lang, title, themeColor, services } = Astro.props;
+---
+
+{
+    services.length > 0 && (
+        <section
+            class="relative section pt-20 pb-48 md:pb-56"
+            style={`background-color: ${themeColor}`}
+        >
+            <AnimatedGradientBackground />
+            <div class="container-custom">
+                <SectionTitle title={title} size="lg" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
+                    {services.map((related) => (
+                        <a
+                            href={`/${lang}/services/${related.slug}`}
+                            class="group bg-foreground/5 backdrop-blur-sm rounded-2xl p-6 border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20 transition-all"
+                        >
+                            <div class="flex items-start gap-4">
+                                <ServiceIcon name={related.iconId} size={40} class="text-primary" />
+                                <div class="flex-1">
+                                    <h3
+                                        class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"
+                                        set:html={related.title}
+                                    />
+                                    <p class="text-foreground-secondary text-sm">{related.description}</p>
+                                </div>
+                                <svg
+                                    class="w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:translate-x-1 transition-all"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}

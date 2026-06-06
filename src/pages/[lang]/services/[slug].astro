@@ -1,4 +1,10 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import WorkCard from '@/components/cards/WorkCard.astro';
+import ServiceAudienceSection from '@/components/sections/ServiceAudienceSection.astro';
+import ServiceCtaSection from '@/components/sections/ServiceCtaSection.astro';
+import ServiceRelatedSection from '@/components/sections/ServiceRelatedSection.astro';
 import ServiceJsonLd from '@/components/seo/ServiceJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
@@ -6,26 +12,33 @@ import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
-import UnifiedButton from '@/components/ui/UnifiedButton.astro';
-import { getInterestsForService } from '@/data';
 import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getAllWorkSlugs, getWorkBySlugWithFallback, getWorkSlug, type SupportedLang } from '@/utils/work';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+    const allWork = await getCollection('work');
     const langs = Object.keys(languages);
     const paths = langs.flatMap((lang) =>
         services.map((service) => ({
-            params: { lang, slug: service.slug }
+            params: { lang, slug: service.slug },
+            props: { allWork }
         }))
     );
     return paths;
 }
 
+interface Props {
+    allWork: CollectionEntry<'work'>[];
+}
+
+const { allWork } = Astro.props as Props;
 const { slug } = Astro.params;
 const lang = getLangFromUrl(Astro.url);
 const t = getTranslations(lang);
+const typedLang = lang as SupportedLang;
 
 // Get service data
 const service = services.find((s) => s.slug === slug);
@@ -123,6 +136,43 @@ const relatedServices = services
         };
     });
 
+// Related work — derived from the `work` content collection, filtered by
+// `entry.data.services[]` containing this service's ID. When the service
+// declares an explicit `relatedWorkSlugs` list it overrides the derivation.
+const workSlugSet = new Set(getAllWorkSlugs(allWork));
+const relatedWork = (() => {
+    const explicit = service.relatedWorkSlugs?.filter((s) => workSlugSet.has(s)) ?? [];
+    if (explicit.length > 0) {
+        return explicit
+            .map((s) => getWorkBySlugWithFallback(allWork, s, typedLang))
+            .filter((r): r is NonNullable<typeof r> => r !== null)
+            .map((r) => r.entry);
+    }
+    return allWork.filter(
+        (entry: CollectionEntry<'work'>) => entry.data.lang === typedLang && entry.data.services.includes(service.id)
+    );
+})();
+
+const workCardLabels = {
+    caseStudy: t('work.card.caseStudy'),
+    featured: t('work.card.featured', { markdown: false }),
+    viewCaseStudy: t('work.card.viewCaseStudy', { markdown: true })
+};
+
+// Service-specific final CTA copy. The data layer added `detailCta` for each
+// service (en) so the bottom CTA is the right shape per service. For the
+// Spanish locale we fall back to the generic CTA, since the data layer only
+// ships en copy in Phase 4.
+const detailCtaTitle =
+    typedLang === 'en'
+        ? t(service.detailCta.titleKey, { markdown: true })
+        : t('services.cta.title', { markdown: true });
+const detailCtaLabel =
+    typedLang === 'en'
+        ? t(service.detailCta.labelKey, { markdown: true })
+        : t('services.cta.button', { markdown: true });
+const detailCtaHref = service.detailCta.useServiceParam ? `/${lang}/contact?service=${service.id}` : `/${lang}/contact`;
+
 // JSON-LD data
 const SITE_URL = 'https://qazuor.com';
 const serviceUrl = `${SITE_URL}/${lang}/services/${service.slug}`;
@@ -207,6 +257,14 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
         <WaveDivider transition="hero-to-features" />
     </section>
 
+    <!-- Who It's For Section -->
+    <ServiceAudienceSection
+        variant="who"
+        title={t('services.whoItIsForTitle', { markdown: true })}
+        subtitle={t('services.whoItIsForSubtitle')}
+        entries={service.whoItIsFor}
+    />
+
     <!-- Features Section -->
     <section class="relative section pt-20 pb-32 md:pb-36 bg-background">
         <div class="container-custom">
@@ -238,13 +296,21 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
             </div>
         </div>
 
-        <!-- Divider: Features to Pricing (uses service themeColor) -->
+        <!-- Divider: Features to Problems Solved -->
         <div
             style={`--divider-transition-primary: ${service.themeColor}50; --divider-transition-secondary: ${service.themeColor}99; --divider-transition-accent: ${service.themeColor}80; --divider-transition-final: ${service.themeColor};`}
         >
             <DiagonalDivider direction="right" transition="features-to-pricing" />
         </div>
     </section>
+
+    <!-- Problems Solved Section -->
+    <ServiceAudienceSection
+        variant="problems"
+        title={t('services.problemsSolvedTitle', { markdown: true })}
+        subtitle={t('services.problemsSolvedSubtitle')}
+        entries={service.problemsSolved}
+    />
 
     <!-- Pricing Section -->
     <section class="relative section pt-20 pb-40 md:pb-48" style={`background-color: ${service.themeColor}`}>
@@ -361,7 +427,7 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
         </div>
 
         <!-- Divider: FAQ to Related/CTA -->
-        {relatedServices.length > 0 ? (
+        {(relatedServices.length > 0 || relatedWork.length > 0) ? (
             <div
                 style={`--divider-transition-primary: ${service.themeColor}50; --divider-transition-secondary: ${service.themeColor}99; --divider-transition-accent: ${service.themeColor}80; --divider-transition-final: ${service.themeColor};`}
             >
@@ -372,108 +438,58 @@ const cleanServiceDescription = pageDescription.replace(/\*\*/g, '');
         )}
     </section>
 
-    <!-- Related Services Section -->
+    <!-- Related Work Section — case studies from the work collection that
+         demonstrate this service in production. Skipped if no entries match. -->
     {
-        relatedServices.length > 0 && (
-            <>
-                <section
-                    class="relative section pt-20 pb-48 md:pb-56"
-                    style={`background-color: ${service.themeColor}`}
-                >
-                    <AnimatedGradientBackground />
-
-                    <div class="container-custom">
-                        <SectionTitle title={t('services.relatedServices.title')} size="lg" />
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
-                            {relatedServices.map((related) => (
-                                <a
-                                    href={`/${lang}/services/${related.slug}`}
-                                    class="group bg-foreground/5 backdrop-blur-sm rounded-2xl p-6 border border-foreground/10 hover:bg-foreground/10 hover:border-foreground/20 transition-all"
-                                >
-                                    <div class="flex items-start gap-4">
-                                        <ServiceIcon name={related.iconId} size={40} class="text-primary" />
-                                        <div class="flex-1">
-                                            <h3
-                                                class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"
-                                                set:html={related.title}
-                                            />
-                                            <p class="text-foreground-secondary text-sm">
-                                                {related.description}
-                                            </p>
-                                        </div>
-                                        <svg
-                                            class="w-5 h-5 text-foreground-secondary group-hover:text-primary group-hover:translate-x-1 transition-all"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M9 5l7 7-7 7"
-                                            />
-                                        </svg>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
+        relatedWork.length > 0 && (
+            <section
+                class="relative section pt-20 pb-20 md:pb-24"
+                style={`background-color: ${service.themeColor}`}
+            >
+                <AnimatedGradientBackground />
+                <div class="container-custom">
+                    <SectionTitle
+                        title={t('services.relatedWorkTitle', { markdown: true })}
+                        subtitle={t('services.relatedWorkSubtitle')}
+                        size="lg"
+                    />
+                    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {relatedWork.map((work: CollectionEntry<'work'>) => (
+                            <WorkCard
+                                lang={lang}
+                                href={`/${lang}/work/${getWorkSlug(work)}`}
+                                title={work.data.title}
+                                summary={work.data.summary}
+                                clientType={work.data.clientType}
+                                industry={work.data.industry}
+                                services={work.data.services}
+                                featured={work.data.featured}
+                                labels={workCardLabels}
+                            />
+                        ))}
                     </div>
-
-                    <!-- Divider: Related to CTA -->
-                    <WaveDivider transition="related-to-cta" />
-                </section>
-            </>
+                </div>
+            </section>
         )
     }
 
-    <!-- CTA Section -->
-    <section class="relative section pt-20 pb-40 md:pb-48 bg-background">
-        <div class="container-custom">
-            <div class="max-w-3xl mx-auto text-center bg-foreground/5 backdrop-blur-sm rounded-2xl p-12 border border-foreground/10">
-                <h2
-                    class="text-3xl font-bold text-foreground mb-4"
-                    set:html={t('services.cta.title', { markdown: true })}
-                />
-                <p
-                    class="text-foreground-secondary text-lg mb-8"
-                    set:html={t('services.cta.description', { markdown: true })}
-                />
+    <!-- Related Services Section — cross-sell cards linking to adjacent services. -->
+    <ServiceRelatedSection
+        lang={typedLang}
+        title={t('services.relatedServices.title')}
+        themeColor={service.themeColor}
+        services={relatedServices}
+    />
 
-                <UnifiedButton
-                    href={`/${lang}/?interests=${getInterestsForService(service.id)}#contact`}
-                    variant="primary"
-                    size="lg"
-                    iconPosition="right"
-                >
-                    <span set:html={t('services.cta.button', { markdown: true })} />
-                    <Fragment slot="icon-right">
-                        <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
-                            />
-                        </svg>
-                    </Fragment>
-                </UnifiedButton>
-
-                <div class="flex items-center justify-center gap-2 mt-6 text-foreground-secondary text-sm">
-                    <svg class="w-4 h-4 text-[rgb(var(--color-status-success))]" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
-                    <span set:html={t('services.cta.consultation', { markdown: true })} />
-                </div>
-            </div>
-        </div>
-
-        <!-- Divider: CTA to Footer -->
-        <ZigzagDivider transition="cta-to-footer" />
-    </section>
+    <!-- CTA Section — service-specific final CTA. Copy from `service.detailCta`
+         (en) or the generic services CTA (es fallback). Links to
+         `/{lang}/contact?service={id}` so the contact form can pre-select
+         the service. -->
+    <ServiceCtaSection
+        title={detailCtaTitle}
+        description={t('services.cta.description', { markdown: true })}
+        buttonLabel={detailCtaLabel}
+        buttonHref={detailCtaHref}
+        trustLabel={t('services.cta.consultation', { markdown: true })}
+    />
 </BaseLayout>

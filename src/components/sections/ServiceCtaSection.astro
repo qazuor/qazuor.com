@@ -1,0 +1,73 @@
+---
+import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
+/**
+ * ServiceCtaSection.astro
+ *
+ * Renders the "final" service detail CTA — the big, centered card with a
+ * large title, supporting paragraph, primary button, and a trust footer
+ * (e.g., "Free consultation"). The title and button label are passed in by
+ * the page so the same component can render service-specific copy (from
+ * `service.detailCta`) or a generic services CTA.
+ *
+ * Used by:
+ * - /{lang}/services/[slug] (Phase 4, service-specific final CTA)
+ *
+ * @example
+ * <ServiceCtaSection
+ *   title="Ready to scope your web app?"
+ *   description="Tell me about the project and we will get a thread started."
+ *   buttonLabel="Tell me about it"
+ *   buttonHref="/en/contact?service=web-apps"
+ *   trustLabel="Free 30-minute consultation"
+ * />
+ */
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+
+interface Props {
+    /** CTA title (HTML allowed — use `set:html` on the page side). */
+    title: string;
+    /** Supporting paragraph (HTML allowed). */
+    description: string;
+    /** Button label (HTML allowed). */
+    buttonLabel: string;
+    /** Button href. */
+    buttonHref: string;
+    /** Trust footer line (HTML allowed). */
+    trustLabel: string;
+}
+
+const { title, description, buttonLabel, buttonHref, trustLabel } = Astro.props;
+---
+
+<section class="relative section pt-20 pb-40 md:pb-48 bg-background">
+    <div class="container-custom">
+        <div class="max-w-3xl mx-auto text-center bg-foreground/5 backdrop-blur-sm rounded-2xl p-12 border border-foreground/10">
+            <h2 class="text-3xl font-bold text-foreground mb-4" set:html={title} />
+            <p class="text-foreground-secondary text-lg mb-8" set:html={description} />
+            <UnifiedButton href={buttonHref} variant="primary" size="lg" iconPosition="right">
+                <span set:html={buttonLabel} />
+                <Fragment slot="icon-right">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.478L3 21l2.478-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
+                        />
+                    </svg>
+                </Fragment>
+            </UnifiedButton>
+            <div class="flex items-center justify-center gap-2 mt-6 text-foreground-secondary text-sm">
+                <svg class="w-4 h-4 text-[rgb(var(--color-status-success))]" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+                <span set:html={trustLabel} />
+            </div>
+        </div>
+    </div>
+    <ZigzagDivider transition="cta-to-footer" />
+</section>

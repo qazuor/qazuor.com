@@ -1,0 +1,91 @@
+---
+/**
+ * ServiceAudienceSection.astro
+ *
+ * Renders one of two service-detail sections:
+ * - "Who this is for" — a 2-col grid of audience segments
+ * - "Problems solved" — a single-column list of pain points
+ *
+ * Both share the same visual rhythm (bordered cards on a flat background,
+ * bold icon + sentence) and the same data shape (a `string[]`), so a single
+ * component with a `variant` prop covers both. Used by:
+ * - /{lang}/services/[slug] (Phase 4)
+ *
+ * @example
+ * <ServiceAudienceSection
+ *   variant="who"
+ *   title="Who this is for"
+ *   subtitle="Senior-fit engagements"
+ *   entries={["Founders launching an MVP", "Teams shipping a feature"]}
+ * />
+ *
+ * @example
+ * <ServiceAudienceSection
+ *   variant="problems"
+ *   title="Problems solved"
+ *   subtitle="Specific pain points"
+ *   entries={["Stuck between slow in-house and over-priced agency"]}
+ * />
+ */
+interface Props {
+    /** Which variant to render. Drives icon + accent color + layout. */
+    variant: 'who' | 'problems';
+    /** Section title (markdown processing NOT applied — pass plain text). */
+    title: string;
+    /** Section subtitle / lead-in. */
+    subtitle: string;
+    /** Sentence-cased entries rendered as cards. */
+    entries: readonly string[];
+}
+
+const { variant, title, subtitle, entries } = Astro.props;
+
+// Icon + accent color picked from the variant. `who` uses a soft primary
+// arrow on a neutral card; `problems` uses a warning triangle on an amber
+// tinted card to signal risk / pain.
+const accent = variant === 'who' ? 'primary' : 'amber-500';
+const cardClass =
+    variant === 'who' ? 'border border-foreground/10 bg-foreground/5' : 'border border-amber-500/20 bg-amber-500/5';
+const gridClass = variant === 'who' ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'space-y-3';
+const wrapperClass = variant === 'who' ? 'max-w-5xl mx-auto' : 'max-w-4xl mx-auto';
+---
+
+<section class="relative section py-20 md:py-24 bg-background">
+    <div class="container-custom">
+        <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-3" set:html={title} />
+        <p class="text-foreground-secondary max-w-3xl mb-10">{subtitle}</p>
+        <div class:list={[wrapperClass, gridClass]}>
+            {
+                entries.map((entry) => (
+                    <div class:list={['flex items-start gap-3 p-5 rounded-xl', cardClass]}>
+                        {variant === 'who' ? (
+                            <span
+                                class:list={[
+                                    'flex-shrink-0 mt-0.5 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
+                                    `bg-${accent}/15 text-${accent}`
+                                ]}
+                                aria-hidden="true"
+                            >
+                                →
+                            </span>
+                        ) : (
+                            <svg
+                                class:list={[`w-5 h-5 text-${accent} flex-shrink-0 mt-0.5`]}
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        )}
+                        <span class="text-foreground leading-relaxed">{entry}</span>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

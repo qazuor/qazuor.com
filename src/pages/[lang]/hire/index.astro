@@ -1,16 +1,25 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import PersonJsonLd from '@/components/seo/PersonJsonLd.astro';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+import { sectionsColors } from '@/data';
+import { getHireTranslations, type HireLocale, hireProfile } from '@/data/hire';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjectSlug } from '@/utils/projects';
 
 /**
  * Hire route — `/{lang}/hire`.
  *
- * Phase 1 shell only. The recruiter-oriented landing page will be authored in
- * Phase 4 (Requirement 9.1) with structured data for role fit, experience
- * highlights, stack, and resume access.
+ * SPEC-001 Phase 4 task 4.3. Recruiter-oriented landing page built from
+ * `hireProfile` (the single source of truth) and a `Person` JSON-LD block
+ * for entity clarity. Designed for sober, scan-friendly editorial review.
  *
- * Per Requirement 2.2, the shell exists in both `es` and `en`.
+ * Per Requirement 2.2, the page exists in both `es` and `en`.
  */
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -18,24 +27,279 @@ export function getStaticPaths() {
     }));
 }
 
-const lang = getLangFromUrl(Astro.url);
+const { lang: urlLang } = Astro.params;
+const lang = (urlLang as HireLocale) ?? 'en';
 const t = getTranslations(lang);
+const hire = getHireTranslations(lang);
 
-const pageTitle = `${t('hire.placeholder.title')} | ${t('hire.title')}`;
-const pageDescription = t('hire.placeholder.subtitle');
+// Selected projects — resolve from the `projects` collection after stripping
+// the -en/-es suffix. Recruiters want technical depth, not the curated
+// marketing framing in /work, so we deliberately bypass the work collection.
+const allProjects = await getCollection('projects');
+const selectedProjects = hireProfile.selectedProjectSlugs
+    .map((slug) => {
+        const entry = allProjects.find(
+            (p: CollectionEntry<'projects'>) => p.data.lang === lang && getProjectSlug(p) === slug
+        );
+        return entry ?? null;
+    })
+    .filter((p): p is CollectionEntry<'projects'> => p !== null);
+
+const SITE_URL = 'https://qazuor.com';
+const hireUrl = `${SITE_URL}/${lang}/hire`;
+
+const personJsonLdProps = {
+    lang,
+    name: 'Leandro Asrilevich',
+    jobTitle: 'Senior full-stack engineer',
+    description: t('hire.fallbackDescription', { markdown: false }),
+    url: hireUrl,
+    sameAs: hireProfile.professionalLinks.map((l) => l.href),
+    knowsAbout: [
+        'TypeScript',
+        'React',
+        'Astro',
+        'Tailwind CSS',
+        'Node.js',
+        'PostgreSQL',
+        'Web Performance',
+        'Accessibility'
+    ],
+    breadcrumbs: [
+        { name: t('nav.home', { markdown: false }), url: '/' },
+        { name: t('hire.title', { markdown: false }), url: '/hire' }
+    ]
+};
+
+const pageTitle = `${t('hire.title')} | ${t('hire.meta.title', { markdown: false })}`;
+const pageDescription = t('hire.meta.description', { markdown: false });
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
-    <section class="container-custom py-24 md:py-32">
-        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
-        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
-            {t('hire.placeholder.title')}
-        </h1>
-        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
-            {t('hire.placeholder.subtitle')}
-        </p>
-        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
-            {t('hire.placeholder.phase')}
-        </p>
+<BaseLayout
+    title={pageTitle}
+    description={pageDescription}
+    type="profile"
+    breadcrumbName={t('hire.title', { markdown: false })}
+>
+    <PersonJsonLd slot="head" {...personJsonLdProps} />
+
+    <!-- Hero — sober, editorial framing. One headline, one availability line,
+         and the role target chips. -->
+    <section
+        class="relative section overflow-hidden pt-32 pb-24 md:pb-32"
+        style={`background-color: ${sectionsColors.about}`}
+    >
+        <AnimatedGradientBackground />
+        <div class="container-custom relative z-10">
+            <p class="text-xs font-medium uppercase tracking-widest text-primary mb-4">
+                {t('hire.eyebrow', { markdown: false })}
+            </p>
+            <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground max-w-4xl leading-tight"
+                set:html={hire.headline}
+            />
+            <p class="mt-6 text-foreground-secondary text-base md:text-lg max-w-2xl">
+                {hire.availability}
+            </p>
+            <ul class="mt-8 flex flex-wrap gap-2" aria-label={t('hire.roleTargets')}>
+                {
+                    hire.roleTargets.map((role) => (
+                        <li class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full border border-primary/30 bg-primary/5 text-primary">
+                            {role}
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </section>
+
+    <!-- Experience summary — short paragraphs, location + time zone at the end. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-4xl">
+            <SectionTitle title={hire.experienceHeading} size="lg" />
+            <div class="mt-8 space-y-5 text-foreground-secondary text-base md:text-lg leading-relaxed">
+                {
+                    hire.experienceSummary.map((paragraph) => (
+                        <p set:html={paragraph} />
+                    ))
+                }
+            </div>
+            <dl class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 rounded-xl border border-foreground/10 bg-foreground/5">
+                    <dt class="font-semibold text-foreground mb-1">{t('hire.location', { markdown: false })}</dt>
+                    <dd class="text-foreground-secondary">{hireProfile.location}</dd>
+                </div>
+                <div class="p-4 rounded-xl border border-foreground/10 bg-foreground/5">
+                    <dt class="font-semibold text-foreground mb-1">{t('hire.timeZone', { markdown: false })}</dt>
+                    <dd class="text-foreground-secondary">{hireProfile.timeZone}</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <!-- Key strengths — 2-col grid of short title + 1-2 line description. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-6xl">
+            <SectionTitle title={hire.strengthsHeading} size="lg" />
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {
+                    hire.keyStrengths.map((strength) => (
+                        <article class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5 h-full">
+                            <h3 class="text-lg font-semibold text-foreground mb-2">
+                                {strength.title}
+                            </h3>
+                            <p class="text-sm text-foreground-secondary leading-relaxed">
+                                {strength.description}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected work — text-first cards from the `projects` collection. -->
+    {
+        selectedProjects.length > 0 && (
+            <section class="relative section py-20 md:py-24 bg-background">
+                <div class="container-custom max-w-6xl">
+                    <SectionTitle title={hire.selectedWorkHeading} size="lg" />
+                    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {selectedProjects.map((project) => (
+                            <a
+                                href={`/${lang}/projects/${getProjectSlug(project)}`}
+                                class="group block p-6 rounded-2xl border border-foreground/10 bg-foreground/5 hover:border-primary/30 hover:bg-foreground/10 transition-all"
+                            >
+                                <p class="text-xs font-medium uppercase tracking-wide text-foreground-muted mb-2">
+                                    {project.data.category}
+                                </p>
+                                <h3 class="text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                                    {project.data.title}
+                                </h3>
+                                <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3">
+                                    {project.data.description}
+                                </p>
+                                <p class="mt-4 text-xs text-foreground-muted">
+                                    {project.data.technologies.slice(0, 3).join(' · ')}
+                                </p>
+                            </a>
+                        ))}
+                    </div>
+                    <p class="mt-8 text-sm text-foreground-secondary">
+                        <a
+                            href={`/${lang}/projects`}
+                            class="font-semibold text-primary hover:underline"
+                        >
+                            {t('hire.relatedHref', { markdown: false })} →
+                        </a>
+                    </p>
+                </div>
+            </section>
+        )
+    }
+
+    <!-- Resume / CV — list of download links. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-4xl">
+            <SectionTitle title={hire.resumeHeading} size="lg" />
+            <ul class="mt-8 space-y-3">
+                {
+                    hireProfile.resumeLinks.map((resume) => (
+                        <li>
+                            <a
+                                href={resume.href}
+                                class="group flex items-center justify-between gap-4 p-5 rounded-xl border border-foreground/10 bg-foreground/5 hover:border-primary/30 hover:bg-foreground/10 transition-all"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <span class="flex items-center gap-3">
+                                    <svg
+                                        class="w-5 h-5 text-primary"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                                        />
+                                    </svg>
+                                    <span class="text-foreground font-medium">{resume.label}</span>
+                                </span>
+                                <span class="text-sm font-semibold text-primary group-hover:translate-x-0.5 transition-transform">
+                                    {t('hire.downloadResume', { markdown: false })}
+                                </span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </section>
+
+    <!-- Professional links — LinkedIn, GitHub, etc. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-4xl">
+            <SectionTitle title={hire.professionalLinksHeading} size="lg" />
+            <ul class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {
+                    hireProfile.professionalLinks.map((link) => (
+                        <li>
+                            <a
+                                href={link.href}
+                                class="group flex items-center justify-between gap-3 p-4 rounded-xl border border-foreground/10 bg-foreground/5 hover:border-primary/30 hover:bg-foreground/10 transition-all"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                <span class="text-foreground font-medium">{link.label}</span>
+                                <svg
+                                    class="w-4 h-4 text-foreground-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </section>
+
+    <!-- Contact preference + CTA. -->
+    <section class="relative section py-20 md:pb-32 bg-background">
+        <div class="container-custom max-w-3xl">
+            <div class="text-center bg-foreground/5 backdrop-blur-sm rounded-2xl p-10 md:p-12 border border-foreground/10">
+                <SectionTitle title={hire.contactPreferenceHeading} size="md" />
+                <p class="mt-6 text-foreground-secondary text-base leading-relaxed">
+                    {hireProfile.contactPreference}
+                </p>
+                <div class="mt-8">
+                    <UnifiedButton href={`/${lang}/contact`} variant="primary" size="lg">
+                        {hire.contactCtaLabel}
+                    </UnifiedButton>
+                </div>
+            </div>
+        </div>
     </section>
 </BaseLayout>
+
+<style>
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>

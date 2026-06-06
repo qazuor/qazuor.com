@@ -118,7 +118,14 @@
             "next": "Next"
         },
         "related": {
-            "title": "Related Articles"
+            "title": "Related Articles",
+            "handoff": {
+                "title": "Want to take this further?",
+                "serviceLabel": "Related service",
+                "workLabel": "Related case study",
+                "contactLabel": "Working on something similar?",
+                "contactCta": "Get in touch"
+            }
         },
         "cta": {
             "title": "Want to learn more?",

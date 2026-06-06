@@ -13,6 +13,7 @@ import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackgrou
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
 import { type BlogCategoryKey, getCategoryName } from '@/data/blogCategories';
 import { sectionsColors } from '@/data/sectionBackgrounds';
+import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations, processMarkdown } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -26,6 +27,7 @@ import {
     getSeriesPosts,
     type SupportedLang
 } from '@/utils/blog';
+import { getWorkBySlugWithFallback } from '@/utils/work';
 
 export async function getStaticPaths() {
     const allBlogPosts = await getCollection('blog');
@@ -92,6 +94,48 @@ const readTimeNumber = post.data.readTime.match(/\d+/)?.[0] || '5';
 const relatedPosts = getRelatedPosts(post, postsInSameLang);
 const seriesData = getSeriesPosts(post, postsInSameLang);
 const { prev, next } = getAdjacentPosts(post, postsInSameLang);
+
+// SPEC-001 Phase 5 task 5.4 — resolve the optional contextual handoffs
+// (`relatedServiceSlug` / `relatedWorkSlug` in the frontmatter). Both
+// resolve against the active locale with en fallback so a post authored
+// only in English still surfaces a useful link in the Spanish render.
+const serviceKeyMap: Record<string, string> = {
+    'web-apps': 'webApps',
+    'landing-pages': 'landingPages',
+    'automation-integration': 'automation',
+    'social-media-design': 'socialDesign',
+    'web-optimization': 'webOptimization',
+    wordpress: 'wordpress'
+};
+
+const relatedService = post.data.relatedServiceSlug
+    ? (() => {
+          const service = services.find((s) => s.slug === post.data.relatedServiceSlug);
+          if (!service) return null;
+          const key = serviceKeyMap[service.id];
+          return {
+              slug: service.slug,
+              title: t(`services.${key}.title`, { markdown: true }),
+              description: t(`services.${key}.description`, { markdown: true })
+          };
+      })()
+    : null;
+
+// Work resolution needs the collection (we share `allPosts`/`allWork` style
+// — same getCollection pattern, no extra prop). We grab all work and let
+// `getWorkBySlugWithFallback` handle locale fallback.
+const allWork = await getCollection('work');
+const relatedWorkEntry = post.data.relatedWorkSlug
+    ? getWorkBySlugWithFallback(allWork, post.data.relatedWorkSlug, lang)
+    : null;
+const relatedWork = relatedWorkEntry
+    ? {
+          slug: post.data.relatedWorkSlug ?? '',
+          title: relatedWorkEntry.entry.data.title,
+          summary: relatedWorkEntry.entry.data.summary,
+          isFallback: relatedWorkEntry.isFallback
+      }
+    : null;
 
 // Canonical URL for sharing
 const canonicalUrl = Astro.url.href;
@@ -322,6 +366,81 @@ const imageUrl = post.data.image ? `${SITE_URL}${post.data.image.src}` : undefin
                 <div class="content-prose blog-post-content">
                     <Content />
                 </div>
+
+                <!-- SPEC-001 Phase 5 task 5.4 — contextual handoff from the post
+                     to a related service and/or work case study, plus a soft
+                     contact CTA. The block is editorial: subtle, no hard
+                     sell. Per the spec, the contact CTA is always included —
+                     even when the post has no related service/work, the
+                     block still surfaces a quiet path to /contact. -->
+                <aside
+                    class="mt-12 rounded-2xl border border-foreground/10 bg-surface/30 backdrop-blur-sm p-6 md:p-8"
+                    aria-label={t('blog.related.handoff.title')}
+                >
+                    {(relatedService || relatedWork) && (
+                        <>
+                            <h2 class="text-lg font-semibold text-foreground mb-4">
+                                {t('blog.related.handoff.title')}
+                            </h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {relatedService && (
+                                    <a
+                                        href={`/${lang}/services/${relatedService.slug}`}
+                                        class="group block p-5 rounded-xl border border-foreground/10 bg-background/40 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
+                                    >
+                                        <p class="text-xs uppercase tracking-widest text-primary font-medium mb-2">
+                                            {t('blog.related.handoff.serviceLabel')}
+                                        </p>
+                                        <p
+                                            class="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2"
+                                            set:html={relatedService.title}
+                                        />
+                                        <p
+                                            class="text-sm text-foreground-secondary leading-relaxed line-clamp-2"
+                                            set:html={relatedService.description}
+                                        />
+                                    </a>
+                                )}
+
+                                {relatedWork && (
+                                    <a
+                                        href={`/${lang}/work/${relatedWork.slug}`}
+                                        class="group block p-5 rounded-xl border border-foreground/10 bg-background/40 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
+                                    >
+                                        <p class="text-xs uppercase tracking-widest text-primary font-medium mb-2">
+                                            {t('blog.related.handoff.workLabel')}
+                                        </p>
+                                        <p class="text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                                            {relatedWork.title}
+                                        </p>
+                                        <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-2">
+                                            {relatedWork.summary}
+                                        </p>
+                                    </a>
+                                )}
+                            </div>
+                        </>
+                    )}
+
+                    <div
+                        class:list={[
+                            'flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3',
+                            (relatedService || relatedWork) && 'mt-6 pt-6 border-t border-foreground/10'
+                        ]}
+                    >
+                        <p class="text-sm text-foreground-secondary">
+                            {t('blog.related.handoff.contactLabel')}
+                        </p>
+                        <UnifiedButton
+                            href={`/${lang}/contact`}
+                            variant="secondary"
+                            size="sm"
+                        >
+                            {t('blog.related.handoff.contactCta')}
+                        </UnifiedButton>
+                    </div>
+                </aside>
 
                 <!-- Callout Enhancement Script -->
                 <CalloutEnhancer />

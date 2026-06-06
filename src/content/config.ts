@@ -108,6 +108,13 @@ const blogCollection = defineCollection({
                     part: z.number() // Part number: 1, 2, 3...
                 })
                 .optional(),
+            // SPEC-001 Phase 5 task 5.4 — contextual handoffs from a blog post
+            // to the commercial surface it relates to. Both fields are
+            // optional; backfill across the existing corpus is a separate
+            // content pass and intentionally out of scope here. The schema
+            // just needs to support them so individual posts can opt in.
+            relatedServiceSlug: z.string().optional(), // matches a slug in src/data/services.ts
+            relatedWorkSlug: z.string().optional(), // matches a slug in src/content/work/
             // Social network metadata for sharing
             social: socialSchema.optional()
         })

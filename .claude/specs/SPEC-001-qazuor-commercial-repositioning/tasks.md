@@ -50,13 +50,13 @@
 
 ## Phase 5: SEO, AEO, and Machine-Readable Assets
 
-- [ ] 5.1 Rewrite metadata for homepage, services hub, work hub, hire, about,
+- [x] 5.1 Rewrite metadata for homepage, services hub, work hub, hire, about,
       and contact under the Qazuor commercial framing.
-- [ ] 5.2 Add or update structured data for Organization/ProfessionalService,
+- [x] 5.2 Add or update structured data for Organization/ProfessionalService,
       Service, Person, FAQPage, Article, and breadcrumbs where required.
-- [ ] 5.3 Update `llms.txt`, sitemap generation, and any central route-priority
+- [x] 5.3 Update `llms.txt`, sitemap generation, and any central route-priority
       logic to include the new architecture.
-- [ ] 5.4 Add contextual internal linking from blog posts to related services,
+- [x] 5.4 Add contextual internal linking from blog posts to related services,
       work case studies, and contact where appropriate.
 
 ## Phase 6: Verification

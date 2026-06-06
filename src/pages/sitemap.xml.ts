@@ -36,11 +36,11 @@ function getUrlMeta(path: string): { priority: number; changefreq: SitemapUrl['c
         return { priority: 1.0, changefreq: 'weekly' };
     }
     // Work case study detail (commercial proof pages)
-    if (path.match(/^\/(en|es)\/work\/[^/]+\/?$/)) {
+    if (path.match(/^\/((en|es)\/)?work\/[^/]+\/?$/)) {
         return { priority: 0.9, changefreq: 'monthly' };
     }
     // Work hub - high priority (commercial proof)
-    if (path.match(/^\/(en|es)\/work\/?$/)) {
+    if (path.match(/^\/((en|es)\/)?work\/?$/)) {
         return { priority: 0.9, changefreq: 'monthly' };
     }
     // Services pages - high priority
@@ -48,7 +48,7 @@ function getUrlMeta(path: string): { priority: number; changefreq: SitemapUrl['c
         return { priority: 0.9, changefreq: 'monthly' };
     }
     // Hire landing page - recruiter-facing (high priority)
-    if (path.match(/^\/(en|es)\/hire\/?$/)) {
+    if (path.match(/^\/((en|es)\/)?hire\/?$/)) {
         return { priority: 0.8, changefreq: 'monthly' };
     }
     // Projects pages - high priority
@@ -56,11 +56,11 @@ function getUrlMeta(path: string): { priority: number; changefreq: SitemapUrl['c
         return { priority: 0.8, changefreq: 'monthly' };
     }
     // About page - brand context
-    if (path.match(/^\/(en|es)\/about\/?$/)) {
+    if (path.match(/^\/((en|es)\/)?about\/?$/)) {
         return { priority: 0.7, changefreq: 'monthly' };
     }
     // Contact page - direct conversion path
-    if (path.match(/^\/(en|es)\/contact\/?$/)) {
+    if (path.match(/^\/((en|es)\/)?contact\/?$/)) {
         return { priority: 0.7, changefreq: 'monthly' };
     }
     // Blog pages - medium-high priority (fresh content)

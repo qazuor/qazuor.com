@@ -38,14 +38,14 @@
 
 ## Phase 4: Service and Recruiter Surfaces
 
-- [ ] 4.1 Update the services hub so it helps visitors choose the right service,
+- [x] 4.1 Update the services hub so it helps visitors choose the right service,
       not just browse cards.
-- [ ] 4.2 Enhance each service detail page with `who it is for`,
+- [x] 4.2 Enhance each service detail page with `who it is for`,
       `problems solved`, related work, and stronger final CTAs.
-- [ ] 4.3 Build `hire` as a standalone recruiter landing page with summary, fit,
+- [x] 4.3 Build `hire` as a standalone recruiter landing page with summary, fit,
       experience, strengths, selected work, resume, and contact.
-- [ ] 4.4 Build `about` as the new home for extended brand/operator context.
-- [ ] 4.5 Build `contact` as a dedicated route with inquiry framing and response
+- [x] 4.4 Build `about` as the new home for extended brand/operator context.
+- [x] 4.5 Build `contact` as a dedicated route with inquiry framing and response
       expectations.
 
 ## Phase 5: SEO, AEO, and Machine-Readable Assets

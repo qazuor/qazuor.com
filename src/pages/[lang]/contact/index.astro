@@ -1,16 +1,25 @@
 ---
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { contact as contactData } from '@/data';
+import { hireProfile } from '@/data/hire';
+import { sectionsColors } from '@/data/sectionBackgrounds';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 /**
  * Contact route — `/{lang}/contact`.
  *
- * Phase 1 shell only. The dedicated contact page with project inquiry path,
- * alternative channels, and response expectations will be authored in Phase 4
- * (Requirement 10.2).
+ * SPEC-001 Phase 4 task 4.5. Replaces the Phase 1 placeholder with the
+ * dedicated contact surface (Requirement 10.2): clear intro, project
+ * inquiry path, structured form, alternative channels, and response
+ * expectations. No JSON-LD on this page (per the task contract).
  *
- * Per Requirement 2.2, the shell exists in both `es` and `en`.
+ * URL prefill: when a visitor lands on /contact with `?subject=...` (or
+ * `source` / `service`), a small client-side script seeds the form's
+ * subject field. Static SSG cannot read runtime query params at build
+ * time, so this runs on mount.
  */
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -18,24 +27,370 @@ export function getStaticPaths() {
     }));
 }
 
-const lang = getLangFromUrl(Astro.url);
+const { lang: urlLang } = Astro.params;
+const lang = (urlLang as 'en' | 'es') ?? 'en';
 const t = getTranslations(lang);
 
-const pageTitle = `${t('contactPage.placeholder.title')} | ${t('contactPage.title')}`;
-const pageDescription = t('contactPage.placeholder.subtitle');
+// Inquiry types — read from i18n (the array lives at
+// `contactPage.inquiryTypes.items`). The id of each entry is used to
+// match against the form's optional `service` param.
+const inquiryTypes = [0, 1, 2, 3].map((i) => ({
+    id: t(`contactPage.inquiryTypes.items.${i}.id`),
+    title: t(`contactPage.inquiryTypes.items.${i}.title`),
+    description: t(`contactPage.inquiryTypes.items.${i}.description`)
+}));
+
+const pageTitle = `${t('contactPage.title')} | ${t('contactPage.meta.title', { markdown: false })}`;
+const pageDescription = t('contactPage.meta.description', { markdown: false });
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
-    <section class="container-custom py-24 md:py-32">
-        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
-        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
-            {t('contactPage.placeholder.title')}
-        </h1>
-        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
-            {t('contactPage.placeholder.subtitle')}
-        </p>
-        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
-            {t('contactPage.placeholder.phase')}
-        </p>
+    <!-- Hero — clear intro, no JSON-LD on this page. -->
+    <section
+        class="relative section overflow-hidden pt-32 pb-20 md:pb-24"
+        style={`background-color: ${sectionsColors.contact}`}
+    >
+        <AnimatedGradientBackground />
+        <div class="container-custom max-w-4xl relative z-10">
+            <p class="text-xs font-medium uppercase tracking-widest text-primary mb-4">
+                {t('contactPage.eyebrow', { markdown: false })}
+            </p>
+            <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight"
+                set:html={t('contactPage.headline', { markdown: true })}
+            />
+            <p class="mt-6 text-foreground-secondary text-base md:text-lg max-w-3xl leading-relaxed">
+                {t('contactPage.intro', { markdown: true })}
+            </p>
+        </div>
+    </section>
+
+    <!-- Inquiry types — 4 framing cards. Visitors self-identify, the form
+         auto-fills based on the link they came from (handled by the
+         prefill script below). -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-6xl">
+            <SectionTitle
+                title={t('contactPage.inquiryTypes.title', { markdown: true })}
+                subtitle={t('contactPage.inquiryTypes.intro', { markdown: true })}
+                size="lg"
+            />
+            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {
+                    inquiryTypes.map((inquiry) => (
+                        <article
+                            class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5 h-full"
+                            data-inquiry-id={inquiry.id}
+                        >
+                            <h3 class="text-base font-semibold text-foreground mb-2">
+                                {inquiry.title}
+                            </h3>
+                            <p class="text-sm text-foreground-secondary leading-relaxed">
+                                {inquiry.description}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Form + sidebar. Two columns on desktop. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Form (2/3 width on desktop) -->
+                <div class="lg:col-span-2">
+                    <SectionTitle
+                        title={t('contactPage.form.title', { markdown: true })}
+                        subtitle={t('contactPage.form.subtitle', { markdown: true })}
+                        size="md"
+                    />
+                    <form
+                        id="contact-form"
+                        class="mt-8 space-y-4"
+                        novalidate
+                        aria-label={t('contactPage.form.title', { markdown: false })}
+                    >
+                        <!-- Honeypot field (hidden from users, lures bots) -->
+                        <div class="absolute opacity-0 pointer-events-none" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+                        </div>
+                        <!-- Hidden fields populated by the prefill script -->
+                        <input id="source" name="source" type="hidden" />
+                        <input id="service" name="service" type="hidden" />
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-foreground mb-1.5">
+                                    Name <span class="text-red-500" aria-hidden="true">*</span>
+                                </label>
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    required
+                                    autocomplete="name"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-foreground/15 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                />
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-foreground mb-1.5">
+                                    Email <span class="text-red-500" aria-hidden="true">*</span>
+                                </label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    required
+                                    autocomplete="email"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-foreground/15 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="company" class="block text-sm font-medium text-foreground mb-1.5">
+                                Company <span class="text-foreground-muted text-xs">(optional)</span>
+                            </label>
+                            <input
+                                id="company"
+                                name="company"
+                                type="text"
+                                autocomplete="organization"
+                                class="w-full px-4 py-2.5 rounded-lg border border-foreground/15 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-foreground mb-1.5">
+                                Subject <span class="text-red-500" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                id="subject"
+                                name="subject"
+                                type="text"
+                                required
+                                class="w-full px-4 py-2.5 rounded-lg border border-foreground/15 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-foreground mb-1.5">
+                                Message <span class="text-red-500" aria-hidden="true">*</span>
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="6"
+                                required
+                                minlength="10"
+                                class="w-full px-4 py-2.5 rounded-lg border border-foreground/15 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-y"
+                            ></textarea>
+                        </div>
+
+                        <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                            <button
+                                type="submit"
+                                class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                                data-default-text="Send message"
+                            >
+                                <span data-button-text>Send message</span>
+                            </button>
+                            <p class="text-xs text-foreground-muted">
+                                {t('contactPage.form.subtitle', { markdown: false })}
+                            </p>
+                        </div>
+
+                        <div id="contact-form-status" class="hidden mt-4" role="status" aria-live="polite"></div>
+                    </form>
+                </div>
+
+                <!-- Sidebar: response expectations + direct contact (1/3 width) -->
+                <aside class="space-y-6">
+                    <div class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5">
+                        <h2 class="text-lg font-semibold text-foreground mb-3">
+                            {t('contactPage.response.title', { markdown: true })}
+                        </h2>
+                        <div class="space-y-3 text-sm text-foreground-secondary leading-relaxed">
+                            <p>{t('contactPage.response.line1', { markdown: true })}</p>
+                            <p set:html={t('contactPage.response.line2', { markdown: true })} />
+                            <p>{t('contactPage.response.line3', { markdown: true })}</p>
+                        </div>
+                        <p class="mt-4 pt-4 border-t border-foreground/10 text-xs text-foreground-muted">
+                            {hireProfile.contactPreference}
+                        </p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5">
+                        <h2 class="text-lg font-semibold text-foreground mb-4">
+                            {t('contactPage.direct.title', { markdown: true })}
+                        </h2>
+                        <dl class="space-y-3 text-sm">
+                            <div>
+                                <dt class="text-foreground-muted text-xs uppercase tracking-wide">
+                                    {t('contactPage.direct.email', { markdown: false })}
+                                </dt>
+                                <dd>
+                                    <a
+                                        href={contactData.social.mail}
+                                        class="text-foreground hover:text-primary transition-colors break-all"
+                                    >
+                                        {contactData.email}
+                                    </a>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-foreground-muted text-xs uppercase tracking-wide">
+                                    {t('contactPage.direct.phone', { markdown: false })}
+                                </dt>
+                                <dd>
+                                    <a
+                                        href={`tel:${contactData.phone.replace(/\s/g, '')}`}
+                                        class="text-foreground hover:text-primary transition-colors"
+                                    >
+                                        {contactData.phone}
+                                    </a>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-foreground-muted text-xs uppercase tracking-wide">
+                                    {t('contactPage.direct.location', { markdown: false })}
+                                </dt>
+                                <dd class="text-foreground-secondary">{contactData.location}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-foreground-muted text-xs uppercase tracking-wide">
+                                    {t('contactPage.direct.timeZone', { markdown: false })}
+                                </dt>
+                                <dd class="text-foreground-secondary">{hireProfile.timeZone}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social channels. -->
+    <section class="relative section py-20 md:pb-32 bg-background">
+        <div class="container-custom max-w-4xl">
+            <SectionTitle
+                title={t('contactPage.social.title', { markdown: true })}
+                subtitle={t('contactPage.social.intro', { markdown: true })}
+                size="md"
+            />
+            <ul class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {
+                    [
+                        { label: 'GitHub', href: contactData.social.github },
+                        { label: 'LinkedIn', href: contactData.social.linkedin },
+                        { label: 'X', href: contactData.social.x },
+                        { label: 'WhatsApp', href: contactData.social.whatsapp },
+                        { label: 'Upwork', href: contactData.social.upwork },
+                        { label: 'Fiverr', href: contactData.social.fiverr },
+                        { label: 'Buy me a coffee', href: contactData.social.buymeacoffee }
+                    ].map((s) => (
+                        <li>
+                            <a
+                                href={s.href}
+                                target="_blank"
+                                rel="noopener"
+                                class="flex items-center justify-center gap-2 p-4 rounded-xl border border-foreground/10 bg-foreground/5 hover:border-primary/30 hover:bg-foreground/10 transition-all text-sm font-medium text-foreground"
+                            >
+                                {s.label}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
     </section>
 </BaseLayout>
+
+<script>
+    // Client-side: URL prefill + form submission to /api/contact.
+    // Runs after DOMContentLoaded so the form elements exist.
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('contact-form') as HTMLFormElement | null;
+        if (!form) return;
+
+        // Prefill from URL search params
+        const params = new URLSearchParams(window.location.search);
+        const subject = params.get('subject');
+        const source = params.get('source');
+        const service = params.get('service');
+
+        const subjectInput = form.querySelector<HTMLInputElement>('#subject');
+        if (subjectInput) {
+            let value = subject ?? '';
+            if (service && !value) value = `Service inquiry: ${service}`;
+            if (source) value = value ? `${value} (via ${source})` : `Inquiry via ${source}`;
+            if (value) subjectInput.value = value;
+        }
+
+        const sourceInput = form.querySelector<HTMLInputElement>('#source');
+        if (sourceInput && source) sourceInput.value = source;
+
+        const serviceInput = form.querySelector<HTMLInputElement>('#service');
+        if (serviceInput && service) serviceInput.value = service;
+
+        // Submission handler
+        const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        const buttonText = form.querySelector<HTMLElement>('[data-button-text]');
+        const statusBox = document.getElementById('contact-form-status');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!button || !buttonText || !statusBox) return;
+
+            const formData = new FormData(form);
+            const payload = {
+                name: String(formData.get('name') ?? '').trim(),
+                email: String(formData.get('email') ?? '').trim(),
+                company: String(formData.get('company') ?? '').trim() || undefined,
+                subject: String(formData.get('subject') ?? '').trim(),
+                interests: [
+                    ...(service ? [`service:${service}`] : []),
+                    ...(source ? [`source:${source}`] : [])
+                ],
+                message: String(formData.get('message') ?? '').trim(),
+                website: formData.get('website') // honeypot
+            };
+
+            button.disabled = true;
+            buttonText.textContent = 'Sending...';
+            statusBox.className = 'hidden mt-4';
+            statusBox.textContent = '';
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Failed to send message');
+                }
+
+                statusBox.className =
+                    'mt-4 p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-sm';
+                statusBox.textContent = 'Message sent. Response within 48 hours, Monday to Friday (GMT-3).';
+                form.reset();
+            } catch (error) {
+                statusBox.className =
+                    'mt-4 p-4 rounded-lg border border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400 text-sm';
+                statusBox.textContent =
+                    error instanceof Error
+                        ? error.message
+                        : 'Something went wrong. Please try again or email hello@qazuor.com.';
+            } finally {
+                button.disabled = false;
+                buttonText.textContent = 'Send message';
+            }
+        });
+    });
+</script>

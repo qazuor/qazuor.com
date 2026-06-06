@@ -61,11 +61,11 @@
 
 ## Phase 6: Verification
 
-- [ ] 6.1 Verify all new routes exist in both `es` and `en`.
-- [ ] 6.2 Verify `goodies` is absent from primary nav and reachable from footer.
-- [ ] 6.3 Verify homepage CTAs prioritize services/work/contact over
+- [x] 6.1 Verify all new routes exist in both `es` and `en`.
+- [x] 6.2 Verify `goodies` is absent from primary nav and reachable from footer.
+- [x] 6.3 Verify homepage CTAs prioritize services/work/contact over
       projects/hire.
-- [ ] 6.4 Verify existing blog, project, and goodies URLs remain accessible
+- [x] 6.4 Verify existing blog, project, and goodies URLs remain accessible
       without regressions.
-- [ ] 6.5 Verify titles, descriptions, canonical tags, and schema outputs on all
+- [x] 6.5 Verify titles, descriptions, canonical tags, and schema outputs on all
       new or rewritten commercial pages.

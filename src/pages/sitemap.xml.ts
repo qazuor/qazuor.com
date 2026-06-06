@@ -6,6 +6,7 @@ import { services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getAllUniqueSlugs } from '@/utils/blog';
 import { getProjectSlug } from '@/utils/projects';
+import { getAllWorkSlugs } from '@/utils/work';
 
 const SITE_URL = 'https://qazuor.com';
 const LANGS = Object.keys(languages) as Array<'en' | 'es'>;
@@ -23,19 +24,44 @@ interface SitemapUrl {
 
 /**
  * Determines priority and changefreq based on URL path
+ *
+ * The order of these branches matters: more specific paths are checked
+ * first. `/work/...` is checked before `/services/...` because both
+ * include a "selected work" hub and per-item pages, but the work hub
+ * (0.9) outranks service detail pages (also 0.9 via the services branch).
  */
 function getUrlMeta(path: string): { priority: number; changefreq: SitemapUrl['changefreq'] } {
     // Homepage - highest priority
     if (path.match(/^\/(en|es)\/?$/)) {
         return { priority: 1.0, changefreq: 'weekly' };
     }
+    // Work case study detail (commercial proof pages)
+    if (path.match(/^\/(en|es)\/work\/[^/]+\/?$/)) {
+        return { priority: 0.9, changefreq: 'monthly' };
+    }
+    // Work hub - high priority (commercial proof)
+    if (path.match(/^\/(en|es)\/work\/?$/)) {
+        return { priority: 0.9, changefreq: 'monthly' };
+    }
     // Services pages - high priority
     if (path.includes('/services')) {
         return { priority: 0.9, changefreq: 'monthly' };
     }
+    // Hire landing page - recruiter-facing (high priority)
+    if (path.match(/^\/(en|es)\/hire\/?$/)) {
+        return { priority: 0.8, changefreq: 'monthly' };
+    }
     // Projects pages - high priority
     if (path.includes('/projects')) {
         return { priority: 0.8, changefreq: 'monthly' };
+    }
+    // About page - brand context
+    if (path.match(/^\/(en|es)\/about\/?$/)) {
+        return { priority: 0.7, changefreq: 'monthly' };
+    }
+    // Contact page - direct conversion path
+    if (path.match(/^\/(en|es)\/contact\/?$/)) {
+        return { priority: 0.7, changefreq: 'monthly' };
     }
     // Blog pages - medium-high priority (fresh content)
     if (path.includes('/blog')) {
@@ -87,6 +113,46 @@ export const GET: APIRoute = async () => {
             lastmod: now,
             ...getUrlMeta('/services/'),
             alternates: createAlternates('/services/')
+        });
+    }
+
+    // Work index (SPEC-001 Phase 3)
+    for (const lang of LANGS) {
+        urls.push({
+            loc: `${SITE_URL}/${lang}/work/`,
+            lastmod: now,
+            ...getUrlMeta('/work/'),
+            alternates: createAlternates('/work/')
+        });
+    }
+
+    // Hire landing page (recruiter surface)
+    for (const lang of LANGS) {
+        urls.push({
+            loc: `${SITE_URL}/${lang}/hire/`,
+            lastmod: now,
+            ...getUrlMeta('/hire/'),
+            alternates: createAlternates('/hire/')
+        });
+    }
+
+    // About page (brand context)
+    for (const lang of LANGS) {
+        urls.push({
+            loc: `${SITE_URL}/${lang}/about/`,
+            lastmod: now,
+            ...getUrlMeta('/about/'),
+            alternates: createAlternates('/about/')
+        });
+    }
+
+    // Contact page (direct conversion path)
+    for (const lang of LANGS) {
+        urls.push({
+            loc: `${SITE_URL}/${lang}/contact/`,
+            lastmod: now,
+            ...getUrlMeta('/contact/'),
+            alternates: createAlternates('/contact/')
         });
     }
 
@@ -175,6 +241,23 @@ export const GET: APIRoute = async () => {
     // Services (dynamic from services.ts)
     for (const service of services) {
         const path = `/services/${service.slug}/`;
+        for (const lang of LANGS) {
+            urls.push({
+                loc: `${SITE_URL}/${lang}${path}`,
+                lastmod: now,
+                ...getUrlMeta(path),
+                alternates: createAlternates(path)
+            });
+        }
+    }
+
+    // Work case studies (dynamic from work content collection — SPEC-001
+    // Phase 3 commercial proof pages). `getAllWorkSlugs` dedupes across
+    // languages; we emit one URL per locale per case study.
+    const workEntries = await getCollection('work');
+    const workSlugs = getAllWorkSlugs(workEntries);
+    for (const slug of workSlugs) {
+        const path = `/work/${slug}/`;
         for (const lang of LANGS) {
             urls.push({
                 loc: `${SITE_URL}/${lang}${path}`,

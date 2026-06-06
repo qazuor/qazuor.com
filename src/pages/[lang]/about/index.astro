@@ -1,16 +1,23 @@
 ---
+import PersonJsonLd from '@/components/seo/PersonJsonLd.astro';
+import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import UnifiedButton from '@/components/ui/UnifiedButton.astro';
+import { sectionsColors } from '@/data';
+import { timelineData } from '@/data/timeline';
 import { languages } from '@/i18n/ui';
-import { getLangFromUrl, getTranslations } from '@/i18n/utils';
+import { getTranslations } from '@/i18n/utils';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 /**
  * About route — `/{lang}/about`.
  *
- * Phase 1 shell only. The longer-form brand and operator context that was
- * removed from the homepage (Requirement 4.2) will live here, authored in
- * Phase 4 (Requirement 10.1).
+ * SPEC-001 Phase 4 task 4.4. Replaces the Phase 1 placeholder with the
+ * longer-form brand and operator context. Bilingual content reads from
+ * `aboutPage.*` i18n keys; timeline reads from `src/data/timeline.ts`
+ * which is itself bilingual (each item has `title.en` / `title.es`).
  *
- * Per Requirement 2.2, the shell exists in both `es` and `en`.
+ * Includes a `Person` JSON-LD block for entity clarity.
  */
 export function getStaticPaths() {
     return Object.keys(languages).map((lang) => ({
@@ -18,24 +25,200 @@ export function getStaticPaths() {
     }));
 }
 
-const lang = getLangFromUrl(Astro.url);
+const { lang: urlLang } = Astro.params;
+const lang = (urlLang as 'en' | 'es') ?? 'en';
 const t = getTranslations(lang);
 
-const pageTitle = `${t('aboutPage.placeholder.title')} | ${t('aboutPage.title')}`;
-const pageDescription = t('aboutPage.placeholder.subtitle');
+// Pull philosophy principles (the array lives under the i18n key) and
+// resolve each principle's title + description once so the template stays
+// declarative.
+const principles = [0, 1, 2, 3, 4].map((i) => ({
+    title: t(`aboutPage.philosophy.principles.${i}.title`),
+    description: t(`aboutPage.philosophy.principles.${i}.description`)
+}));
+
+// Timeline — already bilingual. Sort ascending by year (data is
+// chronological but we re-sort defensively).
+const timeline = [...timelineData].sort((a, b) => Number(a.year) - Number(b.year));
+
+const SITE_URL = 'https://qazuor.com';
+const aboutUrl = `${SITE_URL}/${lang}/about`;
+
+const personJsonLdProps = {
+    lang,
+    name: 'Leandro Asrilevich',
+    jobTitle: 'Senior full-stack engineer · Founder, Qazuor',
+    description: t('aboutPage.meta.description', { markdown: false }),
+    url: aboutUrl,
+    sameAs: ['https://linkedin.com/in/qazuor', 'https://github.com/qazuor', 'https://read.cv/qazuor'],
+    knowsAbout: [
+        'TypeScript',
+        'React',
+        'Astro',
+        'Tailwind CSS',
+        'Frontend Architecture',
+        'Web Performance',
+        'Accessibility'
+    ],
+    breadcrumbs: [
+        { name: t('nav.home', { markdown: false }), url: '/' },
+        { name: t('aboutPage.title', { markdown: false }), url: '/about' }
+    ]
+};
+
+const pageTitle = `${t('aboutPage.title')} | ${t('aboutPage.meta.title', { markdown: false })}`;
+const pageDescription = t('aboutPage.meta.description', { markdown: false });
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
-    <section class="container-custom py-24 md:py-32">
-        <p class="text-xs font-medium uppercase tracking-widest text-primary">SPEC-001 · Phase 1 shell</p>
-        <h1 class="mt-4 text-4xl font-bold text-foreground md:text-5xl">
-            {t('aboutPage.placeholder.title')}
-        </h1>
-        <p class="mt-4 max-w-2xl text-base text-foreground-secondary md:text-lg">
-            {t('aboutPage.placeholder.subtitle')}
-        </p>
-        <p class="mt-8 inline-flex items-center rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-foreground-muted">
-            {t('aboutPage.placeholder.phase')}
-        </p>
+<BaseLayout
+    title={pageTitle}
+    description={pageDescription}
+    type="profile"
+    breadcrumbName={t('aboutPage.title', { markdown: false })}
+>
+    <PersonJsonLd slot="head" {...personJsonLdProps} />
+
+    <!-- Hero — the brand and the operator, in one frame. -->
+    <section
+        class="relative section overflow-hidden pt-32 pb-20 md:pb-24"
+        style={`background-color: ${sectionsColors.about}`}
+    >
+        <AnimatedGradientBackground />
+        <div class="container-custom max-w-4xl relative z-10">
+            <p class="text-xs font-medium uppercase tracking-widest text-primary mb-4">
+                {t('aboutPage.eyebrow', { markdown: false })}
+            </p>
+            <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight"
+                set:html={t('aboutPage.hero.lead', { markdown: true })}
+            />
+            <p
+                class="mt-6 text-foreground-secondary text-base md:text-lg leading-relaxed"
+                set:html={t('aboutPage.hero.supporting', { markdown: true })}
+            />
+        </div>
+    </section>
+
+    <!-- Operator — who is behind Qazuor, in 2-3 short paragraphs. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-4xl">
+            <SectionTitle title={t('aboutPage.operator.title', { markdown: true })} size="lg" />
+            <div class="mt-8 space-y-5 text-foreground-secondary text-base md:text-lg leading-relaxed">
+                <p set:html={t('aboutPage.operator.intro', { markdown: true })} />
+                <p set:html={t('aboutPage.operator.body', { markdown: true })} />
+                <p set:html={t('aboutPage.operator.closing', { markdown: true })} />
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy — 5 principles that drive how the work is delivered. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-5xl">
+            <SectionTitle
+                title={t('aboutPage.philosophy.title', { markdown: true })}
+                subtitle={t('aboutPage.philosophy.intro', { markdown: true })}
+                size="lg"
+            />
+            <ol class="mt-10 space-y-4 list-none">
+                {
+                    principles.map((p, i) => (
+                        <li class="flex items-start gap-4 p-6 rounded-2xl border border-foreground/10 bg-foreground/5">
+                            <span
+                                class="flex-shrink-0 w-9 h-9 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold"
+                                aria-hidden="true"
+                            >
+                                {i + 1}
+                            </span>
+                            <div>
+                                <h3 class="text-lg font-semibold text-foreground mb-1">{p.title}</h3>
+                                <p class="text-foreground-secondary leading-relaxed">{p.description}</p>
+                            </div>
+                        </li>
+                    ))
+                }
+            </ol>
+        </div>
+    </section>
+
+    <!-- Timeline — short, milestone-driven, not a full autobiography. -->
+    <section class="relative section py-20 md:py-24 bg-background">
+        <div class="container-custom max-w-4xl">
+            <SectionTitle
+                title={t('aboutPage.timeline.title', { markdown: true })}
+                subtitle={t('aboutPage.timeline.intro', { markdown: true })}
+                size="lg"
+            />
+            <ol class="mt-10 space-y-6 list-none">
+                {
+                    timeline.map((item) => (
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-16 text-right">
+                                <span class="text-sm font-semibold text-primary">{item.year}</span>
+                            </div>
+                            <div class="flex-1 pl-4 border-l-2 border-foreground/10">
+                                <h3 class="text-lg font-semibold text-foreground mb-1">
+                                    {item.title[lang]}
+                                </h3>
+                                <p class="text-foreground-secondary leading-relaxed text-sm">
+                                    {item.description[lang]}
+                                </p>
+                            </div>
+                        </li>
+                    ))
+                }
+            </ol>
+        </div>
+    </section>
+
+    <!-- Next — surface the other routes by visitor intent. -->
+    <section class="relative section py-20 md:pb-32 bg-background">
+        <div class="container-custom max-w-5xl">
+            <SectionTitle
+                title={t('aboutPage.next.title', { markdown: true })}
+                subtitle={t('aboutPage.next.intro', { markdown: true })}
+                size="lg"
+            />
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+                <article class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5 flex flex-col">
+                    <p class="text-sm text-foreground-secondary flex-1">
+                        {t('aboutPage.next.commercial', { markdown: true })}
+                    </p>
+                    <UnifiedButton
+                        href={`/${lang}/services`}
+                        variant="primary"
+                        size="md"
+                        class="mt-6"
+                    >
+                        {t('aboutPage.next.servicesCta', { markdown: false })}
+                    </UnifiedButton>
+                </article>
+                <article class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5 flex flex-col">
+                    <p class="text-sm text-foreground-secondary flex-1">
+                        {t('aboutPage.next.recruiter', { markdown: true })}
+                    </p>
+                    <UnifiedButton
+                        href={`/${lang}/hire`}
+                        variant="primary"
+                        size="md"
+                        class="mt-6"
+                    >
+                        {t('aboutPage.next.hireCta', { markdown: false })}
+                    </UnifiedButton>
+                </article>
+                <article class="p-6 rounded-2xl border border-foreground/10 bg-foreground/5 flex flex-col">
+                    <p class="text-sm text-foreground-secondary flex-1">
+                        {t('aboutPage.next.learn', { markdown: true })}
+                    </p>
+                    <UnifiedButton
+                        href={`/${lang}/blog`}
+                        variant="secondary"
+                        size="md"
+                        class="mt-6"
+                    >
+                        {t('aboutPage.next.blogCta', { markdown: false })}
+                    </UnifiedButton>
+                </article>
+            </div>
+        </div>
     </section>
 </BaseLayout>

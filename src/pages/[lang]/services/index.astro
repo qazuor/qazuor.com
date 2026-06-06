@@ -2,11 +2,12 @@
 import ComparisonSection from '@/components/sections/ComparisonSection.astro';
 import FreelancerVsAgencySection from '@/components/sections/FreelancerVsAgencySection.astro';
 import ProcessSection from '@/components/sections/ProcessSection.astro';
+import ProfessionalServiceJsonLd from '@/components/seo/ProfessionalServiceJsonLd.astro';
 import AnimatedGradientBackground from '@/components/ui/AnimatedGradientBackground.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import ServiceIcon from '@/components/ui/ServiceIcon.astro';
 import UnifiedButton from '@/components/ui/UnifiedButton.astro';
-import { sectionsColors } from '@/data';
+import { contact, sectionsColors } from '@/data';
 import { type Service, type ServiceGrouping, serviceGroupings, services } from '@/data/services';
 import { languages } from '@/i18n/ui';
 import { getLangFromUrl, getTranslations } from '@/i18n/utils';
@@ -217,6 +218,17 @@ const freelancerVsAgencyTranslations = {
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+    <!-- SPEC-001 Phase 5: model the Qazuor practice as a `ProfessionalService`
+         on the services hub so answer engines can ground the practice as the
+         service provider across all child service pages. -->
+    <ProfessionalServiceJsonLd
+        slot="head"
+        name="Qazuor — Senior Practice"
+        description={pageDescription}
+        url={`https://qazuor.com/${lang}/services`}
+        serviceType={services.map((s) => s.id.replace(/-/g, ' '))}
+        sameAs={[contact.social.linkedin, contact.social.github, 'https://read.cv/qazuor']}
+    />
     <section
         id="services"
         class="relative section services-section overflow-hidden pt-32 pb-24"

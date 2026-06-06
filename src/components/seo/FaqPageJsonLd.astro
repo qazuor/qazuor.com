@@ -1,0 +1,60 @@
+---
+/**
+ * FaqPageJsonLd Component
+ *
+ * Renders `FAQPage` structured data from a list of question/answer pairs.
+ * Used on the homepage (where the FAQ section renders) and on any future
+ * `/faqs/` route. Answers are stripped of HTML tags for clean schema
+ * output — search engines prefer plain text inside the `text` field.
+ *
+ * Pairs are intentionally the raw `FAQItem` shape so the page can re-use
+ * its existing FAQ list (the same array that drives the visible FAQ
+ * component) without re-deriving data.
+ *
+ * @example
+ * <FaqPageJsonLd
+ *   faqs={[
+ *     { question: "How long does a project take?", answer: "1-12 weeks..." },
+ *     { question: "What's your work process?", answer: "Discovery..." }
+ *   ]}
+ * />
+ */
+import type { FAQPageSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface FAQ {
+    question: string;
+    answer: string;
+}
+
+interface Props {
+    /** FAQ pairs to expose. */
+    faqs: FAQ[];
+}
+
+const { faqs } = Astro.props;
+
+/**
+ * Strip HTML tags from a string. Used to clean the answer text — schema.org
+ * prefers plain text inside the `text` field, and our FAQ answers carry
+ * inline `<strong>` markdown.
+ */
+function stripHtml(input: string): string {
+    return input.replace(/<[^>]*>/g, '');
+}
+
+const faqSchema: FAQPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: stripHtml(faq.question),
+        acceptedAnswer: {
+            '@type': 'Answer',
+            text: stripHtml(faq.answer)
+        }
+    }))
+};
+---
+
+<JsonLd schema={faqSchema} />

@@ -1,0 +1,58 @@
+---
+/**
+ * OrganizationJsonLd Component
+ *
+ * Renders `Organization` structured data for the Qazuor brand entity. Used
+ * on commercial surfaces that need brand grounding (homepage, services hub,
+ * contact) so search engines and answer engines can ground citations to a
+ * single canonical brand.
+ *
+ * Distinct from `PersonJsonLd` (which models the operator / recruiter
+ * subject) and `ProfessionalServiceJsonLd` (which models the practice as a
+ * service provider). This component models the **brand**: name, url, logo,
+ * sameAs (LinkedIn, GitHub, Read.cv), description.
+ *
+ * @example
+ * <OrganizationJsonLd
+ *   name="Qazuor"
+ *   description="Boutique senior practice building modern web products."
+ *   url="https://qazuor.com"
+ *   logo="https://qazuor.com/og.png"
+ *   sameAs={[
+ *     "https://linkedin.com/in/qazuor",
+ *     "https://github.com/qazuor",
+ *     "https://read.cv/qazuor"
+ *   ]}
+ * />
+ */
+import type { OrganizationSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+    /** Brand name (e.g., "Qazuor"). */
+    name: string;
+    /** Short brand description (1-2 sentences). */
+    description?: string;
+    /** Canonical brand URL. */
+    url?: string;
+    /** Absolute URL of the brand logo. */
+    logo?: string;
+    /** Social / external profile URLs (LinkedIn, GitHub, etc.). */
+    sameAs?: string[];
+}
+
+const SITE_URL = 'https://qazuor.com';
+const { name, description, url = SITE_URL, logo, sameAs = [] } = Astro.props;
+
+const organizationSchema: OrganizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name,
+    url,
+    ...(description && { description }),
+    ...(logo && { logo }),
+    ...(sameAs.length > 0 && { sameAs })
+};
+---
+
+<JsonLd schema={organizationSchema} />

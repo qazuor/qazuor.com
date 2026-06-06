@@ -117,6 +117,35 @@ export interface ServiceSchema extends JsonLdBase {
 }
 
 /**
+ * ProfessionalService Schema - For the senior practice entity on the services
+ * hub and commercial surfaces. Distinct from `Service` (which models a single
+ * offering) — `ProfessionalService` models the practice itself as a provider
+ * of multiple services. This is the schema `design.md` §6 calls for on the
+ * homepage and services hub.
+ * @see https://schema.org/ProfessionalService
+ */
+export interface ProfessionalServiceSchema extends JsonLdBase {
+    '@type': 'ProfessionalService';
+    name: string;
+    description?: string;
+    url?: string;
+    image?: string;
+    logo?: string;
+    /** The service provider — usually a reference to an Organization or Person. */
+    provider?: PersonSchema | OrganizationSchema;
+    /** Service types offered. */
+    serviceType?: string | string[];
+    /** Geographic area served (country, city, or 'Worldwide'). */
+    areaServed?: string | string[];
+    /** Price range indicator (e.g., '$$'). */
+    priceRange?: string;
+    /** External profile links (LinkedIn, GitHub, etc.). */
+    sameAs?: string[];
+    /** Languages spoken/delivered. */
+    knowsLanguage?: string[];
+}
+
+/**
  * Offer Schema - For pricing information
  * @see https://schema.org/Offer
  */
@@ -275,6 +304,7 @@ export type JsonLdSchema =
     | WebPageSchema
     | BreadcrumbListSchema
     | ServiceSchema
+    | ProfessionalServiceSchema
     | FAQPageSchema
     | BlogPostingSchema
     | ArticleSchema

@@ -7,6 +7,9 @@ import HeroSection from '@/components/sections/HeroSection.astro';
 import ServicesPreviewSection from '@/components/sections/ServicesPreviewSection.astro';
 import TestimonialsSection from '@/components/sections/TestimonialsSection.astro';
 import WhyQazuorSection from '@/components/sections/WhyQazuorSection.astro';
+import FaqPageJsonLd from '@/components/seo/FaqPageJsonLd.astro';
+import OrganizationJsonLd from '@/components/seo/OrganizationJsonLd.astro';
+import ProfessionalServiceJsonLd from '@/components/seo/ProfessionalServiceJsonLd.astro';
 import DiagonalDivider from '@/components/ui/dividers/DiagonalDivider.astro';
 import WaveDivider from '@/components/ui/dividers/WaveDivider.astro';
 import ZigzagDivider from '@/components/ui/dividers/ZigZagDivider.astro';
@@ -392,6 +395,24 @@ const contactHref = `/${lang}/contact`;
         upwork: contact.social.upwork
     }}
 >
+    <!-- SPEC-001 Phase 5: brand grounding (Organization) + practice-as-thing
+         (ProfessionalService) + FAQ page schema for the visible FAQ section.
+         BaseLayout already emits WebSite + Breadcrumb. -->
+    <OrganizationJsonLd
+        slot="head"
+        name="Qazuor"
+        description={t('home.description', { markdown: false })}
+        sameAs={[contact.social.linkedin, contact.social.github, 'https://read.cv/qazuor']}
+    />
+    <ProfessionalServiceJsonLd
+        slot="head"
+        name="Qazuor — Senior Practice"
+        description={t('home.description', { markdown: false })}
+        url={`https://qazuor.com/${lang}/services`}
+        serviceType={['Web Application Development', 'Landing Page Development', 'Web Performance Optimization', 'Automation & Integration']}
+        sameAs={[contact.social.linkedin, contact.social.github, 'https://read.cv/qazuor']}
+    />
+    <FaqPageJsonLd slot="head" faqs={[...faqsTranslations.faqs.clients, ...faqsTranslations.faqs.employers]} />
     <!-- 1. Hero (commercial framing, Qazuor brand) -->
     <div class="relative">
         <HeroSection

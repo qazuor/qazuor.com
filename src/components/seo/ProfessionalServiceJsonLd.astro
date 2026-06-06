@@ -1,0 +1,85 @@
+---
+/**
+ * ProfessionalServiceJsonLd Component
+ *
+ * Renders `ProfessionalService` structured data for the Qazuor senior
+ * practice on the services hub (and any page that needs to model the
+ * practice as the service provider). This is the schema `design.md` §6
+ * specifies for the homepage and services hub: the practice is a
+ * `ProfessionalService` whose `provider` is the `Qazuor` `Organization`.
+ *
+ * Use this when you need to expose the practice-as-a-thing. For an
+ * individual service offering, use `ServiceJsonLd` instead.
+ *
+ * @example
+ * <ProfessionalServiceJsonLd
+ *   name="Qazuor Senior Practice"
+ *   description="Boutique senior practice building modern web products."
+ *   url="https://qazuor.com/en/services"
+ *   serviceType={["Web Application Development", "Performance Optimization", "Automation"]}
+ *   areaServed="Worldwide"
+ *   sameAs={[
+ *     "https://linkedin.com/in/qazuor",
+ *     "https://github.com/qazuor"
+ *   ]}
+ * />
+ */
+import type { ProfessionalServiceSchema } from '@/types/jsonld';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+    /** Practice display name. */
+    name: string;
+    /** Short practice description (1-2 sentences). */
+    description?: string;
+    /** Canonical URL of the services hub. */
+    url?: string;
+    /** Logo or image URL. */
+    image?: string;
+    /** Service type(s) the practice delivers. */
+    serviceType?: string | string[];
+    /** Geographic area served. */
+    areaServed?: string | string[];
+    /** Price range indicator (e.g., '$$' or '$$$'). */
+    priceRange?: string;
+    /** External profile links (LinkedIn, GitHub, Read.cv). */
+    sameAs?: string[];
+    /** Languages the practice operates in. */
+    knowsLanguage?: string[];
+}
+
+const SITE_URL = 'https://qazuor.com';
+const {
+    name,
+    description,
+    url = `${SITE_URL}/en/services`,
+    image,
+    serviceType,
+    areaServed = ['Worldwide', 'Remote'],
+    priceRange,
+    sameAs = [],
+    knowsLanguage = ['English', 'Spanish']
+} = Astro.props;
+
+const professionalServiceSchema: ProfessionalServiceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name,
+    url,
+    provider: {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Qazuor',
+        url: SITE_URL,
+        ...(sameAs.length > 0 && { sameAs })
+    },
+    ...(description && { description }),
+    ...(image && { image }),
+    ...(serviceType && { serviceType }),
+    areaServed,
+    ...(priceRange && { priceRange }),
+    ...(knowsLanguage.length > 0 && { knowsLanguage })
+};
+---
+
+<JsonLd schema={professionalServiceSchema} />

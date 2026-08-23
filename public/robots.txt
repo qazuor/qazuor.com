@@ -1,8 +1,9 @@
 # robots.txt for qazuor.com
-# Allow all crawlers to index the entire site
+# Allow all crawlers to index the public site, except private utility paths.
 
 User-agent: *
 Allow: /
+Disallow: /whatsapp-envio/
 
 # Sitemap
 Sitemap: https://qazuor.com/sitemap.xml

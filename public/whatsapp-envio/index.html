@@ -14,6 +14,7 @@
     .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; box-shadow: 0 10px 35px rgba(0,0,0,.05); }
     h1 { margin: 0 0 8px; font-size: 28px; }
     h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 0 0 16px; font-size: 19px; }
     .muted { color: #6b7280; line-height: 1.5; margin: 0; }
     .tabs { display: flex; gap: 6px; margin: 24px 0 22px; padding: 5px; background: #f3f4f6; border-radius: 12px; width: fit-content; }
     .tab-button { background: transparent; color: #6b7280; padding: 10px 16px; border-radius: 8px; }
@@ -23,24 +24,29 @@
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
     label { display: block; margin-bottom: 7px; font-weight: 700; }
-    textarea { width: 100%; min-height: 150px; resize: vertical; border: 1px solid #d1d5db; border-radius: 10px; padding: 12px; font: inherit; line-height: 1.45; background: #fff; }
-    textarea:focus { outline: 2px solid #111827; outline-offset: 1px; border-color: #111827; }
+    textarea, input, select { width: 100%; border: 1px solid #d1d5db; border-radius: 10px; padding: 11px 12px; font: inherit; background: #fff; color: #111827; }
+    textarea { min-height: 150px; resize: vertical; line-height: 1.45; }
+    textarea:focus, input:focus, select:focus { outline: 2px solid #111827; outline-offset: 1px; border-color: #111827; }
     #csvInput { min-height: 180px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
     .section + .section { margin-top: 28px; }
     .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
     button { border: 0; border-radius: 9px; padding: 10px 14px; font: inherit; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
     .primary { background: #111827; color: #fff; }
     .secondary { background: #e5e7eb; color: #111827; }
     .danger { background: #fee2e2; color: #991b1b; }
     .stats { margin-left: auto; color: #4b5563; font-size: 14px; font-weight: 650; }
+    .send-filters { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 12px; margin-bottom: 18px; }
+    .filter-field label { font-size: 13px; color: #4b5563; }
     @media (max-width: 700px) {
       .stats { width: 100%; margin-left: 0; }
       .tabs { width: 100%; }
       .tab-button { flex: 1; }
+      .send-filters { grid-template-columns: 1fr; }
     }
     .contacts { display: grid; gap: 10px; }
     .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; border: 1px solid #e5e7eb; border-radius: 12px; padding: 13px 14px; background: #fff; }
-    .contact.done { background: #f0fdf4; border-color: #bbf7d0; opacity: .78; }
+    .contact.done { background: #f0fdf4; border-color: #bbf7d0; opacity: .82; }
     .contact-main { min-width: 0; }
     .contact-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 800; }
     .phone { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #374151; }
@@ -48,14 +54,23 @@
     .badge.done { background: #dcfce7; color: #166534; }
     .badge.warning { background: #fef3c7; color: #92400e; }
     .preview { margin-top: 6px; color: #6b7280; font-size: 13px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .contact-actions { display: flex; gap: 8px; align-items: center; }
+    .note { margin-top: 9px; padding: 9px 11px; border-radius: 9px; background: #f9fafb; border: 1px solid #e5e7eb; color: #374151; font-size: 13px; line-height: 1.45; white-space: normal; }
+    .note strong { color: #111827; }
+    .contact-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
     .contact-actions a, .contact-actions button { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: 38px; border-radius: 9px; padding: 9px 12px; font-size: 14px; font-weight: 800; white-space: nowrap; }
     .wa-link { background: #111827; color: #fff; }
     .undo { background: #e5e7eb; color: #111827; border: 0; }
+    .note-button { background: #eef2ff; color: #3730a3; }
     .empty { padding: 22px; border: 1px dashed #d1d5db; border-radius: 12px; color: #6b7280; text-align: center; }
     .help { margin-top: 12px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #4b5563; line-height: 1.5; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #f3f4f6; border-radius: 5px; padding: 2px 5px; }
     .error { margin-top: 12px; color: #991b1b; font-size: 14px; font-weight: 650; }
+    dialog { width: min(560px, calc(100vw - 32px)); border: 0; border-radius: 16px; padding: 0; box-shadow: 0 24px 70px rgba(0,0,0,.25); }
+    dialog::backdrop { background: rgba(17,24,39,.55); }
+    .dialog-content { padding: 22px; }
+    .dialog-contact { margin: -8px 0 16px; color: #6b7280; font-size: 14px; }
+    #noteInput { min-height: 180px; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
   </style>
 </head>
 <body>
@@ -73,8 +88,8 @@
         <div class="section">
           <h2>Contactos CSV</h2>
           <label for="csvInput">CSV: teléfono, nombre opcional</label>
-          <textarea id="csvInput" spellcheck="false" placeholder="telefono,name&#10;5493442123456,Juan&#10;5493442987654,María&#10;5493442555555,"></textarea>
-          <div class="help">Se acepta encabezado o no. Ejemplos válidos: <code>telefono,name</code>, <code>5493442123456,Juan</code>, o simplemente <code>5493442123456</code>. El teléfono se normaliza quitando espacios, <code>+</code>, guiones y paréntesis.</div>
+          <textarea id="csvInput" spellcheck="false" placeholder="telefono,name&#10;5493442123456,Juan Pérez&#10;5493442987654,María Gómez&#10;5493442555555,"></textarea>
+          <div class="help">Se acepta encabezado o no. Ejemplos válidos: <code>telefono,name</code>, <code>5493442123456,Juan Pérez</code>, o simplemente <code>5493442123456</code>. El teléfono se normaliza quitando espacios, <code>+</code>, guiones y paréntesis.</div>
           <div id="csvError" class="error" hidden></div>
         </div>
 
@@ -95,17 +110,47 @@
       </section>
 
       <section id="sendPanel" class="tab-panel" role="tabpanel" aria-labelledby="sendTab">
+        <div class="send-filters">
+          <div class="filter-field">
+            <label for="searchInput">Buscar</label>
+            <input id="searchInput" type="search" autocomplete="off" placeholder="Nombre, teléfono o nota..." />
+          </div>
+          <div class="filter-field">
+            <label for="sortSelect">Ordenar por</label>
+            <select id="sortSelect">
+              <option value="status">Estado: no enviados primero</option>
+              <option value="name">Nombre</option>
+              <option value="phone">Teléfono</option>
+            </select>
+          </div>
+        </div>
+
         <div class="toolbar">
           <button id="resetDone" class="secondary" type="button">Desmarcar todos</button>
           <div id="stats" class="stats">0 contactos</div>
         </div>
+
         <div id="contacts" class="contacts"><div class="empty">Pegá un CSV en Configuración para generar los enlaces.</div></div>
       </section>
     </section>
   </main>
 
+  <dialog id="noteDialog" aria-labelledby="noteDialogTitle">
+    <form id="noteForm" class="dialog-content">
+      <h3 id="noteDialogTitle">Nota del contacto</h3>
+      <div id="noteContactLabel" class="dialog-contact"></div>
+      <label for="noteInput">Nota</label>
+      <textarea id="noteInput" autofocus placeholder="Escribí una nota sobre este contacto..."></textarea>
+      <div class="dialog-actions">
+        <button id="cancelNote" class="secondary" type="button">Cancelar</button>
+        <button class="primary" type="submit">Guardar nota</button>
+      </div>
+    </form>
+  </dialog>
+
   <script>
     const STORAGE_KEY = "waPrivateSenderV2";
+
     const csvInput = document.getElementById("csvInput");
     const messageInputs = [document.getElementById("message1"), document.getElementById("message2"), document.getElementById("message3")];
     const contactsEl = document.getElementById("contacts");
@@ -114,27 +159,48 @@
     const resetDoneBtn = document.getElementById("resetDone");
     const clearAllBtn = document.getElementById("clearAll");
     const goToSendBtn = document.getElementById("goToSend");
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect = document.getElementById("sortSelect");
+    const noteDialog = document.getElementById("noteDialog");
+    const noteForm = document.getElementById("noteForm");
+    const noteInput = document.getElementById("noteInput");
+    const noteContactLabel = document.getElementById("noteContactLabel");
+    const cancelNoteBtn = document.getElementById("cancelNote");
     const tabButtons = [...document.querySelectorAll("[data-tab]")];
     const tabPanels = {
       config: document.getElementById("configPanel"),
       send: document.getElementById("sendPanel")
     };
 
+    let currentNotePhone = null;
     let state = loadState();
+
     csvInput.value = state.csv || "";
     messageInputs.forEach((input, index) => { input.value = state.messages[index] || ""; });
+    sortSelect.value = state.sort || "status";
 
-    function defaultState() { return { csv: "", messages: ["", "", ""], done: {} }; }
+    function defaultState() {
+      return {
+        csv: "",
+        messages: ["", "", ""],
+        done: {},
+        notes: {},
+        sort: "status"
+      };
+    }
 
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return defaultState();
+
         const parsed = JSON.parse(raw);
         return {
           csv: typeof parsed.csv === "string" ? parsed.csv : "",
           messages: Array.isArray(parsed.messages) ? [0, 1, 2].map(i => typeof parsed.messages[i] === "string" ? parsed.messages[i] : "") : ["", "", ""],
-          done: parsed.done && typeof parsed.done === "object" ? parsed.done : {}
+          done: parsed.done && typeof parsed.done === "object" ? parsed.done : {},
+          notes: parsed.notes && typeof parsed.notes === "object" ? parsed.notes : {},
+          sort: ["name", "phone", "status"].includes(parsed.sort) ? parsed.sort : "status"
         };
       } catch {
         return defaultState();
@@ -144,6 +210,7 @@
     function saveState() {
       state.csv = csvInput.value;
       state.messages = messageInputs.map(input => input.value);
+      state.sort = sortSelect.value;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
@@ -153,6 +220,7 @@
         button.classList.toggle("active", active);
         button.setAttribute("aria-selected", String(active));
       });
+
       Object.entries(tabPanels).forEach(([name, panel]) => {
         panel.classList.toggle("active", name === tabName);
       });
@@ -160,6 +228,14 @@
 
     function normalizePhone(value) {
       return String(value || "").replace(/\D/g, "");
+    }
+
+    function normalizeSearch(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
     }
 
     function parseCsvLine(line) {
@@ -283,6 +359,36 @@
       return message ? `${base}?text=${encodeURIComponent(message)}` : base;
     }
 
+    function getFilteredSortedContacts(contacts) {
+      const query = normalizeSearch(searchInput.value);
+
+      const filtered = query
+        ? contacts.filter(contact => {
+            const note = state.notes[contact.phone] || "";
+            const haystack = normalizeSearch(`${contact.name} ${contact.phone} ${note}`);
+            return haystack.includes(query);
+          })
+        : [...contacts];
+
+      const byName = (a, b) => {
+        if (Boolean(a.name) !== Boolean(b.name)) return a.name ? -1 : 1;
+        return (a.name || "").localeCompare(b.name || "", "es", { sensitivity: "base" }) || a.phone.localeCompare(b.phone);
+      };
+
+      if (sortSelect.value === "name") {
+        filtered.sort(byName);
+      } else if (sortSelect.value === "phone") {
+        filtered.sort((a, b) => a.phone.localeCompare(b.phone, undefined, { numeric: true }));
+      } else {
+        filtered.sort((a, b) => {
+          const statusDiff = Number(Boolean(state.done[a.phone])) - Number(Boolean(state.done[b.phone]));
+          return statusDiff || byName(a, b);
+        });
+      }
+
+      return filtered;
+    }
+
     function markDone(phone) {
       state.done[phone] = true;
       saveState();
@@ -293,6 +399,18 @@
       delete state.done[phone];
       saveState();
       render();
+    }
+
+    function openNoteDialog(phone) {
+      const contact = parseContacts().find(item => item.phone === phone);
+      if (!contact) return;
+
+      currentNotePhone = phone;
+      noteContactLabel.textContent = contact.name ? `${contact.name} · ${contact.phone}` : contact.phone;
+      noteInput.value = state.notes[phone] || "";
+      noteDialog.showModal();
+      noteInput.focus();
+      noteInput.setSelectionRange(noteInput.value.length, noteInput.value.length);
     }
 
     function escapeHtml(value) {
@@ -306,6 +424,7 @@
 
     function render() {
       const contacts = parseContacts();
+      const visibleContacts = getFilteredSortedContacts(contacts);
       const activeMessages = getActiveMessages();
       const validPhones = new Set(contacts.map(contact => contact.phone));
 
@@ -317,8 +436,10 @@
 
       const doneCount = contacts.filter(contact => state.done[contact.phone]).length;
       const messageCountLabel = `${activeMessages.length} mensaje${activeMessages.length === 1 ? "" : "s"} activo${activeMessages.length === 1 ? "" : "s"}`;
+      const filteredLabel = visibleContacts.length !== contacts.length ? ` · mostrando ${visibleContacts.length}` : "";
+
       statsEl.textContent = contacts.length
-        ? `${contacts.length} contactos · ${doneCount} hechos · ${contacts.length - doneCount} pendientes · ${messageCountLabel}`
+        ? `${contacts.length} contactos · ${doneCount} enviados · ${contacts.length - doneCount} pendientes · ${messageCountLabel}${filteredLabel}`
         : `0 contactos · ${messageCountLabel}`;
 
       if (!contacts.length) {
@@ -326,8 +447,14 @@
         return;
       }
 
-      contactsEl.innerHTML = contacts.map(contact => {
+      if (!visibleContacts.length) {
+        contactsEl.innerHTML = '<div class="empty">No hay contactos que coincidan con la búsqueda.</div>';
+        return;
+      }
+
+      contactsEl.innerHTML = visibleContacts.map(contact => {
         const done = Boolean(state.done[contact.phone]);
+        const note = state.notes[contact.phone] || "";
         const { message, variant } = buildMessage(contact);
         const url = buildWhatsAppUrl(contact);
         const displayName = contact.name ? escapeHtml(contact.name) : "Sin nombre";
@@ -335,6 +462,9 @@
         const variantBadge = variant
           ? `<span class="badge">Mensaje ${variant}</span>`
           : '<span class="badge warning">Sin mensaje</span>';
+        const noteHtml = note
+          ? `<div class="note"><strong>Nota:</strong> ${escapeHtml(note).replace(/\n/g, "<br>")}</div>`
+          : "";
 
         return `
           <article class="contact ${done ? "done" : ""}" data-phone="${contact.phone}">
@@ -343,11 +473,13 @@
                 <span>${displayName}</span>
                 <span class="phone">${contact.phone}</span>
                 ${variantBadge}
-                ${done ? '<span class="badge done">Hecho</span>' : ""}
+                ${done ? '<span class="badge done">Enviado</span>' : ""}
               </div>
               <div class="preview">${preview}</div>
+              ${noteHtml}
             </div>
             <div class="contact-actions">
+              <button class="note-button" type="button" data-action="note" data-phone="${contact.phone}">${note ? "Editar nota" : "Agregar nota"}</button>
               ${done
                 ? `<button class="undo" type="button" data-action="undo" data-phone="${contact.phone}">Desmarcar</button>`
                 : activeMessages.length
@@ -370,6 +502,11 @@
     goToSendBtn.addEventListener("click", () => setTab("send"));
     csvInput.addEventListener("input", handleInput);
     messageInputs.forEach(input => input.addEventListener("input", handleInput));
+    searchInput.addEventListener("input", render);
+    sortSelect.addEventListener("change", () => {
+      saveState();
+      render();
+    });
 
     contactsEl.addEventListener("click", event => {
       const target = event.target.closest("[data-action]");
@@ -381,6 +518,30 @@
 
       if (action === "open") markDone(phone);
       if (action === "undo") markPending(phone);
+      if (action === "note") openNoteDialog(phone);
+    });
+
+    noteForm.addEventListener("submit", event => {
+      event.preventDefault();
+      if (!currentNotePhone) return;
+
+      const note = noteInput.value.trim();
+      if (note) state.notes[currentNotePhone] = note;
+      else delete state.notes[currentNotePhone];
+
+      saveState();
+      noteDialog.close();
+      currentNotePhone = null;
+      render();
+    });
+
+    cancelNoteBtn.addEventListener("click", () => {
+      noteDialog.close();
+      currentNotePhone = null;
+    });
+
+    noteDialog.addEventListener("close", () => {
+      currentNotePhone = null;
     });
 
     resetDoneBtn.addEventListener("click", () => {
@@ -390,12 +551,14 @@
     });
 
     clearAllBtn.addEventListener("click", () => {
-      const confirmed = confirm("¿Borrar CSV, mensajes y estado de enviados?");
+      const confirmed = confirm("¿Borrar CSV, mensajes, notas y estado de enviados?");
       if (!confirmed) return;
 
       state = defaultState();
       csvInput.value = "";
       messageInputs.forEach(input => input.value = "");
+      sortSelect.value = "status";
+      searchInput.value = "";
       localStorage.removeItem(STORAGE_KEY);
       render();
     });

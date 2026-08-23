@@ -13,21 +13,32 @@
     .container { max-width: 1100px; margin: 32px auto; padding: 0 18px 40px; }
     .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 22px; box-shadow: 0 10px 35px rgba(0,0,0,.05); }
     h1 { margin: 0 0 8px; font-size: 28px; }
-    h2 { margin: 28px 0 10px; font-size: 18px; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
     .muted { color: #6b7280; line-height: 1.5; margin: 0; }
+    .tabs { display: flex; gap: 6px; margin: 24px 0 22px; padding: 5px; background: #f3f4f6; border-radius: 12px; width: fit-content; }
+    .tab-button { background: transparent; color: #6b7280; padding: 10px 16px; border-radius: 8px; }
+    .tab-button.active { background: #fff; color: #111827; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
     label { display: block; margin-bottom: 7px; font-weight: 700; }
     textarea { width: 100%; min-height: 150px; resize: vertical; border: 1px solid #d1d5db; border-radius: 10px; padding: 12px; font: inherit; line-height: 1.45; background: #fff; }
     textarea:focus { outline: 2px solid #111827; outline-offset: 1px; border-color: #111827; }
     #csvInput { min-height: 180px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; align-items: center; }
+    .section + .section { margin-top: 28px; }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
     button { border: 0; border-radius: 9px; padding: 10px 14px; font: inherit; font-weight: 700; cursor: pointer; }
+    .primary { background: #111827; color: #fff; }
     .secondary { background: #e5e7eb; color: #111827; }
     .danger { background: #fee2e2; color: #991b1b; }
-    .stats { margin-left: auto; color: #4b5563; font-size: 14px; }
-    @media (max-width: 700px) { .stats { width: 100%; margin-left: 0; } }
-    .contacts { margin-top: 18px; display: grid; gap: 10px; }
+    .stats { margin-left: auto; color: #4b5563; font-size: 14px; font-weight: 650; }
+    @media (max-width: 700px) {
+      .stats { width: 100%; margin-left: 0; }
+      .tabs { width: 100%; }
+      .tab-button { flex: 1; }
+    }
+    .contacts { display: grid; gap: 10px; }
     .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; border: 1px solid #e5e7eb; border-radius: 12px; padding: 13px 14px; background: #fff; }
     .contact.done { background: #f0fdf4; border-color: #bbf7d0; opacity: .78; }
     .contact-main { min-width: 0; }
@@ -35,6 +46,7 @@
     .phone { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #374151; }
     .badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 800; background: #e5e7eb; color: #374151; }
     .badge.done { background: #dcfce7; color: #166534; }
+    .badge.warning { background: #fef3c7; color: #92400e; }
     .preview { margin-top: 6px; color: #6b7280; font-size: 13px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .contact-actions { display: flex; gap: 8px; align-items: center; }
     .contact-actions a, .contact-actions button { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: 38px; border-radius: 9px; padding: 9px 12px; font-size: 14px; font-weight: 800; white-space: nowrap; }
@@ -50,30 +62,45 @@
   <main class="container">
     <section class="card">
       <h1>Envío individual por WhatsApp</h1>
-      <p class="muted">Pegá el CSV, cargá tres variantes del mensaje y abrí cada contacto con su texto ya preparado. El envío final lo hacés vos dentro de WhatsApp.</p>
+      <p class="muted">Configurá los contactos y mensajes, y después trabajá desde la lista de envío.</p>
 
-      <h2>1. Contactos CSV</h2>
-      <label for="csvInput">CSV: teléfono, nombre opcional</label>
-      <textarea id="csvInput" spellcheck="false" placeholder="telefono,name&#10;5493442123456,Juan&#10;5493442987654,María&#10;5493442555555,"></textarea>
-      <div class="help">Se acepta encabezado o no. Ejemplos válidos: <code>telefono,name</code>, <code>5493442123456,Juan</code>, o simplemente <code>5493442123456</code>. El teléfono se normaliza quitando espacios, <code>+</code>, guiones y paréntesis.</div>
-      <div id="csvError" class="error" hidden></div>
-
-      <h2>2. Mensajes</h2>
-      <div class="grid">
-        <div><label for="message1">Mensaje 1</label><textarea id="message1" placeholder="Hola {{name}}, te quería contar..."></textarea></div>
-        <div><label for="message2">Mensaje 2</label><textarea id="message2" placeholder="Buenas {{name}}, te escribo por..."></textarea></div>
-        <div><label for="message3">Mensaje 3</label><textarea id="message3" placeholder="Hola {{name}}. Quería comentarte..."></textarea></div>
-      </div>
-      <div class="help">Podés usar <code>{{name}}</code>. Si el contacto tiene nombre, se reemplaza. Si no tiene, se elimina junto con espacios sobrantes. A cada contacto se le asigna una de las tres variantes de forma pseudoaleatoria y estable.</div>
-
-      <div class="toolbar">
-        <button id="resetDone" class="secondary" type="button">Desmarcar todos</button>
-        <button id="clearAll" class="danger" type="button">Borrar todo</button>
-        <div id="stats" class="stats">0 contactos</div>
+      <div class="tabs" role="tablist" aria-label="Secciones">
+        <button id="configTab" class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="configPanel" data-tab="config">Configuración</button>
+        <button id="sendTab" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="sendPanel" data-tab="send">Envío</button>
       </div>
 
-      <h2>3. Contactos</h2>
-      <div id="contacts" class="contacts"><div class="empty">Pegá un CSV para generar los enlaces.</div></div>
+      <section id="configPanel" class="tab-panel active" role="tabpanel" aria-labelledby="configTab">
+        <div class="section">
+          <h2>Contactos CSV</h2>
+          <label for="csvInput">CSV: teléfono, nombre opcional</label>
+          <textarea id="csvInput" spellcheck="false" placeholder="telefono,name&#10;5493442123456,Juan&#10;5493442987654,María&#10;5493442555555,"></textarea>
+          <div class="help">Se acepta encabezado o no. Ejemplos válidos: <code>telefono,name</code>, <code>5493442123456,Juan</code>, o simplemente <code>5493442123456</code>. El teléfono se normaliza quitando espacios, <code>+</code>, guiones y paréntesis.</div>
+          <div id="csvError" class="error" hidden></div>
+        </div>
+
+        <div class="section">
+          <h2>Mensajes</h2>
+          <div class="grid">
+            <div><label for="message1">Mensaje 1</label><textarea id="message1" placeholder="Hola {{name}}, te quería contar..."></textarea></div>
+            <div><label for="message2">Mensaje 2</label><textarea id="message2" placeholder="Buenas {{name}}, te escribo por..."></textarea></div>
+            <div><label for="message3">Mensaje 3</label><textarea id="message3" placeholder="Hola {{name}}. Quería comentarte..."></textarea></div>
+          </div>
+          <div class="help">Podés cargar 1, 2 o 3 mensajes. Si cargás uno se usa para todos; con dos se reparten aproximadamente 50/50; con tres, aproximadamente un tercio para cada uno. La asignación es estable por teléfono. También podés usar <code>{{name}}</code>.</div>
+        </div>
+
+        <div class="toolbar" style="margin-top: 22px; margin-bottom: 0;">
+          <button id="goToSend" class="primary" type="button">Ir a envío</button>
+          <button id="clearAll" class="danger" type="button">Borrar todo</button>
+        </div>
+      </section>
+
+      <section id="sendPanel" class="tab-panel" role="tabpanel" aria-labelledby="sendTab">
+        <div class="toolbar">
+          <button id="resetDone" class="secondary" type="button">Desmarcar todos</button>
+          <div id="stats" class="stats">0 contactos</div>
+        </div>
+        <div id="contacts" class="contacts"><div class="empty">Pegá un CSV en Configuración para generar los enlaces.</div></div>
+      </section>
     </section>
   </main>
 
@@ -86,11 +113,19 @@
     const csvErrorEl = document.getElementById("csvError");
     const resetDoneBtn = document.getElementById("resetDone");
     const clearAllBtn = document.getElementById("clearAll");
+    const goToSendBtn = document.getElementById("goToSend");
+    const tabButtons = [...document.querySelectorAll("[data-tab]")];
+    const tabPanels = {
+      config: document.getElementById("configPanel"),
+      send: document.getElementById("sendPanel")
+    };
+
     let state = loadState();
     csvInput.value = state.csv || "";
     messageInputs.forEach((input, index) => { input.value = state.messages[index] || ""; });
 
     function defaultState() { return { csv: "", messages: ["", "", ""], done: {} }; }
+
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -98,25 +133,62 @@
         const parsed = JSON.parse(raw);
         return {
           csv: typeof parsed.csv === "string" ? parsed.csv : "",
-          messages: Array.isArray(parsed.messages) ? [0,1,2].map(i => typeof parsed.messages[i] === "string" ? parsed.messages[i] : "") : ["", "", ""],
+          messages: Array.isArray(parsed.messages) ? [0, 1, 2].map(i => typeof parsed.messages[i] === "string" ? parsed.messages[i] : "") : ["", "", ""],
           done: parsed.done && typeof parsed.done === "object" ? parsed.done : {}
         };
-      } catch { return defaultState(); }
+      } catch {
+        return defaultState();
+      }
     }
-    function saveState() { state.csv = csvInput.value; state.messages = messageInputs.map(input => input.value); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-    function normalizePhone(value) { return String(value || "").replace(/\D/g, ""); }
+
+    function saveState() {
+      state.csv = csvInput.value;
+      state.messages = messageInputs.map(input => input.value);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function setTab(tabName) {
+      tabButtons.forEach(button => {
+        const active = button.dataset.tab === tabName;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+      Object.entries(tabPanels).forEach(([name, panel]) => {
+        panel.classList.toggle("active", name === tabName);
+      });
+    }
+
+    function normalizePhone(value) {
+      return String(value || "").replace(/\D/g, "");
+    }
+
     function parseCsvLine(line) {
-      const values = []; let current = ""; let insideQuotes = false;
+      const values = [];
+      let current = "";
+      let insideQuotes = false;
+
       for (let i = 0; i < line.length; i++) {
         const char = line[i];
+
         if (char === '"') {
-          if (insideQuotes && line[i + 1] === '"') { current += '"'; i++; }
-          else { insideQuotes = !insideQuotes; }
-        } else if (char === "," && !insideQuotes) { values.push(current.trim()); current = ""; }
-        else { current += char; }
+          if (insideQuotes && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            insideQuotes = !insideQuotes;
+          }
+        } else if (char === "," && !insideQuotes) {
+          values.push(current.trim());
+          current = "";
+        } else {
+          current += char;
+        }
       }
-      values.push(current.trim()); return values;
+
+      values.push(current.trim());
+      return values;
     }
+
     function looksLikeHeader(row) {
       const first = (row[0] || "").toLowerCase().trim();
       const second = (row[1] || "").toLowerCase().trim();
@@ -124,68 +196,210 @@
       const nameHeaders = ["name", "nombre"];
       return phoneHeaders.includes(first) || nameHeaders.includes(second);
     }
+
     function parseContacts() {
-      const lines = csvInput.value.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-      if (!lines.length) { csvErrorEl.hidden = true; return []; }
+      const lines = csvInput.value
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean);
+
+      if (!lines.length) {
+        csvErrorEl.hidden = true;
+        return [];
+      }
+
       const rows = lines.map(parseCsvLine);
       if (rows.length && looksLikeHeader(rows[0])) rows.shift();
-      const contacts = []; const seen = new Set(); let invalid = 0;
+
+      const contacts = [];
+      const seen = new Set();
+      let invalid = 0;
+
       for (const row of rows) {
-        const phone = normalizePhone(row[0]); const name = (row[1] || "").trim();
-        if (!phone) { invalid++; continue; }
+        const phone = normalizePhone(row[0]);
+        const name = (row[1] || "").trim();
+
+        if (!phone) {
+          invalid++;
+          continue;
+        }
+
         if (seen.has(phone)) continue;
-        seen.add(phone); contacts.push({ phone, name });
+        seen.add(phone);
+        contacts.push({ phone, name });
       }
-      if (invalid) { csvErrorEl.textContent = `${invalid} fila(s) fueron ignoradas porque no tenían un teléfono válido.`; csvErrorEl.hidden = false; }
-      else csvErrorEl.hidden = true;
+
+      if (invalid) {
+        csvErrorEl.textContent = `${invalid} fila(s) fueron ignoradas porque no tenían un teléfono válido.`;
+        csvErrorEl.hidden = false;
+      } else {
+        csvErrorEl.hidden = true;
+      }
+
       return contacts;
     }
-    function hashString(value) { let hash = 2166136261; for (let i = 0; i < value.length; i++) { hash ^= value.charCodeAt(i); hash = Math.imul(hash, 16777619); } return hash >>> 0; }
-    function chooseMessageIndex(phone) { return hashString(phone) % 3; }
-    function buildMessage(contact) {
-      const index = chooseMessageIndex(contact.phone);
-      const template = messageInputs[index].value || "";
-      let message = template.replace(/\{\{\s*name\s*\}\}/gi, contact.name || "");
-      if (!contact.name) {
-        message = message.replace(/[ \t]+([,.;:!?])/g, "$1").replace(/[ \t]{2,}/g, " ").replace(/^[ \t]+|[ \t]+$/gm, "");
+
+    function hashString(value) {
+      let hash = 2166136261;
+      for (let i = 0; i < value.length; i++) {
+        hash ^= value.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
       }
-      return { message: message.trim(), variant: index + 1 };
+      return hash >>> 0;
     }
-    function buildWhatsAppUrl(contact) { const { message } = buildMessage(contact); const base = `https://wa.me/${contact.phone}`; return message ? `${base}?text=${encodeURIComponent(message)}` : base; }
-    function markDone(phone) { state.done[phone] = true; saveState(); render(); }
-    function markPending(phone) { delete state.done[phone]; saveState(); render(); }
-    function escapeHtml(value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); }
+
+    function getActiveMessages() {
+      return messageInputs
+        .map((input, index) => ({ text: input.value.trim(), originalIndex: index }))
+        .filter(item => item.text.length > 0);
+    }
+
+    function buildMessage(contact) {
+      const activeMessages = getActiveMessages();
+
+      if (!activeMessages.length) {
+        return { message: "", variant: null };
+      }
+
+      const selected = activeMessages[hashString(contact.phone) % activeMessages.length];
+      let message = selected.text.replace(/\{\{\s*name\s*\}\}/gi, contact.name || "");
+
+      if (!contact.name) {
+        message = message
+          .replace(/[ \t]+([,.;:!?])/g, "$1")
+          .replace(/[ \t]{2,}/g, " ")
+          .replace(/^[ \t]+|[ \t]+$/gm, "");
+      }
+
+      return {
+        message: message.trim(),
+        variant: selected.originalIndex + 1
+      };
+    }
+
+    function buildWhatsAppUrl(contact) {
+      const { message } = buildMessage(contact);
+      const base = `https://wa.me/${contact.phone}`;
+      return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+    }
+
+    function markDone(phone) {
+      state.done[phone] = true;
+      saveState();
+      render();
+    }
+
+    function markPending(phone) {
+      delete state.done[phone];
+      saveState();
+      render();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     function render() {
       const contacts = parseContacts();
+      const activeMessages = getActiveMessages();
       const validPhones = new Set(contacts.map(contact => contact.phone));
-      for (const phone of Object.keys(state.done)) { if (!validPhones.has(phone)) delete state.done[phone]; }
+
+      for (const phone of Object.keys(state.done)) {
+        if (!validPhones.has(phone)) delete state.done[phone];
+      }
+
       saveState();
+
       const doneCount = contacts.filter(contact => state.done[contact.phone]).length;
-      statsEl.textContent = contacts.length ? `${contacts.length} contactos · ${doneCount} hechos · ${contacts.length - doneCount} pendientes` : "0 contactos";
-      if (!contacts.length) { contactsEl.innerHTML = '<div class="empty">Pegá un CSV para generar los enlaces.</div>'; return; }
+      const messageCountLabel = `${activeMessages.length} mensaje${activeMessages.length === 1 ? "" : "s"} activo${activeMessages.length === 1 ? "" : "s"}`;
+      statsEl.textContent = contacts.length
+        ? `${contacts.length} contactos · ${doneCount} hechos · ${contacts.length - doneCount} pendientes · ${messageCountLabel}`
+        : `0 contactos · ${messageCountLabel}`;
+
+      if (!contacts.length) {
+        contactsEl.innerHTML = '<div class="empty">Pegá un CSV en Configuración para generar los enlaces.</div>';
+        return;
+      }
+
       contactsEl.innerHTML = contacts.map(contact => {
         const done = Boolean(state.done[contact.phone]);
         const { message, variant } = buildMessage(contact);
         const url = buildWhatsAppUrl(contact);
         const displayName = contact.name ? escapeHtml(contact.name) : "Sin nombre";
-        const preview = message ? escapeHtml(message.replace(/\s+/g, " ")) : "Sin mensaje cargado";
-        return `<article class="contact ${done ? "done" : ""}" data-phone="${contact.phone}"><div class="contact-main"><div class="contact-title"><span>${displayName}</span><span class="phone">${contact.phone}</span><span class="badge">Mensaje ${variant}</span>${done ? '<span class="badge done">Hecho</span>' : ""}</div><div class="preview">${preview}</div></div><div class="contact-actions">${done ? `<button class="undo" type="button" data-action="undo" data-phone="${contact.phone}">Desmarcar</button>` : `<a class="wa-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" data-action="open" data-phone="${contact.phone}">Abrir WhatsApp</a>`}</div></article>`;
+        const preview = message ? escapeHtml(message.replace(/\s+/g, " ")) : "No hay ningún mensaje cargado";
+        const variantBadge = variant
+          ? `<span class="badge">Mensaje ${variant}</span>`
+          : '<span class="badge warning">Sin mensaje</span>';
+
+        return `
+          <article class="contact ${done ? "done" : ""}" data-phone="${contact.phone}">
+            <div class="contact-main">
+              <div class="contact-title">
+                <span>${displayName}</span>
+                <span class="phone">${contact.phone}</span>
+                ${variantBadge}
+                ${done ? '<span class="badge done">Hecho</span>' : ""}
+              </div>
+              <div class="preview">${preview}</div>
+            </div>
+            <div class="contact-actions">
+              ${done
+                ? `<button class="undo" type="button" data-action="undo" data-phone="${contact.phone}">Desmarcar</button>`
+                : activeMessages.length
+                  ? `<a class="wa-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" data-action="open" data-phone="${contact.phone}">Abrir WhatsApp</a>`
+                  : '<button class="secondary" type="button" disabled>Sin mensaje</button>'}
+            </div>
+          </article>`;
       }).join("");
     }
-    function handleInput() { saveState(); render(); }
+
+    function handleInput() {
+      saveState();
+      render();
+    }
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", () => setTab(button.dataset.tab));
+    });
+
+    goToSendBtn.addEventListener("click", () => setTab("send"));
     csvInput.addEventListener("input", handleInput);
     messageInputs.forEach(input => input.addEventListener("input", handleInput));
+
     contactsEl.addEventListener("click", event => {
-      const target = event.target.closest("[data-action]"); if (!target) return;
-      const action = target.dataset.action; const phone = target.dataset.phone; if (!phone) return;
+      const target = event.target.closest("[data-action]");
+      if (!target) return;
+
+      const action = target.dataset.action;
+      const phone = target.dataset.phone;
+      if (!phone) return;
+
       if (action === "open") markDone(phone);
       if (action === "undo") markPending(phone);
     });
-    resetDoneBtn.addEventListener("click", () => { state.done = {}; saveState(); render(); });
-    clearAllBtn.addEventListener("click", () => {
-      const confirmed = confirm("¿Borrar CSV, mensajes y estado de enviados?"); if (!confirmed) return;
-      state = defaultState(); csvInput.value = ""; messageInputs.forEach(input => input.value = ""); localStorage.removeItem(STORAGE_KEY); render();
+
+    resetDoneBtn.addEventListener("click", () => {
+      state.done = {};
+      saveState();
+      render();
     });
+
+    clearAllBtn.addEventListener("click", () => {
+      const confirmed = confirm("¿Borrar CSV, mensajes y estado de enviados?");
+      if (!confirmed) return;
+
+      state = defaultState();
+      csvInput.value = "";
+      messageInputs.forEach(input => input.value = "");
+      localStorage.removeItem(STORAGE_KEY);
+      render();
+    });
+
     render();
   </script>
 </body>
